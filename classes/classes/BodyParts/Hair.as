@@ -152,7 +152,17 @@ public class Hair extends BodyPart {
 	EnumValue.add(Types, CRAZY, "CRAZY", {
 		name:"crazy",
 		shortDesc: "crazy {hair}",
-		appearanceDesc: "Your wild {hairInfo} is positively crazy, with spiked tips pointing outwards to your sides.",
+		appearanceDescFunc: function(creature: *): String {
+			var desc: String = "Your wild {hairInfo} is positively crazy. They are permanently stuck in a messed up spiky shape";
+
+			if (creature.headjewelryName == "Machinist Goggles" || creature.headjewelryName == "Scanner goggles" || creature.headjewelryName == "S.A Tech Goggles") {
+				desc += ". On top of them is your pair of trusty "+creature.headjewelryName+". You never remove them, even for sex";
+			}
+
+			desc += "."
+
+			return desc;
+		},
 		ignoresStyle: true
 	});
 
@@ -202,6 +212,14 @@ public class Hair extends BodyPart {
 		name:"dripping",
 		shortDesc: "dripping {hair}",
 		appearanceDesc: "Your {hairInfo} hair looks human at a first glance, but are, in fact, fine tendrils of flesh imitating human hairs, after all this body of yours is but a fleshy tongue mimicking human shape."
+	});
+
+	public static const PEAFOWL:int = 23;
+	EnumValue.add(Types, PEAFOWL, "PEAFOWL", {
+		name:"p.feather",
+		shortDesc: "peafowl feather-{hair}",
+		appearanceDesc: "Your {hairInfo} is made completely out of feathers rather than actual strands. A beautiful crest adorns your head with small feathers that stick straight up, like a Mohawk.",
+		ignoresStyle: true
 	});
 
 	// Additional modifiers for hair descriptions

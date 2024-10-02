@@ -213,7 +213,7 @@ public class Eyes extends BodyPart {
 	public static const GREMLIN: int = 34;
 	EnumValue.add(Types, GREMLIN, "GREMLIN", {
 		name:"gremlin",
-		appearanceDesc: "Your [eyecolor] eyes looks human enough though your eyelids are dark, just as if you very tired althought it's more likely traces of your demonic corruption."
+		appearanceDesc: "Your [eyecolor] eyes looks human enough though your eyelids are dark as if very tired or more likely by traces of demonic corruption."
 	});
 	public static const WEASEL: int = 35;
 	EnumValue.add(Types, WEASEL, "WEASEL", {
@@ -275,6 +275,18 @@ public class Eyes extends BodyPart {
 	EnumValue.add(Types, ARIGEANPRINCESS, "ARIGEANPRINCESS", {
 		name:"arigean princess",
 		appearanceDesc: "Your milky white eyes have a slit down the middle resembling that of a cat, the iris gives off a rich, blue, alien glow."
+	});
+	public static const DEMON: int = 46;
+	EnumValue.add(Types, DEMON, "DEMON", {
+		name:"demon",
+		appearanceDesc: "Your [eyecolor] demonic eyes look somewhat human, save for their cat-like vertical slit which draws light right in, though the real bonus is your ability to see just about anything in a lewd way.",
+		Darkvision: true
+	});
+	public static const MOTH: int = 47;
+	EnumValue.add(Types, MOTH, "MOTH", {
+		name:"moth",
+		appearanceDesc: "Your eyes are like a moth’s eyes",
+		Darkvision: true
 	});
 
 	public var count:int;

@@ -26,7 +26,7 @@ public final class HeadJewelryLib extends ItemConstants
 		public static const MODIFIER_LUST_R:int = 			HEADEFF_LUST_R;
 		public static const MODIFIER_PHYS_R:int = 			HEADEFF_PHYS_R;
 		
-		public static const DEFAULT_VALUE:Number = 6;//base cost 200 gems, each effect increase cost by 2x
+		public static const DEFAULT_VALUE:Number = 6;//base cost 100 gems, each effect increase cost by 2x
 		
 		public static const NOTHING:Nothing = new Nothing();
 		
@@ -35,6 +35,7 @@ public final class HeadJewelryLib extends ItemConstants
 		public const COWHAT :HeadJewelry = new HeadJewelry("CGHAT", "C.G.Hat", "cow girl hat", "cow girl hat", 0, 0, 200, "This hat was retrieved from an offworld gunslinger who became a cow. As such aside from its powerful enchantment that increase firearms potency it also raise milk production.",HJT_HELMET);
 		public const DEATHPR:DeathPrinceRegalia = new DeathPrinceRegalia();
 		public const DMONSKUL:SkullOrnament = new SkullOrnament();
+		public const DRABLOH:HeadJewelry = new HeadJewelry("DraBloH", "DragonBloodHelmet", "Dragon Blood Helmet", "a Dragon Blood Helmet", 0, 0, 400, "An unnasumming helm made of iron with goat horns the large opening at the mouth and nose level allows for using breath attack unimpeded. Tho who worn this helmet in the days of the glorious dragon army where known to shout so loudly it would send people flying down clifts and mountain alike.",HJT_HELMET);
 		public const FOXHAIR:HeadJewelry = new HeadJewelry("FoxHair", "Fox Hairpin", "fox hairpin", "a fox hairpin", 0, 0, 800, "This hairpin, adorned with the design of a fox and blessed by Taoth, grants a kitsune increased magical power. (-20% spell and soulskills costs, +20% mag/lust dmg to fox fire specials)",HJT_HAIRPIN);
 		public const GNHAIR:HeadJewelry = new HeadJewelry("GNHair", "Golden Naga Hairpins", "pair of Golden Naga Hairpins", "a pair of Golden Naga Hairpins", 0, 0, 400, "This pair of lovely half moon-shaped golden hairpins are commonly used by the nagas to enhance their bodily charms. (+10% lust dmg from naga specials and +1 duration of Hypnosis)",HJT_HAIRPIN);
 		public const HBHELM :HBHelmet = new HBHelmet();
@@ -65,7 +66,10 @@ public final class HeadJewelryLib extends ItemConstants
 		public const CROWTOU:HeadJewelry = new HeadJewelry("CrowTou", "CrownOfToughness", "Crown of Toughness", "a Crown of Toughness", 0, 0, 3200, "A simple crown to boost toughness.",HJT_CROWN).withBuffs({"tou.mult":+0.20}) as HeadJewelry;
 		public const CROWWIS:HeadJewelry = new HeadJewelry("CrowWis", "CrownOfWisdom", "Crown of Wisdom", "a Crown of Wisdom", 0, 0, 3200, "A simple crown to boost Wisdom.",HJT_CROWN).withBuffs({"wis.mult":+0.20}) as HeadJewelry;
 		public const EZEKIELC:HeadJewelry = new HeadJewelry("EzekielC", "EzekielCrown", "Ezekiel's Crown", "an Ezekiel's Crown", 0, 0, 400, "A crown rumored to be blessed by the Ezekiel himself. Is that real one or just another fake crown merchant sold you? (-4 to internal chimerical disposition)",HJT_CROWN);
-		public const JIANGCT:HeadJewelry = new HeadJewelry("JiangCT", "JiangshiCurseTag", "Jiangshi Curse Tag", "a Jiangshi Curse Tag", 0, 0, 400, "This item controls and alter your bodily function.",HJT_HELMET);
+		public const JIANGCT:HeadJewelry = new HeadJewelry("JiangCT", "JiangshiCurseTag", "Jiangshi Curse Tag", "a Jiangshi Curse Tag", 0, 0, 400, "This item controls and alter your bodily function.", HJT_HELMET);
+		public const SKULLCR:SkullCrown = new SkullCrown();
+		public const TREELCR:TreeOfLifeCrown = new TreeOfLifeCrown();
+		public const GHORNAM:GoldenHornOrnament = new GoldenHornOrnament();
 		
 		public function HeadJewelryLib()
 		{

@@ -43,7 +43,7 @@ public class CorruptedGlade extends BaseContent implements TimeAwareInterface {
         return flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] < 100;
     }
     private function gladeChance():Number {
-        return (100 - 0.75*(flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]||0))/100;
+        return (100 - 0.75*(flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]||0))/200;
     }
     public var encounter:GroupEncounter = Encounters.group({
         name: "satyr",
@@ -85,11 +85,12 @@ public class CorruptedGlade extends BaseContent implements TimeAwareInterface {
     public function intro():void {
         if (player.cor <= 33 - player.corruptionTolerance) { //disgusted reaction
             //Get plant-cum dripped on you if not fast and unlucky!
+			outputText("Disgusted by this perversion of nature, you turn ");
             if (player.spe < 60 && rand(player.spe + 50) < 50) {
-                outputText("Disgusted by this perversion of nature, you turn to leave, catching a faceful of the white goop that's spurting down from the vines above!  It's slimy, gross, and difficult to clear from your eyes, nose, and mouth.  The musky smell and delicious salty flavor are undoubtedly a result of the plant's corruption.  You escape the tainted glade, but feel warmer and warmer as time passes...");
+                outputText("to leave, catching a faceful of the white goop that's spurting down from the vines above!  It's slimy, gross, and difficult to clear from your eyes, nose, and mouth.  The musky smell and delicious salty flavor are undoubtedly a result of the plant's corruption.  You escape the tainted glade, but feel warmer and warmer as time passes...");
                 dynStats("lus", 20 + player.lib / 5, "scale", false);
             } else {
-                outputText("  Disgusted by this perversion of nature, you turn away to leave, narrowly avoiding a sudden dripping of thick white fluid from the vines overhead.");
+                outputText("away to leave, narrowly avoiding a sudden dripping of thick white fluid from the vines overhead.");
                 dynStats("lus", 2, "scale", false);
             }
             outputText("\n\nOf course, you could resolve to destroy the corrupted glade if you want to.");
@@ -399,11 +400,11 @@ public class CorruptedGlade extends BaseContent implements TimeAwareInterface {
         menu();
         var button:int = 0;
         if (player.hasPerk(PerkLib.DragonFireBreath) || player.hasPerk(PerkLib.FireLord) || player.hasPerk(PerkLib.Hellfire)) {
-            if (player.fatigue > player.maxFatigue() - 50) addButtonDisabled(button++, "Fire Breath", "You are too tired to destroy the foul glade this way.");
+            if (player.fatigue > player.maxOverFatigue() - 50) addButtonDisabled(button++, "Fire Breath", "You are too tired to destroy the foul glade this way.");
             else addButton(button++, "Fire Breath", destroyTheCorruptedGlades, 0);
         }
         if ((player.hasPerk(PerkLib.EnlightenedNinetails) || player.hasPerk(PerkLib.CorruptedNinetails)) && player.tailType == Tail.FOX && player.tailCount >= 7) {
-            if (player.fatigue > player.maxFatigue() - 20) addButtonDisabled(button++, "Fox Fire", "You are too tired to destroy the foul glade this way.");
+            if (player.fatigue > player.maxOverFatigue() - 20) addButtonDisabled(button++, "Fox Fire", "You are too tired to destroy the foul glade this way.");
             else addButton(button++, "Fox Fire", destroyTheCorruptedGlades, 1);
         }
         if (player.hasStatusEffect(StatusEffects.KnowsWhitefire)) {
@@ -411,14 +412,14 @@ public class CorruptedGlade extends BaseContent implements TimeAwareInterface {
             else addButton(button++, "Whitefire", destroyTheCorruptedGlades, 2);
         }
         if (player.hasKeyItem("Carpenter's Toolbox") >= 0 || player.weapon == weapons.L__AXE) {
-            if (player.fatigue > player.maxFatigue() - 40) addButtonDisabled(button++, "Axe", "You are too tired to destroy the foul glade this way.");
+            if (player.fatigue > player.maxOverFatigue() - 40) addButtonDisabled(button++, "Axe", "You are too tired to destroy the foul glade this way.");
             else addButton(button++, "Axe", destroyTheCorruptedGlades, 3);
         }
         if (player.weaponVerb == "stab" || player.weaponVerb == "slash" || player.weaponVerb == "cleave" || player.weaponVerb == "keen cut" || player.isPartiallyStaffTypeWeapon()) {
-            if (player.fatigue > player.maxFatigue() - 30) addButtonDisabled(button++, "Weapon", "You are too tired to destroy the foul glade this way.");
+            if (player.fatigue > player.maxOverFatigue() - 30) addButtonDisabled(button++, "Weapon", "You are too tired to destroy the foul glade this way.");
             else addButton(button++, "Weapon", destroyTheCorruptedGlades, 4);
         }
-        if (player.fatigue > player.maxFatigue() - 50) addButtonDisabled(button++, "Your Hands", "You are too tired to destroy the foul glade this way.");
+        if (player.fatigue > player.maxOverFatigue() - 50) addButtonDisabled(button++, "Your Hands", "You are too tired to destroy the foul glade this way.");
         else addButton(button++, "Your Hands", destroyTheCorruptedGlades, 5);
         addButton(14, "Never mind", explorer.done);
     }

@@ -1,5 +1,6 @@
 package classes.Races {
 import classes.BodyParts.*;
+import classes.PerkLib;
 import classes.Race;
 
 public class BatRace extends Race {
@@ -41,9 +42,11 @@ public class BatRace extends Race {
 				.armType(Arms.BAT, +5)
 				.faceType(Face.VAMPIRE, +2)
 				.eyeType(Eyes.VAMPIRE, +1)
-				.rearType(RearBody.BAT_COLLAR, +1);
-		addScoresAfter(8)
+				.rearType(RearBody.BAT_COLLAR, +1)
+				.armType(Arms.HUMAN, +1)
 				.legType(LowerBody.HUMAN, +1);
+		
+		addBloodline(PerkLib.BatsDescendant, PerkLib.BloodlineBat);
 		
 		buildTier(10,"bat")
 				.namesMaleFemale("bat boy","bat girl")

@@ -7,6 +7,7 @@ package classes.Scenes.Monsters
 
 	import classes.*;
 	import classes.BodyParts.Wings;
+	import classes.Items.DynamicItems;
 	import classes.Scenes.SceneLib;
 	import classes.internals.ChainedDrop;
 	
@@ -161,7 +162,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 1) {
 				this.short = "low-rank angeloid";
 				initStrTouSpeInte(3, 40, 20, 10);
-				initWisLibSensCor(80, 2, 10, 0);
+				initWisLibSensCor(80, 2, 10, -100);
 				this.level = 6;
 				this.bonusHP = 200;
 				this.bonusLust = 17;
@@ -177,7 +178,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 2) {
 				this.short = "mid-rank angeloid";
 				initStrTouSpeInte(5, 60, 30, 15);
-				initWisLibSensCor(100, 3, 20, 0);
+				initWisLibSensCor(100, 3, 20, -100);
 				this.level = 12;
 				this.bonusHP = 400;
 				this.bonusLust = 33;
@@ -192,7 +193,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 3) {
 				this.short = "high-rank angeloid";
 				initStrTouSpeInte(7, 80, 40, 20);
-				initWisLibSensCor(120, 4, 30, 0);
+				initWisLibSensCor(120, 4, 30, -100);
 				this.level = 18;
 				this.bonusHP = 600;
 				this.bonusLust = 49;
@@ -205,6 +206,10 @@ package classes.Scenes.Monsters
 				this.createPerk(PerkLib.DieHardHP, 9, 0, 0, 0);
 			}
 			this.tallness = 30;
+			this.randomDropChance = 0.2;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_MINOR_LOW
+			};
 			this.drop = new ChainedDrop()
 					.add(useables.SRESIDUE, 1);
 			this.weaponName = "energy blast";

@@ -66,8 +66,9 @@ public class GoblinLustBombSkill extends AbstractGeneral {
         if (player.hasKeyItem("Lustnade Launcher") >= 0) {
             lustDmg = combat.teases.teaseAuraLustDamageBonus(monster, lustDmg);
         }
-
+		if (monster.hasPerk(PerkLib.EnemyGroupType) || monster.hasPerk(PerkLib.EnemyLargeGroupType)) lustDmg *= 5;
         lustDmg = combat.goblinDamageBonus(lustDmg);
+        lustDmg = combat.tinkerDamageBonus(lustDmg);
         if (monster && monster.plural) lustDmg *= 5;
         if (monster) lustDmg *= monster.lustVuln;
         return lustDmg;
@@ -87,7 +88,8 @@ public class GoblinLustBombSkill extends AbstractGeneral {
         if (rand(100) < critChance) {
             crit = true;
             lustDmg *= 1.75;
-            if (monster.lustVuln != 0 && player.hasPerk(PerkLib.SweepDefenses) && !monster.hasPerk(PerkLib.EnemyTrueAngel)) monster.lustVuln += 0.05;
+            if (monster.lustVuln != 0 && player.hasPerk(PerkLib.SweepDefenses) && !player.enemiesImmuneToLustResistanceDebuff()) monster.lustVuln += 0.05;
+			if (monster.lustVuln > monster.lustVulnCap()) monster.lustVuln = monster.lustVulnCap();
         }
 
         if (player.hasKeyItem("Lustnade Launcher") >= 0) {

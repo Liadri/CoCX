@@ -5,20 +5,21 @@ import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbilities;
 
 /**
 	 * ...
 	 * @author ...
 	 */
-	public class GnollSpearThrower extends Monster 
+	public class GnollSpearThrower extends Monster
 	{
 		
 		//<Writers note: I recommend that the javelin have a chance to greatly decrease speed for the remaining battle.  I am writing the flavor text for this event if you choose to include it>
 		private function hyenaJavelinAttack():void {
 			//<Hyena Attack 2 – Javelin – Unsuccessful – Dodged>
-			if(player.hasStatusEffect(StatusEffects.WindWall)) {
+			if(CombatAbilities.EAspectAir.isActive()) {
 				outputText("The gnoll pulls a javelin from behind her and throws it at you, but it's stopped by the wind wall.");
-				player.addStatusValue(StatusEffects.WindWall,2,-1);
+				CombatAbilities.EAspectAir.advance(true);
 			}
 			//Blind dodge change
 			if(player.getEvasionRoll()) {
@@ -35,13 +36,12 @@ import classes.internals.*;
 			else if(rand(3) >= 1) {
 				outputText("The gnoll pulls a long, black javelin from over her shoulder.  Her spotted arm strikes forward, launching the missile through the air.  You attempt to dive to the side, but are too late.  The powerful shaft slams, hard, into your back.  Pain radiates from the powerful impact.  Instead of piercing you, however, the tip seems to explode into a sticky goo that instantly bonds with your [armor].  The four foot, heavy shaft pulls down on you awkwardly, catching at things and throwing your balance off.  You try to tug the javelin off of you but find that it has glued itself to you.  It will take time and effort to remove; making it impossible to do while a dominant hyena stalks you. ");
 				player.addCombatBuff('spe',-15, "Combat Debuff", "GnollSpearThrowerDebuff");
-				player.takePhysDamage(25+rand(20), true);
+				player.takePhysDamage((str + weaponAttack)+rand(str + weaponAttack), true);
 			}
 			//<Hyena Attack 2 – Javelin – Successful – Player Not Entangled>
 			else {
-				
 				outputText("The gnoll pulls a long, dark wooden javelin from over her shoulder.  Her spotted arm strikes forward, launching the missile through the air.  The javelin flashes through the intervening distance, slamming into your chest.  The blunted tip doesn't skewer you, but pain radiates from the bruising impact. ");
-				player.takePhysDamage(25+rand(20), true);
+				player.takePhysDamage((str + weaponAttack)+rand(str + weaponAttack), true);
 			}
 		}
 		
@@ -78,12 +78,12 @@ import classes.internals.*;
 			//<Hyena Attack 4 – Arousal Attack – Highly Successful>
 			if(player.cor + player.lib > chance + 50) {
 				outputText("A wry grin spreads across the gnoll's face before she sprints towards you.  Too fast to follow, she flies forward, and you desperately brace for an impact that doesn't come.  Instead of striking you, two spotted paws clamp behind your neck and pull your head down, planting your face against her leather loincloth.  A powerful, musky smell burns in your nose and the feel of firm flesh behind the flimsy leather leaves a tingling sensation along your face.  She holds you there, pressed against her groin for several moments, desire growing deep within your body, before you find the strength and will to pull away.  The amazon grins, letting you stumble back as you try to fight off the feel of her body.\n\n");
-				player.takeLustDamage((25 + player.lib/20 + player.effectiveSensitivity()/5), true);
+				player.takeLustDamage((25 + player.lib/10 + player.effectiveSensitivity()/2), true);
 			}
 			//<Hyena Attack 4 – Arousal Attack – Mildly Successful>
 			else if(20 + player.cor + player.lib > chance) {
 				outputText("A lazy grin spreads across the gnoll's face before she sprints towards you.  Too fast to follow, she flies forward, and you desperately brace for an impact that doesn't come.  Instead of striking you, two spotted paws clamp behind your neck and pull your head down, planting your face against her leather loincloth.  A powerful, musky smell burns in your nose and the feel of firm flesh behind the flimsy leather leaves a tingling sensation along your face.  Instinctively, you tear away from the hold, stumbling away from the sensations filling your mind, though some desire remains kindled within you.");
-				player.takeLustDamage((15 + player.lib/20 + player.effectiveSensitivity()/5), true);
+				player.takeLustDamage((15 + player.lib/10 + player.effectiveSensitivity()/2), true);
 			}
 			//<Hyena Attack 4 – Arousal Attack – Unsuccessful>
 			else {
@@ -91,15 +91,15 @@ import classes.internals.*;
 			}
 		}
 
+		override protected function outputPlayerDodged(dodge:int):void{
+			outputText("You see the gnoll's black lips pull back ever so slightly and the powerful muscles in her shapely thighs tense moments before she charges.  With a leap you throw yourself to the side, feeling the wind and fury pass through where you had just been standing.  You gracefully turn to face the hyena as she does the same, knowing that could have been very bad.");
+		}
+
 		override public function eAttack():void
 		{
 			var damage:Number;
 //return to combat menu when finished
 			doNext(EventParser.playerMenu);
-//Determine if dodged!
-			if (player.getEvasionRoll()) {
-				outputText("You see the gnoll's black lips pull back ever so slightly and the powerful muscles in her shapely thighs tense moments before she charges.  With a leap you throw yourself to the side, feeling the wind and fury pass through where you had just been standing.  You gracefully turn to face the hyena as she does the same, knowing that could have been very bad.");
-			}
 //Determine damage - str modified by enemy toughness!
 			damage = int((str + weaponAttack) - Math.random() * (player.tou) - player.armorDef);
 			
@@ -118,7 +118,7 @@ import classes.internals.*;
 					outputText("\nYou notice that some kind of unnatural heat is flowing into your body from the wound");
 					if (player.inte > 50) outputText(", was there some kind of aphrodisiac on the knife?");
 					else outputText(".");
-					player.takeLustDamage((player.lib / 20 + rand(4) + 1), true);
+					player.takeLustDamage((player.lib / 10 + rand(4) + 1), true);
 				}
 				if (lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
 					if (!plural) outputText("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.");
@@ -171,21 +171,20 @@ import classes.internals.*;
 			this.skin.growFur({color:"tawny"});
 			this.hairColor = "black";
 			this.hairLength = 22;
-			initStrTouSpeInte(90, 64, 110, 50);
-			initWisLibSensCor(50, 64, 45, 60);
+			initStrTouSpeInte(180, 128, 220, 100);
+			initWisLibSensCor(100, 128, 90, 20);
 			this.weaponName = "teeth";
 			this.weaponVerb="bite";
-			this.weaponAttack = 5;
-			this.weaponPerk = "";
+			this.weaponAttack = 25;
 			this.weaponValue = 25;
 			this.armorName = "skin";
-			this.armorDef = 7;
-			this.armorMDef = 1;
-			this.bonusHP = 500;
-			this.bonusLust = 123;
+			this.armorDef = 70;
+			this.armorMDef = 10;
+			this.bonusHP = 1000;
+			this.bonusLust = 182;
 			this.lust = 30;
 			this.lustVuln = .35;
-			this.level = 14;
+			this.level = 28;
 			this.gems = 15 + rand(10);
 			this.drop = new ChainedDrop().add(consumables.GROPLUS,1/5).add(consumables.INCUBID,1/2).add(weaponsrange.GTHRSPE,1/2).elseDrop(consumables.BROWN_D);
 			this.abilities = [

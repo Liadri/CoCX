@@ -5,14 +5,14 @@
 package classes.Items.Armors
 {
 import classes.Items.Armor;
-import classes.Items.ItemTags;
 
 	public class BattleMaidenArmor extends Armor {
 		
 		public function BattleMaidenArmor()
 		{
 			super("BMArmor", "BMArmor", "Battle maiden armor", "a Battle maiden armor", 80, 40, 4800, "The purified original maiden armor recovered its former property. It fully protect the virginity of its wielder even going so far as to progressively clear the fog of lust from her mind.", "Light", false, false);
-			withTag(ItemTags.A_REVEALING);
+			withTag(A_REVEALING);
+			withTag(I_LEGENDARY);
 		}
 		
 		override public function get def():Number{
@@ -28,12 +28,8 @@ import classes.Items.ItemTags;
 			return 10 + mod;
 		}
 		
-		override public function canEquip(doOutput:Boolean):Boolean {
-			if (!super.canEquip(doOutput)) return false;
-			if (game.player.level < 54) {
-				if (doOutput) outputText("You try and wear the legendary armor, but, to your disapointment, the item simply refuses to stay on your body. It would seem you lack the power and right to wield this item yet.");
-				return false;
-			}
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (!super.canEquip(doOutput, slot)) return false;
 			return LustyMaidensArmor.canUseStatic(doOutput);
 		}
 	}

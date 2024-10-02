@@ -43,11 +43,13 @@ public class YukiOnna extends Monster
 			player.takePhysDamage(damage, true);
 			var frostburnPlayer:Number = (this.str + this.spe + this.tou) * 2;
 			player.takeIceDamage(frostburnPlayer, true);
-			if (player.hasStatusEffect(StatusEffects.FrostburnDoT)) {
-				player.addStatusValue(StatusEffects.FrostburnDoT,1,1);
-				player.addStatusValue(StatusEffects.FrostburnDoT,3,1);
+			if (!player.immuneToFrostBurn()) {
+				if (player.hasStatusEffect(StatusEffects.FrostburnDoT)) {
+					player.addStatusValue(StatusEffects.FrostburnDoT,1,1);
+					player.addStatusValue(StatusEffects.FrostburnDoT,3,1);
+				}
+				else player.createStatusEffect(StatusEffects.FrostburnDoT, SceneLib.combat.debuffsOrDoTDuration(4), 0.02, 0, 0);
 			}
-			else player.createStatusEffect(StatusEffects.FrostburnDoT, SceneLib.combat.debuffsOrDoTDuration(4), 0.02, 0, 0);
 		}
 		
 		override protected function performCombatAction():void
@@ -95,7 +97,7 @@ public class YukiOnna extends Monster
 			this.hairColor = "silver white";
 			this.hairLength = 25;
 			initStrTouSpeInte(135, 24, 240, 319);
-			initWisLibSensCor(265, 240, 115, 15);
+			initWisLibSensCor(265, 240, 115, -70);
 			this.weaponName = "Icy spear";
 			this.weaponVerb="pummel";
 			this.weaponAttack = 54;

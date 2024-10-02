@@ -54,7 +54,7 @@ public class BeeGirl extends Monster {
 				if (player.gender == 1) outputText("or dripping honey-slicked cunts beckoning you. ");
 				if (player.gender == 2) outputText("planting your aching sex over her face while you lick her sweet honeypot. ");
 				if (player.gender == 3) outputText("or cocks, tits, and puffy nipples. ");
-				player.takeLustDamage(25, true);
+				player.takeLustDamage(60, true);
 				if (player.lust > player.lust100 * 0.6) {
 					outputText(" You shake your head and struggle to stay focused,");
 					if (player.gender == 1 || player.gender == 3) outputText(" but it's difficult with the sensitive bulge in your groin.");
@@ -69,13 +69,13 @@ public class BeeGirl extends Monster {
 				outputText("Searing pain lances through you as " + a + short + " manages to sting you!  You stagger back a step and nearly trip, finding it hard to move yourself.");
 				if (player.buff("bee paralyze venom").isPresent()) {
 					outputText("  You've fallen prey to paralyzation venom!  Better end this quick!");
-					player.buff("bee paralyze venom").addStats( {"str":-3, "spe":-3} ).withText("bee paralyze venom").combatPermanent();
+					player.buff("bee paralyze venom").addStats( {"str":-2, "spe":-2, "tou":-2} ).withText("bee paralyze venom").combatPermanent();
 				} else {
 					outputText("  It's getting much harder to move, you're not sure how many more stings like that you can take!");
-					player.buff("bee paralyze venom").addStats( {"str":-3, "spe":-3} ).withText("bee paralyze venom").combatPermanent();
+					player.buff("bee paralyze venom").addStats( {"str":-2, "spe":-2, "tou":-2} ).withText("bee paralyze venom").combatPermanent();
 				}
 			}
-			if (player.lust >= player.maxOverLust())
+			if (player.lust >= player.maxOverLust() && !SceneLib.combat.tyrantiaTrainingExtension())
 				doNext(SceneLib.combat.endLustLoss);
 			else doNext(EventParser.playerMenu);
 		}
@@ -108,19 +108,19 @@ public class BeeGirl extends Monster {
 			this.bodyColor = "yellow";
 			this.hairColor = randomChoice("black","black and yellow");
 			this.hairLength = 6;
-			initStrTouSpeInte(30, 50, 30, 20);
-			initWisLibSensCor(20, 60, 55, 0);
+			initStrTouSpeInte(50, 73, 50, 30);
+			initWisLibSensCor(30, 85, 75, -100);
 			this.weaponName = "chitin-plated fist";
 			this.weaponVerb="armored punch";
-			this.weaponAttack = 4;
+			this.weaponAttack = 8;
 			this.armorName = "chitin";
-			this.armorDef = 12;
-			this.armorMDef = 2;
-			this.bonusHP = 40;
-			this.bonusLust = 121;
+			this.armorDef = 24;
+			this.armorMDef = 4;
+			this.bonusHP = 50;
+			this.bonusLust = 168;
 			this.lust = 20 + rand(40);
 			this.lustVuln = 0.9;
-			this.level = 6;
+			this.level = 8;
 			this.gems = rand(20) + 5;
 			this.drop = new ChainedDrop().add(consumables.OVIELIX, 1 / 6)
 					.add(consumables.W__BOOK, 1 / 4)

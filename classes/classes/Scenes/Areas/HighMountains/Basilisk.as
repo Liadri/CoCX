@@ -58,6 +58,28 @@ import classes.internals.ChainedDrop;
 			player.takePhysDamage(eBaseDamage(), true);
 		}
 
+		override public function midAttackSkip():Boolean{
+			if (!player.hasPerk(PerkLib.BasiliskResistance)) {
+				if (hasStatusEffect(StatusEffects.Blind) || hasStatusEffect(StatusEffects.InkBlind))
+					outputText("The Blind basilisk can't use his eyes, so you can actually aim your strikes!  ");
+				//basilisk counter attack (block attack, significant speed loss):
+				else if (player.inte / 5 + rand(20) < 25) {
+					outputText("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You find yourself staring directly into the basilisk's face!  Quickly you snap your eyes shut and recoil backwards, swinging madly at the lizard to force it back, but the damage has been done; you can see the terrible grey eyes behind your closed lids, and you feel a great weight settle on your bones as it becomes harder to move.");
+					player.addCombatBuff('spe', -20,"Basilisk Gaze","BasiliskGaze");
+					// Is this really necessary?
+					player.removeStatusEffect(StatusEffects.FirstAttack);
+					flags[kFLAGS.BASILISK_RESISTANCE_TRACKER] += 2;
+					return false;
+				}
+				//Counter attack fails: (random chance if PC int > 50 spd > 60; PC takes small physical damage but no block or spd penalty)
+				//How did basilisk does this anyway
+				else {
+					outputText("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You twist unexpectedly, bringing your [weapon] up at an oblique angle; the basilisk doesn't anticipate this attack!  ");
+				}
+			}
+			return true;
+		}
+
 		override protected function performCombatAction():void
 		{
 			if(!player.hasStatusEffect(StatusEffects.BasiliskCompulsion) && rand(3) == 0 && !hasStatusEffect(StatusEffects.Blind)) compulsion();
@@ -101,26 +123,27 @@ import classes.internals.ChainedDrop;
 			this.skin.growCoat(Skin.SCALES,{color:"gray"},Skin.COVERAGE_COMPLETE);
 			this.hairColor = "none";
 			this.hairLength = 0;
-			initStrTouSpeInte(138, 167, 75, 130);
-			initWisLibSensCor(130, 50, 35, 60);
+			initStrTouSpeInte(414, 501, 225, 390);
+			initWisLibSensCor(390, 200, 140, 20);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 58;
+			this.weaponAttack = 290;
 			this.armorName = "scales";
-			this.armorDef = 36;
-			this.armorMDef = 36;
+			this.armorDef = 400;
+			this.armorMDef = 400;
 			this.armorPerk = "";
 			this.armorValue = 70;
-			this.bonusHP = 2000;
-			this.bonusLust = 124;
+			this.bonusHP = 5000;
+			this.bonusLust = 407;
 			this.lust = 30;
 			this.lustVuln = .4;
-			this.level = 39;
+			this.level = 67;
 			this.gems = rand(10) + 60;
 			this.drop = new ChainedDrop().add(useables.EBONBLO,1/20)
 					.elseDrop(consumables.REPTLUM);
 			this.tailType = Tail.LIZARD;
 			this.tailRecharge = 0;
+			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);
 			checkMonster();
 		}

@@ -10,6 +10,15 @@ public class SandMother extends Monster
 		//Notes:
 		//Starts combat with sandstorm.  GigaFire's every fifth round.
 		//Whispers every fourth.
+
+		override public function postDodge():Boolean{
+			if (hasStatusEffect(StatusEffects.Earthshield) && rand(4) == 0) {
+				outputText("Your strike is deflected by the wall of sand, dirt, and rock!  Damn!\n\n");
+				// Remove first attack shit
+				return false;
+			}
+			else return true;
+		}
 		override protected function performCombatAction():void {
 			if(!hasStatusEffect(StatusEffects.Sandstorm)) {
 				sandStormAttack();
@@ -144,21 +153,20 @@ public class SandMother extends Monster
 			this.bodyColor = "bronzed";
 			this.hairColor = "platinum-blonde";
 			this.hairLength = 15;
-			initStrTouSpeInte(64, 80, 55, 64);
-			initWisLibSensCor(64, 60, 40, 30);
+			initStrTouSpeInte(160, 200, 132, 160);
+			initWisLibSensCor(160, 150, 100, -40);
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
-			this.weaponAttack = 6;
-			this.weaponPerk = "";
+			this.weaponAttack = 12;
 			this.weaponValue = 150;
 			this.armorName = "robes";
-			this.armorDef = 10;
-			this.armorMDef = 50;
-			this.bonusHP = 130;
-			this.bonusLust = 112;
+			this.armorDef = 100;
+			this.armorMDef = 500;
+			this.bonusHP = 300;
+			this.bonusLust = 274;
 			this.lust = 20;
 			this.lustVuln = .6;
-			this.level = 12;
+			this.level = 24;
 			this.gems = rand(30) + 70;
 			this.createPerk(PerkLib.Resolute,0,0,0,0);
 			this.createPerk(PerkLib.Focused,0,0,0,0);

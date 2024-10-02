@@ -11,6 +11,7 @@ import classes.Scenes.SceneLib;
 	 * @author Kitteh6660
 	 */
 	public class CabinProgress extends BaseContent {
+	public static var CampResc:CampStatsAndResources = new CampStatsAndResources();
 
 		public function CabinProgress() {
 
@@ -31,7 +32,7 @@ import classes.Scenes.SceneLib;
 				SceneLib.dungeons.cabin.enterCabin();
 				return;
 			}
-			if (player.fatigue <= player.maxFatigue() - gatherWoodsORquarrySiteMineCost())
+			if (player.fatigue <= player.maxOverFatigue() - gatherWoodsORquarrySiteMineCost())
 			{
 				if (flags[kFLAGS.CAMP_CABIN_PROGRESS] == 1) startWork();
 				else if (flags[kFLAGS.CAMP_CABIN_PROGRESS] == 2) startLayout();
@@ -97,7 +98,8 @@ import classes.Scenes.SceneLib;
 
 		public function canGatherWoods():Boolean {
 			return (player.weapon == weapons.L__AXE || player.weapon == weapons.DL_AXE_ || player.weapon == weapons.MACGRSW || player.weapon == weapons.TMACGRSW || player.weapon == weapons.RIPPER1 || player.weapon == weapons.TRIPPER1 || player.weapon == weapons.RIPPER2 || player.weapon == weapons.TRIPPER2
-			|| player.hasKeyItem("Carpenter's Toolbox") >= 0 || player.isInGoblinMech()) && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] < SceneLib.campUpgrades.checkMaterialsCapWood() && player.statusEffectv1(StatusEffects.ResourceNode1) < 5;
+			|| player.weaponOff == weapons.L__AXE || player.weaponOff == weapons.DL_AXE_ || player.weaponOff == weapons.MACGRSW || player.weaponOff == weapons.TMACGRSW || player.weaponOff == weapons.RIPPER1 || player.weaponOff == weapons.TRIPPER1 || player.weaponOff == weapons.RIPPER2 || player.weaponOff == weapons.TRIPPER2
+			|| player.hasKeyItem("Carpenter's Toolbox") >= 0 || player.isInGoblinMech()) && CampStatsAndResources.WoodResc < SceneLib.campUpgrades.checkMaterialsCapWood() && player.statusEffectv1(StatusEffects.ResourceNode1) < 5;
 		}
 		//STAGE 4 - Gather woods, explore forest to encounter.
 		public function gatherWoods():void {
@@ -110,12 +112,12 @@ import classes.Scenes.SceneLib;
 				player.addStatusValue(StatusEffects.ResourceNode1, 1, 1);
 			}
 			menu();
-			if (player.fatigue > player.maxFatigue() - gatherWoodsORquarrySiteMineCost()) {
+			if (player.fatigue > player.maxOverFatigue() - gatherWoodsORquarrySiteMineCost()) {
 				outputText("<b>You are too tired to consider cutting down the trees. Perhaps some rest will suffice?</b>");
 				endEncounter();
 				return;
 			}
-			if (player.hasItem(weapons.L__AXE) || player.weapon == weapons.DL_AXE_ || player.weaponName == "large axe") {
+			if (player.hasItem(weapons.L__AXE) || player.weapon == weapons.DL_AXE_ || player.weaponOff == weapons.L__AXE || player.weaponOff == weapons.DL_AXE_) {
 				outputText("You are carrying a large axe with you.");
 				addButton(0, "Axe", cutTreeTIMBER);
 			}
@@ -131,12 +133,13 @@ import classes.Scenes.SceneLib;
 				outputText("You suddenly have the strange urge to punch trees. Do you punch the tree? \n");
 				addButton(2, "Punch Tree", punchTreeMinecraftStyle);
 			}
-			if (player.weapon == weapons.MACGRSW || player.weapon == weapons.TMACGRSW || player.weapon == weapons.RIPPER1 || player.weapon == weapons.TRIPPER1 || player.weapon == weapons.RIPPER2 || player.weapon == weapons.TRIPPER2) {
-				if (player.weapon == weapons.RIPPER2 || player.weapon == weapons.TRIPPER2) {
+			if (player.weapon == weapons.MACGRSW || player.weapon == weapons.TMACGRSW || player.weapon == weapons.RIPPER1 || player.weapon == weapons.TRIPPER1 || player.weapon == weapons.RIPPER2 || player.weapon == weapons.TRIPPER2
+			|| player.weaponOff == weapons.MACGRSW || player.weaponOff == weapons.TMACGRSW || player.weaponOff == weapons.RIPPER1 || player.weaponOff == weapons.TRIPPER1 || player.weaponOff == weapons.RIPPER2 || player.weaponOff == weapons.TRIPPER2) {
+				if (player.weapon == weapons.RIPPER2 || player.weapon == weapons.TRIPPER2 || player.weaponOff == weapons.RIPPER2 || player.weaponOff == weapons.TRIPPER2) {
 					outputText("You are carrying a Ripper 2.0 with you.\n");
 					addButton(3, "Ripper 2.0", cutTreeMechTIMBER);
 				}
-				else if (player.weapon == weapons.RIPPER1 || player.weapon == weapons.TRIPPER1) {
+				else if (player.weapon == weapons.RIPPER1 || player.weapon == weapons.TRIPPER1 || player.weaponOff == weapons.RIPPER1 || player.weaponOff == weapons.TRIPPER1) {
 					outputText("You are carrying a Ripper 1.0 with you.\n");
 					addButton(3, "Ripper 1.0", cutTreeMechTIMBER);
 				}
@@ -157,17 +160,11 @@ import classes.Scenes.SceneLib;
 		//Silly Mode! Punch trees the Minecraft way!
 		private function punchTreeMinecraftStyle():void {
 			clearOutput();
-			if (player.str >= 90)
-			{
-				outputText("Who needs axes when you've got pure strength? Bracing yourself, you crack your knuckles and punch the tree with your mighty strength. Crack begins to form and you keep punching. As soon as the crack gets big enough, a block of wood breaks off. Strangely, the tree floats. ");
-			}
-			else
-			{
-				outputText("Who needs axes when you've got pure strength? Bracing yourself, you crack your knuckles and punch the tree with all your strength. It takes effort and while you're punching the tree, crack appears. It grows bigger as you keep punching. When the crack gets big enough, the log just broke off and the tree strangely floats. ");
-			}
+			if (player.str >= 90) outputText("Who needs axes when you've got pure strength? Bracing yourself, you crack your knuckles and punch the tree with your mighty strength. Crack begins to form and you keep punching. As soon as the crack gets big enough, a block of wood breaks off. Strangely, the tree floats. ");
+			else outputText("Who needs axes when you've got pure strength? Bracing yourself, you crack your knuckles and punch the tree with all your strength. It takes effort and while you're punching the tree, crack appears. It grows bigger as you keep punching. When the crack gets big enough, the log just broke off and the tree strangely floats. ");
 			outputText("You shrug and pick up the wood block when you hear crashing sound as the tree falls over and splits into many wooden blocks! Surprisingly, they clump together into one bunch. You pick the bunch of wood, noting how easy it is to carry. You return to your camp. \n\n");
-			flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += (10 + Math.floor(player.str / 8));
-			incrementWoodSupply(10 + Math.floor(player.str / 8));
+			flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += (10 + ((player.strStat.core.value + player.strStat.train.value) * 4));
+			incrementWoodSupply(10 + ((player.strStat.core.value + player.strStat.train.value) * 4));
 			awardAchievement("Getting Wood", kACHIEVEMENTS.GENERAL_GETTING_WOOD);
 			fatigue(gatherWoodsORquarrySiteMineCost(), USEFATG_PHYSICAL);
 			endEncounter();
@@ -179,7 +176,7 @@ import classes.Scenes.SceneLib;
 			else if (player.weapon == weapons.DL_AXE_) outputText("You ready your oversized axes. ");
 			else outputText("You ready your axe. ");
 			outputText("With your strength, you hack away at the tree, making wedge-shaped cuts. After ten strikes, you yell \"<i>TIMMMMMMMMBER!</i>\" as the tree falls and lands on the ground with a loud crash. You are quite the fine lumberjack! You then cut the felled tree into pieces and you haul the wood back to your camp.\n\n");
-			var cTT:Number = (10 + Math.floor(player.str / 8));
+			var cTT:Number = (10 + ((player.strStat.core.value + player.strStat.train.value) * 4));
 			if (player.weapon == weapons.DL_AXE_) cTT = Math.round(cTT*1.5);
 			flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += cTT;
 			incrementWoodSupply(cTT);
@@ -204,12 +201,12 @@ import classes.Scenes.SceneLib;
 			else outputText("Grabbing a hold of the handle, you press ");
 			outputText("the blade into the trunk of the tree, watching it cut straight through as wood chips fly all over the place. Eventually you reach the other side of the trunk, and the tree falls over with a mighty thud. You then proceed to cut the trunk into smaller pieces and haul them back to your camp.\n\n");
 			if (player.isInGoblinMech()) {
-				flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += (22 + Math.floor(player.str / 4));
-				incrementWoodSupply(22 + Math.floor(player.str / 4));
+				flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += (22 + ((player.strStat.core.value + player.strStat.train.value) * 5));
+				incrementWoodSupply(22 + ((player.strStat.core.value + player.strStat.train.value) * 5));
 				endEncounter();
 			}
 			else {
-				var cTMT:Number = (13 + Math.floor(player.str / 7));
+				var cTMT:Number = (13 + ((player.strStat.core.value + player.strStat.train.value) * 4));
 				if (player.weapon == weapons.TMACGRSW || player.weapon == weapons.TRIPPER1 || player.weapon == weapons.TRIPPER2) cTMT = Math.round(cTMT*1.5);
 				flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += cTMT;
 				incrementWoodSupply(cTMT);
@@ -258,7 +255,7 @@ import classes.Scenes.SceneLib;
 			return fatigueAmount;
 		}
 		private function quarrySiteMine(nightExploration:Boolean = false):void {
-			if (player.fatigue > player.maxFatigue() - gatherWoodsORquarrySiteMineCost()) {
+			if (player.fatigue > player.maxOverFatigue() - gatherWoodsORquarrySiteMineCost()) {
 				outputText("\n\n<b>You are too tired to consider mining. Perhaps some rest will suffice?</b>");
 				endEncounter();
 				return;
@@ -267,8 +264,7 @@ import classes.Scenes.SceneLib;
 				//later on add here chance to be ambushed by some enemy
 			}
 			outputText("\n\nYou begin slamming your pickaxe against the stone, spending the better part of the next two hours mining. This done, you bring back your prize to camp. ");
-			var minedStones:Number = 13 + Math.floor(player.str / 7);
-			minedStones = Math.round(minedStones);
+			var minedStones:Number = 13 + ((player.strStat.core.value + player.strStat.train.value) * 4);
 			fatigue(gatherWoodsORquarrySiteMineCost(), USEFATG_PHYSICAL);
 			if (minedStones > (40 + (2 * player.miningLevel) + (20 * player.newGamePlusMod()))) minedStones = (40 + (2 * player.miningLevel) + (20 * player.newGamePlusMod()));
 			flags[kFLAGS.ACHIEVEMENT_PROGRESS_YABBA_DABBA_DOO] += minedStones;
@@ -310,7 +306,7 @@ import classes.Scenes.SceneLib;
 					inventory.takeItem(itype, curry(explorer.done,120));
 				}
 				else {
-					outputText(" After attempt to mine ore vein you ended with unusable piece.");
+					outputText(" After attempting to mine an Ore Vein, you ended up with unusable pieces.");
 					endEncounter(120);
 				}
 			}
@@ -343,8 +339,8 @@ import classes.Scenes.SceneLib;
 			if (player.str >= 33 && player.str < 66) outputText("It's quite the chore. Though you can carry several pieces of wood at a time, Kiha is still superior to you when it comes to carrying wood.");
 			if (player.str >= 66) outputText("You easily tackle the task of carrying wood. You even manage to carry five pieces of wood at a time!");
 			outputText("\n\nIt takes some time but you eventually bring the last of wood back to your camp.\n\n");
-			flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += (20 + Math.floor(player.str / 5));
-			incrementWoodSupply(20 + Math.floor(player.str / 5));
+			flags[kFLAGS.ACHIEVEMENT_PROGRESS_DEFORESTER] += (20 + ((player.strStat.core.value + player.strStat.train.value) * 8));
+			incrementWoodSupply(20 + ((player.strStat.core.value + player.strStat.train.value) * 8));
 			fatigue(gatherWoodsORquarrySiteMineCost(), USEFATG_PHYSICAL);
 			endEncounter(120);
 		}
@@ -359,23 +355,29 @@ import classes.Scenes.SceneLib;
 		}
 
 		public function incrementWoodSupply(amount:int):void {
-			flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] += amount;
-			outputText("<b>(+" + amount + " wood"+(amount>1?"s":"")+"! "+flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES]+"/"+SceneLib.campUpgrades.checkMaterialsCapWood()+" total!");
-			if (flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= SceneLib.campUpgrades.checkMaterialsCapWood()) {
-				flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] = SceneLib.campUpgrades.checkMaterialsCapWood();
+			CampStatsAndResources.WoodResc += amount;
+			outputText("<b>(+" + amount + " wood! "+CampStatsAndResources.WoodResc+"/"+SceneLib.campUpgrades.checkMaterialsCapWood()+" total!");
+			if (CampStatsAndResources.WoodResc >= SceneLib.campUpgrades.checkMaterialsCapWood()) {
+				CampStatsAndResources.WoodResc = SceneLib.campUpgrades.checkMaterialsCapWood();
 				outputText(" Your wood capacity is full.")
 			}
 			outputText(")</b>");
 		}
 
 		public function incrementStoneSupply(amount:int):void {
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] += amount;
-			outputText("<b>(+" + amount + " stone"+(amount>1?"s":"")+"! "+flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES]+"/"+SceneLib.campUpgrades.checkMaterialsCapStones()+" total!");
-			if (flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] >= SceneLib.campUpgrades.checkMaterialsCapStones()) {
-				flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] = SceneLib.campUpgrades.checkMaterialsCapStones();
+			CampStatsAndResources.StonesResc += amount;
+			outputText("<b>(+" + amount + " stone"+(amount>1?"s":"")+"! "+CampStatsAndResources.StonesResc+"/"+SceneLib.campUpgrades.checkMaterialsCapStones()+" total!");
+			if (CampStatsAndResources.StonesResc >= SceneLib.campUpgrades.checkMaterialsCapStones()) {
+				CampStatsAndResources.StonesResc = SceneLib.campUpgrades.checkMaterialsCapStones();
 				outputText(" Your stone capacity is full.")
 			}
 			outputText(")</b>");
+		}
+
+		private function noMoreSrt():Number {
+			var nMS:Number = player.str;
+			if (nMS > 10) nMS = 10;
+			return nMS;
 		}
 
 		//STAGE 6 - Work on cabin part 2. Planning your cabin.
@@ -399,7 +401,7 @@ import classes.Scenes.SceneLib;
 			SceneLib.camp.campUpgrades.checkMaterials();
 			if (player.hasKeyItem("Carpenter's Toolbox")>=0)
 			{
-				if (flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] >= 100 && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= 50)
+				if (CampStatsAndResources.NailsResc >= 100 && CampStatsAndResources.WoodResc >= 50)
 				{
 					doYesNo(doCabinWork1, noThanks2);
 				}
@@ -418,13 +420,13 @@ import classes.Scenes.SceneLib;
 
 		private function doCabinWork1():void {
 			clearOutput();
-			flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] -= 100;
-			flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 50;
+			CampStatsAndResources.NailsResc -= 100;
+			CampStatsAndResources.WoodResc -= 50;
 			outputText("Today is the day you'll actually work on building your own cabin! You clear a space and set up some rocks. You take the book from your toolbox and open it. You turn pages until you come across an instruction on how to construct frame. \n\n");
 			//if (CoC.instance.amilyScene.amilyFollower() && flags[kFLAGS.AMILY_FOLLOWER] == 1) outputText("\"<i>PLACEHOLDER</i>\" Amily asks. \n\n");
 			outputText("You start to construct a wooden frame according to the instructions. Using your hammer and nails, you put the wood frame together and put it up. You then add temporary supports to ensure it doesn't fall down. You make two more frames of the same shape. Lastly, you construct one more frame, this time the frame is designed to have door and window.\n\n");
 			if (player.hasStatusEffect(StatusEffects.CampRathazul)) outputText("\"<i>My, my. What are you building?</i>\" Rathazul asks. \n\n");
-			if (player.hasStatusEffect(StatusEffects.PureCampJojo)) outputText("\"<i>You're building something?</i>\" Jojo asks. \n\n");
+			if (player.hasStatusEffect(StatusEffects.PureCampJojo)) outputText("\"<i>You're building something?</i>\" Jo"+(flags[kFLAGS.JOJO_BIMBO_STATE] == 3 ? "y":"jo")+" asks. \n\n");
 			if (camp.marbleFollower()) outputText("\"<i>Sweetie, you're building a cabin? That's nice,</i>\" Marble says. \n\n");
 			if (camp.companionsCount() > 0) outputText("You announce that yes, you're building a cabin.\n\n");
 			outputText("You nail the frames together and finally you secure the frame to the foundation.\n\n");
@@ -447,7 +449,7 @@ import classes.Scenes.SceneLib;
 			SceneLib.camp.campUpgrades.checkMaterials();
 			if (player.hasKeyItem("Carpenter's Toolbox")>=0)
 			{
-				if (flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] >= 200 && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= 125)
+				if (CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.WoodResc >= 125)
 				{
 					doYesNo(doCabinWork2, noThanks2);
 				}
@@ -466,8 +468,8 @@ import classes.Scenes.SceneLib;
 
 		private function doCabinWork2():void {
 			clearOutput();
-			flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] -= 200;
-			flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 125;
+			CampStatsAndResources.NailsResc -= 200;
+			CampStatsAndResources.WoodResc -= 125;
 			outputText("You walk back to your cabin construction site and resume working. You take out the book and flip pages until you come across instructions on how to finish walls and roof. \n\n");
 			outputText("Segment by segment, you nail more wood on one side of the cabin. You move on to the next until the frame is covered. There is a hole where the window and door will be. You then climb up the ladder you have constructed from previous session. You then nail down the wood on roof frame. \n\n");
 			outputText("Several hours flew by as you've managed to complete the walls and roof. Finally, you apply paint on the roof and walls to ensure that it's waterproof and protected from the elements. \n\n");
@@ -484,7 +486,7 @@ import classes.Scenes.SceneLib;
 			SceneLib.camp.campUpgrades.checkMaterials();
 			if (player.hasKeyItem("Carpenter's Toolbox")>=0)
 			{
-				if (flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] >= 100 && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= 50)
+				if (CampStatsAndResources.NailsResc >= 100 && CampStatsAndResources.WoodResc >= 50)
 				{
 					doYesNo(doCabinWork3, noThanks2);
 				}
@@ -503,8 +505,8 @@ import classes.Scenes.SceneLib;
 
 		private function doCabinWork3():void {
 			clearOutput();
-			flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] -= 100;
-			flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 50;
+			CampStatsAndResources.NailsResc -= 100;
+			CampStatsAndResources.WoodResc -= 50;
 			outputText("You walk back to your cabin construction site and resume working. You take out the book and flip pages until you come across instructions on how to construct a door.\n\n");
 			outputText("Following the instructions, you construct a wooden door that comes complete with a window. You frame the doorway and install the door into place.\n\n");
 			outputText("Next, you flip the book pages until you come across instructions on how to construct a window with functional shutters. You measure and cut the wood into the correct sizes before you nail it together into a frame. Next, you construct two shutters and install the shutters into window frame. Finally, you install the window into place.\n\n");
@@ -521,7 +523,7 @@ import classes.Scenes.SceneLib;
 			SceneLib.camp.campUpgrades.checkMaterials();
 			if (player.hasKeyItem("Carpenter's Toolbox")>=0)
 			{
-				if (flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] >= 200 && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= 50)
+				if (CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.WoodResc >= 50)
 				{
 					doYesNo(doCabinWork4, noThanks2);
 				}
@@ -540,8 +542,8 @@ import classes.Scenes.SceneLib;
 
 		private function doCabinWork4():void {
 			clearOutput();
-			flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] -= 200;
-			flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 50;
+			CampStatsAndResources.NailsResc -= 200;
+			CampStatsAndResources.WoodResc -= 50;
 			outputText("You walk back to your cabin construction site and resume working. You take out the book and flip pages until you come across instructions on how to install wooden flooring.\n\n");
 			outputText("Following the instructions, you lay some wood on the ground and measure the gap between each wood to be consistent.\n\n");
 			outputText("Next, you lay the wood and nail them in place. This takes time and effort but by the time you've finished putting the flooring into place, your cabin has wooden flooring ready to be polished. You spend the next few hours painting and polishing your floor.\n\n");

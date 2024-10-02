@@ -52,10 +52,13 @@ public class DragonRace extends Race {
 				.scaleColors(NOT("pinkish purple"), 0, -10)
 				.hairColor1(NOT("pink"), 0, -10)
 				.eyeType(Eyes.DRACONIC, +1)
+				.eyeType(NOT(Eyes.CAT), 0, -10)
 				.earType(Ears.DRAGON, +1)
+				.earType(NOT(Ears.CAT), 0, -10)
 				.tailType(Tail.DRACONIC, +1)
 				.tailType(NONE(Tail.FEY_DRACONIC, Tail.CAT), 0, -10)
 				.tongueType(Tongue.DRACONIC, +1)
+				.tongueType(NOT(Tongue.CAT), 0, -1000)
 				.wingType(Wings.DRACONIC_SMALL, +2)
 				.wingType(Wings.DRACONIC_LARGE, +4)
 				.wingType(Wings.DRACONIC_HUGE, +6)
@@ -83,12 +86,14 @@ public class DragonRace extends Race {
 					PerkLib.DragonIceBreath,
 					PerkLib.DragonLightningBreath,
 					PerkLib.DragonDarknessBreath
-				], +1);
+				], +1)
+				.hasPerk(PerkLib.Dracoforce, +1);
 		
 		addBloodline(PerkLib.DragonsDescendant, PerkLib.BloodlineDragon);
-		addMutation(IMutationsLib.DraconicBonesIM);
-		addMutation(IMutationsLib.DraconicHeartIM);
-		addMutation(IMutationsLib.DraconicLungIM);
+		addMutation(IMutationsLib.DrakeBloodIM);
+		addMutation(IMutationsLib.DrakeBonesIM);
+		addMutation(IMutationsLib.DrakeHeartIM);
+		addMutation(IMutationsLib.DrakeLungsIM);
 		
 		buildTier(16, "dragon")
 				.namesMaleFemaleMorphTaur("dragon-man","dragon-girl",

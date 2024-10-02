@@ -29,7 +29,7 @@ public class SoulDrainSkill extends AbstractSoulSkill {
         if (uc) return uc;
 
 		if (monster && monster.hasPerk(PerkLib.EnemyTrueDemon)) {
-			return "You can't use this soulskill on somoene truly souless.";
+			return "You can't use this soulskill on someone truly souless.";
 		}
 		if (player.hasStatusEffect(StatusEffects.OniRampage) || player.wrath > player.maxSafeWrathMagicalAbilities()) {
 			return "You are too angry to think straight. Smash your puny opponents first and think later.";
@@ -60,9 +60,12 @@ public class SoulDrainSkill extends AbstractSoulSkill {
 		var damage:Number = scalingBonusWisdom() + scalingBonusIntelligence();
 		if (damage < 10) damage = 10;
 
-		//soulspell mod effect
-		damage *= spellMod();
-		damage *= soulskillMagicalMod();
+		//soulskill mod effect
+		var damageMult:Number = 1;
+		damageMult += (spellMod() - 1);
+		damageMult += (soulskillMagicalMod() - 1);
+		damage *= damageMult;
+		
 		damage = calcEclypseMod(damage, casting);
 
 		//other bonuses

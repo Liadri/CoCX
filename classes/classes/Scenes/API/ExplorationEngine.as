@@ -25,6 +25,8 @@ public class ExplorationEngine extends BaseContent {
 	private static const LINE_DISABLED:String = "#888888";
 	private static const LINE_COLOR:String = "#884444";
 	private static const LINE_NEXT:String  = "#0080ff";
+	private var lastAreaLevel:Number = 0;
+	private var lastTimesExplored:Number = 0;
 
 	private function filterUnique(e:SimpleEncounter):Boolean {
 		if (e.unique) {
@@ -172,6 +174,9 @@ public class ExplorationEngine extends BaseContent {
 		onMenu       = null;
 		onEncounter  = null;
 		soulSenseCheck = defaultSoulseSenseCheck;
+	}
+	public function entryAt(roadNo:int, roadPos:int):ExplorationEntry {
+		return roads[roadNo][roadPos];
 	}
 	public function markEncounterDone():void {
 		if (initialized && currentEntry != null) {
@@ -545,7 +550,7 @@ public class ExplorationEngine extends BaseContent {
 		// Buttons
 		// [Forward/Path 1] [Path 2] [Path 3] [Path 4] [Path 5]
 		// [   SoulSense  ] [      ] [      ] [      ] [      ]
-		// [   Inventory  ] [ Mast ] [Repeat] [      ] [Leave ]
+		// [   Inventory  ] [ Mast ] [Repeat] [ReRoll] [Leave ]
 		clearOutput();
 		spriteSelect();
 		if (_errors) outputText(_errors);
@@ -578,7 +583,9 @@ public class ExplorationEngine extends BaseContent {
 			// Road not picked
 			for (i = 0; i < NROADS; i++) {
 				var b:CoCButton = (NROADS <= 3) ? button(i * 5) : button(i);
-				b.show("Path " + (i + 1), curry(selectRoadAndExploreNext, i))
+				if (roads[i][0] && roads[i][0].encounter) {
+					b.show("Path " + (i + 1), curry(selectRoadAndExploreNext, i))
+				}
 			}
 		}
 		if(canSoulSense && player.hasPerk(PerkLib.SoulSense)) {
@@ -600,6 +607,7 @@ public class ExplorationEngine extends BaseContent {
 				button(12).disable("You're too aroused to explore!");
 			}
 		}
+		button(13).show("Re-roll", normalReroll).hint("Use 30 min to re-roll current area explore nodes.");
 
 		if (debug) {
 			button(14).show("Menu", cheatMenu);
@@ -608,6 +616,13 @@ public class ExplorationEngine extends BaseContent {
 		}
 		if (onMenu != null) onMenu();
 		mainViewManager.updateCharviewIfNeeded();
+	}
+	private function normalReroll():void {
+		for (var i:int = 0; i < N; i++) flatList[i].isPlayerHere = false;
+		generateAll();
+		skillBasedReveal(lastAreaLevel, lastTimesExplored);
+		advanceMinutes(30);
+		showUI();
 	}
 	public function cheatMenu():void {
 		function cheatReveal(level:int):void {
@@ -637,7 +652,24 @@ public class ExplorationEngine extends BaseContent {
 		if (leave && !finished && !isAtEnd) leave.applyTo(button(13));
 		button(14).show("Back", showUI).icon("Back");
 	}
-
+	public function generateAt(roadNo:int, roadPos:int):void {
+		generate(roads[roadNo][roadPos], 1);
+	}
+	public function setEncounterObjectAt(roadNo:int, roadPos:int, encounter:SimpleEncounter):void {
+		roads[roadNo][roadPos].setupForEncounter(encounter);
+	}
+	
+	/**
+	 * Find the encounter with specific name in the source and put in on the map.
+	 * Call after prepareArea().
+	 * @param roadNo Road number 0..4
+	 * @param roadPos Position on road 0..6
+	 * @param encounterName
+	 */
+	public function setEncounterAt(roadNo:int, roadPos:int, encounterName:String):void {
+		var e:SimpleEncounter = source.findByName(encounterName);
+		if (e) setEncounterObjectAt(roadNo, roadPos, e);
+	}
 	/**
 	 *
 	 * @param entry
@@ -758,6 +790,10 @@ public class ExplorationEngine extends BaseContent {
 		if (player.hasPerk(PerkLib.EyesOfTheHunterGrandMaster)) n += 1;
 		if (player.hasPerk(PerkLib.EyesOfTheHunterEx)) n += 1;
 		if (player.hasPerk(PerkLib.EyesOfTheHunterSu)) n += 1;
+		if (player.hasPerk(PerkLib.JobEsper)) n += 1;
+
+		lastAreaLevel = areaLevel;
+		lastTimesExplored = timesExplored;
 
 		revealMultiple(n);
 	}
@@ -837,6 +873,22 @@ public class ExplorationEngine extends BaseContent {
 		entry.setupForEncounter(encounter);
 		roads[roadIndex][roadPos - 1].link(entry);
 		return entry;
+	}
+	
+	/**
+	 * Remove last entry from road
+	 * @param roadIndex 0..4
+	 */
+	public function removeLast(roadIndex:int):void {
+		var rl:int = roadLength(roadIndex);
+		if (rl > 0) {
+			var entry:ExplorationEntry = roads[roadIndex][rl-1];
+			entry.setEmpty();
+			startPos.unlinkOne(entry);
+			for each(var e2:ExplorationEntry in flatList) {
+				e2.unlinkOne(entry);
+			}
+		}
 	}
 }
 }

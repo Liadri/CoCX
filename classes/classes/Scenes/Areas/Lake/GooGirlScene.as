@@ -173,7 +173,7 @@ public class GooGirlScene extends AbstractLakeContent
 		{
 			clearOutput();
 			if (player.gender != 0) outputText("You try to avoid touching your sexual organs, and even try to cool them down with water to trick the blind goo-girl.");
-			outputText("You stumble, nearly falling to your knees, and the slime recognizes her victory with a smile that nearly bisects her face. Clapping her hands in a wet splash, she oozes up to you and wraps her dripping, puddle-like lower body around yours, quickly stripping your [armor] off. There's no strength left in your limbs to resist, the goo-girl's insistent tugging guides you into the lapping waves of the "+GooLocation+". The cool water eases the excited heat of the girl's slimy embrace, and you barely notice the depth until she's dragged you up to your chin. A surge of panic thrills up your spine, but she seems comfortable enough here, so she halts to investigate her prize.\n\n");
+			outputText("You stumble, nearly falling to your knees, and the slime recognizes her victory with a smile that nearly bisects her face. Clapping her hands in a wet splash, she oozes up to you and wraps her dripping, puddle-like lower body around yours, quickly stripping your [armor] off. There's no strength left in your limbs to resist, the goo-girl's insistent tugging guides you into the lapping waves. The cool water eases the excited heat of the girl's slimy embrace, and you barely notice the depth until she's dragged you up to your chin. A surge of panic thrills up your spine, but she seems comfortable enough here, so she halts to investigate her prize.\n\n");
 
 			outputText("The girl makes a careful survey of your flesh, rolling warm, goopy fingers along every curve and over every muscle. Shivering under her exhaustive inspection, it's all you can do to keep from sighing in blissful relief when her prodding becomes as firm as a masseuse's skilled hands. When she reaches the end of your abdomen, however, the girl's face screws up in an expression of confusion.");
 			if (player.gender == 0)
@@ -334,10 +334,11 @@ public class GooGirlScene extends AbstractLakeContent
 			//Victory – Neuter
 			if (player.gender == 0 || player.lust < 33) {
 				outputText("The goo-girl, while an unusual creature, seems unable to communicate and clearly has nothing of value.  Of no particular use in your quest, you shoo the dripping blob back to the shore. She seems disappointed at first, but bounces back quickly enough, spotting movement in the "+GooLocation+".  She splashes in and takes off at top speed, " + gooColor9() + " blur while you take your leave.");
-				cleanupAfterCombat();
+				menu();
+				addButtonIfTrue(12, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+				addButton(14, "Leave", cleanupAfterCombat);
 			}
 			else {
-
 				outputText("With the goo-girl defeated, her unusual body is at your mercy.  What do you do?");
 				menu();
 				addButtonIfTrue(0, "DickSex", gooMaleRape, "Req. a cock shorter than 24\"",
@@ -381,6 +382,7 @@ public class GooGirlScene extends AbstractLakeContent
 				}
 				else if (latexGoo_canThink && flags[kFLAGS.PC_KNOWS_ABOUT_BLACK_EGGS] <= 0 && player.cor >= 50)
 					sceneHunter.print("Have you ever seen rubber-black eggs? Try to figure out what they are... somehow. Maybe ask someone?");
+				addButtonIfTrue(12, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
 				addButton(14, "Leave", cleanupAfterCombat);
 				SceneLib.uniqueSexScene.pcUSSPreChecksV2(beatUpGoo);
 			}

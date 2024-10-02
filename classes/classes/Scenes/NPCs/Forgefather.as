@@ -23,6 +23,7 @@ import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Consumable;
 import classes.Items.ConsumableLib;
+import classes.Scenes.Camp.CampStatsAndResources;
 import classes.Scenes.SceneLib;
 import classes.internals.SaveableState;
 
@@ -611,7 +612,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 			outputText("Finally, to polish your form, you need 3 Rough Lotions, 2 pieces of Coal, 1 Iron Weed and 1" +
 					" Light Oil to be polished into your body,\nmoudling your power and greatly increasing it.\n\n");
 			outputText("Materials:\n");
-			outputText("Stone: " + flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] +"\n");
+			outputText("Stone: " + CampStatsAndResources.StonesResc +"\n");
 			outputText("Granite: " + granite +"\n");
 			outputText("Ebony: " + ebony +"\n");
 			outputText("Alabaster: " + alabaster +"\n");
@@ -683,7 +684,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 					break;
 				default:
 					if (refinement < 2){
-						if (flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] >= (100 * (refinement + 2))) addButton(0, "Refine", refineFunc);
+						if (CampStatsAndResources.StonesResc >= (100 * (refinement + 2))) addButton(0, "Refine", refineFunc);
 						else addButtonDisabled(0, "Refine", "Not enough materials");
 					} else addButtonDisabled(0, "Refine", "Stone cannot be refined further");
 					break;
@@ -753,7 +754,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 						sandstone -= ((refinement + 2) * 100);
 						break;
 					case "stone":
-						flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= ((refinement + 2) * 100);
+						CampStatsAndResources.StonesResc -= ((refinement + 2) * 100);
 						break;
 				}
 				refinement++;
@@ -1065,7 +1066,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 						" in the water, you shudder with a chill as the crystal clear magical water begins to" +
 						" circulate in your " + player.skin.desc + ", your stony heart within going from greyish to white as holy" +
 						" power washes over and cleanses you of any impurity. You sigh in absolute relief, your mind" +
-						" clearer than it ever has been since you came to mareth as you fully embrace purity within" +
+						" clearer than it ever has been since you came to Mareth as you fully embrace purity within" +
 						" your being. Blue runes have also appeared on your body empowering your already mighty" +
 						"\n\n");
 				if (player.hasItem(consumables.P_PEARL)){

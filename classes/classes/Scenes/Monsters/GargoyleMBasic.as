@@ -53,14 +53,14 @@ package classes.Scenes.Monsters
 			initGenderless();
 			this.tallness = 120;
 			initStrTouSpeInte(150, 120, 90, 10);
-			initWisLibSensCor(10, 10, 10, 50);
+			initWisLibSensCor(10, 10, 10, 0);
 			this.tallness = 120;
 			this.drop = new ChainedDrop()
 					.add(useables.GOLCORE, 1/4);
 			this.level = 24;
 			this.bonusHP = 500;
 			this.additionalXP = 500;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.weaponName = "stone claws";
 			this.weaponVerb = "claw-slash";
 			this.weaponAttack = 75;

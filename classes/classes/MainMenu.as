@@ -46,6 +46,10 @@ public class MainMenu extends BaseContent {
 		//Sets game state to 3, used for determining back functionality of save/load menu.
         CoC.instance.resetGameState();
         clearOutput();
+
+		//IMutations Same ID emergency reporting.
+		IMutationPerkType.runValidIMutates;
+
 		//outputText("<img src=\"logo\" id=\"coc-logo\" height=\"300\" width=\"400\" />\n");
         outputText("<b>Corruption of Champions (" + CoC.instance.ver + ")</b>");
         if (CoC_Settings.debugBuild)
@@ -152,6 +156,7 @@ public class MainMenu extends BaseContent {
 		outputText("<li> Pyromania</li>");
 		outputText("<li> Jtecx</li>");
 		outputText("<li> Svalkash</li>");
+		outputText("<li> Demojay</li>");
 		outputText("<li> Zetta</li>\n");
 		outputText("<li> Zavos/Zevos</li>");
 		outputText("<li> Xana</li>");
@@ -187,6 +192,9 @@ public class MainMenu extends BaseContent {
 		outputText("<li> Pyromania (Zenji the troll. Various typo revisions, editing and proofreading.)</li>");
 		outputText("<li> Lunaraia (Adaptations slot for internal mutation name idea)</li>");
 		outputText("<li> Apex (part of Michiko)</li>");
+		outputText("<li> Canadian Snas (Driders Sisters trio, Charybdis, the Demonic Lab Dungeon, Kiha Expansion/wedding, Pregnancies for Diva, Luna, Electra, Sidonie, Arian, Ms. Shigure, various text upgrades/edits, the Phalluspear)</li>");
+		outputText("<li> Lord Shadeogorath (Spriting stuff for chara viewer, Bestial Blademaster gear set)</li>");
+		outputText("<li> Ohaxer & Sylabt (Arigean TF stuff + npc)</li>");
 		outputText("<li> Dxasmodeus (Tentacles, Worms, Giacomo)</li>");
 		outputText("<li> Kirbster (Christmas Bunny Trap)</li>");
 		outputText("<li> nRage (Kami the Christmas Roo)</li>");

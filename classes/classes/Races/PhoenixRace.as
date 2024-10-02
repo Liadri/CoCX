@@ -57,8 +57,10 @@ public class PhoenixRace extends Race {
 				.faceType(ANY(Face.HUMAN, Face.SALAMANDER_FANGS), 2)
 				.earType(ANY(Ears.HUMAN, Ears.ELFIN, Ears.LIZARD), +1);
 		
+		addBloodline(PerkLib.SalamandersDescendant, PerkLib.BloodlineSalamander);
 		addMutation(IMutationsLib.HarpyHollowBonesIM);
 		addMutation(IMutationsLib.SalamanderAdrenalGlandsIM);
+		addMutation(IMutationsLib.BlazingHeartIM);
 		
 		buildTier(10, "phoenix")
 				.namesTauric("phoenix", "phoenix-taur")

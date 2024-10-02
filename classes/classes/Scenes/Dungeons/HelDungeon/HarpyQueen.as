@@ -19,7 +19,7 @@ public class HarpyQueen extends Monster
 			//(Effect: Grab + Physical Damage)
 			var damage:int = 25 + rand(this.inte / 5);
 			player.takeMagicDamage(damage, true);
-			createStatusEffect(StatusEffects.QueenBind,0,0,0,0);
+			player.createStatusEffect(StatusEffects.QueenBind,0,0,0,0);
 		}
 
 		public function ropeStruggles(wait:Boolean = false):void {
@@ -33,7 +33,7 @@ public class HarpyQueen extends Monster
 			}
 			else {
 				outputText("With supreme effort, you pull free of the magic ropes, causing the queen to tumble to her hands and knees.");
-				removeStatusEffect(StatusEffects.QueenBind);
+				player.removeStatusEffect(StatusEffects.QueenBind);
 			}
 		}
 
@@ -65,10 +65,7 @@ public class HarpyQueen extends Monster
 				damage *= 1.5;
 				outputText("It's super effective! ");
 			}
-			if (flags[kFLAGS.GAME_DIFFICULTY] == 1) damage *= 1.2;
-			else if (flags[kFLAGS.GAME_DIFFICULTY] == 2) damage *= 1.5;
-			else if (flags[kFLAGS.GAME_DIFFICULTY] == 3) damage *= 2;
-			else if (flags[kFLAGS.GAME_DIFFICULTY] >= 4) damage *= 3.5;
+			
 			damage = Math.round(damage);
 			player.takeFireDamage(damage, true);
 			mana -= spellCostWhitefire;
@@ -113,7 +110,7 @@ public class HarpyQueen extends Monster
 			this.hairColor = "black";
 			this.hairLength = 15;
 			initStrTouSpeInte(100, 90, 170, 100);
-			initWisLibSensCor(100, 80, 45, 50);
+			initWisLibSensCor(100, 80, 45, 0);
 			this.weaponName = "eldritch staff";
 			this.weaponVerb="thwack";
 			this.weaponAttack = 31;

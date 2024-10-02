@@ -4,16 +4,15 @@
  */
 package classes.Items
 {
-import classes.Items.Weapons.DualBFSword;
 import classes.Items.WeaponsRange.*;
 import classes.PerkLib;
 
 public final class WeaponRangeLib extends ItemConstants
 	{
 		public function Legendary():Array {
-			return LegendaryPure().concat(LegendaryCorrupt());
+			return legendaryPure().concat(LegendaryCorrupt());
 		}
-		public function LegendaryPure():Array {
+		public function legendaryPure():Array {
 			return [
 				ARTEMIS,
 				KSLHARP,
@@ -74,8 +73,12 @@ public final class WeaponRangeLib extends ItemConstants
 		public const LCROSBW:WeaponRange = new WeaponRange("LCrosbw", "LCrossbow", "light crossbow", "a light crossbow", "shot", 5, 250, "This is a light crossbow. A most basic one that fires bolts at your enemies.", WT_CROSSBOW).withBuffs({'rangedaccuracy':+10}) as WeaponRange;
 		public const LEVHARP:LeviathanHarpoons = new LeviathanHarpoons();
 		public const M1CERBE:WeaponRange = new WeaponRange("M1Cerbe", "M1Cerberus", "M1 Cerberus", "a M1 Cerberus", "shot", 45, 930, "A rifle prized for its precision and versatility, the Cerberus shoots multiple bullet in salvo ensuring that if one shot land all the others do with minimal recoil.\n\nGoblin Mech Compatibile", WT_2H_FIREARM);
+		public const MBOMBER:MinoBomber = new MinoBomber();
+		public const NAILGUN:WeaponRange = new WeaponRange("NailGun", "NailGun", "Nail Gun", "a Nail Gun", "shot", 15, 600, "With a white base and grey trims, this gun fires nails. Simple as that!", WT_PISTOL).withEffect(IELib.Bleed, 25) as WeaponRange;
+		public const NAILGUN2:TwinNailGun = new TwinNailGun();
 		public const O_JAVEL:WeaponRange = new WeaponRange("O.Javel", "OldJavelins", "old javelins", "an old javelins", "shot", 1, 50, "An old training javelin for ranged combat. You can carry up to 10 on you and need to retrieve them after battles.", "Throwing");
 		public const RTKNIFE:WeaponRange = new WeaponRange("RTKnife", "R.ThrowingKnife", "ruby throwing knife", "a ruby throwing knife", "shot", 3, 300, "A small knife made of crimson metal and richly decorated with rubies and gold engravings that could be thrown. The magic within this crimson blade will flare up with magical flames when charged with magic. You can carry up to 15 on you and need to retrieve them after battles.", "Throwing");
+		public const SAGITTB:SagittariusBanefulGreatBow = new SagittariusBanefulGreatBow();
 		public const SNIPPLE:WeaponRange = new WeaponRange("Snipple", "Snippler", "Snippler", "a Snippler", "shot", 50, 1030, "Thus named for its ability to hit the center of a nipple with perfect accuracy several hundred yards away, the Snippler perform best in situation were its extreme precision are assets such as from stealth.", WT_2H_FIREARM);
 		public const SHUNHAR:SeaHuntressHarpoons = new SeaHuntressHarpoons();
 		public const SHURIKE:WeaponRange = new WeaponRange("Shurike", "Shuriken", "shuriken", "a shuriken", "shot", 2, 100, "A throwing knife commonly used by ninja. You can carry up to 10 on you and need to retrieve them after battles.", "Throwing");
@@ -103,10 +106,26 @@ public final class WeaponRangeLib extends ItemConstants
 		public const E_TOME_:WeaponRange = new WeaponRange("E. Tome", "E. Tome", "Elementalist’s Tome", "an Elementalist's Tome", "nothing", 0, 500, "This ornate navy blue book is inscribed filled with magical glyphs and complicated diagrams, concealed within a detailed treatise on the nature of the world. The magic within this tome allows you to strengthen your connection with summoned elementals. (+50% to elementals damage)", "Tome");
 		public const G_E_MAN:WeaponRange = new WeaponRange("G.E.Book", "G.E.Book", "Golemancy Evocation Manuscript", "A bundle of pages haphazardly bound together within a worn-out leather book.", "nothing", 0, 200, "This black tome is filled with golemancy knowledge. The magic within this tome allows you to control your manufactured golems with greater control and precision. (+50% to golems damage)", "Tome");
 		public const I_TOME_:InquisitorsTome = new InquisitorsTome();
+		public const RB_TOME:WeaponRange = new WeaponRange("R.B.Tome", "R.B.Tome", "Restrained Black Tome", "a Restrained Black Tome", "nothing", 0, 100, "This solid black tome is totally unmarked, saved for a blood red thin chain that is wrapped around it.  The pages are edged with gold, like some of the fancy books in the monastary back home. (Increase spellpower and reduce cooldown for tier 1 black spells at levels below 18)", "Tome");
+		public const RG_TOME:WeaponRange = new WeaponRange("R.G.Tome", "R.G.Tome", "Restrained Grey Tome", "a Restrained Grey Tome", "nothing", 0, 200, "This grey tome is totally unmarked, and on the cover is wrote few words that seems have no meaning or maybe you just aren't able to decipher them yet. A plain green thin chains is wrapped around it. (Increase spellpower and reduce cooldown for tier 1 grey spells at levels below 18)", "Tome");
+		public const RW_TOME:WeaponRange = new WeaponRange("R.W.Tome", "R.W.Tome", "Restrained White Tome", "a Restrained White Tome", "nothing", 0, 100, "This white tome is totally unmarked, and the cover is devoid of any lettering or title.  A shiny brass thin chain is wrapped around it. (Increase spellpower and reduce cooldown for tier 1 white spells at levels below 18)", "Tome");
 		public const SSKETCH:WeaponRange = new WeaponRange("SSketch", "S.Sketchbook", "Sage’s Sketchbook", "a Sage’s Sketchbook", "nothing", 0, 500, "Strangely, this ornate blue book is completely blank.  Yet, as you flip through it, you occasionally see magical glyphs and complicated diagrams out of the corner of your eye, only to disappear as you focus.  Still, the arcane energies within the book could augment your spellcraft.", "Tome").withBuffs({'spellpower': + 0.6}) as WeaponRange;
 
 		public const NEKONOM:WeaponRange = new WeaponRange("MissingNo", "MissingNo", "MissingNo", "MissingNo", "nothing", 0, 500, "This is a deprecated weapon no longer in use it will be removed from the game in a few version. Please remove it from your character and delete it for safety", "Tome");
-
+		
+		//===================//
+		// Single/Dual pairs //
+		//===================//
+		
+		public const SingleDualPairList:/*Array*/Array = [
+			[SIXSHOT, TWINSIXS],
+			[M1CERBE, TM1CERB],
+			[ALAKABL, DALAKABL],
+			[DESEAGL, TDEEAGL],
+			[NAILGUN, NAILGUN2]
+			//[HARKON1, HARKON2],
+		];
+		
 		/*
 		private static function mk(id:String,shortName:String,name:String,longName:String,verb:String,attack:Number,value:Number,description:String,perk:String=""):Weapon {
 			return new Weapon(id,shortName,name,longName,verb,attack,value,description,perk);

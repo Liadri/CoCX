@@ -86,6 +86,7 @@ use namespace CoC;
 			else outputText("The feral imp falls to the ground panting and growling in anger.  He quickly submits however, the thoroughness of his defeat obvious.  You walk towards the imp who gives one last defiant snarl before slipping into unconsciousness.");
 			menu();
 			addButton(0, "Kill Him", killFeralImp);
+			addButtonIfTrue(1, "Tame Him", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer and not been group enemy", (player.hasPerk(PerkLib.JobTamer) && flags[kFLAGS.FERAL_EXTRAS] != 4));
 			if (flags[kFLAGS.GALIA_LVL_UP] > 0 && flags[kFLAGS.GALIA_LVL_UP] < 0.5) {
 				if (flags[kFLAGS.GALIA_AFFECTION] > 0) addButtonDisabled(3, "Capture", "You need to turn in already captured imp before you can capture another one.");
 				else addButton(3, "Capture", captureFeralImp);
@@ -1466,8 +1467,8 @@ use namespace CoC;
 			//HP or insta-loss
 			else {
 				outputText("\n<b>You fall, defeated by the imp!</b>\nThe last thing you see before losing consciousness is the creature undoing its crude loincloth to reveal a rather disproportionately-sized member.");
+				cleanupAfterCombat();
 			}
-			cleanupAfterCombat();
 
 			//========================================
 			function vaginal():void {
@@ -1744,7 +1745,7 @@ use namespace CoC;
 			}
             sceneHunter.print("Failed check: Alraune/Liliraune race");
 			sceneHunter.selectLossMenu([
-					[0, "getRapedAsAGirl", getRapedAsAGirl, "Req. a vagina", player.hasVagina()],
+					[0, "Vaginal", getRapedAsAGirl, "Req. a vagina", player.hasVagina()],
 					[1, "Anal", loseToImpLord, "Req. a cock", player.hasCock()]
 				],
 				"The imp is going to use his gigantic dick anyway, but you probably can provide a hint <i>where</i> he can put it.\n\n"
@@ -2413,8 +2414,11 @@ use namespace CoC;
 			outputText("You make a quick work of the imp before dragging the corpse away. That's one less foul creature prowling the realms. ");
 			if (player.hasPerk(PerkLib.Purifier)) player.purifyDemonBonus();
 			if (player.hasPerk(PerkLib.QueenOfTheFairies)) player.QueenOfTheForestDemonBonus();
-
 			if (player.cor < 25) dynStats("cor", -0.5);
+			if (player.enemiesKillCount() >= 10 && !player.hasPerk(PerkLib.KillingIntent)) {
+				outputText("Kill upon kill, corpse after corpse... Ashes... to ashes... Your fingers itch, your blood boils, there's still more to kill, more fiends to slay. The fire burning inside is but another weapon of murder. <b>(You have gained the Killing Intent perk!)</b> ");
+				player.createPerk(PerkLib.KillingIntent, 0, 0, 0, 0);
+			}
 			menu();
 			addButton(1, "Leave", cleanupAfterCombat);
 			addButton(2, "Take Skull", takeSkull);
@@ -2427,8 +2431,11 @@ use namespace CoC;
 			outputText("You make a quick work of the feral imp before dragging the corpse away. That's one less foul creature prowling the realms. ");
 			if (player.hasPerk(PerkLib.Purifier)) player.purifyDemonBonus();
 			if (player.hasPerk(PerkLib.QueenOfTheFairies)) player.QueenOfTheForestDemonBonus();
-
 			if (player.cor < 25) dynStats("cor", -0.5);
+			if (player.enemiesKillCount() >= 10 && !player.hasPerk(PerkLib.KillingIntent)) {
+				outputText("Kill upon kill, corpse after corpse... Ashes... to ashes... Your fingers itch, your blood boils, there's still more to kill, more fiends to slay. The fire burning inside is but another weapon of murder. <b>(You have gained the Killing Intent perk!)</b> ");
+				player.createPerk(PerkLib.KillingIntent, 0, 0, 0, 0);
+			}
 			menu();
 			addButton(1, "Leave", cleanupAfterCombat);
 			addButton(2, "Take Skull", takeSkull2);
@@ -2444,7 +2451,7 @@ use namespace CoC;
 		private function harvestBones():void {
 			var harv:Number = 1 + rand(5);
 			if (player.hasPerk(PerkLib.GreaterHarvest)) harv += 4 + rand(12);
-			if (harv + player.perkv1(PerkLib.PrestigeJobNecromancer) > SceneLib.camp.campMake.maxDemonBonesStored()) harv = SceneLib.camp.campMake.maxDemonBonesStored() - player.perkv1(PerkLib.PrestigeJobNecromancer);
+			if (harv + player.perkv1(PerkLib.PrestigeJobNecromancer) > SceneLib.campMakeWinions.maxDemonBonesStored()) harv = SceneLib.campMakeWinions.maxDemonBonesStored() - player.perkv1(PerkLib.PrestigeJobNecromancer);
 			outputText("You take your time to harvest material. You acquired " + harv + " bones!");
 			player.addPerkValue(PerkLib.PrestigeJobNecromancer, 1, harv);
 			cleanupAfterCombat();

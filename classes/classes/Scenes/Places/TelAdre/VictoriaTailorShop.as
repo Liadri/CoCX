@@ -43,11 +43,11 @@ public class VictoriaTailorShop extends Shop {
         addButton(14, "Leave", telAdre.telAdreMenu);
     }
 
-    protected override function confirmBuy(itype:ItemType = null, priceOverride:int = -1, keyItem:String = ""):void {
+    protected override function confirmBuy(itype:ItemType = null, priceOverride:int = -1, keyItem:String = "", priceRate:Number = 1, useStones:Boolean = false, currentQuantity:int = 1):void {
         clearOutput();
-        super.confirmBuy(itype);
+        super.confirmBuy(itype, priceOverride, keyItem, priceRate, useStones, currentQuantity);
         if (player.hasCock() && player.lust >= 33) {
-            addButton(4, "Flirt", flirtWithVictoria, itype);
+            addButton(10, "Flirt", curry(flirtWithVictoria, itype, priceOverride, keyItem, priceRate, useStones, currentQuantity));
         }
     }
 
@@ -65,6 +65,7 @@ public class VictoriaTailorShop extends Shop {
         addButton(8, undergarments.LTXTHNG.shortName, confirmBuy, undergarments.LTXTHNG);
         
         addButton(10, armors.C_CLOTH.shortName, confirmBuy, armors.C_CLOTH);
+		addButton(11, armors.R_QIPAO.shortName, confirmBuy, armors.R_QIPAO);
         addButton(13, useables.BANDAGE.shortName, confirmBuy, useables.BANDAGE);
 
         addButton(9, "Previous", inside);
@@ -74,19 +75,10 @@ public class VictoriaTailorShop extends Shop {
     //*Typical buy text goes here. Options are now Yes/No/Flirt*
 
     //[Flirt]
-    private function flirtWithVictoria(itype:ItemType):void {
+    private function flirtWithVictoria(itype:ItemType, priceOverride:int = -1, keyItem:String = "", priceRate:Number = 1, useStones:Boolean = false, currentQuantity:int = 1):void {
         clearOutput();
-        var x:Number = player.cockThatFits(70);
-        if (x < 0) {
-            x = player.smallestCockIndex();
-        }
-        display("flirtWithVictoria/intro",{x:x});
-        if (x < 0) {
-            display("flirtWithVictoria/tooSmall",{x:x});
-            doYesNo(curry(debit, itype), inside);
-            return;
-        }
-        display("flirtWithVictoria/scene",{x:x});
+        display("flirtWithVictoria/intro");
+        display("flirtWithVictoria/scene");
         player.orgasm();
         dynStats("sen", -1);
         doNext(camp.returnToCampUseOneHour);

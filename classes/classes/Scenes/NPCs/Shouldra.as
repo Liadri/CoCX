@@ -5,6 +5,8 @@ import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbility;
+import classes.Scenes.Combat.SpellsWhite.BlindSpell;
 
 /**
 	 * ...
@@ -23,7 +25,7 @@ import classes.internals.*;
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str + weaponAttack) - rand(player.tou) - player.armorDef);
+			damage = int((str + weaponAttack) - player.armorDef);
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
@@ -55,23 +57,38 @@ import classes.internals.*;
 		private function shouldraLustAttack():void {
 			if(rand(2) == 0) outputText("The girl spins away from one of your swings, her tunic flaring around her hips. The motion gives you a good view of her firm and moderately large butt. She notices your glance and gives you a little wink.\n");
 			else outputText("The girl's feet get tangled on each other and she tumbles to the ground. Before you can capitalize on her slip, she rolls with the impact and comes up smoothly. As she rises, however, you reel back and raise an eyebrow in confusion; are her breasts FILLING the normally-loose tunic? She notices your gaze and smiles, performing a small pirouette on her heel before squaring up to you again. Your confusion only heightens when her torso comes back into view, her breasts back to their normal proportions. A trick of the light, perhaps? You shake your head and try to fall into the rhythm of the fight.\n");
-			player.takeLustDamage((8+player.effectiveLibido()/10), true);
+			player.takeLustDamage((16+player.effectiveLibido()/5), true);
 		}
 		//(magic attack)
 		private function shouldraMagicLazers():void {
 			outputText("Falling back a step, the girl raises a hand and casts a small spell. From her fingertips shoot four magic missiles that slam against your skin and cause a surprising amount of discomfort. ");
-			var damage:Number = this.inte + rand(11);
+			var damage:Number = this.inte + this.wis + rand(21);
 			player.takeMagicDamage(damage, true);
 			player.takeMagicDamage(damage, true);
 			player.takeMagicDamage(damage, true);
 			player.takeMagicDamage(damage, true);
-			if (player.hasStatusEffect(StatusEffects.ChargeWeapon) || player.hasStatusEffect(StatusEffects.ChargeArmor) || player.statStore.hasBuff("Might") || player.statStore.hasBuff("Blink")) {
+			if (player.hasStatusEffect(StatusEffects.ChargeWeapon) || player.hasStatusEffect(StatusEffects.ChargeRWeapon) || player.hasStatusEffect(StatusEffects.ChargeArmor) || player.statStore.hasBuff("Might") || player.statStore.hasBuff("Blink")) {
 				if (player.hasStatusEffect(StatusEffects.ChargeWeapon)) player.removeStatusEffect(StatusEffects.ChargeWeapon);
+				else if (player.hasStatusEffect(StatusEffects.ChargeRWeapon)) player.removeStatusEffect(StatusEffects.ChargeArmor);
 				else if (player.hasStatusEffect(StatusEffects.ChargeArmor)) player.removeStatusEffect(StatusEffects.ChargeArmor);
 				else if (player.statStore.hasBuff("Might")) player.statStore.removeBuffs("Might");
 				else player.statStore.removeBuffs("Blink");
 			}
 			outputText("\n");
+		}
+
+		override public function postPlayerAbility(ability:CombatAbility, display:Boolean = true):void {
+			if (ability is BlindSpell && hasStatusEffect(StatusEffects.Blind)) {
+				if (display) {
+					outputText("\n\nRemarkably however, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused." + 
+						" The girl flashes a radiant smile at you, and the battle continues.");
+				}
+				removeStatusEffect(StatusEffects.Blind);
+			}
+		}
+
+		override public function midDodge():void{
+			outputText("You wait patiently for your opponent to drop her guard. She ducks in and throws a right cross, which you roll away from before smacking your [weapon] against her side. Astonishingly, the attack appears to phase right through her, not affecting her in the slightest. You glance down to your [weapon] as if betrayed.\n");
 		}
 
 		override protected function performCombatAction():void
@@ -111,18 +128,18 @@ import classes.internals.*;
 			this.bodyColor = "white";
 			this.hairColor = "white";
 			this.hairLength = 3;
-			initStrTouSpeInte(55, 40, 10, 140);
-			initWisLibSensCor(140, 120, 1, 33);
+			initStrTouSpeInte(75, 60, 20, 180);
+			initWisLibSensCor(180, 180, 1, 23);
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
-			this.weaponAttack = 14;
+			this.weaponAttack = 21;
 			this.armorName = "comfortable clothes";
-			this.armorDef = 1;
-			this.armorMDef = 1;
-			this.bonusHP = 30;
-			this.bonusLust = 133;
+			this.armorDef = 5;
+			this.armorMDef = 100;
+			this.bonusHP = 50;
+			this.bonusLust = 198;
 			this.lust = 10;
-			this.level = 12;
+			this.level = 17;
 			this.gems = 0;
 			this.drop = new ChainedDrop().add(consumables.ECTOPLS, 1 / 3);
 			this.createPerk(PerkLib.EnemyGhostType, 0, 0, 0, 0);

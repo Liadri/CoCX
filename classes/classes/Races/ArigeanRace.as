@@ -39,7 +39,6 @@ public class ArigeanRace extends Race {
 		
 	public function ArigeanRace(id:int) {
 		super("Arigean", id, []);//RaceBody);
-		//disabled = true;
 	}
 	
 	public override function setup():void {
@@ -47,15 +46,18 @@ public class ArigeanRace extends Race {
 		addScores()
 				.earType(Ears.ELVEN, +1)
 				.eyeType(Eyes.ARIGEAN, +1)
-				//.eyeType(Eyes.ARIGEANPRINCESS, +2)
+				.eyeType(Eyes.ARIGEANPRINCESS, +2)
 				.faceType(Face.ARIGEAN, +1)
 				.tongueType(Tongue.ARIGEAN, +1)
 				.tailType(Tail.ARIGEAN_GREEN, +5)
 				.tailType(Tail.ARIGEAN_RED, +6)
+				.tailType(Tail.ARIGEAN_YELLOW, +7)
+				.tailType(Tail.ARIGEAN_PRINCESS, +9)
 				.armType(Arms.ARMORED_FOREARMS, +1)
 				.legType(LowerBody.ARMORED_LEGS, +1)
-				//.rearType(RearBody.ABYSSAL_SHARK_FIN, +2)
-				//.skinBasePattern(Skin.PATTERN_BIOLUMINESCENCE, +1)
+				.rearType(RearBody.ARIGEAN_RED_AURA, +1)
+				.rearType(RearBody.ARIGEAN_YELLOW_AURA, +2)
+				.rearType(RearBody.ARIGEAN_PINCER_LIMBS, +3)
 				.hairColor1(ANY(ArigeanHairColors), +1)
 				.skinBaseType(Skin.PLAIN, +1)
 				.plainSkinOfColor1(ANY(ArigeanSkinColors), +1)
@@ -102,18 +104,30 @@ public class ArigeanRace extends Race {
 					"def": +4
 				})
 				.end();
-		/*
+		
 		buildTier(20, "arigean countess")
-				//.requirePerk(PerkLib.DantianPhylactery)
+				.requireTailType(Tail.ARIGEAN_YELLOW)
 				.buffs({
-					"str.mult": +1.00,
-					"tou.mult": +0.70,
-					"spe.mult": +1.00,
-					"int.mult": -0.10,
-					"wis.mult": -0.20,
+					"str.mult": +1.50,
+					"tou.mult": +1.00,
+					"spe.mult": +1.50,
+					"int.mult": -0.45,
+					"wis.mult": -0.55,
 					"def": +6
 				})
-				.end();*/
+				.end();
+		
+		buildTier(23, "arigean princess")
+				.requireTailType(Tail.ARIGEAN_PRINCESS)
+				.buffs({
+					"str.mult": +4.30,
+					"tou.mult": +3.10,
+					"spe.mult": +4.30,
+					"int.mult": -0.75,
+					"wis.mult": -0.60,
+					"def": +10
+				})
+				.end();
 	}
 }
 }

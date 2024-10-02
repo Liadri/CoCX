@@ -7,8 +7,13 @@ package classes.Scenes.Dungeons.EbonLabyrinth
 import classes.*;
 import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
+import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbility;
+import classes.Scenes.Combat.SpellsWhite.BlindSpell;
+
+import coc.view.CoCButton;
 
 use namespace CoC;
 
@@ -16,18 +21,91 @@ use namespace CoC;
 	{
 		private var _biteCounter:int = 0;
 		private var _sonicScreamCooldown:int = 0;
-		
-		public function handlePlayerSpell(spell:String = ""):void {
-			if (spell == "blind" && player.hasStatusEffect(StatusEffects.MonsterInvisible)) {
-				outputText("You produce a bright flash to counter the smothering darkness breaking the spell and lighting back the area. The draculina who was about to viciously attack you from behind swiftly back out of range and flies off.\n\n");
-				outputText("\"<i>Umph you broke free … no matter, your defeat is but a matter of time.</i>\"\n");
-				player.removeStatusEffect(StatusEffects.MonsterInvisible);
+
+		override public function combatStatusesUpdateWhenBound():void{
+			nagaBindUpdateWhenBound();
+		}
+
+		override public function playerBoundStruggle():Boolean{clearOutput();
+			if (rand(3) == 0 || rand(80) < player.str / 1.5 || player.hasPerk(PerkLib.FluidBody)) {
+				outputText("You wriggle and squirm violently, tearing yourself out from within [themonster]'s coils.");
+				player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+			} else {
+				outputText("The [monster name]'s grip on you tightens as you struggle to break free from the stimulating pressure.");
+				player.takeLustDamage(player.effectiveSensitivity() / 10 + 2, true);
+				player.takePhysDamage(20 + rand(18));
+			}
+			return true;
+		}
+
+		override public function playerBoundWait():Boolean{
+			return nagaBindWait();
+		}
+
+		override public function postPlayerBusyBtnSpecial(btnSpecial1:CoCButton, btnSpecial2:CoCButton):void{
+			if (player.hasStatusEffect(StatusEffects.MonsterInvisible)) {
+				if (player.hasStatusEffect(StatusEffects.KnowsBlind) && ((!player.hasPerk(PerkLib.BloodMage) && player.mana >= 30) || (player.hasStatusEffect(StatusEffects.BloodMage) && ((player.HP + 30) > (player.minHP() + 30))))) {
+					btnSpecial1.show("Blind", dispellDarkness1);
+				}
+				if (player.hasStatusEffect(StatusEffects.KnowsSunrise) && ((!player.hasStatusEffect(StatusEffects.BloodCultivator) && player.soulforce >= 400) || (player.hasStatusEffect(StatusEffects.BloodCultivator) && ((player.HP + 400) > (player.minHP() + 400))))) {
+					btnSpecial2.show("Sunrise", dispellDarkness2);
+				}
 			}
 		}
 		
+		public function dispellDarkness1():void {
+			clearOutput();
+			outputText("You glare at point near you.  A bright flash erupts there!\n");
+			dispellDarkness(1);
+		}
+		public function dispellDarkness2():void {
+			clearOutput();
+			outputText("You point finger at spot near you.  A miniature sun appears there!\n");
+			dispellDarkness(2);
+		}
+		public function dispellDarkness(choice:Number):void {
+			outputText("The light counters the smothering darkness, breaking the spell and bringing light back the area. [Themonster], who was about to viciously attack you from behind, swiftly backs out of range and flies off.\n\n");
+			outputText("\"<i>Umph you broke free… No matter, your defeat is but a matter of time.</i>\"\n");
+			createStatusEffect(StatusEffects.Blind, Math.min(2 + player.inte / 20, 10), 0, 0, 0);
+			player.removeStatusEffect(StatusEffects.MonsterInvisible);
+			if (!hasStatusEffect(StatusEffects.AbilityCooldown1) || statusEffectv1(StatusEffects.AbilityCooldown1) < 3) {
+				removeStatusEffect(StatusEffects.AbilityCooldown1);
+				createStatusEffect(StatusEffects.AbilityCooldown1, 3, 0, 0, 0);
+			}
+			EngineCore.doNext(SceneLib.combat.combatMenu);
+			if (choice == 1) {
+				if (game.player.hasStatusEffect(StatusEffects.BloodMage)) game.player.HP -= 30;
+				else game.player.mana -= 30;
+				flags[kFLAGS.SPELLS_CAST]++;
+				SceneLib.combat.spellPerkUnlock();
+			}
+			if (choice == 2) {
+				if (game.player.hasStatusEffect(StatusEffects.BloodCultivator)) game.player.HP -= 400;
+				else game.player.soulforce -= 400;
+			}
+			EngineCore.statScreenRefresh();
+            SceneLib.combat.enemyAIImpl();
+		}
+
+		/*override public function postPlayerAbility(ability:CombatAbility, display:Boolean = true):void {
+			if (ability is BlindSpell && hasStatusEffect(StatusEffects.Blind)) {
+				if (display) {
+					outputText("The light counters the smothering darkness, breaking the spell and bringing light back the area." + 
+						" [Themonster], who was about to viciously attack you from behind, swiftly backs out of range and flies off.\n\n");
+					outputText("\"<i>Umph you broke free… No matter, your defeat is but a matter of time.</i>\"\n");
+				}
+				player.removeStatusEffect(StatusEffects.MonsterInvisible);
+				//When forcibly removed, Darkness cannot be reapplied for 3 turns
+				if (!hasStatusEffect(StatusEffects.AbilityCooldown1) || statusEffectv1(StatusEffects.AbilityCooldown1) < 3) {
+					removeStatusEffect(StatusEffects.AbilityCooldown1);
+					createStatusEffect(StatusEffects.AbilityCooldown1, 3, 0, 0, 0);
+				}
+			}
+		}*/
+		
 		private function draculinaEmbrace():void {
-			if (rand(120) >= (player.spe > 80) ? player.spe : 80) {
-				player.createStatusEffect(StatusEffects.NagaBind, 0, 0, 0, 0);
+			if (!player.getEvasionRoll()) {
+				player.createStatusEffect(StatusEffects.PlayerBoundPhysical, 0, 0, 0, 0);
 				outputText("The arch vampire closes her wings, blurring with speed as she arrows towards you. Her body collides with you, the impact sending you reeling, and she wraps her limbs around you, locking you in a cold embrace!");
 				if (EngineCore.silly()) outputText("  Bad touch, bad touch!");
 			} else {
@@ -37,10 +115,10 @@ use namespace CoC;
 		
 		public function draculinaBite():void {
 			if (player.isGargoyle()) {
-				outputText("The draculina tries to bite you, but quickly steps back, holding a hand to her mouth with a surprised yelp of clear pain. You smirk, amused by her stupidity, did she seriously try to bite your stone skin?");
+				outputText("[Themonster] tries to bite you, but quickly steps back, holding a hand to her mouth with a surprised yelp of clear pain. You smirk, amused by her stupidity, did she seriously try to bite your stone skin?");
 				takePhysDamage(maxHP() * .1);
 			} else if (player.isAlraune()) {
-				outputText("The draculina tries to bite you but, just as her fang pierce your skin, she shoves you off and starts spitting."
+				outputText("[Themonster] tries to bite you but, just as her fang pierce your skin, she shoves you off and starts spitting."
 					+ "\n\n"
 					+ "\"<i>Your blood tastes like sap and flower nectar. How disgusting! How dare you bear such vile ichors.</i>\""
 					+ "\n\n"
@@ -60,7 +138,9 @@ use namespace CoC;
 				player.takeLustDamage(10 + rand(9), true);
 				if (!player.hasStatusEffect(StatusEffects.AlterBindScroll3)) {
 					var drain:Number = Math.round(player.touStat.max * 0.05);
+					player.saveHPRatio();
 					player.buff("Bat bites").addStats({"tou":-drain}).withText("Bat bites!").combatPermanent();
+					player.restoreHPRatio();
 					showStatDown( 'tou' );
 					if (player.tou <= 1) {
 						doNext(SceneLib.combat.endHpLoss);
@@ -75,7 +155,9 @@ use namespace CoC;
 			this.HP += Math.round(this.maxHP()*0.02);
 			if (!player.hasStatusEffect(StatusEffects.AlterBindScroll3)) {
 				var drain:Number = Math.round(player.touStat.max * 0.05);
+				player.saveHPRatio();
 				player.buff("Bat bites").addStats({"tou":-drain}).withText("Bat bites!").combatPermanent();
+				player.restoreHPRatio();
 				showStatDown( 'tou' );
 				if (player.tou <= 1) {
 					doNext(SceneLib.combat.endHpLoss);
@@ -98,9 +180,10 @@ use namespace CoC;
 		private function draculinaPerfectDark():void {
 			outputText("\"<i>Let us see how thou fight without this precious light of yours!</i>\""
             + "\n\n"
-            + "The draculina lands, opening her wings wide as all light is suddenly sucked in within their fold, leaving you in complete darkness. You can’t see your own weapon, let alone your batty adversary. There is no way you can fight a foe this agile in magical darkness. You’ll need to light the place up to fight properly!");
+            + "[Themonster] lands, opening her wings wide as all light is suddenly sucked in within their fold, leaving you in complete darkness. You can’t see your own weapon, let alone your batty adversary. There is no way you can fight a foe this agile in magical darkness. You’ll need to light the place up to fight properly!");
 			player.createStatusEffect(StatusEffects.MonsterInvisible, 0, 0, 0, 0);
 			createStatusEffect(StatusEffects.AbilityCooldown1, 15, 0, 0, 0);
+			removeStatusEffect(StatusEffects.Blind);
 		}
 		
 		override protected function performCombatAction():void
@@ -112,7 +195,10 @@ use namespace CoC;
 				player.removeStatusEffect(StatusEffects.MonsterInvisible);
 				draculinaPerfectDark();
 			}
-			if (player.hasStatusEffect(StatusEffects.NagaBind)) {
+			if (player.statStore.hasBuff("FoxflamePelt")) {
+				player.removeStatusEffect(StatusEffects.MonsterInvisible);
+			}
+			if (player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) {
 				draculinaBite();
 			} else {
 				var choice:Number = rand(3);
@@ -162,10 +248,9 @@ use namespace CoC;
             this.gems = mod > 20 ? 0 : Math.floor((1500 + rand(300)) * Math.exp(0.3*mod));
             this.additionalXP = mod > 20 ? 0 : Math.floor(6500 * Math.exp(0.3*mod));
             
-			this.a = " ";
+			this.a = "";
 			this.short = "Draculina";
 			this.long = "";
-			// this.plural = false;
 			this.createVagina(false, VaginaClass.WETNESS_SLAVERING, VaginaClass.LOOSENESS_NORMAL);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
 			createBreastRow(Appearance.breastCupInverse("C"));

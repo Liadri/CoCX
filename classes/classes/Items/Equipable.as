@@ -8,6 +8,7 @@ import classes.PerkClass;
 import classes.PerkType;
 import classes.Stats.StatUtils;
 import classes.internals.Utils;
+import classes.PerkLib;
 
 /**
  * Superclass for items that could be equipped by player (armor, weapon, jewelry, ...).
@@ -56,7 +57,7 @@ public class Equipable extends Useable {
 	 */
 	protected var _playerPerks:Array;
 	
-	public function get name():String {
+	public override function get name():String {
 		return _name;
 	}
 	
@@ -75,19 +76,18 @@ public class Equipable extends Useable {
 	/**
 	 * Array of pairs [order, name] to construct item description.
 	 *
-	 *   0: Curse status
-	 *  10: type
-	 *  15: subtype
-	 *  20: main property (attack, defense)
-	 *  30: secondary property (mdef)
-	 *  40: rarity
-	 *  45: quality
-	 *  50: common specials
-	 *  60: extra specials
-	 *  70: buffs
-	 *  80: enchantments
-	 *  90: extra desc
-	 * 100: value
+	 * *   0: Curse status
+	 * *  10: type
+	 * *  15: subtype
+	 * *  20: main property (attack, defense)
+	 * *  30: secondary property (mdef)
+	 * *  40: rarity
+	 * *  45: quality
+	 * *  50: tags
+	 * *  70: buffs
+	 * *  80: effects and enchantments
+	 * *  90: extra desc
+	 * * 100: value
 	 */
 	public function effectDescriptionParts():Array {
 		var list:Array = [];
@@ -101,19 +101,28 @@ public class Equipable extends Useable {
 			desc = "Effect: "+desc;
 			list.push([70, desc]);
 		}
-		if (_tags) {
-			var desc2:String = ""
-			for (var key2:String in _tags) {
+		var desc2:String = ""
+		for (var tag:String in _tags) {
+			if (tag in ItemTagNames) tag = ItemTagNames[tag];
+			if (tag) {
 				if (desc2) desc2 += ", ";
-				desc2 += key2;
+				desc2 += tag;
 			}
-			desc2 = "Tags: "+desc2;
-			list.push([70, desc2]);
+		}
+		if (desc2) {
+			desc2 = "Tags: " + desc2;
+			list.push([50, desc2]);
 		}
 		if (_playerPerks) {
 			for each (var perk:Array in _playerPerks) {
 				var pc:PerkClass = new PerkClass(perk[0], perk[1], perk[2], perk[3], perk[4]);
-				list.push([50, pc.perkDesc]);
+				list.push([60, pc.perkDesc]);
+			}
+		}
+		for each (var ie:ItemEffect in itemEffects) {
+			var ipdesc:String = ie.description(this);
+			if (ipdesc) {
+				list.push([ie.priority, ipdesc]);
 			}
 		}
 		return list;
@@ -124,7 +133,7 @@ public class Equipable extends Useable {
 	}
 	
 	override public function canUse():Boolean {
-		return canEquip(true);
+		return canEquip(true, -1);
 	}
 	
 	/**
@@ -134,21 +143,72 @@ public class Equipable extends Useable {
 		CoC_Settings.errorAMC("Equipable("+id+")", "slots");
 		return [];
 	}
+
+	public function getLegendaryEquipLevel():int {
+		var equipLevel:int = 54;
+		equipLevel -= game.player.perkv1(PerkLib.AscensionHerosBirthrightRankX) * 9;
+		if (equipLevel < 0) equipLevel = 0;
+		if (game.player.compatibileSwordImmortalWeaponsMain() && game.player.hasPerk(PerkLib.HiddenJobSwordImmortal)) equipLevel = 0;// && ItemConstants.SLOT_WEAPON_MELEE
+		//if (game.player.compatibileSwordImmortalWeaponsMain() && ItemConstants.SLOT_WEAPON_MELEE_OFF && game.player.hasPerk(PerkLib.HiddenJobSwordImmortal)) equipLevel = 0;
+		return equipLevel;
+	}
+	
+	/**
+	 * Various texts used by equip/unequip code. Override to customize.
+	 * - "onequip": successfully equipped
+	 * - "onunequip": successfully unequipped
+	 * - "legendary_fail": cannot equip legendary, level too low
+	 * - "too_corrupt": cannot equip, corruption too high
+	 * - "too_pure": cannot equip, corruption too low
+	 * - "rigidity_fail": cannot equip, jiangshi
+	 */
+	public function getItemText(textid:String):String {
+		switch (textid) {
+			case "onequip":
+				return "You equip "+longName+". ";
+			case "onunequip":
+				return "You unequip "+longName+". ";
+			case "legendary_fail":
+				return "You try to equip the legendary item, but to your disapointment the item simply refuses to stay on your body. It seems you still lack the right to use this item.";
+			case "too_corrupt":
+				return "You grab hold of the handle of " + name + " only to have it grow burning hot. You're forced to let it go lest you burn yourself. Something within the tool must be displeased."
+			case "too_pure":
+				return "As soon as you try to wield " + name + ", it jerks wildly like a bucking horse. You quickly put it back into your pouches before it can do harm to you."
+			case "rigidity_fail":
+				return "You would very like to equip this item but your body stiffness prevents you from doing so."
+			default:
+				return "Error getEquipText("+textid+")";
+		}
+	}
 	
 	/**
 	 * Test if player can equip the item.
 	 * Should NOT check empty target slot (but can check other slots).
 	 * (ex. equipping large weapon can check for no shield but shouldn't check for no weapon)
 	 * @param doOutput Player tries equipping the item, if fails, print why. And do any side effects related to failed equip attempt.
-	 * @return
+	 * @param slot Slot to equip the item onto. -1 - any slot.
+	 * @return true if the player can wear the item
 	 */
-	public function canEquip(doOutput:Boolean):Boolean {
+	public function canEquip(doOutput:Boolean, slot:int):Boolean {
+		if (game.player.cor > effectPower(IELib.Require_CorBelow, 100) + game.player.corruptionTolerance) {
+			if (doOutput) outputText(getItemText("too_corrupt"))
+			return false
+		}
+		if (game.player.cor < effectPower(IELib.Require_Cor, 0) - game.player.corruptionTolerance) {
+			if (doOutput) outputText(getItemText("too_pure"))
+			return false
+		}
+		if(hasTag(I_LEGENDARY) && game.player.level < getLegendaryEquipLevel()) {
+			if (doOutput) outputText(getItemText("legendary_fail"));
+			return false;
+		}
 		return true;
 	}
 	
 	/**
 	 * Test if player can unequip the item
 	 * @param doOutput Player tries unequiping the item, if fails, print why. And do any side effects related to failed unequip attempt.
+	 * @param slot Slot here to equip, -1 - any slot
 	 * @return true if player can unequip the item
 	 */
 	public function canUnequip(doOutput:Boolean):Boolean {
@@ -169,13 +229,13 @@ public class Equipable extends Useable {
 	 * @param doOutput
 	 * @return Actual item to be put into slot, or null
 	 */
-	public function beforeEquip(doOutput:Boolean):Equipable {
+	public function beforeEquip(doOutput:Boolean, slot:int):Equipable {
 		if (doOutput) equipText();
 		return this;
 	}
 	
 	public function equipText():void {
-		outputText("You equip "+longName+". ");
+		outputText(getItemText("onequip"));
 	}
 	
 	/**
@@ -184,7 +244,10 @@ public class Equipable extends Useable {
 	 * Apply equipment effects here.
 	 * @param doOutput
 	 */
-	public function afterEquip(doOutput:Boolean):void {
+	public function afterEquip(doOutput:Boolean, slot:int):void {
+		for each (var ie:ItemEffect in effectsFlagged(IEF_ONEQUIP)) {
+			ie.onEquip(game.player, this);
+		}
 		if (_buffs) {
 			// don't write into savefile
 			if (_buffsStack) {
@@ -193,7 +256,6 @@ public class Equipable extends Useable {
 				game.player.buff(tagForBuffs).setStats(_buffs).withText(name).withOptions({save:false});
 			}
 		}
-		
 		if (!game.isLoadingSave) {
 			if (_playerPerks) {
 				for each (var perk:Array in _playerPerks) {
@@ -210,13 +272,13 @@ public class Equipable extends Useable {
 	 * @param doOutput
 	 * @return Actual item to place into inventory (could be nothing)
 	 */
-	public function beforeUnequip(doOutput:Boolean):ItemType {
-		if (doOutput) unequipText();
+	public function beforeUnequip(doOutput:Boolean, slot:int):ItemType {
+		if (doOutput) unequipText(slot);
 		return this;
 	}
 	
-	public function unequipText():void {
-		outputText("You unequip "+longName+". ");
+	public function unequipText(slot:int):void {
+		outputText(getItemText("onunequip"));
 	}
 	
 	/**
@@ -224,7 +286,10 @@ public class Equipable extends Useable {
 	 * Undo effects here
 	 * @param doOutput
 	 */
-	public function afterUnequip(doOutput:Boolean):void {
+	public function afterUnequip(doOutput:Boolean, slot:int):void {
+		for each (var ie:ItemEffect in effectsFlagged(IEF_ONEQUIP)) {
+			ie.onEquip(game.player, this);
+		}
 		if (_buffs) {
 			if (game.player.countSameEquippedItems(this) == 0 || !_buffsStack) {
 				game.player.buff(tagForBuffs).remove();
@@ -264,7 +329,12 @@ public class Equipable extends Useable {
 	public function hasBuff(statname:String):Boolean {
 		return _buffs && statname in _buffs;
 	}
-	
+	public function hasAnyBuffs():Boolean {
+		return _buffs;
+	}
+	public function getBuffs():Object {
+		return _buffs || {};
+	}
 	/**
 	 * Give perk when equipping this item.
 	 * Only use when constructing the item type!
@@ -281,6 +351,12 @@ public class Equipable extends Useable {
 		if (!this._playerPerks) return false;
 		for each (var entry:Array in _playerPerks) if (entry[0] == perk) return true;
 		return false;
+	}
+	public function givesAnyPerk():Boolean {
+		return _playerPerks && _playerPerks.length > 0
+	}
+	public function getPlayerPerks():/*Array*/Array {
+		return _playerPerks || [];
 	}
 }
 }

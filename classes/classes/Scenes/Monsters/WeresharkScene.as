@@ -8,6 +8,7 @@ import classes.*;
 import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Races.WeresharkRace;
+import classes.Scenes.SceneLib;
 
 	public class WeresharkScene extends BaseContent
 	{
@@ -83,7 +84,8 @@ public function lostToWereshark():void {
 			outputText("His erection is pulsating within you as he picks up the tempo eagerly to catch his release. Unable to take it any longer, your thoughts swimming in the lack of air, you clench down fervently."+(player.hasCock()?" With a heavy moan, your erection thrums as it grinds against his abs before you cum, shooting several ropes of your seed into the open water.":"")+" ");
 			outputText("You clench your ass tighter on his member as the height of your orgasm rocks through you. He heaves a low growl as his chest heaves, brushing up against you as he cums, forcing you to take in wave after wave of his warm seed, contrasting the cool ocean.\n\n");
 		}
-		tfIntoWereshark();
+		if (!player.blockingBodyTransformations())
+			tfIntoWereshark();
 		outputText("Spent, he slowly loosens his grasp on you, allowing you to float back to the surface. Not without giving you a final, mocking lick across your face, he swims away, leaving you to float back to shore.\n\n");
 	}
 	cleanupAfterCombat();
@@ -165,7 +167,9 @@ public function wonWithWereshark():void {
 	//spriteSelect(SpriteDb.s_DarkElf);
 	outputText("Seeing "+(wsG()?"his":"her")+" impending defeat your opponent smacks your face momentarily dazing you with "+(wsG()?"his":"her")+" tail and suddenly makes a turn to swim away at high speed vanishing into the dark water before you can regain your composure. ");
 	outputText("Guess you won’t be dining on that fish tonight. Somewhat frustrated you grab the loot your opponent left behind in "+(wsG()?"his":"her")+" quick retreat.\n\n");
-	cleanupAfterCombat();//outputText("\"<i></i>\"\n\n");
+	menu();//outputText("\"<i></i>\"\n\n");
+	addButtonIfTrue(3, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+	addButton(4, "Leave", cleanupAfterCombat);
 }
 	}
 

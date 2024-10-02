@@ -68,14 +68,14 @@ public class DemonPackDesert extends Monster
 		}
 
 
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			outputText("\n");
 			if(lustDelta == 0) outputText("\n" + capitalA + short + " seems unimpressed.");
 			else if(lustDelta > 0 && lustDelta < 5) outputText("The demons lessen somewhat in the intensity of their attack, and some even eye up your assets as they strike at you.");
 			else if(lustDelta >= 5 && lustDelta < 10) outputText("The demons are obviously steering clear from damaging anything you might use to fuck and they're starting to leave their hands on you just a little longer after each blow. Some are starting to cop quick feels with their other hands and you can smell the demonic lust of a dozen bodies on the air.");
 			else if(lustDelta >= 10) outputText("The demons are less and less willing to hit you and more and more willing to just stroke their hands sensuously over you. The smell of demonic lust is thick on the air and part of the group just stands there stroking themselves openly.");
-			applyTease(lustDelta);
+			applyTease(lustDelta, display, aura);
 		}
 
 		public function DemonPackDesert()
@@ -105,18 +105,18 @@ public class DemonPackDesert extends Monster
 			this.bodyColor = "red";
 			this.hairColor = "black";
 			this.hairLength = 15;
-			initStrTouSpeInte(50, 30, 10, 5);
-			initWisLibSensCor(5, 50, 70, 100);
+			initStrTouSpeInte(110, 70, 20, 7);
+			initWisLibSensCor(7, 100, 120, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 5;
+			this.weaponAttack = 50;
 			this.armorName = "demonic skin";
-			this.armorDef = 5;
-			this.armorMDef = 1;
+			this.armorDef = 50;
+			this.armorMDef = 10;
 			this.bonusHP = 20;
-			this.bonusLust = 129;
+			this.bonusLust = 236;
 			this.lust = 30;
-			this.level = 9;
+			this.level = 16;
 			this.gems = rand(30)+20;
 			this.randomDropChance = 0.1;
 			this.randomDropParams = {
@@ -137,7 +137,7 @@ public class DemonPackDesert extends Monster
 			this.horns.count = 2;
 			this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, 9, 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxHP, 16, 0, 0, 0);
 			checkMonster();
 		}
 

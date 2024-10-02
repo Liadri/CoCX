@@ -14,7 +14,7 @@ public class BloodSwipeSkill extends AbstractBloodSoulSkill {
 			: "Blood Swipe will fire three red lines of blood energy from your hand.  ",
             TARGET_ENEMY,
             TIMING_INSTANT,
-            [TAG_DAMAGING, TAG_PHYSICAL],
+            [TAG_DAMAGING, TAG_PHYSICAL, TAG_TIER2],
             sfInfusion? StatusEffects.KnowsBloodSwipeSF: StatusEffects.KnowsBloodSwipe,
 			true,
 			sfInfusion
@@ -32,11 +32,11 @@ public class BloodSwipeSkill extends AbstractBloodSoulSkill {
 	}
 
 	override public function calcCooldown():int {
-		return bloodSoulSkillCoolDown(2);
+		return soulskillTier2Cooldown(bloodSoulSkillCoolDown(2));
 	}
 
 	public function calcDamage(monster:Monster):Number {
-		var damage:Number = scalingBonusWisdom() * spellModBlood();
+		var damage:Number = scalingBonusWisdom() * spellModBlood() * 6;
 		var damageFloor:Number = 10;
 
 		if (sfInfusion) {

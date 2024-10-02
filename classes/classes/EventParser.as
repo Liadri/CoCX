@@ -77,27 +77,17 @@ public class EventParser {
                 "Get rekt, noob!",
                 "OOF."];
             if (clear) EngineCore.clearOutput();
-            EngineCore.outputText("\n\n<font color=\"#800000\">");
+            EngineCore.outputText("\n\n[font-dred]");
             EngineCore.outputText("<b>" + textChoices[Utils.rand(EngineCore.silly() ? textChoices.length : 4)] + "</b>");
-            EngineCore.outputText("</font>");
-            //Delete save on hardcore.
-            if (CoC.instance.flags[kFLAGS.HARDCORE_MODE] > 0) {
-                EngineCore.outputText("\n\n<b>Your save file has been deleted as you are on Hardcore Mode!</b>");
-                CoC.instance.flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] = CoC.instance.flags[kFLAGS.HARDCORE_SLOT];
-                var test:* = SharedObject.getLocal(CoC.instance.flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION], "/");
-                if (test.data.exists) {
-                    trace("DELETING SLOT: " + CoC.instance.flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION]);
-                    test.clear();
-                }
-            }
+            EngineCore.outputText("[/font]");
             CoC.instance.flags[kFLAGS.TIMES_BAD_ENDED]++;
             EngineCore.awardAchievement("Game Over!", kACHIEVEMENTS.GENERAL_GAME_OVER, true, true);
             EngineCore.menu();
             EngineCore.addButton(0, "Game Over", gameOverMenuOverride).hint("Your game has ended. Please load a saved file or start a new game.");
-            if (CoC.instance.flags[kFLAGS.HARDCORE_MODE] <= 0) EngineCore.addButton(1, "Continue", SceneLib.camp.wakeFromBadEnd).hint("It's all just a dream. Wake up.");
-			if (CoC.instance.player.hasStatusEffect(StatusEffects.PCClone) && CoC.instance.player.statusEffectv3(StatusEffects.PCClone) >= 1) EngineCore.addButton(2, "Rebirth", SceneLib.camp.rebirthFromBadEnd).hint("You can move your nascent soul into your body clone achieving rebirth.");
+            EngineCore.addButton(1, "Continue", SceneLib.camp.wakeFromBadEnd).hint("It's all just a dream. Wake up.\n\n<b>UNSAFE: Some bad-ends are bugged and may set flags/statuses/debuffs/transformations, hence breaking the game state. Use at your own risk; if possible, load a save.</b>");
+			if (CoC.instance.player.hasStatusEffect(StatusEffects.PCClone) && CoC.instance.player.statusEffectv3(StatusEffects.PCClone) >= 1) EngineCore.addButton(2, "Rebirth", SceneLib.camp.rebirthFromBadEnd).hint("You can move your nascent soul into your body clone achieving rebirth.\n\n<b>UNSAFE: Some bad-ends are bugged and may set flags/statuses/debuffs/transformations, hence breaking the game state. Use at your own risk; if possible, load a save.</b>");
             //addButton(3, "NewGamePlus", charCreation.newGamePlus).hint("Start a new game with your equipment, experience, and gems carried over.");
-            if (CoC.instance.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1 || CoC.instance.debug) EngineCore.addButton(4, "Debug Cheat", debugCheatBadEnd);
+            if (CoC.instance.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1 || CoC.instance.debug) EngineCore.addButton(4, "Debug Cheat", debugCheatBadEnd).hint("<b>UNSAFE: Some bad-ends are bugged and may set flags/statuses/debuffs/transformations, hence breaking the game state. Use at your own risk; if possible, load a save.</b>");
             gameOverMenuOverride();
         }
         CoC.instance.inCombat = false;
@@ -106,6 +96,14 @@ public class EventParser {
 			if (CoC.instance.flags[kFLAGS.NEISA_FOLLOWER] == 3) CoC.instance.flags[kFLAGS.PLAYER_COMPANION_1] = "";
 			if (CoC.instance.player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) CoC.instance.player.removeStatusEffect(StatusEffects.ThereCouldBeOnlyOne);
 			CoC.instance.player.removeStatusEffect(StatusEffects.RiverDungeonA);
+		}
+		if (CoC.instance.player.hasStatusEffect(StatusEffects.LoliBatGolems)) {
+			if (CoC.instance.player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) CoC.instance.player.removeStatusEffect(StatusEffects.ThereCouldBeOnlyOne);
+			CoC.instance.player.removeStatusEffect(StatusEffects.LoliBatGolems);
+		}
+		if (CoC.instance.player.hasStatusEffect(StatusEffects.TGRandomnMob)) {
+			if (CoC.instance.player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) CoC.instance.player.removeStatusEffect(StatusEffects.ThereCouldBeOnlyOne);
+			CoC.instance.player.removeStatusEffect(StatusEffects.TGRandomnMob);
 		}
     }
     private static function gameOverMenuOverride():void { //Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
@@ -177,6 +175,9 @@ public class EventParser {
             if (player.statStore.recentlyRemovedTags["DrunkenPowerEmpower"]) {
                 EngineCore.outputText("\nYou sober up, loosing the benefits of your oni drunken rampage.\n");
             }
+            if (player.statStore.recentlyRemovedTags["AelfwineEmpower"]) {
+                EngineCore.outputText("\nYou sober up, loosing the benefits of Aelfwine.\n");
+            }
             if (player.statStore.recentlyRemovedTags["Hangover"]) {
                 EngineCore.outputText("\nYour head finally clears as your hangover wears off. Drinking with the shemale lizard was definitely a bad idea.\n");
             }
@@ -189,6 +190,7 @@ public class EventParser {
             if (player.hasPerk(PerkLib.JobSorcerer) || player.hasPerk(PerkLib.JobElementalConjurer)) SceneLib.combat.manaregeneration1(false);
             SceneLib.combat.wrathregeneration1(false);
 			SceneLib.combat.fatigueRecovery1(false);
+			SceneLib.combat.venomCombatRecharge1(false);
             //Inform all time aware classes that a new hour has arrived
             for (var tac:int = 0; tac < _timeAwareClassList.length; tac++) {
                 item = _timeAwareClassList[tac];
@@ -294,8 +296,8 @@ public class EventParser {
             SceneLib.inventory.takeItem(player.unequipMiscJewelry2(false,true), playerMenu);
             return true;
         }
-        //Drop Excalibur / beautiful sword / beautiful staff if corrupted!
-        if ((player.weapon == CoC.instance.weapons.EXCALIB || player.weapon == CoC.instance.weapons.B_SWORD || player.weapon == CoC.instance.weapons.B_STAFF) && player.cor >= 33 + player.corruptionTolerance) {
+        //Drop Excalibur / Dual Excalibur / beautiful sword / Paracelsus / beautiful staff / beautiful fly-whisk if corrupted!
+        if ((player.weapon == CoC.instance.weapons.EXCALIB || player.weapon == CoC.instance.weapons.DEXCALI || player.weapon == CoC.instance.weapons.B_SWORD || player.weapon == CoC.instance.weapons.PARACEL || player.weapon == CoC.instance.weapons.B_STAFF || player.weapon == CoC.instance.weapons.B_FLYWHISK) && player.cor >= 33 + player.corruptionTolerance) {
             EngineCore.outputText("<b>\nThe <u>[weapon]</u> grows hot in your hand, until you are forced to drop it.  Whatever power inhabits this weapon appears to be unhappy with you.  Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
             SceneLib.inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
             return true;
@@ -358,7 +360,8 @@ public class EventParser {
             return true;
         }
         //Unequip shield if you're wielding a large weapon.
-        if (((player.weaponSpecials("Large") && !player.hasPerk(PerkLib.GigantGrip) && !player.hasPerk(PerkLib.AntyDexterity)) || (player.weaponSpecials("Dual") && !player.hasPerk(PerkLib.AntyDexterity)) || player.weaponSpecials("Dual Large") || player.weapon == CoC.instance.weapons.DAISHO) && !player.shield.isNothing) {
+        if (((player.weapon.isSingleLarge() && player.weapon != CoC.instance.weapons.AETHERD && !player.hasPerk(PerkLib.GigantGrip) && !player.hasPerk(PerkLib.AntyDexterity)) || (player.weapon.isDualMedium() && player.weapon != CoC.instance.weapons.AETHERD && !player.hasPerk(PerkLib.AntyDexterity))
+			|| (player.weapon.isDualLarge() && player.weapon != CoC.instance.weapons.AETHERD) || player.weapon == CoC.instance.weapons.DAISHO) && !player.shield.isNothing) {
             EngineCore.outputText("Your current weapon requires the use of two hands. As such, your shield has been unequipped automatically. ");
             SceneLib.inventory.takeItem(player.unequipShield(), playerMenu);
             return true;
@@ -511,12 +514,13 @@ public class EventParser {
         if (flags[kFLAGS.CAMP_WALL_GATE] > 0) chance /= 2;
         if (flags[kFLAGS.CAMP_WALL_SKULLS] > 0) chance *= 1 - (flags[kFLAGS.CAMP_WALL_SKULLS] / 100);
         if (CoC.instance.model.time.hours == 2) {
-            if (CoC.instance.model.time.days % 30 == 0 && flags[kFLAGS.ANEMONE_KID] > 0 && player.hasCock() && flags[kFLAGS.ANEMONE_WATCH] > 0 && flags[kFLAGS.TAMANI_NUMBER_OF_DAUGHTERS] >= 40) {
+            if (!flags[kFLAGS.KID_A_GOBLIN_NIGHT_HAPPENED] && flags[kFLAGS.ANEMONE_KID] > 0 && player.hasCock() && flags[kFLAGS.ANEMONE_WATCH] > 0 && flags[kFLAGS.TAMANI_NUMBER_OF_DAUGHTERS] >= 40) {
+                flags[kFLAGS.KID_A_GOBLIN_NIGHT_HAPPENED] = 1;
                 SceneLib.kidAScene.goblinNightAnemone();
                 return 1;
             } else if (chance > Utils.rand(100) && !player.hasStatusEffect(StatusEffects.DefenseCanopy)) {
                 if (player.gender > 0 && (!player.hasStatusEffect(StatusEffects.JojoNightWatch) || !player.hasStatusEffect(StatusEffects.PureCampJojo)) && (flags[kFLAGS.HEL_GUARDING] == 0 || !SceneLib.helFollower.followerHel()) && !player.hasStatusEffect(StatusEffects.HeliaOff) && flags[kFLAGS.ANEMONE_WATCH] == 0 && (flags[kFLAGS.HOLLI_DEFENSE_ON] == 0 || flags[kFLAGS.FUCK_FLOWER_KILLED] > 0) && (flags[kFLAGS.KIHA_CAMP_WATCH] == 0 || !SceneLib.kihaFollower.followerKiha()) && EtnaDaughterScene.EtnaDaughterGuardingCamp != 2 && SceneLib.midokaScene.MidokaGuardingCamp != 2 &&
-                        !(SceneLib.camp.sleepInCabin() && (player.inte / 5 >= Utils.rand(15) || player.lust < 0.8 * player.maxLust() || CoC.instance.gameSettings.sceneHunter_inst.other)) && !flags[kFLAGS.IN_INGNAM] || flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD] == 2) {
+                        (!player.hasStatusEffect(StatusEffects.Familiar) && player.statusEffectv1(StatusEffects.Familiar) == 0) && !(SceneLib.camp.sleepInCabin() && (player.inte / 5 >= Utils.rand(15) || player.lust < 0.8 * player.maxLust() || CoC.instance.gameSettings.sceneHunter_inst.other)) && !flags[kFLAGS.IN_INGNAM] || flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD] == 2) {
                     SceneLib.impScene.impGangabangaEXPLOSIONS();
                     EngineCore.doNext(playerMenu);
                     return 2;
@@ -529,7 +533,7 @@ public class EventParser {
                     EngineCore.outputText("\n<b>Helia informs you over a mug of beer that she whupped some major imp asshole last night.  She wiggles her tail for emphasis.</b>\n");
                     return 1;
                 }
-                else if (player.gender > 0 && player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo)) {
+                else if (player.gender > 0 && player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) {
                     EngineCore.outputText("\n<b>Jojo informs you that he dispatched a crowd of imps as they tried to sneak into camp in the night.</b>\n");
                     return 1;
                 }
@@ -551,6 +555,10 @@ public class EventParser {
                 }
                 else if (EtnaDaughterScene.EtnaDaughterGuardingCamp == 2) {
                     EngineCore.outputText("\n<b>A group of imps tried to attack that night but you heard their screams in the distance as [etnakidname] laughed and made a feast out of them.</b>\n");
+                    return 1;
+                }
+                else if (player.hasStatusEffect(StatusEffects.Familiar) && player.statusEffectv1(StatusEffects.Familiar) == 1) {
+                    EngineCore.outputText("\n<b>The screams and roars alerts you to the fact your ghoul caught and defeated some invaders. You sleep comfortably to the sound of the bloodshed ongoing nearby.</b>\n");
                     return 1;
                 }
                 else if (SceneLib.camp.sleepInCabin() && player.inte / 5 >= Utils.rand(15) && player.lust < 0.8 * player.maxLust()) { //lust condition: horny - less smart!
@@ -576,7 +584,7 @@ public class EventParser {
                     EngineCore.outputText("\n<b>Helia informs you over a mug of beer that she stomped a horde of gross worms into paste.  She shudders after at the memory.</b>\n");
                     return 1;
                 }
-                else if (player.gender > 0 && player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo)) {
+                else if (player.gender > 0 && player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) {
                     EngineCore.outputText("\n<b>Jojo informs you that he dispatched a horde of tiny, white worms as they tried to sneak into camp in the night.</b>\n");
                     return 1;
                 }

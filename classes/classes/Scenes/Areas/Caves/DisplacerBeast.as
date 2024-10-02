@@ -32,7 +32,11 @@ use namespace CoC;
 			damage = Math.round(damage);
 			player.takePhysDamage(damage, true);
 		}
-		
+
+		override public function preMeleeMissed():void{
+			outputText("The displacer beast teleports, dodging your attack.\n");
+		}
+
 		override public function defeated(hpVictory:Boolean):void
 		{
 			SceneLib.displacerbeastScene.displacerBeastVictory();
@@ -57,19 +61,19 @@ use namespace CoC;
 			if (inDungeon) { //EL check
                 var mod:int = SceneLib.dungeons.ebonlabyrinth.enemyLevelMod;
                 initStrTouSpeInte(162 + 11*mod, 142 + 21*mod, 210 + 30*mod, 76 + 10*mod);
-                initWisLibSensCor(76 + 10*mod, 120 + 20*mod, 60 + 10*mod, 30);
+                initWisLibSensCor(76 + 10*mod, 120 + 20*mod, 60 + 10*mod, -40);
                 this.weaponAttack = 40 + 6*mod;
                 this.armorDef = 40 + 3*mod;
                 this.armorMDef = 40 + 3*mod;
                 this.bonusHP = 100 + 50*mod;
                 this.bonusLust = 240 + 34*mod;
                 this.level = 60 + 5*mod;
-                this.gems = int((120 + rand(60)) * Math.exp(0.3*mod));
-                this.additionalXP = int(800 * Math.exp(0.3*mod));
+				this.gems = mod > 20 ? 0 : Math.floor((120 + rand(60)) * Math.exp(0.3*mod));
+				this.additionalXP = mod > 20 ? 0 : Math.floor(800 * Math.exp(0.3*mod));
 			}
 			else {
 				initStrTouSpeInte(152, 152, 210, 76);
-				initWisLibSensCor(76, 120, 60, 30);
+				initWisLibSensCor(76, 120, 60, -40);
 				this.weaponAttack = 40;
 				this.armorDef = 40;
 				this.armorMDef = 40;

@@ -262,9 +262,9 @@ import classes.room;
 		{
 			inRoomedDungeon = false;
 			inRoomedDungeonResume = null;
-			if ((flags[kFLAGS.MITZI_RECRUITED] == 1 && player.hasStatusEffect(StatusEffects.CampRathazul)) || (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && !camp.followerShouldra())) {
+			if ((flags[kFLAGS.MITZI_RECRUITED] == 1 && player.hasStatusEffect(StatusEffects.CampRathazul)) || (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && (!camp.followerShouldra() || player.hasStatusEffect(StatusEffects.ShouldraOff)))) {
 				clearOutput();
-				if (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && !camp.followerShouldra()) outputText("Before you go, you look for where you left the former cow queen. You find her laying in an imp nest covered in cum. She appears to have fallen asleep sometime during the battle. Shaking your head, you wipe most of the mess from her body then drag her back to camp, leaving the stronghold behind.\n\n");
+				if (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && (!camp.followerShouldra() || player.hasStatusEffect(StatusEffects.ShouldraOff))) outputText("Before you go, you look for where you left the former cow queen. You find her laying in an imp nest covered in cum. She appears to have fallen asleep sometime during the battle. Shaking your head, you wipe most of the mess from her body then drag her back to camp, leaving the stronghold behind.\n\n");
 				if (flags[kFLAGS.MITZI_RECRUITED] == 1 && player.hasStatusEffect(StatusEffects.CampRathazul)) {
 					outputText("With the threat of the demon queen taken care of, you head back outside where you told Mitzi to wait. When you open the doors, you look around and spot the goblin laying against the wall struggling to stay awake. You head over and barely manage to catch her as she slumps to the side. She shivers and shakes in your arms and a heavy blush is plastered on her face. Fearing something else could be wrong with her, you pick up the drug addled goblin then carry her back to your camp. She mumbles and moans faintly as you carry her. With the amount of mind numbing lust inducing drugs pumped into her, you're not sure if she can simply shake this herself. Maybe Rathazul can help in that regard. Once you reach camp, you head right to the elder rat's lab. He notices you coming over with the barely conscious goblin in your arms.\n\n");
 					outputText("<i>\"[name]! It's good to see you return safe and sound. Hm? Is that a goblin you have there?\"</i>\n\n");
@@ -568,24 +568,13 @@ import classes.room;
 			if (flags[kFLAGS.D3_JEAN_CLAUDE_DEFEATED] == 0)
 			{
 				outputText("You find yourself back in the small booth, with the locked door leading out into the Magpie Hall. Just like the one on the opposite side, there is a darkened screen here through which you can see hundreds of basilisks milling down below, sorting through the vast amount of junk and eggs they have collected from the mountainside. They don’t seem to have taken any extra precautions following your narrow escape of them- the gantry remains free of any guards, and the door on the other side looks open.");
-				
 				menu();
-				
 				addButton(0, "Go!", jeanClaude.gogoFuckTheseBasilisksNorth);
 				addButton(1, "Stronghold", move, "tunnel2");
-				
 				return true;
 			}
-			
 			outputText("You are back in the northern end of the Magpie Hall. Without the bustle of activity below it is a gapingly empty and quiet place, the only sound the murmur of activity from elsewhere. There is a vast amount of collected junk below but it would take, well, an army of basilisks to sort through it to find anything worthwhile. You could check out the massive pile of eggs, though.");
-			
-			if (eggsAvailable() >= 0)
-			{
-				addButton(2, "Eggs", goToEggPile);
-			}
-			if (flags[kFLAGS.D3_DEMONIC_SCYTHE] == 0) addButton(3, "Scythe", takeScythe);
-			if (flags[kFLAGS.D3_GOBLIN_MECH_PRIME] == 0) addButton(4, "Mech", takeMech);
-			
+			if (eggsAvailable() >= 0 || flags[kFLAGS.D3_DEMONIC_SCYTHE] == 0 || flags[kFLAGS.D3_GOBLIN_MECH_PRIME] == 0) addButton(2, "Eggs", goToEggPile);
 			return false;
 		}
 		

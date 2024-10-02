@@ -3,6 +3,7 @@ package classes.Scenes.Monsters
 
 	import classes.*;
 	import classes.BodyParts.Wings;
+	import classes.Items.DynamicItems;
 	import classes.Scenes.SceneLib;
 	import classes.internals.ChainedDrop;
 	
@@ -118,8 +119,12 @@ package classes.Scenes.Monsters
 			this.imageName = "angeloids";
 			this.long = "";
 			initStrTouSpeInte(10, 100, 45, 25);
-			initWisLibSensCor(180, 4, 30, 0);
+			initWisLibSensCor(180, 4, 30, -100);
 			this.tallness = 30;
+			this.randomDropChance = 0.2;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_MINOR_LOW
+			};
 			this.drop = new ChainedDrop()
 					.add(useables.SRESIDUE, 1);
 			this.level = 18;

@@ -67,6 +67,7 @@ public class WerewolfFemaleScene extends BaseContent
 			else addButtonDisabled(0, "Dominate", "This scene requires you to have a cock.", "Dominate");
 			if (player.hasVagina()) addButton(1, "Femdom", femDom).hint("You're top girl here. It's time to show it!");
 			else addButtonDisabled(1, "Femdom", "This scene requires you to have a vagina.", "Femdom");
+			addButtonIfTrue(12, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
 			addButton(14, "Leave", cleanupAfterCombat);
 			SceneLib.uniqueSexScene.pcUSSPreChecksV2(rapeMenu);
 		}
@@ -91,7 +92,7 @@ public class WerewolfFemaleScene extends BaseContent
 			outputText("You keep painting [monster his] ass several times under the moonlight, once in a while switching to [monster his] mouth");
 			if(player.hasKnot()) outputText(" or [monster his] cunt");
 			outputText(", using and abusing all of [monster his] holes until dawn finally breaks, your cock still dripping cum on your defeated foe’s face. You took your sweet time to mark [monster him] over and over again as your playtoy.");
-			if(player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && (LunaFollower.WerewolfPackMember < 5*player.perkv1(IMutationsLib.AlphaHowlIM))){
+			if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && (LunaFollower.WerewolfPackMember < 5*player.perkv1(IMutationsLib.AlphaHowlIM))){
 				if (rand(100)>=80 || flags[kFLAGS.WEREWOLF_PACK_PITY_SYSTEM] > 3) {
 					outputText("The exhausted werewolf, now a broken mess, is merely able to pitifully wag [monster his] tail." +
 						" Knowing theres still space for loyal bitches in your pack you order [monster him] to stand up and follow you back to your camp." +
@@ -105,11 +106,11 @@ public class WerewolfFemaleScene extends BaseContent
 			}
 			else{
 				outputText("Perhaps as a last display of [monster his] fast breaking pride the defeated werewolf runs away");
-				if(player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well it looks like you didn't get that one, maybe next time.\n\n");
+				if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well it looks like you didn't get that one, maybe next time.\n\n");
 				outputText(".\n\n");
 			}
 			outputText("Thoroughly satisfied by this nightly encounter you head back to camp.");
-			if(player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)){
+			if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)){
 				outputText(" Your werewolf pack is currently "+LunaFollower.WerewolfPackMember+" member strong.");
 			}
 			outputText("\n\n");
@@ -135,21 +136,25 @@ public class WerewolfFemaleScene extends BaseContent
 			if(player.isRaceCached(Races.WEREWOLF)) outputText(" while you howl to the moon, savoring your mind blowing orgasm");
 			outputText(".\n\n")
 			outputText("That said, you are far from done. The moment you recover, you resume using [monster him] several times until dawn finally breaks.\n\n")
-			if(player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && (LunaFollower.WerewolfPackMember < 5*player.perkv1(IMutationsLib.AlphaHowlIM)) && rand(100)>=80){
-				outputText("The exhausted werewolf, now a broken mess, is merely able to pitifully wag [monster his] tail." +
+			if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && (LunaFollower.WerewolfPackMember < 5*player.perkv1(IMutationsLib.AlphaHowlIM))){
+				if (rand(100)>=80 || flags[kFLAGS.WEREWOLF_PACK_PITY_SYSTEM] > 3) {
+					outputText("The exhausted werewolf, now a broken mess, is merely able to pitifully wag [monster his] tail." +
 						" Knowing theres still space for loyal bitches in your pack you order [monster him] to stand up and follow you back to your camp." +
 						" Unable to refuse the compulsion of their new alpha, your newest pack member complies with the order, joining your team permanently." +
 						" Luna will also takes care to establish a proper hierarchy so that the pup stays beneath her in rank." +
 						" How she does this is up to her but you know your toy is going to be used for a little longer.\n\n");
-				LunaFollower.WerewolfPackMember += 1;
+					if (flags[kFLAGS.WEREWOLF_PACK_PITY_SYSTEM] > 3) flags[kFLAGS.WEREWOLF_PACK_PITY_SYSTEM] = 0;
+					LunaFollower.WerewolfPackMember += 1;
+				}
+				else flags[kFLAGS.WEREWOLF_PACK_PITY_SYSTEM]++;
 			}
 			else{
 				outputText("Perhaps as a last display of [monster his] fast breaking pride the defeated werewolf runs away");
-				if(player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well it looks like you didn't get that one, maybe next time.\n\n");
+				if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well it looks like you didn't get that one, maybe next time.\n\n");
 				outputText(".\n\n");
 			}
 			outputText("Thoroughly satisfied by this nightly encounter you head back to camp.");
-			if(player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)){
+			if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)){
 				outputText(" Your pack is currently "+LunaFollower.WerewolfPackMember+" member strong.");
 			}
 			outputText("\n\n");

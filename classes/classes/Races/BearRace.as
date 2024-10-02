@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 
 public class BearRace extends Race {
@@ -40,7 +41,7 @@ public class BearRace extends Race {
 	public override function setup():void {
 		
 		addScores()
-				.faceType(ANY(Face.BEAR, Face.PANDA), +1)
+				.faceType(ANY(Face.BEAR, Face.PANDA), +2)
 				.earType(ANY(Ears.BEAR, Ears.PANDA), +1)
 				.tailType(Tail.BEAR, +1)
 				.armType(Arms.BEAR, +1)
@@ -51,9 +52,11 @@ public class BearRace extends Race {
 				.furColors("white and black", +1)
 				.height(GREATER_THAN(72), +2);
 		
+		addBloodline(PerkLib.UrsinesDescendant, PerkLib.BloodlineUrsine);
+		
 		buildTier(10,"bear")
 				.customNamingFunction(function(body:BodyData):String {
-					return body.faceType == Face.PANDA ? "panda-morph" : "bear-morph";
+					return (body.faceType == Face.PANDA || body.earType == Ears.PANDA) ? "panda-morph" : "bear-morph";
 				})
 				.buffs({
 					"str.mult": +1.00,

@@ -23,7 +23,7 @@ use namespace CoC;
 		public var maleSpiderMorphScene:MaleSpiderMorphScene = new MaleSpiderMorphScene();
 		public var rogar:Rogar = new Rogar();
 
-		public const areaLevel:int = 13;
+		public const areaLevel:int = 30;
 		public function isDiscovered():Boolean {
 			return SceneLib.exploration.counters.swamp > 0;
 		}
@@ -173,7 +173,7 @@ use namespace CoC;
 					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 							&& flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
 							&& !player.hasStatusEffect(StatusEffects.EtnaOff)
-							&& (player.level >= 20);
+							&& (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				chance: swampChance,
 				call: SceneLib.etnaScene.repeatYandereEnc

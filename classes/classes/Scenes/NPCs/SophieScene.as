@@ -259,7 +259,7 @@ public function meetSophieRepeat():void {
 			outputText("  Sophie releases her talons and you drop smartly onto the far side.  She pants, \"<i>It's breeding time.  " + player.mf("Boy","Girl") + ", fertilize me; NOW.</i>\"\n\n");
 
 			//(low lust?)
-			if(player.lust < 60 || rand(3) <= 1) {
+			if(player.lust < Math.round(player.maxLust() * 0.6) || rand(3) <= 1) {
 				outputText("Her need amplifies the compulsion, making it difficult to resist.  It looks like if you turned her down now she'd probably try to force herself on you anyway.  Do you give in to her demand?");
 				//[Yes-Consentual sex] [No - fight]
 				simpleChoices("Yes", consensualSexSelector, "No", fightSophie, "", null, "", null, "", null);
@@ -823,7 +823,7 @@ private function sophieFucked(dicked:Boolean = true):void {
 	//knock up if not knocked up
 	if (!pregnancy.isPregnant && dicked) {
 		pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, 48 + rand(48));
-		if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Sophia is pregnant!</b>");
+		if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Sophie is pregnant!</b>");
 	}
 	//if forced to lesbosecks
 	if(!dicked) {

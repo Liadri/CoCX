@@ -143,11 +143,10 @@ public class IncubusMechanic extends Monster {
 			this.hairColor = "black";
 			this.hairLength = 12;
 			initStrTouSpeInte(95, 65, 51, 85);
-			initWisLibSensCor(85, 85, 70, 80);
+			initWisLibSensCor(85, 85, 70, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
 			this.weaponAttack = 14;
-			this.weaponPerk = "";
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
 			this.armorDef = 15;

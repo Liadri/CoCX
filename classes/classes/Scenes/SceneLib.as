@@ -149,6 +149,8 @@ public class SceneLib {
 
     public static var electraScene:ElectraFollower = new ElectraFollower();
 
+    //public static var NadiaFollower:NadiaFollower = new NadiaFollower();
+
     public static var emberScene:EmberScene = new EmberScene();
 	
 	public static var erlkingScene:ErlKingScene = new ErlKingScene();
@@ -184,6 +186,8 @@ public class SceneLib {
     public static var isabellaFollowerScene:IsabellaFollowerScene = new IsabellaFollowerScene();
 
     public static var izmaScene:IzmaScene = new IzmaScene();
+
+    public static var jinxFollower:JinxFollower = new JinxFollower();
 
     public static var jojoScene:JojoScene = new JojoScene();
 
@@ -283,6 +287,8 @@ public class SceneLib {
 
     public static var ghoulishVampireServant:GhoulishVampireServant = new GhoulishVampireServant();
 
+    public static var xuvielGiftSlave1:XuvielGiftSlaveFirst = new XuvielGiftSlaveFirst();
+
     public static var trollVillage:TrollVillage = new TrollVillage();
 
     public static var bazaar:Bazaar = new Bazaar();
@@ -298,6 +304,8 @@ public class SceneLib {
     public static var theTrench:TheTrench = new TheTrench();
 
     public static var ruinedTown:RuinedTownRebuilt = new RuinedTownRebuilt();
+
+    public static var demonicLair:DemonLair = new DemonLair();
 
     public static var dungeons:DungeonEngine = new DungeonEngine();
 

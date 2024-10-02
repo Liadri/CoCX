@@ -22,6 +22,10 @@ public class Marae extends Monster
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
 			}
 		}
 		public function tentacleRape():void {
@@ -51,6 +55,14 @@ public class Marae extends Monster
 				outputText("but you fail and get hit instead! ");
 				var damage:int = (eBaseStrengthDamage() + rand(str));
 				damage = Math.round(damage);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
@@ -146,7 +158,7 @@ public class Marae extends Monster
 				this.createVagina(false, VaginaClass.WETNESS_WET, VaginaClass.LOOSENESS_NORMAL);
 				createBreastRow(Appearance.breastCupInverse("DD"));
 				initStrTouSpeInte(640, 640, 440, 390);
-				initWisLibSensCor(390, 150, 320, 0);
+				initWisLibSensCor(390, 150, 320, -100);
 				this.weaponName = "fists";
 				this.weaponVerb="wrathful punch";
 				this.armorDef = 3000;
@@ -175,7 +187,6 @@ public class Marae extends Monster
 			this.bodyColor = "white";
 			this.hairColor = "green";
 			this.hairLength = 36;
-			this.weaponPerk = "";
 			this.weaponValue = 70;
 			this.armorName = "bark";
 			this.bonusHP = 17500;

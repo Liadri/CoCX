@@ -47,11 +47,10 @@ public class SecretarialSuccubus extends AbstractSuccubus
 			this.hairColor = "blond";
 			this.hairLength = 13;
 			initStrTouSpeInte(60, 52, 89, 35);
-			initWisLibSensCor(35, 85, 70, 80);
+			initWisLibSensCor(35, 85, 70, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="slap";
 			this.weaponAttack = 12;
-			this.weaponPerk = "";
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
 			this.armorDef = 8;

@@ -51,17 +51,19 @@ public class FingerOfDeathSkill extends AbstractSoulSkill {
 	override public function calcCooldown():int {
 		var cooldown:int = 6;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 4) cooldown -= 2;
-			
-		return cooldown;
+		return soulskillTier2Cooldown(cooldown, false);
 	}
 
 	public function calcDamage(monster:Monster, casting:Boolean = false):Number {
-		var damage:Number = (scalingBonusWisdom() * 1.5) + (scalingBonusIntelligence() * 1.5);
-		if (damage < 15) damage = 15;
+		var damage:Number = (scalingBonusWisdom() + scalingBonusIntelligence()) * 2;
+		if (damage < 20) damage = 20;
 
 		//soulskill mod effect
-		damage *= spellMod();
-		damage *= soulskillMagicalMod();
+		var damageMult:Number = 1;
+		damageMult += (spellMod() - 1);
+		damageMult += (soulskillMagicalMod() - 1);
+		damage *= damageMult;
+		
 		damage = calcEclypseMod(damage, casting);
 
 		//other bonuses

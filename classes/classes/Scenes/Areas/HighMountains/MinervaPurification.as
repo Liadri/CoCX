@@ -5,6 +5,7 @@ import classes.*;
 import classes.BodyParts.Tongue;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 import classes.lists.Gender;
@@ -20,7 +21,7 @@ public class MinervaPurification extends BaseContent
 			return (player.hasStatusEffect(StatusEffects.CampRathazul) || player.statusEffectv2(StatusEffects.MetRathazul) >= 3);
 		}
 		public function checkJojo():Boolean {
-			return (player.hasStatusEffect(StatusEffects.PureCampJojo));
+			return (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3);
 		}
 		public function checkMarae():Boolean {
 			return (flags[kFLAGS.FACTORY_SHUTDOWN] == 1 && flags[kFLAGS.MARAE_QUEST_COMPLETE] >= 1);
@@ -704,10 +705,10 @@ public class MinervaPurification extends BaseContent
 			menu();
 			if (minervaScene.pregnancy.isPregnant) {
 				outputText("\n\n");
-				if (minervaScene.pregnancy.incubation >= 216) outputText("<b>Her belly appears to be a bit swollen.</b>");
-				else if (minervaScene.pregnancy.incubation >= 144 && minervaScene.pregnancy.incubation < 216) outputText("<b>Her belly shows obvious signs of pregnancy.</b>");
-				else if (minervaScene.pregnancy.incubation >= 72 && minervaScene.pregnancy.incubation < 144) outputText("<b>Her gravid belly has gotten bigger.</b>");
-				else if (minervaScene.pregnancy.incubation < 72) outputText("<b>It's impossible to not notice her pregnancy. She is about to give birth soon.</b>");
+				if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(216, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>Her belly appears to be a bit swollen.</b>");
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_MINERVA) && minervaScene.pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(216, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>Her belly shows obvious signs of pregnancy.</b>");
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_MINERVA) && minervaScene.pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>Her gravid belly has gotten bigger.</b>");
+				else if (minervaScene.pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>It's impossible to not notice her pregnancy. She is about to give birth soon.</b>");
 			}
 			doNext(pureMinervaMenu);
 		}
@@ -1466,8 +1467,7 @@ public class MinervaPurification extends BaseContent
 			outputText("\n\nDeciding to relax for a while after your sexual exertion, you curl up on the soft moss with Minerva, both of you just basking in the warmth that the spring gives off, and the softness of the moss, content with each other's presence. Unfortunately, you know you have to go; the call of your duty to this land is too great, and despite the comfort of this place, you must go. Pulling away from the siren you promise to return and visit her soon.");
 			//PC returns to camp.
 			player.sexReward("Default","Default",true,false);
-
-if (CoC.instance.inCombat) cleanupAfterCombat();
+			if (CoC.instance.inCombat) cleanupAfterCombat();
             else doNext(camp.returnToCampUseOneHour);
 		}
 		
@@ -1476,13 +1476,13 @@ if (CoC.instance.inCombat) cleanupAfterCombat();
 		//------------------
 		public function checkPregnancy():void {
 			if (minervaScene.pregnancy.isPregnant && ((player.pregnancyType != PregnancyStore.PREGNANCY_MINERVA && player.pregnancy2Type != PregnancyStore.PREGNANCY_MINERVA) || rand(3) > 0)) {
-				if (minervaScene.pregnancy.incubation >= 168) pregnancyStage1(flags[kFLAGS.MINERVA_CHILDREN] > 0);
-				else if (minervaScene.pregnancy.incubation >= 144) pregnancyStage2(flags[kFLAGS.MINERVA_CHILDREN] > 0);
-				else if (minervaScene.pregnancy.incubation >= 72) pregnancyStage3(flags[kFLAGS.MINERVA_CHILDREN] > 0);
+				if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(168, PregnancyStore.INCUBATION_MINERVA)) pregnancyStage1(flags[kFLAGS.MINERVA_CHILDREN] > 0);
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_MINERVA)) pregnancyStage2(flags[kFLAGS.MINERVA_CHILDREN] > 0);
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_MINERVA)) pregnancyStage3(flags[kFLAGS.MINERVA_CHILDREN] > 0);
 				else pregnancyStage4(flags[kFLAGS.MINERVA_CHILDREN] > 0);
 			}
 			else {
-				if (player.pregnancyIncubation >= 108) pregnancyPlayerStage1();
+				if (player.pregnancyIncubation >= sceneHunter.adjustPregEventTimer(108, player.pregnancyType)) pregnancyPlayerStage1();
 				else pregnancyPlayerStage2();
 			}
 		}
@@ -1686,7 +1686,8 @@ if (CoC.instance.inCombat) cleanupAfterCombat();
 			if (flags[kFLAGS.MINERVA_CHILDREN] > 0) outputText(". My daughters are already excited to see their new addition to our family");
 			outputText(",</i>\" she says. You spend some time resting while she breastfeeds her newborn sirens.");
 			outputText("\n\nEventually, you get up and give her a kiss. \"<i>Come back later. Our daughters are already excited to see you come back,</i>\" she says. You acknowledge and head back to your camp.");
-			flags[kFLAGS.MINERVA_CHILDREN] += 2;
+			if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.MINERVA_CHILDREN] += 4;
+			else flags[kFLAGS.MINERVA_CHILDREN] += 2;
 			flags[kFLAGS.TIMES_BIRTHED_SHARPIES]++;
 			doNext(camp.returnToCampUseOneHour);
 		}

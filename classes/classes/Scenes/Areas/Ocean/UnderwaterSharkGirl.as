@@ -34,8 +34,10 @@ public class UnderwaterSharkGirl extends Monster
 			var damage:Number = 0;
 			damage += eBaseDamage();
 			player.takePhysDamage(damage, true);
-			if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
-			else player.createStatusEffect(StatusEffects.Hemorrhage,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			if (!player.immuneToBleed()) {
+				if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
+				else player.createStatusEffect(StatusEffects.Hemorrhage, SceneLib.combat.debuffsOrDoTDuration(3), 0.05, 0, 0);
+			}
 		}
 		
 		override public function defeated(hpVictory:Boolean):void
@@ -67,7 +69,7 @@ public class UnderwaterSharkGirl extends Monster
 			this.hairColor = "silver";
 			this.hairLength = 16;
 			initStrTouSpeInte(240, 165, 200, 109);
-			initWisLibSensCor(109, 116, 35, 40);
+			initWisLibSensCor(109, 116, 35, -20);
 			this.weaponName = "shark teeth";
 			this.weaponVerb="bite";
 			this.weaponAttack = 35;
@@ -88,6 +90,7 @@ public class UnderwaterSharkGirl extends Monster
 			this.special1 = sharkTease;
 			this.special2 = sharkBiteAttack;
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);
+			this.createPerk(PerkLib.WaterNature, 0, 0, 0, 0);
 			checkMonster();
 		}
 		

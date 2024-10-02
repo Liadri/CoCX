@@ -15,7 +15,7 @@ public class BloodDewdropsSkill extends AbstractBloodSoulSkill {
 			: "Blood Dewdrops will fire many bloody droplets from your hand.  ",
             TARGET_ENEMY,
             TIMING_INSTANT,
-            [TAG_DAMAGING, TAG_PHYSICAL],
+            [TAG_DAMAGING, TAG_PHYSICAL, TAG_TIER2],
             sfInfusion? StatusEffects.KnowsBloodDewdropsSF: StatusEffects.KnowsBloodDewdrops,
 			true,
 			sfInfusion
@@ -33,32 +33,23 @@ public class BloodDewdropsSkill extends AbstractBloodSoulSkill {
 	}
 
 	override public function calcCooldown():int {
-		return bloodSoulSkillCoolDown(2);
+		return soulskillTier2Cooldown(bloodSoulSkillCoolDown(2));
 	}
 
 	public function calcDamage(monster:Monster):Number {
-		var damage:Number = scalingBonusWisdom() * spellModBlood() * 0.5;
+		var damage:Number = scalingBonusWisdom() * spellModBlood() * 6;
 		var damageFloor:Number = 10;
-
-		if (sfInfusion) {
-			damage *= 3;
-			damageFloor *= 3;
-		}
-
 		if (damage < damageFloor) damage = damageFloor;
 		if (monster && monster.plural) damage *= 5;
 		if (player.hasPerk(PerkLib.BloodAffinity)) damage *= 2;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 4 && player.HP < Math.round(player.maxHP() * 0.5)) damage *= 1.5;
-
 		if (sfInfusion) {
 			//soulskill mod effect
 			damage *= soulskillPhysicalMod();
 		}
-
 		if (player.hasPerk(PerkLib.BloodMastery)) damage *= 2;
 		damage *= combat.bloodDamageBoostedByDao();
 		return Math.round(damage);
-
 	}
 
     override public function doEffect(display:Boolean = true):void {

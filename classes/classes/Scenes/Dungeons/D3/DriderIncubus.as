@@ -8,6 +8,9 @@ import classes.Scenes.Areas.Swamp.AbstractSpiderMorph;
 import classes.Scenes.SceneLib;
 import classes.Stats.Buff;
 import classes.StatusEffects;
+import classes.internals.WeightedDrop;
+
+import coc.view.CoCButton;
 
 public class DriderIncubus extends AbstractSpiderMorph
 	{
@@ -24,19 +27,19 @@ public class DriderIncubus extends AbstractSpiderMorph
 			this.hoursSinceCum = 9999;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			initStrTouSpeInte(140, 300, 140, 90);
-			initWisLibSensCor(80, 160, 40, 100);
+			initStrTouSpeInte(190, 330, 180, 110);
+			initWisLibSensCor(90, 260, 50, 100);
 			this.weaponName = "spear";
-			this.weaponAttack = 38;
+			this.weaponAttack = 78;
 			this.weaponVerb = "lunge";
 			this.armorName = "chitin";
-			this.armorDef = 60;
-			this.armorMDef = 10;
-			this.bonusHP = 1500;
-			this.bonusLust = 244;
+			this.armorDef = 120;
+			this.armorMDef = 20;
+			this.bonusHP = 2500;
+			this.bonusLust = 384;
 			this.gems = 200 + rand(80);
 			this.additionalXP = 1500;
-			this.level = 44;
+			this.level = 74;
 			this.lustVuln = 0.45;
 			this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
@@ -46,6 +49,7 @@ public class DriderIncubus extends AbstractSpiderMorph
 			this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.OverMaxHP, 44, 0, 0, 0);//v1 = enemy lvl
 			this.drop = NO_DROP;
+			drop = new WeightedDrop(consumables.LETH3TE, 1);
 			this.checkMonster();
 		}
 
@@ -114,7 +118,11 @@ if (this.lust < .65 * this.maxLust() && this.HP < .33 * this.maxHP()) {
 			}
 			
 		}
-		
+
+		override public function postPlayerBusyBtnSpecial(btnSpecial1:CoCButton, btnSpecial2:CoCButton):void{
+			if (!goblinFree) btnSpecial1.show("Free Goblin", freeGoblin);
+		}
+
 		private function performPhysicalAttack():void
 		{
 			if (_combatRound >= 3 && (_combatRound % 6 == 0 || _combatRound == 3)) stunningSpear();
@@ -428,7 +436,7 @@ this.HP -= (this.maxHP() * 0.08);
 				outputText(" You concentrate to try and throw it off, but he overwhelms your mental defenses. Clouds of swirling pink filled with unsubtle erotic silhouettes fill your vision, effectively blinding you!");
 				player.takeLustDamage(25, true);
 				player.createStatusEffect(StatusEffects.PurpleHaze, 2 + rand(2), 0, 0, 0);
-				if (!player.hasPerk(PerkLib.BlindImmunity)) player.createStatusEffect(StatusEffects.Blind, player.statusEffectv1(StatusEffects.PurpleHaze), 0, 0, 0);
+				if (!player.isImmuneToBlind()) player.createStatusEffect(StatusEffects.Blind, player.statusEffectv1(StatusEffects.PurpleHaze), 0, 0, 0);
 			}
 		}
 		

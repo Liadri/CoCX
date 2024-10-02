@@ -13,7 +13,9 @@ import classes.Races;
 
 public class HellHoundFireBallsMutation extends IMutationPerkType
     {
-        private static const mName:String = "Hellhound Fire Balls";
+        override public function get mName():String {
+            return "Hellhound Fire Balls";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -21,11 +23,11 @@ public class HellHoundFireBallsMutation extends IMutationPerkType
             if (pTier >= 1){
                 descS = "Increase Hellfire damage and Cum production by 25%. +"+(5*pTier)+" Lib. ";
             }
-            if (pTier >= 2){
-                descS += "Increase fire damage by a percentage based on 0.5% of your cum production. ";
+            if (pTier == 2){
+                descS += "Increase fire damage by a percentage based on 1% of your current lust. ";
             }
             if (pTier >= 3){
-                descS += "Double the fire damage percentage bonus from cum production. ";
+                descS += "Increase fire damage by a percentage based on 2% of your current lust. ";
             }
             if (pTier >= 4){
                 descS += "Double your cum production. ";
@@ -36,25 +38,6 @@ public class HellHoundFireBallsMutation extends IMutationPerkType
                 descS += "If you have the Alpha howl perk you may now forcibly recruit hellhounds into your pack equal to half the number of werewolves you may control.";
             }
             return descS;
-        }
-
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                case 4:
-                    sufval = "(Final Form)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return mName + sufval;
         }
 
         override public function evolveText():String {
@@ -70,11 +53,13 @@ public class HellHoundFireBallsMutation extends IMutationPerkType
                 this.requirements = [];
                 if (pTier == 0){
                     this.requireBallsMutationSlot()
-                    .requireRace(Races.CERBERUS);
+                    .requirePerk(PerkLib.Hellfire)
+					.requireCustomFunction(function (player:Player):Boolean {
+                        return player.isRace(Races.CERBERUS) || player.racialScore(Races.DOG) >= 8;
+                    }, "Cerberus race or Dog-morph (8+) with Hellfire perk");
                 }
                 else{
                     var pLvl:int = pTier * 30;
-
                     this.requireLevel(pLvl)
                     .requireCustomFunction(function (player:Player):Boolean {
                         return player.perkv2(IMutationsLib.HellhoundFireBallsIM) >= pLvl

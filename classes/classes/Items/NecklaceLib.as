@@ -5,6 +5,7 @@ package classes.Items
 	 * @author Ormael
 	 */
 
+import classes.Items.HeadJewelries.SkullCrown;
 import classes.Items.Necklaces.*;
 
 public final class NecklaceLib extends ItemConstants
@@ -62,7 +63,10 @@ public final class NecklaceLib extends ItemConstants
 		public const NECRONE:NecroNecklace = new NecroNecklace();
 		public const COWBELL:Necklace = new Necklace("CowBell", "CowBell", "Cow bell", "a Cow bell", 0, 0, 1500, "A bell often worn by Lacta Bovines, it raises milk productivity and immunizes the wearer against the negative effects of cum addition just like a cowgirl. If worn by an actual lacta bovine it also increases strength and libido.  \n\nType: Jewelry (Necklace) \nBase value: 1,500","Necklace");
 		public const CATBELL:Necklace = new Necklace("CatBell", "CatBell", "Collar with bell", "a leather collar with cat bell", 0, 0, 1200, "Aside from being extra cute on you this necklace not only raises natural evasion but also allows a cat type wearer to deliver tease damage when dodging attacks. A must have when in heat.  \n\nType: Jewelry (Necklace) \nBase value: 1,200","Necklace").withBuffs({'evade':2}) as Necklace;
-		public const LEAFAMU:Necklace = new Necklace("LeafAmu", "LeafAmulet", "Leaf Amulet", "a Leaf Amulet", 0, 0, 4500, "This beautiful necklace improves its wearer natural evasiveness and affinity for white magic by 10%. It is more powerful when used by elves.  \n\nType: Jewelry (Necklace) \nBase value: 4,500","Necklace");
+		public const LEAFAMU:Necklace = new Necklace("LeafAmu", "LeafAmulet", "Leaf Amulet", "a Leaf Amulet", 0, 0, 4500, "This beautiful necklace improves its wearer natural evasiveness and affinity for white magic by 10%. It is more powerful when used by elves.  \n\nType: Jewelry (Necklace) \nBase value: 4,500", "Necklace");
+		public const SKULLNE:SkullNecklace = new SkullNecklace();
+		public const TREELNE:TreeOfLifeNecklace = new TreeOfLifeNecklace();
+		public const SILCNEC:SilverCrossNecklace = new SilverCrossNecklace();
 
 		public function NecklaceLib()
 		{

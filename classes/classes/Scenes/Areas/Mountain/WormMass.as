@@ -4,6 +4,8 @@ import classes.*;
 import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.Scenes.SceneLib;
+import classes.Scenes.Combat.CombatAbility;
+import classes.Scenes.Combat.General.TeaseSkill;
 
 public class WormMass extends Monster
 	{
@@ -51,7 +53,24 @@ public class WormMass extends Monster
 				}
 			}
 		}
-		
+
+		override public function midAttackSeal():Boolean{
+			var dam:int = int(player.str / 5 - rand(5));
+			if (dam == 0) dam = 1;
+			outputText("You strike at the amalgamation, crushing countless worms into goo, dealing <b>[font-damage]" + dam + "[/font]</b> damage.\n\n");
+			this.HP -= dam;
+			return false;
+		}
+
+		override public function interceptPlayerAbility(ability:CombatAbility):Boolean {
+			if (ability is TeaseSkill) {
+				outputText("Thinking to take advantage of its humanoid form, you wave your cock and slap your ass. However, the creature fails to react to your suggestive actions.\n\n");
+				return true;
+			}
+
+			return false;
+		}
+
 		override protected function performCombatAction():void
 		{
 			//Worms have different AI
@@ -90,18 +109,18 @@ public class WormMass extends Monster
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_BUTTLESS;
 			this.bodyColor = "white";
-			initStrTouSpeInte(60, 100, 20, 1);
+			initStrTouSpeInte(110, 240, 30, 1);
 			initWisLibSensCor(1, 90, 60, 90);
 			this.weaponName = "worm";
 			this.weaponVerb="slap";
 			this.weaponAttack = 10;
 			this.armorName = "skin";
-			this.armorDef = 10;
-			this.armorMDef = 2;
-			this.bonusLust = 171;
+			this.armorDef = 50;
+			this.armorMDef = 10;
+			this.bonusLust = 185;
 			this.lust = 30;
-			this.lustVuln = 0;
-			this.level = 21;
+			this.lustVuln = 0.01;
+			this.level = 35;
 			this.gems = 0;
 			this.special1 = wormAttack;
 			this.special2 = wormsEntice;

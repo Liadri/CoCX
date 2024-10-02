@@ -135,7 +135,7 @@ public class GoblinAssassin extends Monster
 			this.hairColor = "blue";
 			this.hairLength = 7;
 			initStrTouSpeInte(45, 45, 110, 95);
-			initWisLibSensCor(95, 64, 35, 60);
+			initWisLibSensCor(95, 64, 35, 20);
 			this.weaponName = "needles";
 			this.weaponVerb = "stabbing needles";
 			this.weaponAttack = 2;
@@ -151,7 +151,12 @@ public class GoblinAssassin extends Monster
 							consumables.PINKDYE,
 							consumables.BLUEDYE,
 							consumables.ORANGDY,
-							consumables.PURPDYE);
+							consumables.PURPDYE,
+							consumables.HEALHERB,
+							consumables.MOONGRASS,
+							consumables.SNAKEBANE,
+							consumables.IRONWEED,
+							consumables.BLADEFERN);
 			this.abilities = [
 				{ call: eAttack, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY]},
 				{ call: goblinDrugAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[TAG_FLUID]},

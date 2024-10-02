@@ -27,7 +27,7 @@ public class GoblinQueen extends Goblin
 			this.hairColor = "dark green";
 			this.hairLength = 4;
 			initStrTouSpeInte(85, 64, 70, 100);
-			initWisLibSensCor(100, 55, 35, 65);
+			initWisLibSensCor(100, 55, 35, 30);
 			this.weaponName = "sword";
 			this.weaponVerb = "slash";
 			this.weaponAttack = 14;
@@ -51,7 +51,14 @@ public class GoblinQueen extends Goblin
 							consumables.BLUEDYE,
 							consumables.ORANGDY,
 							consumables.GREEN_D,
-							consumables.PURPDYE);
+							consumables.PURPDYE,
+							consumables.HEALHERB,
+							consumables.MOONGRASS,
+							consumables.SNAKEBANE,
+							consumables.IRONWEED,
+							consumables.BLADEFERN,
+							consumables.RAUNENECT,
+							consumables.GINSENG);
 			this.special1 = goblinDrugAttack;
 			this.special2 = goblinTeaseAttack;
 			//this.special3 = castSpell;

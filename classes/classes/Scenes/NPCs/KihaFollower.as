@@ -203,7 +203,7 @@ public class KihaFollower extends NPCAwareContent implements TimeAwareInterface,
         chance -= totalKihaChildren() / 5;
         if (chance < 10) chance = 10;
         //Roll
-        if (rand(100) <= chance) {
+        if (rand(100) <= chance || player.hasPerk(PerkLib.PilgrimsBounty)) {
             if (debug) outputText("\n\n<b>DEBUG: Kiha is impregnated.</b>");
             trace("Kiha got PREGNANT!");
             pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_KIHA);
@@ -1812,12 +1812,12 @@ private function warmLoverKihaIntro(output:Boolean = true):void {
         outputText("[pg]Between her gropable butt-cheeks, Kiha has a single tight asshole, right where it belongs.");
         if (pregnancy.isPregnant) {
             outputText("[pg]");
-            if (pregnancy.incubation > 288) outputText("<b>Her belly appears to be a bit swollen.</b>");
-            else if (pregnancy.incubation > 240 && pregnancy.incubation <= 288) outputText("<b>Her belly is comparable to being six months into pregnant.</b>");
-            else if (pregnancy.incubation > 192 && pregnancy.incubation <= 240) outputText("<b>Her belly is comparable to being eight months into pregnancy.</b>");
-            else if (pregnancy.incubation > 144 && pregnancy.incubation <= 192) outputText("<b>Her belly is comparable to being nine months into pregnancy. It wouldn't take very long until she eventually lays a clutch of eggs.</b>");
-            else if (pregnancy.incubation > 72 && pregnancy.incubation <= 144) outputText("<b>Her belly is even bigger than the average belly size at end of a typical human pregnancy.</b>");
-            else if (pregnancy.incubation <= 72) outputText("<b>It's impossible to not notice her pregnancy. The size of her belly has taken its toll on her. She is about to lay a clutch of eggs soon.</b>");
+            if (pregnancy.incubation > sceneHunter.adjustPregEventTimerNum(288, PregnancyStore.INCUBATION_KIHA)) outputText("<b>Her belly appears to be a bit swollen.</b>");
+            else if (pregnancy.incubation > sceneHunter.adjustPregEventTimerNum(240, PregnancyStore.INCUBATION_KIHA) && pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(288, PregnancyStore.INCUBATION_KIHA)) outputText("<b>Her belly is comparable to being six months into pregnancy.</b>");
+            else if (pregnancy.incubation > sceneHunter.adjustPregEventTimerNum(192, PregnancyStore.INCUBATION_KIHA) && pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(240, PregnancyStore.INCUBATION_KIHA)) outputText("<b>Her belly is comparable to being eight months into pregnancy.</b>");
+            else if (pregnancy.incubation > sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_KIHA) && pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(192, PregnancyStore.INCUBATION_KIHA)) outputText("<b>Her belly is comparable to being nine months into pregnancy. It wouldn't take very long until she eventually lays a clutch of eggs.</b>");
+            else if (pregnancy.incubation > sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_KIHA) && pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_KIHA)) outputText("<b>Her belly is even bigger than the average belly size at end of a typical human pregnancy.</b>");
+            else if (pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_KIHA)) outputText("<b>It's impossible to not notice her pregnancy. The size of her belly has taken its toll on her. She is about to lay a clutch of eggs soon.</b>");
         }
         doNext(kihaScene.encounterKiha);
     }
@@ -1826,7 +1826,7 @@ private function warmLoverKihaIntro(output:Boolean = true):void {
         clearOutput();
         outputText("Feeling that Kiha's natural inclination for dominance has grown a little stale, you broach the idea of YOU dominating Her.  The dragoness glances your way and grins toothily as she cracks her knuckles.  \"<i>Why would I want to let you dominate me, doofus?  I've been fighting to stay on top out in the swamps as long as I can remember.  What makes you think I'd want to submit to some cute " + player.mf("guy", "girl") + " I just met?</i>\"  She blushes a little when she realizes she just called you cute.");
         outputText("[pg]Sighing, you fold your arms across your chest and tell her that you won't take no for an answer.  Kiha snorts derisively, two tiny puffs of flame shooting from her nostrils as she cracks her neck and stands.  She grabs her axe out of the dirt and whirls to face you.");
-        outputText("[pg]\"<i>If you want have your way with me, you'll need to earn it, just like anyone else,</i>\" Kiha explains.  She narrows her eyes at you and questions, \"<i>The question is, are you " + player.mf("man", "woman") + " enough to take what you want?  I wouldn't want you to get hurt.</i>\"");
+        outputText("[pg]\"<i>If you want to have your way with me, you'll need to earn it, just like anyone else,</i>\" Kiha explains.  She narrows her eyes at you and questions, \"<i>The question is, are you " + player.mf("man", "woman") + " enough to take what you want?  I wouldn't want you to get hurt.</i>\"");
         outputText("[pg]That seems like a challenge.  Will you rise to it, or will you back down?");
         menu();
         addButton(0, "Back Down", beABitchDumbass);

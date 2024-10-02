@@ -45,9 +45,12 @@ public class VouivreRace extends Race {
 				.tongueType(ANY(Tongue.SNAKE, Tongue.DRACONIC), +1)
 				.faceType(Face.SNAKE_FANGS, +1)
 				.armType(Arms.DRACONIC, +1)
+				.armType(NONE(Arms.FEY_DRACONIC, Arms.LION), 0, -10)
 				.skinCoatType(Skin.DRAGON_SCALES, +1)
 				.earType(Ears.DRAGON, +1)
+				.earType(NOT(Ears.CAT), 0, -10)
 				.eyeType(Eyes.SNAKE, +1)
+				.eyeType(NOT(Eyes.CAT), 0, -10)
 				.hornType(Horns.DRACONIC_X4_12_INCH_LONG, +2)
 				.hornType(Horns.DRACONIC_X2, +1)
 				.wingType(Wings.DRACONIC_SMALL, +2)
@@ -70,6 +73,7 @@ public class VouivreRace extends Race {
 		
 		addMutation(IMutationsLib.VenomGlandsIM);
 		addMutation(IMutationsLib.DrakeLungsIM);
+		addMutation(IMutationsLib.MightyLowerHalfIM);
 		
 		buildTier(11, "lesser vouivre")
 				.buffs({

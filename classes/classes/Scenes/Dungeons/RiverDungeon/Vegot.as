@@ -37,7 +37,7 @@ use namespace CoC;
 				temp1 += Math.round(dmg0 * 0.1);
 				if (HP + temp1 > maxOverHP()) temp1 -= (this.maxOverHP() - HP);
 				HP += temp1;
-				outputText(" <b>(<font color=\"#008000\">+" + temp1 + "</font>)</b>");
+				outputText(" <b>([font-heal]+" + temp1 + "[/font])</b>");
 			}
 		}
 		
@@ -83,7 +83,6 @@ use namespace CoC;
 			}
 			createStatusEffect(StatusEffects.AbilityCooldown1, 2, 0, 0, 0);
 		}
-		
 		
 		private function vegotR():void {
 			if (hasStatusEffect(StatusEffects.Uber)) {
@@ -187,16 +186,16 @@ use namespace CoC;
 			this.bodyColor = "light";
 			this.hairColor = "white";
 			this.hairLength = 10;
-			initStrTouSpeInte(130, 195, 230, 200);
-			initWisLibSensCor(200, 290, 210, 80);
-			this.weaponAttack = 54;
+			initStrTouSpeInte(260, 390, 460, 400);
+			initWisLibSensCor(400, 435, 305, 60);
+			this.weaponAttack = 108;
 			this.weaponName = "Frostlight";
 			this.weaponVerb="slash";
 			this.armorName = "vest";
-			this.armorDef = 32;
-			this.armorMDef = 60;
+			this.armorDef = 64;
+			this.armorMDef = 120;
 			this.bonusHP = 300;
-			this.bonusLust = 540;
+			this.bonusLust = 790;
 			this.lust = 30;
 			this.lustVuln = .8;
 			this.level = 40;

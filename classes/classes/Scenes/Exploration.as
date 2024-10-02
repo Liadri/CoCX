@@ -11,7 +11,7 @@ import classes.Scenes.API.FnHelpers;
 import classes.Scenes.API.GroupEncounter;
 import classes.Scenes.Areas.DeepSea.Kraken;
 import classes.Scenes.Areas.Forest.AlrauneMaiden;
-import classes.Scenes.Areas.Forest.WapsHuntress;
+import classes.Scenes.Areas.Forest.WaspHuntress;
 import classes.Scenes.Areas.Forest.WaspAssassin;
 import classes.Scenes.Areas.Forest.WaspGirl;
 import classes.Scenes.Areas.Ocean.Scylla;
@@ -45,12 +45,12 @@ public class Exploration extends BaseContent implements SaveableState
 		public var counters:Object = {
 			explore: 0,
 			
+			lake: 0,
+			boat: 0,
+			
 			forestOuter: 0,
 			forestInner: 0,
 			deepwoods: 0,
-			
-			lake: 0,
-			boat: 0,
 			
 			desertOuter: 0,
 			desertInner: 0,
@@ -141,17 +141,16 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		private function btnExploreForestOutskirts():ButtonData {
 			return new ButtonData("Forest (O)", SceneLib.forest.exploreForestOutskirts)
-					.hint("Visit the lush forest. "
+					.hint("Visit the lush forest (outer). "
 							+ "\n\nTimes explored: " + SceneLib.forest.timesExploredOuter())
-					.disableIf(!SceneLib.forest.isDiscoveredOuter(), "You need to 'Explore' Mareth more." +
+					.disableIf(!SceneLib.forest.isDiscoveredOuter(), "Discovered when using 'Explore' after finding Lake." +
 							" (Lvl "+SceneLib.forest.discoverLevelOuter+"+)")
 		}
 		private function btnExploreForestInner():ButtonData {
 			return new ButtonData("Forest (I)", SceneLib.forest.exploreInnerForest)
-					.hint("Visit the lush forest. "
-							+ (player.level < 12 ? "\n\nBeware of Tentacle Beasts!" : "")
+					.hint("Visit the lush forest (inner). "
 							+ "\n\nTimes explored: " + SceneLib.forest.timesExploredInner())
-					.disableIf(!SceneLib.forest.isDiscoveredInner(), "You need to be ready (lvl 3+) to reach this area." +
+					.disableIf(!SceneLib.forest.isDiscoveredInner(), "Discovered when exploring Forest (O)." +
 							" (Lvl "+SceneLib.forest.areaLevelInner+"+)");
 		}
 		private function btnExploreDeepwoods():ButtonData {
@@ -171,7 +170,7 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		private function btnExploreLakeBoat():ButtonData {
 			return new ButtonData("Boat", SceneLib.boat.boatExplore)
-					.hint("Get on the boat and explore the lake. \n\nRecommended level: 12" +
+					.hint("Get on the boat and explore the lake. \n\nRecommended level: 15" +
 							"\n\nTimes explored: " + SceneLib.boat.timesExplored())
 					.disableIf(!SceneLib.boat.isDiscovered(), "Search the lake." +
 							" (Lvl "+SceneLib.boat.discoverLevel+"+)");
@@ -180,7 +179,7 @@ public class Exploration extends BaseContent implements SaveableState
 			return new ButtonData("Desert (O)", SceneLib.desert.exploreOuterDesert)
 					.hint("Visit the dry desert (outer part). "
 							+ "\n\nTimes explored: " + SceneLib.desert.timesExploredOuter())
-					.disableIf(!SceneLib.desert.isDiscoveredOuter(), "You need to 'Explore' Mareth more." +
+					.disableIf(!SceneLib.desert.isDiscoveredOuter(), "Discovered when using 'Explore' after finding Forest (O)." +
 							" (Lvl "+SceneLib.desert.discoverLevelOuter+"+)");
 		}
 		private function btnExploreDesertInner():ButtonData {
@@ -193,7 +192,6 @@ public class Exploration extends BaseContent implements SaveableState
 		private function btnExploreBattlefieldBoundary():ButtonData {
 			return new ButtonData("Battlefield (B)", SceneLib.battlefiledboundary.exploreBattlefieldBoundary)
 					.hint("Visit the battlefield boundary. "
-							+ (player.level < 16 ? "\n\nIt's still too dangerous place to visit lightly!" : "")
 							+ "\n\nTimes explored: " + SceneLib.battlefiledboundary.timesExplored())
 					.disableIf(!SceneLib.battlefiledboundary.isDiscovered(), "Discovered when using 'Explore' after finding Desert (Outer)." +
 							" (Lvl "+SceneLib.battlefiledboundary.discoverLevel+"+)")
@@ -201,7 +199,6 @@ public class Exploration extends BaseContent implements SaveableState
 		private function btnExploreBattlefieldOuter():ButtonData {
 			return new ButtonData("Battlefield (O)", SceneLib.battlefiledouter.exploreOuterBattlefield)
 					.hint("Visit the outer battlefield. "
-							+ (player.level < 18 ? "\n\nIt's still too dangerous place to visit lightly!" : "")
 							+ "\n\nTimes explored: " + SceneLib.battlefiledouter.timesExplored())
 					.disableIf(!SceneLib.battlefiledouter.isDiscovered(), "Discovered when exploring Battlefield (Boundary)." +
 							" (Lvl "+SceneLib.battlefiledouter.areaLevel+"+)")
@@ -250,7 +247,7 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		private function btnExploreBog():ButtonData {
 			return new ButtonData("Bog", SceneLib.bog.exploreBog)
-					.hint("Visit the dark bog. \n\nRecommended level: 28"
+					.hint("Visit the dark bog."
 							+ "\n\nTimes explored: " + SceneLib.bog.timesExplored())
 					.disableIf(!SceneLib.bog.isDiscovered(), "Discovered when exploring Swamp." +
 							" (Lvl "+SceneLib.bog.areaLevel+"+)");
@@ -264,7 +261,7 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		private function btnExploreDefiledRavine():ButtonData {
 			return new ButtonData("Defiled Ravine", SceneLib.defiledravine.exploreDefiledRavine)
-					.hint("Visit the defiled ravine. \n\nRecommended level: 41"
+					.hint("Visit the defiled ravine."
 							+ "\n\nTimes explored: " + SceneLib.defiledravine.timesExplored())
 					.disableIf(!SceneLib.defiledravine.isDiscovered(), "Discovered when exploring Blight Ridge." +
 							" (Lvl "+SceneLib.defiledravine.areaLevel+"+)");
@@ -319,6 +316,11 @@ public class Exploration extends BaseContent implements SaveableState
 							" (Lvl "+SceneLib.volcanicCrag.areaLevel+"+)");
 		}
 		
+		private function canMeetXuviel():Boolean {
+			if (player.necklace == necklaces.SILCNEC && player.gender != 1 && !player.blockingBodyTransformations() && player.hasStatusEffect(StatusEffects.MeetXuviel) && player.statusEffectv1(StatusEffects.MeetXuviel) < 4 && player.statusEffectv2(StatusEffects.MeetXuviel) == 0 &&
+				((player.statusEffectv1(StatusEffects.MeetXuviel) == 0) || (player.statusEffectv1(StatusEffects.MeetXuviel) == 1 && player.statusEffectv2(StatusEffects.MeetXuviel) == 0) || (player.statusEffectv1(StatusEffects.MeetXuviel) == 2 && player.statusEffectv2(StatusEffects.MeetXuviel) == 0) || (player.statusEffectv1(StatusEffects.MeetXuviel) == 3 && player.statusEffectv2(StatusEffects.MeetXuviel) == 0 && player.cor >= 100))) return true;
+			else return false;
+		}
 		public function doExplore():void {
 			clearOutput();
 			if (SceneLib.exploration.counters.explore <= 0) {
@@ -334,113 +336,127 @@ public class Exploration extends BaseContent implements SaveableState
 			}
 			hideMenus();
 			menu();
-			var bd:ButtonDataList = new ButtonDataList();
-			// Row 1
-			bd.append(btnExploreForestOutskirts());
-			bd.append(btnExploreForestInner());
-			bd.append(btnExploreDeepwoods());
-			bd.add("");
-			bd.add("");
-			// Row 2
-			bd.append(btnExploreLake());
-			bd.append(btnExploreLakeBoat());
-			//bd.add("Shore").hint("TBA"); //Discovered when exploring using Lake Boat.
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 3
-			bd.append(btnExploreDesertOuter());
-			bd.append(btnExploreDesertInner());
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 4
-			bd.append(btnExploreBattlefieldBoundary());
-			bd.append(btnExploreBattlefieldOuter());
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 5
-			bd.append(btnExploreHills());
-			bd.append(btnExploreMountainsLow());
-			bd.append(btnExploreMountainsMid());
-			bd.append(btnExploreMountainsHigh());
-			bd.add("");
-			// Row 6
-			bd.append(btnExplorePlains());
-			bd.add(""); // plains inner part
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 7
-			bd.append(btnExploreSwamp());
-			bd.append(btnExploreBog());
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 8
-			bd.append(btnExploreBlightRidge());
-			bd.append(btnExploreDefiledRavine());
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 9
-			bd.append(btnExploreBeach());
-			bd.append(btnExploreOcean());
-			bd.add(""); // Deep Sea
-			// if (flags[kFLAGS.DISCOVERED_DEEP_SEA] > 0 && player.canSwimUnderwater()) addButton(2, "Deep Sea", SceneLib.deepsea.exploreDeepSea).hint("Visit the 'almost virgin' deep sea. But beware of... krakens. " + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_DEEP_SEA] : ""));
-			bd.add("");
-			bd.add("");
-			// Row 10
-			bd.append(btnExploreCaves());
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			bd.add("");
-			// Row 11
-			bd.add("");
-			bd.append(btnExploreTundra());
-			bd.append(btnExploreGlacialRiftOuter());
-			bd.add("");
-			bd.add("");
-			// Row 12
-			bd.add("");
-			bd.append(btnExploreAshlands());
-			bd.append(btnExploreVolcanicCragOuter());
-			bd.add("");
-			bd.add("");
-			
-			//if (flags[kFLAGS.DISCOVERED_] > 0) addButton(5, "",	//Wuxia related area - ?latająca wyspa?
-			//if (flags[kFLAGS.DISCOVERED_] > 0) addButton(9, "",	//Wuxia related area - ?latająca wyspa?
-			//if (flags[kFLAGS.DISCOVERED_PIT] > 0) addButton(10, "Pit", CoC.instance.abyss.explorePit).hint("Visit the pit. " + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_PIT] : ""));
-			//if (flags[kFLAGS.DISCOVERED_ABYSS] > 0) addButton(12, "Abyss", CoC.instance.abyss.exploreAbyss).hint("Visit the abyss. " + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_ABYSS] : ""));
-			
-			
-			bigButtonGrid(bd);
-			addButton(0, "Explore", tryDiscover)
-					.hint("Explore to find new regions and visit any discovered regions.");
-			addButton(4, "Menu Style", toggleMenuStyle)
-					.hint("Switch to old menu style");
-			addButton(5, "LL Explore", tryDiscoverLL)
-					.hint("Explore to find weakest new enemies.")
-					.disableIf(player.level < 31,"Req. lvl 31+");
-			addButton(6, "ML Explore", tryDiscoverML)
-					.hint("Explore to find weaker new enemies.")
-					.disableIf(player.level < 51,"Req. lvl 51+");
-			addButton(7, "HL Explore", tryDiscoverHL)
-					.hint("Explore to find below averange new enemies.")
-					.disableIf(player.level < 70,"Req. lvl 70+");
-			addButton(8, "XHL Explore", tryDiscoverXHL)
-					.hint("Explore to find bit above averange new enemies.")
-					.disableIf(player.level < 95,"Req. lvl 95+");
-			addButton(9, "XXHL Explore", tryDiscoverXXHL)
-					.hint("Explore to find strong new enemies.")
-					.disableIf(player.level < 125,"Req. lvl 125+");
-			addButton(12, "42", tryRNGod)
-					.hint("Explore to find the answer for your prayers. Or maybe you really not wanna find it, fearing answer will not be happy with you?")
-					.disableIf(!silly(), "Only in Silly Mode...", "???");
-			if (debug) addButton(13, "Debug", exploreDebug.doExploreDebug);
-			addButton(14, "Back", playerMenu);
+			if (canMeetXuviel()) SceneLib.demonicLair.questProgressScenes();
+			else {
+				var bd:ButtonDataList = new ButtonDataList();
+				// Row 1
+				bd.append(btnExploreLake());
+				bd.append(btnExploreLakeBoat());
+				bd.add("");//bd.add("Shore").hint("TBA"); //Discovered when exploring using Lake Boat.
+				bd.add("");
+				bd.add("");
+				// Row 2
+				bd.append(btnExploreForestOutskirts());
+				bd.append(btnExploreForestInner());
+				bd.append(btnExploreDeepwoods());
+				bd.add("");
+				bd.add("");
+				// Row 3
+				bd.append(btnExploreDesertOuter());
+				bd.append(btnExploreDesertInner());
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				// Row 4
+				bd.append(btnExploreBattlefieldBoundary());
+				bd.append(btnExploreBattlefieldOuter());
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				// Row 5
+				bd.append(btnExploreHills());
+				bd.append(btnExploreMountainsLow());
+				bd.append(btnExploreMountainsMid());
+				bd.append(btnExploreMountainsHigh());
+				bd.add("");
+				// Row 6
+				bd.append(btnExplorePlains());
+				bd.add(""); // plains inner part
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				// Row 7
+				bd.append(btnExploreSwamp());
+				bd.append(btnExploreBog());
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				// Row 8
+				bd.append(btnExploreBlightRidge());
+				bd.append(btnExploreDefiledRavine());
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				// Row 9
+				bd.append(btnExploreBeach());
+				bd.append(btnExploreOcean());
+				bd.add(""); // Deep Sea
+				// if (flags[kFLAGS.DISCOVERED_DEEP_SEA] > 0 && player.canSwimUnderwater()) addButton(2, "Deep Sea", SceneLib.deepsea.exploreDeepSea).hint("Visit the 'almost virgin' deep sea. But beware of... krakens. " + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_DEEP_SEA] : ""));
+				bd.add("");
+				bd.add("");
+				// Row 10
+				bd.append(btnExploreCaves());
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				bd.add("");
+				// Row 11
+				bd.add("");
+				bd.append(btnExploreTundra());
+				bd.append(btnExploreGlacialRiftOuter());
+				bd.add("");
+				bd.add("");
+				// Row 12
+				bd.add("");
+				bd.append(btnExploreAshlands());
+				bd.append(btnExploreVolcanicCragOuter());
+				bd.add("");
+				bd.add("");
+				// Row 13
+				//bd.add("");
+				//bd.append(btnExploreAshlands());//underdark entrance
+				//bd.append(btnExploreVolcanicCragOuter());
+				//bd.add("");
+				//bd.add("");
+				// Row 14
+				//bd.add("");
+				//bd.append(btnExploreAshlands());//cliffs
+				//bd.append(btnExploreVolcanicCragOuter());
+				//bd.add("");
+				//bd.add("");
+				
+				//if (flags[kFLAGS.DISCOVERED_] > 0) addButton(5, "",	//Wuxia related area - ?latająca wyspa?
+				//if (flags[kFLAGS.DISCOVERED_] > 0) addButton(9, "",	//Wuxia related area - ?latająca wyspa?
+				//if (flags[kFLAGS.DISCOVERED_PIT] > 0) addButton(10, "Pit", CoC.instance.abyss.explorePit).hint("Visit the pit. " + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_PIT] : ""));
+				//if (flags[kFLAGS.DISCOVERED_ABYSS] > 0) addButton(12, "Abyss", CoC.instance.abyss.exploreAbyss).hint("Visit the abyss. " + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_ABYSS] : ""));
+				
+				
+				bigButtonGrid(bd);
+				addButton(0, "Explore", tryDiscover)
+						.hint("Explore to find new regions and visit any discovered regions.");
+				addButton(4, "Menu Style", toggleMenuStyle)
+						.hint("Switch to old menu style");
+				addButton(5, "LL Explore", tryDiscoverLL)
+						.hint("Explore to find weakest new enemies.")
+						.disableIf(player.level < 31,"Req. lvl 31+");
+				addButton(6, "ML Explore", tryDiscoverML)
+						.hint("Explore to find weaker new enemies.")
+						.disableIf(player.level < 51,"Req. lvl 51+");
+				addButton(7, "HL Explore", tryDiscoverHL)
+						.hint("Explore to find below average new enemies.")
+						.disableIf(player.level < 70,"Req. lvl 70+");
+				addButton(8, "XHL Explore", tryDiscoverXHL)
+						.hint("Explore to find bit above average new enemies.")
+						.disableIf(player.level < 95,"Req. lvl 95+");
+				addButton(9, "XXHL Explore", tryDiscoverXXHL)
+						.hint("Explore to find strong new enemies.")
+						.disableIf(player.level < 125,"Req. lvl 125+");
+				addButton(12, "42", tryRNGod)
+						.hint("Explore to find the answer for your prayers. Or maybe you really not wanna find it, fearing answer will not be happy with you?")
+						.disableIf(!silly(), "Only in Silly Mode...", "???");
+				if (debug) addButton(13, "Debug", exploreDebug.doExploreDebug);
+				addButton(14, "Back", playerMenu);
+			}
 		}
 		
 		private function toggleMenuStyle():void {
@@ -467,25 +483,28 @@ public class Exploration extends BaseContent implements SaveableState
 			}
 			hideMenus();
 			menu();
-			addButton(0, "Explore", tryDiscover).hint("Explore to find new regions and visit any discovered regions.");
-			btnExploreForestOutskirts().applyTo(button(1));
-			btnExploreLake().applyTo(button(2));
-			btnExploreDesertOuter().applyTo(button(3));
-			
-			btnExploreBattlefieldBoundary().applyTo(button(5));
-			btnExploreHills().applyTo(button(6));
-			btnExplorePlains().applyTo(button(7));
-			btnExploreSwamp().applyTo(button(8));
-			
-			btnExploreBlightRidge().applyTo(button(10));
-			btnExploreBeach().applyTo(button(11));
-			btnExploreCaves().applyTo(button(12));
-			
-			addButton(4, "Next", explorePageII);
-			if (debug) addButton(9, "Debug", exploreDebug.doExploreDebug);
-			else addButton(9, "Menu Style", toggleMenuStyle).hint("Switch to new menu style");
-			
-			addButton(14, "Back", playerMenu);
+			if (canMeetXuviel()) SceneLib.demonicLair.questProgressScenes();
+			else {
+				addButton(0, "Explore", tryDiscover).hint("Explore to find new regions and visit any discovered regions.");
+				btnExploreForestOutskirts().applyTo(button(1));
+				btnExploreLake().applyTo(button(2));
+				btnExploreDesertOuter().applyTo(button(3));
+				
+				btnExploreBattlefieldBoundary().applyTo(button(5));
+				btnExploreHills().applyTo(button(6));
+				btnExplorePlains().applyTo(button(7));
+				btnExploreSwamp().applyTo(button(8));
+				
+				btnExploreBlightRidge().applyTo(button(10));
+				btnExploreBeach().applyTo(button(11));
+				btnExploreCaves().applyTo(button(12));
+				
+				addButton(4, "Next", explorePageII);
+				addButton(9, "Menu Style", toggleMenuStyle).hint("Switch to new menu style");
+				if (debug) addButton(13, "Debug", exploreDebug.doExploreDebug);
+				
+				addButton(14, "Back", playerMenu);
+			}
 		}
 		
 		private function explorePageII():void {
@@ -560,9 +579,9 @@ public class Exploration extends BaseContent implements SaveableState
 			else addButtonDisabled(0, "LL Explore", "Req. lvl 31+");
 			if (player.level >= 51) addButton(1, "ML Explore", tryDiscoverML).hint("Explore to find weaker new enemies.");
 			else addButtonDisabled(1, "ML Explore", "Req. lvl 51+");
-			if (player.level >= 70) addButton(2, "HL Explore", tryDiscoverHL).hint("Explore to find below averange new enemies.");
+			if (player.level >= 70) addButton(2, "HL Explore", tryDiscoverHL).hint("Explore to find below average new enemies.");
 			else addButtonDisabled(2, "HL Explore", "Req. lvl 70+");
-			if (player.level >= 95) addButton(3, "XHL Explore", tryDiscoverXHL).hint("Explore to find bit above averange new enemies.");
+			if (player.level >= 95) addButton(3, "XHL Explore", tryDiscoverXHL).hint("Explore to find bit above average new enemies.");
 			else addButtonDisabled(3, "XHL Explore", "Req. lvl 95+");
 			if (player.level >= 125) addButton(4, "XXHL Explore", tryDiscoverXXHL).hint("Explore to find strong new enemies.");
 			else addButtonDisabled(4, "XXHL Explore", "Req. lvl 125+");
@@ -599,66 +618,96 @@ public class Exploration extends BaseContent implements SaveableState
 			doExplore();
 		}
 		
+		private function golemEncountProto():void {
+			clearOutput();
+			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered proto golem! You ready your [weapon] for a fight!");
+			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GOLEMS);
+			startCombat(new GolemProto());
+		}
 		private function golemEncountBasic():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered dummy golem! You ready your [weapon] for a fight!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GOLEMS);
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 0;
 			startCombat(new GolemDummy());
+		}
+		private function golemEncounterBasicGroup():void {
+			clearOutput();
+			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered dummy golems! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 1;
+			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterImproved():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered improved dummy golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 2;
 			startCombat(new GolemDummyImproved());
+		}
+		private function golemEncounterImprovedGroup():void {
+			clearOutput();
+			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered improved dummy golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 3;
+			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterAdvanced():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered advanced dummy golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 4;
 			startCombat(new GolemDummyAdvanced());
 		}
 		private function golemEncounterAdvancedGroup():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered advanced dummy golems! You ready your [weapon] for a fight!");
-			startCombat(new GolemsDummyAdvanced());
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 5;
+			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterSuperior():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered superior dummy golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 6;
 			startCombat(new GolemDummySuperior());
 		}
 		private function golemEncounterSuperiorGroup():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered superior dummy golems! You ready your [weapon] for a fight!");
-			startCombat(new GolemsDummySuperior());
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 7;
+			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterTrueBasic():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered basic true golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 8;
 			startCombat(new GolemTrueBasic());
 		}
 		private function golemEncounterTrueBasicGroup():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered basic true golems! You ready your [weapon] for a fight!");
-			startCombat(new GolemsTrueBasic());
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 9;
+			startCombat(new GolemsTrue());
 		}
 		private function golemEncounterTrueImproved():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered improved true golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 10;
 			startCombat(new GolemTrueImproved());
 		}
 		private function golemEncounterTrueImprovedGroup():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered improved true golems! You ready your [weapon] for a fight!");
-			startCombat(new GolemsTrueImproved());
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 11;
+			startCombat(new GolemsTrue());
 		}
 		private function golemEncounterTrueAdvanced():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered advanced true golem! You ready your [weapon] for a fight!");
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 12;
 			startCombat(new GolemTrueAdvanced());
 		}
 		private function golemEncounterTrueAdvancedGroup():void {
 			clearOutput();
 			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered advanced true golems! You ready your [weapon] for a fight!");
-			startCombat(new GolemsTrueAdvanced());
+			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 13;
+			startCombat(new GolemsTrue());
 		}
 		
 		private function feralImpEncounter():void {
@@ -675,16 +724,6 @@ public class Exploration extends BaseContent implements SaveableState
 			outputText("An imp wings out of the sky and attacks!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_IMPS);
 			startCombat(new Imp());
-		}
-		public function genericGobImpAngEncounters(even:Boolean = false):void {
-			var gobImpAngChooser:int = rand(20);
-			if (gobImpAngChooser >= 8) SceneLib.goblinScene.goblinShamanEncounter();
-			//else if (gobImpAngChooser >= 16) angeloid
-			//else if (gobImpAngChooser >= 18) angeloid
-			else {
-				SceneLib.impScene.impOverlordEncounter();
-				spriteSelect(SpriteDb.s_impOverlord);
-			}
 		}
 		public function genericImpEncounters2(even:Boolean = false):void {
 			var sss:Number = 75;
@@ -730,92 +769,19 @@ public class Exploration extends BaseContent implements SaveableState
 				return;
 			}
 		}
-		public function genericGolemsEncounters1(even:Boolean = false):void {
-			var sss:Number = 10;
-			if (player.level >= 12) sss += 10;
-			if (player.level >= 18) sss += 10;
-			if (player.level >= 24) sss += 10;
-			if (player.level >= 33) sss += 10;
-			var golemsChooser:int = rand(sss);
-			//Limit chooser range
-			clearOutput();
-			//Improved dummy golems
-			if (golemsChooser >= 10 && golemsChooser < 20) {
-				outputText("As you take a stroll, from behind of nearby combatants remains emerge group of golems. Looks like you have encountered improved dummy golems! You ready your [weapon] for a fight!");
-				startCombat(new GolemsDummyImproved());
-				return;
-			}
-			//Advanced dummy golems
-			if (golemsChooser >= 20 && golemsChooser < 30) {
-				outputText("As you take a stroll, from behind of nearby combatants remains emerge group of golems. Looks like you have encountered advanced dummy golems! You ready your [weapon] for a fight!");
-				startCombat(new GolemsDummyAdvanced());
-				return;
-			}
-			//Superior dummy golems
-			if (golemsChooser >= 30 && golemsChooser < 40) {
-				outputText("As you take a stroll, from behind of nearby combatants remains emerge group of golems. Looks like you have encountered superior dummy golems! You ready your [weapon] for a fight!");
-				startCombat(new GolemsDummySuperior());
-				return;
-			}
-			//Basic true golems
-			if (golemsChooser >= 40 && golemsChooser < 50) {
-				outputText("As you take a stroll, from behind of nearby combatants remains emerge group of golems. Looks like you have encountered basic true golems! You ready your [weapon] for a fight!");
-				startCombat(new GolemsTrueBasic());
-				return;
-			}
-			//Improved true golems
-			if (golemsChooser >= 50) {
-				outputText("As you take a stroll, from behind of nearby combatants remains emerge group of golems. Looks like you have encountered improved true golems! You ready your [weapon] for a fight!");
-				startCombat(new GolemsTrueImproved());
-				return;
-			}
-			//Dummy golems
-			else {
-				outputText("As you take a stroll, from behind of nearby combatants remains emerge group of golems. Looks like you have encountered dummy golems! You ready your [weapon] for a fight!");
-				camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GOLEMS);
-				startCombat(new GolemsDummy());
-				return;
-			}
-		}
-		public function genericGobImpEncounters1(even:Boolean = false):void {
-			var sss:Number = 20;
-			if (player.level >= 18) sss += 10;
-			if (player.level >= 30) sss += 10;
-			var gobimpChooser:int = rand(sss);
-			//Limit chooser range
-			clearOutput();
-			if (gobimpChooser >= 10 && gobimpChooser < 20) {
-				SceneLib.impScene.impPackEncounter2();
-			}
-			else if (gobimpChooser >= 20 && gobimpChooser < 30) {
-				if (rand(10) == 0) SceneLib.angelScene.angeloidGroupEncounter();
-				else SceneLib.impScene.impPackEncounter();
-			}
-			else if (gobimpChooser >= 30) {
-				if (flags[kFLAGS.TIMES_ENCOUNTERED_GOBLIN_WARRIOR] >= 1) SceneLib.goblinScene.goblinWarriorsEncounter();
-				else {
-					if (rand(10) == 0) SceneLib.angelScene.angeloidGroupEncounter();
-					else SceneLib.impScene.impPackEncounter();
-				}
-			}
-			else {
-				if (flags[kFLAGS.TIMES_ENCOUNTERED_GOBLIN_ASSASSIN] >= 1) SceneLib.goblinScene.goblinAdventurersEncounter();
-				else SceneLib.impScene.impPackEncounter2();
-			}
-		}
-		private function angelEncounterLow():void {
+		private function angeloidEncounterLow():void {
 			clearOutput();
 			outputText("A low-ranked angeloid wings out of the sky and attacks!");
 			player.createStatusEffect(StatusEffects.AngelsChooser, 1, 0, 0, 0);
 			startCombat(new Angeloid());
 		}
-		private function angelEncounterMid():void {
+		private function angeloidEncounterMid():void {
 			clearOutput();
 			outputText("A mid-ranked angeloid wings out of the sky and attacks!");
 			player.createStatusEffect(StatusEffects.AngelsChooser, 2, 0, 0, 0);
 			startCombat(new Angeloid());
 		}
-		private function angelEncounterHigh():void {
+		private function angeloidEncounterHigh():void {
 			clearOutput();
 			outputText("A high-ranked angeloid wings out of the sky and attacks!");
 			player.createStatusEffect(StatusEffects.AngelsChooser, 3, 0, 0, 0);
@@ -903,11 +869,16 @@ public class Exploration extends BaseContent implements SaveableState
 			if (flags[kFLAGS.GALIA_LVL_UP] > 0 && flags[kFLAGS.GALIA_LVL_UP] < 0.5) return 2;
 			return 1;
 		}
+		private function angelicFraction():Boolean {
+            return flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 0;
+        }
 		
 		private var _explorationEncounters:GroupEncounter = null;
 		private var _commonEncounters:GroupEncounter = null;
+		private var _commonGroupEncounters:GroupEncounter = null;
 		private var _angelEncounters:GroupEncounter = null;
 		public function get commonEncounters():GroupEncounter { return _commonEncounters }
+		public function get commonGroupEncounters():GroupEncounter { return _commonGroupEncounters }
 		public function get angelEncounters():GroupEncounter { return _angelEncounters }
 		private function init():void {
 			const fn:FnHelpers = Encounters.fn;
@@ -916,19 +887,78 @@ public class Exploration extends BaseContent implements SaveableState
 						name: "angel1",
 						label: "Angeloid I",
 						kind: "monster",
-						call: angelEncounterLow
+						call: angeloidEncounterLow
 					}, {
 						name: "angel2",
 						label: "Angeloid II",
 						kind: "monster",
 						when: fn.ifLevelMin(6),
-						call: angelEncounterMid
+						call: angeloidEncounterMid
 					} , {
 						name: "angel3",
 						label: "Angeloid III",
 						kind: "monster",
 						when: fn.ifLevelMin(12),
-						call: angelEncounterHigh
+						call: angeloidEncounterHigh
+					}
+			).withCondition(angelicFraction);
+			
+			_commonGroupEncounters = Encounters.group("common Grp",
+					{
+						name: "golem2group",
+						label: "Dummy Golem",
+						shortLabel: "Golem II+",
+						kind: "monster",
+						when:fn.ifLevelMin(6),
+						call: golemEncounterBasicGroup
+					}, {
+						name: "golem3group",
+						label: "Improved Golem Group",
+						shortLabel: "Golem III+",
+						kind: "monster",
+						when:fn.ifLevelMin(24),
+						chance: 0.25,
+						call: golemEncounterAdvancedGroup
+					}, {
+						name: "golem4group",
+						label: "Advanced Golem Group",
+						shortLabel: "Golem IV+",
+						kind: "monster",
+						when:fn.ifLevelMin(33),
+						chance: 0.25,
+						call: golemEncounterAdvancedGroup
+					}, {
+						name: "golem5group",
+						label: "Superior Golem Group",
+						shortLabel: "Golem V+",
+						kind: "monster",
+						when:fn.ifLevelMin(42),
+						chance: 0.25,
+						call: golemEncounterSuperiorGroup
+					}, {
+						name: "golem6group",
+						label: "Basic True Golem Group",
+						shortLabel: "Golem VI+",
+						kind: "monster",
+						when:fn.ifLevelMin(51),
+						chance: 0.25,
+						call: golemEncounterTrueBasicGroup
+					}, {
+						name: "golem7group",
+						label: "Improved True Golem Group",
+						shortLabel: "Golem VII+",
+						kind: "monster",
+						when:fn.ifLevelMin(60),
+						chance: 0.25,
+						call: golemEncounterTrueImprovedGroup
+					}, {
+						name: "golem8group",
+						label: "Advanced True Golem Group",
+						shortLabel: "Golem VIII+",
+						kind: "monster",
+						when:fn.ifLevelMin(69),
+						chance: 0.25,
+						call: golemEncounterTrueAdvancedGroup
 					}
 			);
 			
@@ -943,7 +973,7 @@ public class Exploration extends BaseContent implements SaveableState
 						label: "Feral Imp",
 						kind: "monster",
 						when: function():Boolean {
-							return player.level >= 3 || player.statusEffectv2(StatusEffects.AdventureGuildQuests2) > 0
+							return player.level >= 3 || flags[kFLAGS.HARDCORE_MODE] == 1 || player.statusEffectv2(StatusEffects.AdventureGuildQuests2) > 0
 						},
 						call: feralImpEncounter,
 						mods: [impFactor, feralImpFactor]
@@ -1030,87 +1060,110 @@ public class Exploration extends BaseContent implements SaveableState
 						label: "Dummy Golem",
 						shortLabel: "Golem I",
 						kind: "monster",
-						call: golemEncountBasic
+						when:fn.ifLevelMin(6),
+						call: golemEncountProto
 					}, {
 						name: "golem2",
-						label: "Improved Golem",
+						label: "Dummy Golem",
 						shortLabel: "Golem II",
 						kind: "monster",
-						when:fn.ifLevelMin(12),
-						call: golemEncounterImproved
+						when:fn.ifLevelMin(15),
+						call: golemEncountBasic
+					}, {
+						name: "golem2group",
+						label: "Dummy Golem",
+						shortLabel: "Golem II+",
+						kind: "monster",
+						when:fn.ifLevelMin(15),
+						call: golemEncounterBasicGroup
 					}, {
 						name: "golem3",
-						label: "Advanced Golem",
+						label: "Improved Golem",
 						shortLabel: "Golem III",
 						kind: "monster",
-						when:fn.ifLevelMin(18),
-						call: golemEncounterAdvanced
+						when:fn.ifLevelMin(24),
+						call: golemEncounterImproved
 					}, {
 						name: "golem3group",
-						label: "Advanced Golem Group",
+						label: "Improved Golem Group",
 						shortLabel: "Golem III+",
 						kind: "monster",
-						when:fn.ifLevelMin(18),
+						when:fn.ifLevelMin(24),
 						chance: 0.25,
 						call: golemEncounterAdvancedGroup
 					}, {
 						name: "golem4",
-						label: "Superior Golem",
+						label: "Advanced Golem",
 						shortLabel: "Golem IV",
 						kind: "monster",
-						when:fn.ifLevelMin(24),
-						call: golemEncounterSuperior
+						when:fn.ifLevelMin(33),
+						call: golemEncounterAdvanced
 					}, {
 						name: "golem4group",
-						label: "Superior Golem Group",
+						label: "Advanced Golem Group",
 						shortLabel: "Golem IV+",
 						kind: "monster",
-						when:fn.ifLevelMin(18),
+						when:fn.ifLevelMin(33),
+						chance: 0.25,
+						call: golemEncounterAdvancedGroup
+					}, {
+						name: "golem5",
+						label: "Superior Golem",
+						shortLabel: "Golem V",
+						kind: "monster",
+						when:fn.ifLevelMin(42),
+						call: golemEncounterSuperior
+					}, {
+						name: "golem5group",
+						label: "Superior Golem Group",
+						shortLabel: "Golem V+",
+						kind: "monster",
+						when:fn.ifLevelMin(42),
 						chance: 0.25,
 						call: golemEncounterSuperiorGroup
 					}, {
-						name: "golem5",
+						name: "golem6",
 						label: "Basic True Golem",
-						shortLabel: "Golem V",
+						shortLabel: "Golem VI",
 						kind: "monster",
-						when:fn.ifLevelMin(33),
+						when:fn.ifLevelMin(51),
 						call: golemEncounterTrueBasic
 					}, {
-						name: "golem5group",
+						name: "golem6group",
 						label: "Basic True Golem Group",
-						shortLabel: "Golem V+",
+						shortLabel: "Golem VI+",
 						kind: "monster",
-						when:fn.ifLevelMin(33),
+						when:fn.ifLevelMin(51),
 						chance: 0.25,
 						call: golemEncounterTrueBasicGroup
 					}, {
-						name: "golem6",
+						name: "golem7",
 						label: "Improved True Golem",
 						shortLabel: "Golem VI",
 						kind: "monster",
-						when:fn.ifLevelMin(42),
+						when:fn.ifLevelMin(60),
 						call: golemEncounterTrueImproved
 					}, {
-						name: "golem6group",
+						name: "golem7group",
 						label: "Improved True Golem Group",
-						shortLabel: "Golem VI+",
+						shortLabel: "Golem VII+",
 						kind: "monster",
-						when:fn.ifLevelMin(42),
+						when:fn.ifLevelMin(60),
 						chance: 0.25,
 						call: golemEncounterTrueImprovedGroup
 					}, {
-						name: "golem7",
+						name: "golem8",
 						label: "Advanced True Golem",
-						shortLabel: "Golem VII",
+						shortLabel: "Golem VIII",
 						kind: "monster",
-						when:fn.ifLevelMin(51),
+						when:fn.ifLevelMin(69),
 						call: golemEncounterTrueAdvanced
 					}, {
-						name: "golem5group",
-						label: "Basic True Golem Group",
-						shortLabel: "Golem V+",
+						name: "golem8group",
+						label: "Advanced True Golem Group",
+						shortLabel: "Golem VIII+",
 						kind: "monster",
-						when:fn.ifLevelMin(33),
+						when:fn.ifLevelMin(69),
 						chance: 0.25,
 						call: golemEncounterTrueAdvancedGroup
 					}
@@ -1123,7 +1176,7 @@ public class Exploration extends BaseContent implements SaveableState
 						unique: true,
 						chance: 2,
 						when  : function ():Boolean {
-							return player.level > 0 && (
+							return (player.level > 0 || flags[kFLAGS.HARDCORE_MODE] == 1) && (
 									EvangelineFollower.EvangelineAffectionMeter < 1
 									|| (EvangelineFollower.EvangelineAffectionMeter == 1 || EvangelineFollower.EvangelineAffectionMeter == 2) && player.statusEffectv1(StatusEffects.TelAdre) >= 1 && flags[kFLAGS.HEXINDAO_UNLOCKED] >= 1)
 						},
@@ -1140,7 +1193,7 @@ public class Exploration extends BaseContent implements SaveableState
 						unique: true,
 						chance: 1,
 						when  : function ():Boolean {
-							return player.level > 2 && player.hasKeyItem("Sky Poison Pearl") < 0 && flags[kFLAGS.SKY_POISON_PEARL] < 1;
+							return (player.level > 2 || flags[kFLAGS.HARDCORE_MODE] == 1) && player.hasKeyItem("Sky Poison Pearl") < 0 && flags[kFLAGS.SKY_POISON_PEARL] < 1;
 						},
 						call  : pearldiscovery
 					}, {
@@ -1149,7 +1202,7 @@ public class Exploration extends BaseContent implements SaveableState
 						kind  : "place",
 						unique: true,
 						when  : function ():Boolean {
-							return player.level > 5 && flags[kFLAGS.HIDDEN_CAVE_FOUND] < 1
+							return (player.level > 5 || flags[kFLAGS.HARDCORE_MODE] == 1) && flags[kFLAGS.HIDDEN_CAVE_FOUND] < 1
 						},
 						call  : hiddencavediscovery
 					}, {
@@ -1167,7 +1220,7 @@ public class Exploration extends BaseContent implements SaveableState
 						kind  : "item",
 						unique: true,
 						when  : function ():Boolean {
-							return player.level >= 9 && player.hasKeyItem("Pocket Watch") < 0
+							return (player.level >= 9 || flags[kFLAGS.HARDCORE_MODE] == 1) && player.hasKeyItem("Pocket Watch") < 0
 									&& (!player.hasStatusEffect(StatusEffects.PocketWatch) || player.superPerkPoints > 0)
 						},
 						call  : pocketwatchdiscovery
@@ -1180,6 +1233,15 @@ public class Exploration extends BaseContent implements SaveableState
 						night : false,
 						call  : SceneLib.helScene.helSexualAmbush,
 						when  : SceneLib.helScene.helSexualAmbushCondition
+					}, {
+						name  : "VS",
+						kind  : "npc",
+						unique: true,
+						night : true,
+						when  : function ():Boolean {
+							return (player.racialScore(Races.VAMPIRE) >= 20 || player.racialScore(Races.DRACULA) >= 22) && player.hasStatusEffect(StatusEffects.Familiar) && player.statusEffectv3(StatusEffects.Familiar) == 0;
+						},
+						call  : creatingTheServant
 					}, {
 						name  : "NPC (New)",
 						kind  : "npc",
@@ -1202,7 +1264,7 @@ public class Exploration extends BaseContent implements SaveableState
 						kind  : "place",
 						unique: true,
 						when  : function ():Boolean {
-							return !player.hasStatusEffect(StatusEffects.TelAdre);
+							return (!player.hasStatusEffect(StatusEffects.TelAdre) || player.statusEffectv1(StatusEffects.TelAdre) < 1);
 						},
 						call  : SceneLib.telAdre.discoverTelAdre
 					}, {
@@ -1214,19 +1276,19 @@ public class Exploration extends BaseContent implements SaveableState
 						},
 						call  : SceneLib.bazaar.findBazaar
 					}, {
-						name  : "Forest",
-						kind  : "place",
-						unique: true,
-						chance: Encounters.ALWAYS,
-						when  : SceneLib.forest.canDiscoverOuter,
-						call  : SceneLib.forest.discoverOuter
-					}, {
 						name  : "Lake",
 						kind  : "place",
 						unique: true,
 						chance: Encounters.ALWAYS,
 						when  : SceneLib.lake.canDiscover,
 						call  : SceneLib.lake.discover
+					}, {
+						name  : "Forest",
+						kind  : "place",
+						unique: true,
+						chance: Encounters.ALWAYS,
+						when  : SceneLib.forest.canDiscoverOuter,
+						call  : SceneLib.forest.discoverOuter
 					}, {
 						name  : "Desert",
 						kind  : "place",
@@ -1329,11 +1391,11 @@ public class Exploration extends BaseContent implements SaveableState
 			}
 			explorer.skillBasedReveal(1, SceneLib.exploration.counters.explore);
 			explorer.doExplore();
-/*			if (player.level > 5 && flags[kFLAGS.RYUBI_LVL_UP] < 1 && rand(4) == 0) {
+/*			if ((player.level > 5 || flags[kFLAGS.HARDCORE_MODE] == 1) && flags[kFLAGS.RYUBI_LVL_UP] < 1 && rand(4) == 0) {
 				ryubifirstenc();
 				return;
 			}
-			if (player.level > 5 && flags[kFLAGS.RYUBI_LVL_UP] >= 1 && rand(4) == 0) {
+			if ((player.level > 5 || flags[kFLAGS.HARDCORE_MODE] == 1) && flags[kFLAGS.RYUBI_LVL_UP] >= 1 && rand(4) == 0) {
 				ryubirepenc();
 				return;
 			}
@@ -1349,7 +1411,7 @@ public class Exploration extends BaseContent implements SaveableState
 					return;
 				}
 				//Discover Pit
-				if (flags[kFLAGS.] > 0 && flags[kFLAGS.] <= 0 && ((rand(3) == 0 && player.level >= 16) || player.level >= 21)) {
+				if (flags[kFLAGS.] > 0 && flags[kFLAGS.] <= 0 && ((rand(3) == 0 && player.level >= 16) || player.level >= 21 || flags[kFLAGS.HARDCORE_MODE] == 1)) {
 					flags[kFLAGS.] = 1;
 					clearOutput();
 					outputText("You walk \n\n");
@@ -1378,16 +1440,16 @@ public class Exploration extends BaseContent implements SaveableState
 		
 		private function creatingTheServant():void {
 			clearOutput();
-			outputText("While traveling the world a sudden thirst overtakes you. And here you thought you had your fill of blood recently!");
-			outputText("\n\nDesperate for a quick drink you listen for a heartbeat and fly straight to the nearest one spotting a vague form drudging through the wilderness. Seeing red with hunger you wrap your wings around the humanoid and bite straight into her neck. As you slowly regain your sanity a closer look reveals your victim for what it was.");
-			outputText("\n\nThis peachy vulnerable skin, normal face and round ears. These five toed clawless feet and 5 fingered hands. The absence of a tail or wings. No matter how you look at it, that's a damn human you just drank from, one of your own kind!.. Err well, former kind, ain't much anything remotely human about you anymore. You check and confirm that at least she wasn't a virgin or it would have made you feel even worse!");
+			outputText("While traveling the world, a sudden thirst overtakes you. And here you thought you had your fill of blood recently!");
+			outputText("\n\nDesperate for a quick drink, you listen for a heartbeat and fly straight to the nearest one spotting a vague form drudging through the wilderness. Seeing red with hunger, you wrap your wings around the humanoid and bite straight into her neck. As you slowly regain your sanity, a closer look reveals your victim for what it was.");
+			outputText("\n\nThis peachy vulnerable skin, normal face and round ears. These five toed clawless feet and 5 fingered hands. The absence of a tail or wings. No matter how you look at it, that's a damn human you just drank from, one of your own kind!.. At least… former kind, Hardly anything remotely human about you anymore. You check and confirm that at least she wasn't a virgin, or it would have made you feel even worse!");
 			if (player.cor >= 50) outputText("\n\nThat human ain't going to survive much longer, you're about to throw the body into a ditch when a sinister idea comes to your mind suggested by your instinct. You first bite your palm then begin to forcefully feed her your blood to her.");
-			else outputText("\n\nWell fuck by the look of her she's going to die any minute now from anemia! A small nagging thought appears in the back of your mind. Diva did mention vampire blood being infectious right? What if you simply turned that human into a vampire it would solve all of your problems! Without hesitating you cut your hand and begin to force feed your blood to the human in your arms attempting for a last ditch save before you formally become a murderer!");
-			outputText("\n\nThe reaction is instantaneous as her body begins to shake and convulse. Her body does start by becoming more curvy and sexually appealing like the original vampire transformation but the following changes confuse you what's going on? You watch as the girl's nails deform into sharp claws, her teeth sharpening into vicious needles as your corrupted blood taint her eyes red with hunger. Her ears do become pointed not unlike those of a vampire but her form is anything but. ");
-			outputText("To complete this her tongue suddenly elongates to ridiculous length and becomes quite dexterous as it licks your palm obscenely, trying to catch any remaining drop of blood before your regeneration kicks in. Instinctively you already know something went hell of wrong with her transformation and it might have to do with something in your blood or maybe some other factor.");
+			else outputText("\n\nWell, fuck… by the look of her, she's going to die any minute now from all that blood loss! A small nagging thought appears in the back of your mind. Diva did mention vampire blood being infectious right? What if you simply turned that human into a vampire? It would solve all of your problems! Without hesitating, you cut your hand and begin to force feed your blood to the human in your arms attempting for a last ditch save before you formally become a murderer!");
+			outputText("\n\nThe reaction is instantaneous as her body begins to shake and convulse. Her body starts by taking on a more voluptuous, womanly figure like the original vampire transformation, but the following changes confuse you. What's going on? You watch as the girl's nails deform into sharp claws, her teeth sharpening into vicious needles as your corrupted blood taint her eyes red with hunger. Her ears do become pointed not unlike those of a vampire but her form is anything but. ");
+			outputText("To complete this, her tongue suddenly elongates to ridiculous length and becomes quite dexterous as it licks your palm obscenely, trying to catch any remaining drop of blood before your regeneration kicks in. Instinctively you already know something went hell of wrong with her transformation and it might have to do with something in your blood or maybe some other factor.");
 			outputText("\n\nThe crouching ghoul before you, because what else could this fiendish looking damaged soul of an undead be, licks your hand amorously like a well trained dog. Feeling a little awkward at your new pet you pause thinking about what to do with it now. To your surprise though the soul broken undead speaks up intelligently with a refined voice that does not exactly match its behavior and feral look.");
 			outputText("\n\n\"<i>"+player.mf("Master","Mistress")+" I await your order…please tell me your will.</i>\"");
-			outputText("\n\nWell the thing turns out to be quite obedient and well behaved. Perhaps with some clothing you could even make it pass for a maid or a butler. You tell your new pet to head to your camp asap once there you will think what to do with her.");
+			outputText("\n\nWell, the thing turns out to be quite obedient and well behaved. Perhaps with some clothing you could even make it pass for a maid or a butler. You tell your new pet to head to your camp asap once there you will think what to do with her.");
 			outputText("\n\n\"<i>As the good "+player.mf("master","mistress")+" command!</i>\"");
 			outputText("\n\nThe ghoul leap into the shadows how it will find your camp you don't know but somehow the blood tells you it will.");
 			if (flags[kFLAGS.LUNA_FOLLOWER] >= 4 && !player.hasStatusEffect(StatusEffects.LunaOff)) outputText(" You ponder in amusement how your maid is going to react to this new servant sharing her chore and turf. Luna is in for a funny surprise you guess.");
@@ -1399,7 +1461,7 @@ public class Exploration extends BaseContent implements SaveableState
 //Temporaly place of finding enemies for lvl between 31 and 49
 		public function tryDiscoverLL():void {
 			clearOutput();
-			if (rand(4) == 0) {
+			if (rand(4) == 0 && flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 0) {
                 if (silly()) {
                     outputText("You're walking in the woods\n\n");
                     outputText("There's no one around\n\n");
@@ -1436,7 +1498,7 @@ public class Exploration extends BaseContent implements SaveableState
                     outputText("Out of the corner of your eye you spot her\n\n");
                 }
 				outputText("<b>A Wasp Huntress...</b>");
-				startCombat(new WapsHuntress());//lvl 48
+				startCombat(new WaspHuntress());//lvl 48
 				return;
 			}
 		}

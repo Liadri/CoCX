@@ -17,6 +17,28 @@ use namespace CoC;
 
 	public class DarkSlime extends Monster
 	{
+		override public function playerBoundStruggle():Boolean{
+			clearOutput();
+			//[Struggle](successful) :
+			if (rand(3) == 0 || rand(80) < player.str) {
+				outputText("You claw your fingers wildly within the slime and manage to brush against her heart-shaped nucleus. The girl silently gasps and loses cohesion, allowing you to pull yourself free while she attempts to solidify.");
+				player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+			}
+			//Failed struggle
+			else {
+				outputText("You writhe uselessly, trapped inside the goo girl's warm, seething body. Darkness creeps at the edge of your vision as you slow, lulled into surrendering by the rippling vibrations of the girl's pulsing body around yours. ");
+				player.takePhysDamage(.15 * player.maxHP(), true);
+			}
+			return true;
+		}
+
+		override public function playerBoundWait():Boolean{
+			clearOutput();
+			outputText("You writhe uselessly, trapped inside the goo girl's warm, seething body. Darkness creeps at the edge of your vision as you are lulled into surrendering by the rippling vibrations of the girl's pulsing body around yours.");
+			player.takePhysDamage(.35 * player.maxHP(), true);
+			return true;
+		}
+
 		private function gooGalAttack():void
 		{
 			var damage:Number = 0;
@@ -80,7 +102,7 @@ use namespace CoC;
 		private function gooEngulph():void
 		{
 			outputText("The dark slime gleefully throws her entire body at you and, before you can get out of the way, she has engulfed you in her oozing form! Tendrils of purple slime slide up your nostrils and through your lips, filling your lungs with the girl's muck. You begin suffocating!");
-			if (!player.hasStatusEffect(StatusEffects.GooBind)) player.createStatusEffect(StatusEffects.GooBind, 0, 0, 0, 0);
+			if (!player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) player.createStatusEffect(StatusEffects.PlayerBoundPhysical, 0, 0, 0, 0);
 		}
 		private function darkslimeMagic():void
 		{
@@ -126,7 +148,7 @@ use namespace CoC;
 			if (inDungeon) { //EL check
                 var mod:int = SceneLib.dungeons.ebonlabyrinth.enemyLevelMod;
                 initStrTouSpeInte(160 + 7*mod, 200 + 18*mod, 100 + 10*mod, 150 + 5*mod);
-                initWisLibSensCor(150 + 5*mod, 250 + 24*mod, 200 + 20*mod, 10);
+                initWisLibSensCor(150 + 5*mod, 250 + 24*mod, 200 + 20*mod, 20);
                 this.weaponAttack = 35 + 2*mod;
                 this.armorDef = 20 + 5*mod;
                 this.armorMDef = 60 + 15*mod;
@@ -134,12 +156,12 @@ use namespace CoC;
                 this.bonusMana = 100 + 50*mod;
                 this.bonusLust = 510 + 48*mod;
                 this.level = 60 + 5*mod;
-                this.gems = int((90 + rand(45)) * Math.exp(0.3*mod));
-                this.additionalXP = int(750 * Math.exp(0.3*mod));
+				this.gems = mod > 20 ? 0 : Math.floor((90 + rand(45)) * Math.exp(0.3*mod));
+				this.additionalXP = mod > 20 ? 0 : Math.floor(750 * Math.exp(0.3*mod));
 			}
 			else {
 				initStrTouSpeInte(154, 187, 92, 145);
-				initWisLibSensCor(145, 226, 182, 10);
+				initWisLibSensCor(145, 226, 182, 20);
 				this.weaponAttack = 35;
 				this.armorDef = 20;
 				this.armorMDef = 60;

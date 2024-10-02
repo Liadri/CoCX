@@ -59,7 +59,9 @@ public class MouseRace extends Race {
 				.height(LESS_THAN(60), +1)
 				.height(LESS_THAN(52), +1);
 		
+		addBloodline(PerkLib.MousesDescendant, PerkLib.BloodlineMouse);
 		addMutation(IMutationsLib.HinezumiBurningBloodIM);
+		addMutation(IMutationsLib.BlazingHeartIM);
 		
 		buildTier(8, "mouse-morph")
 				.namesMaleFemaleMorphTaur("mouse-boy","mouse-girl","mouse-morph","mouse-taur")
@@ -70,8 +72,8 @@ public class MouseRace extends Race {
 				})
 				.end();
 		
-		buildTier(12, "hinezumi")
-				.namesTauric("hinezumi","hinezumi-taur")
+		buildTier(12, "fire mouse")
+				.namesTauric("fire mouse","fire mouse-taur")
 				.requireArmType(Arms.HINEZUMI)
 				.requireLegType(LowerBody.HINEZUMI)
 				.requireTailType(Tail.HINEZUMI)

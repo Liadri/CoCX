@@ -35,7 +35,7 @@ import classes.internals.*;
 			this.hairColor = "white";
 			this.hairLength = 3;
 			initStrTouSpeInte(55, 40, 10, 140);
-			initWisLibSensCor(140, 120, 1, 33);
+			initWisLibSensCor(140, 120, 1, -33);
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
 			this.weaponAttack = 14;
@@ -48,6 +48,7 @@ import classes.internals.*;
 			this.level = 42;
 			this.gems = 0;
 			this.drop = new ChainedDrop().add(consumables.ECTOPLS, 1 / 3);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyUndeadType, 0, 0, 0, 0);
 			checkMonster();
 		}

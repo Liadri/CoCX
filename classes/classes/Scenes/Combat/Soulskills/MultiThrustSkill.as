@@ -11,9 +11,9 @@ import classes.Items.Weapons.Tidarion;
 
 public class MultiThrustSkill extends AbstractSoulSkill {
 	private var thrustArray:Array = [
-		["Triple Thrust", "three", StatusEffects.KnowsTripleThrust, 30, "thrice"],
-		["Sextuple Thrust", "six", StatusEffects.KnowsSextupleThrust, 70, "sixfold"],
-		["Nonuple Thrust", "nine", StatusEffects.KnowsNonupleThrust, 150, "ninefold"]
+		["Triple Thrust", "three", StatusEffects.KnowsTripleThrust, 30, "thrice", 0],
+		["Sextuple Thrust", "six", StatusEffects.KnowsSextupleThrust, 70, "sixfold", 3],
+		["Nonuple Thrust", "nine", StatusEffects.KnowsNonupleThrust, 150, "ninefold", 9]
 	];
 	private var thrustSelection:int;
 	private var multiTrustDNLag:Number = 0;
@@ -39,34 +39,42 @@ public class MultiThrustSkill extends AbstractSoulSkill {
 
 	override public function describeEffectVs(target:Monster):String {
 		multiTrustDNLag = 0;
-		return "~" + numberFormat(Math.round(MultiThrustDSingle(target) * ((thrustSelection + 1) * 3))) + " damage ";
+		return "~" + numberFormat(Math.round(multiThrustDSingle(target, false) * ((thrustSelection + 1) * 3))) + " damage ";
 	}
 
 	override public function calcCooldown():int {
-		return thrustSelection;
+		var baseCooldown:int = thrustArray[thrustSelection][5];
+		switch (thrustSelection) {
+			case 2: return soulskillTier3Cooldown(baseCooldown);
+					break;
+			case 1: return soulskillTier2Cooldown(baseCooldown);
+					break;
+			case 0: 
+			default:return soulskillCooldown(baseCooldown);
+					break;
+		}
 	}
 
-	private function MultiThrustDSingle(monster: Monster):Number {
-		var damage:Number = 0;
+	private function multiThrustDSingle(monster: Monster, casting:Boolean = true):Number {
+		var damage:Number = scalingBonusWisdom() * 2;
 		damage += combat.meleeDamageNoLagSingle();
 		damage *= 1.75;
-
-		//All special weapon effects like...fire/ice
-		if (player.weapon == weapons.TIDAR) (player.weapon as Tidarion).afterStrike();
-		if (player.isFistOrFistWeapon() && player.hasStatusEffect(StatusEffects.HinezumiCoat)) {
-			var damage1:Number = damage;
-			damage = combat.fireTypeDamageBonus(damage);
-			if (player.lust > player.lust100 * 0.5) dynStats("lus", -1, "scale", false);
-			damage += damage1;
-			damage *= 1.1;
+		if (casting) {
+			//All special weapon effects like...fire/ice
+			if (player.weapon == weapons.TIDAR) (player.weapon as Tidarion).afterStrike();
+			if (player.isFistOrFistWeapon() && player.hasStatusEffect(StatusEffects.HinezumiCoat)) {
+				var damage1:Number = damage;
+				damage = combat.fireTypeDamageBonus(damage);
+				if (player.lust > player.lust100 * 0.5) dynStats("lus", -1, "scale", false);
+				damage += damage1;
+				damage *= 1.1;
+			}
 		}
-
 		//soulskill mod effect
 		damage *= soulskillPhysicalMod();
-
 		//other bonuses
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 4 && player.HP < Math.round(player.maxHP() * 0.5)) damage *= 1.5;
-		if (monster) if (monster.hasStatusEffect(StatusEffects.FrozenSolid)) damage *= 2;
+		if (monster && monster.hasStatusEffect(StatusEffects.FrozenSolid)) damage *= 2;
 		return damage;
 	}
 
@@ -74,18 +82,16 @@ public class MultiThrustSkill extends AbstractSoulSkill {
 		var damage:Number = 0;
 		if (multiTrustDNLag != 0) damage += multiTrustDNLag;
 		else {
-			multiTrustDNLag += MultiThrustDSingle(monster);
-			damage += MultiThrustDSingle(monster);
+			multiTrustDNLag += multiThrustDSingle(monster);
+			damage += multiThrustDSingle(monster);
 		}
-
 		var d2:Number = 0.9;
 		d2 += (rand(21) * 0.01);
 		damage *= d2;
-
 		var crit:Boolean = false;
 		var critChance:int = 5;
-		if (player.isSwordTypeWeapon()) critChance += 10;
-		if (player.isDuelingTypeWeapon()) critChance += 20;
+		if (player.weapon.isSwordType() || player.weaponOff.isSwordType()) critChance += 10;
+		if (player.weapon.isDuelingType() || player.weaponOff.isDuelingType()) critChance += 20;
 		critChance += combat.combatPhysicalCritical();
 		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
 		if (rand(100) < critChance) {
@@ -96,44 +102,7 @@ public class MultiThrustSkill extends AbstractSoulSkill {
 			else damage *= (1.75 + buffMultiplier);
 		}
 		if (display) outputText(" ");
-		if (combat.isFireTypeWeapon()) {
-			if (player.flameBladeActive()) damage += scalingBonusLibido() * 0.20;
-			damage = Math.round(damage * combat.fireDamageBoostedByDao());
-			doFireDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-		}
-		else if (combat.isIceTypeWeapon()) {
-			damage = Math.round(damage * combat.iceDamageBoostedByDao());
-			doIceDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-		}
-		else if (combat.isLightningTypeWeapon()) {
-			damage = Math.round(damage * combat.lightningDamageBoostedByDao());
-			doLightningDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-		}
-		else if (combat.isDarknessTypeWeapon()) {
-			damage = Math.round(damage * combat.darknessDamageBoostedByDao());
-			doDarknessDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-		}
-		else if (player.weapon == weapons.MGSWORD) {
-			doMagicDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-		}
-		else if (player.weapon == weapons.MCLAWS) {
-			doMagicDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-		}
-		else {
-			doDamage(damage, true, display);
-			if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage);
-			if (player.weapon == weapons.DAISHO) {
-				doDamage(Math.round(damage * 0.5), true, display);
-				if (player.statStore.hasBuff("FoxflamePelt")) combat.layerFoxflamePeltOnThis(damage * 0.5);
-			}
-		}
-
+		combat.checkForElementalEnchantmentAndDoDamageMain(damage);
 		if (crit) {
 			if (display) outputText(" <b>*Critical Hit!*</b>");
 			if (player.hasStatusEffect(StatusEffects.Rage)) player.removeStatusEffect(StatusEffects.Rage);
@@ -142,12 +111,10 @@ public class MultiThrustSkill extends AbstractSoulSkill {
 			if (player.hasStatusEffect(StatusEffects.Rage) && player.statusEffectv1(StatusEffects.Rage) > 5 && player.statusEffectv1(StatusEffects.Rage) < 70) player.addStatusValue(StatusEffects.Rage, 1, 10);
 			else player.createStatusEffect(StatusEffects.Rage, 10, 0, 0, 0);
 		}
-
 		checkAchievementDamage(damage);
 		combat.WrathGenerationPerHit2(5);
 		if (player.hasStatusEffect(StatusEffects.HeroBane)) flags[kFLAGS.HERO_BANE_DAMAGE_BANK] += damage;
 		if (player.hasStatusEffect(StatusEffects.EruptingRiposte)) flags[kFLAGS.ERUPTING_RIPOSTE_DAMAGE_BANK] += monster.tou + monster.inte + monster.wis;
-
 	}
 
     override public function doEffect(display:Boolean = true):void {

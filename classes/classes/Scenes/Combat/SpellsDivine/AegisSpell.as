@@ -29,7 +29,7 @@ public class AegisSpell extends AbstractDivineSpell {
 		return player.hasStatusEffect(StatusEffects.Aegis);
 	}
 	
-	public function calcDuration():int {
+	override public function calcDuration():int {
 		var AegisDuration:int = 6;
 		AegisDuration += combat.magic.perkRelatedDurationBoosting();
 		return AegisDuration;
@@ -41,7 +41,7 @@ public class AegisSpell extends AbstractDivineSpell {
 		else aegismagnitude += spellModWhite();
 		if (player.inte / 50 > 5) aegismagnitude += 5;
 		else aegismagnitude += player.inte / 25;
-		if (player.hasPerk(PerkLib.DefensiveStaffChanneling)) aegismagnitude *= 1.1;
+		if (player.hasPerk(PerkLib.DefensiveStaffChanneling) && (player.weapon.isStaffType() || player.weaponOff.isStaffType() || player.weapon.isWandType() || player.weaponOff.isWandType())) aegismagnitude *= 1.2;
 		if ((player.isUsingStaff() || player.isUsingWand()) && player.isNotHavingShieldCuzPerksNotWorkingOtherwise()) aegismagnitude *= 3;
 		return Math.round(aegismagnitude);
 	}

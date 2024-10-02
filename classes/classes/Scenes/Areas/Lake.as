@@ -131,52 +131,62 @@ use namespace CoC;
 				name: "holysword",
 				label : "Holy Sword",
 				kind  : 'item',
-				chance: 0.05,
+				chance: 0.2,
 				unique: 'holyitem', // only one enc with unique:holyitem can appear
 				when: function():Boolean {
-					return !player.hasStatusEffect(StatusEffects.BlessedItemAtTheLake) && !player.hasStatusEffect(StatusEffects.TookBlessedSword) && !player.hasStatusEffect(StatusEffects.BSwordBroken);
+					return !player.hasStatusEffect(StatusEffects.TookBlessedSword) && !player.hasStatusEffect(StatusEffects.BSwordBroken) && player.hasPerk(PerkLib.JobWarrior);
 				},
-				call: findBlessedSword
+				call: swordInStone.findSwordInStone
 			}, {
 				name: "holybow",
 				label : "Holy Bow",
 				kind  : 'item',
-				chance: 0.05,
+				chance: 0.2,
 				unique: 'holyitem', // only one enc with unique:holyitem can appear
 				when: function():Boolean {
-					return !player.hasStatusEffect(StatusEffects.BlessedItemAtTheLake) && !player.hasStatusEffect(StatusEffects.TookBlessedBow) && !player.hasStatusEffect(StatusEffects.BBowBroken) && player.hasPerk(PerkLib.JobRanger);
+					return !player.hasStatusEffect(StatusEffects.TookBlessedBow) && !player.hasStatusEffect(StatusEffects.BBowBroken) && player.hasPerk(PerkLib.JobRanger);
 				},
-				call: findBlessedBow
+				call: swordInStone.findBowInStone
 			}, {
 				name: "holystaff",
 				label : "Holy Staff",
 				kind  : 'item',
-				chance: 0.05,
+				chance: 0.2,
 				unique: 'holyitem', // only one enc with unique:holyitem can appear
 				when: function():Boolean {
-					return !player.hasStatusEffect(StatusEffects.BlessedItemAtTheLake) && !player.hasStatusEffect(StatusEffects.TookBlessedStaff) && !player.hasStatusEffect(StatusEffects.BStaffBroken) && player.hasPerk(PerkLib.JobSorcerer);
+					return !player.hasStatusEffect(StatusEffects.TookBlessedStaff) && !player.hasStatusEffect(StatusEffects.BStaffBroken) && player.hasPerk(PerkLib.JobSorcerer);
 				},
-				call: findBlessedStaff
+				call: swordInStone.findStaffInStone
 			}, {
 				name: "holyshield",
 				label : "Holy Shield",
 				kind  : 'item',
-				chance: 0.05,
+				chance: 0.2,
 				unique: 'holyitem', // only one enc with unique:holyitem can appear
 				when: function():Boolean {
-					return !player.hasStatusEffect(StatusEffects.BlessedItemAtTheLake) && !player.hasStatusEffect(StatusEffects.TookBlessedShield) && !player.hasStatusEffect(StatusEffects.BShieldBroken) && player.hasPerk(PerkLib.JobGuardian);
+					return !player.hasStatusEffect(StatusEffects.TookBlessedShield) && !player.hasStatusEffect(StatusEffects.BShieldBroken) && player.hasPerk(PerkLib.JobGuardian);
 				},
-				call: findBlessedShield
+				call: swordInStone.findShieldInStone
 			}, {
 				name: "holywhip",
 				label : "Holy Whip",
 				kind  : 'item',
-				chance: 0.05,
+				chance: 0.2,
 				unique: 'holyitem', // only one enc with unique:holyitem can appear
 				when: function():Boolean {
-					return !player.hasStatusEffect(StatusEffects.BlessedItemAtTheLake) && !player.hasStatusEffect(StatusEffects.TookBlessedWhip) && !player.hasStatusEffect(StatusEffects.BWhipBroken) && player.hasPerk(PerkLib.JobSeducer);
+					return !player.hasStatusEffect(StatusEffects.TookBlessedWhip) && !player.hasStatusEffect(StatusEffects.BWhipBroken) && player.hasPerk(PerkLib.JobSeducer);
 				},
-				call: findBlessedWhip
+				call: swordInStone.findWhipInStone
+			}, {
+				name: "holyflywhisk",
+				label : "Holy Fly-Whisk",
+				kind  : 'item',
+				chance: 0.2,
+				unique: 'holyitem', // only one enc with unique:holyitem can appear
+				when: function():Boolean {
+					return !player.hasStatusEffect(StatusEffects.TookBlessedFlyWhisk) && !player.hasStatusEffect(StatusEffects.BFlyWhiskBroken) && player.hasPerk(PerkLib.JobSoulCultivator);
+				},
+				call: swordInStone.findFlyWhiskInStone
 			}, {
 				name: "ponies",
 				label : "Ponies",
@@ -202,7 +212,7 @@ use namespace CoC;
 				kind  : 'npc',
 				unique: true,
 				when: function ():Boolean {
-					return player.level >= 3 && flags[kFLAGS.IZMA_ENCOUNTER_COUNTER] > 0 && timesExplored() >= 10 && (flags[kFLAGS.IZMA_WORMS_SCARED] == 0 || !player.hasStatusEffect(StatusEffects.Infested)) && flags[kFLAGS.IZMA_FOLLOWER_STATUS] <= 0
+					return (player.level >= 3 || (flags[kFLAGS.HARDCORE_MODE] == 1 && model.time.days > 6)) && flags[kFLAGS.IZMA_ENCOUNTER_COUNTER] > 0 && timesExplored() >= 10 && (flags[kFLAGS.IZMA_WORMS_SCARED] == 0 || !player.hasStatusEffect(StatusEffects.Infested)) && flags[kFLAGS.IZMA_FOLLOWER_STATUS] <= 0
 				},
 				chance: lakeChance,
 				call: SceneLib.izmaScene.meetIzmaAtLake
@@ -275,11 +285,11 @@ use namespace CoC;
 					return flags[kFLAGS.FACTORY_SHUTDOWN] == 2 ? 0.1 : 0.04
 				},
 				when: function ():Boolean {
-					return player.level >= 3
+					return (player.level >= 3 || (flags[kFLAGS.HARDCORE_MODE] == 1 && model.time.days > 6))
 				},
 				call: gooGirlScene.spyOnGooAndOozeSex
 			}, SceneLib.exploration.commonEncounters.wrap(function ():Boolean {
-				return player.level >= 3 && flags[kFLAGS.NEW_GAME_PLUS_LEVEL] > 0
+				return (player.level >= 3 || (flags[kFLAGS.HARDCORE_MODE] == 1 && model.time.days > 6)) && flags[kFLAGS.NEW_GAME_PLUS_LEVEL] > 0
 			}, [0.1]), {
 				//Helia monogamy fucks
 				name: "helcommon",
@@ -299,7 +309,7 @@ use namespace CoC;
 					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 							&& flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
 							&& !player.hasStatusEffect(StatusEffects.EtnaOff)
-							&& (player.level >= 20);
+							&& (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				chance: lakeChance,
 				call: SceneLib.etnaScene.repeatYandereEnc
@@ -310,7 +320,7 @@ use namespace CoC;
 				unique: true,
 				night : false,
 				when: function():Boolean {
-					return player.level >= 3 && flags[kFLAGS.NADIA_FOLLOWER] < 6 && !(flags[kFLAGS.NADIA_FOLLOWER] != 3 && flags[kFLAGS.NADIA_LVL_UP] >= 8) && player.statusEffectv4(StatusEffects.CampSparingNpcsTimers2) < 1 && !player.hasStatusEffect(StatusEffects.NadiaOff);
+					return (player.level >= 3 || (flags[kFLAGS.HARDCORE_MODE] == 1 && model.time.days > 6)) && flags[kFLAGS.NADIA_FOLLOWER] < 6 && !(flags[kFLAGS.NADIA_FOLLOWER] != 3 && flags[kFLAGS.NADIA_LVL_UP] >= 8) && player.statusEffectv4(StatusEffects.CampSparingNpcsTimers2) < 1 && !player.hasStatusEffect(StatusEffects.NadiaOff);
 				},
 				chance: lakeChance,
 				call: SceneLib.nadiaScene.repeatEnc
@@ -411,27 +421,6 @@ use namespace CoC;
 				return;
 			}
 			fetishCultistScene.fetishCultistEncounter();
-		}
-
-		private function findBlessedSword():void {
-			player.createStatusEffect(StatusEffects.BlessedItemAtTheLake, 0, 0, 0, 0);
-			swordInStone.findSwordInStone();
-		}
-		private function findBlessedBow():void {
-			player.createStatusEffect(StatusEffects.BlessedItemAtTheLake, 0, 0, 0, 0);
-			swordInStone.findBowInStone();
-		}
-		private function findBlessedStaff():void {
-			player.createStatusEffect(StatusEffects.BlessedItemAtTheLake, 0, 0, 0, 0);
-			swordInStone.findStaffInStone();
-		}
-		private function findBlessedShield():void {
-			player.createStatusEffect(StatusEffects.BlessedItemAtTheLake, 0, 0, 0, 0);
-			swordInStone.findShieldInStone();
-		}
-		private function findBlessedWhip():void {
-			player.createStatusEffect(StatusEffects.BlessedItemAtTheLake, 0, 0, 0, 0);
-			swordInStone.findWhipInStone();
 		}
 
 		private function walkAroundLake():void {

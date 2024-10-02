@@ -17,8 +17,8 @@ package classes.Items.Vehicles
 			withBuffs({"str.mult": 0.15, "tou.mult": 0.10, "spe.mult": 0.25});
 		}
 		
-		override public function canEquip(doOutput:Boolean):Boolean {
-			if (!super.canEquip(doOutput)) {
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (!super.canEquip(doOutput, slot)) {
 				return false;
 			}
 			if (game.player.basetallness < 84) { //Shorter than 7 ft
@@ -32,33 +32,39 @@ package classes.Items.Vehicles
 			var boost:Number = 1;
 			if (game.player.hasKeyItem("HB Armor Plating") >= 0) {
 				var value:Number = game.player.keyItemvX("HB Armor Plating", 1);
-				if (value == 1) boost += 0.25;
-				if (value == 2) boost += 0.25;
-				if (value == 3) boost += 0.25;
-				if (value == 4) boost += 0.25;
+				boost += 0.25;
+				if (value >= 2) boost += 0.25;
+				if (value >= 3) boost += 0.25;
+				if (value >= 4) boost += 0.25;
+				if (value >= 5) boost += 0.25;
+				if (value >= 6) boost += 0.25;
+				if (value >= 7) boost += 0.25;
 			}
 			if (game.player.hasKeyItem("HB Leather Insulation") >= 0) {
 				value = game.player.keyItemvX("HB Leather Insulation", 1);
-				if (value == 1) boost += 0.25;
-				if (value == 2) boost += 0.25;
-				if (value == 3) boost += 0.25;
-				if (value == 4) boost += 0.25;
+				boost += 0.25;
+				if (value >= 2) boost += 0.25;
+				if (value >= 3) boost += 0.25;
+				if (value >= 4) boost += 0.25;
+				if (value >= 5) boost += 0.25;
+				if (value >= 6) boost += 0.25;
+				if (value >= 7) boost += 0.25;
 			}
 			return boost;
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			if (!game.isLoadingSave) {
 				game.player.HP = boost * game.player.maxHP();
 				game.player.HP = Math.round(game.player.HP);
 			}
-			super.afterEquip(doOutput);
+			super.afterEquip(doOutput, slot);
 		}
 		
-		override public function afterUnequip(doOutput:Boolean):void {
+		override public function afterUnequip(doOutput:Boolean, slot:int):void {
 			game.player.HP /= boost;
 			game.player.HP = Math.round(game.player.HP);
-			super.afterUnequip(doOutput);
+			super.afterUnequip(doOutput, slot);
 		}
 	}
 }

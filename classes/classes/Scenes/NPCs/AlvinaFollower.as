@@ -223,7 +223,7 @@ public function alvinaThirdEncounter():void
 {
 	clearOutput();
 	outputText("As you wander the blight ridges, you stumble upon what looks to be a cave. Bright purple lights flash in its depths and various magical runes are etched onto the entrance. Do you dare enter? It looks like whatever lies in this cave is extremely dangerous.\n\n");
-	if (SecondDateSuccess) outputText("You have a feling Marae's Pure Pearl could be useful here.")
+	if (SecondDateSuccess) outputText("You have a feeling Marae's Pure Pearl could be useful here.")
 	menu();
 	addButton(0, "No", alvinaThirdEncounterNo);
 	addButton(4, "Yes", alvinaThirdEncounterYes);
@@ -353,10 +353,8 @@ private function alvinaDies(next:Function):void {
 	flags[kFLAGS.ALVINA_FOLLOWER] = 12;
 	AlvinaDied = true;
 	awardAchievement("The end and the beginning", kACHIEVEMENTS.GENERAL_THE_END_AND_THE_BEGINNING);
-	if (flags[kFLAGS.GAME_DIFFICULTY] >= 4)
-		awardAchievement("Beyond gods and mortals", kACHIEVEMENTS.GENERAL_BEYOND_GODS_AND_MORTALS);
-	if (flags[kFLAGS.GAME_DIFFICULTY] >= 2)
-		inventory.takeItem(weapons.ATWINSCY, next);
+	if (flags[kFLAGS.PRIMARY_DIFFICULTY] >= 4) awardAchievement("Beyond gods and mortals", kACHIEVEMENTS.GENERAL_BEYOND_GODS_AND_MORTALS);
+	if (flags[kFLAGS.PRIMARY_DIFFICULTY] >= 2) inventory.takeItem(weapons.ATWINSCY, next);
 	else doNext(next);
 }
 public function alvinaThirdEncounterYesNeverLost():void
@@ -549,7 +547,7 @@ public function alvinaThirdEncounterTakeHer():void
 		spriteSelect(SpriteDb.s_archmage_alvina_shadowmantle2Concealed_16bit);
 		clearOutput();
 		outputText("You tell Alvina you brought a small gift for her, a small box of chocolate. She looks at you puzzled then smile a few seconds later. \n\n");
-		outputText("\"<i>Well how kind, romance in mareth is kind of dead. I'm surprised someone here still use the old ways to courtship well unless you had different motives?</i>\"\n\n");
+		outputText("\"<i>Well how kind, romance in Mareth is kind of dead. I'm surprised someone here still use the old ways to courtship well unless you had different motives?</i>\"\n\n");
 		outputText("No of course not, you really just felt like giving her a gift.\n\n");
 		outputText("\"<i>Really… well I greatly appreciate it, no one else would have gone through such lengths to UGHH...</i>\"\n\n");
 		outputText("She suddenly drop from her chair to the ground a hand on her chest as if trying to hold blood from a fatal wound. You're about to help her out, maybe try some basic medical skills of yours but she get back up on her own.\n\n");
@@ -746,7 +744,7 @@ public function alvinaThirdEncounterTakeHer():void
 		outputText("<b>Alvina has joined you as a follower.</b>\n\n");
 		flags[kFLAGS.ALVINA_FOLLOWER] = 12;
 		awardAchievement("Dawn chasing away the night", kACHIEVEMENTS.GENERAL_DAWN_CHASING_AWAY_THE_NIGHT);
-
+		if (flags[kFLAGS.PRIMARY_DIFFICULTY] >= 4) awardAchievement("Beyond gods and mortals", kACHIEVEMENTS.GENERAL_BEYOND_GODS_AND_MORTALS);
 		alvinaMakeLovePure();
 	}
 	public function alvinaDestroyPhylactoryWatch():void {
@@ -1865,14 +1863,14 @@ public function postMarriageSleep():void {
 		else if (player.cocks[x].cockLength < 10) remarkSmallCock();
 		else remarkAverageCock();
 
-		outputText("Blushing in excitement she gently guides you into her lap spreading her hooved legs appart to offer you access to her innermost precious place, her hands open so to catch and hold yours. Somehow this passionate, innocent pose of hers arouse you more than all the trice damned demons of mareth have, whereas their seduction is perverted and crude Alvina pure genuine and nurtured love for you makes her every gesture radiate with a cute and heartwarming factor unique to hers. "+
+		outputText("Blushing in excitement she gently guides you into her lap spreading her hooved legs appart to offer you access to her innermost precious place, her hands open so to catch and hold yours. Somehow this passionate, innocent pose of hers arouse you more than all the trice damned demons of Mareth have, whereas their seduction is perverted and crude Alvina pure genuine and nurtured love for you makes her every gesture radiate with a cute and heartwarming factor unique to hers. "+
 				"This isn't just about raw sex, this is about a conversation between you and her and sensual carresses and kisses are the word of love you two exchange. You place your hands into the palm of her open paws and align your "+player.cockDescript(x)+" with the entryway to Alvina sacred garden trusting past the gate for a taste of her heaven. You are not disappointed, since Alvina was formerly a succubus; her vagina is capable of amazing feats of motion control; she uses it to massage your cock slowly, letting you savor the pleasure for as long as possible. " +
 				"All the while you two seek each other's mouth moving together to reach new pleasurable heights. As a demon Alvina only knew to take and never give in return her transformation actually led her to rediscover the pleasure of giving and receiving freely and through each pleasant ministration she dots your penis she gets to feel some of the pleasure back. You mean in genuine untarnished happiness as you passionately slide your penis down her canal seeking out all her sweet spots. You can't help but think your penis feels at home into her hole " +
 				"and feel a little apologetic about all the other hole you've tried out before hers.\n\n");//cant check for penile virginity
 		outputText("Alvina, unable to hold further, wraps her legs around you, pushing you deeper and triggering your climax. Pleasure overwhelm your penis as you shoot rope after rope into her warm welcoming folds. She smiles in happiness, eyes closed in bliss as you finish.\n\n");
 		alvinaPureSexFertilityComment();
 		player.sexReward("vaginalFluids", "Dick");
-		doNext(playerMenu);
+		endEncounter();
 
 		function remarkTooBigCock():void {
 			outputText("Alvina admits with a bit of worry \"<i>Well thats a mammoth your packing down here. Perhaps I should be thankful that my maximal vaginal capacity didn't downgrade from my transformation or this thing could inflict some serious damage. Seriously though you should consider shrinking it if only for the wellbeing of most of your partners.</i>\"\n\n");
@@ -1897,7 +1895,7 @@ public function postMarriageSleep():void {
 		outputText(". You feel the crown of her cock seeking out your passage before slowly inserting itself inches after inches inside. Alvina made it just right. It's the perfect size to fill you up entirely without hurting you. Well you would have expected no less from your kinky magician lover. As if reading your thought Alvina offers you a corner smile before commenting.\n\n");
 		outputText("\"<i>I'm glad you like it but I'm just getting started you know?</i>\"\n\n");
 		outputText("As she says this she begins trusting, you don't know if that's demon instinctual knowledge, but god is she good at this. She seems to instinctively know exactly in which direction to thrust to maximize your pleasure, and from the look of it she's also getting off from it, though with such a good fucking you will be cumming far ahead of her. You wrap your legs and clench the ground beneath you as you achieve orgasm, begging your lover to keep going, you just want to go again and again.\n\n");
-		outputText("\"<i>Well that's a good thing [name] seeing as I haven't reached my peak yet.</i>\" She kisses you before promising softly. \"<i>Don't you worry I will keep stuffing you until you can't go on.\"\n\n");
+		outputText("\"<i>Well that's a good thing [name] seeing as I haven't reached my peak yet.</i>\" She kisses you before promising softly. \"<i>Don't you worry I will keep stuffing you until you can't go on.</i>\"\n\n");
 		outputText("Alvina's movement do not stop, indeed allowing you to reach and feel peaks you've never reached before. Alvina's technique is so good you can't think about anything but her dick in your vagina right now as your brain slowly turns to mush. Eventually though, even Alvina reaches her limit as she unloads rope after rope of cum, painting your thirsty vagina white.\n\n");
 		alvinaPureSexFertilityComment();
 		endEncounter();

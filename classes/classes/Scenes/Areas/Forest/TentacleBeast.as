@@ -11,6 +11,17 @@ import classes.internals.*;
 
 public class TentacleBeast extends Monster
 	{
+		override public function combatStatusesUpdateWhenBound():void{
+			tentacleBindUpdateWhenBound();
+		}
+
+		override public function playerBoundStruggle():Boolean{
+			return tentacleBindStruggle();
+		}
+
+		override public function playerBoundWait():Boolean{
+			return tentacleBindWait();
+		}
 		
 		private function tentaclePhysicalAttack():void {
 			outputText("The shambling horror throws its tentacles at you with a murderous force.\n");
@@ -30,7 +41,7 @@ public class TentacleBeast extends Monster
 		private function tentacleEntwine():void {
 			outputText("The beast lunges its tentacles at you from all directions in an attempt to immobilize you.\n");
 			//Not Trapped yet
-			if(!player.hasStatusEffect(StatusEffects.TentacleBind)) {
+			if(!player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) {
 				//Success
 				if(player.getEvasionRoll()) {
 					outputText("In an impressive display of gymnastics, you dodge, duck, dip, dive, and roll away from the shower of grab-happy arms trying to hold you. Your instincts tell you that this was a GOOD thing.\n");
@@ -45,7 +56,7 @@ public class TentacleBeast extends Monster
 					//Genderless
 					else outputText("The creature quickly positions a long tentacle against your " + Appearance.assholeDescript(player) + ". It circles your pucker with slow, delicate strokes that bring unexpected warmth to your body.\n");
 					player.takeLustDamage((8+player.effectiveSensitivity()/20), true);
-					player.createStatusEffect(StatusEffects.TentacleBind,0,0,0,0);
+					player.createStatusEffect(StatusEffects.PlayerBoundPhysical,0,0,0,0);
 				}
 			}
 		}
@@ -115,31 +126,47 @@ public class TentacleBeast extends Monster
 		{
 			trace("TentacleBeast Constructor!");
 			if (inDungeon) { //EL check
-                var mod:int = SceneLib.dungeons.ebonlabyrinth.enemyLevelMod;
-				this.short = "ancient tentacle beast";
-				this.long = "You see the titanic, shambling form of the tentacle beast before you.  Appearing as a massive shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.";
-				initStrTouSpeInte(292 + 31*mod, 320 + 40*mod, 150 + 10*mod, 120 + 5*mod);
-                initWisLibSensCor(100 + 5*mod, 270, 60 + 5*mod, 100);
-                this.weaponAttack = 50 + 10*mod;
-                this.armorDef = 90 + 45*mod;
-                this.armorMDef = 30 + 10*mod;
-                this.bonusHP = 4000 + 4000*mod;
-                this.bonusLust = 390 + 9*mod;
-                this.level = 60 + 5*mod;
-                this.additionalXP = int(250 * Math.exp(0.3*mod));
-                this.gems = int((rand(50)+25) * Math.exp(0.3*mod));
+                if (player.hasStatusEffect(StatusEffects.TGRandomnMob)) {
+					this.short = "tentacle beast";
+					this.long = "You see the massive, shambling form of the tentacle beast before you.  Appearing as a large shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.";
+					initStrTouSpeInte(266, 212, 90, 90);
+					initWisLibSensCor(80, 220, 40, 100);
+					this.weaponAttack = 20;
+					this.armorDef = 45;
+					this.armorMDef = 5;
+					this.bonusHP = 1000;
+					this.bonusLust = 300;
+					this.level = 40;
+					this.gems = rand(30)+15;
+					this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
+				}
+				else {
+					var mod:int = SceneLib.dungeons.ebonlabyrinth.enemyLevelMod;
+					this.short = "ancient tentacle beast";
+					this.long = "You see the titanic, shambling form of the tentacle beast before you.  Appearing as a massive shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.";
+					initStrTouSpeInte(292 + 31*mod, 320 + 40*mod, 150 + 10*mod, 120 + 5*mod);
+					initWisLibSensCor(100 + 5*mod, 270, 60 + 5*mod, 100);
+					this.weaponAttack = 50 + 10*mod;
+					this.armorDef = 90 + 45*mod;
+					this.armorMDef = 30 + 10*mod;
+					this.bonusHP = 4000 + 4000*mod;
+					this.bonusLust = 390 + 9*mod;
+					this.level = 60 + 5*mod;
+					this.gems = mod > 20 ? 0 : Math.floor((50 + rand(25)) * Math.exp(0.3*mod));
+					this.additionalXP = mod > 20 ? 0 : Math.floor(250 * Math.exp(0.3*mod));
+				}
 			}
 			else {
 				this.short = "tentacle beast";
 				this.long = "You see the massive, shambling form of the tentacle beast before you.  Appearing as a large shrub, it shifts its bulbous mass and reveals a collection of thorny tendrils and cephalopodic limbs.";
-				initStrTouSpeInte(73, 90, 25, 45);
-				initWisLibSensCor(40, 90, 20, 100);
-				this.weaponAttack = 10;
-				this.armorDef = 18;
-				this.armorMDef = 2;
-				this.bonusHP = 400;
-				this.bonusLust = 122;
-				this.level = 11;
+				initStrTouSpeInte(133, 106, 45, 45);
+				initWisLibSensCor(40, 110, 20, 100);
+				this.weaponAttack = 20;
+				this.armorDef = 45;
+				this.armorMDef = 5;
+				this.bonusHP = 1000;
+				this.bonusLust = 150;
+				this.level = 20;
 			    this.gems = rand(25)+10;
 			}
 			this.a = "the ";

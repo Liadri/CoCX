@@ -5,6 +5,7 @@ import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.Scenes.SceneLib;
 import classes.StatusEffects.Combat.AmilyVenomDebuff;
+import classes.Scenes.Combat.CombatAbilities;
 
 /**
 	 * ...
@@ -13,6 +14,19 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 	public class Amily extends Monster 
 	{
 
+		override public function preAttackSeal():Boolean{
+			if(hasStatusEffect(StatusEffects.Concentration)) {
+				clearOutput();
+				outputText("[monster name] easily glides around your attack thanks to [monster his] complete concentration on your movements.\n\n");
+				// replacetext is empty so it used default string anyway and the check is false so it leads to enemyAI() in the end of the attack()
+				// if (!sceneimpl) enemyAI();
+				// if (sceneimpl) SceneLib.combat.enemyAIImpl();
+				// return false to skip attack() its little confusing since original this line is true
+				return false;
+			}
+			// of course swap this around too
+			else return true;
+		}
 		override protected function performCombatAction():void
 		{
 			if(!hasStatusEffect(StatusEffects.Concentration) && rand(4) == 0) amilyConcentration();
@@ -118,9 +132,9 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 		//-Poison Dart: Deals speed and str damage to the PC. (Not constant)
 		private function amilyDartGo():void
 		{
-			if (player.hasStatusEffect(StatusEffects.WindWall)) {
+			if (CombatAbilities.EAspectAir.isActive()) {
 				outputText(capitalA + short + " attack from her dartgun stops at wind wall weakening it slightly.\n");
-				player.addStatusValue(StatusEffects.WindWall,2,-1);
+				CombatAbilities.EAspectAir.advance(true);
 				return;
 			}
 			//Dodged
@@ -144,15 +158,15 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 
 		//(if PC uses tease/seduce after this)
 		//Deals big lust increase, despite her resistance.
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			if(hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily flushes hotly; her concentration only makes her pay more attention to your parts!");
 				lustDelta += 25+lustDelta;
 				removeStatusEffect(StatusEffects.Concentration);
-				applyTease(lustDelta);
+				applyTease(lustDelta, display, aura);
 			} else {
-				super.teased(lustDelta);
+				super.teased(lustDelta, isNotSilent, display, aura);
 			}
 		}
 
@@ -179,19 +193,19 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 			this.skin.growFur({color:"tawny"});
 			this.hairColor = "brown";
 			this.hairLength = 5;
-			initStrTouSpeInte(40, 40, 120, 80);
-			initWisLibSensCor(80, 44, 45, 10);
+			initStrTouSpeInte(80, 80, 240, 80);
+			initWisLibSensCor(80, 74, 85, -80);
 			this.weaponName = "knife";
 			this.weaponVerb="slash";
-			this.weaponAttack = 9;
+			this.weaponAttack = 27;
 			this.armorName = "rags";
-			this.armorDef = 1;
-			this.armorMDef = 1;
-			this.bonusHP = 20;
-			this.bonusLust = 101;
+			this.armorDef = 10;
+			this.armorMDef = 10;
+			this.bonusHP = 200;
+			this.bonusLust = 184;
 			this.lust = 20;
 			this.lustVuln = .85;
-			this.level = 12;
+			this.level = 25;
 			this.gems = 8 + rand(11);
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);

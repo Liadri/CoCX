@@ -20,7 +20,6 @@ import classes.GeneticMemories.BallsMem;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Alchemy.AlchemyLib;
 import classes.Items.Consumable;
-import classes.Items.ItemTags;
 import classes.Items.Mutations;
 import classes.PerkLib;
 import classes.Races;
@@ -36,7 +35,7 @@ public class AbstractEquinum extends Consumable {
 	public function AbstractEquinum(type:Number, id:String, shortName:String, longName:String, value:Number, description:String) {
 		super(id, shortName, longName, value, description);
 		this.type = type;
-		withTag(ItemTags.U_TF);
+		withTag(U_TF);
 		switch (type) {
 			case 0: // equinum
 				refineableInto(
@@ -149,7 +148,7 @@ public class AbstractEquinum extends Consumable {
 		} else player.removeStatusEffect(StatusEffects.TFWarning);
 		//Stat changes first
 		//STRENGTH
-		if (rand(2) == 0 && player.MutagenBonus("str", 1)) {
+		if (changes < changeLimit && rand(2) == 0 && player.MutagenBonus("str", 1)) {
 			//Maxxed
 			if (type == 0 && player.str >= 70) {
 				outputText("\n\nYou feel strong enough to single-handedly pull a fully-loaded wagon.");
@@ -164,7 +163,7 @@ public class AbstractEquinum extends Consumable {
 			}
 		}
 		//TOUGHNESS
-		if (rand(2) == 0) {
+		if (changes < changeLimit && rand(2) == 0) {
 			//MAXXED ALREADY
 			if (type == 0 && player.tou >= 85) {
 				outputText("\n\nYour body is as tough and solid as a ");
@@ -186,7 +185,7 @@ public class AbstractEquinum extends Consumable {
 			}
 		}
 		//INTELLECT
-		if (type == 0 && rand(3) == 0) {
+		if (type == 0 && changes < changeLimit && rand(3) == 0) {
 			if (player.inte <= 5) {
 				outputText("\n\nYou let out a throaty \"Neiiiigh\" as your animalistic instincts take over.");
 			}
@@ -216,7 +215,7 @@ public class AbstractEquinum extends Consumable {
 				changes++;
 			}
 		}
-		if ((type == 1 || type == 2) && rand(3) == 0 && player.MutagenBonus("int", 1)) {
+		if ((type == 1 || type == 2) && changes < changeLimit && rand(3) == 0 && player.MutagenBonus("int", 1)) {
 			outputText("\n\nAs you finish drinking the potion you suddenly feel more cunning and by far way smarter.");
 			changes++;
 		}
@@ -471,10 +470,17 @@ public class AbstractEquinum extends Consumable {
 			CoC.instance.transformations.VaginaHorse().applyEffect();
 		}
 
-		if (player.lowerBody != LowerBody.HOOFED && player.lowerBody != LowerBody.GARGOYLE) {
+		if (type == 0 && player.lowerBody != LowerBody.HOOFED && player.lowerBody != LowerBody.GARGOYLE) {
 			if (changes < changeLimit && rand(3) == 0) {
 				outputText("\n\n");
 				CoC.instance.transformations.LowerBodyHoofed(2).applyEffect();
+				changes++;
+			}
+		}
+		if ((type == 1 || type == 2) && player.lowerBody != LowerBody.CLOVEN_HOOFED && player.lowerBody != LowerBody.GARGOYLE) {
+			if (changes < changeLimit && rand(3) == 0) {
+				outputText("\n\n");
+				CoC.instance.transformations.LowerBodyClovenHoofed(2).applyEffect();
 				changes++;
 			}
 		}
@@ -524,12 +530,11 @@ public class AbstractEquinum extends Consumable {
 			changes++;
 		}
 		// Remove gills
-		if (rand(4) == 0 && player.hasGills() && changes < changeLimit) {
+		if (rand(3) == 0 && player.hasGills() && changes < changeLimit) {
 			outputText("\n\n");
 			CoC.instance.transformations.GillsNone.applyEffect();
 			changes++;
 		}
-
 		if ((type == 1 || type == 2) && changes < changeLimit && rand(3) == 0 && player.ears.type == Ears.HORSE && player.tailType == Tail.HORSE) {
 			temp = 1;
 			//New horns or expanding unicorn/alicorn horns
@@ -566,19 +571,19 @@ public class AbstractEquinum extends Consumable {
 			}
 		}
 		//Alicorn wings
-		if (type == 2 && player.wings.type == Wings.NONE && changes < changeLimit && player.horns.type == Horns.UNICORN && rand(4) == 0) {
+		if (type == 2 && player.wings.type == Wings.NONE && changes < changeLimit && player.horns.type == Horns.UNICORN && rand(3) == 0) {
 			outputText("\n\n");
-      CoC.instance.transformations.WingsFeatheredAlicorn.applyEffect();
+			CoC.instance.transformations.WingsFeatheredAlicorn.applyEffect();
 			changes++;
 		}
 		//Nightmare wings
-		if (type == 2 && player.wings.type == Wings.NONE && changes < changeLimit && (player.horns.type == Horns.UNICORN || player.horns.type == Horns.BICORN) && player.cor > 89 && rand(4) == 0) {
+		if (type == 2 && player.wings.type == Wings.NONE && changes < changeLimit && (player.horns.type == Horns.UNICORN || player.horns.type == Horns.BICORN) && player.cor > 89 && rand(3) == 0) {
 			outputText("\n\n");
-      CoC.instance.transformations.WingsNightmare.applyEffect();
+			CoC.instance.transformations.WingsNightmare.applyEffect();
 			changes++;
 		}
 		//Remove old wings
-		if (type == 2 && (player.wings.type != Wings.FEATHERED_ALICORN || (player.wings.type != Wings.NIGHTMARE && player.cor > 89)) && player.wings.type != Wings.GARGOYLE_LIKE_LARGE && player.wings.type > Wings.NONE && changes < changeLimit && rand(4) == 0) {
+		if (type == 2 && (player.wings.type != Wings.FEATHERED_ALICORN || (player.wings.type != Wings.NIGHTMARE && player.cor > 89)) && player.wings.type != Wings.GARGOYLE_LIKE_LARGE && player.wings.type > Wings.NONE && changes < changeLimit && rand(3) == 0) {
 			outputText("\n\n");
 			CoC.instance.transformations.WingsNone.applyEffect();
 			changes++;

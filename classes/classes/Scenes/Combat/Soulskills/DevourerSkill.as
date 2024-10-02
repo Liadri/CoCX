@@ -12,7 +12,7 @@ public class DevourerSkill extends AbstractSoulSkill {
             "Form a small sphere inscribed by symbols to drain from enemy a bit of lust and/or wrath.",
             TARGET_ENEMY,
             TIMING_INSTANT,
-            [TAG_DEBUFF],
+            [TAG_DEBUFF, TAG_TIER2],
             StatusEffects.KnowsHeavensDevourer
         )
 		lastAttackType = Combat.LAST_ATTACK_SPELL;
@@ -27,14 +27,12 @@ public class DevourerSkill extends AbstractSoulSkill {
 	}
 
 	override public function calcCooldown():int {
-		return 4;
+		return soulskillTier2Cooldown(4, false);
 	}
 
 	private function calcLustDrain(monster:Monster, apply:Boolean):Number {
 		var drainAmount:Number = 0;
-
 		if (!monster) return drainAmount;
-
 		if (monster.lust > 400) {
         	if (apply) monster.lust -= 400;
         	drainAmount += 200;
@@ -48,9 +46,7 @@ public class DevourerSkill extends AbstractSoulSkill {
 
 	private function calcWrathDrain(monster:Monster, apply:Boolean):Number {
 		var drainAmount:Number = 0;
-
 		if (!monster) return drainAmount;
-
 		if (monster.wrath > 400) {
         	if (apply) monster.wrath -= 400;
         	drainAmount += 200;
@@ -69,8 +65,6 @@ public class DevourerSkill extends AbstractSoulSkill {
 		}
 		var transferedWrath:Number = calcLustDrain(monster, true);
 		var transferedLust:Number = calcWrathDrain(monster, true);
-
-		
 		if (transferedLust > 0) {
 			if (display) outputText("(+" + transferedLust + " lust)");
 			player.lust += transferedLust;
@@ -80,7 +74,6 @@ public class DevourerSkill extends AbstractSoulSkill {
 			player.wrath += transferedWrath;
 		}
 		if (display) outputText("\n\n");
-		
     }
 }
 }

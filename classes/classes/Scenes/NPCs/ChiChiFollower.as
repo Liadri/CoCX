@@ -567,7 +567,7 @@ public function ChiChiCampMainMenu():void {
 	spriteSelect(SpriteDb.s_chichi);
 	clearOutput();
 	if (rand(4) == 0 && !kihaInteractionHappened && SceneLib.kihaFollower.followerKiha() ) kihaInteraction();
-	else if (rand(4) == 0 && !jojoInteractionHappened && player.hasStatusEffect(StatusEffects.PureCampJojo)) jojoInteraction();
+	else if (rand(4) == 0 && !jojoInteractionHappened && player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) jojoInteraction();
 	else if (rand(4) == 0 && !joyInteractionHappened && flags[kFLAGS.JOJO_BIMBO_STATE] == 3) joyInteraction();
 	else if (rand(4) == 0 && !ayaneInteractionHappened && flags[kFLAGS.AYANE_FOLLOWER] >= 2) ayaneInteraction();
 	else if (rand(4) == 0 && !ceaniInteractionHappened && flags[kFLAGS.CEANI_FOLLOWER] > 0) {
@@ -1128,7 +1128,7 @@ public function mishapsLunaChiChi():void {
 		doNext(playerMenu);
 	}
 	public function amilyInteraction():void {
-		outputText("You spot both Amily and Chi Chi chatting to the side of the camp. They seem to be exchanging information about the various hostile denizens of mareth as well as survival tricks.");
+		outputText("You spot both Amily and Chi Chi chatting to the side of the camp. They seem to be exchanging information about the various hostile denizens of Mareth as well as survival tricks.");
 		amilyInteractionHappened = true;
 		doNext(playerMenu);
 	}
@@ -1182,7 +1182,7 @@ public function mishapsLunaChiChi():void {
 		score += player.virilityQ() * 200;
 		if (flags[kFLAGS.CHI_CHI_FOLLOWER] >= 4) score *= 1.5;
 		trace("ChiChi Preg Check Virility Score: " + score);
-		if((player.cumQ() > (flags[kFLAGS.CHI_CHI_FOLLOWER] < 4? 150 : 250) && score >= rand(100))) {
+		if((player.cumQ() > (flags[kFLAGS.CHI_CHI_FOLLOWER] < 4? 150 : 250) && score >= rand(100)) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 			preg = true;
 			trace("ChiChi knocked up!");
 		}

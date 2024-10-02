@@ -12,6 +12,7 @@ import classes.GlobalFlags.kFLAGS;
 import classes.Items.WeaponLib;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbilities;
 
 	public class Lily extends Monster//drider cumdump slave from swamp area
 	{
@@ -84,7 +85,7 @@ import classes.internals.*;
 		
 		private function lilyVolley():void {
 			outputText("Several arrows come flying at you, and you see the Drider-woman’s top half through the treeline. You gasp, disbelieving, as said arrows seem to multiply into a veritable shower of shafts, and you barely have time to crouch down, making yourself less of a target. ");
-			if (player.hasStatusEffect(StatusEffects.WindWall)) outputText("Still surrounding you wind wall stops them without much trouble. ");
+			if (CombatAbilities.EAspectAir.isActive()) outputText("Still surrounding you wind wall stops them without much trouble. ");
 			var lFB:Number = 6;
 			if (flags[kFLAGS.LILY_LVL_UP] >= 3) lFB += 3;
 			if (flags[kFLAGS.LILY_LVL_UP] >= 5) lFB += 3;
@@ -93,7 +94,7 @@ import classes.internals.*;
 			while (lFB-->0) LilyFireBow();
 		}
 		public function LilyFireBow():void {
-			if (player.hasStatusEffect(StatusEffects.WindWall)) player.addStatusValue(StatusEffects.WindWall,2,-1);
+			if (CombatAbilities.EAspectAir.isActive()) CombatAbilities.EAspectAir.advance(true);
 			else damageCalc();
 		}
 		
@@ -143,7 +144,7 @@ import classes.internals.*;
 		{
 			if (flags[kFLAGS.LILY_LVL_UP] < 2) {
 				initStrTouSpeInte(70, 75, 110, 100);
-				initWisLibSensCor(100, 80, 50, 90);
+				initWisLibSensCor(100, 80, 50, 80);
 				this.weaponAttack = 3;
 				this.weaponRangeAttack = 30;
 				this.armorDef = 60;
@@ -155,7 +156,7 @@ import classes.internals.*;
 			if (flags[kFLAGS.LILY_LVL_UP] >= 2 && flags[kFLAGS.LILY_LVL_UP] < 9) {
 				var mod:int = (flags[kFLAGS.LILY_LVL_UP] - 1);
 				initStrTouSpeInte(70 + 4*mod, 75 + 6*mod, 110 + 20*mod, 100 + 5*mod);
-				initWisLibSensCor(100 + 5*mod, 80 + 25*mod, 50 + 20*mod, 90);
+				initWisLibSensCor(100 + 5*mod, 80 + 25*mod, 50 + 20*mod, 80);
 				this.weaponAttack = 3 + 1*mod;
 				this.weaponRangeAttack = 30 + 5*mod;
 				this.armorDef = 60 + 10*mod;
@@ -166,7 +167,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.LILY_LVL_UP] == 9) {
 				initStrTouSpeInte(102, 123, 270, 140);
-				initWisLibSensCor(140, 280, 210, 90);
+				initWisLibSensCor(140, 280, 210, 80);
 				this.weaponAttack = 11;
 				this.weaponRangeAttack = 70;
 				this.armorDef = 140;

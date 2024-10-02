@@ -597,7 +597,6 @@ public function sexMenu():void {
 	outputText("Even as you rip her sand-colored robes from her body, her eyes hold power and defiance. Her chest holds four large, perfectly rounded breasts, each leaking milk upon the sands. Each has a nipple approximately two inches long, enough to suck if you wanted to.");
     outputText("\nYour attention wanders down to the damp sand underneath her legs, and her musky scent hits your nose. Which do you go after?");
 
-    outputText("\n\n<b>SceneHunter: Taur scenes reworked too - more options with UniHerms!</b>");
     //menu
     //because corrupt scenes are REALLY rough here. 2/3 is fair IMO
     var lowCor:Boolean = player.cor < 66 + player.corruptionTolerance;
@@ -623,7 +622,7 @@ public function sexMenu():void {
     addButtonIfTrue(3, "Knot Her", curry(knotSandwitch, knotDick), "Req. big knot and high corruption", hiCor && knotDick >= 0);
     addButtonIfTrue(4, "Multi Rape", rapeMulticock, "Req. multi cocks and high corruption", hiCor && player.cocks.length > 1);
 	addButtonIfTrue(5, "Dildo Rape", sandwitchGetsDildoed, "Req. Deluxe Dildo", player.hasKeyItem("Deluxe Dildo") >= 0);
-    if (SceneLib.shouldraFollower.followerShouldra())
+    if (SceneLib.shouldraFollower.followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff))
         addButtonIfTrue(6, "Use Shouldra", SceneLib.shouldraFollower.sandWitchGetsGhostly, "Not for genderless...", player.gender != 0);
     else addButtonDisabled(6, "???", "Req. to be posessed by some ghost");
     addButtonIfTrue(7, "Ride", centaurRide, "Req. low corruption and centaur lower body", lowCor && player.isTaur());

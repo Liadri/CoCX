@@ -7,6 +7,8 @@ import classes.Items.EnchantmentLib;
 import classes.Items.EnchantmentType;
 import classes.Items.Equipable;
 import classes.Items.IDynamicItem;
+import classes.Items.IELib;
+import classes.Items.ItemEffect;
 import classes.Items.WeaponRange;
 
 public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
@@ -70,9 +72,11 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 		var value:Number        = parsedParams.value;
 		var buffs:Object        = parsedParams.buffs;
 		var verb:String         = subtype.verb;
-		var perk:Array         = (subtype.perk || []).slice();
-		var tags:Object         = subtype.tags || {};
+		var perk:Array          = (subtype.perk || []).slice();
+		var tags:Array          = subtype.tags || [];
 		var attack:Number       = subtype.attack;
+		var itemEffects:Array   = subtype.effects || [];
+		var qitemEffects:Array  = subtype.qeffects || [];
 		if (parsedParams.error) {
 			trace("[ERROR] Failed to parse " + id + " with error " + parsedParams.error);
 			name      = "ERROR " + name;
@@ -95,7 +99,7 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 				perk.join(", ")
 		);
 
-		DynamicItems.postConstruct(this, tags, buffs);
+		DynamicItems.postConstruct(this, tags, buffs, itemEffects, qitemEffects, quality);
 	}
 
 	override public function effectDescriptionParts():Array {
@@ -151,34 +155,25 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 		return DynamicItems.copyWithoutEnchantment(this, e);
 	}
 
-	override public function get attack():Number {
-		var attack:Number = super.attack;
-		var e:SimpleRaceEnchantment = enchantmentOfType(EnchantmentLib.RaceAttackBonus) as SimpleRaceEnchantment;
-		if (e) {
-			attack *= 1 + 0.05 * e.power * game.player.racialTier(e.race);
-		}
-		return attack;
-	}
-
 	override public function equipText():void {
 		DynamicItems.equipText(this);
 	}
 
-	override public function beforeEquip(doOutput:Boolean):Equipable {
+	override public function beforeEquip(doOutput:Boolean, slot:int):Equipable {
 		if (!identified) {
-			return (identifiedCopy() as Equipable).beforeEquip(doOutput);
+			return (identifiedCopy() as Equipable).beforeEquip(doOutput, slot);
 		}
-		return super.beforeEquip(doOutput);
+		return super.beforeEquip(doOutput, slot);
 	}
 
-	override public function afterEquip(doOutput:Boolean):void {
-		super.afterEquip(doOutput);
+	override public function afterEquip(doOutput:Boolean, slot:int):void {
+		super.afterEquip(doOutput, slot);
 		for each (var e:Enchantment in effects) {
 			e.onEquip(game.player, this);
 		}
 	}
-	override public function afterUnequip(doOutput:Boolean):void {
-		super.afterUnequip(doOutput);
+	override public function afterUnequip(doOutput:Boolean, slot:int):void {
+		super.afterUnequip(doOutput, slot);
 		for each (var e:Enchantment in effects) {
 			e.onUnequip(game.player, this);
 		}

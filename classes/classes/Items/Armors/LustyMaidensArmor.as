@@ -7,7 +7,6 @@ import classes.CoC;
 import classes.EngineCore;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Armor;
-import classes.Items.ItemTags;
 import classes.Monster;
 import classes.PerkLib;
 import classes.Player;
@@ -25,7 +24,7 @@ public final class LustyMaidensArmor extends Armor {
 		public function LustyMaidensArmor() {
 			super("LMArmor", "LMArmor", "lusty maiden's armor", "a bikini-like set of armor that could only belong to a lusty maiden", 10, 0, 400, "This skimpy chain bikini barely qualifies as armor.  Indeed, the chain is made from links much finer and lighter than normal, so fine that it feels almost silken under your fingertips.  A simple seal in the g-string-like undergarment states, \"Virgins only.\" \nRequirements: breast size of at least DD-cups and be a female.", "Light", false, false);
 			withBuffs({'teasedmg':6, 'minlustx': 0.3});
-			withTag(ItemTags.A_REVEALING);
+			withTag(A_REVEALING);
 		}
 		
 		override public function get def():Number {
@@ -33,18 +32,18 @@ public final class LustyMaidensArmor extends Armor {
 			return 10 + game.flags[kFLAGS.BIKINI_ARMOR_BONUS];
 		}
 	
-	override public function canEquip(doOutput:Boolean):Boolean {
-			if (!super.canEquip(doOutput)) return false;
+	override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (!super.canEquip(doOutput, slot)) return false;
 			return canUseStatic(doOutput);
 		}
 	
-	override public function afterEquip(doOutput:Boolean):void {
+	override public function afterEquip(doOutput:Boolean, slot:int):void {
 		if (game.player.hasVirginVagina()) {
 			_buffs['teasedmg'] = 10 + game.flags[kFLAGS.BIKINI_ARMOR_BONUS];
 		} else {
 			_buffs['teasedmg'] = 6 + game.flags[kFLAGS.BIKINI_ARMOR_BONUS];
 		}
-		super.afterEquip(doOutput);
+		super.afterEquip(doOutput, slot);
 	}
 
 		public static function canUseStatic(doOutput:Boolean):Boolean {

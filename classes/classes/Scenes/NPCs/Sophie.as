@@ -37,12 +37,12 @@ import classes.internals.*;
 			if(player.hasStatusEffect(StatusEffects.Luststick)) {
 				outputText("  Blood rushes to [eachcock] as you grow so hard so fast that it hurts.  ");
 				SceneLib.sophieScene.luststickApplication(2);
-				player.takeLustDamage((12+player.lib/10), true);
+				player.takeLustDamage((24+player.lib/5), true);
 			}
 			else {
 				outputText("  Your whole body blushes as your lips tingle with some unnatural sensation.  Her lips were drugged!  Your whole body flushes as arousal begins to course through your veins.  ");
 				SceneLib.sophieScene.luststickApplication(2);
-				player.takeLustDamage(8+player.lib/10, true);
+				player.takeLustDamage(16+player.lib/5, true);
 			}
 			if(player.lust < 0.7*player.maxLust()) outputText("The drugged lip-gloss is starting to get to you!\n");
 			else if(player.lust < 0.8*player.maxLust()) outputText("Her curvy thighs look so inviting.  You barely stop yourself before you climb in between them!\n");
@@ -68,7 +68,7 @@ import classes.internals.*;
 			outputText("She hits you hard, nearly bowling you over.  Thankfully, her talons passed to either side of your torso.  They lock together behind your back and your face is pulled tightly into Sophie's smotheringly large mounds!");
 			if(rand(2) == 0) outputText("  She jiggles them around you pleasantly and coos, \"<i>Don't fight it baby.  Just let your body do what comes naturally.</i>\"\n");
 			else outputText("  She runs her long fingernails through your hair as she whispers, \"<i>Why fight it?  I'll make you feel so good.  Just relax and play with momma Sophie's tits.</i>\"\n");
-			player.takeLustDamage((13 + player.effectiveSensitivity()/10), true);
+			player.takeLustDamage((26 + player.effectiveSensitivity()/5), true);
 		}
 		
 		//Compulsion (Male Only)
@@ -103,7 +103,7 @@ import classes.internals.*;
 			}
 			outputText("Her leg lashes forwards, lightning-quick, and tears bloody gashes into your [skin.type] with her razor-sharp talons! ");
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str + weaponAttack) - player.armorDef);
 			if(damage < 0) damage = 0;
 			damage += 40;
 			damage = player.takePhysDamage(damage);
@@ -118,22 +118,22 @@ import classes.internals.*;
 			outputText("Sophie comes at you in a flurry of beating wings!  There's no way to dodge the flurry of strikes!\n");
 			
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str) - player.armorDef);
 			if(damage < 0) damage = 0;
 			damage = player.takePhysDamage(damage);
 			outputText("Her left primary wing batters your head! (" + damage + ")\n");
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str) - player.armorDef);
 			if(damage < 0) damage = 0;
 			damage = player.takePhysDamage(damage);
 			outputText("Her right, wing-like arm slaps at your torso! (" + damage + ")\n");
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str) - player.armorDef);
 			if(damage < 0) damage = 0;
 			damage = player.takePhysDamage(damage);
 			outputText("Her other feathery arm punches at your shoulder! (" + damage + ")\n");
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str) - player.armorDef);
 			if(damage < 0) damage = 0;
 			damage = player.takePhysDamage(damage);
 			outputText("Her right wing slams into the other side of your head! (" + damage + ")\n");
@@ -199,7 +199,6 @@ import classes.internals.*;
 		{
 			super(true);
 			trace("Sophie Constructor!");
-		
 			this.a = "";
 			this.short = "Sophie";
 			this.imageName = "sophie";
@@ -218,19 +217,19 @@ import classes.internals.*;
 			this.skinDesc = "feathers";
 			this.hairColor = "pink";
 			this.hairLength = 16;
-			initStrTouSpeInte(80, 70, 130, 80);
-			initWisLibSensCor(80, 60, 50, 60);
+			initStrTouSpeInte(240, 210, 420, 240);
+			initWisLibSensCor(240, 180, 150, 60);
 			this.weaponName = "talons";
 			this.weaponVerb="slashing talons";
-			this.weaponAttack = 40;
+			this.weaponAttack = 120;
 			this.armorName = "feathers";
-			this.armorDef = 10;
-			this.armorMDef = 0;
-			this.bonusHP = 300;
-			this.bonusLust = 132;
+			this.armorDef = 350;
+			this.armorMDef = 70;
+			this.bonusHP = 1000;
+			this.bonusLust = 384;
 			this.lust = 10;
 			this.lustVuln = .3;
-			this.level = 22;
+			this.level = 54;
 			this.gems = 40 + rand(45);
 			this.drop = new ChainedDrop().add(armors.W_ROBES,1/10)
 					.elseDrop(consumables.GLDSEED);

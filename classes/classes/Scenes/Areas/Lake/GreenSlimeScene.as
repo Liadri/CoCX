@@ -13,19 +13,18 @@
 public function defeatGS():void {
 	clearOutput();
 	outputText("You smile in satisfaction as the [monster name] collapses, unable to continue fighting.");
+	menu();
 	if (player.lust < 33 || player.gender == 0) {
 		if (player.hasStatusEffect(StatusEffects.Feeder)) {
 			outputText("\n\nYour nipples ache with the desire to forcibly breastfeed the gelatinous beast.  Do you?");
-			doYesNo(rapeOozeWithMilk, cleanupAfterCombat);
+			addButton(1, "Rape", rapeOozeWithMilk);
 		}
 		else {
 			if (player.lust < 33) outputText("\n\nYou're not horny enough to rape it.");
 			else outputText("You can't think of anything to do with it.");
-			cleanupAfterCombat();
 		}
 	}
 	else {
-		menu();
 		if (player.hasStatusEffect(StatusEffects.Feeder)) {
 			outputText("\n\nYou're horny enough to try and rape it, though you'd rather see how much milk you can squirt into it.  What do you do?");
 			addButton(1,"B.Feed",rapeOozeWithMilk);
@@ -59,9 +58,10 @@ public function defeatGS():void {
 			if (player.hasVagina())
 				addButtonDisabled(4, "F.Rape", "You're too pure to take this filth in your pussy!\n<b>Enable 'Other' in SceneHunter settings to override.</b>");
 		}
-		addButton(14, "Leave", cleanupAfterCombat);
 		SceneLib.uniqueSexScene.pcUSSPreChecksV2(defeatGS);
 	}
+	addButtonIfTrue(10, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+	addButton(14, "Leave", cleanupAfterCombat);
 }
 
 private function serviceLowCorruption():void {
@@ -147,7 +147,7 @@ private function serviceLowCorruptionHighLust():void {
 
 			//=====================================================
 			function smallF():void {
-				var x1:int = player.findCock(-1, -1, 30, "length");
+				var x1:int = player.findCock(-1, -1, 30, "length") + 1;
 				outputText("Eventually your own arousal becomes unbearable, and you reach down to work your own [cock "+x1+"] as well, massaging the monster's swollen, throbbing head with your other hand.  You gasp slightly as soon as you wrap your hand around your [cock "+x1+"], the creature's fluid making you exceptionally sensitive.  You moan in spite of yourself and start to thrust your hips a bit against your fist, feeling both yourself and the creature begin to throb harder and harder.  Before long you can hold out no longer, and feel your body racked by an orgasmic spasm, squeezing tightly with both hands as you blow your load onto the creature.  ");
 				//Herm orgasm text
 				if (player.vaginas.length > 0) {
@@ -157,7 +157,7 @@ private function serviceLowCorruptionHighLust():void {
 				sharedEnd();
 			}
 			function bigF():void {
-				var x1:int = player.findCock(1, 30, -1, "length");
+				var x1:int = player.findCock(1, 30, -1, "length") + 1;
 				outputText("Eventually your own arousal becomes unbearable, and you reach down to grope at yourself as well, working the monster's swollen, throbbing head with one of your hands.  Unable to grip it properly you moan a little and hold yourself down against the creature's skin, moving your hips back and forth to get off.  You begin to moan louder as the same greenish secretion that coats your hands begins to cover your [cock "+x1+"] as well, making it throb even harder than before.  Before long you gasp and double over as you orgasm, hips shaking as you come all over the creature.  ");
 				//Herm orgasm text
 				if (player.vaginas.length > 0) {

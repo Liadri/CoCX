@@ -232,6 +232,10 @@ private function littlePigLittlePigLetMeIn():void {
 		.disableIf(!SceneLib.boat.isDiscovered()
 			|| !flags[kFLAGS.CODEX_ENTRY_SHARKGIRLS] && !flags[kFLAGS.CODEX_ENTRY_GOOGIRLS],
 			"You don't know any other place to show her... yet?", "???");
+	addButton(2, "Exgartuan", penisGartuanGhostSmex, true)
+			.disableIf(!exgartuan.dickAwake(), "You don't have Exgartuan or he isn't awake!");
+	addButton(3, "Xenora", ginaBoobgartuanShouldra, true)
+			.disableIf(!exgartuan.boobsAwake(), "You don't have Xenora or she isn't awake!");
 }
 //Lake Victory Scenes
 private function nowOnVickiLake():void {
@@ -539,16 +543,11 @@ private function genderlessGhostBuster(win:Boolean):void {
 
 private function penisSexMerged():void {
 	spriteSelect(SpriteDb.s_ghostGirl2);
-	var x:Number = player.biggestCockIndex();
 	clearOutput();
 	if(player.hasStatusEffect(StatusEffects.Infested)) {
 		dewormYourGhost();
 		return;
 	}
-	if (SceneLib.exgartuan.dickAwake()) {
-		penisGartuanGhostSmex(true);
-		return;
-	} else sceneHunter.print("Check failed: Exgartuan in dick and awake.");
 	if(flags[kFLAGS.SHOULDRA_PENIS_DEFEAT_TIMES] == 0) outputText("She abruptly gasps in excitement and begins moving her hands towards your groin, though you swiftly reclaim control of the unruly appendages. \"<i>You have a penis,</i>\" she telepathically pulses to you with an anxious and excited edge to her voice. \"<i>My hosts... they rarely... they...</i>\"");
 	else outputText("She chuckles softly as she recalls the times you've shared, and she hungrily goes for your maleness once more, though you mentally throw her off of it. ");
 	outputText("The communication suddenly breaks as the ghost-girl's will surges against yours, all thoughts of submissiveness vanishing from her mind.  ");
@@ -572,12 +571,9 @@ private function penisSexMerged():void {
 	}
 
 	function crushHer():void {
-		x = player.cockThatFits(80);
-		if (x < 0) x = player.smallestCockIndex(); //come on, she's a GHOST.
+		var x:Number = player.smallestCockIndex();
 		outputText("The ghost girl puts up a good fight, but you're more than prepared for her mental assault. You feel her panic well as her intrusions are overwhelmed, and though she attempts to disengage the mental link, you easily stop her. She screams mental protests at you, but your ringing ears only strengthen your psychological dominance over the poor spirit. Before long, she's reduced to a whimpering wreck. \"<i>Out,</i>\" you command, tired of the troublesome specter's meddlings. Of course, she won't even try to rebel now, resignedly accumulating her essence and beginning her exit. Within moments the ghost girl flows out of your body and resolidifies before you.\n\n");
-
 		outputText("She moves to leave in a huff, but you stop her with a single telepathic demand. She's yours, you remind her, and since she's gone through the trouble of trying to get you off, she might as well finish the job. Even as her lips purse in a stubborn pout, a dominating wave of influence sweeps over her, and regardless of herself, she begins unsteadily moving towards you. Resolving to meet halfway, you stride over to her and push her to her knees. As she watches, you shed your [armor] and hoist your " + cockDescript(x) + " up to her lips, leaving a fairly clear implication of your expectations. The ghost girl's eyes widen at the sight of your manhood, and she cringes as a new wave of arousal sweeps through her. She gives a little whimper at her inability to quell her overwhelming libido, but you simply laugh mockingly and gesture at your maleness.  \"<i>Ghost blowjob,</i>\" you mutter snidely.\n\n");
-
 		outputText("You don't even give her the chance to act of her own volition, simply reaching out, taking ahold of her head, and slamming her onto your " + cockDescript(x) + ".  She takes it surprisingly well, unsurprisingly easily, taking most of the shaft in the first thrust alone.  With not as much as even a sputter, she impatiently double-handedly grabs your [butt] and thrusts her head forward.  Before you know it, your entire " + cockDescript(x) + " is wrapped in a fleshy tunnel of love.");
 		if(player.cockTotal() > 1) {
 			outputText("  Mindful of ");
@@ -630,7 +626,7 @@ private function kickShouldraOut():void {
 //back to this thing okay
 private function ghostBJFinisher(inside:Boolean):void {
 	spriteSelect(SpriteDb.s_ghostGirl2);
-	var x:Number = player.cockThatFits(80);
+	var x:Number = player.smallestCockIndex();
 	outputText("Like a backed up geyser, your gigantic testicles push hot, thick strands of seed out of your belaboured " + cockDescript(x) + " straight up in the air.  The cum splatters on both you and the ");
 	if(inside) outputText("excitedly convulsing");
 	else outputText("practically lust-paralyzed");
@@ -717,10 +713,6 @@ private function ghostGinaSexings(win:Boolean):void {
 	spriteSelect(SpriteDb.s_ghostGirl2);
 	if (win) {
 		clearOutput();
-		if (SceneLib.exgartuan.boobsAwake()) {
-			ginaBoobgartuanShouldra(true);
-			return;
-		} else sceneHunter.print("Check failed: Xenora (prev. Exgartuan) in boobs and awake.");
 		outputText("The ghost girl heaves a mildly disappointed sigh as she settles into your body fully.  \"<i>I've had... many female hosts,</i>\" she explains. You momentarily feel embarrassed by the ghost's disapproval, and you almost move to apologize before the words catch in your throat and you cross your arms defensively.  ");
 	}
 	else outputText("The ghost girl heaves a mildly disappointed sigh as she settles into your body fully.  \"<i>I've had... many female hosts,</i>\" she explains. You are almost embarrassed regarding her disapproval, and actually contemplate apologizing before remembering the source of the lament. You cross your arms (or try, as the ghost still has full control of your body) and give an annoyed huff.  ");
@@ -773,7 +765,7 @@ internal function loseToShouldra():void {
 				"Req. a vagina.", player.hasVagina(),
 				"This may sound boding, but at least she'll know what she's dealing with."],
 			[6, "Exgart-Tits", curry(ginaBoobgartuanShouldra, false),
-				"Req. a vagina and Xenora (prev. Exgartuan) in breasts.", player.hasCock() && SceneLib.exgartuan.boobsPresent(),
+				"Req. a vagina and Xenora (prev. Exgartuan) in breasts. Without SH:UniHerms, also the lack of cock", player.hasVagina() && (sceneHunter.uniHerms || !player.hasCock()) && SceneLib.exgartuan.boobsPresent(),
 				"Shouldra might be not surprised by your forms, but you know who CAN surprise her!"],
 			[2, "Herm-Style", curry(ghostGinaSexings, false),
 				"You're not a herm.", player.isHerm(),

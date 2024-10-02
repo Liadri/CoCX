@@ -261,7 +261,7 @@ public function timeChangeLarge():Boolean {
         return true;
     }
     //Become permanently addicted (occurs when the player goes to sleep with addiction 100, before it is reduced by the standard 1):
-    if (player.statusEffectv3(StatusEffects.Marble) > 0 && player.statusEffectv2(StatusEffects.Marble) >= 100 && !player.hasPerk(PerkLib.MarblesMilk) && !player.hasPerk(PerkLib.MarbleResistant) && model.time.hours == 6) {
+    if (player.statusEffectv3(StatusEffects.Marble) > 0 && player.statusEffectv2(StatusEffects.Marble) >= 100 && !player.hasPerk(PerkLib.MarblesMilk) && !player.hasPerk(PerkLib.MarbleResistant) && !player.fiendishMetabolismNFER() && model.time.hours == 6) {
         marbleSprite();
         outputText("\nYou wake up feeling like something has changed. With slightly chilling clarity, you realize that you have finally become completely and utterly dependent on Marble's milk; you must drink her milk every day, or you will die. There is nothing that can be done to change that at this point. You hurry over to the farm; you have to drink Marble's milk, NOW.\n\n");
         outputText("You find Marble in her room. When you come in she looks up at you and smiles deeply. \"<i>What happened?</i>\" she asks, \"<i>Something about you feels so wonderful and right.</i>\" You explain to her that you've finally become entirely dependent on her milk.\n");
@@ -2950,7 +2950,7 @@ public function marblePoopsBaybees():void {
 public function marbleNightSleepFlavor():Boolean {
 	marbleSprite();
 	//If player is marble-preggo, she builds nursery
-	if (flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION] == 0 && ((player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= 128) || (player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= 128))) {
+	if (flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION] == 0 && ((player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(128, player.pregnancyType)) || (player.pregnancy2Type == PregnancyStore.PREGNANCY_MARBLE && player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(128, player.pregnancy2Type)))) {
 		outputText("<b>Citing your pregnant belly, Marble informs you she'll be getting to work on building a nursery for your coming cow-child soon.</b>\n\n");
 		flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION]++;
 	}
@@ -3055,12 +3055,12 @@ public function marbleNightSleepFlavor():Boolean {
 }
 
 private function pcPregWithMarblesKids():Boolean {
-	return (player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= 280) ||
-            (player.pregnancy2Type == PregnancyStore.PREGNANCY_MARBLE && player.pregnancy2Incubation <= 280);
+	return (player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(280, player.pregnancyType)) ||
+            (player.pregnancy2Type == PregnancyStore.PREGNANCY_MARBLE && player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(280, player.pregnancy2Type));
 
 }
 private function marblePregWithPCKids():Boolean {
-	return pregnancy.type == PregnancyStore.PREGNANCY_PLAYER && pregnancy.incubation <= 280;
+	return pregnancy.type == PregnancyStore.PREGNANCY_PLAYER && pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(280, PregnancyStore.INCUBATION_KIHA);
 }
 
 private function marbleCuddlin():void {
@@ -3372,7 +3372,7 @@ private function marblePreggoChance(preggerMult:Number):void {
 	//GET HER PREGNANT
 	trace("MARBLE PREGGO ODDS: " + preggerOdds);
 
-	if(rand(100) < preggerOdds && (player.hasPerk(PerkLib.MarblesMilk) || flags[kFLAGS.MARBLE_PURIFICATION_STAGE] >= 5)) {
+	if((rand(100) < preggerOdds || player.hasPerk(PerkLib.PilgrimsBounty)) && (player.hasPerk(PerkLib.MarblesMilk) || flags[kFLAGS.MARBLE_PURIFICATION_STAGE] >= 5)) {
 		//SHUT UP SHES ALREADY PREGNANT
 		if (!pregnancy.isPregnant) {
 			trace("Marble got PREGNANT!");

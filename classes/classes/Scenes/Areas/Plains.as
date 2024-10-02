@@ -21,8 +21,9 @@ use namespace CoC;
 		public var gnollScene:GnollScene = new GnollScene();
 		public var gnollSpearThrowerScene:GnollSpearThrowerScene = new GnollSpearThrowerScene();
 		public var satyrScene:SatyrScene = new SatyrScene();
+		public var kirinScene:KirinScene = new KirinScene();
 		
-		public const areaLevel:int = 9;
+		public const areaLevel:int = 25;
 		public function isDiscovered():Boolean {
 			return SceneLib.exploration.counters.plains > 0;
 		}
@@ -50,8 +51,8 @@ use namespace CoC;
 		private function init():void {
 			const fn:FnHelpers = Encounters.fn;
 			explorationEncounter = Encounters.group(/*SceneLib.commonEncounters,*/
-					SceneLib.exploration.commonEncounters.withChanceFactor(0.1),
-					SceneLib.exploration.angelEncounters.withChanceFactor(0.05),
+					SceneLib.exploration.commonEncounters.withChanceFactor(0.025),
+					SceneLib.exploration.angelEncounters.withChanceFactor(0.0125),
 			{
 				//Helia monogamy fucks
 				name  : "helcommon",
@@ -71,7 +72,7 @@ use namespace CoC;
 					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 						   && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
 						   && !player.hasStatusEffect(StatusEffects.EtnaOff)
-						   && (player.level >= 20);
+						   && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				chance: plainsChance,
 				call: SceneLib.etnaScene.repeatYandereEnc
@@ -82,7 +83,7 @@ use namespace CoC;
 				unique: true,
 				night : false,
 				when: function():Boolean {
-					return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && flags[kFLAGS.ELECTRA_AFFECTION] >= 2 && !player.hasStatusEffect(StatusEffects.ElectraOff) && (player.level >= 20);
+					return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && flags[kFLAGS.ELECTRA_AFFECTION] >= 2 && !player.hasStatusEffect(StatusEffects.ElectraOff) && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				chance: plainsChance,
 				call: function ():void {
@@ -92,12 +93,27 @@ use namespace CoC;
 					}
 					else SceneLib.electraScene.repeatPlainsEnc();
 				}
+			},{
+				name: "kirin",//move to inner plains later on
+				label : "Kirin",
+				kind : 'monster',
+				chance: (flags[kFLAGS.ELECTRA_AFFECTION] < 100 ? 0.45: 0.5),
+				call: SceneLib.plains.kirinScene.kirinEncounter
+			},{
+				name: "kirin_electra",//move to inner plains later on
+				label : "Kirin",
+				kind : 'monster',
+				chance: 0.05,
+				when: function():Boolean {
+					return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && flags[kFLAGS.ELECTRA_AFFECTION] < 100 && !player.hasStatusEffect(StatusEffects.ElectraOff);
+				},
+				call: SceneLib.plains.kirinScene.kirinElectraEncounter
 			}, {
-				name  : "werewolfFemale",
-				label : "Werewolf (F)",
+				name: "werewolf huntress",
+				label : "Werewolf Huntress",
 				kind : 'monster',
 				day : false,
-				call  : SceneLib.werewolfFemaleScene.introWerewolfFemale,
+				call  : SceneLib.werewolfFemaleScene.introWerewolfHuntress,
 				chance: 0.50
 			}, {
 				name: "sidonie",
@@ -188,7 +204,6 @@ use namespace CoC;
 				when  : function ():Boolean {
 					return flags[kFLAGS.OWCA_UNLOCKED] == 0;
 				},
-				mods  : [fn.ifLevelMin(24)],
 				call  : SceneLib.owca.gangbangVillageStuff
 			}, {
 				name  : "helXizzy",
@@ -291,6 +306,16 @@ use namespace CoC;
 				},
 				chance: 30,
 				call: partsofSnippler
+			}, {
+				name: "LWoodenBow",
+				label : "L.Wooden Bow",
+				kind  : 'item',
+				chance: 0.2,
+				unique: true,
+				when: function():Boolean {
+					return !player.hasStatusEffect(StatusEffects.TookSagittariusBanefulGreatBow);
+				},
+				call: findSagittariusBanefulGreatBow
 			},{
 				name: "satyr",
 				label : "Satyr",
@@ -353,6 +378,23 @@ use namespace CoC;
 			outputText(images.showImage("item-oElixir"));
 			outputText("While exploring the plains you nearly trip over a discarded, hexagonal bottle.  ");
 			inventory.takeItem(consumables.OVIELIX, explorer.done);
+		}
+		private function findSagittariusBanefulGreatBow():void {
+			clearOutput();
+			outputText("While exploring the plain you stumble upon what appears to have been the site of a battle. Quite a few bodies, those of centaurs and gnolls litter the floor. Amongst said bodies is a large wooden bow that looks beautifully crafted, more so than the average weapon. ");
+			outputText("It may have belonged to the centaur chieftain so why is it laying here? You think the centaur either forgot it or has been wiped out.\n\n");
+			menu();
+			addButton(1, "Bow", findSagittariusBanefulGreatBowTake);
+			addButton(3, "Leave", endEncounter);
+		}
+		private function findSagittariusBanefulGreatBowTake():void {
+			clearOutput();
+			outputText("As you pick up the amazing looking weapon you feel like a static run through your arm. What just happened? As you try to throw the weapon away by reflex you discover that you can't. ");
+			outputText("No way that weapon was actually a cursed item that's why the centaurs left it here! <b>You were cursed by Sagittarius Baneful Great Bow!</b>\n\n");
+			player.createStatusEffect(StatusEffects.TookSagittariusBanefulGreatBow, 1, 0, 0, 0);
+			SceneLib.inventory.takeItem(player.unequipWeaponRange(), playerMenu);
+			player.setWeaponRange(weaponsrange.SAGITTB);
+			endEncounter();
 		}
 	}
 }

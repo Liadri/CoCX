@@ -7,11 +7,17 @@ package classes.Scenes.Monsters
 
 	import classes.*;
 	import classes.BodyParts.Wings;
+	import classes.Items.DynamicItems;
+	import classes.Scenes.Dungeons.RiverDungeon;
 	import classes.Scenes.SceneLib;
 	import classes.internals.ChainedDrop;
-	
-	public class AngelLR extends AbstractAngel
+
+import coc.view.CoCButton;
+
+public class AngelLR extends AbstractAngel
 	{
+		public var floor4:RiverDungeon = new RiverDungeon();
+		
 		private function angelReactsToLustiness():void {
 			outputText("Angel with it lil helpers stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Tricky one opponent. Fighting like a demon.</i>\"");
@@ -50,7 +56,7 @@ package classes.Scenes.Monsters
 				removeStatusEffect(StatusEffects.JabberwockyVenom);
 				buff("Poison").remove();
 			}
-			SceneLib.combat.combatRoundOver();
+			doNext(SceneLib.combat.combatMenu, false);
 		}
 		
 		private function AngelEnergyRays():void {
@@ -95,6 +101,12 @@ package classes.Scenes.Monsters
 			var choice:Number = rand(5);
 			if (choice == 0) AngelEnergyRays();
 			if (choice > 0) AngelBaseAttack();
+		}
+		override public function postPlayerBusyBtnSpecial(btnSpecial1:CoCButton, btnSpecial2:CoCButton):void{
+			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
+				if (!player.hasStatusEffect(StatusEffects.MinoKing) && player.companionsInPCParty()) btnSpecial1.show("Dish Helper", SceneLib.hexindao.dishHelperIL);
+				else btnSpecial1.showDisabled("Dish Helper", "You don't have anyone to take care of second angel!");
+			}
 		}
 		private function soulfieldsustaincost():Number {
 			var sfsc:Number = 10;
@@ -148,7 +160,10 @@ package classes.Scenes.Monsters
 						player.removeStatusEffect(StatusEffects.MinoKing);
 						SceneLib.hexindao.intermediateleadershippostfight();
 					}
-					else angelSwitchWithOtherOne();
+					else {
+						SceneLib.combat.disableEachHelperIfTheyCauseSoftLock();
+						angelSwitchWithOtherOne();
+					}
 				}
 				else cleanupAfterCombat();
 			}
@@ -162,6 +177,12 @@ package classes.Scenes.Monsters
 				}
 				else angelReactsToLustiness();
 			}
+		}
+		
+		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
+		{
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) floor4.defeatedByLowRankMistAngel();
+			else cleanupAfterCombat();
 		}
 		
 		override public function get long():String
@@ -187,28 +208,37 @@ package classes.Scenes.Monsters
 			super(false);
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
 				this.short = "low-rank angel of mist";
-				initStrTouSpeInte(14, 170, 90, 40);
-				initWisLibSensCor(240, 4, 60, 0);
+				initStrTouSpeInte(24, 340, 180, 80);
+				initWisLibSensCor(480, 4, 120, -100);
+				this.randomDropChance = 0.5;
+				this.randomDropParams = {
+					rarity: DynamicItems.RARITY_CHANCES_MINOR_HIGH
+				};
 				this.drop = new ChainedDrop()
 						.add(useables.SRESIDUE, 0.5)
 						.add(useables.PCSHARD, 1);
 				this.level = 42;
-				this.bonusHP = 1500;
-				this.bonusLust = 106;
-				this.bonusWrath = 350;
-				this.bonusSoulforce = 700;
-				this.additionalXP = 210;
-				this.weaponAttack = 15;
-				this.armorDef = 45;
-				this.armorMDef = 45;
+				this.bonusHP = 3000;
+				this.bonusLust = 166;
+				this.bonusWrath = 700;
+				this.bonusSoulforce = 1400;
+				this.additionalXP = 420;
+				this.weaponAttack = 30;
+				this.armorDef = 90;
+				this.armorMDef = 90;
 				this.createStatusEffect(StatusEffects.ATranscendentSoulField, 28, 28, 0, 0);//X times less dmg, +X lvl diff bonus
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 				this.createPerk(PerkLib.DieHardHP, 28, 0, 0, 0);
 			}
 			else if (player.hasStatusEffect(StatusEffects.SoulArena)) {
 				if (rand(2) == 0) this.short = "Gabriel";
 				else this.short = "Uriel";
 				initStrTouSpeInte(6, 75, 35, 15);
-				initWisLibSensCor(100, 3, 25, 0);
+				initWisLibSensCor(100, 3, 25, -100);
+				this.randomDropChance = 0.5;
+				this.randomDropParams = {
+					rarity: DynamicItems.RARITY_CHANCES_MINOR_HIGH
+				};
 				this.drop = new ChainedDrop()
 						.add(useables.SRESIDUE, 1);
 				this.level = 9;
@@ -226,7 +256,11 @@ package classes.Scenes.Monsters
 			else {
 				this.short = "low-rank angel";
 				initStrTouSpeInte(7, 80, 40, 20);
-				initWisLibSensCor(120, 4, 30, 0);
+				initWisLibSensCor(120, 4, 30, -100);
+				this.randomDropChance = 0.2;
+				this.randomDropParams = {
+					rarity: DynamicItems.RARITY_CHANCES_MINOR_HIGH
+				};
 				this.drop = new ChainedDrop()
 						.add(useables.SRESIDUE, 1);
 				this.level = 15;

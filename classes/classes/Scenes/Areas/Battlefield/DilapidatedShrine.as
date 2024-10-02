@@ -73,8 +73,8 @@ public class DilapidatedShrine extends BaseContent
 			menu();
 			addButtonDisabled(2, "Spellcraft", "Placeholder button until one of the writers write something on this subject ^^");//story about god of magic			//addButtonDisabled(2, "The Fall", "Placeholder button until Lia write something on this subject ^^");//collection of propercies about gods fall on area later known as battlefield
 			addButtonDisabled(6, "Reaper", "Placeholder button until one of the writers write something on this subject ^^");//story about god of death/transformation
-			addButtonDisabled(8, "Lifegiver", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of life				//addButtonDisabled(0, "Souless Ones", "Placeholder button until Lia write something on this subject ^^");//story about early days of demons/their uprising (here or other place in mareth?)
-			addButtonDisabled(12, "Warmonger", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of war				//addButtonDisabled(1, "The Descent", "Placeholder button until Lia write something on this subject ^^");//orgin of soul cultivators in Mareth (here or other place in mareth?)
+			addButtonDisabled(8, "Lifegiver", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of life				//addButtonDisabled(0, "Souless Ones", "Placeholder button until Lia write something on this subject ^^");//story about early days of demons/their uprising (here or other place in Mareth?)
+			addButtonDisabled(12, "Warmonger", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of war				//addButtonDisabled(1, "The Descent", "Placeholder button until Lia write something on this subject ^^");//orgin of soul cultivators in Mareth (here or other place in Mareth?)
 			addButton(14, "Back", shrinemainmenu);
 		}
 		*/
@@ -180,7 +180,7 @@ public class DilapidatedShrine extends BaseContent
 				try{
 					if (player.itemSlot(i).itype is Weapon){
 						itemClassReplace = player.itemSlot(i).itype as Weapon;
-						weaponType = itemClassReplace['type'].split(',')[0];
+						weaponType = itemClassReplace.type;
 						//outputText(weaponType + "\n");
 					}
 					else if (player.itemSlot(i).itype is WeaponRange){
@@ -222,28 +222,28 @@ public class DilapidatedShrine extends BaseContent
 							combat.gauntletXP(40);
 							break;
 						case ItemConstants.WT_SWORD:
-                            combat.swordXP(40);
+                            combat.swordXP(40, false);
 							break;
 						case ItemConstants.WT_AXE:
-                            combat.axeXP(40);
+                            combat.axeXP(40, false);
 							break;
 						case ItemConstants.WT_MACE_HAMMER:
-                            combat.macehammerXP(40);
+                            combat.macehammerXP(40, false);
 							break;
 						case ItemConstants.WT_DUELING:
-                            combat.duelingswordXP(40);
+                            combat.duelingswordXP(40, false);
 							break;
 						case ItemConstants.WT_POLEARM:
-                            combat.polearmXP(40);
+                            combat.polearmXP(40, false);
 							break;
 						case ItemConstants.WT_SPEAR:
-                            combat.spearXP(40);
+                            combat.spearXP(40, false);
 							break;
 						case ItemConstants.WT_DAGGER:
-                            combat.daggerXP(40);
+                            combat.daggerXP(40, false);
 							break;
 						case ItemConstants.WT_WHIP:
-                            combat.whipXP(40);
+                            combat.whipXP(40, false);
 							break;
 						case ItemConstants.WT_THROWING:
                             combat.throwingXP(40);
@@ -268,10 +268,10 @@ public class DilapidatedShrine extends BaseContent
                             combat.dualWieldFirearmsXP(40);
 							break;
 						case ItemConstants.WT_EXOTIC:
-                            combat.exoticXP(40);
+                            combat.exoticXP(40, false);
 							break;
 						case ItemConstants.WT_RIBBON:
-                            combat.exoticXP(40);
+                            combat.exoticXP(40, false);
 							break;
 						}
 					player.destroyItems(wType[0],1);

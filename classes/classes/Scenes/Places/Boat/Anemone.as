@@ -12,6 +12,7 @@ public class Anemone extends Monster
 	{
 		private static const STAT_DOWN_FLAT:int = 4;
 		private static const STAT_DOWN_MULT:int = 4;
+		private var cuteCheck:Boolean = true;
 
 		override public function eAttack():void
 		{
@@ -32,7 +33,29 @@ public class Anemone extends Monster
 			ave.applyEffect(amt);
 		}
 
+		override public function preMeleeDmg(damage:Number):Number{
+			//hit successful:
+			//special event, block (no more than 10-20% of turns, also fails if PC has >75 corruption):
+			cuteCheck = true;
+			if (rand(10) <= 1) {
+				outputText("Seeing your [weapon] raised, the anemone looks down at the water, angles her eyes up at you, and puts out a trembling lip.  ");
+				if (player.cor < 75) {
+					outputText("You stare into her hangdog expression and lose most of the killing intensity you had summoned up for your attack, stopping a few feet short of hitting her.\n");
+					//damage = 0;
+					//Kick back to main if no damage occured!
+					// so cute! skip remaining attacks
+					cuteCheck = false;
 
+				} else outputText("Though you lose a bit of steam to the display, the drive for dominance still motivates you to follow through on your swing.");
+			}
+			return damage;
+		}
+		override public function postMeleeDmgSkip(attackInstance:int):Boolean{
+			if(attackInstance==1)
+				return cuteCheck;
+			else
+				return true;
+		}
 		override public function defeated(hpVictory:Boolean):void
 		{
 			SceneLib.boat.anemoneScene.defeatAnemone();
@@ -74,19 +97,19 @@ public class Anemone extends Monster
 			this.hairColor = "purplish-black";
 			this.hairLength = 20;
 			this.hairType = Hair.ANEMONE;
-			initStrTouSpeInte(64, 45, 40, 50);
-			initWisLibSensCor(50, 55, 35, 50);
+			initStrTouSpeInte(127, 90, 80, 60);
+			initWisLibSensCor(60, 69, 47, 0);
 			this.weaponName = "tendrils";
 			this.weaponVerb="tentacle";
-			this.weaponAttack = 16;
+			this.weaponAttack = 24;
 			this.armorName = "clammy skin";
-			this.armorDef = 10;
-			this.armorMDef = 1;
-			this.bonusHP = 120;
-			this.bonusLust = 102;
+			this.armorDef = 30;
+			this.armorMDef = 3;
+			this.bonusHP = 240;
+			this.bonusLust = 131;
 			this.lust = 30;
 			this.lustVuln = .9;
-			this.level = 12;
+			this.level = 15;
 			this.gems = rand(20) + 20;
 			this.drop = new WeightedDrop(consumables.DRYTENT, 1);
 			checkMonster();

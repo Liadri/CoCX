@@ -11,6 +11,26 @@ import classes.internals.*;
 
 public class Naga extends Monster
 	{
+		override public function combatStatusesUpdateWhenBound():void{
+			nagaBindUpdateWhenBound();
+		}
+
+		override public function playerBoundStruggle():Boolean{clearOutput();
+			if (rand(3) == 0 || rand(80) < player.str / 1.5 || player.hasPerk(PerkLib.FluidBody)) {
+				outputText("You wriggle and squirm violently, tearing yourself out from within [themonster]'s coils.");
+				player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+			} else {
+				outputText("The [monster name]'s grip on you tightens as you struggle to break free from the stimulating pressure.");
+				player.takeLustDamage(player.effectiveSensitivity() / 10 + 2, true);
+				player.takePhysDamage(7 + rand(5));
+			}
+			return true;
+		}
+
+		override public function playerBoundWait():Boolean{
+			return nagaBindWait();
+		}
+
 		//2a) Ability - Poison Bite - poisons player
 		protected function nagaPoisonBiteAttack():void {
 			//(Deals damage over 4-5 turns, invariably reducing
@@ -49,7 +69,7 @@ public class Naga extends Monster
 		//every turn until you break free
 		protected function nagaConstrict():void {
 			outputText("The " + this.short + " draws close and suddenly wraps herself around you, binding you in place! You can't help but feel strangely aroused by the sensation of her scales rubbing against your body. All you can do is struggle as she begins to squeeze tighter!");
-			player.createStatusEffect(StatusEffects.NagaBind,0,0,0,0);
+			player.createStatusEffect(StatusEffects.PlayerBoundPhysical,0,0,0,0);
 			if (!player.hasPerk(PerkLib.Juggernaut) && armorPerk != "Heavy") {
 				player.takePhysDamage(2+rand(4));
 			}
@@ -135,17 +155,18 @@ public class Naga extends Monster
 			this.bodyColor = "mediterranean-toned";
 			this.hairColor = "brown";
 			this.hairLength = 16;
-			initStrTouSpeInte(38, 50, 55, 42);
-			initWisLibSensCor(50, 55, 55, 40);
+			initStrTouSpeInte(114, 150, 165, 90);
+			initWisLibSensCor(90, 85, 85, -40);
 			this.weaponName = "fist";
 			this.weaponVerb="punch";
-			this.weaponAttack = 5;
+			this.weaponAttack = 35;
 			this.armorName = "scales";
-			this.armorDef = 10;
-			this.armorMDef = 5;
-			this.bonusLust = 119;
+			this.armorDef = 100;
+			this.armorMDef = 50;
+			this.bonusHP = 200;
+			this.bonusLust = 189;
 			this.lust = 30;
-			this.level = 9;
+			this.level = 19;
 			this.gems = rand(5) + 8;
 			this.abilities = [
 				{ call: eAttack, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[]},

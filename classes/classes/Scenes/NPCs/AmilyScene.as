@@ -7,7 +7,9 @@ import classes.*;
 import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.Areas.Forest.CorruptedGlade;
+import classes.Scenes.Camp.CampStatsAndResources;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 import classes.lists.BreastCup;
@@ -178,12 +180,12 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 		public function nailsEncounter():void {
 			var extractedNail:int = 5 + rand(player.inte / 5) + rand(player.str / 10) + rand(player.tou / 10) + rand(player.spe / 20) + 5;
 			flags[kFLAGS.ACHIEVEMENT_PROGRESS_SCAVENGER] += extractedNail;
-			flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] += extractedNail;
+			CampStatsAndResources.NailsResc += extractedNail;
 			clearOutput();
 			outputText("While exploring the town, you can't seem to find anything interesting until something shiny catches your eye. There are exposed nails in a house wreckage! You take your hammer out of your toolbox and you spend time extracting "+extractedNail+" nails. Some of them are bent but others are in incredibly good condition. You could use these for construction.");
 			outputText("\n\nNails: ");
-			if (flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] > SceneLib.campUpgrades.checkMaterialsCapNails()) flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] = SceneLib.campUpgrades.checkMaterialsCapNails();
-			outputText(flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES]+"/" + SceneLib.campUpgrades.checkMaterialsCapNails() + "");
+			if (CampStatsAndResources.NailsResc > SceneLib.campUpgrades.checkMaterialsCapNails()) CampStatsAndResources.NailsResc = SceneLib.campUpgrades.checkMaterialsCapNails();
+			outputText(CampStatsAndResources.NailsResc+"/" + SceneLib.campUpgrades.checkMaterialsCapNails() + "");
 			endEncounter();
 		}
 
@@ -192,7 +194,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 			flags[kFLAGS.AMILY_VILLAGE_EXPLORED]++;
 			clearOutput();
 			//40% chance of ghost-girl
-			if ((flags[kFLAGS.SHOULDRA_MAIDEN_COUNTDOWN] == 0 && rackCount() >= 2 && rand(10) <= 4) && !followerShouldra() && flags[kFLAGS.SHOULDRA_FOLLOWER_STATE] != .5) {
+			if ((flags[kFLAGS.SHOULDRA_MAIDEN_COUNTDOWN] == 0 && rackCount() >= 2 && rand(10) <= 4) && !followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff) && flags[kFLAGS.SHOULDRA_FOLLOWER_STATE] != .5) {
 				shouldraScene.shouldraGreeting();
 				return;
 			}
@@ -321,10 +323,8 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 				if (flags[kFLAGS.AMILY_BIRTH_TOTAL] + flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS] >= 5 && flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] == 0) {
 					if (flags[kFLAGS.AMILY_AFFECTION] < 40) thisIsAReallyShittyBadEnd();
 					else thisFunctionProbablySucksTooOhYeahAmilyFunction();
-
 					return;
 				}
-
 				//Man Meetinz!
 				if (player.gender == 1) {
 					//Desperate Plea
@@ -2419,7 +2419,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 			if (flags[kFLAGS.FOLLOWER_AT_FARM_AMILY] != 0) return;
 
 			//25% + gradually increasing cumQ bonus
-			if (rand(4) == 0 || player.cumQ() > rand(1000)) {
+			if (rand(4) == 0 || player.cumQ() > rand(1000) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 				pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_MOUSE - 182); //Amily completes her pregnancies much faster than a regular player
 				if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Amily is pregnant!</b>");
 			}
@@ -2468,7 +2468,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 				return;
 			}
 			//Jojo + Amily Spar
-			if(flags[kFLAGS.AMILY_FOLLOWER] == 1 && flags[kFLAGS.AMILY_MET_PURE_JOJO] == 1 && flags[kFLAGS.AMILY_SPAR_WITH_PURE_JOJO] == 0 && player.hasStatusEffect(StatusEffects.PureCampJojo)) {
+			if(flags[kFLAGS.AMILY_FOLLOWER] == 1 && flags[kFLAGS.AMILY_MET_PURE_JOJO] == 1 && flags[kFLAGS.AMILY_SPAR_WITH_PURE_JOJO] == 0 && player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) {
 				finter.pureJojoAndAmilySpar();
 				return;
 			}
@@ -2549,7 +2549,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 			amilyMenu(true);
 		}
 
-		private function amilyMenu(output:Boolean = true) :void {
+		public function amilyMenu(output:Boolean = true) :void {
 			menu();
 			//Innocent
 			if(flags[kFLAGS.AMILY_FOLLOWER] == 1) {
@@ -2577,7 +2577,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 					addButton(8, "Date", dateNightFirstTime)
 						.hint("Take Amily on a date to Tel'Adre?")
 						.disableIf(SceneLib.urtaQuest.urtaBusy(), "Urta is busy right now.")
-						.disableIf(flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY] >= 5 || urtaLove(),
+						.disableIf((flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY] < 5 && !urtaLove()),
 							"You don't know Urta close enough to introduce your mouse girlfriend to her.");
 				}
 				//if (AbandonedTownRebuilt.InTown = false) {
@@ -3972,6 +3972,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 				else if (flags[kFLAGS.AMILY_CUP_SIZE] >= BreastCup.C) {
 					outputText("\n\n\"<i>So...  when is this supposed to start - yeek</i>!\" She suddenly squeaks in shock as she realizes her shirt is growing damp.  She hastily pulls her top open, grabbing at her dripping breasts.  \"<i>I, I just gotta go take care of this.</i>\" She explains, blushing and then scampering away.");
 				}
+				doNext(playerMenu);
 			}
 			else { //Already lactating
 				if (flags[kFLAGS.AMILY_FOLLOWER] == 1) { //Pure
@@ -3980,9 +3981,9 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 				if (flags[kFLAGS.AMILY_FOLLOWER] == 2) { //Corrupt
 					outputText("\n\nQuickly she pulls her breasts out of her top; she doesn't want to make a mess on herself.  Beads of milk begin to form at the tip of her " + amilyNipples() + ", soon giving way to a steady trickle of fluid.  \"<i>More milk for my[Master], hmm?</i>\" She teases you.  \"<i>I'm going to go and take care of this...  unless you want to help me now?</i>\" She trills, seductively.");
 				}
+				doYesNo(takeChargeAmilyMouseMilk, amilyFollowerEncounter);
 			}
 			flags[kFLAGS.AMILY_LACTATION_RATE]++;
-			doYesNo(takeChargeAmilyMouseMilk, amilyFollowerEncounter);
 		}
 
 		private function amilyHips():String {
@@ -4963,7 +4964,8 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 		//Player gives Birth (quest version):
 		public function pcBirthsAmilysKidsQuestVersion(womb:int = 0):void {
 			amilySprite();
-			flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS]++;
+			if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS] += 2;
+			else flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS]++;
 			//In camp version:
 			if(flags[kFLAGS.AMILY_FOLLOWER] == 1) {
 				playerBirthsWifAmilyMiceInCamp();
@@ -6171,6 +6173,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 			amilySprite();
 			if (!recalling) flags[kFLAGS.AMILY_CORRUPTION]++;
 			clearOutput();
+			if (!recalling) outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 			//[Raping Amily]
 			outputText("You wait for a while, idly looking at the mixture you made for Amily, until a groan draws your attention towards the bound mouse.\n\n");
 
@@ -6515,6 +6518,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 				endEncounter();
 				return;
 			}
+			if (!recalling) outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 			outputText("You enter the ruined village hoping to find your corrupted mouse cumbucket. It doesn't take long until you spot her; she's stroking her pussy and blowing a wood carved dildo, practicing like you told her to.\n\n");
 
 			outputText("As soon as she realizes you're there, she drops the dildo and rushes towards you; kneeling submissively in front of you, she nuzzles your crotch and asks, \"<i>[Master], did you come to feed me?</i>\"\n\n");
@@ -6745,6 +6749,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 		//Only happens if the PC has the Potent Mixture and is >= 25 Corruption.
 		public function stalkingZeAmiliez():void {
 			clearOutput();
+			if (!recalling) outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 			outputText("You step into the ruined village and set out to look for Amily.\n\n");
 
 			//(If PC's intellingence >= 50 and speed >= 65)
@@ -6804,6 +6809,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 			//(else)
 			else {
 				amilySprite();
+				if (!recalling) outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 				outputText("You step into the ruined village and set out to look for Amily.\n\n");
 
 				outputText("It doesn't take long before you locate her and you immediately see how she's changed after the first dose of her special medicine.\n\n");
@@ -6867,6 +6873,7 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 				return;
 			}
 			amilySprite();
+			if (!recalling) outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 			outputText("You step into the ruined village and set out to look for Amily.\n\n");
 
 			outputText("You barely have to search, as Amily finds you herself. Her figure has changed very dramatically since the first time you two met, she has developed a perfect hourglass figure; with generous breasts, a full butt and wide flanks. She just looks at you with hungry, lusty eyes, panting and drooling a bit.\n\n");
@@ -8317,7 +8324,6 @@ public class AmilyScene extends NPCAwareContent implements TimeAwareInterface
 			if (!player.hasStatusEffect(StatusEffects.LunaWasCaugh)) player.createStatusEffect(StatusEffects.LunaWasCaugh, 1, 0, 0, 0);
 			else player.addStatusValue(StatusEffects.LunaWasCaugh, 1, 1);
 			if (player.statusEffectv1(StatusEffects.LunaWasCaugh) == 3) outputText("<b>That's it, you're sure of it now, it's all Luna's doing!</b>\n\n");
-
 			doNext(playerMenu);
 		}
 	}

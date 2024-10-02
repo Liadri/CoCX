@@ -50,7 +50,7 @@ import classes.Scenes.SceneLib;
 				var heal:int = damageTotal * 10;
 				if (HP + heal > maxOverHP()) heal = maxOverHP() - HP;
 				HP += heal;
-				outputText("\n\nEach blow he lands seems to heal his wounds as if he drained the life out of you to replenish his own! <b>([font-heal]+" + heal + "</font>)</b>.\n\n");
+				outputText("\n\nEach blow he lands seems to heal his wounds as if he drained the life out of you to replenish his own! <b>([font-heal]+" + heal + "[/font])</b>.\n\n");
 			}
 		}
 
@@ -196,7 +196,7 @@ import classes.Scenes.SceneLib;
 			this.armorDef = 700;
 			this.armorMDef = 700;
 			this.bonusHP = 7000;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.level = 90;
 			this.gems = rand(300) + 700;
 			this.drop = NO_DROP;

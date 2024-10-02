@@ -8,7 +8,7 @@ import classes.IMutations.IMutationsLib;
 import classes.Scenes.NPCs.DivaScene;
 import classes.Player;
 import classes.Races;
-import classes.Races.AtlachNachaRace;
+import classes.Scenes.SceneLib;
 import classes.Scenes.Metamorph;
 import classes.StatusEffects;
 import classes.display.SpriteDb;
@@ -20,13 +20,61 @@ import classes.EventParser;
 public class DraculinaScene extends BaseContent {
     public function DraculinaScene() {}
     
-    public function encounter():void {
-        clearOutput();
-        //spriteSelect(SpriteDb.s_Atlach_16bit);
-		/*if (player.racialScore(Races.DRACULA) >= 22) {
-			
+    private function allTheTricksForDarkness():Boolean {
+		if (player.hasStatusEffect(StatusEffects.KnowsBlind) || player.hasStatusEffect(StatusEffects.KnowsSunrise) || (player.tailType == Tail.KITSHOO && player.tailCount >= 6)) return true;
+		else return false;
+	}
+	public function encounter():void {
+        if (player.wis >= 150 && allTheTricksForDarkness()) encounterYes();
+		else {
+			clearOutput();
+			outputText("<b>"+(player.wis < 150 ? "This area look suspicious your senses are duller then a sword that's not been sharpened for two centuries, should you get ambushed here who's to tell what may happen to you It might be smarter to turn back now while you still can and train your wits. ":"")+(allTheTricksForDarkness() ? "":"The room ahead is rather dark. Without any source of magical light you might be in great danger. ")+"Do you proceed anyway?</b>");
+			menu();
+			addButton(1, "No", encounterNo);
+			addButton(3, "Yes", encounterYes);
 		}
-		else {*/
+    }
+	public function encounterNo():void {
+		SceneLib.dungeons.ebonlabyrinth.returnFromDraculinaRoom();
+	}
+	public function encounterYes():void {
+		clearOutput();
+        //spriteSelect(SpriteDb.s_Atlach_16bit);
+		if (player.racialScore(Races.DRACULA) >= 22) {
+			outputText("As you explore the labyrinth, you find yourself in a familiar room. Nonchalantly, you push open the large, unassuming stone door to enter the vampire's lair. If you were another person, this would certainly be your demise, being but another snack for the entity that dwells here, but in your case, you are a different type of deal entirely. You enter the dwelling without hesitation, ears perking up to your surroundings as you locate your kind easily, spotting her resting by a large stalactite.\n\n");
+			outputText("You fly to her in silence, surprising her with a sudden embrace as she is unable to track a heartbeat, something you lack entirely.\n\n");
+			outputText("She recoils, trying to shake you off, \"<i>What the hell, who are you, weirdo?! And where did you come from?!</i>\"\n\n");
+			outputText("Without giving her any more time to react, you tell her what she did to you, confiding gently as you sensually sink your fangs into her neck, eliciting a pleased moan from the woman as you suck on her blood with a gentle passion. You do not need to offer any further words, for her body and gestures follow in your steps.\n\n");
+			outputText("She sinks her fangs into your sensitive neck y");
+			if (player.gender > 0 || player.breastRows[0].breastRating >= 1) {
+				outputText("our ");
+				if (player.hasCock()) outputText("[cock] hardens and throbs ");
+				if (player.gender == 3) outputText("while your ");
+				if (player.hasVagina()) outputText("pussy gushes a cascade of girlcum, falling down your body with a wet plopping sound to the ground below ");
+				if (player.breastRows[0].breastRating >= 1) {
+					if (player.gender > 0) outputText("and y");
+					outputText("our nipples harden with each seductive stroke she gives you, gliding her fingers over your form");
+				}
+				outputText(". Y");
+			}
+			outputText("ou begin to pant with pleasure and unrestrained arousal as your blood is drained whilst she feels up every inch of your body she can.\n\n");
+			if (player.hasCock()) {
+				outputText("A silky palm gently takes hold of your [cock], dexterous fingers caressing the sensitive flesh before guiding it into her set of velvety folds. Accepting her ministrations, you ardently push past her labia, filling her with every inch she so eagerly craves, thrusting into her at a gentle place as her warmth clutches onto you tighter, trying to pull you back in after each thrust.\n\n");
+				outputText("Your thrusts elicit a soft moan from her as she tries to clamp down on you further, her grip is feverish as she leans into you. She leans back closer to you, the feeling of her cool flesh brushing closer against you as she tries to envelop herself deeper within your embrace, eager for what love you can offer her. You return with a more forceful thrust back into her cunt, clutching onto her tighter.\n\n");
+				outputText("Your climax nears closer, unable to hold back from her unholy embrace, you thrust harder into her, hilting your dick inside her as far as you can push before you cum into her. You continue thrusting, your body not bothering with any sense of fatigue. Eager to explore the limit of your stamina, you thrust back into her with greater vigor as she moans eagerly, clamping tightly as you can feel her girlcum coating your [cock]. ");
+				outputText("The wet, sloshing sounds as you pound into her fill the cave as you flood her with load after load of your defiled cum."+(player.cumQ() >= 4000 ? " You are filling her with so much cum,  you have to support her as she's almost starting to lose her grip with the weight of your endless load.":"")+"\n\n");
+			}
+			if (player.hasVagina() && !player.hasCock()) outputText("A silken hand gently slides up from your labia before it parts the folds of your dripping cunt, the fingers expertly circling your clit as she digs a finger past your lips, digging for your sweet spot in a teasing effort to make you cum. Not one to be outdone, you reciprocate to your partner using your dexterous digits to explore and tease her drenched pussy. You both bring each other to orgasm several times, uncaring of the world around you nor the passing of time. There is no such thing as exhaustion to stop you, either.\n\n");
+			outputText("Several hours pass before you realize the pair of you have been having sex nonstop to the point you’ve completely lost track of time. It takes a great effort of willpower from you to remove your fangs from her neck before you gently tap on her shoulder. She reluctantly releases you a few seconds later and politely cleans the corner of her mouth with her wings before addressing you directly.\n\n");
+			outputText("She sighs softly, still partially enthralled with your presence, \"<i>Next time, you should definitely give a warning, the surprise sex came out of nowhere.</i>\"\n\n");
+			outputText("If you had warned her, it wouldn’t be surprise sex, would it? She’s sure one to talk. Isn’t ambushing people down a dark cave, by definition, a surprise?\n\n");
+			outputText("Thoroughly satisfied, you bid your sire to take care and head back down into the labyrinth.\n\n");
+			if (player.hasCock()) player.sexReward("vaginalFluids","Dick");
+			else player.sexReward("vaginalFluids");
+			inventory.takeItem(consumables.VAMPBLD, playerMenu);
+            return;
+		}
+		else {
 			outputText("As you turn the next corner, you end up face to face with a large stone door. Lacking any other options, you force the door open with a loud grinding noise and enter what appears to be a large, cavernous section. The door slowly closes behind you with a loud clang. Startled by the sudden noise, bats take off into the black depths. Your [skin] crawls, almost like you’re being watched.\n\n");
 			outputText("Is it your imagination, or are there unfriendly eyes spying on you from the murky shadows? You hear the scraping of metal upon stone in the distance, steadily encroaching upon you. You ready yourself for combat, and a labyrinth minotaur suddenly charges out of the shadows. You brace yourself for his charge, but to your shock, he ignores you, attempting to run past you in a blind panic. ");
 			outputText("Your gaze follows the panicked bull; a blurry shadow grabs him just as he reaches the door. With a sound somewhere between a moo and a scream of terror, he kicks at the shadow, his fingers digging desperately into the stone in a futile attempt to pry the door open.\n\n");
@@ -50,8 +98,8 @@ public class DraculinaScene extends BaseContent {
 				if (!player.blockingBodyTransformations() && player.gender > 0 && ((player.hasVagina() && player.vaginas[0].virgin) || player.racialScore(Races.VAMPIRE) >= 10)) becomeDracula();
 				else defeatedBadEnd();
 			}
-		//}
-    }
+		}
+	}
 
     public function defeatedBy():void {
         clearOutput();
@@ -143,7 +191,8 @@ public class DraculinaScene extends BaseContent {
 		player.rearBody.type = RearBody.THIRSTY_NECK;
 		if (player.hasCock()) transformations.CockDemon().applyEffect(false);
 		if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
-        if (!player.hasPerk(PerkLib.Familiar)) player.createPerk(PerkLib.Familiar,0,0,0,0);
+		if (!player.hasStatusEffect(StatusEffects.Familiar)) player.createStatusEffect(StatusEffects.Familiar, 0, 0, 0, 0);
+        if (!player.hasPerk(PerkLib.Familiar)) player.createPerk(PerkLib.Familiar, 0, 0, 0, 0);
 		IMutationsLib.BlackHeartIM.trueMutation = true;
         IMutationsLib.VampiricBloodstreamIM.trueMutation = true;
         IMutationsLib.HollowFangsIM.trueMutation = true;
@@ -152,8 +201,10 @@ public class DraculinaScene extends BaseContent {
         outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
         player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
 		player.createPerk(PerkLib.Undeath, 0, 0, 0, 0);
+		player.createPerk(PerkLib.SoulDrinker, 0, 0, 0, 0);
         player.createPerk(PerkLib.TransformationImmunity2,8,0,0,0);
 		outputText("\n<b>Gained Perk: Transformation Immunity</b>\n\n");
+		player.npcsThatLeaveSoullessPC();
 		if (combat.inCombat) cleanupAfterCombatTFEvent();
 		else doNext(playerMenu);
     }

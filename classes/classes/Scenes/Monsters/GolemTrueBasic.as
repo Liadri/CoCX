@@ -38,32 +38,34 @@ package classes.Scenes.Monsters
 		
 		override protected function performCombatAction():void
 		{
-			if (hasStatusEffect(StatusEffects.Provoke)) {
-				var choiceP:Number = rand(3);
-				if (choiceP == 0) eAttack();
-				if (choiceP == 1) backhand();
-				if (choiceP == 2) overhandSmash();
-			}
-			else {
-				if (this.HPRatio() < 0.6) {
-					var choice2:Number = rand(5);
-					if (choice2 < 3) eAttack();
-					if (choice2 == 3) backhand();
-					if (choice2 == 4) overhandSmash();
+			if ((this.lust100 >= 85 && rand(2) == 0) || this.lust100 < 85) {
+				if (hasStatusEffect(StatusEffects.Provoke)) {
+					var choiceP:Number = rand(3);
+					if (choiceP == 0) eAttack();
+					if (choiceP == 1) backhand();
+					if (choiceP == 2) overhandSmash();
 				}
-				else if (this.HPRatio() < 0.8) {
-					var choice1:Number = rand(4);
-					if (choice1 < 3) eAttack();
-					if (choice1 == 3) backhand();
+				else {
+					if (this.HPRatio() < 0.6) {
+						var choice2:Number = rand(5);
+						if (choice2 < 3) eAttack();
+						if (choice2 == 3) backhand();
+						if (choice2 == 4) overhandSmash();
+					}
+					else if (this.HPRatio() < 0.8) {
+						var choice1:Number = rand(4);
+						if (choice1 < 3) eAttack();
+						if (choice1 == 3) backhand();
+					}
+					else eAttack();
 				}
-				else eAttack();
 			}
 		}
 		
 		override public function defeated(hpVictory:Boolean):void
 		{
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) SceneLib.combat.finishCombat();
-			else SceneLib.camp.campMake.postFightGolemOptions3();
+			else SceneLib.campMakeWinions.postFightGolemOptions3();
 		}
 		
 		public function GolemTrueBasic() 
@@ -74,7 +76,7 @@ package classes.Scenes.Monsters
 			this.imageName = "basic true golem";
 			this.long = "You're currently fighting basic true golem. It's seven feet tall without any sexual characteristics, it stone body lacking any cracks dummy ones possesed and using it bare stone fists to smash enemies.";
 			initStrTouSpeInte(150, 120, 90, 10);
-			initWisLibSensCor(10, 10, 10, 50);
+			initWisLibSensCor(10, 10, 10, 0);
 			this.tallness = 84;
 			this.drop = NO_DROP;
 			this.level = 33;

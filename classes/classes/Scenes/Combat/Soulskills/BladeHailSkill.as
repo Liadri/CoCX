@@ -58,45 +58,24 @@ public class BladeHailSkill extends AbstractSoulSkill {
 	}
 
 	override public function calcCooldown():int {
-		return hailArray[hailSelection][4];
-	}
-
-	//Calculate dodge chance for each version of skill
-	private function didDodge(display:Boolean):Boolean {
-		switch (hailSelection + 1) {
-			case 0: return monsterDodgeSkill("weapons", display);
-			case 1:
-				if ((player.playerIsBlinded() && rand(2) == 0) || (monster.spe - player.spe > 10 && int(Math.random() * (((monster.spe - player.spe) / 5) + 70)) > 80)) {
-					if (display) {
-						if (monster.spe - player.spe < 8) outputText("[Themonster] narrowly avoids weapons!\n\n");
-						else if (monster.spe-player.spe < 20) outputText("[Themonster] dodges weapons with superior quickness!\n\n");
-						else outputText("[Themonster] deftly avoids weapons.\n\n");
-					}
-					return true;
-				} else
-					return false;
-			case 2:
-				if ((player.playerIsBlinded() && rand(2) == 0) || (monster.spe - player.spe > 20 && int(Math.random() * (((monster.spe - player.spe) / 6) + 60)) > 80)) {
-					if (display) {
-						if (monster.spe - player.spe < 8) outputText("[Themonster] narrowly avoids weapons!\n\n");
-						else if (monster.spe-player.spe < 20) outputText("[Themonster] dodges weapons with superior quickness!\n\n");
-						else outputText("[Themonster] deftly avoids weapons.\n\n");
-					}
-					return true;
-				} else
-					return false;
-			default: return false;
+		var baseCooldown:int = hailArray[hailSelection][4];
+		switch (hailSelection) {
+			case 2: return soulskillTier3Cooldown(baseCooldown, false);
+					break;
+			case 1: return soulskillTier2Cooldown(baseCooldown, false);
+					break;
+			case 0: 
+			default:return soulskillCooldown(baseCooldown, false);
+					break;
 		}
 	}
 
 	private function calcHailDamage():Number {
-		var damage:Number = player.wis * 0.5;
-		damage += scalingBonusWisdom() * 0.5;
+		var damage:Number = player.wis;
+		damage += scalingBonusWisdom() * 2;
 		if (damage < 10) damage = 10;
-
 		//soulskill mod effect
-		damage *= combat.soulskillMagicalMod();
-
+		damage *= soulskillMagicalMod();
 		//other bonuses
 		if (player.hasPerk(PerkLib.Heroism) && (monster && (monster.hasPerk(PerkLib.EnemyBossType) || monster.hasPerk(PerkLib.EnemyHugeType)))) damage *= 2;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 4 && player.HP < Math.round(player.maxHP() * 0.5)) damage *= 1.5;
@@ -105,7 +84,6 @@ public class BladeHailSkill extends AbstractSoulSkill {
 
 	private function fireHail(hits:int = 1, display:Boolean = true):void {
 		var damage:Number = calcHailDamage();
-
 		//Determine if critical hit!
 		var crit:Boolean = false;
 		var critChance:int = 5;
@@ -115,11 +93,9 @@ public class BladeHailSkill extends AbstractSoulSkill {
 			crit = true;
 			damage *= 1.75;
 		}
-
 		var d2:Number = 0.9;
 		d2 += (rand(21) * 0.01);
 		damage *= d2;
-
 		if (display) outputText(" ");
 		doMagicDamage(damage, true, display);
 		if (crit && display) outputText(" <b>*Critical Hit!*</b>");
@@ -141,24 +117,18 @@ public class BladeHailSkill extends AbstractSoulSkill {
 			if (crit && display) outputText(" <b>*Critical Hit!*</b>");
 			damage *= 4;
 		}
-
 		checkAchievementDamage(damage);
 		if (player.hasStatusEffect(StatusEffects.HeroBane)) flags[kFLAGS.HERO_BANE_DAMAGE_BANK] += damage;
 		if (player.hasStatusEffect(StatusEffects.EruptingRiposte)) flags[kFLAGS.ERUPTING_RIPOSTE_DAMAGE_BANK] += monster.tou + monster.inte + monster.wis;
 	}
 
     override public function doEffect(display:Boolean = true):void {
-		if (display) outputText("Letting soulforce leak out around you, you form " + hailArray[hailSelection][1] +
-			" ethereal two meter long weapons in four rows. You thrust your hand outwards and in the blink of an eye, weapons shoot forwards [themonster].  ");
-
-		if (didDodge(display)) return;
-
+		if (display) outputText("Letting soulforce leak out around you, you form " + hailArray[hailSelection][1] + " ethereal two meter long weapons in four rows. You thrust your hand outwards and in the blink of an eye, weapons shoot forwards [themonster].  ");
+		if (monsterDodgeSkill("weapons", display)) return;
 		if (display) outputText("Weapons hits [themonster], dealing ");
-
 		var rounds:Number = hailArray[hailSelection][5];
 		while (rounds-->0) fireHail(hailArray[hailSelection][6], display);
 		if (display) outputText(" damage!\n\n");
-
 		if (!player.hasStatusEffect(StatusEffects.BloodCultivator) && flags[kFLAGS.IN_COMBAT_PLAYER_ANUBI_HEART_LEECH] == 0) anubiHeartLeeching(flags[kFLAGS.HERO_BANE_DAMAGE_BANK]);
 		combat.heroBaneProc2();
 		combat.EruptingRiposte2();

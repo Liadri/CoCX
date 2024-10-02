@@ -705,7 +705,7 @@ private function pregdrynOffer(cs:Boolean = true):void {
 		return;
 	}
 	//VERY Pregnant Offer
-	if (pregnancy.incubation < 250) {
+	if (pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(250, PregnancyStore.INCUBATION_CENTAUR + 80)) {
 		outputText("Edryn struggles to move, practically waddling thanks to her swollen, pregnant belly.  As usual, the glistening black lips of her sex are on display, and with the hormones pouring through her, she's leaking a steady trail of slime.  The scent coming off her is unreal!  It's like it's reaching right into your brain and cranking the 'fuck' dial up to maximum.  ");
 		if(player.cockTotal() > 1) outputText("All of your [cocks] fill in seconds, growing rock hard and actually aching with their need.  ");
 		else if(player.cockTotal() == 1) outputText("Your [cock] fills in seconds, growing rock hard and actually aching with need.  ");
@@ -796,7 +796,7 @@ private function pregdrynOffer(cs:Boolean = true):void {
 	}
 	//(PC TOO SMALL)
 	else {
-		outputText("Edryn giggles, \"<i>When did you get this small?  I've seen ponies with bigger kits!</i>\" but her hand continues to stroke you.  You squirm in her grasp, about ready to burst.  The pregnant centaur teases, \"<i>Dear, I don't think I'd notice something that small if you stuck it inside me.</i>\"\n\n");
+		outputText("Edryn giggles, \"<i>When did you get this small?  I've seen ponies with bigger kids!</i>\" but her hand continues to stroke you.  You squirm in her grasp, about ready to burst.  The pregnant centaur teases, \"<i>Dear, I don't think I'd notice something that small if you stuck it inside me.</i>\"\n\n");
 
 		outputText("She laughs at the expression on your face and continues, \"<i>Oh don't be like that.  The truth is the truth.  You're still the father of my child.  Why don't we go back to my room?  You can eat me out till the centaur pheromones overpower your little dick and make it squirt, okay?</i>\"\n\n");
 
@@ -974,7 +974,7 @@ private function edrynPregChance():void {
 	score += player.virilityQ() * 200;
 
 	trace("Edryn Preg Check Virility Score: " + score);
-	if(player.cumQ() > 250 && score >= rand(100)) {
+	if((player.cumQ() > 250 && score >= rand(100)) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 		preg = true;
 		trace("Edryn knocked up!");
 	}

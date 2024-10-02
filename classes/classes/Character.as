@@ -140,9 +140,9 @@ import classes.Scenes.NPCs.Forgefather;
 
 		public function isPregnant():Boolean { return _pregnancyType > 0 || _pregnancy2Type > 0; }
 		public function canGetPregnant():Boolean { return (vaginas.length > 0 && _pregnancyType == 0) || (vaginas.length > 1 && _pregnancy2Type == 0); }
-		public function hasVisiblePregnancy():Boolean { return ((pregnancyIncubation > 0 && pregnancyIncubation <= 180) || (pregnancy2Incubation > 0 && pregnancy2Incubation <= 180))}
-		public function hasVeryVisiblePregnancy():Boolean { return ((pregnancyIncubation > 0 && pregnancyIncubation <= 100) || (pregnancy2Incubation > 0 && pregnancy2Incubation <= 100))}
-		public function hasNonVisiblePregnancy():Boolean { return ((pregnancyIncubation > 180) && (pregnancy2Incubation > 180)) || ((pregnancyIncubation > 180) && (pregnancy2Incubation == 0)) || ((pregnancyIncubation == 0) && (pregnancy2Incubation > 180)) }
+		public function hasVisiblePregnancy():Boolean { return ((pregnancyIncubation > 0 && pregnancyIncubation <= CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(180, pregnancyType)) || (pregnancy2Incubation > 0 && pregnancy2Incubation <=  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(180, pregnancy2Type)))}
+		public function hasVeryVisiblePregnancy():Boolean { return ((pregnancyIncubation > 0 && pregnancyIncubation <=  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(100, pregnancyType)) || (pregnancy2Incubation > 0 && pregnancy2Incubation <=  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(100, pregnancyType)))}
+		public function hasNonVisiblePregnancy():Boolean { return ((pregnancyIncubation >  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(180, pregnancyType)) && (pregnancy2Incubation >  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(180, pregnancy2Type))) || ((pregnancyIncubation >  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(180, pregnancyType)) && (pregnancy2Incubation == 0)) || ((pregnancyIncubation == 0) && (pregnancy2Incubation >  CoC.instance.gameSettings.sceneHunter_inst.adjustPregEventTimer(180, pregnancy2Type))) }
 
 		public function isButtPregnant():Boolean { return _buttPregnancyType != 0; }
 
@@ -185,8 +185,10 @@ import classes.Scenes.NPCs.Forgefather;
 
 		//The more complex knockUp function used by the player is defined above
 		//The player doesn't need to be told of the last event triggered, so the code here is quite a bit simpler than that in PregnancyStore
-		public function knockUpForce(type:int = 0, incubation:int = 0, womb:int = 0):void
+		public function knockUpForce(type:int = 0, incubation:int = 0, womb:int = 0, bypassSH:int = 0):void
 		{
+			if (!bypassSH)
+				incubation = CoC.instance.gameSettings.sceneHunter_inst.shortPregTimer(incubation);
 			if (womb == 0) {
 				_pregnancyType = type;
 				_pregnancyIncubation = (type == 0 ? 0 : incubation); //Won't allow incubation time without pregnancy type
@@ -220,8 +222,10 @@ import classes.Scenes.NPCs.Forgefather;
 		}
 
 		//The more complex buttKnockUp function used by the player is defined in Character.as
-		public function buttKnockUpForce(type:int = 0, incubation:int = 0):void
+		public function buttKnockUpForce(type:int = 0, incubation:int = 0, bypassSH:int = 0):void
 		{
+			if (!bypassSH)
+				incubation = CoC.instance.gameSettings.sceneHunter_inst.shortPregTimer(incubation);
 			_buttPregnancyType = type;
 			_buttPregnancyIncubation = (type == 0 ? 0 : incubation); //Won't allow incubation time without pregnancy type
 		}
@@ -494,11 +498,12 @@ import classes.Scenes.NPCs.Forgefather;
 				min -= (2400 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
 			}//nastepny diehard to 10% i 3000 a potem 12% i 3600
 			if (perkv1(IMutationsLib.LizanMarrowIM) >= 3) min -= maxHP() * 0.05;
+			if (perkv1(IMutationsLib.LizanMarrowIM) >= 4) min -= maxHP() * 0.05;
 			if (perkv1(IMutationsLib.OrcAdrenalGlandsIM) >= 3 || game.player.isRace(Races.ORC)) {
 				if (hasPerk(PerkLib.Ferocity)) min -= maxHP() * 0.07;
 				if (perkv1(IMutationsLib.OrcAdrenalGlandsIM) >= 1) min -= maxHP() * 0.01;
 				if (perkv1(IMutationsLib.OrcAdrenalGlandsIM) >= 2) min -= maxHP() * 0.02;
-				//if (perkv1(IMutationsLib.OrcAdrenalGlandsIM) >= 4) min -= maxHP() * 0.05;
+				if (perkv1(IMutationsLib.OrcAdrenalGlandsIM) >= 4) min -= maxHP() * 0.05;
 			}
 			if (perkv1(IMutationsLib.HumanAdrenalGlandsIM) >= 1 && game.player.racialScore(Races.HUMAN) > 17) {
 				min -= maxHP() * 0.05;
@@ -520,6 +525,30 @@ import classes.Scenes.NPCs.Forgefather;
 			if (headjewelryName == "Crown of the Undefeated King") {
 				min -= maxHP() * 0.05;
 				min -= (500 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
+			}
+			if (headjewelryName == "Skulls Crown") {
+				min -= maxHP() * 0.05;
+				min -= (500 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
+			}
+			if (necklaceName == "Skull Necklace") {
+				min -= maxHP() * 0.05;
+				min -= (500 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
+			}
+			if (hasStatusEffect(StatusEffects.BonusEffectsSkullSet)) {
+				min -= maxHP() * 0.02;
+				min -= (200 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
+			}
+			if (headjewelryName == "Tree of Life Crown") {
+				min -= maxHP() * 0.05;
+				min -= (500 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
+			}
+			if (necklaceName == "Tree of Life Necklace") {
+				min -= maxHP() * 0.05;
+				min -= (500 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
+			}
+			if (hasStatusEffect(StatusEffects.BonusEffectsTreeOfLifeSet)) {
+				min -= maxHP() * 0.02;
+				min -= (200 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
 			}
 			if (hasPerk(PerkLib.SPSurvivalTrainingX)) {
 				var limit:Number = perkv1(PerkLib.SPSurvivalTrainingX) * 10;
@@ -555,10 +584,26 @@ import classes.Scenes.NPCs.Forgefather;
 			max += level * maxFatiguePerLevelStat.value;
 			if (level <= 6) max += level * maxFatiguePerLevelStat.value;
 			else max += 6 * maxFatiguePerLevelStat.value;
+			if (hasPerk(PerkLib.CovenantOfTheSpirits)) max *= 2;
 			max *= multimax;
 			max = Math.round(max);
 			if (max > 1499999) max = 1499999;
 			return max;
+		}
+		public override function maxOverFatigue():Number {
+			var max1:Number = maxFatigue();
+			var max2:Number = 1;
+			if (hasPerk(PerkLib.HiddenJobSwordImmortal)) max2 += 0.05;
+			if (hasPerk(PerkLib.SwordIntentAura)) max2 += 0.05;
+			if (hasPerk(PerkLib.SwordImmortalFirstForm)) max2 += 0.05;
+			if (hasPerk(PerkLib.MunchkinAtWork)) max2 += 0.1;
+			if (perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) max2 += 0.05;
+			if (perkv1(IMutationsLib.HumanFatIM) >= 4) max2 += 0.1;
+			if (perkv1(IMutationsLib.HumanMusculatureIM) >= 4) max2 += 0.1;
+			max1 *= max2;//~140%
+			max1 = Math.round(max1);
+			if (max1 > 2199999) max1 = 2199999;
+			return max1;
 		}
 
 		public override function maxSoulforce():Number
@@ -587,6 +632,7 @@ import classes.Scenes.NPCs.Forgefather;
 			if (flags[kFLAGS.SOUL_CULTIVATION] >= 58) max += 210 * (flags[kFLAGS.SOUL_CULTIVATION] - 57);//Soul Saint
 			//if (flags[kFLAGS.SOUL_CULTIVATION] >= ) max += 210 * (flags[kFLAGS.SOUL_CULTIVATION] - 57);//Soul Paragon
 			//if (flags[kFLAGS.SOUL_CULTIVATION] >= ) max += 0 * (flags[kFLAGS.SOUL_CULTIVATION] - 57);//Soul Immortal
+			if (hasPerk(PerkLib.FlyingSwordPath)) max += (50 * (1 + perkv1(PerkLib.FlyingSwordPath)));
 			if (hasPerk(PerkLib.DemonicLethicite)) max += Math.round(lib);
 			if (hasPerk(PerkLib.Metamorph)) max += (50 * (1 + perkv1(PerkLib.Metamorph)));
 			if (hasPerk(PerkLib.MetamorphEx)) max += (50 + (100 * perkv1(PerkLib.MetamorphEx)));
@@ -659,6 +705,7 @@ import classes.Scenes.NPCs.Forgefather;
 				//if (flags[kFLAGS.UNLOCKED_MERIDIANS] > 0) multimax += flags[kFLAGS.UNLOCKED_MERIDIANS] * 0.05;
 				//if (hasPerk(PerkLib.Ascension)) multimax += perkv1(PerkLib.Ascension) * 0.01;
 			}
+			if (hasPerk(PerkLib.CovenantOfTheSpirits)) max *= 0.5;
 			max *= multimax;
 			max = Math.round(max);
 			if (hasPerk(PerkLib.Soulless) || max < 0) max = 0;
@@ -668,12 +715,24 @@ import classes.Scenes.NPCs.Forgefather;
 		public override function maxOverSoulforce():Number {
 			var max1:Number = maxSoulforce();
 			var max2:Number = 1;
+			if (hasPerk(PerkLib.HiddenJobSwordImmortal)) max2 += 0.05;
+			if (hasPerk(PerkLib.SwordIntentAura)) max2 += 0.05;
+			if (hasPerk(PerkLib.SwordImmortalFirstForm)) max2 += 0.05;
 			if (hasPerk(PerkLib.MunchkinAtWork)) max2 += 0.1;
 			if (perkv1(IMutationsLib.WhiteFacedOneBirthrightIM) >= 4) max2 += 0.2;
-			max1 *= max2;//~110%
+			if (perkv1(IMutationsLib.HumanSmartsIM) >= 4) max2 += 0.05;
+			max1 *= max2;//~130%
 			max1 = Math.round(max1);
-			if (max1 > 1699999) max1 = 1699999;
+			if (max1 > 1999999) max1 = 1999999;
 			return max1;
+		}
+
+		public override function maxDemonicEnergy():Number {
+			var max:Number = 50;
+			max += level * 10;
+			if (hasPerk(PerkLib.DarkAscensionBottomlessHunger)) max *= (1 + (0.05 * perkv1(PerkLib.DarkAscensionBottomlessHunger)));
+			max = Math.round(max);
+			return max;
 		}
 
 		public override function maxWrath():Number
@@ -707,7 +766,7 @@ import classes.Scenes.NPCs.Forgefather;
 			}
 			max *= multimax;//~245%
 			max = Math.round(max);//476 414,75
-			if (max > 476999) max = 476999;
+			if (max > 495999) max = 495999;
 			return max;
 		}
 		public override function maxOverWrath():Number {
@@ -718,14 +777,18 @@ import classes.Scenes.NPCs.Forgefather;
 			if (hasPerk(PerkLib.AsuraStrength)) max2 += 0.1;
 			if (hasPerk(PerkLib.ICastAsuraFist)) max2 += 0.1;
 			if (hasPerk(PerkLib.LikeAnAsuraBoss)) max2 += 0.1;
-			//
 			if (hasPerk(PerkLib.AsuraToughness)) max2 += 0.1;
+			if (hasPerk(PerkLib.ItsZerkingTime)) max2 += 0.1;
 			//
 			if (hasPerk(PerkLib.AsuraSpeed)) max2 += 0.1;
+			if (hasPerk(PerkLib.HiddenJobSwordImmortal)) max2 += 0.05;
+			if (hasPerk(PerkLib.SwordIntentAura)) max2 += 0.05;
+			if (hasPerk(PerkLib.SwordImmortalFirstForm)) max2 += 0.05;
 			if (hasPerk(PerkLib.MunchkinAtWork)) max2 += 0.1;
-			max1 *= max2;//~180%
-			max1 = Math.round(max1);//~857 546,5
-			if (max1 > 859999) max1 = 859999;
+			if (perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) max2 += 0.05;
+			max1 *= max2;//~195%
+			max1 = Math.round(max1);//~905 188,025
+			if (max1 > 955999) max1 = 955999;
 			return max1;
 		}
 		public function maxSafeWrathMagicalAbilities():Number {
@@ -733,19 +796,17 @@ import classes.Scenes.NPCs.Forgefather;
 			if (hasPerk(PerkLib.ICastAsuraFist)) max1 += maxOverWrath();
 			else max1 += maxWrath();
 			var max2:Number = 0.75;
-			if (flags[kFLAGS.GAME_DIFFICULTY] < 2) max2 += 0.25;
-			//if (hasPerk(PerkLib.)) max2 += 0.1;
-			if (necklaceName == "Wrathless") max2 += 0.25;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] < 2 || necklaceName == "Wrathless") max2 += 0.25;
 			max1 *= max2;
 			max1 = Math.round(max1);
 			return max1;
 		}
 		public function maxSafeWrathSpellcasting():Number {
 			var max1:Number = 0;
-			if (hasPerk(PerkLib.ICastAsuraFist) || hasStatusEffect(StatusEffects.BloodMage)) max1 += maxOverWrath();
+			if (hasPerk(PerkLib.ICastAsuraFist)) max1 += maxOverWrath();
 			else max1 += maxWrath();
 			var max2:Number = 0.5;
-			if (flags[kFLAGS.GAME_DIFFICULTY] < 2 || necklaceName == "Wrathless" || hasStatusEffect(StatusEffects.BloodMage)) max2 += 0.5;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] < 2 || necklaceName == "Wrathless") max2 += 0.5;
 			if (hasPerk(PerkLib.MagesWrath)) max2 += 0.05;
 			if (hasPerk(PerkLib.MagesWrathEx)) max2 += 0.05;
 			if (hasPerk(PerkLib.WarMageNovice)) max2 += 0.05;
@@ -823,6 +884,7 @@ import classes.Scenes.NPCs.Forgefather;
 			max += level * maxManaPerLevelStat.value;
 			if (level <= 6) max += level * maxManaPerLevelStat.value;
 			else max += 6 * maxManaPerLevelStat.value;
+			if (hasPerk(PerkLib.CovenantOfTheSpirits)) max *= 2;
 			max *= multimax;
 			max = Math.round(max);
 			if (max < 0) max = 0;
@@ -837,6 +899,7 @@ import classes.Scenes.NPCs.Forgefather;
 			if (hasPerk(PerkLib.GreySageIntelligence)) max2 += 0.1;
 			if (hasPerk(PerkLib.HyperCasting)) max2 += 0.1;
 			if (hasPerk(PerkLib.MunchkinAtWork)) max2 += 0.1;
+			if (perkv1(IMutationsLib.HumanSmartsIM) >= 4) max2 += 0.05;
 			max1 *= max2;//~130%
 			max1 = Math.round(max1);
 			if (max1 > 3299999) max1 = 3299999;
@@ -895,6 +958,7 @@ import classes.Scenes.NPCs.Forgefather;
 			}
 			if (perkv1(IMutationsLib.ArachnidBookLungIM) > 0) multimaxven += perkv1(IMutationsLib.ArachnidBookLungIM);
 			if (game.player.hasKeyItem("Sky Poison Pearl") >= 0) maxven += 300;
+			if (hasPerk(PerkLib.AscensionSkyPoisonPearlMasteryStageX)) multimaxven += perkv1(PerkLib.AscensionSkyPoisonPearlMasteryStageX);
 			maxven *= multimaxven;
 			maxven = Math.round(maxven);
 			return maxven;
@@ -937,6 +1001,8 @@ import classes.Scenes.NPCs.Forgefather;
 			if (tier == 1) max += 150;
 			else if (tier == 2) max += 300;
 			else if (tier >= 3) max += 450;
+			if (game.player.isRace(Races.TROLL)) max += 50;
+			if (game.player.isRace(Races.GLACIAL_TROLL)) max += 75;
 			if (hasPerk(PerkLib.EzekielBlessing)) max += 50;
 			if (perkv1(IMutationsLib.DisplacerMetabolismIM) >= 2) max += 50;
 			if (perkv1(IMutationsLib.ManticoreMetabolismIM) >= 2) max += 50;
@@ -947,6 +1013,7 @@ import classes.Scenes.NPCs.Forgefather;
 			if (perkv1(IMutationsLib.WhaleFatIM) >= 2) max += 10;
 			if (perkv1(IMutationsLib.WhaleFatIM) >= 3) max += 20;
 			if (perkv1(IMutationsLib.HumanFatIM) >= 3 && game.player.racialScore(Races.HUMAN) > 17) max += 50;
+			if (perkv1(IMutationsLib.HumanFatIM) >= 4 && game.player.racialScore(Races.HUMAN) > 17) max += 100;
 			// (hasPerk(PerkLib.) && game.player.humanScore() < 5) max += 100;
 			// jak bedzie mieć chimeryczna nature to kolejny boost to max hunger moze...150 lub nawet 200 ^^
 			if (hasPerk(PerkLib.IronStomach)) max += 50;

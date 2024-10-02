@@ -11,7 +11,23 @@ import classes.internals.WeightedDrop;
 
 public class Akbal extends Monster
 	{
-
+		override public function midDodge():void{
+			outputText("Akbal moves like lightning, weaving in and out of your furious strikes with the speed and grace befitting his jaguar body.\n");
+		}
+		// Akbal now actually immune to blind
+		override protected function handleBlind():Boolean{
+			return true;
+		}
+		// Compromise to preserve content even if attack dodged not necessarily fire
+		override protected function outputPlayerDodged(dodge:int):void{
+			outputText("Akbal releases an ear-splitting roar, hurling a torrent of emerald green flames towards you.\n");
+			if (player.spe - spe < 8)
+				outputText("You narrowly avoid " + a + short + "'s fire!");
+			else if (player.spe - spe >= 8 && player.spe - spe < 20)
+				outputText("You dodge " + a + short + "'s fire with superior quickness!");
+			else if (player.spe - spe >= 20)
+				outputText("You deftly avoid " + a + short + "'s slow fire-breath.");
+		}
 		override public function eAttack():void
 		{
 			//Chances to miss:
@@ -19,16 +35,6 @@ public class Akbal extends Monster
 			//Blind dodge change
 			if (hasStatusEffect(StatusEffects.Blind)) {
 				outputText(capitalA + short + " seems to have no problem guiding his attacks towards you, despite his blindness.\n");
-			}
-			//Determine if dodged!
-			if (player.getEvasionRoll()) {
-				if (player.spe - spe < 8)
-					outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!");
-				if (player.spe - spe >= 8 && player.spe - spe < 20)
-					outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!");
-				if (player.spe - spe >= 20)
-					outputText("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".");
-				return;
 			}
 			//Determine damage - str modified by enemy toughness!
 			//*Normal Attack A - 
@@ -114,17 +120,6 @@ public class Akbal extends Monster
 			{
 				outputText("Akbal releases an ear-splitting roar, hurling a torrent of emerald green flames towards you.\n");
 				//(high HP damage)
-				//Determine if dodged!
-				if (player.getEvasionRoll())
-				{
-					if (player.spe - spe < 8)
-						outputText("You narrowly avoid " + a + short + "'s fire!");
-					if (player.spe - spe >= 8 && player.spe - spe < 20)
-						outputText("You dodge " + a + short + "'s fire with superior quickness!");
-					if (player.spe - spe >= 20)
-						outputText("You deftly avoid " + a + short + "'s slow fire-breath.");
-					return;
-				}
 				if (player.hasStatusEffect(StatusEffects.Blizzard)) {
 					player.addStatusValue(StatusEffects.Blizzard, 1, -1);
 					var damage2:int = inte / 4;
@@ -160,14 +155,14 @@ public class Akbal extends Monster
 			var addIntWis:int = (mod <= 4) ? mod * 19 : 4*19 + (mod - 4) * 9;
 			trace("Akbal Constructor!");
 			//New levelling
-			initStrTouSpeInte(61 + mod*13, 89 + mod*20, 75 + mod*15, 126 + addIntWis); //int might be too much, but it's scalable now
-			initWisLibSensCor(85 + addIntWis, 80 + mod*17, 50 + mod*10, 100); //wis too
-			this.weaponAttack = 17 + mod*3;
-			this.armorDef = 10 + mod*2;
-			this.armorMDef = 20 + mod*4;
-			this.bonusHP = 100 + mod*100;
-			this.bonusLust = 150 + mod*33;
-			this.level = 20 + mod*6;
+			initStrTouSpeInte(161 + mod*26, 189 + mod*40, 175 + mod*30, 226 + addIntWis*2); //int might be too much, but it's scalable now
+			initWisLibSensCor(185 + addIntWis*2, 180 + mod*34, 150 + mod*20, 100); //wis too
+			this.weaponAttack = 17 + mod*6;
+			this.armorDef = 50 + mod*4;
+			this.armorMDef = 100 + mod*8;
+			this.bonusHP = 200 + mod*200;
+			this.bonusLust = 362 + mod*60;
+			this.level = 32 + mod*6;
 			this.additionalXP = 50 + mod*50;
 			//
 			this.a = "";
@@ -213,7 +208,7 @@ public class Akbal extends Monster
 			this.createPerk(PerkLib.IceVulnerability, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, (20 + mod*6), 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxHP, (32 + mod*6), 0, 0, 0);
 			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			if (flags[kFLAGS.AKBAL_LVL_UP] >= 1) this.createPerk(PerkLib.JobRanger, 0, 0, 0, 0);
 			if (flags[kFLAGS.AKBAL_LVL_UP] >= 2) this.createPerk(PerkLib.JobRogue, 0, 0, 0, 0);

@@ -3,6 +3,7 @@ import classes.BodyParts.*;
 import classes.GeneticMemories.EyesMem;
 import classes.Items.MutationsHelper;
 import classes.Races.GoblinRace;
+import classes.Races.GremlinRace;
 import classes.Scenes.Metamorph;
 import classes.Transformations.*;
 
@@ -214,7 +215,7 @@ public class EyesTransformations extends MutationsHelper {
 			},
 			// is present
 			function (): Boolean {
-				return player.eyes.type === Eyes.RAIJU;
+				return player.eyes.type === Eyes.WEASEL;
 			}
 	);
 
@@ -770,6 +771,54 @@ public class EyesTransformations extends MutationsHelper {
 			}
 	);
 
+	public const EyesDemon: Transformation = new SimpleTransformation("Demon Eyes",
+			// apply effect
+			function (doOutput: Boolean): void {
+				var desc: String = "";
+
+				desc += "You blink and stumble, a wave of vertigo threatening to pull your feet out from under you. As you steady yourself and open your eyes, you realize something seems different. Your vision has changed somehow. Your pupils draw in light and the color and shapes seem more defined even at great distance, they are also more vibrant and alive. This new enhanced vision seems to make everything far more arousing to look at. [if (silly) Is this what they call seeing life in pink?] You go to a puddle to check what happened to them and notice <b>your new pupils are like those of a demon's with a vertical slit that reflects the world in new arousing ways</b>";
+
+				player.eyes.type = Eyes.DEMON;
+				if (doOutput) outputText(desc);
+				Metamorph.unlockMetamorph(EyesMem.getMemory(EyesMem.DEMON));
+			},
+			// is present
+			function (): Boolean {
+				return player.eyes.type === Eyes.DEMON;
+			}
+	);
+	public const EyesMoth: Transformation = new SimpleTransformation("Moth Eyes",
+			// apply effect
+			function (doOutput: Boolean): void {
+				var desc: String = "";
+
+				desc += "your eyes suddenly feel strange as the world gets blurry on you, eventually your vision returns but the world seems more vivid, you rush over to the lake and you are shocked to see your eyes look like they belong on some sort of bug. <b>Your eyes are now like a moth’s eyes</b>";
+				player.eyes.type = Eyes.MOTH;
+
+				if (doOutput) outputText(desc);
+			},
+			// is present
+			function (): Boolean {
+				return player.eyes.type === Eyes.MOTH;
+			}
+	);
+	public const EyesGremlin: Transformation = new SimpleTransformation("Gremlin Eyes",
+			// apply effect
+			function (doOutput: Boolean): void {
+				var desc: String = "";
+
+				desc += "Aw gosh, you feel tired as hell, it’s like you spent the better part of yesterday night working on some stupid project. Truth is with those darkened eyelids of yours you might just have. That said, perhaps you should think of it less like a sign of fatigue and more like a sign of demonic nature because you easily imagine these on the faces of small fiends or possessed people too. <b>Seems like you have darkened eyelids now.</b>";
+				player.eyes.type = Eyes.GREMLIN;
+
+				if (doOutput) outputText(desc);
+				Metamorph.unlockMetamorph(EyesMem.getMemory(EyesMem.GREMLIN));
+			},
+			// is present
+			function (): Boolean {
+				return player.eyes.type === Eyes.GREMLIN;
+			}
+	);
+
 // EYE COLORS
 
 	public function EyesChangeColor(colors: /*String*/ Array): Transformation {
@@ -821,6 +870,17 @@ public class EyesTransformations extends MutationsHelper {
 			// is present
 			function (): Boolean {
 				return InCollection(player.eyes.colour, GoblinRace.GoblinEyeColors);
+			}
+	);
+
+	public const EyesGremlinColors: Transformation = new SimpleTransformation("Gremlin Eye Colors",
+			// apply effect
+			function (doOutput: Boolean): void {
+				transformations.EyesChangeColor(GremlinRace.GremlinEyeColors).applyEffect(doOutput);
+			},
+			// is present
+			function (): Boolean {
+				return InCollection(player.eyes.colour, GremlinRace.GremlinEyeColors);
 			}
 	);
 
@@ -961,6 +1021,17 @@ public class EyesTransformations extends MutationsHelper {
 			// is present
 			function (): Boolean {
 				return InCollection(player.eyes.colour,["glacial blue"]);
+			}
+	);
+
+	public const EyesDemonColors: Transformation = new SimpleTransformation("Demon Eye Colors",
+			// apply effect
+			function (doOutput: Boolean): void {
+				transformations.EyesChangeColor(["fiendish pink", "pink", "red", "yellow", "blue", "turquoise", "light green"]).applyEffect(doOutput);
+			},
+			// is present
+			function (): Boolean {
+				return InCollection(player.eyes.colour, ["fiendish pink", "pink", "red", "yellow", "blue", "turquoise", "light green"]);
 			}
 	);
 	/*

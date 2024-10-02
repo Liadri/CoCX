@@ -2,7 +2,9 @@
 {
 import classes.*;
 import classes.BodyParts.Skin;
+import classes.GlobalFlags.kFLAGS;
 import classes.IMutations.IMutationsLib;
+import classes.Scenes.SceneLib;
 
 public class SandWormScene extends BaseContent
 {
@@ -87,9 +89,10 @@ public class SandWormScene extends BaseContent
 		if (player.bRows() > 1) transformations.BreastRowsOne.applyEffect(false);
 		if (player.biggestTitSize() < 2) player.growTits(2, 1, false, 3);
 		if (player.femininity < 80) player.femininity = 80;
-		player.tallness = 11*12
+		player.tallness = 11 * 12;
 		transformations.LowerBodyWorm.applyEffect(false);
 		player.skin.setBaseOnly({ type: Skin.PLAIN, color1:"light pink", adj: "slippery" });
+		if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.SANDWORM;
 		IMutationsLib.TrachealSystemIM.trueMutation = true;
 		IMutationsLib.TwinHeartIM.trueMutation = true;
 		player.removeAllRacialMutation();
@@ -100,8 +103,7 @@ public class SandWormScene extends BaseContent
 		outputText("Gained combat ability: <b>Sting</b>: Inflict sand worm venom and minor damage, sand worm venom deals heavy strength and tease damage over time.\n\n");
 		player.createPerk(PerkLib.TransformationImmunity2, 7, 0, 0, 0);
 		outputText("<b>Gained Perk: Transformation Immunity</b>\n\n");
-
-		cleanupAfterCombatTFEvent()
+		cleanupAfterCombatTFEvent();
 	}
 
 	public function transformationImmune():void {
@@ -113,7 +115,9 @@ public class SandWormScene extends BaseContent
 	public function beatSandWorm():void {
 		clearOutput();
 		outputText("Too "+(monster.HP <= monster.minHP() ? "wounded":"aroused") + " to keep on fighting, the sand worm digs underground, escaping the battleground. [if (silly)Geeze you hate it when low budget actors flee the battlefield before you rape them!][pg]");
-		cleanupAfterCombat();
+		menu();
+		addButtonIfTrue(3, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+		addButton(4, "Leave", cleanupAfterCombat);
 	}
 
 }

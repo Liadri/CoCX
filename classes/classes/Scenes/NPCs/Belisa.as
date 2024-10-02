@@ -89,8 +89,10 @@ public class Belisa extends Monster
 				player.takePhysDamage(dmg0, true);
 				bleedP += 0.01;
 			}
-			if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
-			else player.createStatusEffect(StatusEffects.Hemorrhage,SceneLib.combat.debuffsOrDoTDuration(2+rand(2)),bleedP,0,0);
+			if (!player.immuneToBleed()) {
+				if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
+				else player.createStatusEffect(StatusEffects.Hemorrhage, SceneLib.combat.debuffsOrDoTDuration(2 + rand(2)), bleedP, 0, 0);
+			}
 		}
 		
 		private function belisaWebAttack():void {
@@ -132,10 +134,7 @@ public class Belisa extends Monster
 					damage *= 1.5;
 					outputText("It's super effective! ");
 				}
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 1) damage *= 1.2;
-				else if (flags[kFLAGS.GAME_DIFFICULTY] == 2) damage *= 1.5;
-				else if (flags[kFLAGS.GAME_DIFFICULTY] == 3) damage *= 2;
-				else if (flags[kFLAGS.GAME_DIFFICULTY] >= 4) damage *= 3.5;
+				
 				damage = Math.round(damage);
 				player.takeFireDamage(damage, true);
 			}
@@ -199,7 +198,7 @@ public class Belisa extends Monster
 		{
 			if (flags[kFLAGS.BELISA_LVL_UP] < 1) {
 				initStrTouSpeInte(80, 90, 100, 250);
-				initWisLibSensCor(100, 80, 100, 0);
+				initWisLibSensCor(100, 80, 100, -100);
 				this.weaponAttack = 60;
 				this.armorDef = 60;
 				this.armorMDef = 200;
@@ -210,7 +209,7 @@ public class Belisa extends Monster
 			if (flags[kFLAGS.BELISA_LVL_UP] >= 1 && flags[kFLAGS.BELISA_LVL_UP] < 8) {
 				var mod:int = flags[kFLAGS.BELISA_LVL_UP];
 				initStrTouSpeInte(80 + 6*mod, 90 + 8*mod, 100 + 10*mod, 250 + 15*mod);
-				initWisLibSensCor(100 + 10*mod, 80 + 5*mod, 100 + 5*mod, 0);
+				initWisLibSensCor(100 + 10*mod, 80 + 5*mod, 100 + 5*mod, -100);
 				this.weaponAttack = 60 + 3*mod;
 				this.armorDef = 60 + 3*mod;
 				this.armorMDef = 200 + 10*mod;
@@ -220,7 +219,7 @@ public class Belisa extends Monster
 			}
 			if (flags[kFLAGS.BELISA_LVL_UP] == 8) {
 				initStrTouSpeInte(130, 154, 180, 370);
-				initWisLibSensCor(180, 120, 140, 0);
+				initWisLibSensCor(180, 120, 140, -100);
 				this.weaponAttack = 84;
 				this.armorDef = 84;
 				this.armorMDef = 280;

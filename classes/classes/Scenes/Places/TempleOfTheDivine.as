@@ -7,6 +7,7 @@ package classes.Scenes.Places
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.WeaponLib;
+import classes.Scenes.Camp.CampStatsAndResources;
 import classes.Scenes.Places.TempleOfTheDivine.*;
 import classes.Scenes.SceneLib;
 import classes.Stats.Buff;
@@ -79,16 +80,18 @@ public class TempleOfTheDivine extends BaseContent {
 				addButton(1, "Repair", TempleAltarsRebuildMenu).hint("Restore the temple.");
 			}
 			if (flags[kFLAGS.TEMPLE_OF_THE_DIVINE_MARAE] == 1 && flags[kFLAGS.FACTORY_SHUTDOWN] == 1) { //req. PURE Marae
-				if (havingOrUsingBSwordOrExcalibur()) addButton(2, "Put Sword", puttingBSwordOrExcaliburOnAltar);
-				if (player.statusEffectv2(StatusEffects.TempleOfTheDivineTracker) == 2 || player.statusEffectv2(StatusEffects.TempleOfTheDivineTracker) == 3) addButton(2, "Take Sword", takingExcaliburFromAltar);
-				if (player.hasItem(consumables.P_PEARL, 1)) addButton(3, "Pearl", puttingPurePearlOnAltar);
-				if (player.statusEffectv3(StatusEffects.TempleOfTheDivineTracker) == 2) addButton(3, "Pearl", takingPurePearlFromAltar);
+				if (player.hasItem(consumables.P_PEARL, 1)) addButton(2, "Pearl", puttingPurePearlOnAltar);
+				if (player.statusEffectv3(StatusEffects.TempleOfTheDivineTracker) == 2) addButton(2, "Pearl", takingPurePearlFromAltar);
+				if (havingOrUsingBSwordOrExcalibur()) addButton(3, "Put Sword", puttingBSwordOrExcaliburOnAltar);
+				if (player.statusEffectv2(StatusEffects.TempleOfTheDivineTracker) == 2 || player.statusEffectv2(StatusEffects.TempleOfTheDivineTracker) == 3) addButton(3, "Take Sword", takingExcaliburFromAltar);
+				if (havingOrUsingBStaffOrParacelsus()) addButton(4, "Put Staff", puttingBStaffOrParacelsusOnAltar);
+				if (player.statusEffectv1(StatusEffects.TempleOfTheDivineTracker2) == 2 || player.statusEffectv2(StatusEffects.TempleOfTheDivineTracker2) == 3) addButton(4, "Take Staff", takingParacelsusFromAltar);
 			}
-			addButton(5, "Sapphire", sapphire.sapphiremenu).hint("Have a chat with the gargoyle.");
-			if (flags[kFLAGS.ONYX_PATH] > 0) addButton(6, "[onyx name]", onyx.krystalonyxmenu).hint("Have a sex with [onyx name].");
-			else addButtonDisabled(6, "???", "Sapphire is a little lonely out there. Maybe you could make her a friend...?")
-			addButton(7, "Basement", templeBasement).hint("Visit the temple basement.");
-			if (flags[kFLAGS.FORGEFATHER_MOVED_TO_TEMPLE] == 1) addButton(8, "Workshop", SceneLib.forgefatherScene.workshopMainMenu);
+			addButton(10, "Sapphire", sapphire.sapphiremenu).hint("Have a chat with the gargoyle.");
+			if (flags[kFLAGS.ONYX_PATH] > 0) addButton(11, "[onyx name]", onyx.krystalonyxmenu).hint("Have a sex with [onyx name].");
+			else addButtonDisabled(11, "???", "Sapphire is a little lonely out there. Maybe you could make her a friend...?")
+			addButton(12, "Basement", templeBasement).hint("Visit the temple basement.");
+			if (flags[kFLAGS.FORGEFATHER_MOVED_TO_TEMPLE] == 1) addButton(13, "Workshop", SceneLib.forgefatherScene.workshopMainMenu);
 			addButton(14, "Leave", explorer.done);
 		}
 
@@ -254,15 +257,15 @@ public class TempleOfTheDivine extends BaseContent {
 				menu();
 				addButton(0, "Altars", rebuildGodsAltars).hint("Repair the altar.");
 				if ((flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] == 3 || flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] == 4) && flags[kFLAGS.TEMPLE_OF_THE_DIVINE_MARAE] == 1) {
-					if (flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] >= 150) addButton(1, "Statue of Marae", rebuildStatueOfMarae).hint("Repair the statue.");
+					if (CampStatsAndResources.StonesResc >= 150) addButton(1, "Statue of Marae", rebuildStatueOfMarae).hint("Repair the statue.");
 					else addButtonDisabled(1, "Statue of Marae", "You don't have enough stones. Required: 150");
 				}
 				if (flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] >= 5 && flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] < 7) {
-					if (flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] >= 500) addButton(2, "Gargoyles", repairGargoylesOnTheWalls).hint("Repair some of the decorative gargoyles.");
+					if (CampStatsAndResources.StonesResc >= 500) addButton(2, "Gargoyles", repairGargoylesOnTheWalls).hint("Repair some of the decorative gargoyles.");
 					else addButtonDisabled(2, "Gargoyles", "You don't have enough stones. Required: 500");
 				}
 				if (flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] >= 7 && flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] < 17) {
-					if (flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= 50 && flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] >= 10) addButton(3, "Prayer Bench", makeNewPrayerBenches).hint("Repair some of the temple banches.");
+					if (CampStatsAndResources.WoodResc >= 50 && CampStatsAndResources.NailsResc >= 10) addButton(3, "Prayer Bench", makeNewPrayerBenches).hint("Repair some of the temple banches.");
 					else addButtonDisabled(3, "Prayer Bench", "You don't have enough wood (50) or/and nails (10).");
 				}
 				addButton(13, "CheckProgress", currentStateOfTemple).hint("See how far the sculpture has progressed.");
@@ -280,7 +283,7 @@ public class TempleOfTheDivine extends BaseContent {
 			if (!notBuilt) return;
 			if (!canBuild)
 				addButtonDisabled(btn, "???", disabledMsg);
-			else if (flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] < 50)
+			else if (CampStatsAndResources.StonesResc < 50)
 				addButtonDisabled(btn, name, "You don't have enough stones (" + 50 + ").");
 			else addButton(btn, name, fun);
 		}
@@ -305,7 +308,7 @@ public class TempleOfTheDivine extends BaseContent {
 			clearOutput();
 			outputText("You work for 8 hours, sculpting stone and repairing the altar of Marae.");
             if (flags[kFLAGS.FACTORY_SHUTDOWN] == 1) outputText(" By the time you're done you can feel divine power amass around it anew.");
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= 50;
+			CampStatsAndResources.StonesResc -= 50;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_MARAE] = 1;
 			if (flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] < 3) flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS]++;
 			explorer.stopExploring();
@@ -315,7 +318,7 @@ public class TempleOfTheDivine extends BaseContent {
 		public function rebuildTaothAltar():void {
 			clearOutput();
 			outputText("You work for 8 hours, sculpting stone and repairing the altar of Taoth. By the time you're done you can feel divine power amass around it anew.");
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= 50;
+			CampStatsAndResources.StonesResc -= 50;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_TAOTH] = 1;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
@@ -324,7 +327,7 @@ public class TempleOfTheDivine extends BaseContent {
 		public function rebuildFenrirAltar():void {
 			clearOutput();
 			outputText("You work for 8 hours, sculpting stone and repairing the altar of Fenrir. By the time you're done you can feel a cold chilling aura amass around it. Was that really such a good idea?");
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= 50;
+			CampStatsAndResources.StonesResc -= 50;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_FENRIR] = 1;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
@@ -333,7 +336,7 @@ public class TempleOfTheDivine extends BaseContent {
 		public function rebuildFeraAltar():void {
 			clearOutput();
 			outputText("You work for the entire day sculpting stone and repairing the altar of Fera. By the time you're done you can feel divine power albeit tainted amass around it anew.");
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= 50;
+			CampStatsAndResources.StonesResc -= 50;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_FERA] = 1;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
@@ -345,7 +348,7 @@ public class TempleOfTheDivine extends BaseContent {
 			if (flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS] < 4) outputText("It looks slightly better, but it is far from finished.");
 			else if (flags[kFLAGS.FACTORY_SHUTDOWN] == 1) outputText("By the time you're done you can feel divine power radiating from it.");
             else outputText("Even though the altar is dysfunctional, the repaired statue looks like a nice addition to the temple.");
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= 150;
+			CampStatsAndResources.StonesResc -= 150;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS]++;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
@@ -354,7 +357,7 @@ public class TempleOfTheDivine extends BaseContent {
 		public function repairGargoylesOnTheWalls():void {
 			clearOutput();
 			outputText("You work for the entire day sculpting stone. By the time you're done a set of well carved statue decorate the walls again.");
-			flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] -= 500;
+			CampStatsAndResources.StonesResc -= 500;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS]++;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
@@ -365,8 +368,9 @@ public class TempleOfTheDivine extends BaseContent {
 			outputText("You work for the entire day carving wood and hammering nails. By the time you're done the temple now has a set of brand-new prayer bench.");
 			if (player.hasStatusEffect(StatusEffects.TempleOfTheDivineTracker)) player.addStatusValue(StatusEffects.TempleOfTheDivineTracker, 1, 2);
 			else player.createStatusEffect(StatusEffects.TempleOfTheDivineTracker, 2, 0, 0, 0);
-			flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 50;
-			flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] -= 10;
+			player.createStatusEffect(StatusEffects.TempleOfTheDivineTracker2, 0, 0, 0, 0);
+			CampStatsAndResources.WoodResc -= 50;
+			CampStatsAndResources.NailsResc -= 10;
 			flags[kFLAGS.TEMPLE_OF_THE_DIVINE_PROGRESS]++;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
@@ -438,7 +442,6 @@ public class TempleOfTheDivine extends BaseContent {
 			}
 			doNext(templeMainMenu);
 		}
-
 		public function takingExcaliburFromAltar():void {
 			clearOutput();
 			outputText("You feel the power of the altar diminishing, however the weapon is stronger than ever and likely ready for its primary use, demon slaying.\n\n");
@@ -449,6 +452,36 @@ public class TempleOfTheDivine extends BaseContent {
 		private function havingOrUsingBSwordOrExcalibur():Boolean {
 			return player.weapon == weapons.B_SWORD || player.weapon == weapons.EXCALIB || player.hasItem(weapons.B_SWORD, 1) || player.hasItem(weapons.EXCALIB, 1);
 		}
+		
+		public function puttingBStaffOrParacelsusOnAltar():void {
+			clearOutput();
+			if (player.weapon == weapons.B_STAFF || player.hasItem(weapons.B_STAFF, 1)) {
+				outputText("You feel a weird resonance engulf you, as the power of the Altar of Marae echos with an item on your person.\n\n");
+				outputText("Pulling out the Beautiful Staff, you notice the weapon is now shining with a dim white light. Curious, you place the weapon on the altar, and watch as the staff surges with power, the light seeming to be absorbed into the handle. The altar feels way more potent with the staff resting upon it. However, it occurs to you, such a weapon likely is a powerful artifact, and that as such, it could be useful in your battles against the demons.");
+				if (player.weapon == weapons.B_STAFF) player.setWeapon(WeaponLib.FISTS);
+				else player.destroyItems(weapons.B_STAFF, 1);
+				if (player.hasStatusEffect(StatusEffects.TempleOfTheDivineTracker2)) player.addStatusValue(StatusEffects.TempleOfTheDivineTracker2, 1, 2);
+				else player.createStatusEffect(StatusEffects.TempleOfTheDivineTracker2, 2, 0, 0, 0);
+			}
+			else {
+				outputText("The altar radiates with increased potency as the staff is put back on display.");
+				if (player.weapon == weapons.PARACEL) player.setWeapon(WeaponLib.FISTS);
+				else player.destroyItems(weapons.PARACEL, 1);
+				player.addStatusValue(StatusEffects.TempleOfTheDivineTracker2, 1, 1);
+			}
+			doNext(templeMainMenu);
+		}
+		public function takingParacelsusFromAltar():void {
+			clearOutput();
+			outputText("You feel the power of the altar diminishing, however the weapon is stronger than ever and likely ready for its primary use, demon slaying.\n\n");
+			if (player.statusEffectv1(StatusEffects.TempleOfTheDivineTracker2) == 3) player.addStatusValue(StatusEffects.TempleOfTheDivineTracker2, 1, -2);
+			else player.addStatusValue(StatusEffects.TempleOfTheDivineTracker2, 1, -1);
+			inventory.takeItem(weapons.PARACEL, templeMainMenu);
+		}
+		private function havingOrUsingBStaffOrParacelsus():Boolean {
+			return player.weapon == weapons.B_STAFF || player.weapon == weapons.PARACEL || player.hasItem(weapons.B_STAFF, 1) || player.hasItem(weapons.PARACEL, 1);
+		}
+		
 		public function puttingPurePearlOnAltar():void {
 			clearOutput();
 			outputText("You pull out the Pure Pearl Marae gave you from your bag. Such a relic should rest in holy ground, and you indeed notice a slot in the altar for an orb like object such as the pearl. Will you place the Pure Pearl on the altar?");

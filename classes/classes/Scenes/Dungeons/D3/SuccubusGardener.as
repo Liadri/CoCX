@@ -10,6 +10,9 @@ import classes.PerkLib;
 import classes.Scenes.SceneLib;
 import classes.StatusEffects;
 import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
+import classes.internals.WeightedDrop;
+
+import coc.view.CoCButton;
 
 /**
 	 * ...
@@ -44,8 +47,9 @@ import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
 			this.fatigue = 0;
 			this.gems = 400 + rand(50);
 			this.level = 70;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.drop = NO_DROP;
+			drop = new WeightedDrop(consumables.LETH3TE, 1);
 			this.createPerk(PerkLib.ArchersStaminaI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
@@ -78,7 +82,14 @@ import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
 			if (player.isGargoyle()) SceneLib.d3.gargoyleBadEndD3();
 			else SceneLib.d3.succubusGardener.surrenderToTheGardener(hpVictory);
 		}
-		
+
+		override public function changeBtnWhenBound(btnStruggle:CoCButton, btnBoundWait:CoCButton):void{
+			if (player.hasStatusEffect(StatusEffects.Tentagrappled)) {
+				btnStruggle.call(grappleStruggle);
+				btnBoundWait.call(grappleWait);
+			}
+		}
+
 		override protected function performCombatAction():void
 		{
 			// The succubus gardener is a multistage fight. She starts off all but immune to lust damage. She has enough HP not to be one-shot and a heal move that takes priority over any stun. Once she is reduced to 60% HP, she either drinks from her tentacles or is force-fed by them (if stunned). This fully heals her but makes her 15% more vulnerable to lust.

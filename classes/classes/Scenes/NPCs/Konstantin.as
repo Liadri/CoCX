@@ -6,6 +6,7 @@ package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.Camp.CampStatsAndResources;
 import classes.Scenes.Camp.CampUpgrades;
 import classes.Scenes.Crafting;
 import classes.Scenes.SceneLib;
@@ -408,7 +409,7 @@ public class Konstantin extends NPCAwareContent
 		}
 		private function KonstantinSmithingMenu2():void {
 			menu();
-			if (TyrantiaFollower.TyraniaThePhalluspear && player.hasItem(weapons.SPEAR) && player.hasItem(consumables.L_DRAFT, 5) && player.hasItem(useables.T_SSILK) && flags[kFLAGS.CAMP_CABIN_METAL_PIECES_RESOURCES] >= 3) addButton(6, "ThePhalluspear", KonstantinCraftingThePhalluspear);
+			if (TyrantiaFollower.TyraniaThePhalluspear && player.hasItem(weapons.SPEAR) && player.hasItem(consumables.L_DRAFT, 5) && player.hasItem(useables.T_SSILK) && CampStatsAndResources.MetalPieces >= 3) addButton(6, "ThePhalluspear", KonstantinCraftingThePhalluspear);
 			if (player.hasItem(useables.DBAPLAT)) addButton(8, "D.Bark Armor", KonstantinCraftingDivineBarkArmor);
 			if (player.hasItem(useables.TBAPLAT)) addButton(9, "T.Bark Armor", KonstantinCraftingTentacledBarkArmor);
 			if (player.hasItem(useables.DBAPLAT) && player.hasItem(weapons.W_STAFF)) addButton(10, "Puritas", KonstantinCraftingPuritas);
@@ -915,7 +916,7 @@ public class Konstantin extends NPCAwareContent
 			player.destroyItems(weapons.SPEAR, 1);
 			player.destroyItems(consumables.L_DRAFT, 5);
 			player.destroyItems(useables.T_SSILK, 1);
-			flags[kFLAGS.CAMP_CABIN_METAL_PIECES_RESOURCES] -= 3;
+			CampStatsAndResources.MetalPieces -= 3;
 			outputText("You bring the materials to Konstantine, and the smith nods, his face serious.\n\n");
 			outputText("\"<i>I’ll need a few hours,</i>\" he says simply. \"<i>Give me the materials, and I’ll craft this for you.</i>\" You hand Konstantine the materials, and he smiles wryly. \"<i>Honestly, I’m not entirely comfortable with this…kind of weapon.</i>\" He admits. \"<i>But I won’t deny the value of it in today’s world.</i>\"\n\n");
 			outputText("The tip glistens with a pink sheen, and you can tell that the blade poking out is razor-sharp. \"<i>Here it is,</i>\" he declares. \"<i>A Phalluspear. Freshly made. I hope you enjoy wielding it more than I did making it.</i>\" An odd thing to say, but you can hardly complain with the results!\n\n");
@@ -1130,7 +1131,7 @@ public class Konstantin extends NPCAwareContent
 			clearOutput();
 			var x:int = player.cockThatFits(50, "length");
 			outputText("Lying on bed next of the bear-morph, the arousal running wild through your loins makes its presence painfully obvious as your [cock] arises at full length. Seems like having his large furred body rubbing against yours naked is too much. While still locked in the furred embrace, a familiar feeling deep down your balls appears, you rock hard erection bubbles pre in excitement. Konstantin notices that, and after giving it some tentative strokes with one of his huge hands, he offers:\n\n");
-			outputText("\"<i>You’re quite pent up, " + player.mf("boy", "girl") + ". Or is I’m too much to handle?</i>\" he light-heartedly jokes, his hand still rubbing your cock.\n\n");
+			outputText("\"<i>You’re quite pent up, " + player.mf("boy", "girl") + ". Or am I too much to handle?</i>\" he light-heartedly jokes, his hand still rubbing your cock.\n\n");
 			outputText("Your only answer is an overstimulated gasp.\n\n");
 			outputText("\"<i>Then we’ll have to fix that.</i>\" he says with a toothy smile. \"<i>Besides, ");
 			if (player.cocks[x].cockLength >= 12) outputText("it’s hard to look at this monster without having the desire of choke on it");

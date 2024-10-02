@@ -15,7 +15,7 @@ public class HeartSeekerSkill extends AbstractBloodSoulSkill {
 			: "Heart Seeker will strike the vital points of your enemy, dealing true damage.  ",
             TARGET_ENEMY,
             TIMING_INSTANT,
-            [TAG_DAMAGING, TAG_PHYSICAL],
+            [TAG_DAMAGING, TAG_PHYSICAL, TAG_TIER2],
             sfInfusion? StatusEffects.KnowsHeartSeekerSF: StatusEffects.KnowsHeartSeeker,
 			true,
 			sfInfusion
@@ -33,34 +33,26 @@ public class HeartSeekerSkill extends AbstractBloodSoulSkill {
 	}
 
 	override public function calcCooldown():int {
-		return bloodSoulSkillCoolDown(3);
+		return soulskillTier2Cooldown(bloodSoulSkillCoolDown(3));
 	}
 
 	public function calcDamage(monster:Monster):Number {
-		var damage:Number = scalingBonusWisdom() * spellModBlood();
+		var damage:Number = scalingBonusWisdom() * spellModBlood() * 6;
 		var damageFloor:Number = 10;
-
-		if (sfInfusion) {
-			damage *= 2;
-			damageFloor *= 3;
-			damage *= soulskillPhysicalMod();
-		}
-
 		if (damage < damageFloor) damage = damageFloor;
 		if (player.hasPerk(PerkLib.BloodAffinity)) damage *= 2;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 4 && player.HP < Math.round(player.maxHP() * 0.5)) damage *= 1.5;
-
+		if (sfInfusion) {
+			damage *= soulskillPhysicalMod();
+		}
 		return Math.round(damage);
-
 	}
 
     override public function doEffect(display:Boolean = true):void {
 		var additionalSFLine: String = sfInfusion? "You infuse a bit of soulforce into the blood, spreading your fingers wide. " : "";
 		if (display) outputText("You concentrate, focusing on the power of your blood. " + additionalSFLine 
 		+ "Within an instant, a large blood dripping spear forms in your hand. You motion, sending the spear flying toward [themonster]'s vitals.\n\n");
-		
 		var damage:Number = calcDamage(monster);
-
 		//Determine if critical hit!
 		var crit:Boolean = false;
 		var critChance:int = 5;

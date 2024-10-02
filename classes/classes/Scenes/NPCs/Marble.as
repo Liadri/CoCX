@@ -19,7 +19,7 @@ public class Marble extends Monster
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str + 20 + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str + 20 + weaponAttack) - player.armorDef);
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
@@ -40,7 +40,7 @@ public class Marble extends Monster
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str + 40 + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str + 40 + weaponAttack) - player.armorDef);
 			damage /= 2;
 			if(damage <= 0) {
 				damage = 0;
@@ -81,16 +81,16 @@ public class Marble extends Monster
 			this.bodyColor = "pale";
 			this.hairColor = "brown";
 			this.hairLength = 13;
-			initStrTouSpeInte(85, 80, 45, 40);
-			initWisLibSensCor(40, 25, 45, 40);
+			initStrTouSpeInte(215, 170, 90, 40);
+			initWisLibSensCor(40, 125, 65, 40);
 			this.weaponName = "large hammer";
 			this.weaponVerb="hammer-blow";
-			this.weaponAttack = 26;
+			this.weaponAttack = 118;
 			this.armorName = "tough hide";
-			this.armorDef = 10;
-			this.armorMDef = 0;
-			this.bonusLust = 84;
-			this.level = 14;
+			this.armorDef = 80;
+			this.armorMDef = 20;
+			this.bonusLust = 218;
+			this.level = 28;
 			this.gems = rand(15) + 50;
 			this.drop = new WeightedDrop(weapons.L_HAMMR, 1);
 			this.tailType = Tail.COW;

@@ -2,6 +2,7 @@ package classes {
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.Dungeons.D3.IncubusMechanicScenes;
 import classes.Scenes.Dungeons.DemonLab;
+import classes.Scenes.Holidays;
 import classes.Scenes.NPCs.BelisaFollower;
 import classes.Scenes.NPCs.CelessScene;
 import classes.Scenes.NPCs.JojoScene;
@@ -23,65 +24,77 @@ public class SceneHunter extends BaseContent {
         addButton(0, "UniHerms", toggle, kFLAGS.SCENEHUNTER_UNI_HERMS);
         outputText("\n\n<b>Universal Herms:</b> ");
         if (flags[kFLAGS.SCENEHUNTER_UNI_HERMS]) {
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
             outputText("\nMakes scenes unique to male/female PCs accessible to herms. Allows the player to choose the scene when the sex is led by the PC, randomly selects it in rape scenes.");
             outputText("\nAlso adjusted some genderless (anal/oral only) scenes, so they will look fitting - no genderless mentions or jokes.");
             outputText("\n<i>New scenes may lack the description of herm's other genitalia. Some scenes may look slightly off (rare).</i>");
         } else {
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
             outputText("\nHerms don't get any new scenes.");
         }
 
         addButton(1, "DickSelect", toggle, kFLAGS.SCENEHUNTER_DICK_SELECT);
         outputText("\n\n<b>Dick Select:</b> ");
         if (flags[kFLAGS.SCENEHUNTER_DICK_SELECT]) {
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
             outputText("\nWhen the scene presents different options for small/big/ dick sizes, adds selectors for the player to choose the exact 'tool' if different options are available. The dick is selected randomly in rape scenes. Also in scenes with options for multicocks and single cock, sometimes lets you choose if you want to use only one.");
             outputText("\n<i>Well, you can change, which dick will be used now. Yay. Though some rare scenes (especially small dick femdom) may look slightly weird if you have a bigger cock.</i>");
         } else {
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
             outputText("\nThe biggest <b>fitting</b> dick is always used. Multicocks too.");
         }
 
         addButton(2, "LossSelect", toggle, kFLAGS.SCENEHUNTER_LOSS_SELECT);
         outputText("\n\n<b>Loss Select:</b> ");
         if (flags[kFLAGS.SCENEHUNTER_LOSS_SELECT]) {
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
             outputText("\nSome scenes with many loss variations will allow you to select the specific scene. Works best in conjunction with UniHerms or Dick select, which open more scenes.");
             outputText("\n<i>Wait, it's illegal, the monster should choose how to rape you... fuck the RNG!</i>");
         } else {
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
             outputText("\nAll loss scenes are selected randomly, their conditions are <b>hidden</b>. PrintChecks feature will <b>not</b> print anything for some.");
         }
 
         addButton(3, "MockFights", toggle, kFLAGS.SCENEHUNTER_MOCK_FIGHTS);
         outputText("\n\n<b>Mock Fights:</b> ");
         if (flags[kFLAGS.SCENEHUNTER_MOCK_FIGHTS]) {
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
             outputText("\nYou can 'mock-fight' some camp NPCs to recall their rape scenes.");
             outputText("\n<i>They will behave as if they were never recruited... let's consider it a part of the roleplay, huh?</i>");
         } else {
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
             outputText("\nYou can't recall win/lose rape scenes for your camp NPCs.");
         }
 
         addButton(4, "PrintChecks", toggle, kFLAGS.SCENEHUNTER_PRINT_CHECKS);
         outputText("\n\n<b>Print Checks:</b> ");
         if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) {
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
             outputText("\nSome failed race, dick size and other attribute checks are explicitly printed in the middle of the scene.");
             outputText("\n<i>Can be a little immersion-breaking, but helps you understand when you're missing some secret requirements.</i>");
         } else {
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
             outputText("\nNo extra information is printed, you'll have to find new race-specific scenes yourself.");
         }
 
-        addButton(5, "Other", toggle, kFLAGS.SCENEHUNTER_OTHER);
+        addButton(5, "ShortPreg", toggleShortPreg);
+        outputText("\n\n<b>Short Preg:</b> ");
+        if (flags[kFLAGS.SCENEHUNTER_SHORT_PREG]) {
+            outputText("<b>[font-green]ENABLED[/font]</b>");
+            outputText("\nPregnancies (both your and NPC) progress much faster, up to 48 hours.");
+            outputText("\n<i>For all of you preggo-lovers: you don't have to wait for months if you want to give birth to another imp.</i>");
+        } else {
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
+            outputText("\nPregnancy timers are unchanged.");
+            outputText("\n<i>Careful here: if you toggle this with a save loaded, it will also speed up your current pregnancy, if any is present.</i>");
+        }
+
+        addButton(6, "Other", toggle, kFLAGS.SCENEHUNTER_OTHER);
         outputText("\n\n<b>Other changes:</b> ");
         if (flags[kFLAGS.SCENEHUNTER_OTHER])
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
         else
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
         outputText("\nTweaks that didn't fit into any previous category. Full list goes here.");
         outputText("\n- Corruption Tolerance: works twice as effective (10 per perk point).");
         outputText("\n- Christmas elf: enabled sex option even when corrupt.");
@@ -112,15 +125,15 @@ public class SceneHunter extends BaseContent {
 
         outputText("\n\n<b><u>SAVE-RELATED FLAGS</u></b>\n");
         outputText("The following flags are applied to the save - you <b>must</b> be <i>in a game session</i> (e.g. load your save, hit \"Main Menu\", change them. If you load a save, they will be set to the saved values.");
-        addButton(6, "Polygamy", togglePolygamy)
+        addButton(9, "Polygamy", togglePolygamy)
             .disableIf(!player, "Requires a loaded save. Set to 0 at the start of the game.");
         outputText("\n\n<b>Polygamy:</b> ");
         if (polygamy) {
-            outputText("<b><font color=\"#008000\">ENABLED</font></b>");
+            outputText("<b>[font-green]ENABLED[/font]</b>");
             outputText("\nYou can marry everyone at the same time.");
             outputText("\n<i>Of course, scenes don't include anything related to this. The mentions of 'love and fidelity' will be present in all marriage scenes.</i>");
         } else {
-            outputText("<b><font color=\"#800000\">DISABLED</font></b>");
+            outputText("<b>[font-dred]DISABLED[/font]</b>");
             outputText("\nYou can marry only one person, like in a <i>completely normal</i> world which Mareth is.");
         }
 
@@ -412,6 +425,7 @@ public class SceneHunter extends BaseContent {
         //init when enabled
         if (lossSelect) {
             outputText(msg);
+            outputText("\n\n");
             menu();
         }
         //select choices or add buttons
@@ -556,6 +570,48 @@ public class SceneHunter extends BaseContent {
     }
 
     //--------------------------------------------------------------------------------------------------
+    // Short Preg
+    //--------------------------------------------------------------------------------------------------
+
+    public function get shortPreg():Boolean {
+        return flags[kFLAGS.SCENEHUNTER_SHORT_PREG];
+    }
+
+    // returns shortened value if the flag is enabled, unchanged otherwise
+    public function shortPregTimer(oldTimer:Number):int {
+        if (!shortPreg || oldTimer < 2) return oldTimer;
+        var num:Number;
+        if      (oldTimer <= 96 ) num =       oldTimer        / 8;
+        else if (oldTimer <= 240) num = 12 + (oldTimer - 96)  / 24;
+        else if (oldTimer <= 480) num = 18 + (oldTimer - 240) / 40;
+        else                      num = 24 + (oldTimer - 480) / 70;
+        if (num < 1) num = 1; // avoid issues
+        return Math.round(num);
+    }
+
+    private function toggleShortPreg():void {
+        flags[kFLAGS.SCENEHUNTER_SHORT_PREG] = !flags[kFLAGS.SCENEHUNTER_SHORT_PREG];
+        if (shortPreg && player) {
+            player.knockUpForce(player.pregnancyType, player.pregnancyIncubation, 0);
+            player.knockUpForce(player.pregnancy2Type, player.pregnancy2Incubation, 1);
+            player.buttKnockUpForce(player.buttPregnancyType, player.buttPregnancyIncubation);
+        }
+        settingsPage();
+    }
+
+    public function adjustPregEventTimer(oldTimer:Number, pregType:int):int {
+        return adjustPregEventTimerNum(oldTimer, PregnancyStore.getIncubation(pregType));
+    }
+
+    public function adjustPregEventTimerNum(oldTimer:Number, oldIncub:int):int {
+        if (!shortPreg || oldTimer < 2) return oldTimer;
+        if (oldIncub < 0) return shortPregTimer(oldTimer); // can't find => at least fix it to the new scale
+        var newTimer:Number = Math.round(oldTimer/oldIncub * shortPregTimer(oldIncub));
+        if (newTimer <= 0) return 1;
+        return newTimer;
+    }
+
+    //--------------------------------------------------------------------------------------------------
     // Other
     //--------------------------------------------------------------------------------------------------
 
@@ -660,6 +716,9 @@ public class SceneHunter extends BaseContent {
         if (flags[kFLAGS.TIMES_EGGED_IN_EXGARTUAN] > 0 && player.hasCock())
             addButton(6, "EggExgartuan", SceneLib.masturbation.eggExgartuan)
                 .hint("Your small egg-fight with your dick-demon.");
+        // Turkey holiday encounter
+        if (flags[kFLAGS.TURKEY_FUCK_YEAR_DONE] > 0) addButton(7, "Turkey-1", SceneLib.holidays.datTurkeyRumpMeeting)
+                .hint("The weird turkey encounter");
 
         addButton(8, "Places", recallScenes_places);
         addButton(9, "Dungeons", recallScenes_dungeons);
@@ -777,6 +836,7 @@ public class SceneHunter extends BaseContent {
     }
 
     private function recallScenes_scylla():void {
+        menu();
         if (flags[kFLAGS.NUMBER_OF_TIMES_MET_SCYLLA] >= 1)
             addButton(0, "Round 1", SceneLib.telAdre.scylla.helpScylla);
         if (flags[kFLAGS.NUMBER_OF_TIMES_MET_SCYLLA] >= 2)
@@ -905,7 +965,7 @@ public class SceneHunter extends BaseContent {
             addButton(2, "AmilyRape-2", SceneLib.amilyScene.stalkingZeAmiliez2);
         if (flags[kFLAGS.AMILY_CORRUPTION] >= 3 && player.gender > 0)
             addButton(3, "AmilyRape-3", SceneLib.amilyScene.stalkingZeAmiliez3);
-        if (flags[kFLAGS.AMILY_CORRUPTION] >= 4 && player.gender > 0)
+        if (flags[kFLAGS.AMILY_FOLLOWER] == 2 && player.gender > 0)
             addButton(4, "AmilyRape-4", SceneLib.amilyScene.rapeCorruptAmily4Meeting);
         if (camp.vapulaSlave())
             addButton(5, "VapulaRape", SceneLib.owca.rapeZeVapula);

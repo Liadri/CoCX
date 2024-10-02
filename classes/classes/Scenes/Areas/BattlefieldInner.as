@@ -49,7 +49,7 @@ public class BattlefieldInner extends BaseContent
 				return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 						&& flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
 						&& !player.hasStatusEffect(StatusEffects.EtnaOff)
-						&& (player.level >= 20);
+						&& (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 			},
 			chance: battlefieldInnerChance,
 			call: SceneLib.etnaScene.repeatYandereEnc
@@ -73,7 +73,7 @@ public class BattlefieldInner extends BaseContent
 			name: "ted",
 			call: SceneLib.tedScene.introPostHiddenCave,
 			when: SceneLib.tedScene.canEncounterTed
-		}, SceneLib.exploration.commonEncounters.withChanceFactor(0.1), {
+		}, SceneLib.exploration.commonGroupEncounters.withChanceFactor(0.1), {
 			//General Golems, Goblin and Imp Encounters
 			name: "vengefulAparitions",
 			chance: 0.4,
@@ -123,7 +123,7 @@ public class BattlefieldInner extends BaseContent
 		if (rand(2) == 0) {
 			outputText("While exploring the battlefield you find the remains of some metal scraps. At first you think you won't find anything useful there but a metal plate draws your attention, it could be useful later. You put the item in your backpack and head back to camp.\n\n");
 			outputText("<b>You found a metal plate.</b>");
-			flags[kFLAGS.CAMP_CABIN_METAL_PIECES_RESOURCES]++;
+			CampStatsAndResources.MetalPieces++;
 			doNext(camp.returnToCampUseOneHour);
 		} else {
 			outputText("You spot something on the ground among various items remains. Taking a closer look, it's ");

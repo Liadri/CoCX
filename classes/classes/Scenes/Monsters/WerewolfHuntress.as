@@ -58,7 +58,7 @@ import classes.Scenes.NPCs.*;
 		public function WerewolfHuntress()
 		{
 			initStrTouSpeInte(200, 165, 200, 50);
-			initWisLibSensCor(50, 100, 50, 75);
+			initWisLibSensCor(50, 100, 50, 50);
 			this.weaponAttack = 36 + 2;
 			this.armorDef = 200 + 10;
 			this.armorMDef = 5;
@@ -86,7 +86,7 @@ import classes.Scenes.NPCs.*;
 			this.weaponVerb="paw-slash";
 			this.armorName = "fur";
 			this.lust = 10;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.gems = 5 + rand(5);
 			this.drop = new WeightedDrop().
 					add(null,1).

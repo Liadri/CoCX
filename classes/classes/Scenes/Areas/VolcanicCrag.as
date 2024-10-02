@@ -98,6 +98,14 @@ public class VolcanicCrag extends BaseContent
 				kind  : 'item',
 				call: findDrakeHeart
 			}, {
+				name: "findemberflower",
+				label : "Ember Flower",
+				kind  : 'item',
+				when: function():Boolean {
+					return player.isAlraune();
+				},
+				call: findEmberFlower
+			}, {
 				name: "truefiregolem",
 				label : "True Fire Golems",
 				kind : 'monster',
@@ -150,7 +158,7 @@ public class VolcanicCrag extends BaseContent
 					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 							&& flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
 							&& !player.hasStatusEffect(StatusEffects.EtnaOff)
-							&& (player.level >= 20);
+							&& (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				chance: volcanicCragChance,
 				call: function ():void {
@@ -178,7 +186,7 @@ public class VolcanicCrag extends BaseContent
 			explorer.prompt = "You explore the infernal volcanic crag.";
 			explorer.onEncounter = function(e:ExplorationEntry):void {
 				SceneLib.exploration.counters.volcanicCragOuter++;
-				if (!player.hasPerk(PerkLib.FireAffinity) && !player.hasPerk(PerkLib.AffinityIgnis)) ConstantHeatConditionsTick();
+				if (!player.hasPerk(PerkLib.FireAffinity) && !player.hasPerk(PerkLib.FireShadowAffinity) && !player.hasPerk(PerkLib.AffinityIgnis)) ConstantHeatConditionsTick();
 			}
 			explorer.leave.hint("Leave the infernal volcanic crag");
 			explorer.skillBasedReveal(areaLevel, timesExplored());
@@ -208,6 +216,12 @@ public class VolcanicCrag extends BaseContent
 			inventory.takeItem(consumables.DRAKHRT, explorer.done);
 		}
 
+		private function findEmberFlower():void {
+			clearOutput();
+			outputText("You stumble upon a strange red flower, which seems to grow in the crag heedless of the unbearable heat. You feel oddly drawn towards the plant, deciding to pick it up. ");
+			inventory.takeItem(consumables.EMBER_F, explorer.done);
+		}
+
 		private function fireGolemEncounter():void {
 			clearOutput();
 			outputText("As you take a stroll, from nearby cracks emerge group of golems. Looks like you have encountered some true fire golems! You ready your [weapon] for a fight!");
@@ -216,11 +230,12 @@ public class VolcanicCrag extends BaseContent
 		}
 
 		public function VolcanicCragConditions():void {
-			if (!player.hasPerk(PerkLib.FireAffinity) && !player.hasPerk(PerkLib.AffinityIgnis)) player.createStatusEffect(StatusEffects.ConstantHeatConditions,0,0,0,0);
+			if (!player.hasPerk(PerkLib.FireAffinity) && !player.hasPerk(PerkLib.FireShadowAffinity) && !player.hasPerk(PerkLib.AffinityIgnis)) player.createStatusEffect(StatusEffects.ConstantHeatConditions,2,0,0,0);
 		}
 
 		public function ConstantHeatConditionsTick():void {
-			var HPD:Number = 0.05;
+			var HPD:Number = 0.025;
+			HPD *= player.statusEffectv1(StatusEffects.ConstantHeatConditions);
 			if (player.hasPerk(PerkLib.ColdAffinity)) HPD *= 2;
 			HPD *= player.maxHP();
 			HPD = Math.round(HPD);

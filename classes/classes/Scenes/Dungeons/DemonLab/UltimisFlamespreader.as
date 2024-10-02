@@ -1,7 +1,7 @@
 package classes.Scenes.Dungeons.DemonLab {
 /**
  * ...
- * @author ...
+ * @author Canadian Snas
  */
 
 import classes.*;
@@ -149,7 +149,7 @@ public class UltimisFlamespreader extends Monster {
         this.hairColor = "black";
         this.hairLength = 16;
         initStrTouSpeInte(950, 1200, 1000, 420);
-        initWisLibSensCor(200, 1600, 500, 60);
+        initWisLibSensCor(200, 1600, 500, 20);
         this.weaponName = "tail";
         this.weaponVerb = "swipe";
         this.weaponAttack = 300;
@@ -166,6 +166,7 @@ public class UltimisFlamespreader extends Monster {
         this.createStatusEffect(StatusEffects.Flying, 50, 0, 0, 0);
         this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
         this.createPerk(PerkLib.LegendarySpeed, 0, 0, 0, 0);
+		this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
         this.createPerk(PerkLib.EnemyColossalType, 0, 0, 0, 0);
         checkMonster();
     }

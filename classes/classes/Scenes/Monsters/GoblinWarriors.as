@@ -146,7 +146,7 @@ public class GoblinWarriors extends Goblin
 			this.hairColor = "red";
 			this.hairLength = 4;
 			initStrTouSpeInte(175, 250, 170, 172);
-			initWisLibSensCor(170, 145, 105, 60);
+			initWisLibSensCor(170, 145, 105, 20);
 			this.weaponName = "sword and shield";
 			this.weaponVerb = "slash";
 			this.weaponAttack = 42;
@@ -168,7 +168,12 @@ public class GoblinWarriors extends Goblin
 							consumables.BLUEDYE,
 							consumables.ORANGDY,
 							consumables.GREEN_D,
-							consumables.PURPDYE);
+							consumables.PURPDYE,
+							consumables.HEALHERB,
+							consumables.MOONGRASS,
+							consumables.SNAKEBANE,
+							consumables.IRONWEED,
+							consumables.BLADEFERN);
 			this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.ShieldWielder, 0, 0, 0, 0);
 			checkMonster();

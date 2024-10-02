@@ -8,6 +8,8 @@ import classes.Scenes.SceneLib;
 import classes.internals.*;
 import classes.display.SpriteDb;
 
+import coc.view.CoCButton;
+
 public class SandTrap extends Monster
 	{
 		//Wait:
@@ -54,7 +56,7 @@ public class SandTrap extends Monster
 				outputText("  Moving artfully with the flow rather than against it, you are able to avoid the trap's fluids, which splash harmlessly into the dune.");
 			}
 			else {
-				var damage:Number = (10 + player.lib/10);
+				var damage:Number = (20 + player.lib/5);
 				outputText("  Despite ducking away from the jet of fluid as best you can, you cannot avoid some of the stuff splashing upon your arms and face.  The substance feels oddly warm and oily, and though you quickly try to wipe it off it sticks resolutely to your skin and the smell hits your nose.  Your heart begins to beat faster as warmth radiates out from it; you feel languid, light-headed and sensual, eager to be touched and led by the hand to a sandy bed...  Shaking your head, you try to stifle what the foreign pheromones are making you feel.");
 				player.takeLustDamage(damage, true);
 			}
@@ -74,6 +76,18 @@ public class SandTrap extends Monster
 				if(player.canFly()) outputText("  You try to wrench yourself free by flapping your wings, but it is hopeless.  You are well and truly snared.");
 				trapLevel(-1);
 				if(!hasStatusEffect(StatusEffects.Climbed)) createStatusEffect(StatusEffects.Climbed,0,0,0,0);
+			}
+		}
+
+		override public function postPlayerBusyBtnSpecial(btnSpecial1:CoCButton, btnSpecial2:CoCButton):void{
+			btnSpecial1.show("Climb", SceneLib.combat.wait2, "Climb the sand to move away from the sand trap.");
+		}
+
+		override public function preAttack():void{
+			if (hasStatusEffect(StatusEffects.Level)){
+				// remove firstAttack flag since player cant get them anyway and urta is never going to meet this shit
+				outputText("It's all or nothing!  With a bellowing cry you charge down the treacherous slope and smite the sandtrap as hard as you can!  ");
+				trapLevel(-4);
 			}
 		}
 
@@ -132,24 +146,23 @@ public class SandTrap extends Monster
 			this.bodyColor = "fair";
 			this.hairColor = "black";
 			this.hairLength = 15;
-			initStrTouSpeInte(55, 15, 45, 55);
-			initWisLibSensCor(50, 60, 45, 50);
+			initStrTouSpeInte(110, 30, 90, 55);
+			initWisLibSensCor(50, 83, 61, 0);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 10;
+			this.weaponAttack = 20;
 			this.armorName = "chitin";
-			this.armorDef = 20;
-			this.armorMDef = 2;
-			this.bonusHP = 100;
-			this.bonusLust = 110;
+			this.armorDef = 100;
+			this.armorMDef = 10;
+			this.bonusHP = 300;
+			this.bonusLust = 157;
 			this.lust = 20;
 			this.lustVuln = .55;
-			this.level = 5;
+			this.level = 13;
 			this.gems = 5 + rand(5);
 			this.drop = new ChainedDrop(consumables.TRAPOIL).add(consumables.OVIELIX,1/3);
 			this.tailType = Tail.DEMONIC;
 			createStatusEffect(StatusEffects.Level, 4, 0, 0, 0);
-			this.createPerk(PerkLib.EnemyForBeginnersType, 0, 0, 0, 0);
 			checkMonster();
 		}
 		
