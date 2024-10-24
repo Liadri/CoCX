@@ -35,7 +35,7 @@ import classes.internals.*;
 			player.takeLustDamage(Math.round(player.lib + rand(player.lib)*0.2), true);
 		}
 		public function lactaBovinaMilkBlast():void {
-			outputText("The cow girl grabs her breast with both hand and press causing her nubs to shoot a pair of massive streams of milk straight at you! ");
+			outputText("The cow girl grabs her breast with both hand and press, causing her nubs to shoot a pair of massive streams of milk straight at you! ");
 			var dmg2:Number = player.lib + rand(player.lib) + this.lib + this.sens;
 			player.takeLustDamage(dmg2, true);
 			player.takePhysDamage((dmg2 * 2), true);

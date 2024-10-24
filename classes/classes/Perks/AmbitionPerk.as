@@ -19,7 +19,7 @@ package classes.Perks
 		public function AmbitionPerk()
 		{
 			super("Ambition", "Ambition",
-					"Your equipment boost your spells power and augments your white magic while lowering its cost!");
+					"Your equipment boosts your spells power and augments your white magic while lowering its cost!");
 		}
 		
 		override public function keepOnAscension(respec:Boolean = false):Boolean

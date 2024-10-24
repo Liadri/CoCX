@@ -809,13 +809,13 @@ private function ourDadTaughtUsNotToBeAshamedOfOurDicks(win:Boolean):void {
 	player.sexReward("vaginalFluids", "Dick");
 	flags[kFLAGS.SHOULDRA_PENIS_DEFEAT_TIMES]++;
 	if (win) {
-		outputText("Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she reaches down and plunges a hand into her still-dripping cunt. Evidently, she's taken ahold of something, and with a bit of effort she tugs a handful of translucent green goo right out. \"<i>Ectoplasm,</i>\" she explains, reaching down and grabbing her tunic. Reaching into a pocket, she produces a small bottle and pushes the slimy substance inside. \"<i>Essentially the product of a ghost orgasm, which you've so kindly provided for me.</i>\" She smiles, hands you the bottle, then moves to her clothing and swiftly dresses. With a little wave, she wanders away, rounding a corner and disappearing from sight. You resolve to find her again—her magic was pretty fun!");
+		outputText(" Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she reaches down and plunges a hand into her still-dripping cunt. Evidently, she's taken ahold of something, and with a bit of effort she tugs a handful of translucent green goo right out. \"<i>Ectoplasm,</i>\" she explains, reaching down and grabbing her tunic. Reaching into a pocket, she produces a small bottle and pushes the slimy substance inside. \"<i>Essentially the product of a ghost orgasm, which you've so kindly provided for me.</i>\" She smiles, hands you the bottle, then moves to her clothing and swiftly dresses. With a little wave, she wanders away, rounding a corner and disappearing from sight. You resolve to find her again—her magic was pretty fun!");
 		getEctoplasm();
 	} else loseEnding();
 }
 
 private function winEnding():void {
-	outputText("Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she smiles, moving to her clothing and swiftly dressing, then gives you a little wave before wandering away, rounding a corner and disappearing from sight. You resolve to find her again- her magic was pretty fun!");
+	outputText(" Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she smiles, moving to her clothing and swiftly dressing, then gives you a little wave before wandering away, rounding a corner and disappearing from sight. You resolve to find her again- her magic was pretty fun!");
 	cleanupAfterCombat();
 }
 

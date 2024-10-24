@@ -43,7 +43,7 @@ public class DemonizeMe extends Consumable {
 					player.skinColor2 = choice2;
 				}
 				if (player.cor <= 50) {
-					outputText("Relucantly you raise the bottle to your lips. As soon as you take the first sip, rest of the oily fluid moves on its own. You cannot move your limbs, nor cough, not even blink.\n");
+					outputText("Relucantly you raise the bottle to your lips. As soon as you take the first sip, the rest of the oily fluid moves on its own. You cannot move your limbs, nor cough, not even blink.\n");
 					outputText("The liquid grows hotter and hotter as it slowly fills your stomach. Or is it you thats getting hotter? Hard to distinguish.\n\n");
 					outputText("A wave of dread takes you under once you realise you are not sweating, you are bleeding!\n");
 					outputText("Every single orifice, from tiniest of pores to largest of cavities is vomiting out blood.\n\n");

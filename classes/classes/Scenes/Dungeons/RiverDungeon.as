@@ -1290,7 +1290,7 @@ public class RiverDungeon extends DungeonAbstractContent
 			clearOutput();
 			if (player.statusEffectv1(StatusEffects.RivereDungeonIB) == 0) {
 				outputText("A crackling sound emanates from this distance. You turn to face a large ball of fire rushing toward you. The ball slows, noticing you've seen it.");
-				outputText("It morphs into nine-foot-tall ifrit with a clear feminine shape.  Its entire body is alight as it attacks. Prepare to fight!");
+				outputText(" It morphs into a nine-foot-tall ifrit with a clear feminine shape.  Its entire body is alight as it attacks. Prepare to fight!");
 				if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
 				flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] = 4;
 				startCombat(new FireElemental(), true);
@@ -1399,7 +1399,7 @@ public class RiverDungeon extends DungeonAbstractContent
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_27;
 			clearOutput();
 			if (player.statusEffectv4(StatusEffects.RivereDungeonIB) == 0) {
-				outputText("An avalanche of rocks rumbles the ground. You glance over and notice a series of stones rolling over each other toward your direction.  It's much larger than the usual elementals.  As it approaches, the stone quickly take shape of a humanoid figure. ");
+				outputText("An avalanche of rocks rumbles the ground. You glance over and notice a series of stones rolling over each other toward your direction.  It's much larger than the usual elementals.  As it approaches, the stones quickly take on the shape of a humanoid figure. ");
 				outputText("The rocks roll over, taking on a feminine form. Its eyes focus before it raises a fist. You brace yourself, it looks like the fight is on!");
 				if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
 				flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] = 4;

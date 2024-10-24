@@ -1812,7 +1812,7 @@ private function talkMilkLimitationChange(newLimit:int):void {
 												break;
 		default:
 												outputText("You tell Kath that from now on she's not to keep her breasts in check.  The sky's the limit.\n\n");
-												outputText("Kath shakes her head and smiles, \"<i>" + (playerMaster() ? "Yes [master], I guess you can't get enough?" : "Can't get enough?  Alright [name],") + "I'll just let them make as much as they like.  But don't blame me if I get so full I try to force feed you.</i>\"\n\n");
+												outputText("Kath shakes her head and smiles, \"<i>" + (playerMaster() ? "Yes [master], I guess you can't get enough?" : "Can't get enough?  Alright [name],") + "I'll just let them make as much as they like.  But don't blame me if I get so full I try to force-feed you.</i>\"\n\n");
 												talkMilkMenu();
 												return;
 	}

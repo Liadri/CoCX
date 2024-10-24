@@ -348,7 +348,7 @@ import classes.Scenes.SceneLib;
 		
 		public function CowSuccubusEncounter():void {
 			clearOutput();
-			outputText("As you wander in the ridge, from behind one of trees ahead comes out a blue skinned person covered in fur.  To be more precise, a cow that felt that grass must be greener on the dark side.  When she approaches closer, despite rags covering some of her body, you don't notice any 'addition' at her crotch.  \"<i>A yummy soul in you I can feel.  Would you kindly give it to me?</i>\" she blurts directly.  Look like there is no way around it, you ready your [weapon] for the fight.");
+			outputText("As you wander in the ridge, from behind one of trees ahead comes out a blue skinned person covered in fur.  To be more precise, a cow that felt the grass must be greener on the dark side.  When she approaches closer, despite rags covering some of her body, you don't notice any 'addition' at her crotch.  \"<i>A yummy soul in you I can feel.  Would you kindly give it to me?</i>\" she blurts directly.  Look like there is no way around it, you ready your [weapon] for the fight.");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_SUCCUBUS);
 			startCombat(new CowSuccubus());
 			doNext(playerMenu);

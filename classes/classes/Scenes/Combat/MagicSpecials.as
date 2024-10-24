@@ -80,13 +80,13 @@ public class MagicSpecials extends BaseCombatContent {
 			assumeCrinosShape007();
 		}
 		if (flags[kFLAGS.ASURA_FORM_COMBAT_MODE] == 1 && flags[kFLAGS.CRINOS_SHAPE_COMBAT_MODE] == 0 && player.wrath >= combat.asuraformCost() && !player.hasPerk(PerkLib.ElementalBody)) {
-			outputText("As you starts to unleash your inner wrath two additional faces emerge from head"+(player.faceType == Face.CERBERUS?"s":"")+" on sides and " + (player.hasFourArms() ? "":"two ") + "additional pair" + (player.hasFourArms() ? "":"s") + " of arms grows under your " + (player.hasFourArms() ? "second":"first") + " pair" + (player.hasFourArms() ? "s":"") + " of arms. ");
+			outputText("As you start to unleash your inner wrath, two additional faces emerge from you"+(player.faceType == Face.CERBERUS?"s":"")+" and " + (player.hasFourArms() ? "":"two ") + "additional pair" + (player.hasFourArms() ? "":"s") + " of arms grows under your " + (player.hasFourArms() ? "second":"first") + " pair" + (player.hasFourArms() ? "s":"") + " of arms. ");
 			if (player.hasPerk(PerkLib.AsuraStrength)) {
-				outputText("Additionally from your back emerge ");
-				outputText("pair");
+				outputText("Additionally, from your back emerge ");
+				outputText("a pair");
 				outputText(" of semi-transparent arms. ");
 			}
-			outputText("Finishing assuming Asura form you're ready to destroy anyone that would dare to stand in your way!\n\n");
+			outputText("Finished assuming your Asura form, you're ready to destroy anyone that would dare to stand in your way!\n\n");
 			combat.assumeAsuraForm007();
 		}
 		if (flags[kFLAGS.ASURA_FORM_COMBAT_MODE] == 1 && flags[kFLAGS.CRINOS_SHAPE_COMBAT_MODE] == 1) {

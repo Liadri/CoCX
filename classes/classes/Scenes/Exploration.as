@@ -143,21 +143,21 @@ public class Exploration extends BaseContent implements SaveableState
 			return new ButtonData("Forest (O)", SceneLib.forest.exploreForestOutskirts)
 					.hint("Visit the lush forest (outer). "
 							+ "\n\nTimes explored: " + SceneLib.forest.timesExploredOuter())
-					.disableIf(!SceneLib.forest.isDiscoveredOuter(), "Discovered when using 'Explore' after finding Lake." +
+					.disableIf(!SceneLib.forest.isDiscoveredOuter(), "Discovered when using 'Explore' after finding the Lake." +
 							" (Lvl "+SceneLib.forest.discoverLevelOuter+"+)")
 		}
 		private function btnExploreForestInner():ButtonData {
 			return new ButtonData("Forest (I)", SceneLib.forest.exploreInnerForest)
 					.hint("Visit the lush forest (inner). "
 							+ "\n\nTimes explored: " + SceneLib.forest.timesExploredInner())
-					.disableIf(!SceneLib.forest.isDiscoveredInner(), "Discovered when exploring Forest (O)." +
+					.disableIf(!SceneLib.forest.isDiscoveredInner(), "Discovered when exploring the Forest (O)." +
 							" (Lvl "+SceneLib.forest.areaLevelInner+"+)");
 		}
 		private function btnExploreDeepwoods():ButtonData {
 			return new ButtonData("Deepwoods", SceneLib.forest.exploreDeepwoods)
 					.hint("Visit the dark, bioluminescent deepwoods. "
 							+ (debug ? "\n\nTimes explored: " + SceneLib.forest.timesExploredDeepwoods() : ""))
-					.disableIf(!SceneLib.forest.isDiscoveredDeepwoods(), "Discovered when exploring Forest (I)." +
+					.disableIf(!SceneLib.forest.isDiscoveredDeepwoods(), "Discovered when exploring the Forest (I)." +
 							" (Lvl "+SceneLib.forest.areaLevelDeepwoods+"+)");
 		}
 		private function btnExploreLake():ButtonData {
@@ -179,126 +179,126 @@ public class Exploration extends BaseContent implements SaveableState
 			return new ButtonData("Desert (O)", SceneLib.desert.exploreOuterDesert)
 					.hint("Visit the dry desert (outer part). "
 							+ "\n\nTimes explored: " + SceneLib.desert.timesExploredOuter())
-					.disableIf(!SceneLib.desert.isDiscoveredOuter(), "Discovered when using 'Explore' after finding Forest (O)." +
+					.disableIf(!SceneLib.desert.isDiscoveredOuter(), "Discovered when using 'Explore' after finding the Forest (O)." +
 							" (Lvl "+SceneLib.desert.discoverLevelOuter+"+)");
 		}
 		private function btnExploreDesertInner():ButtonData {
 			return new ButtonData("Desert (I)", SceneLib.desert.exploreInnerDesert)
 					.hint("Visit the dry desert (inner part). "
 							+ "\n\nTimes explored: " + SceneLib.desert.timesExploredInner())
-					.disableIf(!SceneLib.desert.isDiscoveredInner(), "Discovered when exploring Desert (Outer)." +
+					.disableIf(!SceneLib.desert.isDiscoveredInner(), "Discovered when exploring the Desert (Outer)." +
 							" (Lvl "+SceneLib.desert.areaLevelInner+"+)");
 		}
 		private function btnExploreBattlefieldBoundary():ButtonData {
 			return new ButtonData("Battlefield (B)", SceneLib.battlefiledboundary.exploreBattlefieldBoundary)
 					.hint("Visit the battlefield boundary. "
 							+ "\n\nTimes explored: " + SceneLib.battlefiledboundary.timesExplored())
-					.disableIf(!SceneLib.battlefiledboundary.isDiscovered(), "Discovered when using 'Explore' after finding Desert (Outer)." +
+					.disableIf(!SceneLib.battlefiledboundary.isDiscovered(), "Discovered when using 'Explore' after finding the Desert (Outer)." +
 							" (Lvl "+SceneLib.battlefiledboundary.discoverLevel+"+)")
 		}
 		private function btnExploreBattlefieldOuter():ButtonData {
 			return new ButtonData("Battlefield (O)", SceneLib.battlefiledouter.exploreOuterBattlefield)
 					.hint("Visit the outer battlefield. "
 							+ "\n\nTimes explored: " + SceneLib.battlefiledouter.timesExplored())
-					.disableIf(!SceneLib.battlefiledouter.isDiscovered(), "Discovered when exploring Battlefield (Boundary)." +
+					.disableIf(!SceneLib.battlefiledouter.isDiscovered(), "Discovered when exploring the Battlefield (Boundary)." +
 							" (Lvl "+SceneLib.battlefiledouter.areaLevel+"+)")
 		}
 		private function btnExploreHills():ButtonData {
 			return new ButtonData("Hills", SceneLib.mountain.exploreHills)
 					.hint("Visit the hills. "
 							+ "\n\nTimes explored: " + SceneLib.mountain.timesExploredHills())
-					.disableIf(!SceneLib.mountain.isDiscoveredHills(), "Discovered when using 'Explore' after finding Battlefield (Boundary)." +
+					.disableIf(!SceneLib.mountain.isDiscoveredHills(), "Discovered when using 'Explore' after finding the Battlefield (Boundary)." +
 							" (Lvl "+SceneLib.mountain.areaLevelHills+"+)");
 		}
 		private function btnExploreMountainsLow():ButtonData {
 			return new ButtonData("Low Mountain", SceneLib.mountain.exploreLowMountain)
 					.hint("Visit the low mountains. "
 							+ "\n\nTimes explored: " + SceneLib.mountain.timesExploredLow())
-					.disableIf(!SceneLib.mountain.isDiscoveredLow(), "Discovered when exploring Hills." +
+					.disableIf(!SceneLib.mountain.isDiscoveredLow(), "Discovered when exploring the Hills." +
 							" (Lvl "+SceneLib.mountain.areaLevelLow+"+)");
 		}
 		private function btnExploreMountainsMid():ButtonData {
 			return new ButtonData("Mountain", SceneLib.mountain.exploreMidMountain)
 					.hint("Visit the mountain. "
 							+ "\n\nTimes explored: " + SceneLib.mountain.timesExploredMid())
-					.disableIf(!SceneLib.mountain.isDiscoveredMid(), "Discovered when exploring Low Mountains." +
+					.disableIf(!SceneLib.mountain.isDiscoveredMid(), "Discovered when exploring the Low Mountains." +
 							" (Lvl "+SceneLib.mountain.areaLevelMid+"+)");
 		}
 		private function btnExploreMountainsHigh():ButtonData {
 			return new ButtonData("High Mountain", SceneLib.highMountains.exploreHighMountain)
 					.hint("Visit the high mountains where basilisks and harpies are found. "
 							+ "\n\nTimes explored: " + SceneLib.highMountains.timesExplored())
-					.disableIf(!SceneLib.highMountains.isDiscovered(), "Discovered when exploring Mountain." +
+					.disableIf(!SceneLib.highMountains.isDiscovered(), "Discovered when exploring the Mountain." +
 							" (Lvl "+SceneLib.highMountains.areaLevel+"+)");
 		}
 		private function btnExplorePlains():ButtonData {
 			return new ButtonData("Plains", SceneLib.plains.explorePlains)
 					.hint("Visit the plains. "
 							+ "\n\nTimes explored: " + SceneLib.plains.timesExplored())
-					.disableIf(!SceneLib.plains.isDiscovered(), "Discovered when using 'Explore' after finding Hills." +
+					.disableIf(!SceneLib.plains.isDiscovered(), "Discovered when using 'Explore' after finding the Hills." +
 							" (Lvl "+SceneLib.plains.areaLevel+"+)");
 		}
 		private function btnExploreSwamp():ButtonData {
 			return new ButtonData("Swamp", SceneLib.swamp.exploreSwamp)
 					.hint("Visit the wet swamplands. "
 							+ "\n\nTimes explored: " + SceneLib.swamp.timesExplored())
-					.disableIf(!SceneLib.swamp.isDiscovered(), "Discovered when using 'Explore' after finding Plains." +
+					.disableIf(!SceneLib.swamp.isDiscovered(), "Discovered when using 'Explore' after finding the Plains." +
 							" (Lvl "+SceneLib.swamp.areaLevel+"+)");
 		}
 		private function btnExploreBog():ButtonData {
 			return new ButtonData("Bog", SceneLib.bog.exploreBog)
 					.hint("Visit the dark bog."
 							+ "\n\nTimes explored: " + SceneLib.bog.timesExplored())
-					.disableIf(!SceneLib.bog.isDiscovered(), "Discovered when exploring Swamp." +
+					.disableIf(!SceneLib.bog.isDiscovered(), "Discovered when exploring the Swamp." +
 							" (Lvl "+SceneLib.bog.areaLevel+"+)");
 		}
 		private function btnExploreBlightRidge():ButtonData {
 			return new ButtonData("Blight Ridge", SceneLib.blightridge.exploreBlightRidge)
 					.hint("Visit the corrupted blight ridge. "
 							+ "\n\nTimes explored: " + SceneLib.blightridge.timesExplored())
-					.disableIf(!SceneLib.blightridge.isDiscovered(), "Discovered when using 'Explore' after finding Swamp." +
+					.disableIf(!SceneLib.blightridge.isDiscovered(), "Discovered when using 'Explore' after finding the Swamp." +
 							" (Lvl "+SceneLib.blightridge.areaLevel+"+)");
 		}
 		private function btnExploreDefiledRavine():ButtonData {
 			return new ButtonData("Defiled Ravine", SceneLib.defiledravine.exploreDefiledRavine)
 					.hint("Visit the defiled ravine."
 							+ "\n\nTimes explored: " + SceneLib.defiledravine.timesExplored())
-					.disableIf(!SceneLib.defiledravine.isDiscovered(), "Discovered when exploring Blight Ridge." +
+					.disableIf(!SceneLib.defiledravine.isDiscovered(), "Discovered when exploring the Blight Ridge." +
 							" (Lvl "+SceneLib.defiledravine.areaLevel+"+)");
 		}
 		private function btnExploreBeach():ButtonData {
 			return new ButtonData("Beach", SceneLib.beach.exploreBeach)
 					.hint("Visit the sunny beach. "
 							+ "\n\nTimes explored: " + SceneLib.beach.timesExplored())
-					.disableIf(!SceneLib.beach.isDiscovered(), "Discovered when using 'Explore' after finding Blight Ridge." +
+					.disableIf(!SceneLib.beach.isDiscovered(), "Discovered when using 'Explore' after finding the Blight Ridge." +
 							" (Lvl "+SceneLib.beach.areaLevel+"+)");
 		}
 		private function btnExploreOcean():ButtonData {
 			return new ButtonData("Ocean", SceneLib.ocean.exploreOcean)
 					.hint("Explore the ocean surface. But beware of... sharks. "
 							+ "\n\nTimes explored: " + SceneLib.ocean.timesExplored())
-					.disableIf(!SceneLib.ocean.isDiscovered(), "You need to find first some way to sail over the water surface to explore this area.")
-					.disableIf(!SceneLib.beach.isDiscovered(), "Need to find Beach first and then finding some way to sail on the water.");
+					.disableIf(!SceneLib.ocean.isDiscovered(), "You need to first find a way to sail over the water's surface to explore this area.")
+					.disableIf(!SceneLib.beach.isDiscovered(), "You need to discover the Beach first, then find a way to sail on the water.");
 		}
 		private function btnExploreCaves():ButtonData {
 			return new ButtonData("Caves", SceneLib.caves.exploreCaves)
 					.hint("Visit the gloomy caves. "
 							+ "\n\nTimes explored: " + SceneLib.caves.timesExplored())
-					.disableIf(!SceneLib.caves.isDiscovered(), "Discovered when using 'Explore' after finding Beach." +
+					.disableIf(!SceneLib.caves.isDiscovered(), "Discovered when using 'Explore' after finding the Beach." +
 							" (Lvl "+SceneLib.caves.areaLevel+"+)");
 		}
 		private function btnExploreTundra():ButtonData {
 			return new ButtonData("Tundra", SceneLib.tundra.exploreTundra)
 					.hint("Visit the tundra. "
 							+ "\n\nTimes explored: " + SceneLib.tundra.timesExplored())
-					.disableIf(!SceneLib.tundra.isDiscovered(), "Discovered when exploring Caves." +
+					.disableIf(!SceneLib.tundra.isDiscovered(), "Discovered when exploring the Caves." +
 							" (Lvl "+SceneLib.tundra.areaLevel+"+)");
 		}
 		private function btnExploreGlacialRiftOuter():ButtonData {
 			return new ButtonData("Glacial Rift(O)", SceneLib.glacialRift.exploreGlacialRift)
 					.hint("Visit the chilly glacial rift (outer part). "
 							+ "\n\nTimes explored: " + SceneLib.glacialRift.timesExplored())
-					.disableIf(!SceneLib.glacialRift.isDiscovered(), "Discovered when exploring Tundra." +
+					.disableIf(!SceneLib.glacialRift.isDiscovered(), "Discovered when exploring the Tundra." +
 							" (Lvl "+SceneLib.glacialRift.areaLevel+"+)");
 		}
 		private function btnExploreAshlands():ButtonData {
@@ -312,7 +312,7 @@ public class Exploration extends BaseContent implements SaveableState
 			return new ButtonData("VolcanicCrag(O)", SceneLib.volcanicCrag.exploreVolcanicCrag)
 					.hint("Visit the infernal volcanic crag (outer part). "
 							+ "\n\nTimes explored: " + SceneLib.volcanicCrag.timesExplored())
-					.disableIf(!SceneLib.volcanicCrag.isDiscovered(), "Discovered when exploring Ashlands." +
+					.disableIf(!SceneLib.volcanicCrag.isDiscovered(), "Discovered when exploring the Ashlands." +
 							" (Lvl "+SceneLib.volcanicCrag.areaLevel+"+)");
 		}
 		
@@ -324,12 +324,12 @@ public class Exploration extends BaseContent implements SaveableState
 		public function doExplore():void {
 			clearOutput();
 			if (SceneLib.exploration.counters.explore <= 0) {
-				outputText("You tentatively step away from your campsite, alert and scanning the ground and sky for danger.  You walk for the better part of an hour, marking the rocks you pass for a return trip to your camp.  It worries you that the portal has an opening on this side, and it was totally unguarded...\n\n...Wait a second, why is your campsite in front of you? The portal's glow is clearly visible from inside the tall rock formation. Even the warning sign about the cursed site or worn down training dummy you found when looking around camp earlier are here. Looking carefully, you see your footprints leaving the opposite side of your camp, then disappearing. You look back the way you came and see your markings vanish before your eyes. ");
+				outputText("You tentatively step away from your campsite, alert and scanning the ground and sky for danger.  You walk for the better part of an hour, marking the rocks you pass for a return trip to your camp.  It worries you that the portal has an opening on this side, and that it was totally unguarded...\n\n...Wait a second, why is your campsite in front of you? The portal's glow is clearly visible from inside the tall rock formation. Even the warning sign about the cursed site or worn-down training dummy you found when looking around camp earlier are here. Looking carefully, you see your footprints leaving the opposite side of your camp, then disappearing. You look back the way you came and see your markings vanish before your eyes. ");
 				outputText("The implications boggle your mind as you do your best to mull over them. Distance, direction, and geography seem to have little meaning here, yet your campsite remains exactly as you left it. A few things click into place as you realize you found your way back just as you were mentally picturing the portal! Perhaps memory influences travel here, just like time, distance, and speed would in the real world!\n\nThis won't help at all with finding new places, but at least you can get back to camp quickly. You are determined to stay focused the next time you explore and learn how to traverse this gods-forsaken realm.");
 				player.createStatusEffect(StatusEffects.EzekielCurse, 0, 0, 0, 0);
 				doNext(tryDiscover);
 				return;
-			} else if (SceneLib.exploration.counters.explore > 1) outputText("You can continue to search for new locations, or explore your previously discovered locations.\n");
+			} else if (SceneLib.exploration.counters.explore > 1) outputText("You can continue searching for new locations, or explore your previously discovered ones.\n");
 			if (flags[kFLAGS.EXPLORE_MENU_STYLE] == 1) {
 				oldExploreMenu();
 				return;
@@ -433,26 +433,26 @@ public class Exploration extends BaseContent implements SaveableState
 				
 				bigButtonGrid(bd);
 				addButton(0, "Explore", tryDiscover)
-						.hint("Explore to find new regions and visit any discovered regions.");
+						.hint("Explore to find new regions or visit any discovered regions.");
 				addButton(4, "Menu Style", toggleMenuStyle)
-						.hint("Switch to old menu style");
+						.hint("Switch to the old menu style");
 				addButton(5, "LL Explore", tryDiscoverLL)
-						.hint("Explore to find weakest new enemies.")
+						.hint("Explore to find the weakest new enemies.")
 						.disableIf(player.level < 31,"Req. lvl 31+");
 				addButton(6, "ML Explore", tryDiscoverML)
 						.hint("Explore to find weaker new enemies.")
 						.disableIf(player.level < 51,"Req. lvl 51+");
 				addButton(7, "HL Explore", tryDiscoverHL)
-						.hint("Explore to find below average new enemies.")
+						.hint("Explore to find below-average new enemies.")
 						.disableIf(player.level < 70,"Req. lvl 70+");
 				addButton(8, "XHL Explore", tryDiscoverXHL)
-						.hint("Explore to find bit above average new enemies.")
+						.hint("Explore to find slightly above-average new enemies.")
 						.disableIf(player.level < 95,"Req. lvl 95+");
 				addButton(9, "XXHL Explore", tryDiscoverXXHL)
 						.hint("Explore to find strong new enemies.")
 						.disableIf(player.level < 125,"Req. lvl 125+");
 				addButton(12, "42", tryRNGod)
-						.hint("Explore to find the answer for your prayers. Or maybe you really not wanna find it, fearing answer will not be happy with you?")
+						.hint("Explore to find the answer to your prayers. Or maybe you don’t really want to find it, fearing the answer may not be in your favor?")
 						.disableIf(!silly(), "Only in Silly Mode...", "???");
 				if (debug) addButton(13, "Debug", exploreDebug.doExploreDebug);
 				addButton(14, "Back", playerMenu);
@@ -485,7 +485,7 @@ public class Exploration extends BaseContent implements SaveableState
 			menu();
 			if (canMeetXuviel()) SceneLib.demonicLair.questProgressScenes();
 			else {
-				addButton(0, "Explore", tryDiscover).hint("Explore to find new regions and visit any discovered regions.");
+				addButton(0, "Explore", tryDiscover).hint("Explore to find new regions or visit any discovered regions.");
 				btnExploreForestOutskirts().applyTo(button(1));
 				btnExploreLake().applyTo(button(2));
 				btnExploreDesertOuter().applyTo(button(3));
@@ -500,7 +500,7 @@ public class Exploration extends BaseContent implements SaveableState
 				btnExploreCaves().applyTo(button(12));
 				
 				addButton(4, "Next", explorePageII);
-				addButton(9, "Menu Style", toggleMenuStyle).hint("Switch to new menu style");
+				addButton(9, "Menu Style", toggleMenuStyle).hint("Switch to the new menu style");
 				if (debug) addButton(13, "Debug", exploreDebug.doExploreDebug);
 				
 				addButton(14, "Back", playerMenu);
@@ -575,19 +575,19 @@ public class Exploration extends BaseContent implements SaveableState
 			flags[kFLAGS.EXPLORATION_PAGE] = 5;
 			hideMenus();
 			menu();
-			if (player.level >= 31) addButton(0, "LL Explore", tryDiscoverLL).hint("Explore to find weakest new enemies.");
+			if (player.level >= 31) addButton(0, "LL Explore", tryDiscoverLL).hint("Explore to find the weakest new enemies.");
 			else addButtonDisabled(0, "LL Explore", "Req. lvl 31+");
 			if (player.level >= 51) addButton(1, "ML Explore", tryDiscoverML).hint("Explore to find weaker new enemies.");
 			else addButtonDisabled(1, "ML Explore", "Req. lvl 51+");
-			if (player.level >= 70) addButton(2, "HL Explore", tryDiscoverHL).hint("Explore to find below average new enemies.");
+			if (player.level >= 70) addButton(2, "HL Explore", tryDiscoverHL).hint("Explore to find below-average new enemies.");
 			else addButtonDisabled(2, "HL Explore", "Req. lvl 70+");
-			if (player.level >= 95) addButton(3, "XHL Explore", tryDiscoverXHL).hint("Explore to find bit above average new enemies.");
+			if (player.level >= 95) addButton(3, "XHL Explore", tryDiscoverXHL).hint("Explore to find slightly above-average new enemies.");
 			else addButtonDisabled(3, "XHL Explore", "Req. lvl 95+");
 			if (player.level >= 125) addButton(4, "XXHL Explore", tryDiscoverXXHL).hint("Explore to find strong new enemies.");
 			else addButtonDisabled(4, "XXHL Explore", "Req. lvl 125+");
 			
 			addButton(9, "Previous", goBackToPageIV);
-			if (silly()) addButton(12, "42", tryRNGod).hint("Explore to find the answer for your prayers. Or maybe you really not wanna find it fearing answer will not be happy with you?");
+			if (silly()) addButton(12, "42", tryRNGod).hint("Explore to find the answer to your prayers. Or maybe you don’t really want to find it, fearing the answer may not be in your favor?");
 			else addButtonDisabled(12, "???", "Only in Silly Mode...");
 			if (debug) addButton(13, "Debug", exploreDebug.doExploreDebug);
 			addButton(14, "Back", playerMenu);
@@ -620,92 +620,92 @@ public class Exploration extends BaseContent implements SaveableState
 		
 		private function golemEncountProto():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered proto golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered a proto golem! You ready your [weapon] for a fight!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GOLEMS);
 			startCombat(new GolemProto());
 		}
 		private function golemEncountBasic():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered dummy golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered a dummy golem! You ready your [weapon] for a fight!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GOLEMS);
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 0;
 			startCombat(new GolemDummy());
 		}
 		private function golemEncounterBasicGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered dummy golems! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered a dummy golems! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 1;
 			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterImproved():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered improved dummy golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered an improved dummy golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 2;
 			startCombat(new GolemDummyImproved());
 		}
 		private function golemEncounterImprovedGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered improved dummy golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered an improved dummy golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 3;
 			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterAdvanced():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered advanced dummy golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered an advanced dummy golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 4;
 			startCombat(new GolemDummyAdvanced());
 		}
 		private function golemEncounterAdvancedGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered advanced dummy golems! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a group of golems emerge from the nearby bushes. Looks like you've encountered advanced dummy golems! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 5;
 			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterSuperior():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered superior dummy golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered a superior dummy golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 6;
 			startCombat(new GolemDummySuperior());
 		}
 		private function golemEncounterSuperiorGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered superior dummy golems! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a group of golems emerge from the nearby bushes. Looks like you've encountered superior dummy golems! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 7;
 			startCombat(new GolemsDummy());
 		}
 		private function golemEncounterTrueBasic():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered basic true golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered a basic true golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 8;
 			startCombat(new GolemTrueBasic());
 		}
 		private function golemEncounterTrueBasicGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered basic true golems! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a group of golems emerge from the nearby bushes. Looks like you've encountered basic true golems! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 9;
 			startCombat(new GolemsTrue());
 		}
 		private function golemEncounterTrueImproved():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered improved true golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered an improved true golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 10;
 			startCombat(new GolemTrueImproved());
 		}
 		private function golemEncounterTrueImprovedGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered improved true golems! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a group of golems emerge from the nearby bushes. Looks like you've encountered improved true golems! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 11;
 			startCombat(new GolemsTrue());
 		}
 		private function golemEncounterTrueAdvanced():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge golem. Looks like you have encountered advanced true golem! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a golem emerges from the nearby bushes. Looks like you've encountered an advanced true golem! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 12;
 			startCombat(new GolemTrueAdvanced());
 		}
 		private function golemEncounterTrueAdvancedGroup():void {
 			clearOutput();
-			outputText("As you take a stroll, out of nearby bushes emerge group of golems. Looks like you have encountered advanced true golems! You ready your [weapon] for a fight!");
+			outputText("As you take a stroll, a group of golems emerge from the nearby bushes. Looks like you've encountered advanced true golems! You ready your [weapon] for a fight!");
 			flags[kFLAGS.GOLEM_ENEMY_TYPE] = 13;
 			startCombat(new GolemsTrue());
 		}
@@ -713,7 +713,7 @@ public class Exploration extends BaseContent implements SaveableState
 		private function feralImpEncounter():void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_imp);
-			outputText("A feral imp wings out of the sky and attacks!");
+			outputText("A feral imp dives down from above and attacks!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_IMPS);
 			flags[kFLAGS.FERAL_EXTRAS] = 1;
 			startCombat(new FeralImps());
@@ -721,7 +721,7 @@ public class Exploration extends BaseContent implements SaveableState
 		private function impEncounter():void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_imp);
-			outputText("An imp wings out of the sky and attacks!");
+			outputText("An imp dives down from above and attacks!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_IMPS);
 			startCombat(new Imp());
 		}
@@ -771,19 +771,19 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		private function angeloidEncounterLow():void {
 			clearOutput();
-			outputText("A low-ranked angeloid wings out of the sky and attacks!");
+			outputText("A low-ranked angeloid descends from above and attacks!");
 			player.createStatusEffect(StatusEffects.AngelsChooser, 1, 0, 0, 0);
 			startCombat(new Angeloid());
 		}
 		private function angeloidEncounterMid():void {
 			clearOutput();
-			outputText("A mid-ranked angeloid wings out of the sky and attacks!");
+			outputText("A mid-ranked angeloid descends from above and attacks!");
 			player.createStatusEffect(StatusEffects.AngelsChooser, 2, 0, 0, 0);
 			startCombat(new Angeloid());
 		}
 		private function angeloidEncounterHigh():void {
 			clearOutput();
-			outputText("A high-ranked angeloid wings out of the sky and attacks!");
+			outputText("A high-ranked angeloid descends from above and attacks!");
 			player.createStatusEffect(StatusEffects.AngelsChooser, 3, 0, 0, 0);
 			startCombat(new Angeloid());
 		}
@@ -832,10 +832,10 @@ public class Exploration extends BaseContent implements SaveableState
 					break;
 			}
 			function nightwalkerEncounter():void {
-				outputText("You find yourself feeling somewhat nervous. Your [skin] crawls, but as you wheel about, you see nothing. You hear nothing but a faint whisper on the wind.[pg]");
-				outputText("“<i>Blood.</i>” A faint dripping sound comes from behind you. You turn, slowly, to face a corpse-pale woman in a crotchless skintight latex suit that leaves nothing to the imagination. Her eyes shine red, and her fangs stick out well beyond her lips. A spadelike tail flicks back and forth, dripping red, and she smiles, curved black horns and ebony tresses combining to make her seem...well, you assume the intent was to make her beautiful, but unlike the succubi, there’s almost no sex appeal in those eyes, no carnal desire as she glances between your legs, scraping one of her fingernails along her swollen pussy lips, cutting herself and drawing a trickle of blood.[pg]");
-				outputText("“<i>Sweet blood, come... Sate yourself.</i>” Her nails are like black claws, but as she licks the blood off her fingers, part of you recoils in fear. “<i>Sate you...Then you’ll sate...me.</i>” You draw your [weapon], bracing yourself, but as you do, this gets only a smile as the curvy, short woman tilts her head. She launches herself toward you, claws outstretched, the eerie grin still on her face.[pg]");
-				outputText("“<i>Blood! Blood for me!</i>”");
+				outputText("You find yourself feeling increasingly uneasy. Your [skin] crawls, but as you spin around, there’s nothing. Only the faintest whisper rides the wind.[pg]");
+				outputText("“<i>Blood...</i>” A faint dripping sound echoes from behind you. Slowly, you turn to see a corpse-pale woman clad in a crotchless, skintight latex suit that leaves nothing to the imagination. Her eyes glow a hungry red, and her fangs jut unnervingly far past her lips. A spade-like tail flicks back and forth, dripping with something red, and she smiles. Curved black horns and ebony tresses frame her in a way that seems... Well, you think the intent was to make her beautiful, but unlike a succubi, there’s no allure in her gaze, no carnal desire—just cold hunger. She glances between your legs, her fingernail tracing her swollen pussy lips, slicing her skin to let a trickle of blood escape.[pg]");
+				outputText("“<i>Sweet blood, come... Sate yourself.</i>” Her nails are like black claws, but as she licks the blood off her fingers, part of you recoils in fear. “<i>Sate you... Then you sate... me.</i>” You draw your [weapon], bracing for the worst, but she only smiles wider as the short, curvaceous figure tilts her head, her movements unnervingly fluid. Without warning, she launches herself at you, claws outstretched, the eerie grin still on her face.[pg]");
+				outputText("“<i>I'll consume your blood... every last drop!</i>” The words crawl from her lips, twisted and ripping with hunger, as if every word could tear flesh from bone.");
 				outputText("[pg]“<b>You are now fighting Project Nightwalker.</b>”");
 				startCombat(new ProjectNightwalker());
 			}
@@ -1426,13 +1426,13 @@ public class Exploration extends BaseContent implements SaveableState
 			clearOutput();
 			outputText("Against your better judgment, curiosity gets the better of you, and you find yourself walking into a strange area.");
 			outputText("\n\nNot long into your journey, you see a hooded figure looming across the landscape, moving at the same speed as it goes across the terrain. The odd creature captures your interest, and you start to follow it. You glance around, there's still no one else nearby, so you continue to tail the mysterious being.");
-			outputText("\n\nHalf an hour or so later, still following the cloaked figure, you begin to hear the sound of running water. Moving on, you eventually come across the source: a decently sized river flows across the land, populated by variously sized islands. Stopping for a second to take a look around, the hooded person seems to be moving towards one of the several islands. He? She? It is still oblivious to your presence.");
+			outputText("\n\nHalf an hour or so later, still following the cloaked figure, you begin to hear the sound of running water. Moving on, you eventually come across the source: a decently sized river flows across the land, populated by variously sized islands. Stopping for a second to take a look around, the hooded person seems to be moving towards one of the several islands. He? She? It's still oblivious to your presence.");
 			outputText("\n\nA voice rings from behind you, \"<i>Come to visit He'Xin'Dao, stranger?</i>\"");
 			outputText("\n\nTurning around, you see a few hooded figures similar to the one you have been following. You curse at the thought that someone could've ambushed you so easily without you noticing them sooner. You state that you've been exploring and found this place. The figure peers at you through the veiled hood.\n\n"
-					+ "\"<i>You seem lacking in soulforce, but luckily your soul is enough intact to allow future cultivation. So, since you are already here, what do you think about visiting our village? Maybe you would come more often to it in the future?</i>\"");
-			outputText("\n\nYou ponder for a moment over the offer. The hooded beings don't seem to carry any malice, given they haven't attacked you nor attempted rape. Perhaps it would be of interest to explore this place?  You decide to accept their offer as they lead you over the wide bridge to one of the islands.  Several heavily armored guards peer at you searchingly, to which one of your new companions state that you are a new guest.  The guard gives a stoic nod as they step aside, no longer barring you from entry.  Your hooded friends guide you to a small island to properly register you as a guest. They give you a small guide on a piece of parchment, telling you places of interest and instructions on how to find this place again.");
-			outputText("\n\nAfterwards, you're left alone.  You wander around, checking a few places of interest before you decide it's time to return to your camp.  With the guide in your hands, you're sure you'll find this place again with ease if you need to.");
-			outputText("\n\n\n<b>You have unlocked He'Xin'Dao in Places menu!</b>");
+					+ "\"<i>You seem lacking in soulforce, but luckily your soul is intact enough to allow for future cultivation. So, since you are already here, what do you think about visiting our village? Maybe you'll visit more often in the future?</i>\"");
+			outputText("\n\nYou ponder for a moment over the offer. The hooded beings don't seem to carry any malice, given they haven't attacked you nor attempted to rape you. Perhaps it would be of interest to explore this place?  You decide to accept their offer as they lead you over the wide bridge to one of the islands.  Several heavily armored guards peer at you searchingly, to which one of your new companions state that you are a new guest.  The guard gives a stoic nod as they step aside, no longer barring you from entry.  Your hooded friends guide you to a small island to properly register you as a guest. They give you a small guide on a piece of parchment, telling you places of interest and instructions on how to find this place again.");
+			outputText("\n\nAfterwards, you're left alone.  You wander around, checking a few places of interest before you decide it's time to return to your camp.  With the map in your hands, you're sure you'll find this place again with ease, should you need to.");
+			outputText("\n\n\n<b>You have unlocked He'Xin'Dao in the Places menu!</b>");
 			flags[kFLAGS.HEXINDAO_UNLOCKED] = 1;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseTwoHours);
@@ -1442,17 +1442,17 @@ public class Exploration extends BaseContent implements SaveableState
 			clearOutput();
 			outputText("While traveling the world, a sudden thirst overtakes you. And here you thought you had your fill of blood recently!");
 			outputText("\n\nDesperate for a quick drink, you listen for a heartbeat and fly straight to the nearest one spotting a vague form drudging through the wilderness. Seeing red with hunger, you wrap your wings around the humanoid and bite straight into her neck. As you slowly regain your sanity, a closer look reveals your victim for what it was.");
-			outputText("\n\nThis peachy vulnerable skin, normal face and round ears. These five toed clawless feet and 5 fingered hands. The absence of a tail or wings. No matter how you look at it, that's a damn human you just drank from, one of your own kind!.. At least… former kind, Hardly anything remotely human about you anymore. You check and confirm that at least she wasn't a virgin, or it would have made you feel even worse!");
-			if (player.cor >= 50) outputText("\n\nThat human ain't going to survive much longer, you're about to throw the body into a ditch when a sinister idea comes to your mind suggested by your instinct. You first bite your palm then begin to forcefully feed her your blood to her.");
-			else outputText("\n\nWell, fuck… by the look of her, she's going to die any minute now from all that blood loss! A small nagging thought appears in the back of your mind. Diva did mention vampire blood being infectious right? What if you simply turned that human into a vampire? It would solve all of your problems! Without hesitating, you cut your hand and begin to force feed your blood to the human in your arms attempting for a last ditch save before you formally become a murderer!");
-			outputText("\n\nThe reaction is instantaneous as her body begins to shake and convulse. Her body starts by taking on a more voluptuous, womanly figure like the original vampire transformation, but the following changes confuse you. What's going on? You watch as the girl's nails deform into sharp claws, her teeth sharpening into vicious needles as your corrupted blood taint her eyes red with hunger. Her ears do become pointed not unlike those of a vampire but her form is anything but. ");
-			outputText("To complete this, her tongue suddenly elongates to ridiculous length and becomes quite dexterous as it licks your palm obscenely, trying to catch any remaining drop of blood before your regeneration kicks in. Instinctively you already know something went hell of wrong with her transformation and it might have to do with something in your blood or maybe some other factor.");
-			outputText("\n\nThe crouching ghoul before you, because what else could this fiendish looking damaged soul of an undead be, licks your hand amorously like a well trained dog. Feeling a little awkward at your new pet you pause thinking about what to do with it now. To your surprise though the soul broken undead speaks up intelligently with a refined voice that does not exactly match its behavior and feral look.");
-			outputText("\n\n\"<i>"+player.mf("Master","Mistress")+" I await your order…please tell me your will.</i>\"");
-			outputText("\n\nWell, the thing turns out to be quite obedient and well behaved. Perhaps with some clothing you could even make it pass for a maid or a butler. You tell your new pet to head to your camp asap once there you will think what to do with her.");
-			outputText("\n\n\"<i>As the good "+player.mf("master","mistress")+" command!</i>\"");
-			outputText("\n\nThe ghoul leap into the shadows how it will find your camp you don't know but somehow the blood tells you it will.");
-			if (flags[kFLAGS.LUNA_FOLLOWER] >= 4 && !player.hasStatusEffect(StatusEffects.LunaOff)) outputText(" You ponder in amusement how your maid is going to react to this new servant sharing her chore and turf. Luna is in for a funny surprise you guess.");
+			outputText("\n\nThis peachy vulnerable skin, normal face and round ears. These five toed clawless feet and 5 fingered hands. The absence of a tail or wings. No matter how you look at it, that's a damn human you just drank from, one of your own kind!.. At least... former kind, hardly anything remotely human about you anymore. You check and confirm that at least she wasn't a virgin, or it would have made you feel even worse!");
+			if (player.cor >= 50) outputText("\n\nThat human isn't going to survive much longer, you're about to throw the body into a ditch when a sinister idea comes to your mind, suggested by your instincts. You first bite your palm then begin to forcefully feed her your blood.");
+			else outputText("\n\nWell, fuck... by the look of her, she's going to die any minute now from all that blood loss! A small nagging thought appears in the back of your mind. Diva did mention vampire blood being infectious right? What if you simply turned that human into a vampire? It would solve all of your problems! Without hesitating, you cut your hand and begin to force-feed your blood to the human in your arms, making a last ditch attempt to save them before you officially become a murderer!");
+			outputText("\n\nThe reaction is instantaneous as her body begins to shake and convulse. Her body starts by taking on a more voluptuous, womanly figure like the original vampire transformation, but the following changes confuse you. What's going on? You watch as the girl's nails deform into sharp claws, her teeth sharpening into vicious needles as your corrupted blood taint her eyes red with hunger. Her ears become pointed, not unlike those of a vampire, but her form is anything but. ");
+			outputText("To complete this, her tongue suddenly elongates to a ridiculous length and becomes quite dexterous, as it licks your palm obscenely, trying to catch any remaining drop of blood before your regeneration kicks in. Instinctively, you already know something went wrong with her transformation and it might have to do with something in your blood, or maybe some other factor.");
+			outputText("\n\nThe crouching ghoul before you—because what else could this fiendish looking, damaged soul of an undead be—licks your hand amorously, like a well trained dog. Feeling a little awkward at your new pet, you pause, thinking about what to do with it now. To your surprise though, the soul-broken undead speaks up intelligently with a refined voice that does not exactly match its behavior and feral look.");
+			outputText("\n\n\"<i>"+player.mf("Master","Mistress")+" I await your orders... please tell me your will.</i>\"");
+			outputText("\n\nWell, the thing turns out to be quite obedient and well behaved. Perhaps with some clothing, you could even make it pass for a maid or a butler. You tell your new pet to head to your camp as soon as possible, once there, you'll think of what to do with her.");
+			outputText("\n\n\"<i>As the good "+player.mf("master","mistress")+" commands!</i>\"");
+			outputText("\n\nThe ghoul leaps into the shadows, how it will find your camp—you don't know—but somehow, your blood tells you it will.");
+			if (flags[kFLAGS.LUNA_FOLLOWER] >= 4 && !player.hasStatusEffect(StatusEffects.LunaOff)) outputText(" You ponder in amusement at how your maid is going to react to this new servant sharing her chores and turf. Luna is in for a funny surprise, you guess.");
 			flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME] = "Helia";
 			player.addStatusValue(StatusEffects.Familiar, 3, 1);
 			explorer.stopExploring();
@@ -1466,7 +1466,7 @@ public class Exploration extends BaseContent implements SaveableState
                     outputText("You're walking in the woods\n\n");
                     outputText("There's no one around\n\n");
                     outputText("And your phone is dead\n\n");
-                    outputText("Out of the corner of your eye you spot him/her/it/them\n\n");
+                    outputText("Out of the corner of your eye, you spot him/her/it/them\n\n");
                 }
 				outputText("<b>A Low-Rank Angel...</b>");
 				startCombat(new AngelLR());//lvl 15
@@ -1477,14 +1477,14 @@ public class Exploration extends BaseContent implements SaveableState
                     outputText("You're walking in the woods\n\n");
                     outputText("There's no one around\n\n");
                     outputText("And your phone is dead\n\n");
-                    outputText("Out of the corner of your eye you spot her\n\n");
+                    outputText("Out of the corner of your eye, you spot her\n\n");
                 }
 				outputText("<b>A Wasp Girl...</b>");
 				startCombat(new WaspGirl());//lvl 33
 				return;
 			}
 			else if (rand(2) == 0) {
-				outputText("Traversing Mareth vast areas you're stopped by the arrow to the <u>kne</u> 'place between ground and your waist'.");
+				outputText("Traversing Mareth's vast areas you're stopped by the arrow to the <u>knee</u> 'place between the ground and your waist'.");
 				outputText("\n\n<b>A wild Light Elf Ranger Appears.</b>");
 				flags[kFLAGS.DARK_OR_LIGHT_ELF_SUBTYPE] = 12;
 				startCombat(new LightElfs());//lvl 47
@@ -1495,7 +1495,7 @@ public class Exploration extends BaseContent implements SaveableState
                     outputText("You're walking in the woods\n\n");
                     outputText("There's no one around\n\n");
                     outputText("And your phone is dead\n\n");
-                    outputText("Out of the corner of your eye you spot her\n\n");
+                    outputText("Out of the corner of your eye, you spot her\n\n");
                 }
 				outputText("<b>A Wasp Huntress...</b>");
 				startCombat(new WaspHuntress());//lvl 48
@@ -1506,7 +1506,7 @@ public class Exploration extends BaseContent implements SaveableState
 		public function tryDiscoverML():void {
 			clearOutput();
 			if (rand(4) == 0) {
-				outputText("Traversing Mareth vast areas you're stopped by the arrow to the <u>kne</u> 'place between ground and your waist'.");
+				outputText("Traversing Mareth's vast areas you're stopped by the arrow to the <u>knee</u> 'place between the ground and your waist'.");
 				outputText("\n\n<b>A wild Light Elf Sniper Appears.</b>");
 				flags[kFLAGS.DARK_OR_LIGHT_ELF_SUBTYPE] = 13;
 				startCombat(new LightElfs());//lvl 51
@@ -1517,14 +1517,14 @@ public class Exploration extends BaseContent implements SaveableState
                     outputText("You're walking in the woods\n\n");
                     outputText("There's no one around\n\n");
                     outputText("And your phone is dead\n\n");
-                    outputText("Out of the corner of your eye you spot her\n\n");
+                    outputText("Out of the corner of your eye, you spot her\n\n");
                     outputText("<b>An Alraune Maiden...</b>");
                 }
 				startCombat(new AlrauneMaiden());//lvl 54
 				return;
 			}
 			else if (rand(2) == 0) {
-				outputText("Traversing Mareth vast areas you stops near something looking like a soul cultivator cave.");
+				outputText("Traversing Mareth's vast areas, you stop near something that looks like a cultivator's cave.");
 				outputText("\n\n<b>A wild Kitsune Elder Appears.</b>");
 				startCombat(new KitsuneElder());//lvl 55
 				return;
@@ -1534,7 +1534,7 @@ public class Exploration extends BaseContent implements SaveableState
                     outputText("You're walking in the woods\n\n");
                     outputText("There's no one around\n\n");
                     outputText("And your phone is dead\n\n");
-                    outputText("Out of the corner of your eye you spot her\n\n");
+                    outputText("Out of the corner of your eye, you spot her\n\n");
                 }
 				outputText("<b>A Wasp Assassin...</b>");
 				startCombat(new WaspAssassin());//lvl 63
@@ -1545,7 +1545,7 @@ public class Exploration extends BaseContent implements SaveableState
 		public function tryDiscoverHL():void {
 			clearOutput();
 			if (rand(2) == 0) {
-				outputText("Traversing Mareth vast areas you're suddenly found yourself underwater!!!");
+				outputText("Traversing Mareth's vast areas, you suddenly find yourself underwater!!!");
 				outputText("\n\n<b>Aaaand....A wild Scylla Appears.</b>");
 				player.underwaterCombatBoost();
 				if (!player.canSwimUnderwater()) player.createStatusEffect(StatusEffects.UnderwaterOutOfAir,0,0,0,0);
@@ -1553,7 +1553,7 @@ public class Exploration extends BaseContent implements SaveableState
 				return;
 			}
 			else {
-				outputText("Traversing Mareth vast areas you stops near something looking like a soul cultivator cave.");
+				outputText("Traversing Mareth's vast areas, you stop near something that looks like a cultivator's cave.");
 				outputText("\n\n<b>A wild Kitsune Sage Appears.</b>");
 				startCombat(new KitsuneAncestor());//lvl 80
 				return;
@@ -1563,20 +1563,20 @@ public class Exploration extends BaseContent implements SaveableState
 		public function tryDiscoverXHL():void {
 			clearOutput();
 			//if (rand(2) == 0) {
-				outputText("Traversing Mareth vast areas you're suddenly found yourself underwater!!!");
+				outputText("Traversing Mareth's vast areas, you suddenly find yourself underwater!!!");
 				outputText("\n\n<b>Aaaand....A wild Kraken Appears.</b>");
 				player.underwaterCombatBoost();
 				if (!player.canSwimUnderwater()) player.createStatusEffect(StatusEffects.UnderwaterOutOfAir,0,0,0,0);
-				startCombat(new Kraken());//lvl 100 GIGANT BOSS
+				startCombat(new Kraken());//lvl 100 GIANT BOSS
 				return;/*
 			}
 			else {
-				outputText("Traversing Mareth vast areas you're suddenly found yourself underwater tangled in some sort of vines!!!");
+				outputText("Traversing Mareth's vast areas, you suddenly find yourself underwater, tangled in some sort of vine!!!");
 				outputText("\n\n<b>Aaaand....A wild Seabed Alraune Appears.</b>");
 				player.createStatusEffect(StatusEffects.HeroBane, 10, 0, 0, 0);
 				player.underwaterCombatBoost();
 				if (!player.canSwimUnderwater()) player.createStatusEffect(StatusEffects.UnderwaterOutOfAir,0,0,0,0);
-				startCombat(new SeabedAlrauneBoss());//lvl 135 GIGANT PLANT BOSS
+				startCombat(new SeabedAlrauneBoss());//lvl 135 GIANT PLANT BOSS
 				return;
 			}*/
 		}
@@ -1584,19 +1584,19 @@ public class Exploration extends BaseContent implements SaveableState
 		public function tryDiscoverXXHL():void {
 			clearOutput();
 			//else {
-				outputText("Traversing Mareth vast areas you're suddenly found yourself underwater tangled in some sort of vines!!!");
+				outputText("Traversing Mareth's vast areas, you suddenly find yourself underwater tangled in some sort of vine!!!");
 				outputText("\n\n<b>Aaaand....A wild Seabed Alraune Appears.</b>");
 				player.createStatusEffect(StatusEffects.HeroBane, 10, 0, 0, 0);
 				player.underwaterCombatBoost();
 				if (!player.canSwimUnderwater()) player.createStatusEffect(StatusEffects.UnderwaterOutOfAir,0,0,0,0);
-				startCombat(new SeabedAlrauneBoss());//lvl 135 GIGANT PLANT BOSS
+				startCombat(new SeabedAlrauneBoss());//lvl 135 GIANT PLANT BOSS
 				return;
 			//}
 		}
 
 		public function tryRNGod():void {
 			clearOutput();
-			outputText("Traversing Mareth vast areas you're suddenly found yourself... somewhere!!! And looks like your prayers have been heard!!! (Even if you didn't pray at all!!!)");
+			outputText("Traversing Mareth's vast areas, you suddenly find yourself... somewhere!!! And looks like your prayers have been answered!!! (Even if you didn't pray at all!!!)");
 			outputText("\n\n<b>Aaaand....A RNGod Appears.</b>");
 			startCombat(new RNGod());
 		}
@@ -1604,28 +1604,28 @@ public class Exploration extends BaseContent implements SaveableState
 		public function pearldiscovery():void {
 			flags[kFLAGS.SKY_POISON_PEARL] = 1;
 			clearOutput();
-			outputText("While exploring, you feel something is off.  Wary of meeting new things in this world after your previous experiences, you decide to cautiously locate the source of this feeling.  Soon the object comes into view and you can see that it is an ordinary looking pearl.  Knowing that it may be more than it looks to be you check the surroundings next to it for a while before deciding to touch it.  Nothing happens so since it somehow attracted your attention you pocket this pearl.\n\n");
+			outputText("While exploring, you feel something is off.  Wary of meeting new things in this world after your previous experiences, you decide to cautiously locate the source of this feeling.  Soon the object comes into view and you can see that it is an ordinary looking pearl.  Knowing that it may be more than it looks, you check your surroundings for a moment, before deciding to touch it.  Nothing happens, so since it somehow attracted your attention, you pocket the pearl.\n\n");
 			inventory.takeItem(consumables.SPPEARL, explorer.done);
 		}
 
 		public function hiddencavediscovery():void {
 			flags[kFLAGS.HIDDEN_CAVE_FOUND] = 1;
 			clearOutput();
-			outputText("\nYou aproach what looks like a cave at first but the shattered bones on the ground hint to something else. Still where theres bones and dead explorer is bound to be treasure. The entrance is decorated with a pair of fiery torch");
-			if (silly()) outputText(" and a sparkling arrow shaped sign post tell 'please come in adventurer, I'm in need of more bony decoration'");
+			outputText("\nYou approach what looks like a cave at first, but the shattered bones on the ground hint towards something else. Still, where there's bones and dead explorers, there is bound to be treasure. The entrance is decorated with a pair of fiery torches");
+			if (silly()) outputText(" and a sparkling arrow shaped signpost says \"please come in adventurer, I am in need of more bony decorations\"");
 			outputText(".\n\n");
 			doNext(hiddencave.enterDungeon);
 		}
 
 		public function pocketwatchdiscovery():void {
 			clearOutput();
-			outputText("While exploring, you feel something is off.  Wary of finding new things in this world after your previous experiences, you decide to cautiously locate the source of this feeling.  Soon the object comes into view and you can see that it is an ordinary looking pocket watch.  Knowing that it may be more than it looks, you inspect the adjacent surroundings for a while before deciding to touch it. A faint voice echoes in your mind.\n\n \"<i>Only thou that shall sacrifice shall be rewarded.</i>\" \n\n");
+			outputText("While exploring, you feel something is off.  Wary of finding new things in this world after your previous experiences, you decide to cautiously locate the source of this feeling.  Soon the object comes into view, and you can see that it is an ordinary looking pocket watch.  Knowing that it may be more than it seems, you inspect the adjacent surroundings for a while, before deciding to touch it. A faint voice echoes in your mind.\n\n \"<i>Only thou that shall sacrifice, shall be rewarded.</i>\" \n\n");
 			menu();
 			addButtonIfTrue(6, "Sacrifice", pocketwatchdiscoveryYes, "Req. something 'super'.", player.superPerkPoints > 0);
 			addButton(8, "Leave", pocketwatchdiscoveryNo);
 		}
 		private function pocketwatchdiscoveryYes():void {
-			outputText("Determined you grab the watch. A feeling of pain pierces your soul making you momentarily black out. After returning to your senses, you see the watch is already hanging on your waist. A feeling of missing some piece of yourself nags at you but there doesn't appear to be anything missing at first glance. Well, guess it won't kill you for now...	 you hope as you return to camp.\n\n");
+			outputText("Determined, you grab the watch. A feeling of pain pierces your soul, making you momentarily black out. After returning to your senses, you see the watch is already hanging on your waist. A feeling of missing some piece of yourself nags at you, but there doesn't appear to be anything missing at first glance. Well, guess it won't kill you for now... you hope, as you return to camp.\n\n");
 			player.superPerkPoints--;
 			player.createKeyItem("Pocket Watch", 0, 0, 0, 0);
 			player.createStatusEffect(StatusEffects.MergedPerksCount, 0, 0, 0, 0);
@@ -1633,7 +1633,7 @@ public class Exploration extends BaseContent implements SaveableState
 			endEncounter();
 		}
 		private function pocketwatchdiscoveryNo():void {
-			outputText("No you do not want to sacrifice anything. Leaving the watch behind, you return to the camp.\n\n");
+			outputText("No, you do not want to sacrifice anything. Leaving the watch behind, you return to the camp.\n\n");
 			player.createStatusEffect(StatusEffects.PocketWatch, 0, 0, 0, 0);
 			endEncounter();
 		}
@@ -1652,7 +1652,7 @@ public class Exploration extends BaseContent implements SaveableState
 
 		public function goSearchForPearls():void {
 			clearOutput();
-			outputText("You grab your [weapon] and goes on serching solution to your waning physical constitution.");
+			outputText("You grab your [weapon] and go on searching for a solution to your waning physical constitution.");
 			if (player.hasPerk(PerkLib.ElementalConjurerSacrifice) && player.perkv1(PerkLib.ElementalConjurerSacrifice) < 2 && player.hasStatusEffect(StatusEffects.ElementalPearlGolems) && player.statusEffectv1(StatusEffects.ElementalPearlGolems) == 2) {
 				if (player.statusEffectv1(StatusEffects.ElementalPearlGolems) == 2) player.addStatusValue(StatusEffects.ElementalPearlGolems, 1, 1);
 				if (player.perkv1(PerkLib.ElementalConjurerSacrifice) < 1) player.addPerkValue(PerkLib.ElementalConjurerSacrifice, 1, 1);
@@ -1669,7 +1669,7 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		public function elementalGolemBeaten1():void {
 			clearOutput();
-			outputText("You stops before beaten guardian quasi-gargoyle and reach toward it shoulder mounted shards yanking off each of them.\n\n");
+			outputText("You stop before the beaten guardian quasi-gargoyle, and reach toward its shoulder mounted shards, yanking off each of them.\n\n");
 			inventory.takeItem(useables.LELSHARD, elementalGolemBeaten1a);
 		}
 		private function elementalGolemBeaten1a():void {
@@ -1683,7 +1683,7 @@ public class Exploration extends BaseContent implements SaveableState
 		}
 		public function elementalGolemBeaten2():void {
 			clearOutput();
-			outputText("You stops before beaten obsidian gargoyle and reach toward it shoulder mounted shards yanking off each of them.\n\n");
+			outputText("You stop before the beaten obsidian gargoyle, and reach toward its shoulder mounted shards, yanking off each of them.\n\n");
 			inventory.takeItem(useables.LELSHARD, elementalGolemBeaten2a);
 		}
 		private function elementalGolemBeaten2a():void {
@@ -1696,7 +1696,7 @@ public class Exploration extends BaseContent implements SaveableState
 			inventory.takeItem(consumables.E5PEARL, cleanupAfterCombat);
 		}
 		public function elementalGolemBeaten3():void {
-			outputText("You stops before beaten living statue golem and reach toward it shoulder mounted crystals yanking off each of them.\n\n");
+			outputText("You stop before the beaten living statue golem, and reach toward its shoulder mounted crystals, yanking off each of them.\n\n");
 			inventory.takeItem(useables.ELCRYST, elementalGolemBeaten3a);
 		}
 		private function elementalGolemBeaten3a():void {
@@ -1723,20 +1723,20 @@ public class Exploration extends BaseContent implements SaveableState
 			clearOutput();
 			var x:Number = player.longestCock();
 			//PARAGRAPH 1
-			outputText("Walking along the sandy dunes of the desert you find yourself increasingly impeded by the bulk of your " + cockDescript(x) + " dragging along the sandscape behind you.  The incredibly hot surface of the desert causes your loins to sweat heavily and fills them with relentless heat.");
+			outputText("Walking along the sandy dunes of the desert, you find yourself increasingly impeded by the bulk of your " + cockDescript(x) + " dragging along the sandscape behind you.  The incredibly hot surface of the desert causes your loins to sweat heavily, and fills them with relentless heat.");
 
-			if (player.cocks.length == 1) outputText("  As it drags along the dunes, the sensation forces you to imagine the rough textured tongue of a monstrous animal sliding along the head of your " + Appearance.cockNoun(player.cocks[x].cockType) + ".");
-			else if (player.cocks.length >= 2) outputText("  With all of your [cocks] dragging through the sands they begin feeling as if the rough textured tongues of " + num2Text(player.cockTotal()) + " different monstrous animals were slobbering over each one.");
+			if (player.cocks.length == 1) outputText("  As it drags along the dunes, the sensation forces you to imagine the rough, textured tongue, of a monstrous animal sliding along the head of your " + Appearance.cockNoun(player.cocks[x].cockType) + ".");
+			else if (player.cocks.length >= 2) outputText("  With all of your [cocks] dragging through the sands, they begin feeling as if the rough textured tongues of " + num2Text(player.cockTotal()) + " different monstrous animals were slobbering over each one.");
 			outputText("\n\n");
 
 			//PARAGRAPH 2
 
 			//FOR NON-CENTAURS]
 			if (!player.isTaur()) {
-				outputText("The impending erection can't seem to be stopped.  Your sexual frustration forces stiffness into your [cocks], which forces your torso to the ground.  Normally your erection would merely raise itself skyward but your genitals have grown too large and heavy for your " + hipDescript() + " to hold them aloft.  Instead you feel your body forcibly pivoting at the hips until your torso is compelled to rest face down on top of your obscene [cocks].");
+				outputText("The impending erection can't seem to be stopped.  Your sexual frustration forces stiffness into your [cocks], which forces your torso to the ground.  Normally, your erection would merely raise itself skyward, but your genitals have grown too large and heavy for your " + hipDescript() + " to hold them aloft.  Instead, you feel your body forcibly pivoting at the hips, until your torso is compelled to rest face down on top of your obscene [cocks].");
 
 				//IF CHARACTER HAS GIANT BREASTS ADD SENTENCE
-				if (player.biggestTitSize() >= 35)  outputText("  Your " + Appearance.allBreastsDescript(player) + " hang lewdly off your torso to rest on the desert sands, seeming to bury the dunes on either side of you.  Their immense weight anchors your body, further preventing your torso from lifting itself up.  The burning heat of the desert teases your " + nippleDescript(0) + "s mercilessly as they grind in the sand.");
+				if (player.biggestTitSize() >= 35)  outputText("  Your " + Appearance.allBreastsDescript(player) + " hang lewdly off your torso to rest on the desert sands, seeming to bury the dunes on either side of you.  Their immense weight anchors your body, further preventing your torso from lifting itself up.  The burning heat of the desert teases your " + nippleDescript(0) + "s mercilessly, as they grind in the sand.");
 				//IF CHARACTER HAS A BALLS ADD SENTENCE
 				if (player.hasBalls()) outputText("  Your " + player.bodyColor + sackDescript() + " rests beneath your raised [butt].  The fiery warmth of the desert caresses it, causing your [balls] to pulse with the need to release their sperm through your [cocks].");
 				//IF CHARACTER HAS A VAGINA ADD SENTENCE
@@ -1748,11 +1748,11 @@ public class Exploration extends BaseContent implements SaveableState
 			}
 			//FOR CENTAURS
 			else {
-				outputText("The impending erection can't seem to be stopped.  Your sexual frustration forces stiffness into your [cocks], which forces the barrel of your horse-like torso to the ground.  Normally your erection would merely hover above the ground in between your centaurian legs, but your genitals have grown too large and heavy for your " + hipDescript() + " to hold them aloft.  Instead, you feel your body being forcibly pulled down at your hindquarters until you rest atop your [cocks].");
+				outputText("The impending erection can't seem to be stopped.  Your sexual frustration forces stiffness into your [cocks], which forces the barrel of your horse-like torso to the ground.  Normally, your erection would merely hover above the ground in-between your centaurian legs, but your genitals have grown too large and heavy for your " + hipDescript() + " to hold them aloft.  Instead, you feel your body being forcibly pulled down at your hindquarters, until you rest atop your [cocks].");
 				//IF CHARACTER HAS GIANT BREASTS ADD SENTENCE
-				if (player.biggestTitSize() >= 35)  outputText("  Your " + Appearance.allBreastsDescript(player) + " pull your human torso forward until it also is forced to rest facedown, just like your horse half.  Your tits rest, pinned on the desert sand to either side of you.  Their immense weight anchors you, further preventing any part of your equine body from lifting itself up.  The burning heat of the desert teases your " + nippleDescript(0) + "s incessantly.");
+				if (player.biggestTitSize() >= 35)  outputText("  Your " + Appearance.allBreastsDescript(player) + " pull your human torso forward until it also is forced to rest face down, just like your horse half.  Your tits rest, pinned on the desert sand to either side of you.  Their immense weight anchors you, further preventing any part of your equine body from lifting itself up.  The burning heat of the desert teases your " + nippleDescript(0) + "s incessantly.");
 				//IF CHARACTER HAS A BALLS ADD SENTENCE
-				if (player.hasBalls()) outputText("  Your " + player.bodyColor + sackDescript() + " rests beneath your raised [butt].  The airy warmth of the desert teases it, causing your [balls] pulse with the need to release their sperm through your [cocks].");
+				if (player.hasBalls()) outputText("  Your " + player.bodyColor + sackDescript() + " rests beneath your raised [butt].  The airy warmth of the desert teases it, causing your [balls] to pulse with the need to release their sperm through your [cocks].");
 				//IF CHARACTER HAS A VAGINA ADD SENTENCE
 				if (player.vaginas.length >= 1) {
 					outputText("  Your " + vaginaDescript() + " and " + clitDescript() + " are thoroughly squashed between the bulky flesh where your male genitals protrude from between your hips and the [butt] above.");
@@ -1764,16 +1764,16 @@ public class Exploration extends BaseContent implements SaveableState
 			//PARAGRAPH 3
 			outputText("You realize you are effectively trapped here by your own body.");
 			//CORRUPTION BASED CHARACTER'S VIEW OF SITUATION
-			if (player.cor < 33) outputText("  Panic slips into your heart as you realize that if any dangerous predator were to find you in this state, you'd be completely defenseless.  You must find a way to regain your mobility immediately!");
-			else if (player.cor < 66) outputText("  You realize that if any dangerous predator were to find you in this state you'd be completely defenseless.  You must find a way to regain your mobility... yet there is a certain appeal to imagining how pleasurable it would be for a sexual predator to take advantage of your obscene body.");
+			if (player.cor < 33) outputText("  Panic slips into your heart, as you realize that if any dangerous predators were to find you in this state, you'd be completely defenseless.  You must find a way to regain your mobility immediately!");
+			else if (player.cor < 66) outputText("  You realize that if any dangerous predators were to find you in this state you'd be completely defenseless.  You must find a way to regain your mobility... yet there is a certain appeal to imagining how pleasurable it would be for a sexual predator to take advantage of your obscene body.");
 			else outputText("  Your endowments have rendered you completely helpless should any predators find you.  Somewhere in your heart, you're exhilarated at the prospect.  The idea of being a helpless fucktoy for a wandering beast is unusually inviting to you.  Were it not for the thought that you might die of thirst in the desert, you'd be incredibly tempted to remain right where you are.");
 
 			//SCENE END = IF CHARACTER HAS FULL WINGS ADD SENTENCE
-			if (player.canFly()) outputText("  You extend your wings and flap as hard as you can, until at last you manage to lighten the bulk of your body somewhat - enough to allow yourself to drag your genitals across the hot sands and back to camp.  The ordeal takes nearly an hour.");
+			if (player.canFly()) outputText("  You extend your wings and flap as hard as you can, until at last you manage to lighten the bulk of your body somewhat, enough to allow yourself to drag your genitals across the hot sands and back to camp.  The ordeal takes nearly an hour.");
 			//SCENE END IF CHARACTER HAS CENTAUR BODY
-			else if (player.isTaur()) outputText("  You struggle and work your equine legs against the surface of the dune you are trapped on.  Your [feet] have consistent trouble finding footing, the soft sand failing to provide enough leverage to lift your bulk.  You breath in deeply and lean from side to side, trying to find some easier vertical leverage.  Eventually, with a crude crawl, your legs manage to push the bulk of your body onto more solid ground.  With great difficulty, you spend the next hour shuffling your genitals across the sandscape and back to camp.");
+			else if (player.isTaur()) outputText("  You struggle and work your equine legs against the surface of the dune you are trapped on.  Your [feet] have consistent trouble finding footing, the soft sand failing to provide enough leverage to lift your bulk.  You breathe in deeply and lean from side to side, trying to find some easier vertical leverage.  Eventually, with a crude crawl, your legs manage to push the bulk of your body onto more solid ground.  With great difficulty, you spend the next hour shuffling your genitals across the sandscape and back to camp.");
 			//SCENE END = FOR ALL OTHER CHARACTERS
-			else outputText("  You struggle and push with your [legs] as hard as you can, but it's no use.  You do the only thing you can and begin stroking your [cocks] with as much vigor as you can muster.  Eventually your body tenses and a light load of jizz erupts from your body, but the orgasm is truly mild compared to what you need.  You're simply too weary from struggling to give yourself the masturbation you truly need, but you continue to try.  Nearly an hour later " + sMultiCockDesc() + " softens enough to allow you to stand again, and you make your way back to camp, still dragging your genitals across the warm sand.");
+			else outputText("  You struggle and push with your [legs] as hard as you can, but it's no use.  You do the only thing you can and begin stroking your [cocks] with as much vigor as you can muster.  Eventually, your body tenses and a light load of jizz erupts from your body, but the orgasm is truly mild compared to what you need.  You're simply too weary from struggling to give yourself the masturbation you truly need, but you continue to try.  Nearly an hour later " + sMultiCockDesc() + " softens enough to allow you to stand again, and you make your way back to camp, still dragging your genitals across the warm sand.");
 			dynStats("lus", 25 + rand(player.cor / 5), "scale", false);
 			fatigue(5);
 			endEncounter();

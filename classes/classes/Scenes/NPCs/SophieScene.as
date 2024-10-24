@@ -336,7 +336,7 @@ private function repeatBreastFeeding():void {
 //Normal Harpy Fight
 private function PCIgnoresSophieAndHarpyIsFought():void {
 	clearOutput();
-	outputText("A harpy wings out of the sky and attacks!");
+	outputText("A harpy swoops down from above and attacks!");
 	startCombat(new Harpy());
 	spriteSelect(SpriteDb.s_harpy);
 }

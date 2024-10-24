@@ -240,7 +240,7 @@ public class PlayerInfo extends BaseContent {
 		if (player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter1)) {
 			miscStats += "<b>Imp Hunt Quests completed:</b> " + player.statusEffectv1(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
 			miscStats += "<b>Demons Hunt Quests completed:</b> " + player.statusEffectv2(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
-			miscStats += "<b>Minotaurs Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
+			miscStats += "<b>Minotaur Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
 		}
 		if (player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter2)) {
 			miscStats += "<b>Feral Tentacle Beasts Hunt Quests completed:</b> " + player.statusEffectv1(StatusEffects.AdventureGuildQuestsCounter2) + "\n";
