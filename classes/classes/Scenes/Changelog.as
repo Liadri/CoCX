@@ -281,7 +281,7 @@ public class Changelog extends BaseContent
 			outputText("-Urta goo scene now changes hair color. Increased the chance of transformatives from Kitsune's Gift. Bazaar rape less annoying now. (Svalkash)\n");
 			outputText("-You can now (finally) dismiss Neisa from the camp! (Svalkash)\n");
 			outputText("-Fixed: Fox/Mystic Jewel transformation chances, transform. acclimation not working (Svalkash)\n");
-			outputText("-\n");
+			outputText("-General typos and aether twins adjustments. All instances of Gaunlet -> Gauntlet, hopefully nothing breaks. Soulforce, questlog and metamorph player tabs proofreading. (Agentfunfun)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

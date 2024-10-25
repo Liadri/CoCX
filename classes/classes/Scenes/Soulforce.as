@@ -717,8 +717,7 @@ public class Soulforce extends BaseContent
 
 	public function convertMana(amount:int):void {
 		clearOutput();
-		outputText("
-You sit down and concentrate deeply, directing your focus inward. Gradually, you begin to drain your mana, feeling it flow through you as it transforms into soulforce. Each pulse of energy restores your spiritual strength, leaving you feeling reinvigorated.");
+		outputText("You sit down and concentrate deeply, directing your focus inward. Gradually, you begin to drain your mana, feeling it flow through you as it transforms into soulforce. Each pulse of energy restores your spiritual strength, leaving you feeling reinvigorated.");
 		EngineCore.ManaChange(-amount);
 		EngineCore.SoulforceChange(amount / 2);
 		flags[kFLAGS.DAILY_SOULFORCE_USE_LIMIT]++;
