@@ -124,6 +124,13 @@ use namespace CoC;
 						return flags[kFLAGS.CUM_WITCHES_FIGHTABLE] > 0;
 					},
 					call: SceneLib.dungeons.desertcave.fightCumWitch
+				},{
+					name: "mummy",
+					label : "Mummy",
+					kind : 'monster',
+					day   : false,
+					chance: 0.7,
+					call: SceneLib.zombiesmummies.encounterMummyOuterDesert
 				}, {
 					name  : "wanderer",
 					label : "Wanderer",
@@ -288,6 +295,13 @@ use namespace CoC;
 					day : false,
 					call  : SceneLib.werefoxScene.werefoxMaleInnerDesertEncounter,
 					chance: 0.50
+				},{
+					name: "mummy",
+					label : "Mummy",
+					kind : 'monster',
+					day   : false,
+					chance: 0.7,
+					call: SceneLib.zombiesmummies.encounterMummyInnerDesert
 				}, {
 					name: "mimic",
 					label : "Mimic",

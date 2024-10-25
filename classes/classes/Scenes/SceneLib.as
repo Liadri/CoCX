@@ -11,6 +11,7 @@ import classes.Scenes.Areas.Forest.ErlKingScene;
 import classes.Scenes.Areas.Forest.KitsuneScene;
 import classes.Scenes.Areas.GlacialRift.YuWinterGearShop;
 import classes.Scenes.Areas.Ocean.ScyllaScene;
+import classes.Scenes.Areas.Plains.ZombieMummyScenes;
 import classes.Scenes.Camp.*;
 import classes.Scenes.Combat.Combat;
 import classes.Scenes.Dungeons.AnzuPalace.AnzuScene;
@@ -356,5 +357,7 @@ public class SceneLib {
     public static var holidays:Holidays = new Holidays();
 
     public static var werewolfFemaleScene:WerewolfFemaleScene = new WerewolfFemaleScene();
+
+    public static var zombiesmummies:ZombieMummyScenes = new ZombieMummyScenes();
 }
 }

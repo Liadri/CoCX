@@ -1882,7 +1882,7 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.014;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.015) {
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00390] = 0; //Cleaning some temporal Hel flags
+				flags[kFLAGS.ZOMBIE_MUMMY_GENDER] = 0; //Cleaning some temporal Hel flags
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00392] = 0;
 				if (player.hasPerk(PerkLib.HclassHeavenTribulationSurvivor)) player.removePerk(PerkLib.HclassHeavenTribulationSurvivor);
 				if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor)) player.removePerk(PerkLib.GclassHeavenTribulationSurvivor);
@@ -2774,4 +2774,4 @@ public class SaveUpdater extends NPCAwareContent {
 		}
 	}
 }
-}
+}

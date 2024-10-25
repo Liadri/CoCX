@@ -25,6 +25,7 @@ import classes.internals.*;
 			outputText("The zombies flail wildly, attempting to strike you with their pale, purple claw-like nails.");
 			var zuf:Number = 25;
 			while (zuf-->0) ZombiesUndyingFlurryH();
+			outputText("You hastily back away from your opponents after the attack, not eager to take more of this beating so soon.");
 		}
 		private function ZombiesUndyingFlurryH():void {
 			if (player.getEvasionRoll()) outputText("<b>Miss</b> ");
@@ -55,7 +56,11 @@ import classes.internals.*;
 					EngineCore.changeFatigue(Math.round(player.maxFatigue()*0.2));
 					EngineCore.ManaChange(-Math.round(player.maxMana()*0.2));
 					EngineCore.SoulforceChange( -Math.round(player.maxSoulforce() * 0.2));
-					addHP(Math.round(maxHP() * 0.5));
+					var curseTou:Number = player.tou * 0.1;
+					if (curseTou < 1) curseTou = 1;
+					else curseTou = Math.round(curseTou);
+					player.addCurse("tou", curseTou, 2);
+					addHP(Math.round(maxHP() * 0.25));
 					hopping = 0;
 				}
 			}
@@ -65,7 +70,7 @@ import classes.internals.*;
 		{
 			if (hopping < 2) ZombiesHop();
 			else {
-				if (rand(2) == 0) ZombiesUndyingFlurryH();
+				if (rand(2) == 0) ZombiesUndyingFlurry();
 				else ZombiesDrainingKiss();
 			}
 		}
@@ -120,7 +125,6 @@ import classes.internals.*;
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyUndeadType, 0, 0, 0, 0);
-			createStatusEffect(StatusEffects.LowtierMagicImmunity, 0, 0, 0, 0);
 			checkMonster();
 		}
 		

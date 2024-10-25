@@ -96,7 +96,8 @@ public class Changelog extends BaseContent
 			//outputText("-New TF item (by Shigure): Moth's Dust. Buyable in Moga Hen shop. Using this item will turn PC into moth. Moth bonuses at 10 pts in racial score (scalable): -30% to Tou multi, +150% to Spe multi, +70% to Wis multi, +30% to Lib multi, +70 to sensitivity.\n");//Dropped by Corrupted Troll enemies.
 			//outputText("-New Special names: Veseshe (elf), Veseshe (elf). Each of them will start with matching bloodline perk to match their ancestor race.\n");
 			outputText("-New enemies: Mid rank Angel of Mist - lvl 58, Mist Bee Huntress - lvl 60, Mist Wasp Huntress - lvl 62, Mist Hornet Huntress - lvl 64, Mist Alraune Maiden - lvl 66, Mist Cinderbloom - lvl 68, Mist Snow Lily - lvl 70. Encounterable on 5th strata of River Dungeon. Proto Golem - lvl 6. Encounterable in general explore from lvl 6+. Kirin (added by NUZ/Shirane) - lvl 50. Encounterable in Plains. ");
-			outputText("Werefox (M) - lvl 33. Encounterable in Inner Desert at night. Elder Werefox (M) - lvl 61. Encounterable in Inner Desert at night (he temporaly came from deeper desert regions and req. lvl 43+ to encounter)\n");
+			outputText("Werefox (M) - lvl 33. Encounterable in Inner Desert at night. Elder Werefox (M) - lvl 61. Encounterable in Inner Desert at night (he temporaly came from deeper desert regions and req. lvl 43+ to encounter). Zombie (M & F) - lvl 36/53. Encounterable in Outer Plains / Inner Plains (lvl 53 zombies temporaly hopped from deeper plains regions) at night as long PC isn't Jiangshi. They have Undead enemy type perk. ");
+			outputText("Mummy (M & F) - lvl 18/36. Encounterable in Outer Desert / Inner Desert at night as long PC isn't Jiangshi. They have Undead enemy type perk.\n");
 			outputText("-New bodyparts: Troll Arms, Troll lower body, Troll Tusks, Troll Ears, Troll Tail (from Troll Fig); Glacial Troll Arms, Glacial Troll lower body, Glacial Troll Tusks, Glacial Troll Ears, Glacial Troll Tail (from Icy Fig)\n");
 			outputText("-Dinah upgrade options for HB mech now have 3 more tiers of Armor Plating, Leather Insulation & Dragon's Breath Flamer upgrades.\n");
 			//outputText("-New HB Mech upgrade options: Armor Plating (+armor), Leather Insulation (+magic resistance), Agility (+base melee atk dmg), Dragon's Breath Flamer (fire dmg special), Scatter Laser (lightning dmg special), Rapid Reload (+base ranged atk dmg), Internal Systems (increase mech SF capacity and lower it consumption during high activity)\n");
@@ -392,8 +393,20 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -424,6 +437,12 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
+			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
