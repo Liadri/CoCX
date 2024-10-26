@@ -5,6 +5,9 @@
 package classes.Scenes.Areas.Desert 
 {
 import classes.*;
+import classes.BodyParts.*;
+import classes.GlobalFlags.kACHIEVEMENTS;
+import classes.GlobalFlags.kFLAGS;
 	
 public class AnubisScene extends BaseContent
 	{
@@ -45,10 +48,99 @@ public function anubisDefeated(genderA:Number = 0):void {
 
 public function anubisWon(genderA:Number = 0):void {
 	clearOutput();
-	outputText("As you fall to the ground, defeated, the Anubi sizes you up as "+(genderA == 1 ? "s" : "")+"he sighs in disappointment. \"<i>Not even a good piece of material. Though, it'd be a waste… Suppose you'll suffice as mummy chow.</i>\"\n\n");
-	outputText("You fall unconscious as the jackal-headed humanoid lets loose h"+(genderA == 1 ? "er" : "is")+" mummy slaves on you. When you wake up you feel drained and exhausted, as if you've just walked for days without eating or sleeping. Greatly weakened, you head back to camp.");
-	player.addCurse("str", 50,1);
-	player.addCurse("tou", 50,1);
+	if (rand(4) == 0 && genderA == 1) anubisWonAndMummifyPC();
+	else {
+		outputText("As you fall to the ground, defeated, the Anubi sizes you up as "+(genderA == 1 ? "s" : "")+"he sighs in disappointment. \"<i>Not even a good piece of material. Though, it'd be a waste… Suppose you'll suffice as mummy chow.</i>\"\n\n");
+		outputText("You fall unconscious as the jackal-headed humanoid lets loose h"+(genderA == 1 ? "er" : "is")+" mummy slaves on you. When you wake up you feel drained and exhausted, as if you've just walked for days without eating or sleeping. Greatly weakened, you head back to camp.");
+		player.addCurse("str", 50,1);
+		player.addCurse("tou", 50,1);
+		cleanupAfterCombat();
+	}
+}
+public function anubisWonAndMummifyPC():void {
+	outputText("As you fall defeated to the ground the Anubis walks toward you amused.\n\n");
+	outputText("\"<i>Not a bad struggle but your defiance ends there. You are strong enough to put up a token fight, you are worthy of becoming one of my pets.</i>\"\n\n");
+	outputText("She runs her hand across your skin making you moan uncontrollably as her dark magic causes your sensitivity to spike to an absurd degree. You orgasm over and over again drenching the sand in your fluids as your brain turns to mush. Thinking is hard, cuming is easy, you only want to keep cuming over and over again. The gentle touch of your jackal tormentor ");
+	outputText("is the only thing you care about right now. Suddenly out of nowhere her pawed hand that was caressing your head a few seconds ago runs straight through it. You watch spellbound as she pulls something not unlike a spectral duplicate of your own body right out of you before flashing her khopesh and slicing right through it, half of the ghostly energy being forcefully cut from you. ");
+	outputText("Something weird is happening to you… you feel hungry… so damn hungry all you can think now is sex. Eyes vacant, mind empty your next move is to crawl between your mistress leg and desperately suckle on her clit in order to draw the nourishment you instinctively crave to be whole again yet she feeds it to you at the rate of water drops. Far too slowly for you to ever achieve fullness again.\n\n");
+	outputText("\"<i>Ah that's a good and eager pet right there… well I need to dress you properly, stay still you sexy undead idiot while I bandage you.</i>\"\n\n");
+	outputText("Unable to resist the mistress' order, you stand still while she proceeds to remove your equipment leaving you naked. The teasing contact of the desert wind on your exposed skin makes you cum again to your anubi mistress amusement but she quickly get down to work bandaging your body so that the important parts like your hand and feet are properly covered though she leaves most of your torso and head exposed so ");
+	if (player.biggestTitSize() > 0) outputText("she can grope your breast to her heart content and ");
+	outputText("you can still use your horny tongue to pleasure her when she needs it. At least you won’t cum from walking or milking dicks with your hands now. Speaking of the latter you can’t help but stare at the newly grown doggy cock that slid right out of your master's cunny, probably a product of her black magic as well.\n\n");
+	outputText("\"<i>Well what are you waiting for, slave… get to work I won’t reward you often and you should get a taste so you can get the full picture in your brain damaged head of how delicious it is to suck me off. Then I’m going to fuck you anally and train your butt to match my tastes.</i>\"\n\n");
+	outputText("What happens next is a whirlwind of cum and mind bending pleasure. For the next few days your memory is quite hazy. Everytime you begin to remember something it fades away a second later and you’re back to being a vapid slut. Time passes but eventually a tiny miracle happens and somehow amidst an orgy you manage to regain barely enough of yourself to break away from your master and run for it. ");
+	outputText("Too lost in the pleasure, your anubi overlord is too preoccupied to realize she just lost a mummy perhaps she just doesn’t care.\n\n");
+	outputText("You make it back to camp servicing opponents left and right and somehow recover enough of your mind to begin thinking again. This was a rather weird adventure and it could have ended very poorly for you but thanks to negligence you broke free ");
+	outputText("from your mistress and became a free person again. Well… not exactly a person, you are still a mummy and the constant thirst for sex is going to be one hell of a problem in the future.\n\n");
+	outputText("(<b>Gained Perks: Halted vitals, Super strength, Rigidity, Life leech, Undeath, Energy dependent</b>)\n\n");
+	CoC.instance.transformations.HairHuman.applyEffect(false);
+	player.skinColor = randomChoice("tan", "olive", "dark");
+	CoC.instance.transformations.FaceJiangshi.applyEffect(false);
+	player.eyes.type = Eyes.JIANGSHI;
+	CoC.instance.transformations.EyesChangeColor(["red"]).applyEffect(false);
+	player.horns.type = Horns.BANDAGED_HEAD;
+	player.horns.count = 1;
+	player.arms.type = Arms.MUMMY;
+	player.lowerBody = LowerBody.MUMMY;
+	player.antennae.type = Antennae.NONE;
+	player.wings.type = Wings.NONE;
+	player.tailType = Tail.NONE;
+	player.tailRecharge = 0;
+	player.ears.type = Ears.HUMAN;
+	CoC.instance.transformations.SkinPlain.applyEffect(false);
+	CoC.instance.transformations.SkinPatternNone.applyEffect(false);
+	player.tongue.type = Tongue.HUMAN;
+	player.gills.type = Gills.NONE;
+	player.rearBody.type = RearBody.NONE;
+	player.createPerk(PerkLib.HaltedVitals, 1, 0, 0, 0);
+	player.createPerk(PerkLib.SuperStrength, 0, 0, 0, 0);
+	//player.createPerk(PerkLib.PoisonNails, 0, 0, 0, 0);
+	player.createPerk(PerkLib.Rigidity, 0, 0, 0, 0);
+	player.createPerk(PerkLib.LifeLeech, 0, 0, 0, 0);
+	player.createPerk(PerkLib.Undeath, 0, 0, 0, 0);
+	if (player.hasPerk(PerkLib.RacialParagon))
+		flags[kFLAGS.APEX_SELECTED_RACE] = Races.MUMMY;
+	player.createPerk(PerkLib.EnergyDependent, 0, 0, 0, 0);
+	if (flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] == 0) flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD]++;
+	var item:ItemType;
+	if (!player.weapon.isNothing) {
+		item = player.unequipWeapon(false,true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] = item.id;
+	}
+	if (!player.weaponRange.isNothing) {
+		item = player.unequipWeaponRange(false,true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] = item.id;
+	}
+	if (!player.shield.isNothing) {
+		item = player.unequipShield(false,true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID] = item.id;
+	}
+	if (!player.armor.isNothing) {
+		item = player.unequipArmor(false, true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID] = item.id;
+	}
+	if (!player.lowerGarment.isNothing) {
+		item = player.unequipUnderBottom(false, true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID] = item.id;
+	}
+	if (!player.upperGarment.isNothing) {
+		item = player.unequipUnderTop(false, true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID] = item.id;
+	}
+	if (!player.headJewelry.isNothing) {
+		item = player.unequipHeadJewelry(false, true);
+		if (item && !item.isNothing) flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID] = item.id;
+	}
+	if (player.hasPerk(PerkLib.BimboBody)) player.removePerk(PerkLib.BimboBody);
+	if (player.hasPerk(PerkLib.BimboBrains)) player.removePerk(PerkLib.BimboBrains);
+	if (player.hasPerk(PerkLib.BroBody)) player.removePerk(PerkLib.BroBody);
+	if (player.hasPerk(PerkLib.BroBrains)) player.removePerk(PerkLib.BroBrains);
+	if (player.hasPerk(PerkLib.FutaForm)) player.removePerk(PerkLib.FutaForm);
+	if (player.hasPerk(PerkLib.FutaFaculties)) player.removePerk(PerkLib.FutaFaculties);
+	player.updateRacialAndPerkBuffs();
+	//awardAchievement("Thriller", kACHIEVEMENTS.EPIC_THRILLER);
+	CoC.instance.mainViewManager.updateCharviewIfNeeded();
+	model.time.days += 3;
 	cleanupAfterCombat();
 }
 

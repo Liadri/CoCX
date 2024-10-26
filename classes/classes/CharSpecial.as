@@ -50,13 +50,13 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 			[ "With a bloodline history:", null, false, "" ],
 			[ "Grigori", customGrigori, true, "You are a normal villager if not for that dragon cock and the ability to use an ice dragon's breath. That damn ancestor of yours had to go and fuck some dragoness, didn't he?" ],
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],kitsune start
-			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],cow/mino start
+			//[ "Arikahs", customArikahs, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],
 			[ "Teekna", customTeekna, true, "You were a rather average villager. The thing that made you stand out was your pink hair and yellow eyes. Your ancestors couldn't keep it in their pants, apparently! At least they left some goodies behind for you." ],
 			[ "Veseshe", customVeseshe, true, "The villagers sure liked to pierce their arrows into you... Though, with your natural agility and a bit of elven blood flowing in your veins, they sure were <i>trying.</i>" ],
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],raiju start
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],oni start
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],orc start
-			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],vampire start
+			//[ "Serase", customSerase, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],melkie start
 			[ "Drake", customDrake, true, "You were a rather average villager. What made you stand out was your uncanny ability to self-heal along with your long, forked tongue. Your ancestors seemed to lack the ability to keep it in their pants, but at least you have all these strange, inhuman traits to help you out?" ],
 			[ "Solaria", customSolaria, true, "You are a rather average villager with the exception of cute salamander like fangs growing out of your mouth and a predisposition to enter a lust fueled frenzy. That damn ancestor of yours had to go and fuck some salamander, didn't he? But at least he managed to put some loads where it counts and not just her backdoor and you are very grateful for that fact." ],
@@ -1263,17 +1263,26 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 			//Character Creation	Female,virgin	A human with kitsune bloodline	Sora
 			player.createPerk(PerkLib.BloodlineKitsune,0,0,0,0);
 			if (player.hasVagina()) player.vaginas[0].virgin = true;
-			if (!player.hasPerk(PerkLib.PastLifeAlchemist)) player.createPerk(PerkLib.HistoryAlchemist,0,0,0,0);
 			player.intStat.train.value = 30;
+			player.createPerk(PerkLib.WetPussy, 2, 0, 0, 0);
+			if (!player.hasPerk(PerkLib.PastLifeAlchemist)) player.createPerk(PerkLib.HistoryAlchemist,0,0,0,0);
 			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 		}
 
-		private function customSora1():void {
-			//Character Creation	Female,virgin	A human with cow/minotaur bloodline	Sora
-			player.createPerk(PerkLib.BloodlineMinotaur,0,0,0,0);
+		private function customArikahs():void {
+			//Character Creation	Female,virgin	A human with cow/minotaur bloodline	Arikahs
+			player.createPerk(PerkLib.BloodlineMinotaur, 0, 0, 0, 0);
+			player.createBreastRow();
+			player.breastRows[0].breastRating = 1;
+			player.butt.type = 20;
+			player.hips.type = 20;
+			player.createVagina();
 			if (player.hasVagina()) player.vaginas[0].virgin = true;
-			if (!player.hasPerk(PerkLib.PastLifeAlchemist)) player.createPerk(PerkLib.HistoryAlchemist,0,0,0,0);
 			player.intStat.train.value = 30;
+			player.tone = 40;
+			player.femininity = 90;
+			player.createPerk(PerkLib.BigTits, 1.5, 0, 0, 0);
+			if (!player.hasPerk(PerkLib.PastLifeAlchemist)) player.createPerk(PerkLib.HistoryAlchemist,0,0,0,0);
 			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 		}
 
@@ -1354,11 +1363,23 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 		}
 
-		private function customSora5():void {
+		private function customSerase():void {
 			//Character Creation	Female,virgin	A human with vampire bloodline	Sora
-			player.createPerk(PerkLib.BloodlineVampire,0,0,0,0);
+			player.createPerk(PerkLib.BloodlineVampire, 0, 0, 0, 0);
+			player.createBreastRow();
+			player.breastRows[0].breastRating = 9;
+			player.butt.type = 14;
+			player.hips.type = 11;
+			player.tallness = 54;
+			player.createVagina();
 			if(player.hasVagina()) player.vaginas[0].virgin = true;
-			player.intStat.train.value = 30;
+			player.strStat.train.value = 20;
+			player.touStat.train.value = 25;
+			player.speStat.train.value = 30;
+			player.faceType = Face.VAMPIRE;
+			player.eyes.colour = "red";
+			if (!player.hasPerk(PerkLib.PastLifeFighter)) player.createPerk(PerkLib.HistoryFighter,0,0,0,0);
+			if (!player.hasPerk(PerkLib.PastLifeScout)) player.createPerk(PerkLib.HistoryScout,0,0,0,0);
 			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 		}
 

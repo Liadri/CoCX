@@ -259,6 +259,8 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const AlterBindScroll4:StatusEffectType               = mk("Alter Bind Scroll 4");
 		public static const AlterBindScroll5:StatusEffectType               = mk("Alter Bind Scroll 5");
 		public static const AlterBindScroll6:StatusEffectType               = mk("Alter Bind Scroll 6");
+		public static const AlterBindScroll7:StatusEffectType               = mk("Alter Bind Scroll 7");
+		public static const AlterBindScroll8:StatusEffectType               = mk("Alter Bind Scroll 8");
 		public static const AlvinaTraining:StatusEffectType                 = mk("Alvina Training");
 		public static const AlvinaTraining2:StatusEffectType                = mk("Alvina Training 2");
 		public static const AndysSmoke:StatusEffectType                     = mk("Andy's Smoke"); //v1: Hours; v2: Speed; v3: Intelligence

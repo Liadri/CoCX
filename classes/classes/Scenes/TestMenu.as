@@ -230,6 +230,8 @@ public class TestMenu extends BaseContent
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll4)) player.removeStatusEffect(StatusEffects.AlterBindScroll4);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll5)) player.removeStatusEffect(StatusEffects.AlterBindScroll5);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll6)) player.removeStatusEffect(StatusEffects.AlterBindScroll6);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll7)) player.removeStatusEffect(StatusEffects.AlterBindScroll7);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll8)) player.removeStatusEffect(StatusEffects.AlterBindScroll8);
 		}
 		doNext(SoulforceCheats);
 	}
@@ -2751,4 +2753,4 @@ public class TestMenu extends BaseContent
 		SceneLib.lily.lilyEncounter();
 	}
 	}
-}
+}
