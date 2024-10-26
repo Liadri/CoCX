@@ -559,6 +559,14 @@ public class Arms extends SaveableBodyPart {
 		fur: true
 	});
 	
+	//72
+
+	public static const MUMMY:int = 73;
+	EnumValue.add(Types, MUMMY, "MUMMY", {
+		name:"mummy",
+		appearanceDesc: "Your arms are human in shape and appearance but the skin is extremely sensitive to the touch. As such they are covered from the elbows to the tip of your fingers with bandages."
+	});
+	
 	public static function canFly(id: int): Boolean {
 		return Types[id].canFly || false;
 	}

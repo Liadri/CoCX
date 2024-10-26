@@ -894,6 +894,12 @@ public class LowerBody extends SaveableBodyPart {
 		appearanceDesc: "Two glacial troll legs grow down from your [hips], covered in soft, white fur, ending in four-toed glacial troll feet."
 	});
 
+	public static const MUMMY:int = 87;
+	EnumValue.add(Types, MUMMY, "MUMMY", {
+		name: "mummy",
+		appearanceDesc: "While your legs are human in appearance your body is so rigid due to this pseudo rigor mortis that the only way you move is by lumbering around. Your legs are covered in bandages from tight to toes so you don’t accidentally cum from walking around."
+	});
+
 	override public function set type(value:int):void {
 		super.type = value;
 		// Reset leg count

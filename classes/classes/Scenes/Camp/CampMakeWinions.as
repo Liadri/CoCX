@@ -2733,7 +2733,7 @@ public class CampMakeWinions extends BaseContent
 				outputText("<b>Skeleton Mages:</b> " + player.perkv2(PerkLib.GreaterHarvest) + " / " + maxSkeletonMages() + "\n");
 			}
 			menu();
-			if (player.perkv1(PerkLib.PrestigeJobNecromancer) >= 20 && player.soulforce >= 5000) {
+			if (player.perkv1(PerkLib.PrestigeJobNecromancer) >= 20 && (player.soulforce >= 5000 || (player.mana >= 5000 && player.hasPerk(PerkLib.Soulless)))) {
 				addButton(0, "C.Skeleton(W)", createSkeletonWarrior).hint("Create Skeleton Warrior.");
 				if (player.hasPerk(PerkLib.GreaterHarvest)) {
 					if (player.perkv1(PerkLib.PrestigeJobNecromancer) > 0) {
@@ -2749,10 +2749,10 @@ public class CampMakeWinions extends BaseContent
 				}
 			}
 			else {
-				addButtonDisabled(0, "C.Skeleton(W)", "You lack the required amount of demon bones (20+) and/or soulforce (5000+) to create a skeleton warrior.");
+				addButtonDisabled(0, "C.Skeleton(W)", "You lack the required amount of demon bones (20+) and/or soulforce/mana (5000+) to create a skeleton warrior.");
 				if (player.hasPerk(PerkLib.GreaterHarvest)) {
-					addButtonDisabled(1, "C.Skeleton(A)", "You lack the required amount of demon bones (20+) and/or soulforce (5000+) to create a skeleton archer.");
-					addButtonDisabled(2, "C.Skeleton(M)", "You lack the required amount of demon bones (20+) and/or soulforce (5000+) to create a skeleton mage.");
+					addButtonDisabled(1, "C.Skeleton(A)", "You lack the required amount of demon bones (20+) and/or soulforce/mana (5000+) to create a skeleton archer.");
+					addButtonDisabled(2, "C.Skeleton(M)", "You lack the required amount of demon bones (20+) and/or soulforce/mana (5000+) to create a skeleton mage.");
 				}
 				else {
 					addButtonDisabled(1, "???", "Req. Greater harvest perk to unlock this option.");
@@ -2770,9 +2770,10 @@ public class CampMakeWinions extends BaseContent
 				return;
 			}
 			player.addPerkValue(PerkLib.PrestigeJobNecromancer, 1, -20);
-			player.soulforce -= 5000;
+			if (player.hasPerk(PerkLib.Soulless)) player.mana -= 5000;
+			else player.soulforce -= 5000;
 			statScreenRefresh();
-			outputText("You draw a seal on the ground around the pile of bones that will soon become your servant. Once complete, you step back and begin channeling your soulforce into the pile, aligning the joints into a large, 10-foot-tall shape. As you finish linking your creation, you begin to feel its every movement at your fingertips. Satisfied, you admire your brand-new Skeleton Warrior, ready to fight and obey your every command.");
+			outputText("You draw a seal on the ground around the pile of bones that will soon become your servant. Once complete, you step back and begin channeling your "+(player.hasPerk(PerkLib.Soulless)?"mana":"soulforce")+" into the pile, aligning the joints into a large, 10-foot-tall shape. As you finish linking your creation, you begin to feel its every movement at your fingertips. Satisfied, you admire your brand-new Skeleton Warrior, ready to fight and obey your every command.");
 			player.addPerkValue(PerkLib.PrestigeJobNecromancer, 2, 1);
 			doNext(accessMakeSkeletonWinionsMainMenu);
 			advanceMinutes(10);
@@ -2785,9 +2786,10 @@ public class CampMakeWinions extends BaseContent
 				return;
 			}
 			player.addPerkValue(PerkLib.PrestigeJobNecromancer, 1, -20);
-			player.soulforce -= 5000;
+			if (player.hasPerk(PerkLib.Soulless)) player.mana -= 5000;
+			else player.soulforce -= 5000;
 			statScreenRefresh();
-			outputText("You draw a seal on the ground around the pile of bones that will soon become your servant. Once complete, you step back and begin channeling your soulforce into the pile, aligning the joints into a large, 10-foot-tall shape. As you finish linking your creation, you can feel its every movement at your fingertips. Satisfied, you admire your brand-new Skeleton Archer, ready to fight and obey your every command.");
+			outputText("You draw a seal on the ground around the pile of bones that will soon become your servant. Once complete, you step back and begin channeling your "+(player.hasPerk(PerkLib.Soulless)?"mana":"soulforce")+" into the pile, aligning the joints into a large, 10-foot-tall shape. As you finish linking your creation, you can feel its every movement at your fingertips. Satisfied, you admire your brand-new Skeleton Archer, ready to fight and obey your every command.");
 			player.addPerkValue(PerkLib.GreaterHarvest, 1, 1);
 			doNext(accessMakeSkeletonWinionsMainMenu);
 			advanceMinutes(10);
@@ -2800,9 +2802,10 @@ public class CampMakeWinions extends BaseContent
 				return;
 			}
 			player.addPerkValue(PerkLib.PrestigeJobNecromancer, 1, -20);
-			player.soulforce -= 5000;
+			if (player.hasPerk(PerkLib.Soulless)) player.mana -= 5000;
+			else player.soulforce -= 5000;
 			statScreenRefresh();
-			outputText("You draw a seal on the ground around the pile of bones that will soon become your servant. Once complete, you step back and begin channeling your soulforce into the pile, aligning the joints into a large, 10-foot-tall shape. As you finish linking your creation, you begin to feel its every movement at your fingertips. Satisfied, you admire your brand-new Skeleton Mage, ready to fight and obey your every command.");
+			outputText("You draw a seal on the ground around the pile of bones that will soon become your servant. Once complete, you step back and begin channeling your "+(player.hasPerk(PerkLib.Soulless)?"mana":"soulforce")+" into the pile, aligning the joints into a large, 10-foot-tall shape. As you finish linking your creation, you begin to feel its every movement at your fingertips. Satisfied, you admire your brand-new Skeleton Mage, ready to fight and obey your every command.");
 			player.addPerkValue(PerkLib.GreaterHarvest, 2, 1);
 			doNext(accessMakeSkeletonWinionsMainMenu);
 			advanceMinutes(10);

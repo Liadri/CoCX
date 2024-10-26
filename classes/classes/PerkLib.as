@@ -4111,8 +4111,7 @@ public class PerkLib
 				"You can't lose by HP until your health drops into the negatives any more than 18% of max HP + 5400(scalable). HP limit cumulative with other Diehard perks.");
 		public static const Greedy:PerkType = mk("Greedy", "Greedy",
 				"Double all gems gained!");
-		public static const HaltedVitals:PerkType = mk("Halted vitals", "Halted vitals",
-				"Your vitals are frozen in time by the magic of the curse tag, allowing you to live without the need for breathing, eating and a heartbeat. It also reduces damage taken from physical attacks by 20%. Furthermore your vitality is based on your libido rather than your toughness.");
+		public static const HaltedVitals:HaltedVitalsPerk = new HaltedVitalsPerk();
 		public static const HarpySong:PerkType = mk("Harpy Song", "Harpy Song",
 				"Your voice is supernaturaly enhanced and may be used during battle to arouse foes.");
 		public static const HarpyQueen:PerkType = mk("Harpy Queen", "Harpy Queen",

@@ -9162,12 +9162,18 @@ public class Combat extends BaseContent {
 		}
         if (player.hasPerk(PerkLib.PoisonNails) && player.isFistOrFistWeapon()) {
             var lust0damage:Number = 35 + rand(player.lib / 10);
+			var touDebuff:Number = 2;
             lust0damage *= 0.14;
             if (player.armor == armors.ELFDRES && player.isElf()) lust0damage *= 2;
             if (player.armor == armors.FMDRESS && player.isWoodElf()) lust0damage *= 2;
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll6)) lust0damage *= 2;
             monster.teased(Math.round(monster.lustVuln * lust0damage));
-            monster.statStore.addBuffObject({tou:-2, spe:-2}, "Poison",{text:"Poison"});
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll7)) touDebuff += monster.tou * 0.01;
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll8)) {
+				var strDebuff:Number = monster.str * 0.01;
+				monster.statStore.addBuffObject({tou:-touDebuff, spe:-2, str:-strDebuff}, "Poison",{text:"Poison"});
+			}
+			else monster.statStore.addBuffObject({tou:-touDebuff, spe:-2}, "Poison",{text:"Poison"});
             if (monster.hasStatusEffect(StatusEffects.NagaVenom)) {
                 monster.addStatusValue(StatusEffects.NagaVenom, 3, 1);
             } else monster.createStatusEffect(StatusEffects.NagaVenom, 0, 0, 1, 0);
