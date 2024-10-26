@@ -137,7 +137,7 @@ public class SceneHunter extends BaseContent {
             outputText("\n<i>Of course, scenes don't include anything related to this. The mentions of 'love and fidelity' will be present in all marriage scenes.</i>");
         } else {
             outputText("<b>[font-dred]DISABLED[/font]</b>");
-            outputText("\nYou can marry only one person, like in a <i>completely normal</i> world which Mareth is.");
+            outputText("\nYou can marry only one person, like in a <i>completely normal</i> world, which Mareth is.");
         }
 
         outputText("\n\n<b> NOTE: Check #realm_of_time channel in discord for the wiki backup. Here you can find scene reference and the list of conditional scenes (depending on race, cocktype, etc.). Both are <i>slightly</i> outdated.</b>");
