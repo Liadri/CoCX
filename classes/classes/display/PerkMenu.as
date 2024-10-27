@@ -961,9 +961,13 @@ public class PerkMenu extends BaseContent {
 			clearOutput();
 			//Dragon Mutations
 			displayHeader("Dragon Mutations");
-			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
-			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 2) outputText("\nThere is another extra bonus mutation slot given due to NG++");
-			mutationsDatabaseVerify([IMutationsLib.DraconicBonesIM, IMutationsLib.DraconicHeartIM, IMutationsLib.DraconicLungIM]);
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 2) outputText("\nThere is another extra bonus mutation slot given due to NG++");
+			mutationsDatabaseVerify([
+				IMutationsLib.DrakeBloodIM,
+				IMutationsLib.DrakeBonesIM,
+				IMutationsLib.DrakeHeartIM,
+				IMutationsLib.DrakeLungsIM]);
 			mutationsDatabase(1, false);
 		}
 
@@ -971,7 +975,7 @@ public class PerkMenu extends BaseContent {
 			clearOutput();
 			//Kitsune Mutations
 			displayHeader("Kitsune Mutations");
-			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
 			mutationsDatabaseVerify([IMutationsLib.KitsuneThyroidGlandIM, IMutationsLib.KitsuneParathyroidGlandsIM]);
 			mutationsDatabase(1, false);
 		}
