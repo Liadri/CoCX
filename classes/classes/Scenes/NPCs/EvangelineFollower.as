@@ -194,7 +194,7 @@ public function meetEvangeline():void {
 	outputText("\"<i>Hi [name]! Anything I can help you with?</i>\"");
 	// [Appearan] [ Talk   ] [   Sex  ] [ Spar   ] [GiveGems]
 	// [Alchemy ] [Ingreds ] [        ] [I.Mutati] [Experime]
-	// [Arigean ] [Wendigo ] [Jiangshi] [Soul Gem] [ Back   ]
+	// [Arigean ] [Wendigo ] [TF Cures] [Soul Gem] [ Back   ]
 	menu();
 	addButton(0, "Appearance", evangelineAppearance).hint("Examine Evangeline's detailed appearance.");
 	addButton(1, "Talk", evangelineTalkMenu).hint("Ask Evangeline about something.");
@@ -225,12 +225,8 @@ public function meetEvangeline():void {
 		else addButton(11, "Wendigo", curingWendigo);
 	}
 	else addButtonDisabled(11, "???", "Req. to be cursed by Wendigo.");
-	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2 || flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3) {
-		if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2) addButton(12, "Jiangshi", curingJiangshi);
-		else if (player.hasItem(consumables.VITAL_T, 5) && player.hasItem(consumables.PPHILTR, 5)) addButton(12, "Jiangshi", curingJiangshi);
-		else addButtonDisabled(12, "Jiangshi", "Req. five vitality tinctures and five purity philters to fix your 'issue'.");
-	}
-	else addButtonDisabled(12, "???", "Req. to be Jiangshi.");
+	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2 || flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3 || player.isRaceCached(Races.MUMMY)) addButton(12, "J/M", curingSemiPermTFs);
+	else addButtonDisabled(12, "???", "Req. to be Jiangshi/Mummy.");
 	if (player.hasKeyItem("Soul Gem Research") >= 0) {
 		if (player.statusEffectv1(StatusEffects.SoulGemCrafting) == 0)  addButton(13, "Soul Gem", receivingCraftedSoulGem).hint("Pick up crafted Soul Gem.");
 		if (!player.hasStatusEffect(StatusEffects.SoulGemCrafting)) addButton(13, "Soul Gem", craftingSoulGem).hint("Ask Evangeline for crafting Soul Gem.");
@@ -1140,6 +1136,19 @@ private function curingWendigo():void {
 	}
 }
 
+private function curingSemiPermTFs():void {
+	menu();
+	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2 || flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3) {
+		if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2) addButton(1, "Jiangshi", curingJiangshi);
+		else if (player.hasItem(consumables.VITAL_T, 5) && player.hasItem(consumables.PPHILTR, 5)) addButton(1, "Jiangshi", curingJiangshi);
+		else addButtonDisabled(1, "Jiangshi", "Req. five vitality tinctures and five purity philters to fix your 'issue'.");
+	}
+	else addButtonDisabled(1, "???", "Req. to be Jiangshi.");
+	if (player.isRaceCached(Races.MUMMY)) addButton(2, "Mummy", curingJiangshi);
+	else addButtonDisabled(2, "???", "Req. to be Mummy.");
+	addButton(14, "Back", meetEvangeline);
+}
+
 private function curingJiangshi():void {
 	clearOutput();
 	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3) {
@@ -1223,6 +1232,68 @@ private function curingJiangshi():void {
 		outputText("You explain your situation to her somewhat.\n\n");
 		outputText("\"<i>Look, I will need five vitality tinctures and five purity philters to fix this up, how you get the two is up to you.</i>\"\n\n");
 		flags[kFLAGS.CURSE_OF_THE_JIANGSHI]++;
+		doNext(camp.campFollowers);
+		advanceMinutes(15);
+	}
+}
+private function curingMummy():void {
+	clearOutput();
+	if (player.hasItem(consumables.VITAL_T, 5) && player.hasItem(consumables.PPHILTR, 5)) {
+		player.destroyItems(consumables.VITAL_T, 5);
+		player.destroyItems(consumables.PPHILTR, 5);
+		outputText("Evangeline nods as you bring her the ingredients, getting to work. As soon as the potion is finished she pours it over your bandages, causing them to smoke and crumble. The first thing you do as the nasty things peels off is head back to to the desert and look for your gear. Thankfully it doesn't take you long to find it in a chest not too far from the spot where the jackal messed you up. Gosh, it feels good to be alive, like REALLY alive.\n\n");
+		if (player.weapon.isNothing && flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] < 1 && flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] != 0) {
+			player.setWeapon(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID]) as Weapon);
+			flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] = 0;
+		}
+		if (player.weaponRange.isNothing && flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] != 0) {
+			player.setWeaponRange(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID]) as WeaponRange);
+			flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] = 0;
+		}
+		if (player.shield.isNothing && flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID] != 0) {
+			if (flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] < 1) player.setShield(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID]) as Shield);
+			flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID] = 0;
+		}
+		if (player.armor.isNothing && flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID] != 0) {
+			player.setArmor(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID]) as Armor);
+			flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID] = 0;
+		}
+		if (player.lowerGarment.isNothing && flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID] != 0) {
+			player.setUnderBottom(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID]) as Undergarment);
+			flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID] = 0;
+		}
+		if (player.upperGarment.isNothing && flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID] != 0) {
+			player.setUnderTop(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID]) as Undergarment);
+			flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID] = 0;
+		}
+		if (player.headJewelry == HeadJewelryLib.NOTHING && flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID] != 0) {
+			player.setHeadJewelry(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID]) as HeadJewelry);
+			flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID] = 0;
+		}
+		flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
+		CoC.instance.transformations.FaceHuman.applyEffect(false);
+		player.eyes.type = Eyes.HUMAN;
+		player.horns.type = Horns.NONE;
+		player.horns.count = 0;
+		player.arms.type = Arms.HUMAN;
+		player.lowerBody = LowerBody.HUMAN;
+		player.removePerk(PerkLib.HaltedVitals);
+		player.removePerk(PerkLib.SuperStrength);
+		player.removePerk(PerkLib.Rigidity);
+		player.removePerk(PerkLib.LifeLeech);
+		player.removePerk(PerkLib.Undeath);
+		player.removePerk(PerkLib.EnergyDependent);
+		player.statStore.removeBuffs("Energy Vampire");
+		outputText("Done with this place you head back to camp.\n\n");
+		outputText("<b>(Lost Perks: Halted vitals, Super strength, Rigidity, Life leech, Undeath, Energy dependent)</b>\n\n");//"+(player.hasPerk(PerkLib.CursedTag)?", Cursed Tag":"")+"
+		player.updateRacialAndPerkBuffs();
+		doNext(camp.returnToCampUseTwoHours);
+	}
+	else {
+		outputText("Evangeline barely turns to look at you before jumping in surprise.\n\n");
+		outputText("\"<i>Oh god, what has happened to you [name]! There clearly is an obvious issue with your vitality.</i>\"\n\n");
+		outputText("You explain your situation to her somewhat.\n\n");
+		outputText("\"<i>Look, I will need five vitality tinctures and five purity philters to fix this up, how you get the two is up to you.</i>\"\n\n");
 		doNext(camp.campFollowers);
 		advanceMinutes(15);
 	}

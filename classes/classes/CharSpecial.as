@@ -1270,19 +1270,26 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 		}
 
 		private function customArikahs():void {
-			//Character Creation	Female,virgin	A human with cow/minotaur bloodline	Arikahs
+			//Character Creation	Female	A human with cow/minotaur bloodline	Arikahs
 			player.createPerk(PerkLib.BloodlineMinotaur, 0, 0, 0, 0);
 			player.createBreastRow();
 			player.breastRows[0].breastRating = 1;
 			player.butt.type = 20;
 			player.hips.type = 20;
 			player.createVagina();
-			if (player.hasVagina()) player.vaginas[0].virgin = true;
-			player.intStat.train.value = 30;
-			player.tone = 40;
+			player.gems += 100;
+			player.touStat.train.value = 60;
+			player.intStat.train.value = 60;
+			player.wisStat.train.value = 60;
+			player.tone = 90;
+			player.thickness = 90;
 			player.femininity = 90;
+			player.horns.count = 1;
+			player.horns.type = Horns.COW_MINOTAUR;
+			player.createPerk(PerkLib.WetPussy, 2, 0, 0, 0);
 			player.createPerk(PerkLib.BigTits, 1.5, 0, 0, 0);
-			if (!player.hasPerk(PerkLib.PastLifeAlchemist)) player.createPerk(PerkLib.HistoryAlchemist,0,0,0,0);
+			if (!player.hasPerk(PerkLib.PastLifeHealer)) player.createPerk(PerkLib.HistoryHealer,0,0,0,0);
+			if (!player.hasPerk(PerkLib.PastLifeSlacker)) player.createPerk(PerkLib.HistorySlacker,0,0,0,0);
 			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 		}
 
@@ -1370,15 +1377,17 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 			player.breastRows[0].breastRating = 9;
 			player.butt.type = 14;
 			player.hips.type = 11;
+			player.gems += 200;
 			player.tallness = 54;
+			player.tone = 70;
 			player.createVagina();
 			if(player.hasVagina()) player.vaginas[0].virgin = true;
-			player.strStat.train.value = 20;
 			player.touStat.train.value = 25;
 			player.speStat.train.value = 30;
+			player.wisStat.train.value = 20;
 			player.faceType = Face.VAMPIRE;
-			player.eyes.colour = "red";
-			if (!player.hasPerk(PerkLib.PastLifeFighter)) player.createPerk(PerkLib.HistoryFighter,0,0,0,0);
+			player.eyes.colour = "blue";
+			if (!player.hasPerk(PerkLib.PastLifeTactician)) player.createPerk(PerkLib.HistoryTactician,0,0,0,0);
 			if (!player.hasPerk(PerkLib.PastLifeScout)) player.createPerk(PerkLib.HistoryScout,0,0,0,0);
 			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 		}

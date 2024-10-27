@@ -866,7 +866,7 @@ use namespace CoC;
 					if (player.hasCock()) player.sexReward("Default", "Dick");
 					player.sexReward("cum", "Anal");
 					if (player.isGargoyle() && player.hasPerk(PerkLib.GargoyleCorrupted)) player.refillGargoyleHunger(30);
-					if (player.isRace(Races.JIANGSHI, 1, false) && player.hasPerk(PerkLib.EnergyDependent)) player.EnergyDependentRestore();
+					if ((player.isRace(Races.JIANGSHI, 1, false) || player.isRace(Races.MUMMY, 1, false)) && player.hasPerk(PerkLib.EnergyDependent)) player.EnergyDependentRestore();
 					if (mechanic) {
 						if (flags[kFLAGS.D3_GARDENER_DEFEATED] > 0 && flags[kFLAGS.D3_CENTAUR_DEFEATED] > 0 && flags[kFLAGS.D3_STATUE_DEFEATED] > 0) outputText("\n\n\"<i>You're lucky I've decided to let you go since you've overthrown Lethice,</i>\" the incubus grumbles.");
 						dynStats("cor", 25);

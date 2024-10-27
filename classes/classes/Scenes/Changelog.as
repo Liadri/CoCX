@@ -286,8 +286,8 @@ public class Changelog extends BaseContent
 			outputText("-Battlefield Zombies lost Low-tier Magic Immunity perk. Zombies / Zombie / Mummy special Draining Kiss heal them for less but would additional apply toughness curse on target.\n");
 			outputText("-New option in Alteration of Cursed Tag: Cursed Touch -> Unarmed strikes inflict 1% toughness damage.\n");
 			outputText("-New option in Alteration of Cursed Tag: Paralyzing fear -> Unarmed strikes inflict 1% strength damage.\n");
-			outputText("-After loosing to female anubis enemy there is 25% chance she would mummify PC. After this PC race change to Mummy - bonuses at 20 pts in racial score (scalable): +250% to Str multi, -90% to Spe multi, -90% to Int multi, +130% to Wis multi, +300% to Lib multi, +200 to sensitivity.\n");
-			outputText("-\n");
+			outputText("-After loosing to female anubis enemy there is 25% chance she would mummify PC. After this PC race change to Mummy - bonuses at 20 pts in racial score (scalable): +250% to Str multi, -90% to Spe multi, -90% to Int multi, +130% to Wis multi, +300% to Lib multi, +200 to sensitivity, +50 armor. Evangeline can cure mummified PC.\n");
+			outputText("-In the Mutations DB the 'Dragon Mutations'-menu still listed the old 'Draconic' IMutations. Replaced that with the new, generic Drake IMutations. (Stadler)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

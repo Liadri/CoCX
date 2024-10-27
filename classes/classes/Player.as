@@ -755,6 +755,7 @@ use namespace CoC;
 				//if (faceType == Face.DEVIL_FANGS) armorDef += (30 * newGamePlusMod);
 			//}
 			//if (flags[kFLAGS.GARGOYLE_BODY_MATERIAL] == 2) armorDef += (25 * newGamePlusMod);
+			if (isRace(Races.MUMMY)) armorDef += 50 * newGamePlusMod;
 			//Soul Cultivators bonuses
 			if (hasPerk(PerkLib.FleshBodyApprenticeStage)) {
 				if (hasPerk(PerkLib.SoulApprentice)) armorDef += 4 * newGamePlusMod * humanBodyCultivators();
@@ -3563,9 +3564,8 @@ use namespace CoC;
 			if (CoC.instance.monster.statusEffectv1(StatusEffects.EnemyLoweredDamageH) > 0) {
 				mult -= CoC.instance.monster.statusEffectv2(StatusEffects.EnemyLoweredDamageH);
 			}
-			if (hasStatusEffect(StatusEffects.WinterClaw)) {
-				mult += 100;
-			}
+			if (hasStatusEffect(StatusEffects.WinterClaw)) mult += 100;
+			if (isRace(Races.MUMMY)) mult += 100;
 			mult -= resFireStat.value;
 			//Caps damage reduction at 100%
 			if (mult < 0) mult = 0;
@@ -3628,7 +3628,7 @@ use namespace CoC;
 			if (CoC.instance.monster.statusEffectv1(StatusEffects.EnemyLoweredDamageH) > 0) {
 				mult -= CoC.instance.monster.statusEffectv2(StatusEffects.EnemyLoweredDamageH);
 			}
-			if (hasStatusEffect(StatusEffects.AlterBindScroll3)) mult = 0;
+			if (hasStatusEffect(StatusEffects.AlterBindScroll3) || isRace(Races.MUMMY)) mult = 0;
 			mult -= resIceStat.value;
 			//Caps damage reduction at 100%
 			if (mult < 0) mult = 0;
@@ -5231,7 +5231,7 @@ use namespace CoC;
 				}
 			}
 			if (isGargoyle() && hasPerk(PerkLib.GargoyleCorrupted)) refillGargoyleHunger(30);
-			if (isRace(Races.JIANGSHI) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
+			if ((isRace(Races.JIANGSHI) || isRace(Races.MUMMY)) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
 		}
 
 		public function fiendishMetabolismNFER():Boolean {
@@ -7359,7 +7359,7 @@ use namespace CoC;
 			if (Wasfluidinvolved && fluidtype && fluidtype.toLowerCase() != "no") {
 				slimeFeed();
 				if (isGargoyle() && hasPerk(PerkLib.GargoyleCorrupted)) refillGargoyleHunger(30);
-				if (isRace(Races.JIANGSHI) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
+				if ((isRace(Races.JIANGSHI) || isRace(Races.MUMMY)) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
 				if (hasPerk(PerkLib.DemonEnergyThirst)) {
 					var mfFM:Number = 1;
 					if (perkv1(IMutationsLib.FiendishMetabolismIM) >= 4) mfFM *= 2;
