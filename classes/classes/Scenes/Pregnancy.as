@@ -84,7 +84,7 @@ public class Pregnancy extends NPCAwareContent {
                         EngineCore.outputText("\n<b>You realize your belly has gotten bigger. Maybe you should cut back on all the strange food.  Though you do have odd cravings for oats and grain.</b>\n");
                         displayedUpdate = true;
                     } else if (womb["incubation"] == sceneHunter.adjustPregEventTimer(280, womb["type"])) {
-                        EngineCore.outputText("\n<b>Your belly is getting more noticeably distended. You are probably pregnant. The strong hankerings for oats and grains give you a very obvious clue as to who the 'father' might be.</b>\n");
+                        EngineCore.outputText("\n<b>Your belly is getting noticeably more distended. You are probably pregnant. The strong hankerings for oats and grains give you a very obvious clue as to who the 'father' might be.</b>\n");
                         displayedUpdate = true;
                     } else if (womb["incubation"] == sceneHunter.adjustPregEventTimer(225, womb["type"])) {
                         EngineCore.outputText("\n<b>The unmistakable bulge of pregnancy is visible in your tummy.  You stroke the orb and wonder with a half-grin if you'll have a daughter who takes after her 'daddy'.</b>\n");

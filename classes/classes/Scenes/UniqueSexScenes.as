@@ -284,7 +284,7 @@ public class UniqueSexScenes extends BaseContent
         private function USSVoltTsf():Array{
             var btnSet:Array = ["Volt Transfer"];
             if ((player.isRace(Races.RAIJU, 1, false) || player.isRace(Races.THUNDERBIRD, 1, false) || player.isRace(Races.KIRIN, 1, false)) && !monster.hasPerk(PerkLib.EnemyHugeType) && !monster.hasPerk(PerkLib.EnemyGigantType) && !monster.hasPerk(PerkLib.EnemyColossalType) && !monster.isAlraune() && !monster.isDrider() && !monster.isGoo() && !monster.isNaga() && !monster.isScylla() && !monster.isTaur()) btnSet.push(raijuVoltTransfer, "");
-            else btnSet.push(false, "Req. species with electrified desire and enemy must be non-gigant humanoid.");
+            else btnSet.push(false, "Req. species with electrified desire and enemy must be non-giant humanoid.");
             return btnSet;
         }
         //OverHeat Species (?)

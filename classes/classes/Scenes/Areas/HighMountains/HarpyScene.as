@@ -17,7 +17,7 @@ public class HarpyScene extends BaseContent
 
 		public function encounter():void {
 			clearOutput();
-			outputText("A harpy wings out of the sky and attacks!");
+			outputText("A harpy swoops down from above and attacks!");
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_HARPIES);
 			startCombat(new Harpy());
 			spriteSelect(SpriteDb.s_harpy);

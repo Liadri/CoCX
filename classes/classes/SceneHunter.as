@@ -17,7 +17,7 @@ public class SceneHunter extends BaseContent {
         menu();
         displayHeader("SceneHunter Settings");
         outputText("The following are QoL improvements meant to make some scenes (and their variations) easier to access.");
-        outputText("\nAll these features blend into the game (almost) seamlessly, are lore-accurate and don't change anything gameplay-related.");
+        outputText("\nAll these features blend into the game (almost) seamlessly, are lore-accurate, and don't change anything gameplay-related.");
         outputText("\nSH checks are currently added into all parts of the game, excluding worms content.");
         outputText("\n\n<b>If you notice any bugs (missing options, weirdness in scenes, dead ends) caused by enabling/disabling any of SH options (or ANY new issues in the scenes listed above), please report it in Discord and it will be fixed quickly. A lot of code was moved whiile setting SH up, so it was very easy to miss something.</b>");
 
@@ -137,7 +137,7 @@ public class SceneHunter extends BaseContent {
             outputText("\n<i>Of course, scenes don't include anything related to this. The mentions of 'love and fidelity' will be present in all marriage scenes.</i>");
         } else {
             outputText("<b>[font-dred]DISABLED[/font]</b>");
-            outputText("\nYou can marry only one person, like in a <i>completely normal</i> world which Mareth is.");
+            outputText("\nYou can marry only one person, like in a <i>completely normal</i> world, which Mareth is.");
         }
 
         outputText("\n\n<b> NOTE: Check #realm_of_time channel in discord for the wiki backup. Here you can find scene reference and the list of conditional scenes (depending on race, cocktype, etc.). Both are <i>slightly</i> outdated.</b>");

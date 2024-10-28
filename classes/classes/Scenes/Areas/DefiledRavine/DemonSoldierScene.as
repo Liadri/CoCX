@@ -16,7 +16,7 @@ public class DemonSoldierScene extends BaseContent {
         clearOutput();
         monster = new DemonSoldier();
         if (flags[kFLAGS.DEMON_SOLDIERS_ENCOUNTERED] < 1) {
-            outputText("As you pick your way through the terrain a shadow passes overhead, looking up you spot a large flying shape silhouetted against the sun. At first you think it might be some sort of bird, but as the shape swoops closer you see that the wings are more like those of a bat, with a long, spaded tail trailing out behind. Uh-oh...");
+            outputText("As you pick your way through the terrain a shadow passes overhead, looking up you spot a large flying shape silhouetted against the sun. At first you think it might be some sort of bird, but as the shape swoops closer you see that the wings are more like those of a bat, with a long, spaded tail trailing out behind- uh-oh...");
             outputText("\n\nThe Demon lands in front of you with an almost liquid grace. [monster He] folds [monster his] wings behind [monster his] back, and [monster his] tail whips back and forth as a truly malevolent grin splits the infernal creature's face.");
             if (!player.isAnyRaceCached(Races.DEMON, Races.IMP)) outputText("<i>\"Well well, it looks like I've found some sport to liven up a dull patrol!\"</i>");
             else outputText("\"<i>Hmm... you may look like one of us, but I can smell your soul from here; I shall enjoy fucking it out of you!\"</i>");

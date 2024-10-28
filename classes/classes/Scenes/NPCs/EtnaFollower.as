@@ -1076,7 +1076,7 @@ public function etnaInfidelityEncounter():void {
 		clearOutput();
 		outputText("It’s ok, you understand you can’t satisfy this crazy hunger of hers all on your own. Heck, she would be the death of you.[pg]");
 		outputText("“<i>T...Thanks [name] I will try to make it up to you one way or another!</i>”[pg]");
-		outputText("That said you leave Etna to her lunch heading back to camp just in time to see the minotaur explode in her tail again.[pg]");
+		outputText("That said, you leave Etna to her lunch heading back to camp just in time to see the minotaur explode in her tail again.[pg]");
 		EtnaInfidelity = 1;
 		endEncounter();
 	}

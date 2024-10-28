@@ -58,7 +58,7 @@ public class NightmareScene extends BaseContent
 				outputText("You put on a pair of black shades and reply:\n\n");
 				outputText("\"<i>D--D--DJ desiiiire!!!</i>\"\n\n");
 				outputText("You start dancing as blue and red lights spin everywhere. A light projection ball on a string falls down from a tree and start spinning as some bumping music plays out of nowhere. A big screen shows the footstep to do the nightmare dance as you all get down to that party! In, out, in, out, in, out, up, up, down, down, left, right, left! You dance and fuck all night but ");
-				outputText("sadly for you some scumbag spiked your drink. Just as you fall unconscious you wake up instead realizing all of this was a weird dream to escape your reality, the reality of that massive hardening horsecock in front of you.\n\n");
+				outputText("sadly for you, some scumbag spiked your drink. Just as you fall unconscious you wake up instead realizing all of this was a weird dream to escape your reality, the reality of that massive hardening horsecock in front of you.\n\n");
 			}
 			outputText("Defeated by your growing desire, you fall to the ground as the nightmare trots to your now prone form.\n\n");
 			outputText("\"<i>It's all okay, I will help you become honest with yourself, big girl. By the time you cum out your soul, you will yearn for cock and thirst for cum, especially mine, or perhaps I will restrain myself? Lets see...</i>\"\n\n");

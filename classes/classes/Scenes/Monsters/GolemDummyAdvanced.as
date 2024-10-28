@@ -54,7 +54,7 @@ package classes.Scenes.Monsters
 			this.a = "the ";
 			this.short = "advanced dummy golem";
 			this.imageName = "advanced dummy golem";
-			this.long = "You're currently fighting advanced dummy golem. It's seven feet tall without any sexual characteristics, it stone body covered in cracks and using it bare stone fists to smash enemies.";
+			this.long = "You're currently fighting an advanced dummy golem. It's seven feet tall without any sexual characteristics, it stone body covered in cracks and using it bare stone fists to smash enemies.";
 			initStrTouSpeInte(60, 60, 30, 10);
 			initWisLibSensCor(10, 10, 10, 0);
 			this.tallness = 84;

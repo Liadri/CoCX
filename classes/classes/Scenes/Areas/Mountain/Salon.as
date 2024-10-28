@@ -345,7 +345,7 @@ private function goblinHairDresserFacefuck():void {
 }
 private function hairDressingMainMenu():void {
 	spriteSelect(SpriteDb.s_lynette);
-	outputText("Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"");
+	outputText(" Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"");
 	if(flags[kFLAGS.CAN_BUY_MINOCUM] > 0) {
 		outputText("\n\nOf course you could always spend some gems and buy some minotaur cum instead...");
 	}
@@ -630,7 +630,7 @@ private function minotaurSalonFollowUp():void {
 	}
 	else outputText("You're woken up with a slap to the face, and still muzzy from your cum-induced glory-hole orgy, you stagger up to your [feet].  Lynnette shakes her stinging palm and apologizes, \"<i>Sorry I have to keep doing that, but you're damned hard to wake after you go on these binges!  Anyways, you've earned some hair treatment if you want it.  Of course, you could always buy more of your favorite fluid...</i>\"\n\n");
 	//Menu
-	outputText("Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"");
+	outputText(" Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"");
 	salonPurchaseMenu();
 }
 

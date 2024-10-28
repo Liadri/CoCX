@@ -14,7 +14,7 @@ import classes.Scenes.SceneLib;
 public class AirElemental extends Monster
 	{
 		public function baseElementalAttack():void {
-			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" launches the full force of its fists at you, guided with a strong force of wind.");
+			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" launches the full force of its fists at you, guided by a strong force of wind.");
 			var damage:Number = inte + wis;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.5);
 			damage = Math.round(damage);
@@ -29,16 +29,16 @@ public class AirElemental extends Monster
 		}
 		
 		public function fluffyOfPunches():void {
-			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" wraps itself in a swirling vortext before spinning toward you in a tornado of fighting fury.");
+			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" wraps itself in a swirling vortex before spinning towards you in a tornado of fighting fury.");
 			var damage:Number = inte + wis;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.25);
 			damage = Math.round(damage);
 			//Dodge
-			if (damage <= 0 || (player.getEvasionRoll())) outputText(" You slide underneath it avoiding all punches!");
+			if (damage <= 0 || (player.getEvasionRoll())) outputText(" You slide underneath it, avoiding all punches!");
 			else
 			{
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
-				outputText(" Each hit connets, nearly causing you to spin from the force of the trauma. ");
+				outputText(" Each hit connects, nearly causing you to spin from the force of the trauma. ");
 				player.takeWindDamage(damage, true);
 				player.takeWindDamage(damage, true);
 				player.takeWindDamage(damage, true);
@@ -49,7 +49,7 @@ public class AirElemental extends Monster
 		}
 		
 		public function subbossSpecial():void {
-			outputText("The sylph concentrates, hardening the air until several crescent-like shards of air coalesce. With a twirl, it aims the razor wind toward you before shooting a gust of wind.");
+			outputText("The sylph concentrates, hardening the air until several crescent-like shards of air coalesce. With a graceful twirl, it directs the razor-sharp wind toward you, followed by a powerful gust.");
 			if (player.getEvasionRoll()) outputText(" You slide underneath the barrage!");
 			else {
 				var damage:Number = inte + wis;
@@ -132,7 +132,7 @@ public class AirElemental extends Monster
 			if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 0) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 48;
 				initStrTouSpeInte(20, 40, 120, 80);
 				initWisLibSensCor(80, 20, 40, 0);
@@ -146,7 +146,7 @@ public class AirElemental extends Monster
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 1) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four foot, three inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four foot, three inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 51;
 				initStrTouSpeInte(24, 44, 124, 100);
 				initWisLibSensCor(100, 20, 50, 0);
@@ -160,7 +160,7 @@ public class AirElemental extends Monster
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 2) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four and a half foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four and a half foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 54;
 				initStrTouSpeInte(28, 48, 128, 120);
 				initWisLibSensCor(120, 20, 60, 0);
@@ -174,7 +174,7 @@ public class AirElemental extends Monster
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 3) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four foot, nine inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four foot, nine inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 57;
 				initStrTouSpeInte(32, 52, 132, 140);
 				initWisLibSensCor(140, 20, 70, 0);
@@ -188,7 +188,7 @@ public class AirElemental extends Monster
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4) {
 				this.short = "sylph";
 				this.imageName = "air sylph";
-				this.long = "You're currently fighting 'male' sylph. It's a nine foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting 'male' sylph. It's a nine foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 108;
 				initStrTouSpeInte(48, 78, 198, 210);
 				initWisLibSensCor(210, 30, 110, 0);

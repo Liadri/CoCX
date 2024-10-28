@@ -2247,14 +2247,14 @@ use namespace CoC;
 		//IMP PACK
 		public function impPackEncounter():void {
 			clearOutput();
-			outputText("During your searching thou current location you suddenly hear sound of many wings flapping.  Turning around you notice a large group of imps flying toward you.  In no time they catch up to you and surrounds.  No way around it, you ready your [weapon] for the fight.");
+			outputText("During your searching through the current location you suddenly hear the sound of wings flapping.  Turning around you notice a large group of imps flying toward you.  In no time they catch up to you and surrounds.  No way around it, you ready your [weapon] for the fight.");
 			startCombat(new ImpPack());
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_IMPS);
 			doNext(playerMenu);
 		}
 		public function impPackEncounter2():void {
 			clearOutput();
-			outputText("During your searching thou current location you suddenly hear sound of many wings flapping.  Turning around you notice a large group of feral imps flying toward you.  In no time their catch up to you and surrounds.  No way around it, you ready your [weapon] for the fight.");
+			outputText("During your searching through the current location you suddenly hear the sound of wings flapping.  Turning around you notice a large group of feral imps flying toward you.  In no time their catch up to you and surrounds.  No way around it, you ready your [weapon] for the fight.");
 			flags[kFLAGS.FERAL_EXTRAS] = 4;
 			startCombat(new FeralImps());
 			camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_IMPS);
