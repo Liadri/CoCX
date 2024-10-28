@@ -1627,7 +1627,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				if (player.statusEffectv1(StatusEffects.DemonEnergyThirstFeed) <= 0) player.removeStatusEffect(StatusEffects.DemonEnergyThirstFeed);
 			}
 			//DarkCharm
-			needNext ||= player.gainOrLosePerk(PerkLib.DarkCharm, player.isAnyRaceCached(Races.DEMON, Races.IMP, Races.DRACULA) || player.hasMutation(IMutationsLib.BlackHeartIM), "You feel a strange sensation in your body. With you looking like a demon, you have unlocked the potential to use demonic charm attacks!", "With some of your demon-like traits gone, so does your ability to use charm attacks.", player.perkv4(PerkLib.DarkCharm) == 0);
+			needNext ||= player.gainOrLosePerk(PerkLib.DarkCharm, player.isAnyRaceCached(Races.DEMON, Races.IMP, Races.GREMLIN, Races.DRACULA) || player.hasMutation(IMutationsLib.BlackHeartIM), "You feel a strange sensation in your body. With you looking like a demon, you have unlocked the potential to use demonic charm attacks!", "With some of your demon-like traits gone, so does your ability to use charm attacks.", player.perkv4(PerkLib.DarkCharm) == 0);
 			//Flexibility perk
 			needNext ||= player.gainOrLosePerk(PerkLib.Flexibility, (Tail.hasFelineTail(player) && LowerBody.hasFelineLegs(player) && Arms.hasFelineArms(player)) || player.perkv1(IMutationsLib.CatLikeNimblenessIM) >= 1, "While stretching, you notice that you're much more flexible than you were before.  Perhaps this will make it a bit easier to dodge attacks in battle?", "You notice that you aren't as flexible as you were when you had a more feline body.  It'll probably be harder to avoid your enemies' attacks now.", player.perkv4(PerkLib.Flexibility) == 0);
 			//Ghost-slinger perk

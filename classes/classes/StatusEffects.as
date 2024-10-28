@@ -871,6 +871,7 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const MonsterRegen:StatusEffectType       	= mk("Monster Regeneration");//% regen
 		public static const MonsterRegen2:StatusEffectType      	= mk("Monster Regeneration2");//flat regen
 		public static const MonsterVPT:StatusEffectType 			= mk("Monster Violet Pupil Transformation");
+		public static const MummyBandage:StatusEffectType  			= mk("Mummy bandage");
 		public static const MysticWeb:StatusEffectType  			= mk("MysticWeb");
 		public static const NoLoot:StatusEffectType             	= mk("No Loot");
 		public static const KitsuneTailTangle:StatusEffectType      = mk("KitsuneTailTangle");

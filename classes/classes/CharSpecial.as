@@ -50,7 +50,7 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 			[ "With a bloodline history:", null, false, "" ],
 			[ "Grigori", customGrigori, true, "You are a normal villager if not for that dragon cock and the ability to use an ice dragon's breath. That damn ancestor of yours had to go and fuck some dragoness, didn't he?" ],
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],kitsune start
-			//[ "Arikahs", customArikahs, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],
+			[ "Arikahs", customArikahs, true, "If not for the fact you're a landlubber in the middle of a continent far from any sea, you would be called pirate's second worst nightmare! All because of a big booty and sunken chest..." ],
 			[ "Teekna", customTeekna, true, "You were a rather average villager. The thing that made you stand out was your pink hair and yellow eyes. Your ancestors couldn't keep it in their pants, apparently! At least they left some goodies behind for you." ],
 			[ "Veseshe", customVeseshe, true, "The villagers sure liked to pierce their arrows into you... Though, with your natural agility and a bit of elven blood flowing in your veins, they sure were <i>trying.</i>" ],
 			//[ "Sora", customSora, true, "As a Kitsune, you always got weird looks, but none could doubt your affinity for magic......." ],raiju start
@@ -1290,7 +1290,7 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 			player.createPerk(PerkLib.BigTits, 1.5, 0, 0, 0);
 			if (!player.hasPerk(PerkLib.PastLifeHealer)) player.createPerk(PerkLib.HistoryHealer,0,0,0,0);
 			if (!player.hasPerk(PerkLib.PastLifeSlacker)) player.createPerk(PerkLib.HistorySlacker,0,0,0,0);
-			outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
+			outputText("If not for the fact you're a landlubber in the middle of a continent far from any sea, you would be called pirate's second worst nightmare! All because of a big booty and sunken chest...");
 		}
 
 		private function customVeseshe():void {

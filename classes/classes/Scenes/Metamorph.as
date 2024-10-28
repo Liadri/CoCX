@@ -1099,7 +1099,7 @@ package classes.Scenes {
 				var enoughSF: Boolean = player.soulforce >= cost;
 				var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 
-				if (unlocked && !partsInUse && (enoughSF || enoughMana)) addButton(currentButton++, buttonStr, doMetamorph, title, genMem, index).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
+				if (unlocked && !partsInUse && (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless)))) addButton(currentButton++, buttonStr, doMetamorph, title, genMem, index).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
 				else if (unlocked && partsInUse) addButtonDisabled(currentButton++, buttonStr, (!genMem.hint? "You already have this, the metamorphosis would have no effect!":genMem.hint));
 				else if (unlocked && !partsInUse && !enoughSF && !enoughMana) addButtonDisabled(currentButton++, buttonStr, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
 				else if (!unlocked)	addButtonDisabled(currentButton++, buttonStr, "You haven't unlocked this metamorphosis yet!" + (genMem.lockedInfo ? "\n\n" + genMem.lockedInfo : ""));

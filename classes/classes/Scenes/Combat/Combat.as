@@ -15169,6 +15169,10 @@ public function Straddle():void {
 			else player.createStatusEffect(StatusEffects.StraddleRoundLeft, 3 + rand(3), 0, 0, 0);
 		}
 		else player.createStatusEffect(StatusEffects.StraddleRoundLeft, 2 + rand(3), 0, 0, 0);
+		if (player.isRace(Races.MUMMY)) {
+			player.addStatusValue(StatusEffects.StraddleRoundLeft, 1, 2);
+			player.addStatusValue(StatusEffects.StraddleRoundLeft, 2, 1);
+		}
         if (player.isAlraune()) {
             outputText("You giggle and take hold of your dazed opponent with your vines before gently pulling [monster him] into your nectar bath, straddling him with your pistil as you get into mating position.");
             if (!player.hasStatusEffect(StatusEffects.AlrauneEntangle)) player.createStatusEffect(StatusEffects.AlrauneEntangle, 0, 0, 0, 0);
@@ -15225,7 +15229,8 @@ public function StraddleTease():void {
         if (player.statusEffectv1(StatusEffects.StraddleRoundLeft) <= 0) {
             monster.removeStatusEffect(StatusEffects.Straddle);
             player.removeStatusEffect(StatusEffects.StraddleRoundLeft);
-            outputText("Your opponent finally manages to struggle free of your grapple!\n\n");
+            if (player.isRace(Races.MUMMY)) outputText("Your victim finally manages to break free from your bandages, shoving you off.\n\n");
+			else outputText("Your opponent finally manages to struggle free of your grapple!\n\n");
         }
     }
 	postStrandleExtraActionsCheck();
@@ -16750,6 +16755,26 @@ public function BearLeggoMyEggo():void {
     outputText("You let your opponent free, ending your grab.\n\n");
     monster.removeStatusEffect(StatusEffects.GrabBear);
     enemyAIImpl();
+}
+
+//Mummy Constrict
+public function mummyConstrict():void {
+    fatigue(30, USEFATG_PHYSICAL);
+    outputText("You constrict [themonster] with your wrapping delighting as [monster he] makes a pained expression. ");
+    var damage:int = 0;
+    damage += meleeUnarmedDamageNoLagSingle(0,true);
+    damage += player.tou;
+    damage += scalingBonusToughness() * 0.5;
+    if (player.hasPerk(PerkLib.VladimirRegalia)) damage *= 2;
+    if (player.hasPerk(PerkLib.RacialParagon)) damage *= RacialParagonAbilityBoost();
+    damage = Math.round(damage);
+    doPhysicalDamage(damage, true, true);
+    if (monster.HP <= monster.minHP()) {
+        doNext(combat.endHpVictory);
+        return;
+    }
+    outputText("\n\n");
+    postStrandleExtraActionsCheck();
 }
 
 public function taintedMindAttackAttempt():void {

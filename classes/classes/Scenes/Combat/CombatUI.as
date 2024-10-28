@@ -494,6 +494,12 @@ public class CombatUI extends BaseCombatContent {
 			addButton(0, "Hug", combat.bearHug).hint("Crush your opponent with a bear hug. \n\nFatigue Cost: " + physicalCost(30) + "");
 			vampireBiteDuringGrapple(3);
 			addButton(4, "Release", combat.BearLeggoMyEggo);
+		} else if (monster.hasStatusEffect(StatusEffects.MummyBandage)) {
+			menu();
+			addButton(0, "Constrict", combat.mummyConstrict).hint("Constrict your opponent with your wrapping. \n\nFatigue Cost: " + physicalCost(30) + "");
+			if (monster.lustVuln != 0 && !monster.plural && player.hasPerk(PerkLib.Straddle)) addButton(1, "Straddle", combat.Straddle).hint("Change position and initiate a straddling stance");
+			vampireBiteDuringGrapple(3);
+			addButton(4, "Release", combat.BearLeggoMyEggo);
 		}
 		else playerBusy = false;
 		if (player.hasStatusEffect(StatusEffects.CallOutKiha)) {

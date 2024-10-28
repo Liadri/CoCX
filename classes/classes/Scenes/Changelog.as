@@ -94,7 +94,6 @@ public class Changelog extends BaseContent
 			//outputText("-\n");
 			//outputText("-New usable item: Large Purple Soul Crystal Shard. Costing 5 gems and it's obtainable from uncrafting 3 purple crystal shards and 3 Soul Residues. Can be used as food / nurishment for odd one mist beings.\n");
 			//outputText("-New TF item (by Shigure): Moth's Dust. Buyable in Moga Hen shop. Using this item will turn PC into moth. Moth bonuses at 10 pts in racial score (scalable): -30% to Tou multi, +150% to Spe multi, +70% to Wis multi, +30% to Lib multi, +70 to sensitivity.\n");//Dropped by Corrupted Troll enemies.
-			//outputText("-New Special names: Veseshe (elf), Veseshe (elf). Each of them will start with matching bloodline perk to match their ancestor race.\n");
 			outputText("-New enemies: Mid rank Angel of Mist - lvl 58, Mist Bee Huntress - lvl 60, Mist Wasp Huntress - lvl 62, Mist Hornet Huntress - lvl 64, Mist Alraune Maiden - lvl 66, Mist Cinderbloom - lvl 68, Mist Snow Lily - lvl 70. Encounterable on 5th strata of River Dungeon. Proto Golem - lvl 6. Encounterable in general explore from lvl 6+. Kirin (added by NUZ/Shirane) - lvl 50. Encounterable in Plains. ");
 			outputText("Werefox (M) - lvl 33. Encounterable in Inner Desert at night. Elder Werefox (M) - lvl 61. Encounterable in Inner Desert at night (he temporaly came from deeper desert regions and req. lvl 43+ to encounter). Zombie (M & F) - lvl 36/53. Encounterable in Outer Plains / Inner Plains (lvl 53 zombies temporaly hopped from deeper plains regions) at night as long PC isn't Jiangshi. They have Undead enemy type perk. ");
 			outputText("Mummy (M & F) - lvl 18/36. Encounterable in Outer Desert / Inner Desert at night. They have Undead enemy type and Low-tier Magic Immunity perk.\n");
@@ -286,8 +285,11 @@ public class Changelog extends BaseContent
 			outputText("-Battlefield Zombies lost Low-tier Magic Immunity perk. Zombies / Zombie / Mummy special Draining Kiss heal them for less but would additional apply toughness curse on target.\n");
 			outputText("-New option in Alteration of Cursed Tag: Cursed Touch -> Unarmed strikes inflict 1% toughness damage.\n");
 			outputText("-New option in Alteration of Cursed Tag: Paralyzing fear -> Unarmed strikes inflict 1% strength damage.\n");
-			outputText("-After loosing to female anubis enemy there is 25% chance she would mummify PC. After this PC race change to Mummy - bonuses at 20 pts in racial score (scalable): +250% to Str multi, -90% to Spe multi, -90% to Int multi, +130% to Wis multi, +300% to Lib multi, +200 to sensitivity, +50 armor. Evangeline can cure mummified PC.\n");
+			outputText("-After loosing to anubis enemy there is 25% chance she would mummify PC. After this PC race change to Mummy - bonuses at 20 pts in racial score (scalable): +250% to Str multi, -90% to Spe multi, -90% to Int multi, +130% to Wis multi, +300% to Lib multi, +200 to sensitivity, +50 armor. Evangeline can cure mummified PC.\n");
 			outputText("-In the Mutations DB the 'Dragon Mutations'-menu still listed the old 'Draconic' IMutations. Replaced that with the new, generic Drake IMutations. (Stadler)\n");
+			outputText("-New Special names: Arikahs (cow/minotaur). Each of them will start with matching bloodline perk to match their ancestor race.\n");//, Veseshe (elf)
+			outputText("-New P. Special: Mummy Bandage - usable by mummy PC. You can initiate a grapple using your bandages.\n");
+			outputText("-Exploration proofreading + some other typos/adjustments. River dungeon and some playerinfo displays proof read, including updating some forgotten super perk descriptions on the perk picker. (Agentfunfun)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -303,11 +305,9 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
-			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
-			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
-			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
-			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
@@ -319,11 +319,11 @@ public class Changelog extends BaseContent
 			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash)
 			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz) (Agentfunfun)
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
+			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
+			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
+			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
+			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -338,8 +338,8 @@ public class Changelog extends BaseContent
 			outputText("bypassing perm races transformation immunity, defeating pod plant by lust (which was before impossible) allowing to pick unlimited rapiers from it, Frog Girl 'forever ignore' option not disabling her encounters, aura not capping to 10% lust dmg per aura application in turn, Dark Slimes sex scenes does not count towards recovering hunger with demonic hunger perk, Atlach Nacha ");
 			outputText("locking corruption to 100 before PC get pernamently locked to this race, post Drider Incubus fight sex scenes not reseting lust/giving sexp rewards/other effects of sex scene, during Urta scenes game mix up Urta and PC when checking for sex scenes selection, Cure spell not removing Blind, Whisker Fruit not giving multiple breast rows, some of status effects not cleaning up ");
 			outputText("after bad end or combat end, scene with Ayane when PC visit shrine as already 9 tailed kitusne without star sphere not gaining star sphere during the scene, Meteor Shower and Polar Midnight not recognized as spells for Channeling perk req., Healer npc in JttE never having her cure/heal options going off cooldown, Vixen&Cream with Urta unclosed tag, Straddle Tease variant for ");
-			outputText("Harpies not checking if enemy have cock, Mist Phouka enemies dropping tarnished shard of metal, PC mummies behaviour choice menu buttons wrong labeled, pair of black cat gloves not allowing swiftcasting, ");
-			outputText("Wood Elfs appearing for soulless PC's, cow maid and Excellia switching places for Minotaur Challanger fight, drinking from Oni enchanted drinking gourd not triggering Aelfwine effect");
+			outputText("Harpies not checking if enemy have cock, Mist Phouka enemies dropping tarnished shard of metal, PC mummies behaviour choice menu buttons wrong labeled, pair of black cat gloves not allowing swiftcasting, Wood Elfs appearing for soulless PC's, cow maid and Excellia switching places for Minotaur Challanger fight, ");
+			outputText("drinking from Oni enchanted drinking gourd not triggering Aelfwine effect, Dark Charm not gained by Gremlins");
 			outputText("\n\n");
 			/*ostatni punkt changelogu
 			outputText("(Part 2/2) <b>Version 0.9a:</b>\n\n");

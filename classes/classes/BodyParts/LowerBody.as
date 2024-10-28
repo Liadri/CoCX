@@ -900,6 +900,12 @@ public class LowerBody extends SaveableBodyPart {
 		appearanceDesc: "While your legs are human in appearance your body is so rigid due to this pseudo rigor mortis that the only way you move is by lumbering around. Your legs are covered in bandages from tight to toes so you don’t accidentally cum from walking around."
 	});
 
+	public static const LICH:int = 88;
+	EnumValue.add(Types, LICH, "LICH", {
+		name: "lich",
+		appearanceDesc: "While your legs are human in appearance your body is quite rigid due to pseudo rigor mortis thus you mostly move by magical means."
+	});
+
 	override public function set type(value:int):void {
 		super.type = value;
 		// Reset leg count

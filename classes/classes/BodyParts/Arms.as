@@ -559,7 +559,11 @@ public class Arms extends SaveableBodyPart {
 		fur: true
 	});
 	
-	//72
+	public static const LICH:int = 72;
+	EnumValue.add(Types, LICH, "LICH", {
+		name:"lich",
+		appearanceDesc: "Your arms are human in shape and appearance but the nails of your hand glow with unholy powers. Your very touch drains the life out of the living."
+	});
 
 	public static const MUMMY:int = 73;
 	EnumValue.add(Types, MUMMY, "MUMMY", {

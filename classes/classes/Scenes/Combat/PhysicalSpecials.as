@@ -249,6 +249,11 @@ public class PhysicalSpecials extends BaseCombatContent {
 						bd.disable("<b>You need more time before you can perform Slam again.</b>\n\n");
 					} else if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 				}
+				//Mummy bandage
+				if (player.isRaceCached(Races.MUMMY) && !monster.hasPerk(PerkLib.EnemyGroupType) && !monster.hasPerk(PerkLib.EnemyLargeGroupType)) {
+					bd = buttons.add("Mummy bandage", mummyBandage).hint("You can initiate a grapple using your bandages.");
+					if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
+				}
 				//Kiss supercedes bite.
 				if (player.hasStatusEffect(StatusEffects.LustStickApplied)) {
 					bd = buttons.add("Kiss", kissAttack).hint("Attempt to kiss your foe on the lips with drugged lipstick.  It has no effect on those without a penis.");
@@ -4389,6 +4394,31 @@ public class PhysicalSpecials extends BaseCombatContent {
 		if (player.perkv1(IMutationsLib.MightyLowerHalfIM) >= 3) stunDura += 1;
 		else monster.createStatusEffect(StatusEffects.Stunned, stunDura, 0, 0, 0);
 		outputText("\n\n");
+		enemyAI();
+	}
+
+	public function mummyBandage():void {
+		flags[kFLAGS.LAST_ATTACK_TYPE] = 4;
+		clearOutput();
+		if (player.fatigue + physicalSpecialsCost(10) > player.maxOverFatigue()) {
+			clearOutput();
+			outputText("You just don't have the energy to grab at anyone right now...");
+			//Gone		menuLoc = 1;
+			menu();
+			addButton(0, "Next", combatMenu, false);
+			return;
+		}
+		if (monster is EncapsulationPod) {
+			clearOutput();
+			outputText("You can't grab something you're trapped inside of!");
+			//Gone		menuLoc = 1;
+			menu();
+			addButton(0, "Next", combatMenu, false);
+			return;
+		}
+		fatigue(physicalSpecialsCost(10), USEFATG_PHYSICAL);
+		outputText("You weave your bandage forward wrapping your opponent limb and pulling [monster him] toward you. ");
+		monster.createStatusEffect(StatusEffects.MummyBandage, 4 + rand(2),0,0,0);
 		enemyAI();
 	}
 

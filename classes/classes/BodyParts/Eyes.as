@@ -285,8 +285,14 @@ public class Eyes extends BodyPart {
 	public static const MOTH: int = 47;
 	EnumValue.add(Types, MOTH, "MOTH", {
 		name:"moth",
-		appearanceDesc: "Your eyes are like a moth’s eyes",
+		appearanceDesc: "Your eyes are like a moth’s eyes.",
 		Darkvision: true
+	});
+	public static const LICH: int = 48;
+	EnumValue.add(Types, LICH, "LICH", {
+		name:"lich",
+		appearanceDesc: "Your [eyecolor] eyes looks human enough though your eyelids are dark as if very tired or more likely because in theory you are halfway through death. While you have no biological benefit to take a long period of rest your body does feel at times like if you hadn’t slept for decades."//,
+		//Darkvision: true
 	});
 
 	public var count:int;
