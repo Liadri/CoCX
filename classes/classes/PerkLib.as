@@ -4006,6 +4006,8 @@ public class PerkLib
 				"Grants more control over your slimy body, allowing you to go twice as long without fluids.");
 		public static const DeadMetabolism:PerkType = mk("Dead metabolism", "Dead metabolism",
 				"Kills off hunger. (hunger meter wouldn't decay with time)");
+		public static const DeathlyPower:PerkType = mk("Deathly power", "Deathly power",
+				"Add your wisdom score to your intelligence. Black magic and Hex magic cooldowns are reduced by 1. Magic is twice as effective against foe with less than half of their health.");
 		public static const DeathPriest:PerkType = mk("Death Priest", "Death Priest",
 				"Add 100% of wisdom as a modifier to hit points and intelligence.");
 		public static const DemonEnergyThirst:PerkType = mk("Demonic hunger", "Demonic hunger",
@@ -4271,6 +4273,9 @@ public class PerkLib
 				"Reduces the likelihood of undergoing a transformation. Disables Bad Ends from transformative items.");
 		public static const TrollRegeneration:PerkType = mk("Troll Regeneration", "Troll Regeneration",
 				"3% health and 3 points of fatigue regeneration but double hunger decaying speed. Stops for 2 rounds when damaged by fire.");
+		public static const UndeadLord:PerkType = mk("Undead lord", "Undead lord",
+				"When defeating certain humanoid enemies you can drain the life out of them and turn them into obedient zombies under your control. Your zombies will periodically inflict damage to your foes when in combat harvesting soul force in the process. "+
+				"You periodically drain any excess soulforce from your pet so that they never achieve true sentience and rebel against your rule remaining ravenous and somewhat mindless.");
 		public static const UnnaturalStrength:PerkType = mk("Unnatural Strength", "Unnatural Strength",
 				"The more sated you are the stronger you get, although your satisfaction is fleeting.");
 		public static const WendigoCurse:PerkType = mk("Wendigo Curse", "Wendigo Curse",

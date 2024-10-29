@@ -290,7 +290,7 @@ public class Changelog extends BaseContent
 			outputText("-New Special names: Arikahs (cow/minotaur). Each of them will start with matching bloodline perk to match their ancestor race.\n");//, Veseshe (elf)
 			outputText("-New P. Special: Mummy Bandage - usable by mummy PC. You can initiate a grapple using your bandages.\n");
 			outputText("-Exploration proofreading + some other typos/adjustments. River dungeon and some playerinfo displays proof read, including updating some forgotten super perk descriptions on the perk picker. (Agentfunfun)\n");
-			outputText("-\n");
+			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 pts: +150% to Str multi, -90% to Spe multi, +600% to Int multi, +200% to Wis multi, +600% to Lib multi, +200 to sensitivity.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

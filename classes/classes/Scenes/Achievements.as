@@ -318,6 +318,8 @@ public class Achievements extends BaseContent
 			addAchievement("The Devil Wears Prada", kACHIEVEMENTS.EPIC_THE_DEVIL_WEARS_PRADA, "Became Devil.", "", true);
 			addAchievement("Thriller", kACHIEVEMENTS.EPIC_THRILLER, "Became Jiangshi.", "", true);
 			addAchievement("Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, "Became Yuki Onna.", "", true);
+			addAchievement("Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, "Became Mummy.", "", true);
+			addAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, "Became Lich.", "", true);
 			//odblokowanie pierwszego animal ancestory starting bonus at chara creation
 			addAchievement("My own Demon Weapon", kACHIEVEMENTS.EPIC_MY_OWN_DEMON_WEAPON, "Find an evolving weapon.", "", true);
 			//znalezienie ewolującą zbroje

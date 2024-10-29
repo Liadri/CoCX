@@ -5,8 +5,7 @@
 package classes.Scenes.NPCs
 {
 import classes.*;
-import classes.BodyParts.Tail;
-import classes.BodyParts.Tongue;
+import classes.BodyParts.*;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Consumable;
@@ -825,6 +824,7 @@ public function alvinaMainCampMenu():void
 		}
 		if (player.statusEffectv1(StatusEffects.AlvinaTraining2) == 4) addButtonDisabled(11, "Advanced Study", "You have already completed Advanced Study.");
 	}
+	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] > 3 && player.isPureHuman() && player.statusEffectv1(StatusEffects.AlvinaTraining2) == 2 && player.hasItem(useables.AMETIST, 1) && player.hasItem(consumables.L_DRAFT, 5) && player.hasItem(useables.SOULGEM, 5) && (player.hasKeyItem("Marae's Lethicite") >= 0 && player.keyItemvX("Marae's Lethicite", 1) > 0 || player.hasKeyItem("Stone Statue Lethicite") >= 0)) addButton(12, "Try a custom ritual", alvinaCampTryACustomRitual);
 	if (flags[kFLAGS.ALVINA_FOLLOWER] >= 20) addButton(14, "Back", camp.campLoversMenu);
 	else addButton(14, "Back", camp.campFollowers);
 }
@@ -874,7 +874,6 @@ public function alvinaFreaksDevilPurification():void
 	outputText("On these world Alvina aura flares with a pillar of raw magic power as she transforms into a whole new form easily over 10 ft tall, her wings unfolding as the magic from her aura spreads to the ground beneath her and catch fire setting the whole area ablaze. Amidst this vision of hell Alvina stands proudly, her scythe having split into two sickles of which she holds one in each hand."+(player.basetallness < 9*12 ? " She practically towers above you.":"")+"[pg]");
 	outputText("\"<i>Fixing me, hah! You're the one who needs to be fixed. Trust me you will thank me for it later.</i>\"[pg]");
 	outputText("She's your teacher and lover as well as the most powerful opponent you've ever faced, but for your sake and hers, you have to stop her. There's no holding back now.[pg]");
-
 	FightForAlvina = true;
 	startCombat(new Alvina());
 }
@@ -1535,6 +1534,57 @@ public function alvinaCampAdvancedStudy():void
 			advanceMinutes(5);
 		}
 	}
+}
+public function alvinaCampTryACustomRitual():void {
+	spriteSelect(SpriteDb.s_archmage_alvina_shadowmantle2_16bit);
+	clearOutput();
+	player.destroyItems(useables.AMETIST, 1);
+	player.destroyItems(consumables.L_DRAFT, 5);
+	player.destroyItems(useables.SOULGEM, 5);
+	if (player.hasKeyItem("Stone Statue Lethicite") >= 0) player.removeKeyItem("Stone Statue Lethicite");
+	else player.addKeyValue("Marae's Lethicite", 1, -1);
+	outputText("You show up with all the required items. Alvina looks at you confused at first as to why you are looking human again but sensing that your corruption is still high dismiss the issue. Whatever your vessel looks like is your business at this point.\n\n");
+	outputText("\"<i>Good, I wasn’t expecting you to collect those items so quickly. Once again you’ve exceeded my expectations.</i>\"\n\n");
+	outputText("She arranges the soulstones on the ground to form a magic circle, cutting herself with a dagger to draw the lines using her own blood she then hands you over the knife.\n\n");
+	outputText("\"<i>To properly remove the soul without it turning to Lethicite we will need to extract some of your flesh as a temporary vessel. I trust you have the resolve…</i>\"\n\n");
+	outputText("You don’t need her repeating herself and cut straight into your side, wincing as you cut a fairly sized chunk, healing the wound afterward. Alvina takes the freshly cut morsel of skin and chants the spell, the organic matter sinking in the gem of the necklace where it won’t risk decaying. When all preparations are done, she has you silently rehearse the line repeatedly so you don't mess up.\n\n");
+	outputText("\"<i>Wouldn’t want to accidentally lose your soul because of a failed ritual right, [name]? Repeat after me…</i>\"\n\n");
+	outputText("You repeat it a few times, then finally, ready for the real one. As instructed, you stand in the middle of the circle, holding the items next to your heart and start incanting after drinking the five lust draft in one go. This said to Alvina's surprise, you slightly alter the formula adding a new line to subtly change the meaning… taking inspiration from the zombification ritual performed on you before you attempt to alter the fabric of your very soul. If your experiment goes right you will allow for your anima to move freely between your body and the phylactery at all times achieving the best of both worlds!\n\n");
+	outputText("\"<i>Ahgn akoshor fisfis arci gorshaness firnklir gorash nok arokis duo ars nur anima…</i>\"\n\n");
+	outputText("You hold yourself back from cumming several times; knowing full well that if you do, your soul is forfeit. A ghostly thread starts to form between your chest and the necklace, as the thread stabilizes, you see something being extracted bit by bit from you in the form of white mist, which is swiftly absorbed by the chunk of flesh in the amulet. You continue incanting until the white mist has been entirely absorbed, all the while your skin begins to lose color becoming pallid blue just like the undead you used to be before something goes wrong along the ritual and you trip on your words, as you do you feel your life force slipping out of your body as your heart stops beating and you grow increasingly tired. Alvina notices the issue quickly and tries various healing spells to keep your silly self alive but it’s as if healing magic has no effect on you. ");
+	outputText("Your life teeters at the edge of oblivion and you barely manage to keep it as you finish the incantation with a whisper barely able to hear Alvina's panicked voice in the background. You look around tired… your body feels cold and lifeless… you could use some sleep right now but force yourself awake slowly regaining your composure before circulating your mana around and assisting your motion with a simple levitation spell. You’re too tired to walk and why should you, now that your magic output is unrestrained you can channel what would normally be lethal output of mana through your body without suffering any of the consequences a living being would have to handle. THIS is what a true immortal body should be like.\n\n");
+	outputText("Alvina eyes you up in confusion then anger as she yells at you for your carelessness.\n\n");
+	outputText("\"<i>You Idiot! What the hell did you do to the ritual? You succeeded at your endeavor and altered your soul to the point it was altered forever, fucking congratulations, but look at the shit your body turned into; now you're eternally stuck between life and death with no coming back, no amount of magical mending can repair this! This better not turn out to slowly destroy what's left of your already corrupted brain cells. This said every other part of the ritual seems to work correctly aside from your main body turning to a gray skinned husk that seems hilariously "+player.mf("handsome","gorgeous")+" like theres remains of corrupted mana in it. Was it your intention to turn yourself into some kind of spellcasting zombie all along?! Well so long as you're able to handle your stupid craving for soulforce you should work just as fine as a devil would, might even come up with a special package of unique abilities too, though seriously what were you even thinking?! This could have ended with you imploding on the spot or far worse!</i>\"\n\n");
+	outputText("You take the time to analyze your body. Alvina did just highlight a glaring problem, how the fuck are you going to sustain yourself if most form of healing magic fails you now! Heck come to think of it this new form of yours is no different from the zombie you were before, you’re literally starving for soul force and will need to suck it out of your foe if only to regain a semblance of vitality and hold your wits together! Well it's not like it will be any different from your previous zombie like life you just need to fuck the soul and soulforce out of victims and add it to your own. This is a no brainer, if you can’t heal yourself then you will just have to steal vitality from others. Your body will regenerate endlessly so long as you have enough stolen vitality to sustain it.\n\n");
+	outputText("You take your leave from Alvina for now though she let you know she wants you to report any further change in your body... for researching purposes of course.\n\n");
+	player.addStatusValue(StatusEffects.AlvinaTraining2, 1, 1);
+	player.skinColor = randomChoice("ghostly pale", "light blue", "snow white", "ghostly white");
+	CoC.instance.transformations.SkinPlain.applyEffect(false);
+	player.skinAdj = "flawless";
+	CoC.instance.transformations.SkinPatternNone.applyEffect(false);
+	CoC.instance.transformations.FaceDemon.applyEffect(false);
+	player.eyes.type = Eyes.LICH;
+	CoC.instance.transformations.EyesChangeColor(["light blue"]).applyEffect(false);
+	CoC.instance.transformations.EarsHuman.applyEffect(false);
+	CoC.instance.transformations.HairHuman.applyEffect(false);
+	player.hairColor = randomChoice("silver white", "silver", "snow white", "ghostly white");
+	CoC.instance.transformations.TongueDemonic.applyEffect(false);
+	CoC.instance.transformations.HornsNone.applyEffect(false);
+	CoC.instance.transformations.AntennaeNone.applyEffect(false);
+	player.arms.type = Arms.LICH;
+	player.lowerBody = LowerBody.LICH;
+	CoC.instance.transformations.WingsLevitation.applyEffect(false);
+	player.createPerk(PerkLib.Phylactery, 0, 0, 0, 0);
+	player.createPerk(PerkLib.UndeadLord, 1, 0, 0, 0);
+	player.createPerk(PerkLib.Undeath, 1, 0, 0, 0);
+	player.createPerk(PerkLib.DeathlyPower, 0, 0, 0, 0);
+	player.createPerk(PerkLib.Immortality, 0, 0, 0, 0);
+	player.createPerk(PerkLib.TransformationImmunity2, 10, 0, 0, 0);
+	if (player.cor < 100) player.cor = 100;
+	player.updateRacialAndPerkBuffs();
+	awardAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD);
+	CoC.instance.mainViewManager.updateCharviewIfNeeded();
+	doNext(camp.returnToCampUseSixHours);
 }
 
 private function alvinaProposal():void {

@@ -425,6 +425,8 @@ public class SaveUpdater extends NPCAwareContent {
 			["The Devil Wears Prada", kACHIEVEMENTS.EPIC_THE_DEVIL_WEARS_PRADA, player.hasPerk(PerkLib.Phylactery)],
 			["Thriller", kACHIEVEMENTS.EPIC_THRILLER, player.isRace(Races.JIANGSHI)],
 			["Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, player.isRace(Races.YUKIONNA)],
+			["Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, player.isRace(Races.MUMMY)],
+			["Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, player.isRace(Races.LICH)],
 		];
 
 		for each (var ach:Array in achievementList)
@@ -2748,6 +2750,7 @@ public class SaveUpdater extends NPCAwareContent {
 			}/*
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.59) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.59;
+				if (player.hasPerk(PerkLib.TransformationImmunity2) && player.hasPerk(PerkLib.SoulDrinker)) player.addPerkValue(PerkLib.TransformationImmunity2, 1, 1);
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.60) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.60;

@@ -8,6 +8,7 @@ import classes.Race;
 public class LichRace extends Race {
 	
 	public static const LichSkinColors:/*String*/Array = ["ghostly pale", "light blue", "snow white", "ghostly white"];
+    public static const LichHairColors:/*String*/Array = ["silver white", "silver", "snow white", "ghostly white"];
     public static const RaceBody:/*String*/Array = [
         /*Antenna*/		"Human",
         /*Arms*/		"Human",
@@ -47,35 +48,34 @@ public class LichRace extends Race {
 				.plainSkinOfAdj("flawless", +1)
 				.skinColor1(ANY(LichSkinColors), +1)
 				.hairType(Hair.NORMAL, +1)
+				.hairColor1(ANY(LichHairColors), +1)
 				.faceType(Face.DEMON, +1)
 				.eyeType(Eyes.LICH, +1)
 				.eyeColor("light blue", +1)
 				.earType(Ears.HUMAN, +1)
 				.tongueType(Tongue.DEMONIC, +1)
-				//.noGills(+1)
 				.noAntennae(+1)
 				.noHorns(+1)
-				//.noTail(+1)
 				.wingType(Wings.LEVITATION, +4)
 				.armType(Arms.LICH, +1)
 				.legType(LowerBody.LICH, +1)
-				//.noRearBody(+1)
-				//.skinBasePattern(Skin.PATTERN_NONE, +1)
-				.corruption(AT_LEAST(100), +4)
-				.hasPerk(PerkLib.Phylactery, +20);
+				.skinBasePattern(Skin.PATTERN_NONE, +1)
+				.corruption(AT_LEAST(100), +2)
+				.hasPerk(PerkLib.Phylactery, +4)
+				.hasPerk(PerkLib.TransformationImmunity2, +3);
 		
 		//addMutation(IMutationsLib.);
 		
-		buildTier(40, "Lich")
+		buildTier(28, "Lich")
                 .requirePerk(PerkLib.Phylactery)
 				.requireEyeType(Eyes.LICH)
 				.buffs({
-					"str.mult": +0.10,
-					"spe.mult": -0.10,
-					"int.mult": -0.10,
-					"wis.mult": +0.10,
-					"lib.mult": +0.10,
-					"sens": +10
+					"str.mult": +1.50,
+					"spe.mult": -0.90,
+					"int.mult": +6.00,
+					"wis.mult": +2.00,
+					"lib.mult": +6.00,
+					"sens": +200
 				})
 				.end();
 	}

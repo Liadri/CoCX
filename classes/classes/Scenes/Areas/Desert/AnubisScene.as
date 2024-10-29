@@ -137,7 +137,7 @@ public function anubisWonAndMummifyPC(genderA:Number = 0):void {
 	if (player.hasPerk(PerkLib.FutaForm)) player.removePerk(PerkLib.FutaForm);
 	if (player.hasPerk(PerkLib.FutaFaculties)) player.removePerk(PerkLib.FutaFaculties);
 	player.updateRacialAndPerkBuffs();
-	//awardAchievement("Thriller", kACHIEVEMENTS.EPIC_THRILLER);
+	awardAchievement("Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND);
 	CoC.instance.mainViewManager.updateCharviewIfNeeded();
 	model.time.days += 3;
 	cleanupAfterCombat();
