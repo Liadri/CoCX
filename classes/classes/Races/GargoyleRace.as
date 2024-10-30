@@ -138,6 +138,7 @@ public class GargoyleRace extends Race {
 						touBuff -= 20;
 						break;
 					case 4:
+					case 5:
 						intBuff += 500;
 						wisBuff += 250;
 						strBuff -= 30;
@@ -168,6 +169,7 @@ public class GargoyleRace extends Race {
 						intBuff -= 20;
 						break;
 					case 4:
+					case 5:
 						wisBuff += 500;
 						strBuff += 200;
 						intBuff -= 30;
@@ -201,6 +203,7 @@ public class GargoyleRace extends Race {
 						wisBuff -= 20;
 						break;
 					case 4:
+					case 5:
 						touBuff += 500;
 						strBuff += 250;
 						intBuff -= 30;
@@ -235,6 +238,7 @@ public class GargoyleRace extends Race {
 						wisBuff -= 20;
 						break;
 					case 4:
+					case 5:
 						strBuff += 500;
 						speBuff += 250;
 						intBuff -= 30;
@@ -269,6 +273,7 @@ public class GargoyleRace extends Race {
 						wisBuff -= 20;
 						break;
 					case 4:
+					case 5:
 						speBuff += 500;
 						strBuff += 125;
 						intBuff += 125;
@@ -289,13 +294,13 @@ public class GargoyleRace extends Race {
 		}
 		switch (Forgefather.channelInlay){
 			case "emerald":
-				if (Forgefather.refinement == 4) speBuff += 100;
+				if (Forgefather.refinement >= 4) speBuff += 100;
 				else if (Forgefather.refinement == 3) speBuff += 50;
 				break;
 		}
 		switch (Forgefather.gem){
 			case "emerald":
-				if (Forgefather.refinement == 4) speBuff += 50;
+				if (Forgefather.refinement >= 4) speBuff += 50;
 				else if (Forgefather.refinement == 3) speBuff += 25;
 				break;
 		}

@@ -573,7 +573,7 @@ import classes.Scenes.NPCs.Forgefather;
 				if (Forgefather.refinement == 0) multimax += (.15);
 				if (Forgefather.refinement == 1) multimax += (.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) multimax += (.35);
-				if (Forgefather.refinement == 4) multimax += (.5);
+				if (Forgefather.refinement >= 4) multimax += (.5);
 			}
 			if (hasPerk(PerkLib.HclassHeavenTribulationSurvivor)) max += (100 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
 			if (hasPerk(PerkLib.GclassHeavenTribulationSurvivor)) max += (150 * (1 + flags[kFLAGS.NEW_GAME_PLUS_LEVEL]));
@@ -676,7 +676,7 @@ import classes.Scenes.NPCs.Forgefather;
 				if (Forgefather.refinement == 0) multimax += (.15);
 				if (Forgefather.refinement == 1) multimax += (.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) multimax += (.35);
-				if (Forgefather.refinement == 4) multimax += (.5);
+				if (Forgefather.refinement >= 4) multimax += (.5);
 			}
 			if (hasPerk(PerkLib.HistoryCultivator) || hasPerk(PerkLib.PastLifeCultivator)) multimax += 0.1;
 			if (hasPerk(PerkLib.JobSoulCultivator)) {//8005-9005 soulforce na razie przed liczeniem mnożnika jest
@@ -762,7 +762,7 @@ import classes.Scenes.NPCs.Forgefather;
 				if (Forgefather.refinement == 0) multimax += (.15);
 				if (Forgefather.refinement == 1) multimax += (.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) multimax += (.35);
-				if (Forgefather.refinement == 4) multimax += (.5);
+				if (Forgefather.refinement >= 4) multimax += (.5);
 			}
 			max *= multimax;//~245%
 			max = Math.round(max);//476 414,75
@@ -874,7 +874,7 @@ import classes.Scenes.NPCs.Forgefather;
 				if (Forgefather.refinement == 0) multimax += (.15);
 				if (Forgefather.refinement == 1) multimax += (.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) multimax += (.35);
-				if (Forgefather.refinement == 4) multimax += (.5);
+				if (Forgefather.refinement >= 4) multimax += (.5);
 			}
 			if (hasPerk(PerkLib.AscensionInnerPower)) max += perkv1(PerkLib.AscensionInnerPower) * 120;
 			if (jewelryEffectId == JewelryLib.MODIFIER_MP) max += jewelryEffectMagnitude;

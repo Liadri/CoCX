@@ -277,9 +277,9 @@ public class AbstractSpell extends CombatAbility {
 				}
 				if (player.statStore.hasBuff("AjidAji")) damage *= 1.3;
 				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "ruby" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "ruby" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "ruby" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.fireDamageBoostedByDao();
 				break;
 			}
@@ -287,9 +287,9 @@ public class AbstractSpell extends CombatAbility {
 				damage = calcVoltageMod(damage, casting);
 				if (player.hasPerk(PerkLib.ElectrifiedDesire)) damage *= (1 + (player.lust100 * 0.01));
 				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "topaz" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "topaz" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "topaz" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.lightningDamageBoostedByDao();
 				break;
 			}
@@ -299,18 +299,18 @@ public class AbstractSpell extends CombatAbility {
 				if (player.armor == armors.BLIZZ_K) damage *= 1.5;
 				if (player.headJewelry == headjewelries.SNOWFH) damage *= 1.3;
 				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "sapphire" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.iceDamageBoostedByDao();
 				break;
 			}
 			case DamageType.DARKNESS: {
 				damage = calcEclypseMod(damage, casting);
 				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "amethyst" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.darknessDamageBoostedByDao();
 				break;
 			}

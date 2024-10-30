@@ -197,8 +197,8 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 		
 		public function introduceSelf():void {
 			flags[kFLAGS.FORGEFATHER_MOVED_TO_TEMPLE] = 1;
-			outputText("You introduce yourself to the being. /n/n");
-			outputText("Eyeing your quite solid form, he chuckles./n");
+			outputText("You introduce yourself to the being. \n\n");
+			outputText("Eyeing your quite solid form, he chuckles.\n");
 			outputText("\"<i>That's quite the stout form you have. I thought the demons destroyed all of your kind.</i>\"\n\n");
 			outputText("You respond, telling him of the Temple, and the 2 gargoyles now there. You describe you were a champion of your village, and how you willingly gave up your original form to inhabit the stony body.\n\n");
 			outputText("Surprised, the being exclaims.\n\n");
@@ -273,7 +273,6 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 			material = "stone";
 			player.hairType = Hair.NORMAL;
 			player.faceType = Face.DEVIL_FANGS;
-			CoC.instance.transformations.TongueDemonic.applyEffect(false);
 			player.horns.type = Horns.GARGOYLE;
 			player.horns.count = 12 + rand(4);
 			player.beardLength = 0;
@@ -342,7 +341,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 			player.legCount = 2;
 			player.eyes.type = Eyes.GEMSTONES;
 			player.antennae.type = Antennae.NONE;
-			player.tongue.type = Tongue.HUMAN;
+			player.tongue.type = Tongue.DEMONIC;
 			player.ears.type = Ears.ELFIN;
 			player.gills.type = Gills.NONE;
 			player.rearBody.type = RearBody.NONE;
@@ -426,13 +425,21 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 			else if (refinement >= 5) addButtonDisabled(6, "Change Mat's", "You've crossed the rubicon, there is no" +
 					" turning back.");
 			else addButtonDisabled(6, "Change Mat's", "Maybe you should learn what the materials do first?");
-			if (refinementExplained) addButton(7, "Refine Body", refineBody).hint("Refine your form.");
+			if (refinementExplained) {
+				if (refinement < 4) {
+					addButton(7, "Refine Body", refineBody).hint("Refine your form.");
+				} else if (refinement == 4) {
+					addButtonDisabled(7, "Refine Body", "Your form can't be refined any further, unless you change materials.");
+				} else /*if (refinement >= 5)*/ {
+					addButtonDisabled(7, "Refine Body", "You've reached your final form, there is no turning back.");
+				}
+			}
 			else addButtonDisabled(7, "Refine Body", "Maybe you should learn about refining your form first?");
 			if (gemstonesExplained) addButton(8, "Change Inlays", inlayBody).hint("Set/Change your Inlays.");
 			else addButtonDisabled(8, "Change Inlays", "Maybe you should learn about inlays first?");
 			if (gemstonesExplained) addButton(9, "Change Gems", blingBody).hint("Set/Change your Gems.");
 			else addButtonDisabled(9, "Change Gems", "Maybe you should learn about Gemstones first?");
-			if (refinement == 4 && channelInlay != "" && gem != "") addButton(10, "What's Next", learnAboutAvatars).hint("You've come this far, what more can you do?")
+			if (refinement == 4 && !avatarsExplained && channelInlay != "" && gem != "") addButton(10, "What's Next", learnAboutAvatars).hint("You've come this far, what more can you do?")
 			else if (refinement == 4 && avatarsExplained && !celessScene.isAdult) addButtonDisabled(10, "Become" +
 					" Avatar", "You need to find a being of divine purity or corruption.")
 			else if (refinement == 4 && avatarsExplained && celessScene.isAdult) addButton(10, "Become the Avatar", gargoyleFinalForm).hint("Take the final step.")
@@ -760,6 +767,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 				refinement++;
 				explorer.stopExploring();
 				camp.returnToCampUseSixHours();
+				return;
 			}
 			if (refinement == 2){
 				player.destroyItems(consumables.S_WATER, 2);
@@ -769,6 +777,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 				refinement++;
 				explorer.stopExploring();
 				camp.returnToCampUseTwelveHours();
+				return;
 			}
 			if (refinement == 3){
 				player.destroyItems(consumables.ROUGHLN, 3);
@@ -1059,7 +1068,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 			else{
 				outputText("Once you arrive at the Font of Power at the Oasis, you are floored by the sheer purity" +
 						" of the place. The water is clear and radiant, with not a ripple upon it's surface.\n\nThe" +
-						" Forgefather instructs you to lay in the font, with only your head remaining above the surface.\n\n);");
+						" Forgefather instructs you to lay in the font, with only your head remaining above the surface.\n\n");
 				outputText(celessScene.Name + " walks forward, with a look of holy serentity upon her face, her horn" +
 						" beginning to emit a cleansing light. Once at the Font's edge, she kneels down, touching" +
 						" the surface with her horn, resulting in a blinding eruption of light. As you lie blinded" +
