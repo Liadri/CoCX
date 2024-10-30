@@ -74,6 +74,7 @@ public class FairyRace extends Race {
 
 		buildTier(23, "Great Fairy")
                 .requirePerk(PerkLib.TransformationImmunity2)
+				.requireEyeType(Eyes.FAIRY)
 				.buffs({
 					"str.mult": -0.20,
 					"tou.mult": -0.10,

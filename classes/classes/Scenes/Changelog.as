@@ -208,7 +208,7 @@ public class Changelog extends BaseContent
 			outputText("-Skull and Tree of Life accesories now would give set bonus when applied both at the same time: +1% HP (+2% below 0 HP) regeneration for undead/others and -1% HP (-2% below 0 HP) regeneration for others / undead, +2% diehard for others / undead.\n");
 			outputText("-Because too much regeneration will kill you... wait maybe it was too much love? Anyway almost all item related effects that would increase maximum regeneration cap was removed.\n");
 			outputText("-Supercharged state can be entered for Raiju when racial score would reach 2 tier (greater raiju).\n");
-			outputText("-12 new achievments. (10 shadow ones)\n");
+			outputText("-14 new achievments. (12 shadow ones)\n");
 			outputText("-Aquatic Affinity can be gained additional if pc lower body is that of scylla / kraken OR pc is having any arigean parasite.\n");
 			outputText("-Minerva and Izumi base level was increased and accordly their max lvl they can gain by leveling increased too to each reaching within 120-130 lvl range.\n");
 			outputText("-Fixed Benoit not feminizing and Possess not resetting crab grapple (Svalkash)\n");
@@ -291,8 +291,8 @@ public class Changelog extends BaseContent
 			outputText("-New P. Special: Mummy Bandage - usable by mummy PC. You can initiate a grapple using your bandages.\n");
 			outputText("-Exploration proofreading + some other typos/adjustments. River dungeon and some playerinfo displays proof read, including updating some forgotten super perk descriptions on the perk picker. (Agentfunfun)\n");
 			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 pts: +150% to Str multi, -90% to Spe multi, +600% to Int multi, +200% to Wis multi, +600% to Lib multi, +200 to sensitivity.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-Minor typo changes. (Agentfunfun)\n");
+			outputText("-Fairy score req. to have fairy eyes to get bonuses for above half-fairy race bonuses.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

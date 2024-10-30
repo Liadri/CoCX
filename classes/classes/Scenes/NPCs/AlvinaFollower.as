@@ -1560,8 +1560,8 @@ public function alvinaCampTryACustomRitual():void {
 	player.addStatusValue(StatusEffects.AlvinaTraining2, 1, 1);
 	player.skinColor = randomChoice("ghostly pale", "light blue", "snow white", "ghostly white");
 	CoC.instance.transformations.SkinPlain.applyEffect(false);
-	player.skinAdj = "flawless";
 	CoC.instance.transformations.SkinPatternNone.applyEffect(false);
+	player.skinAdj = "flawless";
 	CoC.instance.transformations.FaceDemon.applyEffect(false);
 	player.eyes.type = Eyes.LICH;
 	CoC.instance.transformations.EyesChangeColor(["light blue"]).applyEffect(false);

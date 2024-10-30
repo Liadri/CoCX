@@ -93,6 +93,7 @@ public class TestMenu extends BaseContent
 		bd.add("Amily Re:Fit", AddJabbyShit1, "Amily Re:Fit.").disableIf(player.hasPerk(PerkLib.Soulless));
 		bd.add("X-Uni 2", MightyOrNot, "Adding status effect needed for gifts and yuri scene unlock in demon lair.");
 		bd.add("RuinedTown", SceneLib.ruinedTown.enterVillage, "Test the Mousetown");
+		bd.add("LichTest", MightyOrNot2, "Lich Testing");
 		submenu(bd, playerMenu, 0, false);
 	}
 
@@ -128,6 +129,35 @@ public class TestMenu extends BaseContent
 		bd.add("Neko Items", giveNekoItems, "All new neko items from Nekobake Inn doc");
 		bd.add("DantianPhylactery", dantianPhylacteryTest, "Getting or losing Dantian Phylactery.");
 		submenu(bd, SoulforceCheats, 0, false);
+	}
+	
+	public function MightyOrNot2():void {
+		player.skinColor = randomChoice("ghostly pale", "light blue", "snow white", "ghostly white");
+		CoC.instance.transformations.SkinPlain.applyEffect(false);
+		CoC.instance.transformations.SkinPatternNone.applyEffect(false);
+		player.skinAdj = "flawless";
+		CoC.instance.transformations.FaceDemon.applyEffect(false);
+		player.eyes.type = Eyes.LICH;
+		CoC.instance.transformations.EyesChangeColor(["light blue"]).applyEffect(false);
+		CoC.instance.transformations.EarsHuman.applyEffect(false);
+		CoC.instance.transformations.HairHuman.applyEffect(false);
+		player.hairColor = randomChoice("silver white", "silver", "snow white", "ghostly white");
+		CoC.instance.transformations.TongueDemonic.applyEffect(false);
+		CoC.instance.transformations.HornsNone.applyEffect(false);
+		CoC.instance.transformations.AntennaeNone.applyEffect(false);
+		player.arms.type = Arms.LICH;
+		player.lowerBody = LowerBody.LICH;
+		CoC.instance.transformations.WingsLevitation.applyEffect(false);
+		player.createPerk(PerkLib.Phylactery, 0, 0, 0, 0);
+		player.createPerk(PerkLib.UndeadLord, 1, 0, 0, 0);
+		player.createPerk(PerkLib.Undeath, 1, 0, 0, 0);
+		player.createPerk(PerkLib.DeathlyPower, 0, 0, 0, 0);
+		player.createPerk(PerkLib.Immortality, 0, 0, 0, 0);
+		player.createPerk(PerkLib.TransformationImmunity2, 10, 0, 0, 0);
+		if (player.cor < 100) player.cor = 100;
+		player.updateRacialAndPerkBuffs();
+		CoC.instance.mainViewManager.updateCharviewIfNeeded();
+		doNext(SoulforceCheats);
 	}
 	
 	public function MightyOrNot():void {
