@@ -54,7 +54,7 @@ public class CancerAttackScene extends BaseContent
 				doNext(camp.returnToCampUseOneHour);
 			} else {
 				outputText("As you explore the beach you begin to feel the sand rumble under your feet… just what the hell is going on?\n\n" +
-						"You indeed are answered shortly afterward as a huge pincers surge out of the sand before you and try to grab you ");
+						"You indeed are answered shortly afterward as a huge pincers surge out of the sand before you and try to grab you. ");
 				if (player.spe < 150) {
 					outputText("wich it does manage to. You begin to struggle as the rest of the creature’s body moves out of the sand and you are lifted up into the air along with the pincer. " +
 							"At the other end of the pincer that tried to hold you is the massive chitinous body of a crab, still partially covered in sand, " +
@@ -68,12 +68,12 @@ public class CancerAttackScene extends BaseContent
 					doNext(rape);
 				} else {
 					outputText("Thankfully your peerless reflexes allows you to move out of range just in time. " +
-							"The creature follows you as it moves out of the sand, revealing the massive chitinous body of a crab, a smaller form atop it with the physiognomy of a young "+(isFemale ? "woman":"men")+" from the waist up. " +
+							"The creature follows you as it moves out of the sand, revealing the massive chitinous body of a crab, a smaller form atop it with the physiognomy of a young "+(isFemale ? "woman":"man")+" from the waist up. " +
 							"[monster He] looks at you with a gaze devoid of emotion and flatly declares.\n\n" +
 							"<i>\"Ah…so I caught a [man].\"</i>\n\n" +
 							"Despite [monster his] flat tone and somewhat blank stare it's clear that what [monster he] intends to do with you will result into nothing good.\n\n" +
 							"<i>\"Don’t struggle… the mating will be both swift and nice.\"</i>\n\n" +
-							"At that [monster he] passively lick [monster his] lip. Yea no way you are letting [monster him] do that! ");
+							"At that [monster he] passively lick [monster his] lip. Yeah, no way you are letting [monster him] do that! ");
 					startCombat(monster);
 				}
 			}

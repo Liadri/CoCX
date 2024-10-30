@@ -241,7 +241,7 @@ private function evangelineAppearance():void {
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("eight feet");
 	else outputText("seven and a half feet");
 	outputText(" tall.\n\n");
-	outputText("Oddly despite living in Mareth she looks like a human aside from her eyes that have uncanny pupils, which after narrowing looks like two cat slits that forms an X shape over her golden eyes. Her ");
+	outputText("Oddly, despite living in Mareth she looks like a human aside from her eyes that have uncanny pupils, which after narrowing looks like two cat slits that forms an X shape over her golden eyes. Her ");
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("crimson platinum ");
 	else outputText("red ");
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("hair are ass-length along with breats that could easily fill a F-cup bra, expansive ass and fertile hips.\n\n");

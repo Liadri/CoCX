@@ -35,7 +35,7 @@ public function firstmeetingCeani():void
 	outputText("You're too busy gawking at the huge harpoon still impaled in the tuna to answer to surprisingly gentle orca morph.\n\n");
 	outputText("\"<i>Oh that? Its nothing you know. Bet you could learn to do it to with some training if you wanted to.</i>\"\n\n");
 	outputText("Really, could she teach you how to use ranged weapon?\n\n");
-	outputText("\"<i>Yea sure, but, I will need a compensation for it because if I’m training you I’m not hunting and I need plenty of food to eat.</i>\"\n\n");
+	outputText("\"<i>Yea sure, but, I will need compensation for it because if I’m training you, I’m not hunting, and I need plenty of food to eat.</i>\"\n\n");
 	outputText("Her sharp toothed smile tells you she must indeed eat her fair share of fish daily. You consider her offer for a moment as she leaves adding.\n\n");
 	outputText("\"<i>If you want some lessons I will be at the beach, seek me out with at least 50 gems.</i>\"\n\n");
 	outputText("You head back to camp considering this golden opportunity.\n\n");

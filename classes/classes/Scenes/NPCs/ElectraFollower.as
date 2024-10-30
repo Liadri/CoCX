@@ -451,7 +451,7 @@ public function ElectraSeXYesF():void {
 	outputText("She seems to be riding the orgasm of her life as her own pussy juices are mixing with yours, electricity dancing in the air around you two. You cum and cum again at such a speed you have no idea how you still manage to retain some semblance of consciousness from the mind-numbing pleasure in your switch. Both of you finally lose consciousness as the electric flow ebbs, your tongues lolling out from the intense pleasure.\n\n");
 	outputText("You wake up with the raiju next to you. The ground is still a massive pool of girl cum, but for some reason you feel satisfied.\n\n");
 	outputText("\"<i>Good morning, I was wondering when you would wake up. Thank you so much, you helped me release all the stockpiled energy I had.</i>\"");
-	outputText("She slowly pulls away from your pussy, looking at your lower-half with a satisfied smile. ");
+	outputText(" She slowly pulls away from your pussy, looking at your lower-half with a satisfied smile. ");
 	player.sexReward("vaginalFluids", "Vaginal");
 	afterYes();
 }
