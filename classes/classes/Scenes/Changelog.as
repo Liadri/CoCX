@@ -293,10 +293,10 @@ public class Changelog extends BaseContent
 			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 pts: +150% to Str multi, -90% to Spe multi, +600% to Int multi, +200% to Wis multi, +600% to Lib multi, +200 to sensitivity.\n");
 			outputText("-Minor typo changes. (Agentfunfun)\n");
 			outputText("-Fairy score req. to have fairy eyes to get bonuses for above half-fairy race bonuses.\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New option for Liches - Soul burn: You may use your soulforce as fuel to empower your arcane magic. While active consume soulforce (5% per turn) on all cast as if using soul skills but double magic damage.\n");
+			outputText("-New M. special: Paralyzing touch - You can paralyze a living foe with a single touch by temporarily sucking the soul force out of their limbs. This ability does not work against undead and foes who lack soulforce to begin with. Usable by Lich. Deal darkness damage and stun for 2 rounds.\n");// Cost 100 fatigue.
+			outputText("-New event perk: Deathly power. Gained by been Lich. Effects: Add your wisdom score to your intelligence. Black magic and Hex magic cooldowns are reduced by 1. Magic is twice as effective against foe with less than half of their health.\n");
+			outputText("-New mutation perk: Black Blood. Req. having free bloodstream mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Your undead blood gives you a 10% resistance to cold.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

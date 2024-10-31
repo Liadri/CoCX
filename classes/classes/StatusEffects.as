@@ -665,6 +665,7 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const SoulArenaGauntlets1:StatusEffectType          	= mk("Soul Arena Gauntlets 1");
 		public static const SoulDrill1:StatusEffectType                   	= mk("Soul Drill 1");
 		public static const SoulGemCrafting:StatusEffectType                = mk("SoulGemCrafting");
+		public static const SoulBurn:StatusEffectType                   	= mk("Soul Burn");
 		public static const SAS:StatusEffectType             				= mk("SAS");
 		public static const SphinxAS:StatusEffectType             			= mk("SphinxAS");
 		public static const SuccubiFirst:StatusEffectType                   = mk("SuccubiFirst");

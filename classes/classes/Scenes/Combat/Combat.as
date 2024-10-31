@@ -12444,6 +12444,14 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
             //		outputText("<b>As your soulforce is drained you can feel the Violet Pupil Transformation's regenerative power spreading in your body.</b>\n\n");
             //	}
         }
+        //Soul burn
+        if (player.hasStatusEffect(StatusEffects.SoulBurn))  {
+            if (player.soulforce < Math.round(player.maxSoulforce() * 0.05)) {
+                player.removeStatusEffect(StatusEffects.SoulBurn);
+                outputText("<b>You can't no longer sustain Soul burn.</b>\n\n");
+            }
+            else player.soulforce -= Math.round(player.maxSoulforce() * 0.05);
+        }
         //Displacement
         if (player.hasStatusEffect(StatusEffects.Displacement)) {
             if (player.statusEffectv1(StatusEffects.Displacement) <= 0) {
