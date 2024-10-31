@@ -774,7 +774,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 				player.destroyItems(consumables.SHEEPMK, 2);
 				player.destroyItems(consumables.ECTOPLS, 1);
 				player.destroyItems(consumables.GODMEAD, 1);
-				refinement++;
+				refinement = 3;
 				explorer.stopExploring();
 				camp.returnToCampUseTwelveHours();
 				return;
@@ -784,7 +784,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 				player.destroyItems(consumables.COAL___, 2);
 				player.destroyItems(consumables.IRONWEED, 1);
 				player.destroyItems(consumables.LIGHTOL, 1);
-				refinement++
+				refinement = 4;
 				explorer.stopExploring();
 				camp.returnToCampUseTwelveHours();
 			}
@@ -1087,7 +1087,7 @@ public class Forgefather extends NPCAwareContent implements SaveableState	{
 				}
 			}
 
-			refinement++;
+			refinement = 5;
 			explorer.stopExploring();
 			addButton(0,"Return to camp", camp.returnToCampUseSixHours);
 		}
