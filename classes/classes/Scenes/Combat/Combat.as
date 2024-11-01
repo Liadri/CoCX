@@ -8156,7 +8156,7 @@ public class Combat extends BaseContent {
             if (Forgefather.refinement == 0) unarmedMulti += (.15);
             if (Forgefather.refinement == 1) unarmedMulti += (.25);
             if (Forgefather.refinement == 2 || Forgefather.refinement == 3) unarmedMulti += (.5);
-            if (Forgefather.refinement == 4) unarmedMulti += (1);
+            if (Forgefather.refinement >= 4) unarmedMulti += (1);
         }
         if (player.statStore.hasBuff("CrinosShape") && player.hasPerk(PerkLib.ImprovingNaturesBlueprintsNaturalWeapons)) {
 			if (player.perkv1(IMutationsLib.FerasBirthrightIM) >= 2) unarmed *= 1.2;
@@ -17641,9 +17641,9 @@ public function greatDive():void {
     if (player.perkv1(IMutationsLib.HarpyHollowBonesIM) >= 2) damage *= 1.5;
     if (player.perkv1(IMutationsLib.HarpyHollowBonesIM) >= 3) damage *= 2;
     if (Forgefather.channelInlay == "emerald" && Forgefather.refinement == 3) damage *= 1.25;
-    if (Forgefather.channelInlay == "emerald" && Forgefather.refinement == 4) damage *= 1.5;
+    if (Forgefather.channelInlay == "emerald" && Forgefather.refinement >= 4) damage *= 1.5;
     if (Forgefather.gem == "emerald" && Forgefather.refinement == 3) damage *= 1.12;
-    if (Forgefather.gem == "emerald" && Forgefather.refinement == 4) damage *= 1.25;
+    if (Forgefather.gem == "emerald" && Forgefather.refinement >= 4) damage *= 1.25;
     outputText("You focus on [Themonster], ");
     if (player.statusEffectv2(StatusEffects.Flying) == 0) outputText("fold your wings and dive");
     if (player.statusEffectv2(StatusEffects.Flying) == 1) outputText("direct your "+player.weaponFlyingSwordsName+" downward");

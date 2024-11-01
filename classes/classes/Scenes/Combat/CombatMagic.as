@@ -336,7 +336,7 @@ public class CombatMagic extends BaseCombatContent {
 			if (Forgefather.refinement == 0) mod += (.15);
 			if (Forgefather.refinement == 1) mod += (.25);
 			if (Forgefather.refinement == 2 || Forgefather.refinement == 3) mod += (.5);
-			if (Forgefather.refinement == 4) mod += (1);
+			if (Forgefather.refinement >= 4) mod += (1);
 		}
 		if (player.hasPerk(PerkLib.AscensionMysticality)) mod *= 1 + (player.perkv1(PerkLib.AscensionMysticality) * 0.1);
 		if (player.weapon == weapons.ASCENSU) mod *= 6.5;
