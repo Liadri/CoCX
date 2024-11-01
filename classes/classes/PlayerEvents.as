@@ -2362,15 +2362,20 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			needNext ||= player.losePerk(PerkLib.Venomancy, !player.isRaceCached(Races.APOPHIS) && player.cor < 89, "Your mystical powers over poison and toxins have waned.");
 
 			//Pregomania
-			if(player.isPregnant() && (player.isHarpy() || player.isGoblinoid() || player.isAlraune() || player.isSandWorm() || (player.perkv1(IMutationsLib.FiendishOvariesIM) >= 4 && (player.pregnancyType == PregnancyStore.PREGNANCY_IMP || player.pregnancy2Type == PregnancyStore.PREGNANCY_IMP))) && !player.statStore.hasBuff("Pregomania")){
-				player.statStore.removeBuffs("Impregnate me!!!");
-				player.statStore.addBuffObject({"tou.mult":0.20,"lib.mult":0.20}, "Pregomania",{text:"Your motherly instincs gives you increased resilience and resolve."});
-				outputText("\nYou pat your belly in motherly delight instinctively knowing that you have been impregnated. Your body seldom radiates motherly wellbeing making you hardyer in order to protect your beloved children to be.\n");
-			}
-			if(!player.isPregnant() && (player.isHarpy() || player.isGoblinoid() || player.isAlraune() || player.isSandWorm() || (player.perkv1(IMutationsLib.FiendishOvariesIM) >= 4 && (player.pregnancyType == PregnancyStore.PREGNANCY_IMP || player.pregnancy2Type == PregnancyStore.PREGNANCY_IMP))) && player.statStore.hasBuff("Pregomania")){
+			if (player.isHarpy() || player.isGoblinoid() || player.isAlraune() || player.isSandWorm() || (player.perkv1(IMutationsLib.FiendishOvariesIM) >= 4 && (player.pregnancyType == PregnancyStore.PREGNANCY_IMP || player.pregnancy2Type == PregnancyStore.PREGNANCY_IMP))) {
+				if(player.isPregnant() && !player.statStore.hasBuff("Pregomania")){
+					player.statStore.removeBuffs("Impregnate me!!!");
+					player.statStore.addBuffObject({"tou.mult":0.20,"lib.mult":0.20}, "Pregomania",{text:"Your motherly instincs gives you increased resilience and resolve."});
+					outputText("\nYou pat your belly in motherly delight instinctively knowing that you have been impregnated. Your body seldom radiates motherly wellbeing making you hardyer in order to protect your beloved children to be.\n");
+				}
+				if(!player.isPregnant() && player.statStore.hasBuff("Pregomania")){
+					player.statStore.removeBuffs("Pregomania");
+					outputText("\nNo longer pregnant, you feel a void in your belly as the need to be impregnated again claw at your mind.\n");
+					player.statStore.addBuffObject({"lib.mult":0.50}, "Impregnate me!!!",{text:"You strongly desire to be impregnated."});
+				}
+			} else {
 				player.statStore.removeBuffs("Pregomania");
-				outputText("\nNo longer pregnant, you feel a void in your belly as the need to be impregnated again claw at your mind.\n");
-				player.statStore.addBuffObject({"lib.mult":0.50}, "Impregnate me!!!",{text:"You strongly desire to be impregnated."});
+				player.statStore.removeBuffs("Impregnate me!!!");
 			}
 			if(player.isPregnant() && player.hasMutation(IMutationsLib.GoblinOvariesIM) && !player.statStore.hasBuff("PregGoblinoid")){
 				var libMulti:Number = player.lib;
