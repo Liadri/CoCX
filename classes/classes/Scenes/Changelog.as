@@ -286,7 +286,7 @@ public class Changelog extends BaseContent
 			outputText("-New option in Alteration of Cursed Tag: Cursed Touch -> Unarmed strikes inflict 1% toughness damage.\n");
 			outputText("-New option in Alteration of Cursed Tag: Paralyzing fear -> Unarmed strikes inflict 1% strength damage.\n");
 			outputText("-After loosing to anubis enemy there is 25% chance she would mummify PC. After this PC race change to Mummy - bonuses at 20 pts in racial score (scalable): +250% to Str multi, -90% to Spe multi, -90% to Int multi, +130% to Wis multi, +300% to Lib multi, +200 to sensitivity, +50 armor. Evangeline can cure mummified PC.\n");
-			outputText("-In the Mutations DB the 'Dragon Mutations'-menu still listed the old 'Draconic' IMutations. Replaced that with the new, generic Drake IMutations. (Stadler)\n");
+			outputText("-In the Mutations DB the 'Dragon Mutations'-menu still listed the old 'Draconic' IMutations. Replaced that with the new, generic Drake IMutations. (Stadler76)\n");
 			outputText("-New Special names: Arikahs (cow/minotaur). Each of them will start with matching bloodline perk to match their ancestor race.\n");//, Veseshe (elf)
 			outputText("-New P. Special: Mummy Bandage - usable by mummy PC. You can initiate a grapple using your bandages.\n");
 			outputText("-Exploration proofreading + some other typos/adjustments. River dungeon and some playerinfo displays proof read, including updating some forgotten super perk descriptions on the perk picker. (Agentfunfun)\n");
@@ -297,8 +297,10 @@ public class Changelog extends BaseContent
 			outputText("-New M. special: Paralyzing touch - You can paralyze a living foe with a single touch by temporarily sucking the soul force out of their limbs. This ability does not work against undead and foes who lack soulforce to begin with. Usable by Lich. Deal darkness damage and stun for 2 rounds.\n");// Cost 100 fatigue.
 			outputText("-New event perk: Deathly power. Gained by been Lich. Effects: Add your wisdom score to your intelligence. Black magic and Hex magic cooldowns are reduced by 1. Magic is twice as effective against foe with less than half of their health.\n");
 			outputText("-New mutation perk: Black Blood. Req. having free bloodstream mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Your undead blood gives you a 10% resistance to cold.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-Fix Pregomania buffs not being removed properly. (Stadler76)\n");
+			outputText("-Various fixes for issues with the gargoyle-form: Gargoyle final form could not be reached, because the dialogue with the Forgefather never went past 'What's Next' because of a missing check for !avatarsExplained in the conditional. Upon reaching gargoyle final form, the stat boosts, damage buffs and so on weren't applied anymore, ");
+			outputText("because the checks went only as far as checking for refinement == 4. Gargoyle race includes a demonic tongue, but when becoming a gargoyle the tongue was first changed to a demonic tongue and then to a human one. If you refined your body with refinement at at least 1, all refinements till level 4 were applied at once, ");
+			outputText("even if you lacked the mats due to missing return-statements in the function. The 'Refine Body'-button is now disabled, when you can't be refined any further. Fixed a handful typos in two Forgefather scenes. (Stadler76)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -316,14 +318,23 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
 			outputText("-\n");//Motivation (Su) now req. additionaly Advanced Leadership perk
 			outputText("-\n");//New range weapon (by Liadri):  - buyable at Tripxi shop in Tel'Adre after PC find and bring back it parts from  area. Cost xx0 gems. Base atk is xx and ammo clip size x.
-			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash)
-			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz) (Agentfunfun)
+			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash) (Agentfunfun)
+			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz) (Stadler76)
 			outputText("-\n");
 			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
 			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
 			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
 			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -402,14 +413,8 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -440,9 +445,6 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
