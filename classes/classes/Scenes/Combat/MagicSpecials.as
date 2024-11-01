@@ -428,6 +428,14 @@ public class MagicSpecials extends BaseCombatContent {
 					} else if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 				}
 			}
+			if (player.isRaceCached(Races.LICH)) {
+				bd = buttons.add("Paralyzing touch", paralyzingTouch).hint("You can paralyze a living foe with a single touch by temporarily sucking the soul force out of their limbs. This ability does not work against undead and foes who lack soulforce to begin with. Deal darkness damage and stun for two rounds.\n");
+				if (monster.hasPerk(PerkLib.EnemyUndeadType) || monster.hasPerk(PerkLib.Soulless)) {
+					bd.disable("You cannot use this skill against an undead or soulless opponent.\n\n");
+				} /*else if (player.hasStatusEffect(StatusEffects.CooldownHydraAcidBreath)) {
+					bd.disable("You need more time before you can use Hydra acid breath again.\n\n");
+				} */else if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
+			}// \n\nWould go into cooldown after use for: " + (player.hasPerk(PerkLib.NaturalInstincts) ? "7" : "8") + " rounds 
 		}
 		if (player.hasPerk(PerkLib.DarkCharm)) {
 			// Fascinate
@@ -4431,6 +4439,42 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.perkv1(IMutationsLib.ArigeanAssociationCortexIM) >= 4) aMSC -= 0.1;
 		if (aMSC < 0.1) aMSC = 0.1;
 		return aMSC;
+	}
+
+	public function paralyzingTouch():void {
+		clearOutput();
+		flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
+		doNext(combatMenu);
+		//useMana((40*arigeanMagicSpecialsCost()), Combat.USEMANA_MAGIC);
+		combat.darkRitualCheckDamage();
+		clearOutput();
+		//if (player.hasPerk(PerkLib.NaturalInstincts)) player.createStatusEffect(StatusEffects.CooldownManaShot,2,0,0,0);
+		//else player.createStatusEffect(StatusEffects.CooldownManaShot, 3, 0, 0, 0);
+		outputText("You suddenly lunge forward and drain the soul force from your opponent's limbs inducing paralysis. ");
+		var damage:Number = scalingBonusIntelligence() * 2;
+		damage *= spellMod();
+		//Determine if critical hit!
+		var crit:Boolean = false;
+		var critChance:int = 5;
+		critChance += combatMagicalCritical();
+		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+		if (rand(100) < critChance) {
+			crit = true;
+			damage *= 1.75;
+		}
+		//High damage to goes.
+		damage *= magicAbilitiesGoBrrr();
+		if (player.hasPerk(PerkLib.LionHeart)) damage *= 2;
+		damage = calcEclypseMod(Math.round(damage * combat.darknessDamageBoostedByDao()), true);
+		damage = Math.round(damage);
+		doDarknessDamage(damage, true, true);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		if (!monster.hasStatusEffect(StatusEffects.Stunned)) monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+		checkAchievementDamage(damage);
+		combat.heroBaneProc(damage);
+		statScreenRefresh();
+		if (monster.HP <= monster.minHP()) doNext(endHpVictory);
+		else enemyAI();
 	}
 
 	public function hydraAcidBreath():void {

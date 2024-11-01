@@ -3625,6 +3625,9 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.BlazingHeartIM) >= 1) {
 				mult += 40;
 			}
+			if (perkv1(IMutationsLib.BlackBloodIM) >= 1) {
+				mult -= (10 * perkv1(IMutationsLib.BlackBloodIM));
+			}
 			if (CoC.instance.monster.statusEffectv1(StatusEffects.EnemyLoweredDamageH) > 0) {
 				mult -= CoC.instance.monster.statusEffectv2(StatusEffects.EnemyLoweredDamageH);
 			}
@@ -5929,6 +5932,11 @@ use namespace CoC;
 				statStore.replaceBuffObject({'str': strD, 'tou': touD}, 'Dracoforce', { text: 'Dracoforce' });
 			}
 			if (!hasPerk(PerkLib.Dracoforce) && statStore.hasBuff('Dracoforce')) statStore.removeBuffs('Dracoforce');
+			if (hasPerk(PerkLib.DeathlyPower)) {
+				if (statStore.hasBuff('Deathly power')) statStore.removeBuffs('Deathly power');
+				statStore.replaceBuffObject({'int': wis}, 'Deathly power', { text: 'Deathly power' });
+			}
+			if (!hasPerk(PerkLib.DeathlyPower) && statStore.hasBuff('Deathly power')) statStore.removeBuffs('Deathly power');
 			if (hasPerk(PerkLib.Enigma)) statStore.replaceBuffObject({'str.mult':Math.round(((intStat.mult.value/2)+(wisStat.mult.value/2))),'tou.mult':Math.round(((intStat.mult.value/2)+(wisStat.mult.value/2)))}, 'Enigma', { text: 'Enigma' });
 			if (!hasPerk(PerkLib.Enigma) && statStore.hasBuff('Enigma')) statStore.removeBuffs('Enigma');
 			if (hasPerk(PerkLib.LionHeart)) statStore.replaceBuffObject({'str.mult':Math.round(speStat.mult.value/2)}, 'Lion Heart', { text: 'Lion Heart' });

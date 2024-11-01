@@ -91,7 +91,7 @@ public class PerkMenu extends BaseContent {
 			addButton(6, "Range Opt",rangedOptions);
 		}
 		if (player.hasPerk(PerkLib.Venomancy) || player.hasPerk(PerkLib.DarkRitual) || player.hasPerk(PerkLib.HiddenJobBloodDemon)||
-			(player.hasPerk(PerkLib.Autocast) ||  player.hasPerk(PerkLib.FortressOfIntellect))) {
+			(player.hasPerk(PerkLib.Autocast) ||  player.hasPerk(PerkLib.FortressOfIntellect)) || player.isRaceCached(Races.LICH)) {
 			outputText("\n<b>You can choose and adjust various effects related to your magic.</b>");
 			addButton(7, "Magic Opt",magicOption);
 		}
@@ -139,6 +139,10 @@ public class PerkMenu extends BaseContent {
 			if (player.hasPerk(PerkLib.DarkRitual)) outputText("<b>You can choose if you wish to use dark ritual and sacrifice health to empower your magic.</b>\n");
 			if (player.hasPerk(PerkLib.HiddenJobBloodDemon)) outputText("<b>You can adjust your Blood Demon hidden job settings.</b>\n");
 			addButton(3, "Bloody Opt",darkRitualOption);
+		}
+		if (player.isRaceCached(Races.LICH)) {
+			outputText("<b>You can adjust your Soul burn.</b>\n");
+			addButton(4, "Soul burn Opt",soulburnOption);
 		}
 		addButton(14, "Back", displayPerks);
 	}
@@ -736,6 +740,32 @@ public class PerkMenu extends BaseContent {
 		addButton(14, "Back", minionOptions);
 	}
 
+	public function soulburnOption():void {
+		clearOutput();
+		menu();
+		outputText("Set if you will be using soulforce to empower your magic or not.\n\n");
+		if (!player.hasStatusEffect(StatusEffects.SoulBurn)) {
+			outputText("<b>You are not currently burning your soulforce.</b>");
+			addButton(10, "On", soulburnOptionOn);
+		}
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) {
+			outputText("<b>You are currently burning your soulforce.</b>");
+			addButton(11, "Off", soulburnOptionOff);
+		}
+		outputText("\n\n");
+		if (SceneLib.combat.inCombat) addButton(14, "Back", combat.combatMenu, false);
+		else addButton(14, "Back", displayPerks);
+		function soulburnOptionOn():void {
+			player.createStatusEffect(StatusEffects.SoulBurn,0,0,0,0);
+			soulburnOption();
+		}
+		function soulburnOptionOff():void {
+			player.removeStatusEffect(StatusEffects.SoulBurn);
+			soulburnOption();
+		}
+		addButton(14, "Back", magicOption);
+	}
+
 	public function darkRitualOption():void {
 		clearOutput();
 		menu();
@@ -805,7 +835,7 @@ public class PerkMenu extends BaseContent {
 		clearOutput();
 		menu();
 		if (player.hasPerk(PerkLib.Venomancy)) {
-			outputText("Set weither you will be using venom to empower your magic or not.\n\n");
+			outputText("Set if you will be using venom to empower your magic or not.\n\n");
 			if (!player.hasStatusEffect(StatusEffects.Venomancy)) {
 				outputText("Venomancy is currently: <b>Inactive</b>.");
 				addButton(10, "On", venomancyOptionOn);

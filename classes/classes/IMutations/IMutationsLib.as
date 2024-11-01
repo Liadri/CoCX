@@ -52,6 +52,7 @@ public class IMutationsLib
 		public static const AnubiHeartIM:IMutationPerkType = new AnubiHeartMutation();
 		public static const ArachnidBookLungIM:IMutationPerkType = new ArachnidBookLungMutation();
 		public static const ArigeanAssociationCortexIM:IMutationPerkType = new ArigeanAssociationCortexMutation();
+		public static const BlackBloodIM:BlackBloodMutation = new BlackBloodMutation();
 		public static const BlackHeartIM:IMutationPerkType = new BlackHeartMutation();
 		public static const BlazingHeartIM:IMutationPerkType = new BlazingHeartMutation();
 		public static const CatLikeNimblenessIM:IMutationPerkType = new CatLikeNimblenessMutation();
@@ -121,8 +122,10 @@ public class IMutationsLib
 		public static const SharkOlfactorySystemIM:IMutationPerkType = new SharkOlfactorySystemMutation();
 		public static const SlimeFluidIM:IMutationPerkType = new SlimeFluidMutation();
 		public static const SlimeMetabolismIM:IMutationPerkType = new SlimeMetabolismMutation();
+		public static const StillHeartIM:StillHeartMutation = new StillHeartMutation();
 		public static const TrachealSystemIM:IMutationPerkType = new TrachealSystemMutation();
 		public static const TwinHeartIM:IMutationPerkType = new TwinHeartMutation();
+		public static const UndeadMetabolismIM:UndeadMetabolismMutation = new UndeadMetabolismMutation();
 		public static const VampiricBloodstreamIM:IMutationPerkType = new VampiricBloodstreamMutation();
 		public static const VenomGlandsIM:IMutationPerkType = new VenomGlandsMutation();
 		public static const WhaleFatIM:IMutationPerkType = new WhaleFatMutation();

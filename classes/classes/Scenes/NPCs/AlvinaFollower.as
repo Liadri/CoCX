@@ -8,6 +8,7 @@ import classes.*;
 import classes.BodyParts.*;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Items.Consumable;
 import classes.Scenes.Holidays;
 import classes.display.SpriteDb;
@@ -1573,7 +1574,7 @@ public function alvinaCampTryACustomRitual():void {
 	CoC.instance.transformations.AntennaeNone.applyEffect(false);
 	player.arms.type = Arms.LICH;
 	player.lowerBody = LowerBody.LICH;
-	CoC.instance.transformations.WingsLevitation.applyEffect(false);
+	player.wings.type = Wings.LEVITATION;
 	player.createPerk(PerkLib.Phylactery, 0, 0, 0, 0);
 	player.createPerk(PerkLib.UndeadLord, 1, 0, 0, 0);
 	player.createPerk(PerkLib.Undeath, 1, 0, 0, 0);
@@ -1581,6 +1582,8 @@ public function alvinaCampTryACustomRitual():void {
 	player.createPerk(PerkLib.Immortality, 0, 0, 0, 0);
 	player.createPerk(PerkLib.TransformationImmunity2, 10, 0, 0, 0);
 	if (player.cor < 100) player.cor = 100;
+	IMutationsLib.BlackBloodIM.trueMutation = true;
+	player.removeAllRacialMutation();
 	player.updateRacialAndPerkBuffs();
 	awardAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD);
 	CoC.instance.mainViewManager.updateCharviewIfNeeded();
@@ -1965,4 +1968,4 @@ public function postMarriageSleep():void {
 	}
 }
 
-}
+}

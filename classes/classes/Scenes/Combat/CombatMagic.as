@@ -358,6 +358,8 @@ public class CombatMagic extends BaseCombatContent {
 		//
 		if (player.hasPerk(PerkLib.BloodDemonWisdom)) mod += .5;
 		//
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
+		if (player.hasPerk(PerkLib.DeathlyPower) && monster.HP <= Math.round(monster.maxHP() * 0.5)) mod *= 2;
 		mod = Math.round(mod * 100) / 100;
 		return mod;
 	}
@@ -376,6 +378,8 @@ public class CombatMagic extends BaseCombatContent {
 			if (player.level < 12) mod += 1;
 			mod += 1;
 		}
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
+		if (player.hasPerk(PerkLib.DeathlyPower) && monster.HP <= Math.round(monster.maxHP() * 0.5)) mod *= 2;
 		return mod;
 	}
 
@@ -401,6 +405,8 @@ public class CombatMagic extends BaseCombatContent {
 			mod += 1;
 		}
 		if (player.weapon == weapons.PURITAS) mod *= 2.5;
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
+		if (player.hasPerk(PerkLib.DeathlyPower) && monster.HP <= Math.round(monster.maxHP() * 0.5)) mod *= 2;
 		mod = Math.round(mod * 100) / 100;
 		return mod;
 	}
@@ -421,6 +427,8 @@ public class CombatMagic extends BaseCombatContent {
 			mod += 1;
 		}
 		if (player.weapon == weapons.DEPRAVA) mod *= 2.5;
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
+		if (player.hasPerk(PerkLib.DeathlyPower) && monster.HP <= Math.round(monster.maxHP() * 0.5)) mod *= 2;
 		mod = Math.round(mod * 100) / 100;
 		return mod;
 	}
@@ -432,6 +440,8 @@ public class CombatMagic extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.VegetalAffinity)) mod += 0.5;
 		if (player.hasPerk(PerkLib.GreenMagic)) mod += 1;
 		if (player.hasStatusEffect(StatusEffects.GreenCovenant)) mod += 1;
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
+		if (player.hasPerk(PerkLib.DeathlyPower) && monster.HP <= Math.round(monster.maxHP() * 0.5)) mod *= 2;
 		mod = Math.round(mod * 100) / 100;
 		return mod;
 	}
@@ -581,6 +591,7 @@ public class CombatMagic extends BaseCombatContent {
 			else mod -= 1;
 		}
 		if (player.hasPerk(PerkLib.Necromancy)) mod -= 1;
+		if (player.hasPerk(PerkLib.DeathlyPower)) mod -= 1;
 		if (player.hasPerk(PerkLib.HyperCasting)) mod -= 1;
 		if (mod < 0) mod = 0;
 		return mod;
@@ -594,6 +605,7 @@ public class CombatMagic extends BaseCombatContent {
 			else mod -= 1;
 		}
 		if (player.hasPerk(PerkLib.Necromancy)) mod -= 1;
+		if (player.hasPerk(PerkLib.DeathlyPower)) mod -= 1;
 		if (player.hasPerk(PerkLib.HyperCasting)) mod -= 2;
 		if (mod < 0) mod = 0;
 		return mod;
@@ -607,6 +619,7 @@ public class CombatMagic extends BaseCombatContent {
 			else mod -= 1;
 		}
 		if (player.hasPerk(PerkLib.Necromancy)) mod -= 1;
+		if (player.hasPerk(PerkLib.DeathlyPower)) mod -= 1;
 		if (player.hasPerk(PerkLib.HyperCasting)) mod -= 4;
 		if (mod < 0) mod = 0;
 		return mod;
