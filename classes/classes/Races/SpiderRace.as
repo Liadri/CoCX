@@ -39,16 +39,14 @@ public class SpiderRace extends Race {
 	public override function setup():void {
 		addScores()
 				.eyeType(Eyes.SPIDER, +1)
-				.earType(Ears.INSECT, +1)
+				.earType(ANY(Ears.INSECT, Ears.ELFIN), +1)
 				.faceType(Face.SPIDER_FANGS, +1)
 				.armType(Arms.SPIDER, +1)
 				.legType(LowerBody.CHITINOUS_SPIDER_LEGS, +1)
 				.legType(LowerBody.DRIDER, +2)
 				.tailType(Tail.SPIDER_ADBOMEN, +1)
-				.earType(Ears.ELFIN,1)
 				.skinCoatType(Skin.CHITIN, +1)
 				.hasStatusEffect(StatusEffects.BlackNipples,"black nipples", +1)
-				.rearType(RearBody.ATLACH_NACHA, 0, -5)
 				.hasPerk(PerkLib.SpiderOvipositor, +1)
 		
 		addBloodline(PerkLib.SpidersDescendant, PerkLib.BloodlineSpider);
