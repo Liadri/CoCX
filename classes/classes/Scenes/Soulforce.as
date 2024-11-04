@@ -85,13 +85,13 @@ public class Soulforce extends BaseContent
 		else addButtonDisabled(6, "???", "Req. Flying Sword Path perk.");
 		if (player.hasPerk(PerkLib.SoulSense)) addButton(7, "Soul Sense", SoulSense).hint("Use your soul sense to trigger specific encounters."); //używanie divine sense aby znaleść określone event encounters: Tamani (lvl 6+), Tamani daugthers (lvl 6+), Kitsune mansion (lvl 12+), Izumi (lvl 18/24+), itp.
 		else addButtonDisabled(7, "???", "Req. Soul Sense perk.");
-		//button 8 - ?
 		if (player.hasPerk(PerkLib.Metamorph)) {
 			if (player.blockingBodyTransformations()) addButtonDisabled(10, "Metamorph", "Your current body state prevents you from using Metamorph. (Either cure it or ascend to gain access to the metamorph menu again)");
 			else addButton(10, "Metamorph", SceneLib.metamorph.openMetamorph).hint("Use your soulforce to mold your body.");//używanie metamorfowania z użyciem soulforce
 		}
 		else addButtonDisabled(10, "???", "Req. Metamorph.");
-		//button 11 - ?
+		if (player.isRaceCached(Races.LICH)) addButton(11, "Demonic Energy", accessDemonicEnergyMenu).hint("You can use harvested souls and lethicite to improve your magic and body.");
+		else addButtonDisabled(11, "???", "Only for Liches.");
 		if (player.hasKeyItem("Cultivation Manual: My Dao Sticks are better than Yours") >= 0 || player.hasKeyItem("Cultivation Manual: Body like a Coke Fiend") >= 0 || player.hasKeyItem("Cultivation Manual: Heart-shaped Eyed She-Devil") >= 0) addButton(12, "Sub-paths", SubPaths).hint("Contemplate the mysteries of your chosen sub-path(s).");
 		addButton(13, "Cultivation", Contemplations).hint("Contemplate the mysteries of the world in an attempt to progress your cultivation path.");
 		addButton(14, "Back", playerMenu);
@@ -943,7 +943,8 @@ public class Soulforce extends BaseContent
 		}
 		else addButtonDisabled(10, "???", "Req. Metamorph.");
 		addButton(13, "Re:Soul", accessDemonicEnergyMenuReSoul);
-		addButton(14, "Back", playerMenu);
+		if (player.isRaceCached(Races.LICH)) addButton(14, "Back", accessSoulforceMenu);
+		else addButton(14, "Back", playerMenu);
 	}
 	public function accessDemonicEnergyMenuReSoul():void {
 		clearOutput();
