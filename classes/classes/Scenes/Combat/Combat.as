@@ -13379,6 +13379,8 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 			maxPercentRegen *= 2;
 		}
         if ((player.internalChimeraRating() >= 1 && player.hunger < 1 && flags[kFLAGS.HUNGER_ENABLED] > 0) || (player.internalChimeraRating() >= 1 && flags[kFLAGS.HUNGER_ENABLED] <= 0)) maxPercentRegen -= (0.5 * player.internalChimeraRating());
+		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 3) maxPercentRegen += (player.perkv1(IMutationsLib.BlackBloodIM) - 2);
+		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 2 && player.hunger >= (player.maxHunger() * 0.1 * ((6-player.perkv1(IMutationsLib.BlackBloodIM))*2))) maxPercentRegen *= 2;
 		if (maxPercentRegen > maximumRegeneration()) maxPercentRegen = maximumRegeneration();
 		return maxPercentRegen;
     }
@@ -13447,6 +13449,8 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 			maxRegen += 1;
 			maxRegen *= 2;
 		}
+		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 3) maxRegen += (player.perkv1(IMutationsLib.BlackBloodIM) - 2);
+		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 2 && player.hunger >= (player.maxHunger() * 0.1 * ((6-player.perkv1(IMutationsLib.BlackBloodIM))*2))) maxRegen *= 2;
         return maxRegen;
     }
 

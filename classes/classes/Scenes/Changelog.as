@@ -290,7 +290,8 @@ public class Changelog extends BaseContent
 			outputText("-New Special names: Arikahs (cow/minotaur). Each of them will start with matching bloodline perk to match their ancestor race.\n");//, Veseshe (elf)
 			outputText("-New P. Special: Mummy Bandage - usable by mummy PC. You can initiate a grapple using your bandages.\n");
 			outputText("-Exploration proofreading + some other typos/adjustments. River dungeon and some playerinfo displays proof read, including updating some forgotten super perk descriptions on the perk picker. (Agentfunfun)\n");
-			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 pts: +150% to Str multi, -90% to Spe multi, +600% to Int multi, +200% to Wis multi, +600% to Lib multi, +200 to sensitivity.\n");
+			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 / 34 pts (Lich / Greater Lich): ");
+			outputText("+150% / +200% to Str multi, -90% to Spe multi, +600% / +730% to Int multi, +200% / +210% to Wis multi, +600% / +730% to Lib multi, +200 / +250 to sensitivity.\n");
 			outputText("-Minor typo changes. (Agentfunfun)\n");
 			outputText("-Fairy score req. to have fairy eyes to get bonuses for above half-fairy race bonuses.\n");
 			outputText("-New option for Liches - Soul burn: You may use your soulforce as fuel to empower your arcane magic. While active consume soulforce (5% per turn) on all cast as if using soul skills but double magic damage.\n");
@@ -302,9 +303,9 @@ public class Changelog extends BaseContent
 			outputText("because the checks went only as far as checking for refinement == 4. Gargoyle race includes a demonic tongue, but when becoming a gargoyle the tongue was first changed to a demonic tongue and then to a human one. If you refined your body with refinement at at least 1, all refinements till level 4 were applied at once, ");
 			outputText("even if you lacked the mats due to missing return-statements in the function. The 'Refine Body'-button is now disabled, when you can't be refined any further. Fixed a handful typos in two Forgefather scenes. (Stadler)\n");
 			outputText("-As Lich PC can access and use Demonic Energy menu. But to not be too... unfair during ascension any perk gained with use of DE would be lost unlike during Dark Ascension of Soulless PC.\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-Drider fixes: When you had a drider lower body, the spider abdomen wasn't hidden from charview. (Stadler)\n");
+			outputText("-New mutation perk: Black Blood (Primitive). Req. Black Blood and lvl 30+. Effects: Your undead blood gives you a 20% resistance to cold. When hunger is sated above 80% you gain doubled health generation from all sources.\n");
+			outputText("-New mutation perk: Black Blood (Evolved). Req. Black Blood (Primitive) and lvl 60+. Effects: Your undead blood gives you a 30% resistance to cold. When hunger is sated above 60% you gain doubled health generation from all sources. You gain regeneration 1%.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

@@ -45,6 +45,7 @@ public class SpiderRace extends Race {
 				.legType(LowerBody.CHITINOUS_SPIDER_LEGS, +1)
 				.legType(LowerBody.DRIDER, +2)
 				.tailType(Tail.SPIDER_ADBOMEN, +1)
+				.rearType(NOT(RearBody.ATLACH_NACHA), 0, -5)
 				.skinCoatType(Skin.CHITIN, +1)
 				.hasStatusEffect(StatusEffects.BlackNipples,"black nipples", +1)
 				.hasPerk(PerkLib.SpiderOvipositor, +1)

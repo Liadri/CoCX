@@ -22,8 +22,8 @@ public class BlackBloodMutation extends IMutationPerkType
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1) descS += "Your undead blood gives you a "+pTier+"0% resistance to cold";
-			if (pTier >= 2) descS += "and increase acid and poison effect by "+(pTier*25)+"%";
-            if (pTier >= 3) descS += ". Your blood is ruinous and inflicts your fang venom when damaged";
+			if (pTier >= 2) descS += ". When hunger is sated above "+((6-pTier)*2)+"0% you gain doubled health generation from all sources";
+            if (pTier >= 3) descS += ". You gain regeneration "+(pTier-2)+"%";
             if (pTier >= 4) descS += ". Bite attacks deals 50% more damage";
             if (descS != "")descS += ".";
             return descS;
@@ -60,7 +60,7 @@ public class BlackBloodMutation extends IMutationPerkType
 
         public function BlackBloodMutation() 
 		{
-			super(mName + " IM", mName, SLOT_BLOODSTREAM, 1);
+			super(mName + " IM", mName, SLOT_BLOODSTREAM, 3);
         }
         
     }
