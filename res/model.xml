@@ -4958,7 +4958,7 @@
 				<show part="tail/demon$taur"/>
 			</case>
 			<case values="Tail.SPIDER_ADBOMEN">
-				<if test="lowerBody != LowerBody.ATLACH_NACHA">
+				<if test="lowerBody != LowerBody.DRIDER && lowerBody != LowerBody.ATLACH_NACHA">
 					<show part="tail_bg/spider$taur"/>
 				</if>
 			</case>
