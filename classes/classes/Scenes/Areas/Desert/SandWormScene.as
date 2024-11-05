@@ -92,7 +92,7 @@ public class SandWormScene extends BaseContent
 		player.tallness = 11 * 12;
 		transformations.LowerBodyWorm.applyEffect(false);
 		player.skin.setBaseOnly({ type: Skin.PLAIN, color1:"light pink", adj: "slippery" });
-		if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.SANDWORM;
+		if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.SANDWORM.id;
 		IMutationsLib.TrachealSystemIM.trueMutation = true;
 		IMutationsLib.TwinHeartIM.trueMutation = true;
 		player.removeAllRacialMutation();

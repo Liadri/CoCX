@@ -196,7 +196,7 @@ public class DraculinaScene extends BaseContent {
 		IMutationsLib.BlackHeartIM.trueMutation = true;
         IMutationsLib.VampiricBloodstreamIM.trueMutation = true;
         IMutationsLib.HollowFangsIM.trueMutation = true;
-        if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.DRACULA;
+        if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.DRACULA.id;
         player.removeAllRacialMutation();
         outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
         player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
