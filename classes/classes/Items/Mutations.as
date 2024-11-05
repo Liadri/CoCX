@@ -2592,8 +2592,7 @@ public final class Mutations extends MutationsHelper {
         outputText("\n<b>Upgraded Ability: Bite -> Tripple Bite</b>");
         outputText("\n<b>Upgraded Ability: Hellfire -> tripple effect</b>");
         outputText("\n<b>Gained Ability: Terrifying Howl</b>");
-        if (player.hasPerk(PerkLib.RacialParagon))
-            flags[kFLAGS.APEX_SELECTED_RACE] = Races.CERBERUS.id;
+        player.updateRacialParagon(Races.CERBERUS);
         IMutationsLib.HellhoundFireBallsIM.trueMutation = true;
         IMutationsLib.AlphaHowlIM.trueMutation = true;
 
@@ -2959,7 +2958,7 @@ public final class Mutations extends MutationsHelper {
         player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
         outputText("\n<b>Gained Perk: Transformation Immunity!</b> "+ PerkLib.TransformationImmunity2.desc());
         player.createPerk(PerkLib.TransformationImmunity2, 6, 0, 0, 0);
-        if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.IMP.id;
+        player.updateRacialParagon(Races.IMP);
         IMutationsLib.BlackHeartIM.trueMutation = true;
         IMutationsLib.FiendishMetabolismIM.trueMutation = true;
         IMutationsLib.FiendishBallsIM.trueMutation = true;
@@ -15775,7 +15774,7 @@ public final class Mutations extends MutationsHelper {
         outputText("\n<b>Obtained perk: Conviction Of Purpose</b>  "+PerkLib.ConvictionOfPurpose.desc());
         outputText("\n<b>Gained Perk: Transformation Immunity!</b> "+ PerkLib.TransformationImmunity2.desc());
         player.createPerk(PerkLib.TransformationImmunity2, 5, 0, 0, 0);
-        if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.AZAZEL.id;
+        player.updateRacialParagon(Races.AZAZEL);
         player.removeAllRacialMutation();
         player.refillHunger(10);
         flags[kFLAGS.TIMES_TRANSFORMED] += changes;
