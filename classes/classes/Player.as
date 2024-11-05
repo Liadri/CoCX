@@ -5908,11 +5908,6 @@ use namespace CoC;
 			flags[kFLAGS.APEX_SELECTED_RACE] = race.id;
 		}
 
-		public function updateRacialParagon(raceID:int):void{
-			if (!hasPerk(PerkLib.RacialParagon)) return;
-			flags[kFLAGS.APEX_SELECTED_RACE] = raceID;
-		}
-
 		public function updateRacialAndPerkBuffs():void{
 			if (needToUpdateRacialCache())
 				updateRacialCache();
