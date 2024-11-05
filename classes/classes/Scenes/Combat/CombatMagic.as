@@ -937,7 +937,10 @@ public class CombatMagic extends BaseCombatContent {
 				outputText(" in [themonster] through your magic!");
 			}
 		}
-		if (player.hasStatusEffect(StatusEffects.BalanceOfLife)) HPChange((player.maxHP() * numberOfProcs * 0.05), false);
+		if (player.hasStatusEffect(StatusEffects.BalanceOfLife)) {
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) numberOfProcs = Math.round(numberOfProcs * (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM))));
+			HPChange((player.maxHP() * numberOfProcs * 0.05), false);
+		}
 	}
 	
 	public function brutalSpellsEffect(display:Boolean = true):void {

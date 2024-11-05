@@ -65,6 +65,7 @@ public class JiangshiRace extends Race {
 				.hasPerk(PerkLib.Undeath, +2);
 		
 		addMutation(IMutationsLib.BlackBloodIM);
+		addMutation(IMutationsLib.StillHeartIM);
 		
 		buildTier(15, "Half Jiangshi")
                 .requireHornType(Horns.SPELL_TAG)

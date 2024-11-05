@@ -7530,6 +7530,7 @@ public class Combat extends BaseContent {
                 }
                 if (boolLifeLeech) {
                     var sippedA:Number = 0.01;
+					if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) sippedA += (0.0025 * player.perkv1(IMutationsLib.StillHeartIM));
                     if (player.hasStatusEffect(StatusEffects.AlterBindScroll2)) sippedA *= 2;
                     player.HP += player.maxHP() * sippedA;
                     player.mana += player.maxMana() * sippedA;
@@ -9088,6 +9089,7 @@ public class Combat extends BaseContent {
 			}
 			if (player.weapon == weapons.LHSCYTH) restoreamount += 1;
 			if (player.weapon == weapons.T_HEART || player.weapon == weapons.DORSOUL || player.weapon == weapons.ARMAGED) restoreamount += 1;
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) restoreamount *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
             if (player.weapon.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false);
             else if (player.weapon.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false);
             else if (player.weapon.isMassive()) HPChange(Math.round(player.maxHP() * restoreamount * 0.04), false);
@@ -9249,6 +9251,7 @@ public class Combat extends BaseContent {
 			}
 			if (player.weaponOff == weapons.LHSCYTH) restoreamount += 1;
 			if (player.weaponOff == weapons.T_HEART || player.weaponOff == weapons.DORSOUL || player.weaponOff == weapons.ARMAGED) restoreamount += 1;
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) restoreamount *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
             if (player.weaponOff.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false);
             else if (player.weaponOff.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false);
             else if (player.weaponOff.isMassive()) HPChange(Math.round(player.maxHP() * restoreamount * 0.04), false);
@@ -16517,6 +16520,7 @@ public function VampiricBite():void {
     if (player.hasPerk(PerkLib.RacialParagon)) damage *= RacialParagonAbilityBoost();
     damage = Math.round(damage);
     doPhysicalDamage(damage, true, true);
+	if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) damage = Math.round(damage * (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM))));
     EngineCore.HPChange(damage, false);
     outputText(" damage. You feel yourself grow stronger with each drop. ");
     var thirst:VampireThirstEffect = player.statusEffectByType(StatusEffects.VampireThirst) as VampireThirstEffect;

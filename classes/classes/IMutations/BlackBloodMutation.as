@@ -37,7 +37,7 @@ public class BlackBloodMutation extends IMutationPerkType
                 this.requirements = [];
                 if (pTier == 0){
                     this.requireBloodsteamMutationSlot()
-                    .requireAnyRace(Races.JIANGSHI, Races.MUMMY, Races.MUMMY);
+                    .requireAnyRace(Races.JIANGSHI, Races.MUMMY, Races.LICH);
                 }
                 else{
                     var pLvl:int = pTier * 30;

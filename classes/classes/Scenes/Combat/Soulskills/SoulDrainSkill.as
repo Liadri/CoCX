@@ -76,7 +76,9 @@ public class SoulDrainSkill extends AbstractSoulSkill {
 	}
 
 	private function calcHealAmount():int {
-		return Math.round(player.maxHP() * 0.2);
+		var calcHA:Number = player.maxHP() * 0.2;
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) calcHA *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
+		return Math.round(calcHA);
 	}
 
 	private function calcSoulforceDrain(monster: Monster):int {

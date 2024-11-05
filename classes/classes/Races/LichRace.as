@@ -65,6 +65,7 @@ public class LichRace extends Race {
 				.hasPerk(PerkLib.TransformationImmunity2, +3);
 		
 		addMutation(IMutationsLib.BlackBloodIM, +3);
+		addMutation(IMutationsLib.StillHeartIM, +3);
 		
 		buildTier(28, "Lich")
                 .requirePerk(PerkLib.Phylactery)
