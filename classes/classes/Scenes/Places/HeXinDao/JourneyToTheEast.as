@@ -582,8 +582,7 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 			player.createPerk(PerkLib.Rigidity, 0, 0, 0, 0);
 			player.createPerk(PerkLib.LifeLeech, 0, 0, 0, 0);
 			player.createPerk(PerkLib.Undeath, 0, 0, 0, 0);
-			if (player.hasPerk(PerkLib.RacialParagon))
-				flags[kFLAGS.APEX_SELECTED_RACE] = Races.JIANGSHI.id;
+			player.updateRacialParagon(Races.JIANGSHI);
 			player.createPerk(PerkLib.EnergyDependent, 0, 0, 0, 0);
 			if (flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] == 0) flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD]++;
 			var item:ItemType;

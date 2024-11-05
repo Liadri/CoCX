@@ -689,7 +689,7 @@ private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart1():void {
 	outputText("\"<i>Eh? Did I play with my toy too hard? Dammit! I didn’t even get to wrap her into the fold.</i>\" She tosses your limp, cold body to the side.\n\n");
 	outputText("It hurts… so much…\n\n");
 	outputText("Your consciousness slowly comes to halt as your body feels like it’s overloading with foul otherworldly magic. However, before you slip into the dark, you're able to see a light blue glow emanating from where your heart used to beat, spreading an icy cold sensation to every part it touches.\n\n");
-	if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.ARIGEAN.id;
+	player.updateRacialParagon(Races.ARIGEAN);
 	IMutationsLib.ArigeanAssociationCortexIM.trueMutation = true;
 	player.removeAllRacialMutation();
 	player.tailType = Tail.ARIGEAN_PRINCESS;

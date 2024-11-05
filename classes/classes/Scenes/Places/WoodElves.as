@@ -647,8 +647,7 @@ public class WoodElves extends BaseContent implements SaveableState {
 			WoodElvesQuest = QUEST_STAGE_PCELF;
 			player.createPerk(PerkLib.BlessingOfTheAncestorTree,0,0,0,0);
 			player.createPerk(PerkLib.CovenantOfTheSpirits,0,0,0,0);
-			if (player.hasPerk(PerkLib.RacialParagon))
-				flags[kFLAGS.APEX_SELECTED_RACE] = Races.WOODELF.id;
+			player.updateRacialParagon(Races.WOODELF);
 			IMutationsLib.ElvishPeripheralNervSysIM.trueMutation = true;
 			player.removeAllRacialMutation();
 			explorer.stopExploring();
