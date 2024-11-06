@@ -731,6 +731,7 @@ import classes.Scenes.NPCs.Forgefather;
 			var max:Number = 50;
 			max += level * 10;
 			if (hasPerk(PerkLib.DarkAscensionBottomlessHunger)) max *= (1 + (0.05 * perkv1(PerkLib.DarkAscensionBottomlessHunger)));
+			if (!hasPerk(PerkLib.Soulless)) max *= 0.5;
 			max = Math.round(max);
 			return max;
 		}

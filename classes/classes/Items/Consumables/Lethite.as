@@ -17,7 +17,7 @@ public class Lethite extends Consumable {
 
     override public function useItem():Boolean {
         clearOutput();
-        if (!player.hasPerk(PerkLib.SoulEater) && !player.hasPerk(PerkLib.Soulless)) {
+        if (!player.hasPerk(PerkLib.SoulEater) && !player.hasPerk(PerkLib.Soulless) && !player.hasPerk(PerkLib.Phylactery)) {
             outputText("You examine the pinkish-purple crystal. It must be lethicite. You know that the demons like to consume them but you're sure there might be a use for it.");
             SceneLib.inventory.returnItemToInventory(this);
         }

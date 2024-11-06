@@ -90,8 +90,8 @@ public class Soulforce extends BaseContent
 			else addButton(10, "Metamorph", SceneLib.metamorph.openMetamorph).hint("Use your soulforce to mold your body.");//używanie metamorfowania z użyciem soulforce
 		}
 		else addButtonDisabled(10, "???", "Req. Metamorph.");
-		if (player.isRaceCached(Races.LICH)) addButton(11, "Demonic Energy", accessDemonicEnergyMenu).hint("You can use harvested souls and lethicite to improve your magic and body.");
-		else addButtonDisabled(11, "???", "Only for Liches.");
+		if (player.hasPerk(PerkLib.Phylactery)) addButton(11, "Demonic Energy", accessDemonicEnergyMenu).hint("You can use harvested souls and lethicite to improve your magic and body.");
+		else addButtonDisabled(11, "???", "Only for characters with Phylactery.");
 		if (player.hasKeyItem("Cultivation Manual: My Dao Sticks are better than Yours") >= 0 || player.hasKeyItem("Cultivation Manual: Body like a Coke Fiend") >= 0 || player.hasKeyItem("Cultivation Manual: Heart-shaped Eyed She-Devil") >= 0) addButton(12, "Sub-paths", SubPaths).hint("Contemplate the mysteries of your chosen sub-path(s).");
 		addButton(13, "Cultivation", Contemplations).hint("Contemplate the mysteries of the world in an attempt to progress your cultivation path.");
 		addButton(14, "Back", playerMenu);
@@ -943,7 +943,7 @@ public class Soulforce extends BaseContent
 		}
 		else addButtonDisabled(10, "???", "Req. Metamorph.");
 		addButton(13, "Re:Soul", accessDemonicEnergyMenuReSoul);
-		if (player.isRaceCached(Races.LICH)) addButton(14, "Back", accessSoulforceMenu);
+		if (player.hasPerk(PerkLib.Phylactery)) addButton(14, "Back", accessSoulforceMenu);
 		else addButton(14, "Back", playerMenu);
 	}
 	public function accessDemonicEnergyMenuReSoul():void {

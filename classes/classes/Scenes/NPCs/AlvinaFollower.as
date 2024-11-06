@@ -1583,6 +1583,7 @@ public function alvinaCampTryACustomRitual():void {
 	player.createPerk(PerkLib.TransformationImmunity2, 10, 0, 0, 0);
 	if (player.cor < 100) player.cor = 100;
 	IMutationsLib.BlackBloodIM.trueMutation = true;
+	IMutationsLib.StillHeartIM.trueMutation = true;
 	player.removeAllRacialMutation();
 	player.updateRacialAndPerkBuffs();
 	awardAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD);

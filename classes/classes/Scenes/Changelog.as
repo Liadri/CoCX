@@ -302,13 +302,13 @@ public class Changelog extends BaseContent
 			outputText("-Various fixes for issues with the gargoyle-form: Gargoyle final form could not be reached, because the dialogue with the Forgefather never went past 'What's Next' because of a missing check for !avatarsExplained in the conditional. Upon reaching gargoyle final form, the stat boosts, damage buffs and so on weren't applied anymore, ");
 			outputText("because the checks went only as far as checking for refinement == 4. Gargoyle race includes a demonic tongue, but when becoming a gargoyle the tongue was first changed to a demonic tongue and then to a human one. If you refined your body with refinement at at least 1, all refinements till level 4 were applied at once, ");
 			outputText("even if you lacked the mats due to missing return-statements in the function. The 'Refine Body'-button is now disabled, when you can't be refined any further. Fixed a handful typos in two Forgefather scenes. (Stadler)\n");
-			outputText("-As Lich PC can access and use Demonic Energy menu. But to not be too... unfair during ascension any perk gained with use of DE would be lost unlike during Dark Ascension of Soulless PC.\n");
+			outputText("-When PC have Phylactery perk can access and use Demonic Energy menu. But to not be too... unfair during ascension any perk gained with use of DE would be lost unlike during Dark Ascension of Soulless PC. Also not been fully soulless would decrease max DE possible to store by 50%.\n");
 			outputText("-Drider fixes: When you had a drider lower body, the spider abdomen wasn't hidden from charview. (Stadler)\n");
 			outputText("-New mutation perk: Black Blood (Primitive). Req. Black Blood and lvl 30+. Effects: Your undead blood gives you a 20% resistance to cold. When hunger is sated above 80% you gain doubled health generation from all sources.\n");
 			outputText("-New mutation perk: Black Blood (Evolved). Req. Black Blood (Primitive) and lvl 60+. Effects: Your undead blood gives you a 30% resistance to cold. When hunger is sated above 60% you gain doubled health generation from all sources. You gain regeneration 1%.\n");
 			outputText("-Fix permanent transformations not updating racial paragon correctly. (Stadler)\n");
 			outputText("-New mutation perk: Still Heart. Req. having free adaptation mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Energy draining effect and spells and ability that drain health are 25% stronger.\n");
-			outputText("-\n");
+			outputText("-New mutation perk: Black Blood (Final Form). Req. Black Blood (Evolved) and lvl 90+. Effects: Your undead blood gives you a 40% resistance to cold. When hunger is sated above 40% you gain doubled health generation from all sources. You gain regeneration 2%. You recover from all stat damage except intelligence / libido every full moon night.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -337,6 +337,15 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New range weapon (by Liadri):  - buyable at Tripxi shop in Tel'Adre after PC find and bring back it parts from  area. Cost xx0 gems. Base atk is xx and ammo clip size x.
 			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash) (Agentfunfun)
 			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz) (Stadler)
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -432,14 +441,8 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -488,9 +491,6 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");

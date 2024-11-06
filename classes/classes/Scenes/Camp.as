@@ -4259,6 +4259,11 @@ public class Camp extends NPCAwareContent{
 		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display);
 		//fatigue
 		fatigue(-(timeQ * fatRecovery * multiplier));
+		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 4 && flags[kFLAGS.LUNA_MOON_CYCLE] == 8 && (player.statStore.hasBuff("Weakened") || player.statStore.hasBuff("Drained") || player.statStore.hasBuff("Damaged"))) {
+			if (player.statStore.hasBuff("Weakened")) player.statStore.removeBuffs("Weakened");
+			if (player.statStore.hasBuff("Drained")) player.statStore.removeBuffs("Drained");
+			if (player.statStore.hasBuff("Damaged")) player.statStore.removeBuffs("Damaged");
+		}
 	}
 
 //Bad End if your balls are too big. Only happens in Realistic Mode.

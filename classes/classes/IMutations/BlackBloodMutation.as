@@ -24,7 +24,7 @@ public class BlackBloodMutation extends IMutationPerkType
             if (pTier >= 1) descS += "Your undead blood gives you a "+pTier+"0% resistance to cold";
 			if (pTier >= 2) descS += ". When hunger is sated above "+((6-pTier)*2)+"0% you gain doubled health generation from all sources";
             if (pTier >= 3) descS += ". You gain regeneration "+(pTier-2)+"%";
-            if (pTier >= 4) descS += ". Bite attacks deals 50% more damage";
+            if (pTier >= 4) descS += ". You recover from all stat damage except intelligence / libido every full moon night";
             if (descS != "")descS += ".";
             return descS;
         }
@@ -60,7 +60,7 @@ public class BlackBloodMutation extends IMutationPerkType
 
         public function BlackBloodMutation() 
 		{
-			super(mName + " IM", mName, SLOT_BLOODSTREAM, 3);
+			super(mName + " IM", mName, SLOT_BLOODSTREAM, 4);
         }
         
     }
