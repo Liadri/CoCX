@@ -451,8 +451,7 @@ public class Mindbreaker extends BaseContent implements SaveableState{
 			outputText("Such knowledge is not for your mind alone though you want to share it with the world. Their blindness and mind untouched by him is a disease and you just happen to have the cure.  (<b>Gained Perk: Insanity!</b>)");
 			player.createPerk(PerkLib.Insanity,0,0,0,0);
 			player.createPerk(PerkLib.TransformationImmunity2,2,0,0,0);
-			if (player.hasPerk(PerkLib.RacialParagon))
-				flags[kFLAGS.APEX_SELECTED_RACE] = player.hasVagina()? Races.FMINDBREAKER : Races.MMINDBREAKER;
+			player.updateRacialParagon(player.hasVagina() ? Races.FMINDBREAKER : Races.MMINDBREAKER);
 			player.createPerk(PerkLib.PsionicEmpowerment,0,0,0,0);
 			player.removeAllRacialMutation();
 			MindBreakerQuest = QUEST_STAGE_ISMB;
