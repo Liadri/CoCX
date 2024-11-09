@@ -83,7 +83,7 @@ public class IMutationPerkType extends PerkType
 		
 		private var _maxLvl:int;
 		private var _slot:String;
-		private var _pBuffs:Object;
+		private var _pBuffs:Object = {};
 		private var _trueVariant:Boolean;
 		private static var _IMvalid:Object = {};
 		private static var _IMNotvalid:Object = {};
