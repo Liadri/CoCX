@@ -60,7 +60,7 @@ public class StillHeartMutation extends IMutationPerkType
 */
         public function StillHeartMutation() 
 		{
-			super(mName + " IM", mName, SLOT_ADAPTATIONS, 1);
+			super(mName + " IM", mName, SLOT_ADAPTATIONS, 4);
 		}
         
     }
