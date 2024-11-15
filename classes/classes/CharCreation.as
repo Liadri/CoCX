@@ -541,7 +541,7 @@ import classes.Scenes.Combat.CombatAbility;
 			if (flags[kFLAGS.LETHICE_DEFEATED] > 0) { //Dirty checking as the NG+ flag is incremented after reincarnating.
 				clearOutput();
 				outputText("You shall be known as [name] now.");
-				ascensionMenu();
+				ascensionMenuFunc();
 				return;
 			}
 			customPlayerProfile = customName(mainView.nameBox.text);
@@ -2248,7 +2248,7 @@ import classes.Scenes.Combat.CombatAbility;
 		public function updateAscension(msg: String = ""): void {
 			migration = true;
 			migrationMsg = msg;
-			ascensionMenu();
+			ascensionMenuFunc();
 		}
 
 		public function returnFromUpdateAscension(): void {
@@ -2276,8 +2276,10 @@ import classes.Scenes.Combat.CombatAbility;
 		public function ascensionMenuChoiceMaybe():void {
 			player.ascensionPerkPoints -= 50;
 			player.createPerk(PerkLib.AscensionMenuChoiceMaybe, 0, 0, 0, 0);
-			if (player.hasPerk(PerkLib.Soulless)) darkAscensionMenu();
-			else ascensionMenu();
+			ascensionMenuFunc();
+		}
+		public function get ascensionMenuFunc():Function {
+			return player.hasPerk(PerkLib.Soulless) ? darkAscensionMenu : ascensionMenu;
 		}
 		public function ascensionMenu():void {
 			hideStats();
@@ -2396,8 +2398,7 @@ import classes.Scenes.Combat.CombatAbility;
 				.disableIf(player.perkv1(PerkLib.AscensionFortune) >= maxRank, limitReached);
 			addButton(11, "Moral Shifter", ascensionPerkSelection, PerkLib.AscensionMoralShifter, MAX_MORALSHIFTER_LEVEL, null, PerkLib.AscensionMoralShifter.longDesc + "\n\nCurrent level: " + player.perkv1(PerkLib.AscensionMoralShifter) + " / " + MAX_MORALSHIFTER_LEVEL)
 				.disableIf(player.perkv1(PerkLib.AscensionMoralShifter) >= MAX_MORALSHIFTER_LEVEL, limitReached);
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 		private function ascensionPerkMenu2():void {
 			clearOutput();
@@ -2436,8 +2437,7 @@ import classes.Scenes.Combat.CombatAbility;
 				.disableIf(player.perkv1(PerkLib.AscensionTranshumanismLib) >= MAX_TRANSHUMANISM_LIB_LEVEL, limitReached);
 			addButton(13, "T-Human.SE", ascensionPerkSelection2, PerkLib.AscensionTranshumanismSen, MAX_TRANSHUMANISM_SEN_LEVEL, null, PerkLib.AscensionTranshumanismSen.longDesc + "\n\nCurrent level: " + player.perkv1(PerkLib.AscensionTranshumanismSen) + " / " + MAX_TRANSHUMANISM_SEN_LEVEL)
 				.disableIf(player.perkv1(PerkLib.AscensionTranshumanismSen) >= MAX_TRANSHUMANISM_SEN_LEVEL, limitReached);
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 		private function maxRankValue():Number {
 			var maxV:Number = 0;
@@ -2558,7 +2558,7 @@ import classes.Scenes.Combat.CombatAbility;
 				addButton(2, "Eff.SoulCons", darkAscensionPerkSelection, PerkLib.DarkAscensionEfficientSoulConsumption, MAX_EFFICIENT_SOUL_CONSUMPTION_LEVEL, null, PerkLib.DarkAscensionEfficientSoulConsumption.longDesc + "\n\nCurrent level: " + player.perkv1(PerkLib.DarkAscensionEfficientSoulConsumption) + " / " + MAX_EFFICIENT_SOUL_CONSUMPTION_LEVEL)
 						.disableIf(player.perkv1(PerkLib.DarkAscensionEfficientSoulConsumption) >= MAX_EFFICIENT_SOUL_CONSUMPTION_LEVEL, limitReached);
 			}
-			addButton(14, "Back", darkAscensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 		private function darkAscensionPerkSelection(perk:* = null, maxRank:int = 10):void {
 			clearOutput();
@@ -2717,7 +2717,7 @@ import classes.Scenes.Combat.CombatAbility;
 			else if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 2 && !player.hasPerk(PerkLib.AscensionHerosLineage)) addButtonDisabled(btn, "HeroLegacy", "You need to buy Hero's Lineage perk first.");
 			else addButtonDisabled(btn, "HeroLegacy", "You need ascend more times to buy this perk.");
 			btn++;
-			addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function whichNewGameAreYouOn():Number {
@@ -2962,8 +2962,7 @@ import classes.Scenes.Combat.CombatAbility;
 		//	else if (player.ascensionPerkPoints < 10) addButtonDisabled(btn, "HybridTheory", "You do not have enough ascension perk points!");
 		//	else addButtonDisabled(btn, "HybridTheory", "You already bought this perk.");
 		//	btn++;
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function perkMetamorphAscCheck(btn:int):void{
@@ -3202,7 +3201,7 @@ import classes.Scenes.Combat.CombatAbility;
 				clearOutput();
 				outputText("You don't have any History perk to change into Past Life perk.");
 			}
-			doNext(ascensionMenu);
+			doNext(ascensionMenuFunc);
 		}
 		private function historyTopastlife2():void {
 			player.ascensionPerkPoints -= 5;
@@ -3435,7 +3434,7 @@ import classes.Scenes.Combat.CombatAbility;
 				clearOutput();
 				outputText("You don't have any Descendant perks to change into Bloodline perks.");
 			}
-			doNext(ascensionMenu);
+			doNext(ascensionMenuFunc);
 		}
 		private function bloodlineACQ2():void {
 			player.ascensionPerkPoints -= 10;
@@ -3456,8 +3455,7 @@ import classes.Scenes.Combat.CombatAbility;
 				else if (player.hasStatusEffect(StatusEffects.KnowsMeteorShower) && player.statusEffectv4(StatusEffects.KnowsMeteorShower) == 9000) addButtonDisabled(1, "Meteor Shower", "Meteor Shower spell is already permanent.");
 				else addButtonDisabled(1, "???", "You haven't learnt this spell yet!");
 			}
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function ascensionPermeryMenu(page:int = 1):void {
@@ -3605,8 +3603,7 @@ import classes.Scenes.Combat.CombatAbility;
 				//8
 				addButton(9, "Previous", ascensionPermeryMenu, page - 1);
 			}
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function permanentizeSpell(statusEffect:StatusEffectType, returnPage:int = 1):void {
@@ -3819,7 +3816,7 @@ import classes.Scenes.Combat.CombatAbility;
 				else addButtonDisabled (13, "Next Page");
 			}
 
-			addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function accessCompleteMenu(currentPage: int = 0): void {
@@ -3990,7 +3987,7 @@ import classes.Scenes.Combat.CombatAbility;
 				outputText("<font size=\"36\" face=\"Georgia\"><u>Permanentize Metamorphs</u></font>\n");
 				outputText("<b>You've permanentized the maximum amount of metamorphs available for your current stage of Transcedental Genetic Memory!</b>");
 				menu();
-				doNext(ascensionMenu);
+				doNext(ascensionMenuFunc);
 			}
 
 		}
@@ -4005,7 +4002,7 @@ import classes.Scenes.Combat.CombatAbility;
 			mainView.nameBox.restrict = null;
 			menu();
 			addButton(0, "OK", chooseName);
-			addButton(4, "Back", ascensionMenu);
+			addButton(4, "Back", ascensionMenuFunc);
 			//Workaround
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
@@ -4017,7 +4014,7 @@ import classes.Scenes.Combat.CombatAbility;
 			menu();
 			if (player.hasPerk(PerkLib.AscensionMenuChoiceMaybe)) addButton(1, "Yes", reincarnate002).hint("Reincarnate");
 			else addButton(1, "Yes", reincarnate001).hint("Reincarnate");
-			addButton(3, "No", ascensionMenu).hint("Go Back");
+			addButton(3, "No", ascensionMenuFunc).hint("Go Back");
 		}
 		private function timeTravelPrompt():void {
 			clearOutput();
@@ -4025,7 +4022,7 @@ import classes.Scenes.Combat.CombatAbility;
 			menu();
 			if (player.hasPerk(PerkLib.AscensionMenuChoiceMaybe)) addButton(1, "Yes", reincarnate002).hint("Reincarnate");
 			else addButton(1, "Yes", reincarnate001).hint("Reincarnate");
-			addButton(3, "No", ascensionMenu).hint("Go Back");
+			addButton(3, "No", ascensionMenuFunc).hint("Go Back");
 		}
 		private function reincarnate001():void {
 			flags[kFLAGS.NEW_GAME_PLUS_LEVEL]++;
