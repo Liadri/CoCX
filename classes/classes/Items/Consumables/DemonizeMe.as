@@ -5,6 +5,7 @@ import classes.CoC;
 import classes.EventParser;
 import classes.PerkLib;
 import classes.VaginaClass;
+import classes.Races;
 import classes.BodyParts.*;
 import classes.internals.Utils;
 import classes.Items.Consumable;
@@ -75,12 +76,12 @@ public class DemonizeMe extends Consumable {
 					outputText("As you are observing your new wings, tail and extra demonic additions, the small note written at the bottom of the label catches your eye.\n");
 					outputText("\"<i>Use in small dosage.</i>\"\n\n");
 				}
-				if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
+				if (player.hasCock()) CoC.instance.transformations.LowerBodyDemonClawed.applyEffect(false);
 				else {
-					if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
+					if (rand(2) == 0) CoC.instance.transformations.LowerBodyDemonClawed.applyEffect(false);
 					else {
-						if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-						else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
+						if (rand(2) == 0) CoC.instance.transformations.LowerBodyDemonHighHeels.applyEffect(false);
+						else CoC.instance.transformations.LowerBodyDemonGracefulFeet.applyEffect(false);
 					}
 				}
 				player.legCount = 2;
@@ -100,6 +101,7 @@ public class DemonizeMe extends Consumable {
 				if (player.hasVagina()) CoC.instance.transformations.VaginaDemonic().applyEffect(false);
 				outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
 				player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
+				player.updateRacialParagon(Races.DEMON);
 				player.npcsThatLeaveSoullessPC();
 				if (player.level < 25) SceneLib.inventory.takeItem(CoC.instance.consumables.LETHITE, EventParser.playerMenu);
 				else if (player.level < 50) SceneLib.inventory.takeItem(CoC.instance.consumables.LETH1TE, EventParser.playerMenu);
