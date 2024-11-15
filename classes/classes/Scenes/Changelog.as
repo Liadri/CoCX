@@ -310,7 +310,7 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Still Heart. Req. having free adaptation mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Energy draining effect and spells and ability that drain health are 25% stronger.\n");
 			outputText("-New mutation perk: Black Blood (Final Form). Req. Black Blood (Evolved) and lvl 90+. Effects: Your undead blood gives you a 40% resistance to cold. When hunger is sated above 40% you gain doubled health generation from all sources. You gain regeneration 2%. You recover from all stat damage except intelligence / libido every full moon night.\n");
 			outputText("-Wendigo Lose Scene Check Fix. (NUZ/Shirane)\n");
-			outputText("-\n");
+			outputText("-Fixing some of PC's rejected on Marae 1st visit still not getting scene to progress main storyline. (DallagenXYZ)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
