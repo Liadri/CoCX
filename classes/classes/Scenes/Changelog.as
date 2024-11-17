@@ -311,7 +311,7 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Black Blood (Final Form). Req. Black Blood (Evolved) and lvl 90+. Effects: Your undead blood gives you a 40% resistance to cold. When hunger is sated above 40% you gain doubled health generation from all sources. You gain regeneration 2%. You recover from all stat damage except intelligence / libido every full moon night.\n");
 			outputText("-Wendigo Lose Scene Check Fix. (NUZ/Shirane)\n");
 			outputText("-Fixing some of PC's rejected on Marae 1st visit still not getting scene to progress main storyline. (DallagenXYZ)\n");
-			outputText("-\n");
+			outputText("-Fix Genetic Memory not being updated for the lower body aka demonic feet TF. (Stadler)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
