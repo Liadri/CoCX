@@ -235,6 +235,9 @@ use namespace CoC;
 		//Only used in survival and realistic mode
 		public var hunger:Number = 0;
 
+		//Store all active/true IMutations
+		public var trueMutations:Array = [];
+
 		//Perks used to store 'queued' perk buys
 		public var perkPoints:Number = 0;
 		public var statPoints:Number = 0;
