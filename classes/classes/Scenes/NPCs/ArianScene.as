@@ -4388,7 +4388,7 @@ private function arianAppearance():void {
 	if (flags[kFLAGS.ARIAN_BREASTS] > 0 && flags[kFLAGS.ARIAN_VAGINA] == 1) outputText("soft, feminine");
 	if (flags[kFLAGS.ARIAN_BREASTS] == 0 && flags[kFLAGS.ARIAN_COCK_SIZE] > 0) outputText("masculine");
 	outputText(" figure.\n\n");
-	outputText("Arian’s head is reptilian in shape, with a long snout. The teeth in [arian eir] mouth, tough sharp as those of a lizan, look much less menacing and predatory as the others that you’ve seen. ");
+	outputText("Arian’s head is reptilian in shape, with a long snout. The teeth in [arian eir] mouth, though sharp as those of a lizan, look much less menacing and predatory as the others that you’ve seen. ");
 	outputText("Like [arian eir] body, the lizan’s head is covered ");
 	if (flags[kFLAGS.ARIAN_SCALES] <= 1) outputText("entirely in white scales, probably a harmless remnant of [arian em] time of sickness");
 	if (flags[kFLAGS.ARIAN_SCALES] == 2) outputText("in bright turquoise scales, turning a lighter shade of the same color upon reaching to [arian eir] neck, while [arian eir] inner neck has creamy-gold colored scales");
