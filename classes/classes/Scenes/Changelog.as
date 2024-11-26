@@ -313,7 +313,7 @@ public class Changelog extends BaseContent
 			outputText("-Fixing some of PC's rejected on Marae 1st visit still not getting scene to progress main storyline. (DallagenXYZ)\n");
 			outputText("-Fix Genetic Memory not being updated for the lower body aka demonic feet TF. (Stadler)\n");
 			outputText("-Fix for active true mutations not being saved. (Stadler)\n");
-			outputText("-\n");
+			outputText("-Minor fixes for Phylla & GroPlus. (Svalkash)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
