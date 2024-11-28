@@ -529,7 +529,7 @@ private function fuckCottonInShowerRepeat():void {
 	outputText(images.showImage("cotton-shower-fuck-repeat"));
 	var x:Number = player.cockThatFits(100);
 	if (x < 0) x = 0;
-	if (player.cockArea(x) < 70) sceneHunter.print("You may go bigger~");
+	if (player.cockArea(x) < 70) sceneHunter.print("You can use a cock between 70 and 100 area");
 	//(Repeat Fuck Her, for centaurs)
 	if(player.isTaur()) {
 		outputText("You decide to take her up on her offer and lead her into the showers, quickly disrobing and turning on an available shower-head. Cotton strips as well and you pull her under the stream of water, letting your horse body remain out of the water for now, sharing a kiss as steam begins to form around you. She runs a hand through your " + hairDescript() +" and grips the back of your neck, ");
