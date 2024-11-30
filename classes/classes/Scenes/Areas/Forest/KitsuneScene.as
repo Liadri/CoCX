@@ -2214,7 +2214,7 @@ public class KitsuneScene extends BaseContent
 			menu();
 			addButton(0, "Read Books", readKitsuneBooks);
 			if (flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) addButton(1, "Meditate", meditateLikeAKitsuneEhQuestionMark);
-			if ((player.hasItem(useables.GLDSTAT) || flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) && flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] < 1) addButton(2, "Statue", stealAStatue);
+			if (player.hasItem(useables.GLDSTAT) || flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) addButton(2, "Statue", stealAStatue);
 			if (player.hasPerk(PerkLib.StarSphereMastery) && player.perkv1(PerkLib.StarSphereMastery) < SphereMastery && player.gems >= 1000) addButton(3, "Offering", offeringToTaoth);
             if (flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] > 0 && flags[kFLAGS.AYANE_FOLLOWER] < 2) addButton(5, "Ayane", SceneLib.ayaneFollower.ayaneShop);
             if (flags[kFLAGS.AYANE_FOLLOWER] == 1) {
@@ -2516,4 +2516,4 @@ public class KitsuneScene extends BaseContent
 			outputText("It's not much use to you other than decoration, but based on the craftsmanship alone you judge that you could get a fair price for it if you pawned it off.  ");
 		}
 	}
-}
+}
