@@ -314,8 +314,8 @@ public class Changelog extends BaseContent
 			outputText("-Fix Genetic Memory not being updated for the lower body aka demonic feet TF. (Stadler)\n");
 			outputText("-Fix for active true mutations not being saved. (Stadler)\n");
 			outputText("-Minor fixes for Phylla & GroPlus. (Svalkash)\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-Due to typos in the parser code the text 'your cock hardening and your snatch drooling' (variant for herms) in the arch imp TF wasn't showing up properly. (Stadler)\n");
+			outputText("-Typos in the model.xml (old charviewer) caused smol dragon balls and dragon pussy not to show up. (Stadler)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
