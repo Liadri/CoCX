@@ -2516,4 +2516,4 @@ public class KitsuneScene extends BaseContent
 			outputText("It's not much use to you other than decoration, but based on the craftsmanship alone you judge that you could get a fair price for it if you pawned it off.  ");
 		}
 	}
-}
+}

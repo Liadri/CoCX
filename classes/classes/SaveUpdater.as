@@ -2777,4 +2777,4 @@ public class SaveUpdater extends NPCAwareContent {
 		}
 	}
 }
-}
+}

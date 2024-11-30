@@ -316,7 +316,8 @@ public class Changelog extends BaseContent
 			outputText("-Minor fixes for Phylla & GroPlus. (Svalkash)\n");
 			outputText("-Due to typos in the parser code the text 'your cock hardening and your snatch drooling' (variant for herms) in the arch imp TF wasn't showing up properly. (Stadler)\n");
 			outputText("-Typos in the model.xml (old charviewer) caused smol dragon balls and dragon pussy not to show up. (Stadler)\n");
-			outputText("-Golden statue that can be stolen form Kitsune Shine can be now returned (or stolen again) even when PC already unlocked Kitsune Shrine.\n");
+			outputText("-Golden statue that can be stolen from Kitsune Shine can be now returned (or stolen again) even when PC already unlocked Kitsune Shrine.\n");
+			outputText("-New event related perk: Dao of Training. Req. reaching at least 100%/200% Additional Soulforce from training for rank 1/2. Effect: Add x% to Magical Soulskill Effect Multiplier and at rank 2 adds (x*0.1)% to Soulskill Effect Multiplier. x is value of 'Additional Soulforce from training' stat.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -331,6 +332,21 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
 			outputText("-\n");
 			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
 			outputText("-\n");//Motivation (Su) now req. additionaly Advanced Leadership perk
@@ -343,22 +359,6 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
 			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
-			outputText("-\n");
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-Fixed bugs: Dracula/lina PC unable to find get ghoul if they not learned this as normal Vampire, unable to buy manual for 1st atk: f. swords, Arigean Princess PC not been fully immune to TF-ing like other perm races, Weresharks not having their stats changing according to moon phase or boosted during use of Crinos Shape, Phoenix TF adding mutagen penatly instead of stat curse, ");

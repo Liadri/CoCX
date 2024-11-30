@@ -1052,7 +1052,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
 		if (player.weaponRangeName == "Wild Hunt" && player.level > monster.level) damage *= 1.2;
 		if (player.weaponRangeName == "Hodr's bow" && monster.hasStatusEffect(StatusEffects.Blind)) damage *= 1.1;
-		//if (player.hasStatusEffect(StatusEffects.Gallop)) damage *= 1.5;
+		if (player.hasStatusEffect(StatusEffects.Gallop)) {
+			if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 4) damage *= 2;
+			else damage *= 1.5;
+		}
 		if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 1) damage *= (1 + (0.25 * player.perkv1(IMutationsLib.EquineMuscleIM)));
 		if (player.isRaceCached(Races.CENTAUR) && player.hasPerk(PerkLib.CentaurHunterStyleMeteorShower)) damage *= 0.6;
 		damage *= PSMulti;

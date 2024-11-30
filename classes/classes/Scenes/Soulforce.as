@@ -588,8 +588,11 @@ public class Soulforce extends BaseContent
 		if (itemCnt > 10) itemCnt *= (1.0 + itemCnt * 0.1);
 		else if (itemCnt > 5) itemCnt *= (1.0 + itemCnt * 0.05);
 		var limit:int = cultivationBonusMaxSF_limit();
-		if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] < limit)
-			flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] += Math.min(int(itemCnt * hours), limit - flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]);
+		if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] < limit) flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] += Math.min(int(itemCnt * hours), limit - flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]);
+		if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] >= 100) {
+			if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] >= 200 && player.hasPerk(PerkLib.DaoOfTraning)) player.addPerkValue(PerkLib.DaoOfTraning, 1, 1);
+			else player.createPerk(PerkLib.DaoOfTraning,1,0,0,0);
+		}
 	}
 
 	public function SelfSustain():void {
