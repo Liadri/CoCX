@@ -1982,7 +1982,7 @@ public static const IN_COMBAT_PLAYER_COMPANION_0_ACTION:int                     
 public static const TRUE_DEMONS_KILLED:int                                   		= 1974;
 public static const WRATH_GIANT_SLAYER_GOBLIN_MECH:int                              = 1975;
 public static const AUTO_FLIGHT:int                                   				= 1976;
-public static const UNKNOWN_FLAG_NUMBER_01977:int                                   = 1977;
+public static const AUTO_GALLOP:int                                   				= 1977;
 public static const UNKNOWN_FLAG_NUMBER_01978:int                                   = 1978;
 public static const AKALI_FOLLOWER:int                                   			= 1979;
 public static const KAI_SA_FOLLOWER:int                                   			= 1980;

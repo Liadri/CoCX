@@ -4,6 +4,7 @@
 package classes.display {
 import classes.BaseContent;
 import classes.BodyParts.Face;
+import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.CoC;
 import classes.GlobalFlags.kFLAGS;
@@ -151,9 +152,11 @@ public class PerkMenu extends BaseContent {
 		clearOutput();
 		menu();
 		var autoFlyingFlag:int = flags[kFLAGS.AUTO_FLIGHT];
+		var autoGallopingFlag:int = flags[kFLAGS.AUTO_GALLOP];
         var setflag:Function = curry(setFlag,MiscOption);
 		var toggleFlagMisc:Function = curry(toggleFlag,MiscOption);
 		var autoFlyingType:Function = curry(setflag,kFLAGS.AUTO_FLIGHT);
+		var toggleGallopingType:Function = curry(setflag,kFLAGS.AUTO_GALLOP);
         if (player.hasPerk(PerkLib.LiftOff)) {
 			outputText("You can choose to start flying or not at the start of each combat.\n");
 			outputText("Start: <b>");
@@ -188,6 +191,11 @@ public class PerkMenu extends BaseContent {
 				flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] == 0 ? "Enabled (" + player.corruptionTolerance + ")" :
 					flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] == 1 ? "Disabled (0)" : "CHEAT (100)") + "</b>");
 			addButton(7, "CorTolerance", toggleCorruptionTolerance);
+		}
+		if (player.hasPerk(PerkLib.SuddenRun) && player.lowerBody == LowerBody.HOOFED) {
+			outputText("You can choose to start galloping or not at the start of each combat.\n");
+			outputText("\nStart: <b>" + (flags[kFLAGS.AUTO_GALLOP] == 0 ? "Standing still" : "Galloping") + "</b>");
+			addButton(9, "Gallop", curry(toggleFlagMisc, kFLAGS.AUTO_GALLOP));
 		}
 		// tease healing
 		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {

@@ -95,7 +95,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 						if (player.hasStatusEffect(StatusEffects.Gallop)) bd = buttons.add("Gallop(Stop)", gallopingStop).hint("Stop galloping.");
 						else {
 							bd = buttons.add("Gallop", gallopingStart).hint("Start galloping. Deals 50% more damage with physical specials but disable melee and range base attacks.");
-							bd.requireFatigue(gallopingcoooooost());
+							bd.requireFatigue(combat.gallopingcoooooost());
 						}
 					}
 					if (player.hairType == 4) {
@@ -1654,27 +1654,19 @@ public class PhysicalSpecials extends BaseCombatContent {
 	
 	public function gallopingStart():void {
 		clearOutput();
-		var costvalue:Number = gallopingcoooooost();
+		var costvalue:Number = combat.gallopingcoooooost();
 		fatigue(physicalSpecialsCost(costvalue), USEFATG_PHYSICAL);
-		outputText("You take some distance before making a U-turn and start galloping. (no not Lia text as she not provide any for this. want to know more? ask her about that) ");
+		outputText("You suddenly take off and start galloping around, circling your opponent as you build up speed and momentum, poised to strike. ");
 		monster.createStatusEffect(StatusEffects.MonsterAttacksDisabled, 0, 0, 0, 0);
 		player.createStatusEffect(StatusEffects.Gallop, 0, 0, 0, 0);
 		enemyAI();
 	}
 	public function gallopingStop():void {
 		clearOutput();
-		outputText("You stop galloping. (no not Lia text as she not provide any for this. want to know more? ask her about that) ");
+		outputText("You slow your run to a stand still finally stopping in front of your opponent. ");
 		monster.removeStatusEffect(StatusEffects.MonsterAttacksDisabled);
 		player.removeStatusEffect(StatusEffects.Gallop);
 		enemyAI();
-	}
-	public function gallopingcoooooost():Number {
-		var percent:Number = 40;
-		if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 1) percent -= (10 * player.perkv1(IMutationsLib.EquineMuscleIM));
-		if (player.perkv1(IMutationsLib.TwinHeartIM) >= 1) percent -= (4 * player.perkv1(IMutationsLib.TwinHeartIM));
-		if (player.hasPerk(PerkLib.IronMan)) percent *= 0.5;
-		var gallopingcostvalue:Number = Math.round(player.maxFatigue() * 0.01 * percent);
-		return gallopingcostvalue;
 	}
 
 	public function whirlwind():void {
