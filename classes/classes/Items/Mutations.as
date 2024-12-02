@@ -8044,12 +8044,12 @@ public final class Mutations extends MutationsHelper {
             changes++;
         }
         //Partial scaled skin
-        if (player.hasPlainSkinOnly() && rand(4) == 0) {
+        if (player.hasPlainSkinOnly() && changes < changeLimit && rand(4) == 0) {
             outputText("[pg]");
             transformations.SkinScales(Skin.COVERAGE_LOW, {color: "red"}).applyEffect();
             changes++;
         }
-        if (!player.hasPartialCoat(Skin.SCALES) && rand(4) == 0) {
+        if (!player.hasPartialCoat(Skin.SCALES) && changes < changeLimit && rand(4) == 0) {
             outputText("[pg]");
             transformations.SkinPlain.applyEffect();
             changes++;

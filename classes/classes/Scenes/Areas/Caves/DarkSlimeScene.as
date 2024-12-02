@@ -20,7 +20,7 @@ public class DarkSlimeScene extends BaseContent
             outputText("You take the turn at the end of the cave and run right into a dark slime. For a few second both of you consider each other before the slime shrugs and simply asks.\n\n");
             outputText("\"<i>No luck finding fluids that way?</i>\"");
             outputText("You didn’t find any and if you did you would have pumped it out until it ran dry.\n\n");
-            outputText("\"<i>Well darn, if you spot a fleshling do share!</i>\"");
+            outputText("\"<i>Well darn, if you spot a fleshling do share!</i>\"\n\n");
             outputText("Well that was easy… you can only guess slimes don’t get much out of other slimes’ bodies. You proceed deeper into the caves unhindered, though, you wish you indeed had found someone to milk the fluids off.\n\n");
             endEncounter();
             return;

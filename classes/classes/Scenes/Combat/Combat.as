@@ -313,6 +313,17 @@ public class Combat extends BaseContent {
             monster.createStatusEffect(StatusEffects.MonsterAttacksDisabled, 0, 0, 0, 0);
             outputText("\n\n");
         }
+		if (flags[kFLAGS.AUTO_GALLOP] > 0 && player.fatigueLeft() > gallopingcoooooost()) {// && !player.hasStatusEffect(StatusEffects.FlyingDisabled)
+			var costPercent:Number = 100;
+			var mod:Number = gallopingcoooooost();
+			if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 2) costPercent -= (5*(player.perkv1(IMutationsLib.EquineMuscleIM)-1));
+			if (costPercent < 10) costPercent = 10;
+			mod *= costPercent / 100;
+			fatigue(mod, USEFATG_PHYSICAL);
+			outputText("You suddenly take off and start galloping around, circling your opponent as you build up speed and momentum, poised to strike. ");
+			monster.createStatusEffect(StatusEffects.MonsterAttacksDisabled, 0, 0, 0, 0);
+			player.createStatusEffect(StatusEffects.Gallop, 0, 0, 0, 0);
+		}
         if (player.hasPerk(PerkLib.AffinitySylph) && !player.hasStatusEffect(StatusEffects.InsideSmallSpace) && !player.hasStatusEffect(StatusEffects.UnderwaterCombatBoost)) {
             player.createStatusEffect(StatusEffects.Flying, 1, 10, 0, 0);
             if (player.hasPerk(PerkLib.Resolute) < 0) {
@@ -509,6 +520,16 @@ public class Combat extends BaseContent {
 		var extension:Boolean = false;
         if (player.hasStatusEffect(StatusEffects.TyrantState) && TyrantiaFollower.TyrantiaTrainingSessions >= 30 && (!player.hasStatusEffect(StatusEffects.TyrantiaTraining30) || (player.hasStatusEffect(StatusEffects.TyrantiaTraining30) && player.statusEffectv1(StatusEffects.TyrantiaTraining30) < 2))) extension = true;
 		return extension;
+	}
+	
+	public function gallopingcoooooost():Number {
+		var percent:Number = 40;
+		var reduction:Number = 1;
+		if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 1) reduction -= (0.1 * player.perkv1(IMutationsLib.EquineMuscleIM));
+		if (player.perkv1(IMutationsLib.TwinHeartIM) >= 1) reduction -= (0.05 * player.perkv1(IMutationsLib.TwinHeartIM));
+		if (player.hasPerk(PerkLib.IronMan)) reduction *= 0.5;
+		var gallopingcostvalue:Number = Math.round(player.maxFatigue() * 0.01 * percent * reduction);
+		return gallopingcostvalue;
 	}
 
 //combat is over. Clear shit out and go to main
@@ -10047,6 +10068,7 @@ public class Combat extends BaseContent {
 			if (player.hasPerk(PerkLib.LingeringOpening)) damage *= 4;
 			else damage *= 3;
 		}
+		if (player.hasPerk(PerkLib.EarthAndSky) && (player.hasStatusEffect(StatusEffects.Gallop) || player.hasStatusEffect(StatusEffects.Flying))) damage *= 2;
 		return doDamage(damage, apply, display, ignoreDR);
     }
 
@@ -12446,6 +12468,21 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
             //	else {
             //		outputText("<b>As your soulforce is drained you can feel the Violet Pupil Transformation's regenerative power spreading in your body.</b>\n\n");
             //	}
+        }
+        //Gallop
+        if (player.hasStatusEffect(StatusEffects.Gallop)) {
+            if (player.fatigueLeft() > gallopingcoooooost()) {
+                player.removeStatusEffect(StatusEffects.Gallop);
+                outputText("<b>As you become increasingly tired you slow your run to a stand still finally stopping in front of your opponent. </b>\n\n");
+            }
+            else {
+				var costPercent:Number = 100;
+				var mod:Number = gallopingcoooooost();
+				if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 2) costPercent -= (5*(player.perkv1(IMutationsLib.EquineMuscleIM)-1));
+				if (costPercent < 10) costPercent = 10;
+				mod *= costPercent / 100;
+				fatigue(mod, USEFATG_PHYSICAL);
+			}
         }
         //Soul burn
         if (player.hasStatusEffect(StatusEffects.SoulBurn))  {

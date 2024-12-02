@@ -302,7 +302,7 @@ public class Changelog extends BaseContent
 			outputText("-Various fixes for issues with the gargoyle-form: Gargoyle final form could not be reached, because the dialogue with the Forgefather never went past 'What's Next' because of a missing check for !avatarsExplained in the conditional. Upon reaching gargoyle final form, the stat boosts, damage buffs and so on weren't applied anymore, ");
 			outputText("because the checks went only as far as checking for refinement == 4. Gargoyle race includes a demonic tongue, but when becoming a gargoyle the tongue was first changed to a demonic tongue and then to a human one. If you refined your body with refinement at at least 1, all refinements till level 4 were applied at once, ");
 			outputText("even if you lacked the mats due to missing return-statements in the function. The 'Refine Body'-button is now disabled, when you can't be refined any further. Fixed a handful typos in two Forgefather scenes. (Stadler)\n");
-			outputText("-When PC have Phylactery perk can access and use Demonic Energy menu. But to not be too... unfair during ascension any perk gained with use of DE would be lost unlike during Dark Ascension of Soulless PC. Also not been fully soulless would decrease max DE possible to store by 50%.\n");
+			outputText("-When PC have Phylactery perk can access and use Demonic Energy menu. But to not be too... unfair during ascension any perk gained with use of DE would be lost unlike during Dark Ascension of Soulless PC. Also not been fully soulless would decrease max DE possible to store by 50% and they only gain 50% of DE from eating Lethicite.\n");
 			outputText("-Drider fixes: When you had a drider lower body, the spider abdomen wasn't hidden from charview. (Stadler)\n");
 			outputText("-New mutation perk: Black Blood (Primitive). Req. Black Blood and lvl 30+. Effects: Your undead blood gives you a 20% resistance to cold. When hunger is sated above 80% you gain doubled health generation from all sources.\n");
 			outputText("-New mutation perk: Black Blood (Evolved). Req. Black Blood (Primitive) and lvl 60+. Effects: Your undead blood gives you a 30% resistance to cold. When hunger is sated above 60% you gain doubled health generation from all sources. You gain regeneration 1%.\n");
@@ -314,6 +314,13 @@ public class Changelog extends BaseContent
 			outputText("-Fix Genetic Memory not being updated for the lower body aka demonic feet TF. (Stadler)\n");
 			outputText("-Fix for active true mutations not being saved. (Stadler)\n");
 			outputText("-Minor fixes for Phylla & GroPlus. (Svalkash)\n");
+			outputText("-Due to typos in the parser code the text 'your cock hardening and your snatch drooling' (variant for herms) in the arch imp TF wasn't showing up properly. (Stadler)\n");
+			outputText("-Typos in the model.xml (old charviewer) caused smol dragon balls and dragon pussy not to show up. (Stadler)\n");
+			outputText("-Golden statue that can be stolen from Kitsune Shine can be now returned (or stolen again) even when PC already unlocked Kitsune Shrine.\n");
+			outputText("-New event related perk: Dao of Training. Req. reaching at least 100%/200% Additional Soulforce from training for rank 1/2. Effect: Add x% to Magical Soulskill Effect Multiplier and at rank 2 adds (x*0.1)% to Soulskill Effect Multiplier. x is value of 'Additional Soulforce from training' stat.\n");
+			outputText("-New tier 1 misc lvl-up perk: Sudden Run. Req. Job: Feral Champion perk and 25+ tou/spe. Effect: You may start combat galloping.\n");
+			outputText("-New tier 2 misc lvl-up perk: Earth and Sky. Req. Sudden Run perk and 50+ tou/spe. Effect: Damage is increased (x2) while in motion gallop or flight.\n");
+			outputText("-Twin Heart IM's now have additional effect of lowering Gallop fatigue cost by 5% per tier.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -331,6 +338,15 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
 			outputText("-\n");
 			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
 			outputText("-\n");//Motivation (Su) now req. additionaly Advanced Leadership perk
@@ -344,9 +360,23 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
 			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
 			outputText("-\n");
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-Fixed bugs: Dracula/lina PC unable to find get ghoul if they not learned this as normal Vampire, unable to buy manual for 1st atk: f. swords, Arigean Princess PC not been fully immune to TF-ing like other perm races, Weresharks not having their stats changing according to moon phase or boosted during use of Crinos Shape, Phoenix TF adding mutagen penatly instead of stat curse, ");
@@ -360,7 +390,7 @@ public class Changelog extends BaseContent
 			outputText("locking corruption to 100 before PC get pernamently locked to this race, post Drider Incubus fight sex scenes not reseting lust/giving sexp rewards/other effects of sex scene, during Urta scenes game mix up Urta and PC when checking for sex scenes selection, Cure spell not removing Blind, Whisker Fruit not giving multiple breast rows, some of status effects not cleaning up ");
 			outputText("after bad end or combat end, scene with Ayane when PC visit shrine as already 9 tailed kitusne without star sphere not gaining star sphere during the scene, Meteor Shower and Polar Midnight not recognized as spells for Channeling perk req., Healer npc in JttE never having her cure/heal options going off cooldown, Vixen&Cream with Urta unclosed tag, Straddle Tease variant for ");
 			outputText("Harpies not checking if enemy have cock, Mist Phouka enemies dropping tarnished shard of metal, PC mummies behaviour choice menu buttons wrong labeled, pair of black cat gloves not allowing swiftcasting, Wood Elfs appearing for soulless PC's, cow maid and Excellia switching places for Minotaur Challanger fight, ");
-			outputText("drinking from Oni enchanted drinking gourd not triggering Aelfwine effect, Dark Charm not gained by Gremlins");
+			outputText("drinking from Oni enchanted drinking gourd not triggering Aelfwine effect, Dark Charm not gained by Gremlins, some of Nocello Liqueur TF effects ignoring TF immunity effect");
 			outputText("\n\n");
 			/*ostatni punkt changelogu
 			outputText("(Part 2/2) <b>Version 0.9a:</b>\n\n");
@@ -432,26 +462,8 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -491,15 +503,6 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");

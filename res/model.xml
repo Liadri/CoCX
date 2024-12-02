@@ -1474,7 +1474,7 @@
 		<cell rect="161,380,49,29" name="balls/Bscalessillyhuge" dx="79" dy="106"/>
 		<cell rect="balls/Bscalessillyhuge" name="balls_taur/Bscalessillyhugehuge_taur" dx="121" dy="131"/>
 		<cell rect="161,560,49,36" name="balls/Bscalesgigahuge" dx="82" dy="114"/>
-		<cell rect="balls/Bscalesmall" name="balls/Bdscalesmall" dx="79" dy="104"/>
+		<cell rect="balls/Bscalesmall" name="balls/Bdscalessmall" dx="79" dy="104"/>
 		<cell rect="balls/Bscaleslarge" name="balls/Bdscaleslarge" dx="79" dy="104"/>
 		<cell rect="balls/Bscaleshuge" name="balls/Bdscaleshuge" dx="79" dy="105"/>
 		<cell rect="balls/Bscalessillyhuge" name="balls/Bdscalessillyhuge" dx="79" dy="106"/>
@@ -1706,7 +1706,7 @@
 		<cell rect="111,599,49,29" name="pussy/chitin" dx="80" dy="99"/>
 		<cell rect="pussy/chitin" name="pussy/bee" dx="80" dy="99"/>
 		<cell rect="161,599,49,29" name="pussy/scales" dx="80" dy="99"/>
-		<cell rect="pussy/scales" name="pussy/dscale" dx="80" dy="99"/>
+		<cell rect="pussy/scales" name="pussy/dscales" dx="80" dy="99"/>
 		<cell rect="pussy/scales" name="pussy/shark" dx="80" dy="99"/>
 		<cell rect="211,599,49,29" name="pussy/orca" dx="80" dy="99"/>
 		<cell rect="261,599,49,29" name="overpussy/neonblue" dx="80" dy="99"/>

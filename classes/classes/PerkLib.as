@@ -553,7 +553,9 @@ public class PerkLib
 				"You've chosen the 'Utility Skills: Apprentice' perk. Increasing mastery gains in non-combat skills by 200% of base and slightly decreasing the experience required to level up");
 		public static const UtilitySkillsSkilled:PerkType = mk("Utility Skills: Skilled", "Utility Skills: Skilled",
 				"Increasing mastery gains in non-combat skills by 300% of base and slightly decreasing the experience required to level up.",
-				"You've chosen the 'Utility Skills: Skilled' perk. Increasing mastery gains in non-combat skills by 300% of base and slightly decreasing the experience required to level up");//, , , Professional, Artisan, Master, and Guru
+				"You've chosen the 'Utility Skills: Skilled' perk. Increasing mastery gains in non-combat skills by 300% of base and slightly decreasing the experience required to level up");
+		
+		//, , , Professional, Artisan, Master, and Guru
 		public static const SubzeroLustfulFury:PerkType = mk("Subzero Lustful Fury", "Subzero Lustful Fury",
 				"Decreasing health loss from activating higher grades of berzerking/lustzerking by 25%. Allow to activate 2 grades of berzerker/lustzerker state at once when you have Endless Rage perk.",
 				"You've chosen the 'Subzero Lustful Fury' perk, decreasing health loss from activating higher grades of berzerking/lustzerking by 25%. Allow to activate 2 grades of berzerker/lustzerker state at once when you have Endless Rage perk.");
@@ -692,6 +694,12 @@ public class PerkLib
 		public static const QuasiDomainKineses:PerkType = mk("Quasi Domain Kineses", "Quasi Domain Kineses",
 				"All of your kinesis type specials would deal higher damage against single and group enemies. The larger group the higher bonus damage. (2x/10x/50x)",
 				"You've chosen the 'Quasi Domain Kineses' perk. All of your kinesis type specials would deal higher damage against single and group enemies. The larger group the higher bonus damage. (2x/10x/50x)");
+		public static const SuddenRun:PerkType = mk("Sudden Run", "Sudden Run",
+				"You may start combat galloping.",
+				"You've chosen the 'Sudden Run' perk. You may start combat galloping.");
+		public static const EarthAndSky:PerkType = mk("Earth and Sky", "Earth and Sky",
+				"Damage is increased (x2) while in motion gallop or flight.",
+				"You've chosen the 'Earth and Sky' perk. Damage is increased (x2) while in motion gallop or flight.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -705,6 +713,15 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -4371,6 +4388,7 @@ public class PerkLib
 		public static const CraftedArrows:PerkType = mk("Crafted Arrows", "Crafted Arrows",
 				"You have personaly crafted arrows in your quiver. Depending on their type it will increase bow attack from 10% to 40%");
 		public static const DaoOfTheElements:DaoOfTheElementsPerk = new DaoOfTheElementsPerk();
+		public static const DaoOfTraning:DaoOfTraningPerk = new DaoOfTraningPerk();
 		public static const DemonicLethicite:PerkType = mk("Demonic Lethicite", "Demonic Lethicite",
 				"Improves soulforce and makes you more demonic.");//Effects: maxSoulforce += lib; +1 demonscore; 10 min corruption
 		public static const DemonSlayer:DemonSlayerPerk = new DemonSlayerPerk();
@@ -7814,6 +7832,10 @@ public class PerkLib
 					.requireTou(50);
             Atavism.requireLevel(6)
                     .requirePerks(JobBeastlord);
+			SuddenRun.requireLevel(6)
+                    .requirePerk(JobBeastlord)
+					.requireTou(25)
+					.requireSpe(25);
 //            WeaponClawsClawTraining.requirePerk(JobBeastWarrior)
 //					.requireLevel(6)
 //					.requireCustomFunction(function (player:Player):Boolean {
@@ -7910,6 +7932,10 @@ public class PerkLib
                     .requirePerk(JobBeastWarrior);
             NaturalInstincts.requireLevel(12)
                     .requirePerk(JobBeastlord);
+			EarthAndSky.requireLevel(12)
+                    .requirePerk(SuddenRun)
+					.requireTou(50)
+					.requireSpe(50);
             ArcanePoolIV.requireLevel(12)
                     .requireInt(60)
                     .requireWis(60)
@@ -8624,4 +8650,4 @@ public class PerkLib
         }
 	}
 }
-}
+}
