@@ -136,7 +136,7 @@ public class CancerAttackScene extends BaseContent
                             "She grabs you in her pincer and pulls you closer. The mandibula at the junction between her human and cancer body parting away to reveal a literally foaming pussy. " +
                             "Wow you didn’t expect from the look of her face that she was this wet already. " +
                             "She pulls you all the way to her, hugging your body with her human arms as she forcefully shoves your nethers against her wet, frothing hole. " +
-                            "You consider for a moment to deny her then realise she's still holding you in her pincer which means you could probably crush you at a moment's notice if she wanted.");
+                            "You consider for a moment to deny her then realize she's still holding you in her pincer which means you could probably crush you at a moment's notice if she wanted.");
                     if (player.hasVagina() && (!player.hasCock() || !sceneHunter.uniHerms || rand(2) == 0)) {
                         outputText(" You gently begin to rub your pussy against the girl's bubbling mess making her gasp in delight. " +
                                 "Thankfully, she controls her pincers well enough not to squeeze you to death during the mating session, something you’re very relieved about. " +

@@ -55,9 +55,9 @@ public function ExcelliaPathChoice():void {
 	if (followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff)) {
 		outputText("When you arrive back at camp you notice the cow-queen Excellia sitting patiently by your bedroll, seemingly waiting for your return. Approaching carefully, she gently opens her eyes and reveals to you that Shouldra is still driving the Queen.\n\n");
 		outputText("\"<i>Hey, champ! Good to see ya again! ...Does this mean you managed to defeat Lethice?</i>\"\n\n");
-		outputText("She stands up, bringing herself to her full height. She must be over seven feet tall, you realise as she pulls you into a soft, squishy embrace. Her tail gently caresses your butt, and she lets out a moo of happiness. Pulling away, she looks at you.\n\n");
+		outputText("She stands up, bringing herself to her full height. She must be over seven feet tall, you realize as she pulls you into a soft, squishy embrace. Her tail gently caresses your butt, and she lets out a moo of happiness. Pulling away, she looks at you.\n\n");
 		outputText("\"<i>Well, I guess it's time for me to leave this body~</i>\"\n\n");
-		outputText("You look into Shouldra's eyes as she leans forward, lips puckered. Happy to oblige, you kiss her fiercely, golden lipstick sending sensations rushing through your body. Her tongue searches hungrily in your mouth, exploring it's depths with zeal. You feel the odd sensation as Shouldra leaps across the gap, worming her way back into you. Excellia's eyes fade from gold back to a lighter yellow colour, before rolling back in her head and collapsing suddenly to the ground.\n\n");
+		outputText("You look into Shouldra's eyes as she leans forward, lips puckered. Happy to oblige, you kiss her fiercely, golden lipstick sending sensations rushing through your body. Her tongue searches hungrily in your mouth, exploring it's depths with zeal. You feel the odd sensation as Shouldra leaps across the gap, worming her way back into you. Excellia's eyes fade from gold back to a lighter yellow color, before rolling back in her head and collapsing suddenly to the ground.\n\n");
 		outputText("\"<i>Huh... I wondered why she wasn't fighting me. She's still exhausted from being ravaged by the minotaur king... I'm sure she'll wake up in a few hours, though</i>\"\n\n");
 	}
 	else {

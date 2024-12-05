@@ -24,14 +24,14 @@ public class YuWinterGearShop extends BaseContent
 			}
 			else if (flags[kFLAGS.YU_SHOP] == 1) {
 				outputText("As you explore the rift, you find a cave with the entrance decorated with a sign. It reads <i>‘Yu winter gears and sportswear’</i>.\n\n");
-				outputText("You go in and find that the yeti indeed has a large inventory of weird winter equipment. Next to her stall is a more conventional housing area with a table made of snow, with food at the ready and a bed carved in solid ice. Now that you think, of it all the furnitures here are carved in solid ice. ");
+				outputText("You go in and find that the yeti indeed has a large inventory of weird winter equipment. Next to her stall is a more conventional housing area with a table made of snow, with food at the ready and a bed carved in solid ice. Now that you think of it, all the furniture here are carved in solid ice. ");
 				outputText("You can only think that her natural body heat allows her to live normally even in this cold climate. Yu notice you’re here and head toward you to hug you warmly.\n\n");
 				outputText("\"<i>Welcome welcome! Yu was not sure outlander would find way here. Is outlander here to purchase gear?</i>\"");
 				flags[kFLAGS.YU_SHOP] = 2;
 				YuMenuMain();
 			}
 			else {
-				outputText("You see a white blurry shape moving at high speed down a nearby mountain towards you. At first, you think it's an avalanche then you realise it’s a woman with a blue scarf and a pair of goggles, surfing on a wooden board.\n\n");
+				outputText("You see a white blurry shape moving at high speed down a nearby mountain towards you. At first, you think it's an avalanche then you realize it’s a woman with a blue scarf and a pair of goggles, surfing on a wooden board.\n\n");
 				outputText("\"<i>WOOOOOOO! YU BEST SNOWSURFER IN DA WORLD!!!!!!!!</i>\"\n\n");
 				outputText("Yeah, it’s definitely a woman. At first, you mistook her for a human but what you thought was a pair of fur gloves and boots turns out to be her hands and feet. She surfs right by you then stops, making a U-turn in your direction.\n\n");
 				outputText("\"<i>Hey, Yu not seen outsider in long time! What outsider’s doing in rift? Is outsider tourist trying to catch cold?</i>\"\n\n");
@@ -120,7 +120,7 @@ public class YuWinterGearShop extends BaseContent
 			if (flags[kFLAGS.YU_TALKS] == 1) outputText("Yu though you knew but Yu doesn’t mind repeating. ");
 			outputText("Yu is Yu! Yu is yeti. Yu born from yeti father and yeti mother. Mother eaten by wolves and father went avenge mother now Yu live alone.</i>\"\n\n");
 			outputText("Yu suddenly strikes a thoughtful pose and hugs you warmly as if trying to give some of her warmth to you. You ask her why she does those hugs.\n\n");
-			outputText("\"<i>Father told Yu to hug friends when meet them. If friends returns hug Yu can have snu-snu but if friends look bad Yu must strangle till head pop or make snow statue with them so no snu snu.</i>\"\n\n");
+			outputText("\"<i>Father told Yu to hug friends when meet them. If friends returns hug Yu can have snu-snu but if friends look bad Yu must strangle till head pop or make snow statue with them so no snu-snu.</i>\"\n\n");
 			outputText("Yeah, that's a very… simplistic form of courtship. Speaking of which, what happens to demons?\n\n");
 			outputText("\"<i>Yu make furniture.</i>\"\n\n");
 			outputText("She points at the bed, and you discover there's indeed an imp frozen in a silent scream under the thick layer of ice.");
@@ -147,7 +147,7 @@ public class YuWinterGearShop extends BaseContent
 		public function YuShopSex():void {
 			clearOutput();
 			outputText("You give Yu your name and spontaneously hug Yu. She blushes, surprised by both, but replies to your advances nonetheless.\n\n");
-			outputText("\"<i>Yu didn’t think [name] was interested. Yu kind of dumb but Yu sure would like snu snu with [name].</i>\"\n\n");
+			outputText("\"<i>Yu didn’t think [name] was interested. Yu kind of dumb but Yu sure would like snu-snu with [name].</i>\"\n\n");
 			outputText("She pulls you to the snowy bed with a dopey smile as she begins to undress. Funnily, undressing for her is as simple as removing her scarf because truthfully she is already pretty much stark naked.\n\n");
 			outputText("You depose your gear on the ground as you ready for a hot smoking time with Yu. Truth be told, even if it wasn’t for the cold you would have a hard time resisting the sensation of her wonderful fur on your skin.\n\n");
 			sceneHunter.selectGender(dickF, vagF);

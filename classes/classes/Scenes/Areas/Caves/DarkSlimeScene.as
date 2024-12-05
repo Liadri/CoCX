@@ -52,7 +52,7 @@ public class DarkSlimeScene extends BaseContent
         clearOutput();
         outputText("You smirk as the creature falls to the ground, flattened in every possible way.\n\n");
         outputText("\"<i>L..look, I didn't mean to try and eat you… I mean yes I did but it’s just my instincts, I need fluids and…</i>\"\n\n");
-        outputText("Now that the slime is clearly defeated, you consider your options. You could rape her but then realise it might as well be EXACTLY what she wants. Heck there's no telling if she won’t turn the table on you. What do you do with her?");
+        outputText("Now that the slime is clearly defeated, you consider your options. You could rape her but then realize it might as well be EXACTLY what she wants. Heck there's no telling if she won’t turn the table on you. What do you do with her?");
         menu();
         addButton(1, "Leave", beatingDarkSlimeScram).hint("Scram");
         addButton(2, "Use her", beatingDarkSlimeUseHer);
@@ -76,7 +76,7 @@ public class DarkSlimeScene extends BaseContent
         else {
             outputText("You smirk and proceed to play with the slime’s body, discarding your gear to the side as you prepare for some nice relief. However, the moment your naked body comes into contact with her she swiftly uses her mass to shift the position, forcing you on your back as she now towers over you.\n\n" +
             "\"<i>Hehehe… you poor idiot you thought you could just rape the rapist? I got you right where I wanted and now that you're naked I can proceed with what I had in mind, starting with making you more compliant.</i>\"\n\n" +
-            "You realise the depth of your mistake as your body begins to tingle. Obviously her fluids are filled with aphrodisiacs and they began affecting you the moment you were in contact with her body. " +
+            "You realize the depth of your mistake as your body begins to tingle. Obviously her fluids are filled with aphrodisiacs and they began affecting you the moment you were in contact with her body. " +
             "Now that you are weakened by your own arousal the slime has no issue taking over, some of her drool falling over your chest as she slowly covers you. Eventually, you are left floating inside her body as she forces you to sit, a slimy hand holding you up. ");
         }
         outputText("Some of her drool falls over your chest as the slime slowly covers you. Eventually, you are left floating inside her body as she forces you to sit, a slimy hand holding you up. You aren’t even granted the dignity of undressing yourself as the slime forcefully makes your gear float off with her oozing masses. ");
@@ -97,7 +97,7 @@ public class DarkSlimeScene extends BaseContent
         if (player.hasVagina()) outputText("gushing pussy");
         if (player.gender == 3) outputText(" and ");
         if (player.hasCock()) outputText("drooling penis");
-        outputText(". . Your entire body is starting to feel like a single erogenous zone and you want to touch yourself yet, immobilised like you are, you can only let the slime fuck you silly." +
+        outputText(". . Your entire body is starting to feel like a single erogenous zone and you want to touch yourself yet, immobilized like you are, you can only let the slime fuck you silly." +
         " The pleasure is melting your mind, you want to abandon yourself to the syrupy feeling of your body melting like ice under the pleasure of the slime’s touches. You can barely feel yourself anymore, all that matters is the crazed pleasure your body is going through." +
         " So much pleasure that you eventually lose even the ability to see, closing your eyes as your world turns into an explosive purple mess of fluid and orgasms. You can’t move, where are your limbs…? Heck, do you even have a body anymore?" +
         " The delicious sensation is dying down, and you have an irrepressible need to feel, to touch. You start pushing, forcing your way out of this empty mass as you finally find something solid to touch in the form of the dungeon ground." +
@@ -107,7 +107,7 @@ public class DarkSlimeScene extends BaseContent
         outputText("\"<i>Good morning sleepyhead, had a nice sleep?</i>\"\n\n");
         outputText("You… you are not exactly out of the slimy mass. Weirder yet, it’s the fact that you are attached to it. You can see the slime girl lazily watching you from the other side of the liquid. The first thing your desire-addled mind makes you do is pull her into a wet kiss, yet when you do, you feel not only your lips, but also her own. The sensation is confusing at first, so you push away, a small gooey purple strand still connecting your lips." +
         " Finally, the slime girl suddenly starts to push you out, her face ravaged by mind breaking pleasure as if she was actually having the orgasm of her life and so do you as you’re suddenly expelled from her body with such strength that you are projected onto a nearby wall." +
-        " You try to stand up, but suddenly realise that you actually lack a bodily structure to do so! What happened to you? You look around, panicking for a moment, as you realise you have no arms or legs, then it dawns on you that when you did need an arm earlier, you had it." +
+        " You try to stand up, but suddenly realize that you actually lack a bodily structure to do so! What happened to you? You look around, panicking for a moment, as you realize you have no arms or legs, then it dawns on you that when you did need an arm earlier, you had it." +
         " At the center of the mass that is your, now translucent, purple body, you actually do have something solid that allows you to shape your form, a heart, or more accurately, a core." +
         " You try and pull yourself away from the wall, sliding to the ground, translucent liquid arms and torso shaping back from your body mass as you need them." +
         " Your body, molded to your needs, resembles that of your human self, but different. You take some time admiring your perfect gooey self, a beautiful exaggeration of what you were before." +

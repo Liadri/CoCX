@@ -2625,7 +2625,7 @@ private function doublePenetrateArian():void {
 
 		outputText("\n\n\"<i>I'm really sorry...</i>\"");
 
-		outputText("\n\nYou tell [arian em] that [arian ey] doesn't need to apologise, but you do need to know; are you going to be a father now?  Is [arian ey] really pregnant as a result of the sex you just had with [arian em]?");
+		outputText("\n\nYou tell [arian em] that [arian ey] doesn't need to apologize, but you do need to know; are you going to be a father now?  Is [arian ey] really pregnant as a result of the sex you just had with [arian em]?");
 
 		outputText("\n\nArian shakes [arian eir] head.  \"<i>Not really.  I didn't have a clutch of eggs for you to fertilize, so the answer is no,</i>\" [arian ey] says, with a slight tinge of disappointment.");
 
@@ -4439,8 +4439,8 @@ private function arianAppearance():void {
 //Arian Pregnancy Scenes
 
 public function ArianPregChampCarries1():void {
-		outputText("As you get back to camp, you see your lizard-wizard lover, Arian, standing by your [cabin]. You ask what brings [arian em] over, and he tilts his head.  \n\n");
-		outputText("\"<i>I apologise for the intrusion…But something’s felt…a little off about you, ever since we…</i>\" He blushes, and you almost roll your eyes. Since you had sex last.  \n\n");
+		outputText("As you get back to camp, you see your lizard-wizard lover, Arian, standing by your [cabin]. You ask what brings [arian em] over, and [arian ey] tilts [arian eir] head.  \n\n");
+		outputText("\"<i>I apologize for the intrusion…But something’s felt…a little off about you, ever since we…</i>\" He blushes, and you almost roll your eyes. Since you had sex last.  \n\n");
 		outputText("\"<i>Yes.</i>\" Arian steps forward. \"<i>I-if you wouldn’t mind, I want to…examine you.</i>\"  \n\n");
 		outputText("Giving your bashful lover a wink, you ask [arian em] if [arian ey] didn’t get a thorough enough examination last time.  \n\n");
 		outputText("\"<i>Not like that, [name].</i>\" [arian ey] scratches his neck, tail twining around one of his legs. \"<i>I mean your mana’s flowing a little differently, in a way consistent with…</i>\" [arian ey] blushes. \"<i>Consistent with lizan pregnancy.</i>\"  \n\n");
