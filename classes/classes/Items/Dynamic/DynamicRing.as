@@ -71,6 +71,8 @@ public class DynamicRing extends Jewelry implements IDynamicItem {
 		var tags:Array          = subtype.tags || [];
 		var effectId:int        = subtype.effectId;
 		var effectPower:Number  = subtype.effectPower;
+		var itemEffects:Array   = subtype.effects || [];
+		var qitemEffects:Array  = subtype.qeffects || [];
 		if (parsedParams.error) {
 			trace("[ERROR] Failed to parse " + id + " with error " + parsedParams.error);
 			name      = "ERROR " + name;
@@ -94,7 +96,7 @@ public class DynamicRing extends Jewelry implements IDynamicItem {
 				perks.join(", ")
 		);
 		
-		DynamicItems.postConstruct(this, tags, buffs);
+		DynamicItems.postConstruct(this, tags, buffs, itemEffects, qitemEffects, quality);
 	}
 	
 	override public function effectDescriptionParts():Array {
@@ -154,21 +156,21 @@ public class DynamicRing extends Jewelry implements IDynamicItem {
 		DynamicItems.equipText(this);
 	}
 	
-	override public function beforeEquip(doOutput:Boolean):Equipable {
+	override public function beforeEquip(doOutput:Boolean, slot:int):Equipable {
 		if (!identified) {
-			return (identifiedCopy() as Equipable).beforeEquip(doOutput);
+			return (identifiedCopy() as Equipable).beforeEquip(doOutput, slot);
 		}
-		return super.beforeEquip(doOutput);
+		return super.beforeEquip(doOutput, slot);
 	}
 	
-	override public function afterEquip(doOutput:Boolean):void {
-		super.afterEquip(doOutput);
+	override public function afterEquip(doOutput:Boolean, slot:int):void {
+		super.afterEquip(doOutput, slot);
 		for each (var e:Enchantment in effects) {
 			e.onEquip(game.player, this);
 		}
 	}
-	override public function afterUnequip(doOutput:Boolean):void {
-		super.afterUnequip(doOutput);
+	override public function afterUnequip(doOutput:Boolean, slot:int):void {
+		super.afterUnequip(doOutput, slot);
 		for each (var e:Enchantment in effects) {
 			e.onUnequip(game.player, this);
 		}
@@ -205,7 +207,7 @@ public class DynamicRing extends Jewelry implements IDynamicItem {
 			chance: 1,
 			name: "crimstone ring",
 			shortName: "Crimst.Ring",
-			desc: "This ring is topped with crimstone. It is said that this will help to keep your desires burning.",
+			desc: "This ring is topped with crimstone. It's said that this will help to keep your desires burning.",
 			value: 1000,
 			effectId: RINGEFF_MINLUST,
 			effectPower: 10,
@@ -215,7 +217,7 @@ public class DynamicRing extends Jewelry implements IDynamicItem {
 			chance: 1,
 			name: "icestone ring",
 			shortName: "Icestn.Ring",
-			desc: "This ring is topped with icestone. It is said that this will counter ever-burning desires.",
+			desc: "This ring is topped with icestone. It's said that this will counter ever-burning desires.",
 			value: 1000,
 			effectId: RINGEFF_MINLUST,
 			effectPower: -10,

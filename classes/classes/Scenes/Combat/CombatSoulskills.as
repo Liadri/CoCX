@@ -76,6 +76,7 @@ public class CombatSoulskills extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.InariBlessedKimono)) modss += ((100 - player.cor) * .01);
 		if (player.hasPerk(PerkLib.TamamoNoMaeCursedKimono)) modss += (player.cor * .01);
 		if (player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) modss += (player.perkv1(PerkLib.MummyLord) * 0.05);
+		if (player.hasPerk(PerkLib.DaoOfTraning) && player.perkv1(PerkLib.DaoOfTraning) > 1) modss += (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]) * 0.001;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 1) modss += .2;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 2) modss += .1;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 3) modss += .1;
@@ -125,8 +126,9 @@ public class CombatSoulskills extends BaseCombatContent {
 			if (player.hasPerk(PerkLib.SoulTyrant)) modssp += 2;
 			if (player.hasPerk(PerkLib.SoulKing)) modssp += 2;
 			if (player.hasPerk(PerkLib.SoulEmperor)) modssp += 2;
-			//if (player.hasPerk(PerkLib.SoulAncestor)) modssm += 2;
+			//if (player.hasPerk(PerkLib.SoulAncestor)) modssp += 2;
 		}
+		if (player.perkv1(IMutationsLib.HumanBonesIM) >= 4 && player.racialScore(Races.HUMAN) > 17) modssp += 1;
 		if (modsspb > 1) modssp *= modsspb;
 		modssp = Math.round(modssp * 100) / 100;
 		return modssp;
@@ -164,6 +166,8 @@ public class CombatSoulskills extends BaseCombatContent {
 			if (player.tailCount >= 3) wfb *= 2;
 			modssm += wfb;
 		}
+		if (player.hasPerk(PerkLib.DaoOfTraning)) modssm += (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]) * 0.01;
+		if (player.perkv1(IMutationsLib.HumanSmartsIM) >= 4 && player.racialScore(Races.HUMAN) > 17) modssm += 1;
 		if (player.shieldName == "spirit focus") modssm += .25;
 		if (player.armor == armors.DEATHPO) modssm += .5;
 		if (player.armor == armors.DEATHPGA) modssm += 2;
@@ -192,6 +196,7 @@ public class CombatSoulskills extends BaseCombatContent {
 		if (player.headJewelry == headjewelries.FOXHAIR) modssc -= .2;
 		if (player.hasPerk(PerkLib.AscensionSpiritualEnlightenment)) modssc -= (player.perkv1(PerkLib.AscensionSpiritualEnlightenment) * 0.02);
 		if (player.perkv1(IMutationsLib.WhiteFacedOneBirthrightIM) >= 4) modssc -= .1;
+		if (player.perkv1(IMutationsLib.HumanParathyroidGlandIM) >= 4 && player.racialScore(Races.HUMAN) > 17) modssc -= .1;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 2 && player.soulforce >= Math.round(player.maxSoulforce() * sfT())) modssc *= 1.5;
 		if (modssc < 0.1) modssc = 0.1;
 		modssc = Math.round(modssc * 100) / 100;
@@ -365,7 +370,7 @@ public class CombatSoulskills extends BaseCombatContent {
 	 damage *= 1.75;
 	 }
 	 doDamage(damage);
-	 outputText("Your scythes swiftly sweeps against [themonster], dealing <b><font color=\"#800000\">" + damage + "</font></b> damage!");
+	 outputText("Your scythes swiftly sweeps against [themonster], dealing <b>[font-damage]" + damage + "[/font]</b> damage!");
 	 if (crit == true) outputText(" <b>*Critical Hit!*</b>");
 	 outputText("\n");
 	 checkAchievementDamage(damage);
@@ -449,7 +454,7 @@ public class CombatSoulskills extends BaseCombatContent {
 	 //soulskill mod effect
 	 damage *= soulskillPhysicalMod();
 	 doDamage(damage);
-	 outputText("Your [weapon] hits thrice against [themonster], dealing <b><font color=\"#800000\">" + damage + "</font></b> damage! ");
+	 outputText("Your [weapon] hits thrice against [themonster], dealing <b>[font-damage]" + damage + "[/font]</b> damage! ");
 	 checkAchievementDamage(damage);
 	 combat.WrathGenerationPerHit2(5);
 	 combat.heroBaneProc(damage);

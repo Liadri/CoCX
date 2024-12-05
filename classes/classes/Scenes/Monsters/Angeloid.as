@@ -16,7 +16,7 @@ package classes.Scenes.Monsters
 		private function angelReactsToLustiness():void {
 			outputText("Angeloid stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Sinner!!! We.Must.Contact.Supreviser.</i>\"");
-			outputText("\n\nThe angeloid starts to burn more and more intense causing you to temporaly avert your gaze. When you look again at spot it was you could only see a bit of ashes.");
+			outputText("\n\nThe angeloid starts to burn more and more intense causing you to temporarily avert your gaze. When you look again at spot it was you could only see a bit of ashes.");
 			gems = 0;
 			XP = 0;
 			HP = minHP() - 1;
@@ -162,7 +162,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 1) {
 				this.short = "low-rank angeloid";
 				initStrTouSpeInte(3, 40, 20, 10);
-				initWisLibSensCor(80, 2, 10, 0);
+				initWisLibSensCor(80, 2, 10, -100);
 				this.level = 6;
 				this.bonusHP = 200;
 				this.bonusLust = 17;
@@ -178,7 +178,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 2) {
 				this.short = "mid-rank angeloid";
 				initStrTouSpeInte(5, 60, 30, 15);
-				initWisLibSensCor(100, 3, 20, 0);
+				initWisLibSensCor(100, 3, 20, -100);
 				this.level = 12;
 				this.bonusHP = 400;
 				this.bonusLust = 33;
@@ -193,7 +193,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 3) {
 				this.short = "high-rank angeloid";
 				initStrTouSpeInte(7, 80, 40, 20);
-				initWisLibSensCor(120, 4, 30, 0);
+				initWisLibSensCor(120, 4, 30, -100);
 				this.level = 18;
 				this.bonusHP = 600;
 				this.bonusLust = 49;

@@ -62,14 +62,15 @@ public class FaerieDragonRace extends Race {
 				.hornType(Horns.DRACONIC_X4_12_INCH_LONG, +2)
 				.hornType(NOT(Horns.FROSTWYRM), 0, -3)
 				.hasCockOfType(CockTypesEnum.DRAGON, +1)
-				.gender(Gender.GENDER_FEMALE, +1);
+				.gender(Gender.GENDER_FEMALE, +1)
+				.hasPerk(PerkLib.Dracoforce, +1);
 		//addScoresAfter(8)
 		//		.height(GREATER_THAN(120), +1);//maybe less than X?
 		
 		addBloodline(PerkLib.DragonsDescendant,PerkLib.BloodlineDragon);
 		addMutation(IMutationsLib.FeyArcaneBloodstreamIM);
-		addMutation(IMutationsLib.DraconicBonesIM);
-		addMutation(IMutationsLib.DraconicHeartIM);
+		addMutation(IMutationsLib.DrakeBonesIM);
+		addMutation(IMutationsLib.DrakeHeartIM);
 		addMutation(IMutationsLib.DrakeLungsIM);
 		
 		buildTier(15, "faerie dragon")

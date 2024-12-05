@@ -170,7 +170,7 @@ public class AntsScene extends BaseContent
 //►[Play Hero]
 		private function playHero():void
 		{
-			spriteSelect(SpriteDb.s_antguards);
+			spriteSelect(SpriteDb.s_oasis_demons);
 			clearOutput();
 			//►Introduction to Combat
             if (player.cor >= 66 - player.corruptionTolerance) {
@@ -849,7 +849,7 @@ public class AntsScene extends BaseContent
 
 			//PARTS
 			//==========================================================================================================
-			function fitF():void {
+			function nofitF():void {
 				//Dicks too Big:
 				outputText("\n\nDespite your best efforts to try and get into a comfortable position to scissor, your painfully erect  [cocks] prevent you from doing so, given that they are now compressed against the ceiling.  While the display of rainbows is pretty to watch on your [cocks], the crushing pain and the unyielding nature of your [cocks] is too much.  ");
 
@@ -868,7 +868,7 @@ public class AntsScene extends BaseContent
 				outputText("\n\nYou start rocking your hips and your pussies kiss, fluids mixing harmoniously together as shots of pleasure pass through both of you.  Her clit seems to penetrate further and further into yours with every push, and though it's not enough to fully enter you, the sensation on the inside sends wave after wave of euphoric bliss over both of you.");
 				scissorContinue(false);
 			}
-			function nofitF():void {
+			function fitF():void {
 				outputText("\n\nYou position yourself over her so your cunt and hers are pressed together. Grabbing one of her legs you raise it so that her pussy lips are forced apart.");
 				outputText("\n\n[EachCock] hungers for attention, having been let go by Phylla when you shifted into a scissoring position.  Reaching down to start taking care of yourself; Phylla interrupts you abruptly.  \"<i>Oh, I'm sorry! I mean... I forgot... just feels... so gooood,</i>\" she coos between moans of ecstasy.  After a moment she seems to forget as waves of pleasure wash over her.  You make a playful throat clearing noise and gesture to your [cocks].  Phylla quickly snaps back into reality and takes hold of ");
 				//Tentacle dick check
@@ -936,7 +936,7 @@ public class AntsScene extends BaseContent
 			outputText("\n\n(<b>Phylla has moved in!  She can be found in the lovers tab!</b>)");
 			if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 			else player.createKeyItem("Radiant shard", 1,0,0,0);
-			outputText("\n\n<b>Before fully settling in your camp as if remembering something Phylla pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+			outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Phylla pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 			flags[kFLAGS.ANT_WAIFU] = 1;
 			endEncounter();
 		}

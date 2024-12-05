@@ -52,7 +52,7 @@ public class Farmers extends Monster
 			this.hairColor = "black";
 			this.hairLength = 15;
 			initStrTouSpeInte(40, 120, 110, 100);
-			initWisLibSensCor(100, 35, 35, 20);
+			initWisLibSensCor(100, 35, 35, -40);
 			this.weaponName = "pitchforks";
 			this.weaponVerb="stab";
 			this.weaponAttack = 20;
@@ -61,7 +61,7 @@ public class Farmers extends Monster
 			this.armorMDef = 1;
 			this.bonusHP = 300;
 			this.bonusLust = 94;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.level = 24;
 			this.gems = rand(50)+100;
 			this.horns.type = Horns.DEMON;

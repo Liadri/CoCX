@@ -1,7 +1,7 @@
 package classes.Scenes.Dungeons.DemonLab {
 /**
  * ...
- * @author ...
+ * @author Canadian Snas
  */
 
 import classes.*;
@@ -193,7 +193,7 @@ public class ProjectNightwalker extends Monster {
         this.hairLength = 16;
         this.level = 85;
         initStrTouSpeInte(500, 450, 550, 420);
-        initWisLibSensCor(150, 900, 400, 60);
+        initWisLibSensCor(150, 900, 400, 20);
         this.weaponName = "claw";
         this.weaponVerb = "swipe";
         this.weaponAttack = 100;

@@ -35,8 +35,8 @@ public class SpiderMorphMob extends Monster
 					outputText(capitalA + short + " <b>mutilate");
 					outputText("</b> you with " + pronoun3 + " powerful " + weaponVerb + "! ");
 				}
-				if (damage > 0) outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>");
-				else outputText("<b>(<font color=\"#000080\">" + damage + "</font>)</b>");
+				if (damage > 0) outputText("<b>([font-damage]" + damage + "[/font])</b>");
+				else outputText("<b>([font-miss]" + damage + "[/font])</b>");
 				if(damage > 0) {
 					if(lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
 						if(!plural) outputText("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.");
@@ -118,7 +118,7 @@ public class SpiderMorphMob extends Monster
 			this.hairColor = "black";
 			this.hairLength = 15;
 			initStrTouSpeInte(100, 80, 99, 99);
-			initWisLibSensCor(99, 35, 35, 20);
+			initWisLibSensCor(99, 35, 35, -60);
 			this.weaponName = "claws";
 			this.weaponVerb="claws";
 			this.weaponAttack = 34;

@@ -1,8 +1,10 @@
 package classes.Scenes.Combat {
 import classes.*;
+import classes.BodyParts.Horns;
 import classes.BodyParts.Skin;
 import classes.BodyParts.Tail;
 import classes.GlobalFlags.*;
+import classes.IMutations.IMutationsLib;
 import classes.Items.*;
 import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 import classes.Scenes.Dungeons.D3.*;
@@ -17,7 +19,6 @@ public class CombatTeases extends BaseCombatContent {
 		tBLD += player.lib;
 		tBLD += scalingBonusLibido() * 0.2;
 		tBLD += (2 * player.teaseDmgStat.value);
-
 
 		if (player.hasPerk(PerkLib.BimboBody) || player.hasPerk(PerkLib.BroBody) || player.hasPerk(PerkLib.FutaForm)) tBLD *= 1.75;
 		if (player.hasPerk(PerkLib.SensualLover)) tBLD *= 1.3;
@@ -49,14 +50,35 @@ public class CombatTeases extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.HistoryWhore) || player.hasPerk(PerkLib.PastLifeWhore)) damagemultiplier += combat.historyWhoreBonus();
 		if (player.hasPerk(PerkLib.DazzlingDisplay)) damagemultiplier += 0.2;
 		if (player.hasPerk(PerkLib.SuperSensual)) damagemultiplier += 0.50;
-		if (player.hasPerk(PerkLib.SluttySimplicity) && player.armor.hasTag(ItemConstants.A_REVEALING)) tBLD *= (1 + ((10 + rand(11)) / 100));
 		if (player.armorName == "desert naga pink and black silk dress") damagemultiplier += 0.1;
+		if (player.necklace == necklaces.SILCNEC && player.hasPerk(PerkLib.Soulless)) damagemultiplier += 0.5;
 		if (player.headjewelryName == "pair of Golden Naga Hairpins") damagemultiplier += 0.1;
+		if (player.headJewelry == headjewelries.GHORNAM && player.horns.type == Horns.DEMON) damagemultiplier += 0.25;
 		if (player.armor == armors.ELFDRES && player.isElf()) damagemultiplier += 1;
 		if (player.armor == armors.FMDRESS && player.isWoodElf()) damagemultiplier += 1;
 		if (player.hasStatusEffect(StatusEffects.TeasePotion)) damagemultiplier += 0.05;
+		if (player.hasPerk(PerkLib.Nightshade)) damagemultiplier += 0.5;
+		if (player.hasPerk(PerkLib.SluttySimplicity) && player.armor.hasTag(ItemConstants.A_REVEALING)) tBLD *= (1 + ((10 + rand(11)) / 100));
 		if (player.weapon == weapons.HELLCAL) damagemultiplier *= (1 + (0.01 * player.cor));
 		if (player.weapon == weapons.ELYSIUM) damagemultiplier *= (1 + (0.01 * (100 - player.cor)));
+		if (player.hasStatusEffect(StatusEffects.DemonEnergyThirstFeed)) {
+			var inotcareanymore:Number = 0.05;
+			if (player.hasPerk(PerkLib.DemonEnergyThirst)) inotcareanymore *= 2;
+			damagemultiplier += (inotcareanymore * player.statusEffectv1(StatusEffects.DemonEnergyThirstFeed));
+		}
+		if (player.perkv1(IMutationsLib.FiendishOvariesIM) >= 3 && (player.pregnancyType == PregnancyStore.PREGNANCY_IMP || player.pregnancy2Type == PregnancyStore.PREGNANCY_IMP)) {
+			if (player.perkv1(IMutationsLib.FiendishOvariesIM) >= 4) damagemultiplier += 0.5;
+			else damagemultiplier += 0.25;
+		}
+		if (player.perkv1(IMutationsLib.FiendishBallsIM) >= 3 && monster.hasVagina() && player.hasCock()) {
+			var power1:Number = 0;
+			var powerC:Number = 0.25;
+			if (player.perkv1(IMutationsLib.FiendishBallsIM) >= 4) powerC += 0.25;
+			power1 = player.cumCapacity()*0.001;
+			if (power1 > powerC) power1 = powerC;
+			damagemultiplier += power1;
+		}
+		if (player.hasStatusEffect(StatusEffects.FontOfCorruption)) damagemultiplier *= 1.1;
 		tBLD *= damagemultiplier;
 
 		if (player.hasPerk(PerkLib.ChiReflowLust)) tBLD *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
@@ -92,9 +114,7 @@ public class CombatTeases extends BaseCombatContent {
 		var lustMult:Number = 1;
 		var multiplier:Number = 0.02;
 		if (player.hasPerk(PerkLib.JobSeducer)) multiplier += 0.01;
-
 		lustMult += (multiplier * player.teaseLevel);
-
 		return lustMult;
 	}
 
@@ -140,7 +160,6 @@ public class CombatTeases extends BaseCombatContent {
 				else critTChance += 2 * Math.round((player.sens - 25) / 5);
 			}
 		}
-
 		return critTChance;
 	}
 
@@ -161,7 +180,6 @@ public class CombatTeases extends BaseCombatContent {
         if (player.hasPerk(PerkLib.ChiReflowLust)) lustDmg *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
 		if (player.armor == armors.ELFDRES && player.isElf()) lustDmg *= 2;
 		if (player.armor == armors.FMDRESS && player.isWoodElf()) lustDmg *= 2;
-
 		return lustDmg;
 	}
 
@@ -385,14 +403,13 @@ public class CombatTeases extends BaseCombatContent {
 		if (player.hasVisiblePregnancy()) {
 			choices[choices.length] = 13;
 			if (player.biggestLactation() >= 1) choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 180) || (player.pregnancy2Incubation <= 180)) choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 120) || (player.pregnancy2Incubation <= 120)) choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 100) || (player.pregnancy2Incubation <= 100)) choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 50)  || (player.pregnancy2Incubation <= 50))  choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 24)  || (player.pregnancy2Incubation <= 24))  choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 24)  || (player.pregnancy2Incubation <= 24))  choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 24)  || (player.pregnancy2Incubation <= 24))  choices[choices.length] = 13;
-			if ((player.pregnancyIncubation <= 24)  || (player.pregnancy2Incubation <= 24))  choices[choices.length] = 13;
+			if ((player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(180, player.pregnancyType)) || (player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(180, player.pregnancy2Type))) choices[choices.length] = 13;
+			if ((player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(120, player.pregnancyType)) || (player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(120, player.pregnancy2Type))) choices[choices.length] = 13;
+			if ((player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(100, player.pregnancyType)) || (player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(100, player.pregnancy2Type))) choices[choices.length] = 13;
+			if ((player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(50, player.pregnancyType))  || (player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(50, player.pregnancy2Type)))  choices[choices.length] = 13;
+			if ((player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(24, player.pregnancyType))  || (player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(24, player.pregnancy2Type))) {
+				for (var pi:int = 1; pi < 4; ++pi) choices[choices.length] = 13;
+			}
 		}
 		//14 Brood Mother
 		if (monster.hasCock() && player.hasVagina() && player.hasPerk(PerkLib.BroodMother) && (!player.isPregnant() || player.hasNonVisiblePregnancy())) {
@@ -902,11 +919,11 @@ public class CombatTeases extends BaseCombatContent {
 					options.chance += 6;
 					options.damage += 12;
 				}
-				if ((player.pregnancyIncubation < 100) || (player.pregnancy2Incubation < 100)) {
+				if ((player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(100, player.pregnancyType)) || (player.pregnancy2Incubation < sceneHunter.adjustPregEventTimer(100, player.pregnancy2Type))) {
 					options.chance += 3;
 					options.damage += 6;
 				}
-				if ((player.pregnancyIncubation < 50) || (player.pregnancy2Incubation < 50)) {
+				if ((player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(50, player.pregnancyType)) || (player.pregnancy2Incubation < sceneHunter.adjustPregEventTimer(50, player.pregnancy2Type))) {
 					options.chance += 3;
 					options.damage += 6;
 				}
@@ -1086,9 +1103,6 @@ public class CombatTeases extends BaseCombatContent {
 				if (display) outputText("You pull back one of the straps on your bondage cloths and let it snap back.  \"<i>I need some medical care, feeling up for it?</i>\" you tease.");
 				options.damage += 6;
 				options.chance += 3;
-				break;
-			default:
-				outputText("You shimmy and shake sensually. (An error occurred.)");
 				break;
 			case 37:
 				if (display) outputText("You purse your lips coyly, narrowing your eyes mischievously and beckoning to [themonster] with a burning come-hither glare.  Sauntering forward, you pop your hip to the side and strike a coquettish pose, running " + ((player.tailCount > 1) ? "one of your tails" : "your tail") + " up and down [monster his] body sensually.");
@@ -1310,6 +1324,9 @@ public class CombatTeases extends BaseCombatContent {
 				if (!monster.hasPerk(PerkLib.Resolute)) monster.createStatusEffect(StatusEffects.Stunned, 0, 0, 0, 0);
 				options.chance += 9;
 				options.damage += 9;
+				break;
+			default:
+				outputText("You shimmy and shake sensually. (An error occurred.)");
 				break;
 		}
 

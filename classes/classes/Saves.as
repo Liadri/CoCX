@@ -24,6 +24,8 @@ import classes.internals.Jsonable;
 import classes.internals.SaveableState;
 import classes.lists.BreastCup;
 
+import coc.view.ButtonDataList;
+
 import flash.events.Event;
 import flash.events.IOErrorEvent;
 import flash.events.MouseEvent;
@@ -43,6 +45,7 @@ CONFIG::AIR
 }
 
 public class Saves extends BaseContent {
+	public static const SLOT_COUNT:int = 36;
 
 	private static const SAVE_FILE_CURRENT_INTEGER_FORMAT_VERSION:int		= 816;
 		//Didn't want to include something like this, but an integer is safer than depending on the text version number from the CoC class.
@@ -61,6 +64,9 @@ public class Saves extends BaseContent {
 	private static var _saveableStates:Object = {};
 
     public function Saves(gameStateDirectGet:Function, gameStateDirectSet:Function) {
+	    for (var i:int = 0; i < SLOT_COUNT; i++) {
+		    saveFileNames.push(saveFilePrefix+String(i+1)); // generate names "CoC_1", "CoC_2", ...
+	    }
 		gameStateGet = gameStateDirectGet; //This is so that the save game functions (and nothing else) get direct access to the gameState variable
 		gameStateSet = gameStateDirectSet;
 	}
@@ -77,7 +83,8 @@ public var airFile:File;
 public var file:FileReference;
 public var loader:URLLoader;
 
-public var saveFileNames:Array = ["CoC_1", "CoC_2", "CoC_3", "CoC_4", "CoC_5", "CoC_6", "CoC_7", "CoC_8", "CoC_9", "CoC_10", "CoC_11", "CoC_12", "CoC_13", "CoC_14"];
+	public var saveFilePrefix:String = "CoC_";
+	public var saveFileNames:/*String*/Array = [];
 public var versionProperties:Object = { "legacy" : 100, "0.8.3f7" : 124, "0.8.3f8" : 125, "0.8.4.3":119, "latest" : 119 };
 public var savedGameDir:String = "data/com.fenoxo.coc";
 
@@ -109,24 +116,30 @@ public function loadSaveDisplay(saveFile:Object, slotName:String):String
 			holding += " | Difficulty - ";
 			if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] != undefined) { //Handles undefined
 				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 0 || saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == null) {
-					if (saveFile.data.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1) holding += "<font color=\"#008000\">Easy</font>";
-					else holding += "<font color=\"#808000\">Normal</font>";
+					if (saveFile.data.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1) holding += "[font-green]Easier[/font]";
+					else holding += "[font-olive]Easy[/font]";
 				}
 				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 1)
-					holding += "<font color=\"#800000\">Hard</font>";
+					holding += "[font-dred]Normal[/font]";
 				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 2)
-					holding += "<font color=\"#C00000\">Nightmare</font>";
+					holding += "[font-red]Hard[/font]";
 				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 3)
-					holding += "<font color=\"#FF0000\">EXTREME</font>";
-				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] >= 4)
-					holding += "<font color=\"#FF0000\">XIANXIA</font>";
+					holding += "[font-lred]Nightmare[/font]";
+				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 4)
+					holding += "[font-pink]EXTREME[/font]";
+				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 5)
+					holding += "[font-pink]INFERNO[/font]";
+				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] == 6)
+					holding += "[font-pink]METROID DREAD[/font]";
+				if (saveFile.data.flags[kFLAGS.GAME_DIFFICULTY] >= 7)
+					holding += "[font-pink]XIANXIA[/font]";
 			}
 			else {
 				if (saveFile.data.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] != undefined) { //Workaround to display Easy if difficulty is set to easy.
-					if (saveFile.data.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1) holding += "<font color=\"#008000\">Easy</font>";
-					else holding += "<font color=\"#808000\">Normal</font>";
+					if (saveFile.data.flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1) holding += "[font-green]Easy[/font]";
+					else holding += "[font-olive]Normal[/font]";
 				}
-				else holding += "<font color=\"#808000\">Normal</font>";
+				else holding += "[font-olive]Normal[/font]";
 			}
 		}
 		else {
@@ -145,25 +158,26 @@ public function loadSaveDisplay(saveFile:Object, slotName:String):String
 	}
 }
 
+private function loadSaveFromSlotNumber(slot:int):void {
+	trace("Loading save with name", saveFileNames[slot], "at index", slot);
+	loadGameFromSharedObject(saveFileNames[slot]);
+}
+
 CONFIG::AIR
 {
 
-	private function selectLoadButton(gameObject:Object, slot:String):void {
-		//trace("Loading save with name ", fileList[fileCount].url, " at index ", i);
+public function loadScreenAIR():void
+{
+	function loadFromAIRFile(url:String,gameObject:Object):void {
+		trace("Loading save with name ", url);
 		clearOutput();
-		loadGameObject(gameObject, slot);
-		outputText("Slot " + slot + " Loaded!");
+		loadGameObject(gameObject);
+		outputText("Save " + url + " Loaded!");
 		statScreenRefresh();
 		doNext(playerMenu);
 	}
-
-public function loadScreenAIR():void
-{
 	var airSaveDir:File = File.documentsDirectory.resolvePath(savedGameDir);
-	var fileList:Array = new Array();
-	var maxSlots:int = saveFileNames.length;
-	var slots:Array = new Array(maxSlots);
-	var gameObjects:Array = new Array(maxSlots);
+	var fileList:Array = [];
 
 	try
 	{
@@ -174,56 +188,35 @@ public function loadScreenAIR():void
 	{
 		clearOutput();
 		outputText("Error reading save directory: " + airSaveDir.url + " (" + error.message + ")");
+		doNext(returnToSaveMenu);
 		return;
 	}
 	clearOutput();
 	outputText("<b><u>Slot: Sex,  Game Days Played</u></b>\r");
 
+	var bdl:ButtonDataList = new ButtonDataList();
 	var i:uint = 0;
-	for (var fileCount:uint = 0; fileCount < fileList.length; fileCount++)
+	for (var fc:uint = 0; fc < fileList.length; fc++)
 	{
-		// We can only handle maxSlots at this time
-		if (i >= maxSlots)
-			break;
-
 		// Only check files expected to be save files
 		var pattern:RegExp = /\.coc$/i;
-		if (!pattern.test(fileList[fileCount].url))
+		if (!pattern.test(fileList[fc].url))
 			continue;
 
-		gameObjects[i] = getGameObjectFromFile(fileList[fileCount]);
-		outputText(loadSaveDisplay(gameObjects[i], String(i+1)));
+		var gameObject:Object = getGameObjectFromFile(fileList[fc]);
+		outputText(loadSaveDisplay(gameObject, String(i+1)));
 
-		if (gameObjects[i].data.exists)
+		if (gameObject.data.exists)
 		{
-			//trace("Creating function with indice = ", i);
-			(function(i:int):void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-			{
-				slots[i] = function() : void 		// Anonymous functions FTW
-				{
-					trace("Loading save with name ", fileList[fileCount].url, " at index ", i);
-					clearOutput();
-					loadGameObject(gameObjects[i]);
-					outputText("Slot " + String(i+1) + " Loaded!");
-					statScreenRefresh();
-					doNext(playerMenu);
-				}
-			})(i);
+			bdl.add("Slot "+(i+1), curry(loadFromAIRFile,fileList[i].url,gameObject))
 		}
 		else
 		{
-			slots[i] = null;		// You have to set the parameter to 0 to disable the button
+			bdl.add("Slot "+(i+1), null)
 		}
 		i++;
 	}
-	menu();
-	var s:int = 0;
-	while (s < 14) {
-		//if (slots[s] != null) addButton(s, "Slot " + (s + 1), slots[s]);
-		if (slots[s] != null) addButton(s, "Slot " + (s + 1), selectLoadButton, gameObjects[s], "CoC_" + String(s+1));
-		s++;
-	}
-	addButton(14, "Back", returnToSaveMenu);
+	submenu(bdl, returnToSaveMenu, 0, false);
 }
 
 public function getGameObjectFromFile(aFile:File):Object
@@ -247,13 +240,13 @@ public function getGameObjectFromFile(aFile:File):Object
 
 }
 
-public function loadScreen():void
+public function loadFromSlotScreen():void
 {
-	var slots:Array = new Array(saveFileNames.length);
 
 	clearOutput();
 	outputText("<b><u>Slot: Sex,  Game Days Played</u></b>\r");
 
+	var bdl:ButtonDataList = new ButtonDataList();
 	for (var i:int = 0; i < saveFileNames.length; i += 1)
 	{
 		var test:Object = SharedObject.getLocal(saveFileNames[i], "/");
@@ -261,82 +254,42 @@ public function loadScreen():void
 		if (test.data.exists/* && test.data.flags[2066] == undefined*/)
 		{
 			//trace("Creating function with indice = ", i);
-			(function(i:int):void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-			{
-				slots[i] = function() : void 		// Anonymous functions FTW
-				{
-					trace("Loading save with name", saveFileNames[i], "at index", i);
-					if (loadGame(saveFileNames[i])) {
-						doNext(playerMenu);
-						showStats();
-						statScreenRefresh();
-						clearOutput();
-						outputText("Slot " + i + " Loaded!");
-					}
-				}
-			})(i);
+			bdl.add("Slot "+(i+1), curry(loadSaveFromSlotNumber,i));
 		}
 		else
 		{
-			slots[i] = null;		// You have to set the parameter to 0 to disable the button
+			bdl.add("Slot "+(i+1), null);
 		}
 	}
-	menu();
-	var s:int = 0;
-	while (s < 14) {
-		if (slots[s] != 0) addButton(s, "Slot " + (s+1), slots[s]);
-		s++;
-	}
-	addButton(14, "Back", returnToSaveMenu);
+	submenu(bdl, returnToSaveMenu, 0, false);
 }
 
-public function saveScreen():void
+public function saveToSlotScreen():void
 {
+	function saveToSlot(slot:int):void {
+		trace("Saving game with name", saveFileNames[slot], "at index", slot);
+		saveGameToSharedObject(saveFileNames[slot], true);
+	}
 	mainView.nameBox.x = mainView.mainText.x;
 	mainView.nameBox.y = 620;
 	mainView.nameBox.width = 550;
 	mainView.nameBox.text = "";
 	mainView.nameBox.maxChars = 54;
 	mainView.nameBox.visible = true;
-	/*
-	//removing extra mutations from save
-	for each(var mutation:PerkType in IMutationsLib.mutationsArray("")){
-		if (player.perkv1(mutation) == 0) player.removePerk(mutation);
-	}
-	player.removePerk(IMutationsLib.MutationsTemplateIM);
-	 */
 
 	// var test; // Disabling this variable because it seems to be unused.
-	if (flags[kFLAGS.HARDCORE_MODE] > 0)
-	{
-		saveGame(flags[kFLAGS.HARDCORE_SLOT]);
-		clearOutput();
-		outputText("You may not create copies of Hardcore save files! Your current progress has been saved.");
-		doNext(playerMenu);
-		return;
-	}
-
 	clearOutput();
 	if (player.slotName != "VOID")
 		outputText("<b>Last saved or loaded from: " + player.slotName + "</b>\r\r");
 	outputText("<b><u>Slot: Sex,  Game Days Played</u></b>\r");
 
-	var saveFuncs:Array = [];
 
-
+	var bdl:ButtonDataList = new ButtonDataList();
 	for (var i:int = 0; i < saveFileNames.length; i += 1)
 	{
 		var test:Object = SharedObject.getLocal(saveFileNames[i], "/");
 		outputText(loadSaveDisplay(test, String(i + 1)));
-		trace("Creating function with indice = ", i);
-		(function(i:int) : void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-		{
-			saveFuncs[i] = function() : void 		// Anonymous functions FTW
-			{
-				trace("Saving game with name", saveFileNames[i], "at index", i);
-				saveGame(saveFileNames[i], true);
-			}
-		})(i);
+		bdl.add("Slot "+(i+1),curry(saveToSlot,i));
 
 	}
 
@@ -345,13 +298,7 @@ public function saveScreen():void
 		outputText("\r\r");
 
 	outputText("<b>Leave the notes box blank if you don't wish to change notes.\r<u>NOTES:</u></b>");
-	menu();
-	var s:int = 0;
-	while (s < 14) {
-		addButton(s, "Slot " + (s+1), saveFuncs[s]);
-		s++;
-	}
-	addButton(14, "Back", returnToSaveMenu);
+	submenu(bdl, returnToSaveMenu, 0, false);
 }
 
 public function saveLoad(e:MouseEvent = null):void
@@ -369,16 +316,16 @@ public function saveLoad(e:MouseEvent = null):void
 	outputText("<b>Where are my saves located?</b>\n");
 	outputText("<i>In Windows Vista/7 (IE/FireFox/Other)</i>: <pre>Users/{username}/Appdata/Roaming/Macromedia/Flash Player/#Shared Objects/{GIBBERISH}/</pre>\n\n");
 	outputText("In Windows Vista/7 (Chrome): <pre>Users/{username}/AppData/Local/Google/Chrome/User Data/Default/Pepper Data/Shockwave Flash/WritableRoot/#SharedObjects/{GIBBERISH}/</pre>\n\n");
-	outputText("Inside that folder it will saved in a folder corresponding to where it was played from.  If you saved the CoC.swf to your HDD, then it will be in a folder called localhost.  If you played from my website, it will be in fenoxo.com.  The save files will be labelled CoC_1.sol, CoC_2.sol, CoC_3.sol, etc.</i>\n\n");
+	outputText("Inside that folder, it will be saved in a folder corresponding to where it was played from.  If you saved the CoC.swf to your HDD, then it will be in a folder called localhost.  If you played from my website, it will be in fenoxo.com.  The save files will be labelled CoC_1.sol, CoC_2.sol, CoC_3.sol, etc.</i>\n\n");
 	outputText("<b>Why do my saves disappear all the time?</b>\n<i>There are numerous things that will wipe out flash local shared files.  If your browser or player is set to delete flash cookies or data, that will do it.  CCleaner will also remove them.  CoC or its updates will never remove your savegames - if they disappear something else is wiping them out.</i>\n\n");
-	outputText("<b>When I play from my HDD I have one set of saves, and when I play off your site I have a different set of saves.  Why?</b>\n<i>Flash stores saved data relative to where it was accessed from.  Playing from your HDD will store things in a different location than fenoxo.com or FurAffinity.</i>\n");
+	outputText("<b>When I play from my HDD I have one set of saves, and when I play off your site I have a different set of saves.  Why?</b>\n<i>Flash stores saved data relative to where it was accessed from.</i>\n");
 	outputText("<i>If you want to be absolutely sure you don't lose a character, copy the .sol file for that slot out and back it up! <b>For more information, google flash shared objects.</b></i>\n\n");
 	outputText("<b>Why does the Save File and Load File option not work?</b>\n");
 	outputText("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 	menu();
-	addButton(1, "Load", loadScreen);
+	addButton(1, "Load", loadFromSlotScreen);
 	addButton(2, "Delete", deleteScreen);
-	addButton(6, "Load File", openSave);
+	addButton(6, "Load File", onLoadFromFileClick);
 
 	if (EventParser.badEnded) {
 		addButton(14, "Back", EventParser.gameOver, true);
@@ -393,24 +340,21 @@ public function saveLoad(e:MouseEvent = null):void
 		return;
 	}
 	if (gameStateGet() == 3) {
-		addButton(0, "Save", saveScreen);
-		addButton(5, "Save to File", saveToFile);
+		addButton(0, "Save", saveToSlotScreen);
+		addButton(5, "Save to File", onSaveToFileClick);
 		addButton(3, "AutoSave: " + autoSaveSuffix, autosaveToggle);
 		addButton(14, "Back", CoC.instance.mainMenu.mainMenu);
 	}
 	else
 	{
-		addButton(0, "Save", saveScreen);
-		addButton(5, "Save to File", saveToFile);
+		addButton(0, "Save", saveToSlotScreen);
+		addButton(5, "Save to File", onSaveToFileClick);
 		addButton(3, "AutoSave: " + autoSaveSuffix, autosaveToggle);
 		addButton(14, "Back", playerMenu);
 	}
-	if (flags[kFLAGS.HARDCORE_MODE] >= 1) {
-		removeButton(5); //Disable "Save to File" in Hardcore Mode.
-	}
 }
 
-private function saveToFile():void {
+private function onSaveToFileClick():void {
 	saveGameObject(null, true);
 }
 
@@ -424,70 +368,36 @@ public function deleteScreen():void
 	clearOutput();
 	outputText("Slot,  Race,  Sex,  Game Days Played\n");
 
-
-	var delFuncs:Array = [];
-
-
-	for (var i:int = 0; i < saveFileNames.length; i += 1)
-	{
+	outputText("\n<b>ONCE DELETED, YOUR SAVE IS GONE FOREVER.</b>");
+	var bdl:ButtonDataList = new ButtonDataList();
+	for (var i:int = 0; i < saveFileNames.length; i++) {
 		var test:Object = SharedObject.getLocal(saveFileNames[i], "/");
 		outputText(loadSaveDisplay(test, String(i + 1)));
-		if (test.data.exists)
-		{
-			//slots[i] = loadFuncs[i];
-
-			trace("Creating function with indice = ", i);
-			(function(i:int):void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-			{
-				delFuncs[i] = function() : void 		// Anonymous functions FTW
-				{
-					flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] = saveFileNames[i];
-					confirmDelete();
-				}
-			})(i);
+		if (test.data.exists) {
+			bdl.add("Slot "+(i+1), curry(confirmDeleteSlot, i));
+		} else {
+			bdl.add("Slot "+(i+1), null);
 		}
-		else
-			delFuncs[i] = null;	//disable buttons for empty slots
 	}
-
-	outputText("\n<b>ONCE DELETED, YOUR SAVE IS GONE FOREVER.</b>");
-	menu();
-	var s:int = 0;
-	while (s < 14) {
-		if (delFuncs[s] != null) addButton(s, "Slot " + (s+1), delFuncs[s]);
-		s++;
-	}
-	addButton(14, "Back", returnToSaveMenu);
-	/*
-	choices("Slot 1", delFuncs[0],
-			"Slot 2", delFuncs[1],
-			"Slot 3", delFuncs[2],
-			"Slot 4", delFuncs[3],
-			"Slot 5", delFuncs[4],
-			"Slot 6", delFuncs[5],
-			"Slot 7", delFuncs[6],
-			"Slot 8", delFuncs[7],
-			"Slot 9", delFuncs[8],
-			"Back", returnToSaveMenu);*/
+	submenu(bdl, returnToSaveMenu, 0, false);
 }
 
-public function confirmDelete():void
-{
+public function confirmDeleteSlot(slotNumber:int):void {
 	clearOutput();
-	outputText("You are about to delete the following save: <b>" + flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?");
-	simpleChoices("No", deleteScreen, "Yes", purgeTheMutant, "", null, "", null, "", null);
+	outputText("You are about to delete the following save: <b>" + saveFileNames[slotNumber] + "</b>\n\nAre you sure you want to delete it?");
+	simpleChoices("No", deleteScreen, "Yes", curry(purgeTheMutant, slotNumber), "", null, "", null, "", null);
 }
 
-public function purgeTheMutant():void
+public function purgeTheMutant(slotNumber:int):void
 {
-	var test:* = SharedObject.getLocal(flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION], "/");
-	trace("DELETING SLOT: " + flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION]);
+	var test:* = SharedObject.getLocal(saveFileNames[slotNumber], "/");
+	trace("DELETING SLOT: " + saveFileNames[slotNumber]);
 	var blah:Array = ["been virus bombed", "been purged", "been vaped", "been nuked from orbit", "taken an arrow to the knee", "fallen on its sword", "lost its reality matrix cohesion", "been cleansed", "suffered the following error: (404) Porn Not Found", "been deleted"];
 
 	trace(blah.length + " array slots");
 	var select:Number = rand(blah.length);
 	clearOutput();
-	outputText(flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] + " has " + blah[select] + ".");
+	outputText(saveFileNames[slotNumber] + " has " + blah[select] + ".");
 	test.clear();
 	doNext(deleteScreen);
 }
@@ -498,10 +408,10 @@ public function confirmOverwrite(slot:String):void {
 	outputText("You are about to overwrite the following save slot: " + slot + ".");
 	outputText("\n\n<i>If you choose to overwrite a save file from the original CoC, it will no longer be playable on the original version. I recommend you use slots 10-14 for saving on the mod.</i>");
 	outputText("\n\n<b>ARE YOU SURE?</b>");
-	doYesNo(createCallBackFunction(saveGame, slot), saveScreen);
+	doYesNo(createCallBackFunction(saveGameToSharedObject, slot), saveToSlotScreen);
 }
 
-public function saveGame(slot:String, bringPrompt:Boolean = false):void
+public function saveGameToSharedObject(slot:String, bringPrompt:Boolean = false):void
 {
 	var saveFile:* = SharedObject.getLocal(slot, "/");
 	if (player.slotName != slot && saveFile.data.exists && bringPrompt) {
@@ -512,7 +422,7 @@ public function saveGame(slot:String, bringPrompt:Boolean = false):void
 	saveGameObject(slot, false);
 }
 
-public function loadGame(slot:String):void
+public function loadGameFromSharedObject(slot:String):void
 {
 	var saveFile:* = SharedObject.getLocal(slot, "/");
 
@@ -554,7 +464,7 @@ public function loadGame(slot:String):void
 		{
 			outputText("Would you like to load the backup version of this slot?");
 			menu();
-			addButton(0, "Yes", loadGame, (slot + "_backup"));
+			addButton(0, "Yes", loadGameFromSharedObject, (slot + "_backup"));
 			addButton(1, "No", saveLoad);
 		}
 		else
@@ -669,7 +579,7 @@ public function loadPermObject():void {
             trace("Found internal permObjVersionID:", CoC.instance.permObjVersionID);
         }
 
-if (CoC.instance.permObjVersionID < 1039900) {
+		if (CoC.instance.permObjVersionID < 1039900) {
             // apply fix for issue #337 (Wrong IDs in kACHIEVEMENTS conflicting with other achievements)
 			achievements[kACHIEVEMENTS.ZONE_EXPLORER] = 0;
 			achievements[kACHIEVEMENTS.ZONE_SIGHTSEER] = 0;
@@ -679,6 +589,16 @@ if (CoC.instance.permObjVersionID < 1039900) {
             savePermObject(false);
             trace("PermObj internal versionID updated:", CoC.instance.permObjVersionID);
         }
+		if (CoC.instance.permObjVersionID < 1039910) {
+			// re-evaluation difficulty setting due to overhaul of difficulty calculations and changes to hardcore option
+			flags[kFLAGS.HUNGER_ENABLED] = 0;
+			flags[kFLAGS.HARDCORE_MODE] = 0;
+			flags[kFLAGS.SECONDARY_STATS_SCALING] = 0;
+			flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] = 0;
+			flags[kFLAGS.GAME_DIFFICULTY] = 0;
+            CoC.instance.permObjVersionID = 1039910;
+            savePermObject(false);
+		}
 	}
 }
 
@@ -746,10 +666,6 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 		saveFile.data.notes = notes;
 		mainView.nameBox.visible = false;
 	}
-	if (flags[kFLAGS.HARDCORE_MODE] > 0)
-	{
-		saveFile.data.notes = "<font color=\"#ff0000\">HARDCORE MODE</font>";
-	}
 	var processingError:Boolean = false;
 	var dataError:Error;
 
@@ -770,6 +686,7 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 		//CLOTHING/ARMOR
 		saveFile.data.armorId = player.armor.id;
 		saveFile.data.weaponId = player.weapon.id;
+		saveFile.data.weaponOffId = player.weaponOff.id;
 		saveFile.data.weaponRangeId = player.weaponRange.id;
 		saveFile.data.weaponFlyingSwordsId = player.weaponFlyingSwords.id;
 		saveFile.data.headJewelryId = player.headJewelry.id;
@@ -835,6 +752,7 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 		saveFile.data.mana = player.mana;
 		saveFile.data.soulforce = player.soulforce;
 		saveFile.data.wrath = player.wrath;
+		saveFile.data.demonicenergy = player.demonicenergy;
 		//Combat STATS
 		saveFile.data.HP = player.HP;
 		saveFile.data.lust = player.lust;
@@ -937,6 +855,7 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 		}
 		player.facePart.saveToSaveData(saveFile.data);
 		//player.underBody.saveToSaveData(saveFile.data);
+		player.arms.saveToSaveData(saveFile.data);
 		player.lowerBodyPart.saveToSaveData(saveFile.data);
 		player.skin.saveToSaveData(saveFile.data);
 		player.tail.saveToSaveData(saveFile.data);
@@ -1037,13 +956,9 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 			saveFile.data.breastRows[i].fuckable = player.breastRows[i].fuckable;
 			saveFile.data.breastRows[i].fullness = player.breastRows[i].fullness;
 		}
-		/*
-		//removing extra mutations from save
-		for each(var mutation:PerkType in IMutationsLib.mutationsArray("")){
-			if (player.perkv1(mutation) == 0) player.removePerk(mutation);
-		}
-		player.removePerk(IMutationsLib.MutationsTemplateIM);
-		*/
+
+		//Set true IMutations Array
+		saveFile.data.trueMutations = player.trueMutations;
 
 		//Set Perk Array
 		//Populate Perk Array
@@ -1557,7 +1472,7 @@ public function restore(slotName:String):void
 	doNext(playerMenu);
 }
 
-public function openSave():void
+public function onLoadFromFileClick():void
 {
 
 	// Block when running the chaos monkey
@@ -1612,14 +1527,14 @@ public function onFileLoaded(evt:Event):void
 	catch (error:Error)
 	{
 		clearOutput();
-		outputText("<b>!</b> Save file not found, check that it is in the same directory as the CoC.swf file.\n\nLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.");
+		outputText("<b>!</b> Save file not found, check that it is in the same directory as the CoC.swf file.");
 	}
 }
 
 public function ioErrorHandler(e:IOErrorEvent):void
 {
 	clearOutput();
-	outputText("<b>!</b> Save file not found, check that it is in the same directory as the CoC_" + ver + ".swf file.\r\rLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.");
+	outputText("<b>!</b> Save file not found, check that it is in the same directory as the CoC_" + ver + ".swf file.");
 	doNext(returnToSaveMenu);
 }
 
@@ -1788,6 +1703,7 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		player.mana = saveFile.data.mana;
 		player.soulforce = saveFile.data.soulforce;
 		player.wrath = saveFile.data.wrath;
+		player.demonicenergy = saveFile.data.demonicenergy;
 
 		//Combat STATS
 		player.HP = saveFile.data.HP;
@@ -1963,6 +1879,7 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		else
 			player.gills.type = saveFile.data.gills ? Gills.ANEMONE : Gills.NONE;
 		player.hairLength = saveFile.data.hairLength;
+		player.arms.loadFromSaveData(data);
 		player.lowerBodyPart.loadFromSaveData(data);
 		player.wings.loadFromSaveData(data);
 		player.skin.loadFromSaveData(data);
@@ -1981,7 +1898,7 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 				player.chitinColor       = stringOr(data.chitinColor, player.chitinColor);
 				player.scaleColor        = stringOr(data.scalesColor, player.scaleColor);
 			}
-			
+
 		} else {
 			for (i = 0; i < player.bodyMaterials.length; i++) {
 				if (data.bodyMaterials[i]) {
@@ -1989,10 +1906,6 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 				}
 			}
 		}
-		if (saveFile.data.armType == undefined)
-			player.arms.type = Arms.HUMAN;
-		else
-			player.arms.type = saveFile.data.armType;
 		if (saveFile.data.tongueType == undefined)
 			player.tongue.type = Tongue.HUMAN;
 		else
@@ -2029,9 +1942,9 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		player.fertility = saveFile.data.fertility;
 
 		//Preggo stuff
-		player.knockUpForce(saveFile.data.pregnancyType, saveFile.data.pregnancyIncubation);
-		player.knockUpForce(saveFile.data.pregnancy2Type, saveFile.data.pregnancy2Incubation, 1);
-		player.buttKnockUpForce(saveFile.data.buttPregnancyType, saveFile.data.buttPregnancyIncubation);
+		player.knockUpForce(saveFile.data.pregnancyType, saveFile.data.pregnancyIncubation, 0,  1);
+		player.knockUpForce(saveFile.data.pregnancy2Type, saveFile.data.pregnancy2Incubation, 1, 1);
+		player.buttKnockUpForce(saveFile.data.buttPregnancyType, saveFile.data.buttPregnancyIncubation, 1);
 
 		var hasViridianCockSock:Boolean = false;
 
@@ -2183,6 +2096,7 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		var found:Boolean;
 		var itype:ItemType;
 		loadEquipment(ItemConstants.SLOT_WEAPON_MELEE, Weapon, saveFile.data.weaponId, saveFile.data.weaponName, WeaponLib.FISTS);
+		loadEquipment(ItemConstants.SLOT_WEAPON_MELEE_OFF, Weapon, saveFile.data.weaponOffId, saveFile.data.weaponOffhandName, WeaponLib.FISTS);
 		loadEquipment(ItemConstants.SLOT_WEAPON_RANGED, WeaponRange, saveFile.data.weaponRangeId, saveFile.data.weaponRangeName, WeaponRangeLib.NOTHING);
 		loadEquipment(ItemConstants.SLOT_FLYING_SWORD, FlyingSwords, saveFile.data.weaponFlyingSwordsId, saveFile.data.weaponFlyingSwordsName, FlyingSwordsLib.NOTHING);
 		loadEquipment(ItemConstants.SLOT_SHIELD, Shield, saveFile.data.shieldId,  saveFile.data.shieldName, ShieldLib.NOTHING);
@@ -2227,6 +2141,9 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		mutationsShift.push(IMutationsLib.MutationsTemplateIM.id);
 		//Possibly ID updating.
 
+		//Set true IMutations Array
+		player.trueMutations = saveFile.data.trueMutations || [];
+		
 		//Populate Perk Array
 		for (i = 0; i < saveFile.data.perks.length; i++)
 		{
@@ -2480,6 +2397,8 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		if (saveFile.data.wrath == undefined) player.wrath = 0;
 		//Set mana
 		if (saveFile.data.mana == undefined) player.mana = 50;
+		//Set demonic energy
+		if (saveFile.data.demonicenergy == undefined) player.demonicenergy = 0;
 
 		//player.cocks = saveFile.data.cocks;
 		player.ass.analLooseness = saveFile.data.ass.analLooseness;

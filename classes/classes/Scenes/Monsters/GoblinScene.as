@@ -272,7 +272,7 @@ public class GoblinScene extends BaseContent {
             outputText("\n\nYou begin masturbating, violently and unabashedly ravishing your form, forgetting entirely about the one who put you in such a state.  Parting your slippery flesh with questing digits, you lose yourself to the pleasant, warm explosions firing through your nerves with every caress of your honeypot.  At the same time, the fingers on your free hand ");
             if (player.hasFuckableNipples()) outputText("piston in and out of your [nipple], masturbating it just as hard as the real thing.");
             else outputText("squeeze around a taut nipple, twisting and pulling on it unthinkingly.");
-            outputText("  Your masturbatory reverie is interrupted sudden impacts against both your wrists.");
+            outputText("  Your masturbatory reverie is interrupted by sudden impacts against both your wrists.");
 
             outputText("\n\nLooking on in confusion, you can only stare as the goblin steps over you, straddling your prone form and easily batting away every attempt you make to touch yourself.  " + goblinClass("She pulls off her belt of needles and casually removes a set of small leather thongs from its inner lining.", "She carefully moves her fur loincloth to expose her cunny.", "She carefully moves her leather straps to expose her cunny, not even bothering to take her armor off.") + "  With practiced skill, she binds your hands together with a narrow leather leash.  You don’t resist, expecting the kinky viridian bitch is planning some perverse sex game to get you both off that much harder.  She smirks down and says, \"<i>I don’t see much point in fucking a two-bit twat like yourself, but you got me horny, so by Lethice’s drippy tits, you’re gonna get me off.</i>\"");
             outputText("\n\nBefore you can mutter a protest, the goblin pivots and drops atop your face, plugging your mouth-hole with her wet gash.  Musky fem-drool slimes over your cheeks, running down to the nape of your neck where it drips on the ground.  The goblin utters a quiet, appreciative moan, rocking her hips ever so slightly to drag the bump of her clitty across your parted lips.  She doesn’t do anything for your needs at all!  You try to protest, but all that gets you is a mouth full of slime, tangy and arousing though it may be.  The " + goblinClass("leather thong", "fur loincloth", "leather thong") + " binding your hands goes taut as you try to pull your fingers back into your aching cunt, but in your compromised position, you cannot will up the strength to overpower the tiny, dominating minx.");
@@ -577,49 +577,58 @@ public class GoblinScene extends BaseContent {
 
     public function rapeMenu():void {
         menu();
-        addButtonDisabled(0, "Dick Fuck", "This scene requires you to have a fitting cock.", "Dick Fuck");
-        addButtonDisabled(1, "DickTooBig", "This scene requires you to have an overly large cock.", "Dick Too Big");
-        addButtonDisabled(2, "CorruptDick", "This scene requires you to have an overly large cock and high corruption.", "Corrupt Dick");
-        addButtonDisabled(3, "Dick In Ass", "This scene requires you to have a cock and high corruption.", "Dick In Ass");
-        addButtonDisabled(4, "Jog Fuck", "This scene requires you to a have fitting cock.", "Jog Fuck");
-        addButtonDisabled(5, "Breastfeed", "This scene requires you to have 'Feeder' perk.", "Breastfeed");
-        addButtonDisabled(6, "Use Condom", "This scene requires you to have either condom or spider abdomen and a fitting cock.", "Use Condom");
-        addButtonDisabled(7, "Pussies", "This scene requires you to have vagina and have NOT taur or naga body.", "Pussies");
-        addButtonDisabled(8, "Lay Eggs", "This scene requires you to have drider ovipositor and some eggs.", "Lay Eggs");
-        addButtonDisabled(9, "Facefuck & Piss", "This scene requires you to have a fitting cock and enable Watersports fetish.", "Facefuck & Piss");
-        if (!(monster is Priscilla))
-            addButtonDisabled(10, "Mindbreak", "This scene requires you to be a mindbreaker.", "Mindbreak");
-        addButtonDisabled(11, "Goo In", "This scene requires you to have a goo body.", "Goo In");
         //cunt stuff
         if (player.hasVagina() && player.lust >= 33) addButton(7, "Pussies", gobboGetsRapedFem).hint("Get on a girl-on-girl action with the goblin!");
+		else addButtonDisabled(7, "Pussies", "This scene requires you to have 33+ lust, vagina and have NOT taur or naga body.", "Pussies");
         //Dick stuff:
         if (player.hasCock() && player.lust >= 33) {
             //Corrupt too big scene
             if (player.cockArea(player.biggestCockIndex()) > monster.vaginalCapacity() && (player.cor >= 80 - player.corruptionTolerance || player.hasPerk(PerkLib.Sadist)))
                 addButton(2, "CorruptDick", rapeAGoblinCorruptTooBig).hint("You definitely could go rough on the goblin with a big dick that would be sure to leave her sore all day.", "Corrupt Dick Too Big");
+			else addButtonDisabled(2, "CorruptDick", "This scene requires you to have an overly large cock and high corruption.", "Corrupt Dick");
             //Regular too big scene
             if (player.cockArea(player.biggestCockIndex()) > monster.vaginalCapacity())
                 addButton(1, "DickTooBig", manRapesGoblinTooBig).hint("Your dick is too big to fit but maybe you can figure a way to gain pleasure from the goblin.", "Dick Too Big");
+			else addButtonDisabled(1, "DickTooBig", "This scene requires you to have an overly large cock.", "Dick Too Big");
             //It fits!
             if (player.cockThatFits(monster.vaginalCapacity()) >= 0) {
                 addButton(0, "Dick Fuck", gatsGoblinBoners).hint("Give what the goblin craves: a good dick-stuffing.");
                 addButton(4, "Jog Fuck", gobboGetsRapedMaleFits).hint("It's a good exercise move. Walk around while ramming her good!");
             }
+			else {
+				addButtonDisabled(0, "Dick Fuck", "This scene requires you to have a fitting cock.", "Dick Fuck");
+				addButtonDisabled(4, "Jog Fuck", "This scene requires you to a have fitting cock.", "Jog Fuck");
+			}
             //Buttsex toggle
             if (player.cockThatFits(monster.analCapacity()) >= 0 && (player.cor >= 70 - player.corruptionTolerance || player.hasPerk(PerkLib.Sadist))) addButton(3, "Dick In Ass", gobboButtSecks).hint("Deny the goblin your baby batter and ram into her butt!");
-            //Spidercondom
-            if (player.tail.type == Tail.SPIDER_ADBOMEN && player.cockThatFits(monster.vaginalCapacity()) >= 0)
-                addButton(6, "Web Condom", goblinCondomed, 0).hint("You could make a condom using your webbings and fool her into giving her the pleasure without the impregnation!");
-            else if (player.hasItem(useables.CONDOM) && player.cockThatFits(monster.vaginalCapacity()) >= 0)
-                addButton(6, "Use Condom", goblinCondomed, 1).hint("You could use a condom you have in your inventory and fool her into giving her the pleasure without the impregnation!");
+            else addButtonDisabled(3, "Dick In Ass", "This scene requires you to have a cock and high corruption.", "Dick In Ass");
+			//Spidercondom
+            if ((player.tail.type == Tail.SPIDER_ADBOMEN && player.cockThatFits(monster.vaginalCapacity()) >= 0) || (player.hasItem(useables.CONDOM) && player.cockThatFits(monster.vaginalCapacity()) >= 0)) {
+				if (player.hasItem(useables.CONDOM) && player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(6, "Use Condom", goblinCondomed, 1).hint("You could use a condom you have in your inventory and fool her into giving her the pleasure without the impregnation!");
+				addButton(6, "Web Condom", goblinCondomed, 0).hint("You could make a condom using your webbings and fool her into giving her the pleasure without the impregnation!");
+			}
+			else addButtonDisabled(6, "Use Condom", "This scene requires you to have either condom or spider abdomen and a fitting cock.", "Use Condom");
             if (flags[kFLAGS.WATERSPORTS_ENABLED] >= 1 && player.cockThatFits(60) >= 0) addButton(9, "Facefuck & Piss", facefuckPiss).hint("Facefuck the goblin. And relieve yourself. What's a better way to mark the goblin with your scent too?");
+			else addButtonDisabled(9, "Facefuck & Piss", "This scene requires you to have a fitting cock and enable Watersports fetish.", "Facefuck & Piss");
         }
+		else {
+			addButtonDisabled(0, "Dick Fuck", "This scene requires you to have 33+ lust and a fitting cock.", "Dick Fuck");
+			addButtonDisabled(1, "DickTooBig", "This scene requires you to have 33+ lust, an overly large cock.", "Dick Too Big");
+			addButtonDisabled(2, "CorruptDick", "This scene requires you to have 33+ lust, an overly large cock and high corruption.", "Corrupt Dick");
+			addButtonDisabled(3, "Dick In Ass", "This scene requires you to have 33+ lust, cock and high corruption.", "Dick In Ass");
+			addButtonDisabled(4, "Jog Fuck", "This scene requires you to 33+ lust and a have fitting cock.", "Jog Fuck");
+			addButtonDisabled(6, "Use Condom", "This scene requires you to have 33+ lust, either condom or spider abdomen and a fitting cock.", "Use Condom");
+			addButtonDisabled(9, "Facefuck & Piss", "This scene requires you to have 33+ lust, fitting cock and enable Watersports fetish.", "Facefuck & Piss");
+		}
         if (player.canOvipositSpider()) addButton(8, "Lay Eggs", laySomeDriderEggsInGobboTwat).hint("Use your ovipositor to stuff the goblin's twat with eggs.");
-        //Breastfeed adds an option
+        else addButtonDisabled(8, "Lay Eggs", "This scene requires you to have drider ovipositor and some eggs.", "Lay Eggs");
+		//Breastfeed adds an option
         if (player.hasStatusEffect(StatusEffects.Feeder)) addButton(5, "Breastfeed", giveGoblinAMilkMustache).hint("You could give the goblin a taste of your milk. It's only in your desire to breastfeed someone.");
-        if (player.isGoo()) addButton(11, "Goo In", gooIn).hint("Use your unusual body to get her off.");
+        else addButtonDisabled(5, "Breastfeed", "This scene requires you to have 'Feeder' perk.", "Breastfeed");
+		if (player.isGoo()) addButton(11, "Goo In", gooIn).hint("Use your unusual body to get her off.");
+		else addButtonDisabled(11, "Goo In", "This scene requires you to have a goo body.", "Goo In");
         addButton(14, "Leave", cleanupAfterCombat);
-        if (!(monster is Priscilla)) { //no fatalities for Priscilla!
+        if (!monster.hasPerk(PerkLib.UniqueNPC)) { //no fatalities for Priscilla!
             addButton(10, "Mindbreak", mindbreakGoblin).hint("Although the green slut isn't too smart, her mind would suffice too.").disableIf(Mindbreaker.MindBreakerQuest != Mindbreaker.QUEST_STAGE_ISMB, "Mindbreakers only!");
             addButton(11, "Convert Elf", SceneLib.woodElves.CaptureGoblin).hint("Take the short slut to the Sacred Tree to become a new sister!").disableIf(!player.isWoodElf(), "Wood elves only!");
             addButton(12, "Kill", killGoblin);

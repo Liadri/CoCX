@@ -37,7 +37,7 @@ import classes.display.SpriteDb;
 			if (SceneLib.izmaScene.izmaFollower()) count++;
 			if (SceneLib.sophieBimbo.bimboSophie()) count++;
 			if (SceneLib.vapula.vapulaSlave()) count++;
-			if (SceneLib.ceraphScene.ceraphIsFollower()) count++;
+			if (SceneLib.ceraphScene.ceraphIsFollower() && !player.hasStatusEffect(StatusEffects.CeraphOff)) count++;
 			if (flags[kFLAGS.FUCK_FLOWER_LEVEL] == 4) count++;
 			if (flags[kFLAGS.ISABELLA_FOLLOWER_ACCEPTED] == 1) count++;
 			if (SceneLib.milkWaifu.milkSlave()) count++;
@@ -561,17 +561,13 @@ import classes.display.SpriteDb;
 		protected function takeoverPromptMerge(firstTime:Boolean = false):void
 		{
 			flags[kFLAGS.FARM_CORRUPT_PROMPT_DISPLAY] = 1;
-
-			if (firstTime)
-			{
+			if (firstTime) {
 				outputText("\n\nYou let your anger grow and then rage like a wildfire through you, coursing through your veins; increasingly these days, you are finding that your passion allows you to think clearer, to better fuel your muse. There’s potential in this farm, you can see that, you could turn it to your own purposes, but of course, the narrow-minded bitch in the field below will never realize it herself. You will have to go down and put her in her place first. The only question is, now or later?");
 			}
-			else
-			{
+			else {
 				// (plays every two times PC visits the farm for as long as they meet requirements)
 				outputText("Again, you find yourself standing on the bluff overlooking the farm, and you feel yourself filled with unholy rage at the woman below who stands against you and your plans for this piece of property. Do you put your plan into motion now or later?");
 			}
-
 			menu();
 			addButton(0, "Now", takeoverPromptNow);
 			addButton(1, "Later", takeoverPromptLater);
@@ -581,11 +577,9 @@ import classes.display.SpriteDb;
 		public function takeoverPromptNow():void
 		{
 			clearOutput();
-
 			outputText("You stride down to the farm and leap over a gate. You move casually, swaggering towards the pepper field with no obvious intent. When Whitney spots you and slowly stands up from her weeding, you raise your hand in friendly greeting");
 			if (player.weaponName != "fists") outputText(", and to demonstrate your peacefulness, you theatrically hold up your [weapon] and then discard it with a careless swing of your arm.");
 			else outputText(".");
-
 			// if PC has Kelly or PC raped Marble
 			if (flags[kFLAGS.KELT_BREAK_LEVEL] >= 4 || player.hasStatusEffect(StatusEffects.MarbleRapeAttempted))
 			{
@@ -595,13 +589,9 @@ import classes.display.SpriteDb;
 			{
 				outputText("\n\nShe looks at you with tense uncertainty. \"<i>Listen [name], I’m glad you’re here. I’ve been meaning to talk to you. I... I don’t think I want you coming to the farm no more. You’ve changed since I first got to know you, you... smell different these days. Like a demon, if you want the truth. I let it go because I know you and I’ve always said you gotta tend to your own knittin', but...</i>\" She trails off as you stick out your lower lip in mocking hurt.");
 			}
-
 			outputText("\n\n\"<i>All I want to do is talk. I’ve got some big plans for your farm, and I want to discuss them with you.</i>\"");
-
 			outputText("\n\n\"<i>There is nothing to discuss.</i>\" she replies.");
-
 			outputText("\n\n\"<i>Oh, but I think there is.</i>\" You take a step towards Whitney, and immediately she steps back, gropes into her wheelbarrow, brings out a cocked crossbow, and points it at you. You grin.");
-
 			// if PC has Kelly
 			if (flags[kFLAGS.KELT_BREAK_LEVEL] >= 4)
 			{
@@ -616,16 +606,12 @@ import classes.display.SpriteDb;
 			{
 				outputText("\n\n\"<i>Cute. But I’ve fought things that had dicks which looked deadlier than that thing.</i>\" You pause and look her dead in the eye. \"<i>I’ve fought a lot of things since I arrived here, Whitney. Crushed a lot of things underneath my heel. All of Mareth is coming to understand that if you are not useful to me, you are broken and remade so that you </i>are<i>. It would be a damn shame if something like that happened to you because you wouldn’t see sense. After all, just about anyone could walk in here and do as they please, as you sleep, perhaps? Quietly taint your food whilst you work? Are you really going to hold onto that crossbow for the rest of your life?</i>\" Whitney’s grip is trembling slightly, you can see it in the bolt and string.");
 			}
-
 			outputText("\n\n\"<i>What do you want?</i>\" she growls in a strangled voice.");
-
 			outputText("\n\n\"<i>All I want is to... maximize this farm’s productivity. There’s a lot of slack around here that needs picking up, if you ask me.</i>\" You put your hands behind your back and begin to slowly pace back and forth in the pepper patch. She’s still pointing the crossbow, but the arrow’s barb is getting increasingly erratic. \"<i>You will let me use the farm as I please. I will send... help... to you, as I see fit. In return, I guarantee that I will not make any attempts on your person, and I guarantee that no harm will come to your farm.</i>\" The barb trembles for a while longer. ");
-
 			// if PC has Kelly or PC raped Marble
 			if (flags[kFLAGS.KELT_BREAK_LEVEL] >= 4 || player.hasStatusEffect(StatusEffects.MarbleRapeAttempted))
 			{
 				outputText("\n\nYou have to admit, it’s going to be plenty painful if she fires it, so much so that you don’t know what will happen afterwards; an image of an inferno consuming a barn flits through your mind. After what seems like an hour of deliberation, though, Whitney lowers the crossbow.");
-
 				outputText("\n\n\"<i>Alright. Alright, maybe you got me, stranger. Without");
 				if (flags[kFLAGS.KELT_BREAK_LEVEL] >=  4) outputText(" Kelt");
 				else outputText(" Marble");
@@ -637,56 +623,44 @@ import classes.display.SpriteDb;
 				if (!player.hasStatusEffect(StatusEffects.MarbleRapeAttempted) && !player.hasStatusEffect(StatusEffects.NoMoreMarble))
 				{
 					outputText("\n\n\"<i>Marble will not stand for it,</i>\" Whitney says, her voice barely above a whisper.");
-
 					outputText("\n\n\"<i>Marble can fucking swivel,</i>\" you reply calmly. \"<i>I outnumber her.</i>\"");
 				}
-
 				// if Kelt is still around
 				// (Kelt being disabled doesn't remove him from the farm iirc, so it's literally just if Kelt != Kelly)
 				if (flags[kFLAGS.KELT_BREAK_LEVEL] < 4)
 				{
 					outputText("\n\n\"<i>Do you think Kelt will take you muscling in on his territory? He’ll kill you before letting that happen.</i>\"");
-
 					outputText("\n\n\"<i>If Kelt is willing to take direction from someone like you, he will take it from me, I think,</i>\" you say, shrugging casually. \"<i>If you think I’m frightened of that moronic blowhard you’ve got another thing coming.</i>\"");
 				}
-
 				outputText("\n\nYou have to admit, it’s going to be plenty painful if she fires her crossbow at you, so much so that you don’t know what will happen afterwards; an image of an inferno consuming a barn flits through your mind. After what seems like an hour of deliberation, though, Whitney lowers the weapon.");
-
 				outputText("\n\n\"<i>Alright. Alright, maybe you got me, stranger. I don’t have eyes in the back of my head, so maybe I do need... insurance.</i>\" She spits the last word. \"<i>Just so long as you stay the fuck away from me, I will do as you say.</i>\" You beam.");
 			}
-
 			outputText("\n\n\"<i>Smart decision. I’ll send along help to you as soon as I can. I look forward to a long and prosperous business relationship with you.</i>\" You bow deeply, turn and move almost all the way to the gate before raising a finger.");
-
 			outputText("\n\n\"<i> Oh, just one more thing. I will be expecting a cut. Seeing as how I’m invested in your little operation now and all. Shall we say 20 % ? If you cannot bear giving me the money yourself, just leave it underneath the rock over yonder every week. Do that and we won’t have any... problems.</i>\" You smirk at her.");
-
 			outputText("\n\nShe looks at you as if she’s never seen you before in her life, incapable of words. \"<i>I guess that’s settled then. Always a pleasure talking to you, Whitney.</i>\" You throw your [hips] out in an exaggerated swagger as you slowly make your way back to camp, knowing the dog morph’s eyes will follow you until you disappear into the distance.");
-
 			flags[kFLAGS.FARM_CORRUPTION_STARTED] = 1;
-
 			if (!player.hasStatusEffect(StatusEffects.NoMoreMarble)) flags[kFLAGS.FOLLOWER_AT_FARM_MARBLE] = 0; // Don't have to care about recruitment paths -- she'll fuck off based on corruption before the player can corrupt the farm.
-
-			doNext(camp.returnToCampUseOneHour);
+			doNext(explorer.done);
+			advanceMinutes(60);
 		}
 
 		protected function takeoverPromptLater():void
 		{
 			clearOutput();
-
 			outputText("You stare for a moment longer, then turn and head back to camp. You will show mercy she does not deserve... for now.");
-
-			doNext(camp.returnToCampUseOneHour);
+			doNext(explorer.done);
+			advanceMinutes(60);
 		}
 
 		protected function takeoverPromptNever():void
 		{
 			clearOutput();
 			flags[kFLAGS.FARM_CORRUPTION_DISABLED] = 1;
-
 			outputText("You close your eyes and take deep, shuddering breaths, drawing in the sweet, grass scented air and listening to the quiet, gentle peace which surrounds this place. The putrid ideas and viciously colorful images crowding your mind fade bit by bit, your blood cools and slowly, eventually, you find inner tranquility.  You promise yourself that come what may you’ll never do anything to this patch of peace you found in this world so long ago, if only as a reminder of what you once were. A heavy lump gathering in your throat, you turn and leave.");
-
 			// (Option never displayed again, -5 Corruption)
 			dynStats("cor-", 5);
-			doNext(camp.returnToCampUseOneHour);
+			doNext(explorer.done);
+			advanceMinutes(60);
 		}
 
 		public function rootScene():void
@@ -1846,7 +1820,7 @@ import classes.display.SpriteDb;
 
 			outputText("\n\nFinally you both come down. You enjoy the haze of emptiness and post-coitus as you look down at your slave; her eyes are unfocused and she seems to be somewhere else entirely. It is obvious she is a complete novice to cocksucking, but the thought of the challenge ahead of turning her into an expert inspires you. As if she heard your thoughts, Whitney blinks and looks up at you, cum dripping off her, smiling unsteadily.");
 
-			outputText("\n\n\"<i>Whew. Sorry I wasn’t very good at that, [master],</i>\" she says. \"<i>I’m sure one of your other servants would do a much better job of it.</i>\" You tell her not to be silly - she shows great promise. However there are plenty of things she will need to remember, like the need for a slut to clean a dick she’s been working on after she’s done. The dog girl \"oh!\"s and quickly bends over your pleasantly aching, semi-turgid [cock biggest] again. After she’s finished the enjoyable task of licking your oozing head clean, you send her on her way.");
+			outputText("\n\n\"<i>Whew. Sorry I wasn’t very good at that, [master],</i>\" she says. \"<i>I’m sure one of your other servants would do a much better job of it.</i>\" You tell her not to be silly - she shows great promise. However, there are plenty of things she will need to remember, like the need for a slut to clean a dick she’s been working on after she’s done. The dog girl \"oh!\"s and quickly bends over your pleasantly aching, semi-turgid [cock biggest] again. After she’s finished the enjoyable task of licking your oozing head clean, you send her on her way.");
 
 			player.sexReward("saliva", "Lips");
 			dynStats("sen-", 1);
@@ -2063,7 +2037,7 @@ import classes.display.SpriteDb;
 				else outputText("she still occasionally forgets the length buried in her mouth, so eager is she to work keenly at her own clit, and you need to murmur to get her to concentrate.");
 				outputText(" Nonetheless, the worshipful pleasure inundating your groin is close to masterful and you find yourself drifting away on it, closing your eyes and forgetting about instruction, lost entirely in the waves of your bitch’s soft, exact, ecstatic movements, her sighs and slurps filling your ears.");
 
-				outputText("\n\nWhen your orgasm begins to build, stoked so fiercely by your slave’s warm worship, you’re so far away you almost forget to give the order. However as your seed rises you chance a look down, meeting soulful brown eyes gazing back at you, and remember.");
+				outputText("\n\nWhen your orgasm begins to build, stoked so fiercely by your slave’s warm worship, you’re so far away you almost forget to give the order. However, as your seed rises you chance a look down, meeting soulful brown eyes gazing back at you, and remember.");
 
 				outputText("\n\n\"<i>Cum.</i>\" you manage, as you close your eyes and throw yourself into it. Whitney’s muffled moans are what you hear as your body tenses, your cock-slit dilates and you surge jizz down her throat; she shudders around you and her eyes roll as she finds her own high rooting around in her pussy. You are extremely gratified to note that, despite being on a plane of submissive pleasure far above you, she still manages to swallow every drop of cum you eject");
 				if (player.cumQ() >= 1500) outputText(" which is no mean feat, given it feels like you’ve fucked what feels like a gallon of it down her gullet. Once you’re almost done, as ever you spurt the last few creamy ropes across her face and clothes");
@@ -2085,7 +2059,7 @@ import classes.display.SpriteDb;
 
 				outputText("\n\nWhen you give a groan of approval to her treatment of your female sex she rises up and engulfs your [cock biggest] in wet, sucking warmness, already hard from the sight of her eager frigging. You sigh as she gets to work, her head bobbing as she sinks more and more of your length into her welcoming mouth. Again there is a slight sense of awkwardness; she occasionally forgets the [vagina] her hand is buried in and you need to murmur to get her to concentrate. Nonetheless, the worshipful pleasure inundating your groin is close to masterful and you find yourself drifting away on it, closing your eyes and forgetting about instruction, lost entirely in the waves of your bitch’s soft, exact, ecstatic movements, her sighs and slurps filling your ears.");
 
-				outputText("\n\nOnce your orgasm begins to build, stoked so beautifully by your slave’s warm worship, you’re so far away you almost forget to give the order. However as your seed rises you chance a look down, meeting soulful brown eyes gazing back at you, and remember.");
+				outputText("\n\nOnce your orgasm begins to build, stoked so beautifully by your slave’s warm worship, you’re so far away you almost forget to give the order. However, as your seed rises you chance a look down, meeting soulful brown eyes gazing back at you, and remember.");
 
 				outputText("\n\n\"<i>Cum.</i>\" you manage, as you close your eyes and throw yourself into it. Whitney’s muffled moans are what you hear as your body tenses, your cock-slit dilates and pumps jizz down her throat; she shudders around you and her eye rolls as she finds her own high rooting around in her pussy. You are extremely gratified to note that, despite being on a plane of submissive pleasure far away, she still manages to swallow every drop of cum you eject. Your [vagina] quivers around her fingers and orgasms in tandem, making you arch your neck to the overwhelming sensation of a double high, soaking her stroking fingers with warm, female approval.");
 
@@ -2545,7 +2519,7 @@ import classes.display.SpriteDb;
 
 			outputText("\n\n\"<i>Whew. Sorry I wasn’t very good at that, [master],</i>\" she says. \"<i>I’m sure one of your other servants would do a much better job of it.</i>\" ");
 
-			outputText("\n\nYou tell her not to be silly - she shows great promise. However there are plenty of things she will have to remember, like the need for a slut to clean a pussy she’s been working on after she’s done. The dog girl \"oh!\"s and quickly bends over your pleasantly aching, puffy sex again. After she’s finished the enjoyable task of licking your dampened crotch clean, you send her on her way.");
+			outputText("\n\nYou tell her not to be silly - she shows great promise. However, there are plenty of things she will have to remember, like the need for a slut to clean a pussy she’s been working on after she’s done. The dog girl \"oh!\"s and quickly bends over your pleasantly aching, puffy sex again. After she’s finished the enjoyable task of licking your dampened crotch clean, you send her on her way.");
 
 			player.sexReward("saliva", "Vaginal");
 			dynStats("sen-", 1);
@@ -2666,7 +2640,7 @@ import classes.display.SpriteDb;
 
 			outputText("\n\nWhen you give a groan of approval to her treatment of your female sex she bends in and sinks her tongue into your wet, sucking warmness. You sigh as she gets to work, lapping at your entrance, searching and curling into your vagina whilst her firm digits continue to diddle both herself and you. Again there is a slight sense of awkwardness; she occasionally forgets your clit so involved she gets in eating you out and you need to murmur to get her to concentrate. ");
 
-			outputText("\n\nNonetheless, the worshipful pleasure inundating your groin is close to masterful and you find yourself drifting away on it, closing your eyes and forgetting about instruction, lost entirely in the waves of your bitch’s soft, exact, ecstatic movements, her sighs and slurps filling your ears. Once your orgasm begins to build, stoked so beautifully by your slave’s warm worship you’re almost too far away to give the order. However as your heat rises you take a lazy look down to meet soulful brown eyes looking back up at you, and remember...");
+			outputText("\n\nNonetheless, the worshipful pleasure inundating your groin is close to masterful and you find yourself drifting away on it, closing your eyes and forgetting about instruction, lost entirely in the waves of your bitch’s soft, exact, ecstatic movements, her sighs and slurps filling your ears. Once your orgasm begins to build, stoked so beautifully by your slave’s warm worship you’re almost too far away to give the order. However, as your heat rises you take a lazy look down to meet soulful brown eyes looking back up at you, and remember...");
 
 			outputText("\n\n\"<i>Cum.</i>\" you manage, as you close your eyes and throw yourself into it. Whitney’s muffled moans are what you hear as your body tenses, your vagina clenches up, your clit pulses and suddenly you are thrusting into her mouth and hand in an irrepressible orgasm");
 			if (player.wetness() >= 5) outputText(", fountaining fem juice down her throat");
@@ -2774,7 +2748,7 @@ import classes.display.SpriteDb;
 
 			outputText("\n\nYou rise above her softly and sinuously, looking over your shoulder at her with an aloof smirk as you display your [butt] to her.");
 
-			outputText("\n\n\"<i>Doesn’t get as much air-time as my breasts,</i>\" you murmur. \"<i>But that’s no excuse for a lady’s maid slut, is it? Off you go.</i>\" You sigh as, after a moment’s pause, Whitney’s tongue pushes into the top of your crack, sliding downwards to tongue at your [asshole]. She’s a stranger here but she does what feels like a fine job, bathing your rose in lapping attention until it feels sensuously moist and soft, licking all the way down to touch at the outskirts of your [vagina] before smoothing her tongue across your rump, making the whole of your [ass] feel like it is lubricated and shining with warm worship. However the sensation is pleasurable enough for you, giggling quietly, to twist your rump here and there to make absolutely sure she covers every inch.");
+			outputText("\n\n\"<i>Doesn’t get as much air-time as my breasts,</i>\" you murmur. \"<i>But that’s no excuse for a lady’s maid slut, is it? Off you go.</i>\" You sigh as, after a moment’s pause, Whitney’s tongue pushes into the top of your crack, sliding downwards to tongue at your [asshole]. She’s a stranger here but she does what feels like a fine job, bathing your rose in lapping attention until it feels sensuously moist and soft, licking all the way down to touch at the outskirts of your [vagina] before smoothing her tongue across your rump, making the whole of your [ass] feel like it is lubricated and shining with warm worship. However, the sensation is pleasurable enough for you, giggling quietly, to twist your rump here and there to make absolutely sure she covers every inch.");
 
 			outputText("\n\nThe petite dog girl clutches your [hips] needily, panting softly, as finally you turn and let her at your [vagina]. She beckons at your [clit] with one soft digit whilst another sinks deep into your tunnel, softly sliding in and around your female sex until it is puffy and wet with her careful, teasing movements. When you give a groan of approval to her treatment of your female sex she bends in and sinks her tongue into your wet, sucking warmness. You sigh as she gets to work, lapping at your entrance, searching and curling into your vagina whilst her firm digits continue to diddle both herself and you. ");
 

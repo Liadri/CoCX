@@ -1,7 +1,7 @@
 package classes.Scenes.Dungeons.DemonLab {
 /**
  * ...
- * @author ...
+ * @author Canadian Snas
  */
 
 import classes.*;
@@ -108,7 +108,7 @@ public class ProjectFlameSpreader extends Monster {
         this.hairLength = 16;
         this.level = 85;
         initStrTouSpeInte(700, 650, 750, 420);
-        initWisLibSensCor(150, 1200, 500, 60);
+        initWisLibSensCor(150, 1200, 500, 20);
         this.weaponName = "spear";
         this.weaponVerb = "stab";
         this.weaponAttack = 100;
@@ -125,6 +125,7 @@ public class ProjectFlameSpreader extends Monster {
         this.createStatusEffect(StatusEffects.Flying, 50, 0, 0, 0);
         this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
         this.createPerk(PerkLib.LegendarySpeed, 0, 0, 0, 0);
+		this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
         checkMonster();
     }
 }

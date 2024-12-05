@@ -14,7 +14,7 @@ package classes.Scenes.Monsters
 		private function angelReactsToLustiness():void {
 			outputText("Angel stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Sinner!!! We.Must.Contact.Supreviser.</i>\"");
-			outputText("\n\nThe angel starts to burn more and more intense causing you to temporaly avert your gaze. When you look agian at spot it was you could only see a bit of ashes.");
+			outputText("\n\nThe angel starts to burn more and more intensely, causing you to temporarily avert your gaze. When you look again at the spot it was, you only see a bit of ashes.");
 			gems = 0;
 			XP = 0;
 			HP = minHP() - 1;
@@ -120,7 +120,7 @@ package classes.Scenes.Monsters
 			this.imageName = "angel";
 			this.long = "";
 			initStrTouSpeInte(7, 80, 40, 20);
-			initWisLibSensCor(160, 4, 30, 0);
+			initWisLibSensCor(160, 4, 30, -100);
 			this.tallness = 30;
 			this.drop = NO_DROP;
 			this.level = 18;

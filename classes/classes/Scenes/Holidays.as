@@ -804,12 +804,12 @@ public class Holidays extends BaseContent {
 
     public function datTurkeyRumpMeeting():void {
         //Introduction: -McGirt
-        if (flags[kFLAGS.TURKEY_FUCK_YEAR_DONE] > 0) {
+        if (flags[kFLAGS.TURKEY_FUCK_YEAR_DONE] > 0 && !recalling) {
             turkeyGirlTwoTheTurkeningBySavinWhatADickInAButt();
             flags[kFLAGS.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
             return;
         }
-        flags[kFLAGS.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
+        if (!recalling) flags[kFLAGS.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
         outputText("\nYou sit down by your fire pit, looking at the meager provisions you've managed to gather up in the days leading up to the Feast for the Thankful, your village's largest annual feast day.  Right now through the portal, your friends and loved ones from Ingnam are sitting down to a mighty banquet, holding hands in prayer before devouring more food than they can possibly stand.  A pang of homesickness sweeps through you as you look at the small meal before you.  With a sigh, you pick up your fork and prepare to dig in."
             + "\n\nSomething stirs at the edge of camp."
             + "\n\nYou jump to your feet, readying your [weapon] for battle as you scan the perimeter.  A moment later, and you see a ponderous figure step out of the shadows behind a large rock.  At first glance, it looks like a normal girl dressed in a simple deerskin poncho, her bright red hair falling past her shoulders to rest on a pair of absolutely massive breasts.  Timidly, she steps forward, giving you a good look at her less human attributes: a pair of avian legs stick out beneath the hem of her clothes, and a large plume of feathers stick up from her big bubble-butt, each red feather nearly reaching the back of her head.  And her breasts... each easily the size of a goblin, so massive that it seems she can barely wobble along."
@@ -827,7 +827,8 @@ public class Holidays extends BaseContent {
                 + "\n\nShaking your head, you sit back down and eat.");
             if (player.hunger > 60) player.hunger = 70;
             player.refillHunger(40);
-            doNext(EventParser.playerMenu);
+            if (!recalling) doNext(EventParser.playerMenu);
+            else recallWakeUp();
         }
 
         //Let her Approach
@@ -848,7 +849,8 @@ public class Holidays extends BaseContent {
         function noThanksTurkeyGal():void {
             clearOutput();
             outputText("You reluctantly push her away.  You've no need to ram your dick down some new monstrosity's gullet.  The girl forlornly gobbles one last time, then prances off into the fading evening light, globular ass jiggling.");
-            endEncounter(120);
+            if (!recalling) endEncounter(120);
+            else recallWakeUp();
         }
 
         //Baste Her -McGirt, reluctantly
@@ -863,8 +865,10 @@ public class Holidays extends BaseContent {
                 + "\n\n\"<i>Gobble!</i>\"  she cries ecstatically, a huge smile playing across her face as she licks up a bit of your cum from her cheek, drinking it up without inhibition.  With a sigh, you let the girl's bosom fall free, leaving your wilting prick in the warm air, content with the powerful face-fucking you've given the eager slut.  You run your hand through her hair again, telling her what a good cock-gobbler she is."
                 + "\n\n\"<i>G-gobble?</i>\""
                 + "\n\nThe turkey-girl smiles at you and flops onto her back, spreading her meaty thighs to give you a good look at the trimmed red bush between her legs, and the glistening slit of her vagina.  It looks like she wants some stuffing....");
-            player.orgasm();
-            player.dynStats("sen", -1);
+            if (!recalling) {
+                player.orgasm();
+                player.dynStats("sen", -1);
+            }
             simpleChoices("Stuff Her", stuffDatTurkeyWithSpoo, "", null, "", null, "", null, "That'll Do", thatllDoTurkey);
         }
 
@@ -886,8 +890,8 @@ public class Holidays extends BaseContent {
             else outputText("your [cock] distends and bulges.  A startled gasp catches in her throat as the hapless fowl's fuckhole is stretched wider by the oncoming storm.  No sooner has your shaft unloaded a monstrous surge of virile spunk deep inside her cunt than a familiar pressure signals yet another load is on the way.  As you continue to stuff the bitch with baby batter, her once-taut stomach swells outwards, jiggling and gurgling with each fresh load.  Your grunts and growls intermingle with the overstuffed turkey's moans of mindless lust.  Each roar sends shudders through her teats, waves of the fatty flesh forming as you cry out into her chest. You steady yourself between orgasmic thrusts by grabbing onto her melons, your sudden grasp harsh enough to elicit a stream of titgravy from inside her.");
 
             outputText("\n\nSoon, between your kneading out the thick gravy from her breasts and the spunk leaking out from her loins, mixing with what you splattered across her minutes earlier, the poor turkey is absolutely filthy, covered in the remnants of your rough fucking.  Slowly, languidly, you pull out from inside her, your cock still dribbling little rivulets of cum onto the musky girl's thighs.  The air around you now reeks of sex and a warm meal, her strange breastmilk creating a strong aroma of its own below that of drying spooge.");
-            player.orgasm();
-            player.dynStats("sen", -1);
+            if (!recalling) player.orgasm();
+            if (!recalling) player.dynStats("sen", -1);
             if (flags[kFLAGS.HEL_FUCKBUDDY] == 1 && flags[kFLAGS.HEL_REDUCED_ENCOUNTER_RATE] == 0) {
                 outputText("\n\nAs you lay atop the turkey, you hear a faint, almost pleading, \"<i>Gobble?</i>\"  from her. Furrowing your brow, you pick yourself up to look at the cum-slathered turkey.  As soon as you're off her, she rolls over onto her hands and knees, her big bubble butt sticking up in the air for you, her plume of feathers tickling your cheeks.  She... still wants more?</i>\"");
                 simpleChoices("Spit-Roast", spitRoastThatTurkey, "", null, "", null, "", null, "That's Enough", thatllDoTurkey);
@@ -910,8 +914,8 @@ public class Holidays extends BaseContent {
                 + "\n\nYou hammer the turkey-girl's ass, fucking her until she cries out around Hel's tail, screaming an ecstatic combination of lusty moans and her only word.  Now she's getting into it! You grab her auburn hair, yanking her head back as you land a thrust hard enough to send wobbles through her whole body, ripples running through her bubble butt and goblin-sized jugs.  Over her plumage, you hear Hel give out a sharp yelp, and for a moment fear you've made the poor turkey bite down on her -- until you see Hel's eyes rolled back in her head, one hand ravaging her tits and the other furiously masturbating."
                 + "\n\nWith a roar, you give the turkey a hard slap on the ass and, with her last violent contraction around your prick, cum.  Thrice already in the last hour, but you manage, pouring another hot load of semen into the turkey's abused anus.  She cries out as you slap her butt, but her scream turns into a long, lewd moan as she feels your seed filling her bum, your prick packing it in until trickles of spooge pour out around your shaft."
                 + "\n\nYou pull out of her with a wet squelch, grinning as a flood of your spunk starts to pour from her abused asshole, mixing in with the titgravy and two other loads you blew on her previously.  Supported by her huge tits, the turkey-girl goes limp, finally contented by the third fucking, her body stained and completely covered in your cum.  Looking around her, you see Hel lying on her back, snoring quietly after her own tail-based orgasm, her own body coated liberally with femcum and globs of your own spunk that rubbed off on her.");
-            player.orgasm();
-            player.dynStats("sen", -1);
+            if (!recalling) player.orgasm();
+            if (!recalling) player.dynStats("sen", -1);
             doNext(thatllDoTurkey);
         }
 
@@ -919,11 +923,14 @@ public class Holidays extends BaseContent {
             clearOutput();
             outputText("Running your hand through the turkey-girl's hair, you whisper what a good little cockgobbler she is. However, you soon find that the poor thing's passed out, your rut finally over with.  You give her a gentle push over her back, giving you a nice soft tit-pillow to lay your head down upon as you pick up the lunch you'd been preparing to eat before the eager slut arrived."
                 + "\n\n\"<i>That'll do, turkey,</i>\" you say, patting her jiggling tit. \"<i>That'll do.</i>\"");
-            if (!player.hasPerk(PerkLib.PilgrimsBounty)) {
-                player.createPerk(PerkLib.PilgrimsBounty, 0, 0, 0, 0);
-                outputText("\n\n(<b>Perk Gained: Pilgrim's Bounty - Lower lust values no longer reduce the size of your orgasm.</b>)");
+            if (!recalling) {
+                if (!player.hasPerk(PerkLib.PilgrimsBounty)) {
+                    player.createPerk(PerkLib.PilgrimsBounty, 0, 0, 0, 0);
+                    outputText("\n\n(<b>Perk Gained: Pilgrim's Bounty - Lower lust values no longer reduce the size of your orgasm. Your chance to impregnate parter increase to 100%.</b>)");
+                }
+                endEncounter(120);
             }
-            endEncounter(120);
+            else recallWakeUp();
         }
 
         //Let her Approach:
@@ -952,7 +959,7 @@ public class Holidays extends BaseContent {
                 + "\n\nShe cries out at the penetration and you feel her tunnel grip your fingers as they try to go deeper inside her.  She stiffens up, moaning and groaning as an orgasm wracks her body, her thighs quaking with pleasure and hands going and breasts bouncing as she gasps in air.  You rest your thumb on her clit as she cums, rapidly rolling over the nub and her hips thrust into your hand, desperate to feel your fingers touch as much of her as they can.  Her nipples jut out through the poncho as she contorts herself, her fingers clamping down on them harshly as the pleasure overwhelms her, causing what could only be called an eruption from each nub.  Gravy spurts out, splattering against her already sodden clothing as you feel the tasty liquid streaking down her body beneath the material.  The warmth spreads across your hand, though it is no match for the heat between your legs as you watch the girl writhing in pleasure."
                 + "\n\nUnable to stop yourself, you wrench your hand out from beneath her garment and before the girl can tell what's happening, you start to pull it up over her head, finally unleashing those fantastic breasts to the fresh air.  She nearly squawks as you drag her up from her relaxed position to free the material trapped beneath her, but calms down once you manage to get the thing over her head, throwing the soaked cloth out of the way.");
 
-            player.orgasm();
+            if (!recalling) player.orgasm();
             doNext(femaleAndTurkeyMainCourse);
         }
 
@@ -970,7 +977,7 @@ public class Holidays extends BaseContent {
                 + "\n\nYour hands pull her tightly against you, stopping her mad thrusts as her vagina continues to spasm against your taut belly, the contractions so powerful that you can feel them even through your [armor].  She cranes her head back and moans indecently into the air as her legs grip you, almost making you feel like you're about to burst with the pressure."
                 + "\n\nFinally though, her climax begins to die down.  She holds you close for a few moments, gulping down air after her body-shaking finish.  You continue to drain her breast, though you feel your [vagina] starting to leave a damp patch on the inside of your armour, dripping down your thighs to soak into the log beneath you.  The hand on your head begins to move its way out of your hair, trailing down your neck almost lovingly as her breathing starts to return to normal.  Her touch is almost electric against your skin and you suddenly find yourself very aware of how much your body has been reacting whilst your brain was fixated on her mind-numbingly good goo."
                 + "\n\nFinally, unable to withstand it any longer, you break your lips away from her teat and push the girl to the ground, your hunger for her body finally having overcome your hunger for her gravy.  She looks up at you with a confused expression to begin with, but once she sees your hands darting to the clasps of your armor, a much more sultry look crosses her features.");
-            player.dynStats("lus", 30, "scale", false);
+            if (!recalling) player.dynStats("lus", 30, "scale", false);
             doNext(haveTurkeyGirlDesertInYourCunt);
         }
 
@@ -986,7 +993,7 @@ public class Holidays extends BaseContent {
                 + "\n\nShe moans under your rapid strokes, though her own tongue hardly relents on you entrance, short jabs finally penetrating you as her fingers try to spread your lips as widely as they can, exposing as much of your [vagina] as possible.  You respond in kind, hands sliding under her thighs to come below her drooling slit, spreading wide whilst your pinky fingers tease her tight ring.  She groans in ecstasy as you dig in, her delightful flavor the perfect complement to the savory soup that even now leaks from her, coating your lower stomach as it rests on her bosom."
                 + "\n\nHer fingers snake their way around your hips until you can feel them resting just above your clit, poised to strike at any moment.  You realize that even one tap could probably finish you off now and begin to slurp at the turkeygirl's own nub, tongue lapping up as much of her sweet juice as it can manage.  You <b>need</b> to get as much of it as possible before she makes you cum, your mouth clamping down on her vagina, getting right to the source and trying to suck it straight out of her as you swirl your tongue around her button in hopes of making her leak even more."
                 + "\n\nHowever, the girl must be close and she decides to try and finish you off at the same time.  Her fingers suddenly grasp your clit, pinching it softly whilst her tongue dives deeper than ever before.  You cum almost instantly, you passage quivering around her orgasmic organ, humping against her face as you scream into her mound.  As the sound washes over her entrance, she too starts to cry out, both her holes spasming and you take the opportunity to slip a couple of fingers into her tight rear."
-                + "\n\nThe intrusion completely pushes her over the edge, leaving the pair of you screaming and humping unashamedly into one another, two tangled, sweat-slicked bodies writhing on the ground and groaning blissfully.  Her pussy covers your face with femspunk, which you waste no time in trying to lick up as you feel your own snatch [if (isSquirter = true) \"drench her face, a muffled 'meep' sounding out from between your legs as the girl weathers a vertiable flood from your twitching tunnel\"][if (isSquirter = false) tremble and coat her tongue with fluid, which she quickly drinks down before returning to your soaked hole]."
+                + "\n\nThe intrusion completely pushes her over the edge, leaving the pair of you screaming and humping unashamedly into one another, two tangled, sweat-slicked bodies writhing on the ground and groaning blissfully.  Her pussy covers your face with femspunk, which you waste no time in trying to lick up as you feel your own snatch [if (isSquirter = true) drench her face, a muffled 'meep' sounding out from between your legs as the girl weathers a vertiable flood from your twitching tunnel][if (isSquirter = false) tremble and coat her tongue with fluid, which she quickly drinks down before returning to your soaked hole]."
                 + "\n\nAs your orgasm starts to fade, you manage to roll your exhausted body off the turkeygirl, your chest heaving as you try to catch your breath.  You lie there for a few moments, your stretched stomach a testament to how delicious the girl was.  Out of the corner of your eye you notice her shifting and, to your surprise, she lifts herself up from the sodden ground beneath her.  Her body is dripping with remnants of your encounter, but she seems to be no worse the wear after no less than three orgasms!"
                 + "\n\nShe looks down at you, her big eyes sparkling as your own start to close, the exertion of such a vigorous round of sex too much for your stuffed body to take.  Kneeling down beside you, her mouth locks onto yours, kissing you deeply as you push back with your mouth, though even the effort of raising your head is almost too much for you.  One of her hands starts to gently stroke your bulging stomach, slowly circling the tight skin and kneading your sensitive flesh with soft, slow caresses.  Your eyes start to flutter and your head falls back to the ground, breaking the kiss.  Unperturbed, she coos softly at your dazed expression, her head nuzzling into the crook of your neck as her soft touch starts to calm your overworked body down."
                 + "\n\nHer mouth nips at your neck, tongue flicking your earlobe whilst she continues to moan quietly, your eyes glancing down her body to see her other hand buried firmly between her legs.  Your mouth curls into a smile as you relax completely, feeling safe and content under the caresses of the turkeygirl.  Somehow you can guess that she won't be here when you wake up, but your body is far too relaxed to do anything about it."
@@ -994,14 +1001,17 @@ public class Holidays extends BaseContent {
                 + "\nYour eyes crack open, mind still foggy as sleep still clings to the corners of your eyes.  Memories of the insatiable turkeygirl flood back as you start to sit up, dreading the inevitable clean-up after so much spilled fluid.  However, you quickly realize that you're already redressed! In fact, it seems like someone not only dressed you, but both your body and your [armor] are completely spotless, not even a trace of the girl remaining on your person.  Looking around you notice that your campfire still burns brightly, as if someone stoked it recently.  Even your stomach has returned to its previous state, leaving no sign of the massive amount of gorgeous gravy you guzzled not an hour ago."
                 + "\n\nLurching to your feet, you stretch your arms, feeling completely refreshed after the short nap.  If it wasn't for the sweet taste of pumpkin still lingering on your lips, you'd be prepared to call what had just happened one of the weirdest dreams you've had since arriving in Mareth."
                 + "\n\nThen again, you have to admit that it would also class as one of the most fun...");
-            if (!player.hasPerk(PerkLib.Cornucopia)) {
-                outputText("\n\n(<b>Gained Perk: Cornucopia - increases vaginal and anal capacities by 30.</b>)");
-                player.createPerk(PerkLib.Cornucopia, 0, 0, 0, 0);
+            if (!recalling) {
+                if (!player.hasPerk(PerkLib.Cornucopia)) {
+                    outputText("\n\n(<b>Gained Perk: Cornucopia - increases vaginal and anal capacities by 30.</b>)");
+                    player.createPerk(PerkLib.Cornucopia, 0, 0, 0, 0);
+                }
+                //HP set to full, fatigue to 0?
+                fatigue(-100);
+                HPChange(3000, false);
+                endEncounter(120);
             }
-            //HP set to full, fatigue to 0?
-            fatigue(-100);
-            HPChange(3000, false);
-            endEncounter(120);
+            else recallWakeUp();
         }
 
         //Turkey Girl II: Return of the Cockgobbler (Cockwielders)
@@ -1449,7 +1459,7 @@ public class Holidays extends BaseContent {
         //SCYLLA EVENT
         function goVisitScyllaVdayII():void {
             clearOutput();
-            outputText("Scylla takes you for a longer walk throught the now barely illuminated streets of Tel'Adre, clearly a bit giddy and in a good mood after today's events.  \"<i>Thank you, [name].  Once again, I think I am in your debt.  These are certainly hard times for this world, and many people certainly try to cope by indulging themselves while throwing away the emotional and spiritual sides of things... it's understandable, but it's wrong.  People shouldn't forget how much comfort and happiness one can find in another person, especially through strong emotions and attachments like romantic or familial love,</i>\" she says as you walk through the sunset-illuminated alleys, smiling at you gently, a small rosy blush at her cheeks.  \"<i>The way myself, and I'm sure a few lucky others, find in those like you,</i>\" she says in a whisper that's still easily heard in the near-empty streets of Tel'Adre."
+            outputText("Scylla takes you for a longer walk through the now barely illuminated streets of Tel'Adre, clearly a bit giddy and in a good mood after today's events.  \"<i>Thank you, [name].  Once again, I think I am in your debt.  These are certainly hard times for this world, and many people certainly try to cope by indulging themselves while throwing away the emotional and spiritual sides of things... it's understandable, but it's wrong.  People shouldn't forget how much comfort and happiness one can find in another person, especially through strong emotions and attachments like romantic or familial love,</i>\" she says as you walk through the sunset-illuminated alleys, smiling at you gently, a small rosy blush at her cheeks.  \"<i>The way myself, and I'm sure a few lucky others, find in those like you,</i>\" she says in a whisper that's still easily heard in the near-empty streets of Tel'Adre."
                 + "\n\nYou simply listen to her but also blush at the last line, thanking her for her appreciation of your person. She gives a small laugh at that.  \"<i>Well, certainly, we've had our troubles with my... new way of eating, and I'm sure you didn't always feel like I really appreciated you or treated you with dignity... I'm sorry about that, but I really feel like I depended on you a lot and I know you're a great person,</i>\" she continues, her smile widening and blush slightly deepening with every sentence.  \"<i>You're more special than the others who've helped me, having always recognized my problems and solutions to them first.  You've saved me from a certain fall to the demon's corruption...  And you taste really good, too,</i>\" she says, licking her ruby lips before absent-mindedly noticing what she just said, flushing a deep red.  \"<i>Well, in any case, thanks to your help, this wasn't as much of a strain as I thought.  I feel like I might've really done some things to make this world a slightly better place, and I've certainly seen you do so.  That warms my heart and makes the time spent here worth it,</i>\" she explains, resting a hand on your shoulder before showing you a turn.  \"<i>We could climb that tower there and watch the sunset,</i>\" she says, before explaining, \"<i>I'm certain we're both known enough around the place that the guards won't protest much, after all, it's just watching a sunset.  What do you think, dear?</i>\"  Her soft body bounces a bit under the habit as she stops, her flush receding to the pleasant, rosy color from before, but remaining clearly visible on her alabaster skin.");
             //[next]
             menu();
@@ -1788,7 +1798,7 @@ public class Holidays extends BaseContent {
                 + "\n\nFlushed and panting, Pastie gives up trying to control your pace and goes along with it, wrapping her arms and legs around your [cock biggest] as best she can.  Grinding her petite pussy against the bumps and swells of your engorged length, you're delighted to find that the little lush's cunny is drooling a seemingly endless stream of warm, clear fem-cum.  The lubrication saturates your rod in no time and your pumping grip quickly coats the fairy in her own honey, leaving her glistening as if freshly oiled.  You pull her once more to the sensitive tip of your cockhead, though this time she leans in of her own volition, kissing your peak with ditzy relish, even going so far as to slip her tiny, wet tongue into your urethra.  Satisfied with the renewed, crystal flow gushing from between her legs, you rub her along your shaft with even harder strokes, feeling every curve of her wriggling form."
                 + "\n\nPolishing your mast with the amorous drunk has been fun, but you think you've teased her enough. Raising the tempo of your fey massage, you can feel your release building up just behind your [cock biggest] in a heavy pressure that floods your loins with urgency.  Gritting your teeth, you wrap your other hand around the first and bounce her faster and faster along your meat.  Eager caresses become frantic friction as Pastie feels your flesh swelling against her.");
             if (player.hasBalls()) outputText("  Your [balls] lurch, [skin] contracting as liquid passion rises within you.");
-            outputText("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your [cocks] while loosing your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
+            outputText("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your [cocks] while loosening your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
             //low cum production:
             if (player.cumQ() < 250) outputText(" easily drenching the tiny fairy, in plump pearls up and down her naked flesh.");
             else if (player.cumQ() < 750) outputText(" leaving her and the arm you're holding her in dripping with a sticky alabaster lacquer.");
@@ -2570,7 +2580,7 @@ public class Holidays extends BaseContent {
         //Jojo
         else if ((player.hasStatusEffect(StatusEffects.PureCampJojo) || SceneLib.jojoScene.campCorruptJojo()) && flags[kFLAGS.JACK_FROST_PROGRESS] <= 4) {
             //Pure
-            if (player.hasStatusEffect(StatusEffects.PureCampJojo)) {
+            if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) {
                 outputText("Jojo is sitting on his usual rock, one hand out to catch snowflakes with a beatific smile of awe on his face.  \"<i>Look, [name], snow!  I haven't seen snow since I was a very, very small boy.</i>\"  He tells you."
                     + "\n\nSo is he enjoying it?  You ask.  If so, then it was worth it getting someone to make it snow on your camp."
                     + "\n\n\"<i>Yes, I'm enjoying it - it's a wonderful reminder of purer times.</i>\"  The mouse says, still catching flakes and watching them melt in the palms of his hands."

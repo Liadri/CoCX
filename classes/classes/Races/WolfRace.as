@@ -5,6 +5,8 @@ import classes.IMutations.IMutationsLib;
 import classes.GeneticMemories.RaceMem;
 import classes.PerkLib;
 import classes.Race;
+import classes.Transformations.GradualTransformation;
+import classes.Transformations.TransformationLib;
 
 /**
  * Tier 1: wolf
@@ -43,6 +45,30 @@ public class WolfRace extends Race {
 		super("Wolf", id, RaceBody);
 	}
 	
+	public function get TfList():/*PossibleEffect*/Array {
+		var t:TransformationLib = game.transformations;
+		return [
+			// Wolfize
+			new GradualTransformation("WolfFace", [
+					t.FaceAnimalTeeth,
+					t.FaceWolf
+			]),
+			t.EarsWolf,
+			t.TailWolf,
+			t.ArmsWolf,
+			t.LowerBodyWolf(),
+			t.SkinFurGradualToFull,
+			t.CockChangeType(CockTypesEnum.WOLF,false),
+			// Humanize
+			t.AntennaeNone,
+			t.SkinPatternNone,
+			t.NipplesPerBreastOne,
+			t.GillsNone,
+			t.HornsNone,
+			t.WingsNone
+		]
+	}
+	
 	public override function setup():void {
 		
 		addScores()
@@ -62,6 +88,7 @@ public class WolfRace extends Race {
 				.hasPerk(PerkLib.FreezingBreath, +3)
 				.hasCockOfType(CockTypesEnum.WOLF, +1);
 		
+		addBloodline(PerkLib.CaninesDescendant, PerkLib.BloodlineCanine);
 		addMutation(IMutationsLib.AlphaHowlIM);
 		
 		buildTier(8, "wolf")

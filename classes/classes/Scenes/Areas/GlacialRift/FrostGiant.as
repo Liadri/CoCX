@@ -60,7 +60,7 @@ public class FrostGiant extends Monster
 				outputText(" avoid his charge, jumping just in time to avoid his hands, and then his feet. He's unable to stop himself in time and collides head first with a boulder slightly smaller than his head. ");
 				var giantDmg:Number = 100 + rand(80);
 				HP -= giantDmg;
-				outputText("The giant takes <b><font color=\"#800000\">" + giantDmg + "</font></b> damage from his impact.  ");
+				outputText("The giant takes <b>[font-damage]" + giantDmg + "[/font]</b> damage from his impact.  ");
 				outputText("<b>The giant is stunned!</b>");
 				createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
 			}
@@ -229,7 +229,7 @@ public class FrostGiant extends Monster
 			this.hairColor = "white";
 			this.hairLength = 8;
 			initStrTouSpeInte(560, 455, 360, 140);
-			initWisLibSensCor(140, 50, 75, 35);
+			initWisLibSensCor(140, 50, 75, -30);
 			this.weaponName = "fists";
 			this.weaponVerb="punch";
 			this.weaponAttack = 197;

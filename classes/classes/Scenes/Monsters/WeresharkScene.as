@@ -8,6 +8,7 @@ import classes.*;
 import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Races.WeresharkRace;
+import classes.Scenes.SceneLib;
 
 	public class WeresharkScene extends BaseContent
 	{
@@ -30,7 +31,7 @@ public function lostToWereshark():void {
 	clearOutput();
 	//spriteSelect(SpriteDb.s_DarkElf);
 	if (player.isRaceCached(Races.WERESHARK)) {
-		if (player.HP <= player.minHP()) outputText("Your injuries are mounting, your fins slowly give up support as you’re caught by the ocean. The current surrounds you as you’re unable to withstand his assault any longer. ");
+		if (Math.round(player.HP) <= Math.round(player.minHP())) outputText("Your injuries are mounting, your fins slowly give up support as you’re caught by the ocean. The current surrounds you as you’re unable to withstand his assault any longer. ");
 		else outputText("Your body stiffens, heat growing in your loins. The cool water around you is like a gentle caress from a tender lover as you find yourself caught by the current. ");
 		outputText("The wereshark swims up to you, teeth barred eagerly as he inspects your form on a deeper level.\n\n");
 		if (player.hasVagina()) {
@@ -59,7 +60,7 @@ public function lostToWereshark():void {
 		}
 	}
 	else {
-		if (player.HP <= player.minHP()) outputText("Your injuries are mounting, your cuts growing too deep as the saltwater pours into your wounds. You're caught by the current around you, unable to withstand his assault any longer. ");
+		if (Math.round(player.HP) <= Math.round(player.minHP())) outputText("Your injuries are mounting, your cuts growing too deep as the saltwater pours into your wounds. You're caught by the current around you, unable to withstand his assault any longer. ");
 		else outputText("Your body stiffens, heat growing in your loins. The cool water around you is like a gentle caress from a tender lover as you find yourself caught by the current. ");
 		outputText("The wereshark swims up to you, teeth barred eagerly as he inspects your form on a deeper level.\n\n");
 		outputText("As you're carried by the waves, you see a twinge of disappointment in his eyes, but his grin betrays nothing aside from ferocity. With a lurch forward, his teeth sink into your shoulder, clamping down, but not enough to make you bleed... any more than you already are. ");
@@ -166,7 +167,9 @@ public function wonWithWereshark():void {
 	//spriteSelect(SpriteDb.s_DarkElf);
 	outputText("Seeing "+(wsG()?"his":"her")+" impending defeat your opponent smacks your face momentarily dazing you with "+(wsG()?"his":"her")+" tail and suddenly makes a turn to swim away at high speed vanishing into the dark water before you can regain your composure. ");
 	outputText("Guess you won’t be dining on that fish tonight. Somewhat frustrated you grab the loot your opponent left behind in "+(wsG()?"his":"her")+" quick retreat.\n\n");
-	cleanupAfterCombat();//outputText("\"<i></i>\"\n\n");
+	menu();//outputText("\"<i></i>\"\n\n");
+	addButtonIfTrue(3, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+	addButton(4, "Leave", cleanupAfterCombat);
 }
 	}
 

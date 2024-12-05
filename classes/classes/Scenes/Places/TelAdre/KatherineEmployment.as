@@ -966,7 +966,7 @@ public class KatherineEmployment extends TelAdreAbstractContent {
 			outputText("Urta nods her head sagely.  \"<i>[name], perhaps you’d be willing to help us?  Having somebody else to act as the civilian would probably work better than just the two of us going back and forth,</i>\" she suggests.  Kath nods her head, making it clear that she agrees to Urta’s suggestion.\n\n");
 			outputText("Considering Urta’s demeanor, it’s more likely that she’s the one doing the intimidating in their exchange, you joke.\n\n");
 			outputText("\"<i>Well that may be true, but she’s actually pretty good at standing up to me... most of the time,</i>\" Urta concedes.  \"<i>It’s getting her to be more assertive herself that’s the tricky part.</i>\"\n\n");
-			outputText("Hmm... well Urta is the specialist, so you’ll leave things in her hands.  Adjusting your [armor] you ask what you should do?\n\n");
+			outputText("Hmm... well, Urta is the specialist, so you’ll leave things in her hands.  Adjusting your [armor] you ask what you should do?\n\n");
 			outputText("The fox shrugs.  \"<i>Just act like a defiant, disrespectful citizen - refuse to listen to her, try to make her back down, just generally encourage her to make you respect her.</i>\"\n\n");
 			outputText("You nod in understanding, telling her you’ll try.\n\n");
 			outputText("\"<i>Here, let’s have a demonstration; give you both an idea of what needs to be done.</i>\"  The fox declares, then clears her throat.  \"<i>Citizen, you are in a restricted area; please leave now.</i>\"\n\n");

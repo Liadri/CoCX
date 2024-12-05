@@ -158,15 +158,15 @@ import classes.Scenes.Combat.CombatAbilities;
 
 		//(if PC uses tease/seduce after this)
 		//Deals big lust increase, despite her resistance.
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			if(hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily flushes hotly; her concentration only makes her pay more attention to your parts!");
 				lustDelta += 25+lustDelta;
 				removeStatusEffect(StatusEffects.Concentration);
-				applyTease(lustDelta, display);
+				applyTease(lustDelta, display, aura);
 			} else {
-				super.teased(lustDelta, isNotSilent, display);
+				super.teased(lustDelta, isNotSilent, display, aura);
 			}
 		}
 
@@ -193,19 +193,19 @@ import classes.Scenes.Combat.CombatAbilities;
 			this.skin.growFur({color:"tawny"});
 			this.hairColor = "brown";
 			this.hairLength = 5;
-			initStrTouSpeInte(40, 40, 120, 80);
-			initWisLibSensCor(80, 44, 45, 10);
+			initStrTouSpeInte(80, 80, 240, 80);
+			initWisLibSensCor(80, 74, 85, -80);
 			this.weaponName = "knife";
 			this.weaponVerb="slash";
-			this.weaponAttack = 9;
+			this.weaponAttack = 27;
 			this.armorName = "rags";
-			this.armorDef = 1;
-			this.armorMDef = 1;
-			this.bonusHP = 20;
-			this.bonusLust = 101;
+			this.armorDef = 10;
+			this.armorMDef = 10;
+			this.bonusHP = 200;
+			this.bonusLust = 184;
 			this.lust = 20;
 			this.lustVuln = .85;
-			this.level = 12;
+			this.level = 25;
 			this.gems = 8 + rand(11);
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);

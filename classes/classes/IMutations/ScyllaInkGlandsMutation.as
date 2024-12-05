@@ -20,19 +20,25 @@ public class ScyllaInkGlandsMutation extends IMutationPerkType
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Your Scylla Ink Glands increase rate at which your body produce ink";
+                descS += "Your Scylla Ink Glands increases the rate at which your body produce ink";
             }
             if (pTier >= 2){
-                descS += ", duration ink spray affect enemies and lust damage";
+                descS += ", the duration ink spray affects enemies and your lust damage increases by "+(pTier-1)+"00%";
             }
             if (pTier >= 1){
-                descS += " by 100%, boost to your natural strength";
-            }
-            if (pTier >= 2){
-                descS += " and toughness, Scylla Squeeze damage during grapple as Kraken would be multiplied by "+pTier+"x";
+                descS += ", boost to your natural strength";
             }
             if (pTier >= 3){
-                descS += ", ";
+                descS += ", speed";
+            }
+            if (pTier >= 2){
+                descS += " and toughness, Scylla Squeeze damage during grapple as Kraken is multiplied by "+pTier+"x";
+            }
+            if (pTier >= 3){
+                descS += ", scylla grapple will always succeed, when in an aquatic battle boost from Aquatic Affinity is "+(pTier-1)+"x larger";
+            }
+            if (pTier >= 4){
+                descS += ", final boost from aquatic battle boost is 2x higher, enemy can't escape from scylla grapple using only its own strength and using Scylla Squeeze as Kraken will give the enemy a 4% combat wounds debuff each time (up to 80%)";
             }
             if (descS != "")descS += ".";
             return descS;
@@ -66,12 +72,21 @@ public class ScyllaInkGlandsMutation extends IMutationPerkType
 				pBuffs['str.mult'] = 0.3;
 				pBuffs['tou.mult'] = 0.05;
 			}
-            //else if (pTier == 3) pBuffs['str.mult'] = 0;
+            else if (pTier == 3) {
+				pBuffs['str.mult'] = 0.6;
+				pBuffs['tou.mult'] = 0.2;
+				pBuffs['spe.mult'] = 0.1;
+			}
+            else if (pTier == 4) {
+				pBuffs['str.mult'] = 1.8;
+				pBuffs['tou.mult'] = 0.6;
+				pBuffs['spe.mult'] = 0.3;
+			}
             return pBuffs;
         }
 
         public function ScyllaInkGlandsMutation() {
-            super(mName + " IM", mName, SLOT_ADAPTATIONS, 2);
+            super(mName + " IM", mName, SLOT_ADAPTATIONS, 4);
         }
         
     }

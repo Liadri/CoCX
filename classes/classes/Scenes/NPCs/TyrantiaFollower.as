@@ -10,7 +10,6 @@ import classes.Scenes.Areas.BlightRidge.DemonPackBlightRidge;
 import classes.Scenes.SceneLib;
 import classes.internals.SaveableState;
 
-
 import coc.view.ButtonDataList;
 
 public class TyrantiaFollower extends NPCAwareContent implements SaveableState
@@ -274,7 +273,7 @@ public function repeatEncounterBattlefield():void {
 	addButton(1, "Talk", repeatEncounterBattlefieldTalk);
 	if (TyrantiaAffectionMeter >= 15) addButton(2, "Spar", TyrantiaSpar);
 	else addButtonDisabled(2, "???", "Req. 15%+ affection.");
-	if (TyrantiaTrainingSessions >= 30) addButtonDisabled(3, "Training", "You finished all training session with her.");
+	if (TyrantiaTrainingSessions >= 40) addButtonDisabled(3, "Training", "You finished all training session with her.");
 	else addButton(3, "Training", TyrantiaTraining);
 	if (TyraniaPostFinalKissScene) addButton(4, "Sex", TyrantiaSexMenu);
 	else addButtonDisabled(4, "Sex", "Req. special scene after reaching 40%+ affection.");
@@ -295,7 +294,7 @@ public function repeatEncounterBattlefieldRe():void {
 	addButton(1, "Talk", repeatEncounterBattlefieldTalk);
 	if (TyrantiaAffectionMeter >= 15) addButton(2, "Spar", TyrantiaSpar);
 	else addButtonDisabled(2, "???", "Req. 15%+ affection.");
-	if (TyrantiaTrainingSessions >= 30) addButtonDisabled(3, "Training", "You finished all training session with her.");
+	if (TyrantiaTrainingSessions >= 40) addButtonDisabled(3, "Training", "You finished all training session with her.");
 	else addButton(3, "Training", TyrantiaTraining);
 	if (TyraniaPostFinalKissScene) addButton(4, "Sex", TyrantiaSexMenu);
 	else addButtonDisabled(4, "Sex", "Req. special scene after reaching 40%+ affection.");
@@ -751,7 +750,7 @@ public function TyrantiaReactions2():void {
 	outputText("<b>Tyrantia has joined you as a lover.</b>\n\n");
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Tyrantia pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Tyrantia pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	endEncounter();
 }
 public function AmilyReaction():void {
@@ -907,8 +906,11 @@ public function TyrantiaTraining2():void {
 		if (TyrantiaTrainingSessions == 19) outputText("<b>You can now use toggle to turn on/off auto-cast of Tyrant State at the combat start.</b>\n\n");
 		if (TyrantiaTrainingSessions == 24) outputText("<b>You have gained ability to take less physical and lust damage the closer you're to the maximum lust. (20% at 50% Max Lust, up to 70% at max)</b>\n\n");
 		if (TyrantiaTrainingSessions == 29) outputText("<b>You can delay your own defeat by Lust for two turns. Reducing your own Lust below the max will reset the timer.</b>\n\n");
-		if (TyrantiaTrainingSessions == 34) outputText("<b>If you are in Rut or Heat, halve the lust DoT you take from it, and deal an additional 20% physical damage while under the effects.</b>\n\n");
-		//if (TyrantiaTrainingSessions == 39) outputText("<b></b>\n\n");//TyrantiaFollower.TyrantiaTrainingSessions >= 35
+		if (TyrantiaTrainingSessions == 34) outputText("<b>Constant Buildup - If you are in Rut or Heat, halve the lust DoT you take from it, and deal an additional 20% physical damage while under the effects.</b>\n\n");
+		if (TyrantiaTrainingSessions == 39) {
+			outputText("<b>Mental Bastion - The effects of Tyrant State are doubled: While active, you take 30% less damage from magic. You count as either pure or corrupt (whichever is better) for equipment. (Pure for the Beautiful weapons etc, corrupt for corrupt weapons)</b>\n\n");
+			
+		}
 	}
 	else {
 		outputText("Tyrantia considers your state, shaking her head.\n\n");
@@ -1253,7 +1255,7 @@ public function TyrantiaAtCamp():void {
 	addButton(2, "Spar", TyrantiaSpar)
 		.disableIf((flags[kFLAGS.PLAYER_COMPANION_1] == "Tyrantia" || flags[kFLAGS.PLAYER_COMPANION_2] == "Tyrantia"), "You can't fight against her as long she's in your team.")
 		.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 2, "You need a good sparring ring for that.");
-	if (TyrantiaTrainingSessions >= 30) addButtonDisabled(3, "Training", "You finished all training session with her.");
+	if (TyrantiaTrainingSessions >= 40) addButtonDisabled(3, "Training", "You finished all training session with her.");
 	else addButton(3, "Training", TyrantiaTraining);
 	addButton(4, "Sex", TyrantiaSexMenu);
 	if (player.hasPerk(PerkLib.BasicLeadership) && TyrantiaAffectionMeter >= 60) addButton(5, "JoinMe", TyrantiaHenchmanOption);
@@ -1422,7 +1424,11 @@ public function itemImproveMenuCorrupt():void {
 		[armors.SPKIMO, armors.OEKIMO, armors.OTKIMO],
 		[armors.CTPALAD, armors.CTHPALA, armors.CTBGUAR],
 		[armors.LTHRPNT, null, armors.CGUNSLI],
-		[armors.DEATHPO, null, armors.DEATHPGA]
+		[armors.DEATHPO, null, armors.DEATHPGA],
+		[armors.B_QIPAO, armors.SFLAREQ, null],
+		[armors.G_QIPAO, armors.SFLAREQ, null],
+		[armors.P_QIPAO, armors.SFLAREQ, null],
+		[armors.R_QIPAO, armors.SFLAREQ, null]
 	];
 	clearOutput();
 	outputText("You ask your Drider lover if she’d be willing to upgrade a piece of your gear. She nods simply, bringing out a trough on wheels, filled with ebony liquid that bubbles, despite being under no heat.\n\n");// legendary

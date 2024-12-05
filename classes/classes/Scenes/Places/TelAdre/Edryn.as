@@ -190,7 +190,7 @@ public function edrynBarTalk():void {
 		outputText("Swaying back and forth, alternatively snorting and breathing deeply of the female's scent, your gaze immediately locks onto the returning mare.  Your [cock] jumps and bounces underneath you, painfully hard and swollen.  A thick dollop of pre beads on your [cockhead], as if the bar needed your display to be any more overtly sexual.  Edryn looks you over, walking alongside you she talks, \"<i>My my, someone liked what they saw.  Or was it smelled?  I can never tell what it is that gets you " + player.mf("studs","hotties") + " so worked up about me.</i>\"\n\n");
 		outputText("A soft hand slides under your belly, hefting your [cock] and smearing the bead of pre over it with long slick strokes.  She coos, \"<i>");
 		dynStats("lus", 70, "scale", false);
-		sceneHunter.callBigSmall(edrynOffer, 300, 24);
+		edrynOffer();
 	}
 	else if(player.cockTotal() > 0) {
 		if(player.horseCocks() > 0) {
@@ -199,7 +199,7 @@ public function edrynBarTalk():void {
 			else outputText("You squirm uncomfortably, feeling constrained by your [armor] as you surge to erectness.\n\n");
 			outputText("Swaying back and forth in a scent induced haze, you fail to notice Edryn's return.  She coughs noisily, drawing you back to the real world and pushing away the memory of her glistening snatch.  You start to fumble for words until you realize she's smiling knowingly at you.  Unexpectedly, caresses slide against your groin, hefting and measuring you through your [armor].\n\n");
 			dynStats("lus", 60, "scale", false);
-			sceneHunter.callBigSmall(edrynOffer, 300, 24);
+			edrynOffer();
 		}
 		//Non horsedick
 		else {
@@ -212,7 +212,7 @@ public function edrynBarTalk():void {
 				if(player.cocks[0].cockType == CockTypesEnum.TENTACLE) outputText("  She smiles coyly when your [cock] wriggles, wrapping around her arm.");
 				outputText("\n\n");
 				dynStats("lus", 40, "scale", false);
-				sceneHunter.callBigSmall(edrynOffer, 300, 24);
+				edrynOffer();
 			}
 			else {
 				outputText("\n\nYou wait until she returns, wishing for once that things could be normal.  Though the remaining conversation is pleasant, you have a hard time enjoying yourself, and eventually bid the pretty centaur farewell.");
@@ -244,13 +244,16 @@ private function getCost():int {
 	else return 200 / Math.pow(2, player.statusEffectv1(StatusEffects.Edryn)); //200, 100, 50, 25
 }
 
-private function edrynOffer(x:Number):void {
+private function edrynOffer():void {
 	edrynSprite();
 	var cost:int = getCost();
 	////Pick most appropriate cock
-	//var x:Number = player.cockThatFits(300);
-	////If no cocks fit, set to main.
-	//if(x < 0) x = 0;
+	var x:int = player.findCock(1, 24, 300);
+	//If no cocks fit, set to main.
+	if(x < 0) {
+		x = 0;
+		sceneHunter.print("Req. a cock from 24 to 300 area.")
+	}
 
 	//(cont centaur)
 	if(player.isTaur() && player.cockTotal() > 0) {
@@ -271,7 +274,7 @@ private function edrynOffer(x:Number):void {
 			return;
 		}
 		//Big enough
-		outputText("Oh my, you're hot to trot, aren't you?  I can feel just how tight and full it is, practically ready to explode. Well I've got good news for you " + player.mf("stud","Miss Hot-And-Bulgy") + ", I'm the best kind of mercenary – one that does ANYTHING for money, even satisfying horny equine " + player.mf("studs","breeders") + ".</i>\"\n\n");
+		outputText("Oh my, you're hot to trot, aren't you?  I can feel just how tight and full it is, practically ready to explode. Well, I've got good news for you " + player.mf("stud","Miss Hot-And-Bulgy") + ", I'm the best kind of mercenary – one that does ANYTHING for money, even satisfying horny equine " + player.mf("studs","breeders") + ".</i>\"\n\n");
 		outputText("You groan, more turned on than ever by being fondled openly in public.  The centaur whore winks at you and offers, \"<i>So what do you say, is a roll in the hay with me worth ");
 		if(cost > 0) outputText(num2Text(cost) + " gems?");
 		else outputText("an hour of your time?");
@@ -705,7 +708,7 @@ private function pregdrynOffer(cs:Boolean = true):void {
 		return;
 	}
 	//VERY Pregnant Offer
-	if (pregnancy.incubation < 250) {
+	if (pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(250, PregnancyStore.INCUBATION_CENTAUR + 80)) {
 		outputText("Edryn struggles to move, practically waddling thanks to her swollen, pregnant belly.  As usual, the glistening black lips of her sex are on display, and with the hormones pouring through her, she's leaking a steady trail of slime.  The scent coming off her is unreal!  It's like it's reaching right into your brain and cranking the 'fuck' dial up to maximum.  ");
 		if(player.cockTotal() > 1) outputText("All of your [cocks] fill in seconds, growing rock hard and actually aching with their need.  ");
 		else if(player.cockTotal() == 1) outputText("Your [cock] fills in seconds, growing rock hard and actually aching with need.  ");
@@ -796,7 +799,7 @@ private function pregdrynOffer(cs:Boolean = true):void {
 	}
 	//(PC TOO SMALL)
 	else {
-		outputText("Edryn giggles, \"<i>When did you get this small?  I've seen ponies with bigger kits!</i>\" but her hand continues to stroke you.  You squirm in her grasp, about ready to burst.  The pregnant centaur teases, \"<i>Dear, I don't think I'd notice something that small if you stuck it inside me.</i>\"\n\n");
+		outputText("Edryn giggles, \"<i>When did you get this small?  I've seen ponies with bigger kids!</i>\" but her hand continues to stroke you.  You squirm in her grasp, about ready to burst.  The pregnant centaur teases, \"<i>Dear, I don't think I'd notice something that small if you stuck it inside me.</i>\"\n\n");
 
 		outputText("She laughs at the expression on your face and continues, \"<i>Oh don't be like that.  The truth is the truth.  You're still the father of my child.  Why don't we go back to my room?  You can eat me out till the centaur pheromones overpower your little dick and make it squirt, okay?</i>\"\n\n");
 
@@ -974,7 +977,7 @@ private function edrynPregChance():void {
 	score += player.virilityQ() * 200;
 
 	trace("Edryn Preg Check Virility Score: " + score);
-	if(player.cumQ() > 250 && score >= rand(100)) {
+	if((player.cumQ() > 250 && score >= rand(100)) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 		preg = true;
 		trace("Edryn knocked up!");
 	}

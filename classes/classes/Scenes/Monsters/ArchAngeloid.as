@@ -15,7 +15,7 @@ package classes.Scenes.Monsters
 		private function angelReactsToLustiness():void {
 			outputText("ArchAngeloid stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Sinner!!! We.Must.Contact.Supreviser.</i>\"");
-			outputText("\n\nThe archangeloid starts to burn more and more intense causing you to temporaly avert your gaze. When you look again at spot it was you could only see a bit of ashes.");
+			outputText("\n\nThe archangeloid starts to burn more and more intense causing you to temporarily avert your gaze. When you look again at spot it was you could only see a bit of ashes.");
 			gems = 0;
 			XP = 0;
 			HP = minHP() - 1;
@@ -130,7 +130,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 1) {
 				this.short = "low-rank archangeloid";
 				initStrTouSpeInte(10, 120, 60, 30);
-				initWisLibSensCor(160, 6, 50, 0);
+				initWisLibSensCor(160, 6, 50, -100);
 				this.level = 24;
 				this.bonusHP = 1000;
 				this.bonusLust = 80;
@@ -145,7 +145,7 @@ package classes.Scenes.Monsters
 			if (player.statusEffectv1(StatusEffects.AngelsChooser) == 2)  {
 				this.short = "mid-rank archangeloid";
 				initStrTouSpeInte(12, 140, 70, 35);
-				initWisLibSensCor(180, 7, 60, 0);
+				initWisLibSensCor(180, 7, 60, -100);
 				this.level = 30;
 				this.bonusHP = 1200;
 				this.bonusLust = 97;

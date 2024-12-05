@@ -1,6 +1,7 @@
 package classes.Scenes.Combat.SpellsBlack {
 import classes.Monster;
 import classes.PerkLib;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.Combat.AbstractBlackSpell;
 import classes.Scenes.Combat.Combat;
 import classes.StatusEffects;
@@ -45,6 +46,7 @@ public class NosferatuSpell extends AbstractBlackSpell {
 	public function calcHeal(monster:Monster, randomize:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)
 		var amountToHeal:Number = 5 * scalingBonusIntelligence(randomize);
 		if (player.hasPerk(PerkLib.WisenedHealer)) amountToHeal += scalingBonusWisdom();
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) amountToHeal *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
 		return amountToHeal * healModBlack();
 	}
 	

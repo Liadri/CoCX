@@ -16,6 +16,18 @@ use namespace CoC;
 
 	public class MindbreakerFemale extends Monster
 	{
+		override public function combatStatusesUpdateWhenBound():void{
+			tentacleBindUpdateWhenBound();
+		}
+
+		override public function playerBoundStruggle():Boolean{
+			return tentacleBindStruggle();
+		}
+
+		override public function playerBoundWait():Boolean{
+			return tentacleBindWait();
+		}
+
 		private function mindbreakerBlackout():void {
 			outputText("\"<i>All of this knowledge of yours is utterly useless. You might as well forget everything!</i>\"\n\n");
 			outputText("As the Mindbreaker says this she points her finger at you for a spell. As you try to use powers you realize you no longer know how to use any of your magic or abilities!\n\n");
@@ -27,7 +39,7 @@ use namespace CoC;
 			var damage:Number = eBaseIntelligenceDamage() * 1.5;
 			damage += eBaseWisdomDamage() * 0.25;
 			damage = Math.round(damage);
-			damage = player.takeMagicDamage(damage, true);//zmienić na true damage
+			damage = player.takePsychicDamage(damage, true);
 		}
 
 		private function mindbreakerMindBreak():void {
@@ -51,13 +63,13 @@ use namespace CoC;
 			if(player.getEvasionRoll()) outputText("You barely manage to evade her embrace!");
 			else {
 				outputText("Your attempt to evade was unsuccesfull.");
-				if (!player.hasStatusEffect(StatusEffects.TentacleBind)) player.createStatusEffect(StatusEffects.TentacleBind, 0, 0, 0, 0);
+				if (!player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) player.createStatusEffect(StatusEffects.PlayerBoundPhysical, 0, 0, 0, 0);
 			}
 		}
 		
 		override protected function performCombatAction():void
 		{
-			if (player.hasStatusEffect(StatusEffects.TentacleBind)) mindbreakerMindBreak();
+			if (player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) mindbreakerMindBreak();
 			else switch(rand(3)) {
                 case 0:
                     mindbreakerGrapple();
@@ -82,7 +94,7 @@ use namespace CoC;
 			//scaled from 65 now, reduced base stats to compensate
 			var mod:int = SceneLib.dungeons.ebonlabyrinth.enemyLevelMod;
             initStrTouSpeInte(32 + 29*mod, 99 + 11*mod, 126 + 32*mod, 270 + 40*mod);
-            initWisLibSensCor(112 + 21*mod, 160 + 30*mod, 30 + 40*mod, 60);
+            initWisLibSensCor(112 + 21*mod, 160 + 30*mod, 30 + 40*mod, 100);
             this.armorDef = 1 + 1*mod;
             this.armorMDef = 1 + 1*mod;
             this.bonusHP = mod == 0 ? 0 : 100*(mod-1);

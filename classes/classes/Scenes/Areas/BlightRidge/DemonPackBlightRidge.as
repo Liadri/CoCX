@@ -18,14 +18,14 @@ import classes.internals.WeightedDrop;
 public class DemonPackBlightRidge extends Monster
 	{
 		
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			outputText("\n");
 			if(lustDelta == 0) outputText("\n" + capitalA + short + " seems unimpressed.");
-			else if(lustDelta > 0 && lustDelta < 5) outputText("The demons lessen somewhat in the intensity of their attack, and some even eye up your assets as they strike at you.");
+			else if(lustDelta > 0 && lustDelta < 5) outputText("The demons lessen somewhat in the intensity of their attacks, with some even eyeing up your assets as they strike you.");
 			else if(lustDelta >= 5 && lustDelta < 10) outputText("The demons are obviously steering clear from damaging anything you might use to fuck and they're starting to leave their hands on you just a little longer after each blow. Some are starting to cop quick feels with their other hands and you can smell the demonic lust of a dozen bodies on the air.");
-			else if(lustDelta >= 10) outputText("The demons are less and less willing to hit you and more and more willing to just stroke their hands sensuously over you. The smell of demonic lust is thick on the air and part of the group just stands there stroking themselves openly.");
-			applyTease(lustDelta, display);
+			else if(lustDelta >= 10) outputText("The demons grow less interested in hitting you and more focused on letting their hands glide sensuously over you. The air is thick with the scent of demonic lust, and part of the group now stands openly stroking themselves.");
+			applyTease(lustDelta, display, aura);
 		}
 		
 		override public function defeated(hpVictory:Boolean):void
@@ -49,11 +49,11 @@ public class DemonPackBlightRidge extends Monster
 		}
 		
 		public function postIntroFight():void {
-			outputText(" This figure, masculine in build, is wearing a hooded traveling cloak over a set of robes. In his right hand is a staff made of grey metal, still burning with azure flames. He turns to face you and flips his hood down, revealing a white-furred vulpine face.  Except, now that you’re getting a proper look at him, you can see he has more than one tail...  a Kitsune! \"<i>I hope i didn’t interrupt anything</i>\" He extends his hand.  Somewhat baffled, you shake it, feeling glad that he’s on your side. \"<i>My name is Ignis, i’m a traveling...  well, a traveler.</i>\" You tell him your name");
+			outputText(" This figure, masculine in build, is wearing a hooded traveling cloak over a set of robes. In his right hand is a staff made of grey metal, still burning with azure flames. He turns to face you and flips his hood down, revealing a white-furred vulpine face.  Except, now that you’re getting a proper look at him, you can see he has more than one tail...  a Kitsune! \"<i>I hope I didn’t interrupt anything</i>\" He extends his hand.  Somewhat baffled, you shake it, feeling glad that he’s on your side. \"<i>My name is Ignis, I’m a traveling...  well, a traveler.</i>\" You tell him your name");
 			if (flags[kFLAGS.SAND_WITCHES_FRIENDLY] > 0) outputText(", noticing his eyes flash in recognition");
-			outputText(". Looking around, a thought suddenly comes to you. Why would a pure traveler be in somewhere as unsavory as blight ridge? \"<i>");
+			outputText(". Looking around, a thought suddenly comes to you. Why would a pure traveler find themselves in a place as unsavory as blight ridge? \"<i>");
 			if (player.cor < 60) outputText("I could ask the same of you. ");
-			if (flags[kFLAGS.SAND_WITCHES_FRIENDLY] > 0) outputText("I’m a mercenary in the employ of the sand covens. ");
+			if (flags[kFLAGS.SAND_WITCHES_FRIENDLY] > 0) outputText("I’m a mercenary in the employment of the sand covens. ");
 			outputText("I’ve been investigating reports of new magics being seen amongst demonic covens in this area. I trust you could imagine the consequences if the demon armies got their hands on it?</i>\" You nod solemnly");
 			if (player.statusEffectv1(StatusEffects.TelAdre) >= 1) outputText(" picturing the effects of this magic on Tel’Adre’s defenders");
 			outputText(".");
@@ -74,8 +74,8 @@ public class DemonPackBlightRidge extends Monster
 			this.a = "the ";
 			this.short = "demons pack";
 			this.imageName = "demonmob";
-			if (TyrantiaFollower.TyrantiaFollowerStage == 2) this.long= "The group is composed of over two hundreds of tan-skinned demons, mostly humanoid in shape with many and varied corruptions across the mob. You see demonic high heels, twisting horns and swinging cocks of all shapes and sizes. You also make out plenty of breasts ranging from tiny ones to a pair that requires a second person to carry them, and with those breasts a wide range of pussies, dripping and dry, sometimes nestled below some form of demonic dick.  The small group carries no weapons and what little clothing they wear is well-shredded, except for one hefty male wearing mage cloak and what appears to be snakeskin across his broad shoulders.  You spot an odd patch that reads, \"<i>38th South Warriors Company: Vaginal Clearance</i>\" on his shoulder.";
-			else this.long= "The group is composed of roughly thirty tan-skinned demons, mostly humanoid in shape with many and varied corruptions across the mob. You see demonic high heels, twisting horns and swinging cocks of all shapes and sizes. You also make out plenty of breasts ranging from tiny ones to a pair that requires a second person to carry them, and with those breasts a wide range of pussies, dripping and dry, sometimes nestled below some form of demonic dick.  The small group carries no weapons and what little clothing they wear is well-shredded, except for one hefty male wearing mage cloak and what appears to be snakeskin across his broad shoulders.  You spot an odd patch that reads, \"<i>43rd East Mage Company: Vaginal Clearance</i>\" on his shoulder.";
+			if (TyrantiaFollower.TyrantiaFollowerStage == 2) this.long= "The group is composed of over two hundred tan-skinned demons, mostly humanoid in shape with many and varied corruptions across the mob. You see demonic high heels, twisting horns and swinging cocks of all shapes and sizes. You also make out plenty of breasts ranging from tiny ones to a pair that requires a second person to carry them, and with those breasts a wide range of pussies, dripping and dry, sometimes nestled below some form of demonic dick.  The small group carries no weapons and what little clothing they wear is well-shredded, except for one hefty male wearing a mage cloak and what appears to be snakeskin across his broad shoulders.  You spot an odd patch that reads, \"<i>38th South Warriors Company: Vaginal Clearance</i>\" on his shoulder.";
+			else this.long= "The group is composed of roughly thirty tan-skinned demons, mostly humanoid in shape with many and varied corruptions across the mob. You see demonic high heels, twisting horns and swinging cocks of all shapes and sizes. You also make out plenty of breasts ranging from tiny ones to a pair that requires a second person to carry them, and with those breasts a wide range of pussies, dripping and dry, sometimes nestled below some form of demonic dick.  The small group carries no weapons and what little clothing they wear is well-shredded, except for one hefty male wearing a mage cloak and what appears to be snakeskin across his broad shoulders.  You spot an odd patch that reads, \"<i>43rd East Mage Company: Vaginal Clearance</i>\" on his shoulder.";
 			this.plural = true;
 			this.pronoun1 = "they";
 			this.pronoun2 = "them";

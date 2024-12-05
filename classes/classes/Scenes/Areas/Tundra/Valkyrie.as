@@ -130,6 +130,7 @@ public class Valkyrie extends Monster
 			this.imageName = "valkyrie";
 			this.long = "She is a tall, pale-skinned woman with long golden locks spilling out from beneath her bronze helm.  She would look almost human, if not for the massive, powerful wings sprouting from her back, stretching perhaps a dozen feet across.  She is wearing a heavy bronze cuirass which curves perfectly around her perky C-cups, and is wielding a spear and shield as her weapons.  She has assumed the stance of a well-trained and experienced combatant, leaving few openings for you to exploit.";
 			// this.plural = false;
+			this.flyer = true;
 			this.createVagina(false, 1, 1);
 			createBreastRow(Appearance.breastCupInverse("C"));
 			this.ass.analLooseness = AssClass.LOOSENESS_TIGHT;
@@ -141,7 +142,7 @@ public class Valkyrie extends Monster
 			this.hairColor = "white";
 			this.hairLength = 12;
 			initStrTouSpeInte(185, 165, 140, 75);
-			initWisLibSensCor(75, 40, 50, 15);
+			initWisLibSensCor(75, 40, 50, -70);
 			this.weaponName = "spear and shield";
 			this.weaponVerb="lunge";
 			this.weaponAttack = 38;

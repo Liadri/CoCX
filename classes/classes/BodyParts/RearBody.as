@@ -156,7 +156,7 @@ public class RearBody extends BodyPart {
 	EnumValue.add(Types, COBRA_HOOD, "COBRA_HOOD", {
 		name:"cobra hood",
 		appearanceDescFunc: function(player: *): String {
-			var desc: String = " Behind your hair is a large cobra hood decorated with intimating red triangular patterns.";
+			var desc: String = " Behind your hair is a large cobra hood decorated with intimidating red triangular patterns.";
 			if (player.faceType == Face.SNAKE_FANGS) desc += " Anyone can tell just from the vibrant colors that you are highly venomous.";
 			return desc;
 		}

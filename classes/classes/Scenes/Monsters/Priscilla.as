@@ -85,7 +85,7 @@ public class Priscilla extends Goblin
 			else if (spellChooser == 4 && mana >= spellCostHeal) {
 				outputText("She focuses on her body and her desire to end pain, trying to draw on her arousal without enhancing it.");
 				var temp:int = int(10 + (inte/2) + rand(inte/3)) * spellMultiplier();
-				outputText("She flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+				outputText("She flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 				addHP(temp);
 				mana -= spellCostHeal;
 			}
@@ -153,7 +153,7 @@ public class Priscilla extends Goblin
 		{
 			if (flags[kFLAGS.PRISCILLA_LVL_UP] < 1) {
 				initStrTouSpeInte(115, 95, 80, 120);
-				initWisLibSensCor(120, 65, 35, 45);
+				initWisLibSensCor(120, 65, 35, -10);
 				this.weaponAttack = 35;
 				this.armorDef = 48;
 				this.armorMDef = 18;
@@ -163,7 +163,7 @@ public class Priscilla extends Goblin
 			}
 			else if (flags[kFLAGS.PRISCILLA_LVL_UP] == 11) {
 				initStrTouSpeInte(335, 205, 278, 340);
-				initWisLibSensCor(340, 120, 90, 45);
+				initWisLibSensCor(340, 120, 90, -10);
 				this.weaponAttack = 90;
 				this.armorDef = 125;
 				this.armorMDef = 51;
@@ -174,7 +174,7 @@ public class Priscilla extends Goblin
 			else {	//leave min and max levels to easily balance npc combat
 				var lvlMulti:Number = flags[kFLAGS.PRISCILLA_LVL_UP];
 				initStrTouSpeInte(115 + 20*lvlMulti, 95 + 10*lvlMulti, 80 + 18*lvlMulti, 120 + 20*lvlMulti);
-				initWisLibSensCor(120 + 20*lvlMulti, 65 + 5*lvlMulti, 35 + 5*lvlMulti, 45);
+				initWisLibSensCor(120 + 20*lvlMulti, 65 + 5*lvlMulti, 35 + 5*lvlMulti, -10);
 				this.weaponAttack = 35 + 5*lvlMulti;
 				this.armorDef = 48 + 7*lvlMulti;
 				this.armorMDef = 18 + 3*lvlMulti;
@@ -219,6 +219,7 @@ public class Priscilla extends Goblin
 							consumables.ORANGDY,
 							consumables.GREEN_D,
 							consumables.PURPDYE);
+			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.RefinedBodyI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.ShieldWielder, 0, 0, 0, 0);

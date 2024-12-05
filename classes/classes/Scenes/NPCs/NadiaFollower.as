@@ -1,17 +1,74 @@
 /**
  * ...
- * @author Ormael, written by Dragon Hearts/Liadri
+ * @author Ormael, written by Dragon Hearts/Liadri, Pregnancy by Canadian Snas
  */
 package classes.Scenes.NPCs 
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.*;
+import classes.internals.SaveableState;
 
 import coc.view.ButtonDataList;
 
-public class NadiaFollower extends NPCAwareContent
+public class NadiaFollower extends NPCAwareContent implements TimeAwareInterface, SaveableState
 	{
+		public var pregnancy:PregnancyStore;
+
+		public function timeChange():Boolean {
+			pregnancy.pregnancyAdvance();
+			return false;
+		}
+
+		public function timeChangeLarge():Boolean {
+			if (pregnancy.isPregnant) {
+				switch (pregnancy.eventTriggered()) {
+					case 1:
+						NadiaPregAnnouncement();
+						return true;
+					case 2:
+						NadiaPreg1();
+						return true;
+					case 3:
+						NadiaPreg2();
+						return true;
+					case 4:
+						NadiaPreg3();
+						return true;
+				}
+				return false;
+			}
+
+			if (pregnancy.isPregnant && pregnancy.incubation == 0) {
+				NadiaGivesBirth();
+				pregnancy.knockUpForce(); //Clear Pregnancy
+				return true;
+			}
+			return false;
+		}
+
+		public function NadiaFollower() {
+			pregnancy = new PregnancyStore(kFLAGS.NADIA_PREGNANCY_TYPE, kFLAGS.NADIA_INCUBATION,0, 0);
+			pregnancy.addPregnancyEventSet(PregnancyStore.PREGNANCY_PLAYER,  240, 175, 125, 50);
+			EventParser.timeAwareClassAdd(this);
+			Saves.registerSaveableState(this);
+		}
+
+		private function NadiaPregChance():void {
+			//Get out if already pregged.
+			if (pregnancy.isPregnant) return;
+			var preg:Boolean = false;
+			//1% chance per 100mLs of cum, max 75%
+			var score:Number = Math.min(player.cumQ()/100,75);
+			score += player.virilityQ() * 200;
+			if((player.cumQ() > (score >= rand(100)) || player.hasPerk(PerkLib.PilgrimsBounty))) {
+				preg = true;
+			}
+			if (preg) {
+				pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_NADIA);
+				sceneHunter.print("\n<b>Nadia is pregnant!</b>");
+			}
+		}
 
 /*
 DIANA_FOLLOWER - status:
@@ -24,6 +81,55 @@ DIANA_FOLLOWER - status:
     6 - follower
 
 */
+
+		public static var NadiaSonsNum:Number;
+		public static var NadiaDaughtersNum:Number;
+		public static var NadiaHermKidsNum:Number;
+		public static var NadiaTotalKidsNum:Number;
+
+		public function stateObjectName():String {
+			return "NadiaFollower";
+		}
+
+		public function resetState():void {
+			NadiaSonsNum = 0;
+			NadiaDaughtersNum = 0;
+			NadiaHermKidsNum = 0;
+			NadiaTotalKidsNum = 0;
+		}
+
+		public function saveToObject():Object {
+			return {
+				"NadiaSonsNum": NadiaSonsNum,
+				"NadiaDaughtersNum": NadiaDaughtersNum,
+				"NadiaHermKidsNum": NadiaHermKidsNum,
+				"NadiaTotalKidsNum": NadiaTotalKidsNum
+			}
+		}
+
+		public function loadFromObject(o:Object, ignoreErrors:Boolean):void {
+			if (o) {
+				NadiaSonsNum = o["NadiaSonsNum"];
+				NadiaDaughtersNum = o["NadiaDaughtersNum"];
+				NadiaHermKidsNum = o["NadiaHermKidsNum"];
+				NadiaTotalKidsNum = o["NadiaTotalKidsNum"];
+
+			} else {
+				// loading from old save
+				resetState();
+			}
+		}
+
+public function defeatedFork():void {
+	if (mocking) wonOverNadia();
+	else if (flags[kFLAGS.NADIA_FOLLOWER] >= 6)
+		wonOverNadiaSpar();
+	else if (flags[kFLAGS.NADIA_FOLLOWER] == 5 && (player.hasCock() || !player.blockingBodyTransformations()))
+		beMyStallionRepeat();
+	else if (flags[kFLAGS.NADIA_FOLLOWER] < 3 && flags[kFLAGS.NADIA_LVL_UP] >= 8 && (player.hasCock() || !player.blockingBodyTransformations()))
+		beMyStallion();
+	else wonOverNadia();
+}
 
 public function repeatEnc():void {
 	clearOutput();
@@ -70,13 +176,15 @@ public function postNameEncNotNow():void {
 }
 
 public function wonOverNadia():void {
+	if (!mocking) levelingHerself();
 	clearOutput();
-	outputText("The horse morph kneels down defeated. Seems you can do whatever you want with her now. So, what will it be?\n\n");
+	if (mocking) outputText("Getting your idea, Nadia winks to you and");
+	else outputText("The horse morph")
+	outputText(" kneels down defeated. Seems you can do whatever you want with her now. So, what will it be?\n\n");
 	menu();
-	levelingHerself();
 	addButton(1, "Rape", wonOverNadiaSex)
 		.disableIf(player.lust < 33, "Not aroused enough.");
-	addButton(0, "Spare", wonOverNadiaSpare);
+	addButton(0, "Spare", mocking ? wonOverNadiaSpar : wonOverNadiaSpare);
 }
 public function wonOverNadiaSex():void {
 	menu();
@@ -157,13 +265,21 @@ public function wonOverNadiaOralF():void {
 	cleanupAfterCombat();
 }
 
-public function wonOverNadiaOralM():void {
+public function wonOverNadiaOralM(mockForce:int = 0):void {
 	clearOutput();
+	if (mocking && !mockForce) {
+		outputText("Would you like to let her do the job nicely, or force your mare a bit?");
+		menu();
+		addButton(0,"LetHer",wonOverNadiaOralM, 1);
+		addButton(0,"Force",wonOverNadiaOralM, 2);
+		return;
+	}
 	var x:int = player.biggestCockIndex();
+	var likesIt:Boolean = mocking ? mockForce == 1 : flags[kFLAGS.NADIA_FOLLOWER] >= 2;
 	if (player.isBiped()) {
 		outputText("You walk towards your defeated equine foe who lies panting on the ground, trying to regain her breath. As you stand over her the sight of her panting lips gives you an idea of how to blow off some steam. You part your groin armour, pulling out your [cocks].");
 		if (player.hasVagina() && flags[kFLAGS.NADIA_FOLLOWER] == 0) outputText(" Shocking the equine to find out you're actually a hermaphrodite.");
-		if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) outputText(" The equine licks her lips eagerly at the sight of your [cockplural].");
+		if (likesIt) outputText(" The equine licks her lips eagerly at the sight of your [cockplural].");
 		outputText("\n\nYou step over her, standing above her torso while she watches you with ");
 		if (flags[kFLAGS.NADIA_FOLLOWER] == 0) outputText("nervous anticipation, unsure what you’re doing.");
 		else if (flags[kFLAGS.NADIA_FOLLOWER] == 1) outputText("dreaded anticipation, knowing what is coming next.");
@@ -171,16 +287,16 @@ public function wonOverNadiaOralM():void {
 		outputText("\n\nSmirking, you grab hold of your already hardening [cock biggest] ");
 		if (player.cockTotal() > 1) outputText("from your bunch of [cocks]");
 		outputText(", before reaching down and yanking her head up by her mane. Making her ");
-		if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) outputText("squeal happily, already eager to suck your cock");
+		if (likesIt) outputText("squeal happily, already eager to suck your cock");
 		else outputText("whimper in pain");
 		outputText(", as you slap your [cockplural] against her cheek.\n\n");
 	}
 	if (player.isTaur()) {
 		outputText("You trot over to your defeated equine foe as she lies on the ground panting and trying to regain her breath, her panting lips giving you an idea of how to blow off some steam. You walk over her, showing off your semi erect [cocks] that hang between your hind legs.");
 		if (player.hasVagina() && flags[kFLAGS.NADIA_FOLLOWER] == 0) outputText(" Shocking the equine to find out you're actually a hermaphrodite.");
-		if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) outputText(" The equine licks her lips eagerly at the sight of your [cockplural].");
+		if (likesIt) outputText(" The equine licks her lips eagerly at the sight of your [cockplural].");
 		outputText("\n\nYou reach down and grab her by the shoulders before dragging her to a nearby " + object() + ",");
-		if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) outputText("the equine happily letting herself get manhandled while you prop her against a " + object() + "");
+		if (likesIt) outputText("the equine happily letting herself get manhandled while you prop her against a " + object() + "");
 		else outputText("the equine putting up a brief struggle before giving up and letting herself be propped against the " + object() + "");
 		outputText(", before you slap your [cockplural] against her cheek.\n\n");
 	}
@@ -193,12 +309,12 @@ public function wonOverNadiaOralM():void {
 		else outputText("whatever");
 		outputText(" and pull out your [cocks].");
 		if (player.hasVagina() && flags[kFLAGS.NADIA_FOLLOWER] == 0) outputText(" Shocking the equine to find out you're actually a hermaphrodite.");
-		if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) outputText(" The equine licks her lips eagerly at the sight of your [cockplural].");
+		if (likesIt) outputText(" The equine licks her lips eagerly at the sight of your [cockplural].");
 		outputText("\n\nYou wrap your dexterous ");
 		if (player.isNaga()) outputText("naga tail");
 		else outputText("scylla tentacles");
 		outputText(" tightly around her waist, lifting her off the ground and into the air.");
-		if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) {
+		if (likesIt) {
 			outputText("She gives you a sultry look as she runs her hands along your ");
 			if (player.isNaga()) outputText("tail");
 			else outputText("tentacles");
@@ -214,7 +330,7 @@ public function wonOverNadiaOralM():void {
 	}
 	//if (player.isAlraune())
 	outputText("\"<i>Suck it,</i>\" you order.\n\n");
-	if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) {
+	if (likesIt) {
 		outputText("You don’t really even have to tell her, she’s already practically drooling. She quickly grabs your ");
 		if (player.cockTotal() > 1) outputText("largest ");
 		outputText("cock, before lovingly running her tongue down your shaft as well as planting some loving kisses across it, showering it with her devotion. She eventually moves her mouth back up the length, reaching the head and planting another loving kiss on it.\n\n");
@@ -262,9 +378,9 @@ public function wonOverNadiaOralM():void {
 		else outputText("While you thrust your hips you order her to suck on your dick, which she does, sucking as hard as she can while you thrust into her mouth, enjoying the feeling");
 	}
 	outputText(".\n\nYou continue to fuck her face for a good while, enjoying her mouth as much as you can, before you start to feel the coming onslaught of an orgasm. You speed up your thrusts, smacking her cheeks with your [hips]. You pump faster, the pressure building in your loins.");
-	if (flags[kFLAGS.NADIA_FOLLOWER] >= 2 && player.cockTotal() > 1) outputText(" Seeing you’re about to cum, she points your other [dickplural] at her, so you’ll cum on her.");
+	if (likesIt && player.cockTotal() > 1) outputText(" Seeing you’re about to cum, she points your other [dickplural] at her, so you’ll cum on her.");
 	outputText("\n\n");
-	if (flags[kFLAGS.NADIA_FOLLOWER] >= 2) {
+	if (likesIt) {
 		if (player.cumQ() >= 2000) {
 			if (player.cocks[x].cockLength >= 15) outputText("You make sure she is taking your entire length before you cum, spraying your massive load directly into her stomach with such force that her stomach bulges, making it swell and bloat with yor cum. She moans happily as her belly swells until she looks pregnant, her face totally blissed out");
 			else if (player.cocks[x].cockLength >= 5) outputText("You make sure she is taking your entire length before you cum, spraying your massive load right down her throat. She moans happily as her belly visibly swells with your cum, bloating her until she looks pregnant. her eyes roll back into her head, her horse-face totally blissed out");
@@ -314,7 +430,7 @@ private function object():String {
 }
 
 private function virginity():Boolean {
-	return !(flags[kFLAGS.NADIA_FOLLOWER] == 3);
+	return !(flags[kFLAGS.NADIA_FOLLOWER] == 3 || mocking);
 }
 public function wonOverNadiaRape():void {
 	clearOutput();
@@ -431,7 +547,7 @@ public function wonOverNadiaRape():void {
 		outputText("\"<i>NO! Cum outside!! Outside!!</i>\" she screams, trying to escape again.\n\n");
 		outputText("Grunting, and with a huge amount of self-control, you pull yourself out of her, spraying your load over her back. Satisfied, you climb off her, leaving her to hang off the " + object() + ", crying softly to herself, while you dress yourself and leave.\n\n");
 	}
-	flags[kFLAGS.NADIA_FOLLOWER] = 3;
+	if (!mocking) flags[kFLAGS.NADIA_FOLLOWER] = 3;
 	player.sexReward("vaginalFluids");
 	cleanupAfterCombat();
 }
@@ -440,7 +556,7 @@ public function wonOverNadiaSpare():void {
 	if (flags[kFLAGS.NADIA_LVL_UP] == 8 && flags[kFLAGS.NADIA_FOLLOWER] < 3) {
 		outputText("You tell the girl you will let her go. You have no business with her. The horse morph however doesn't leave right away.\n\n");
 		outputText("\"<i>Thank you. I may have been too hasty to judge you and I think it’s high time we truly get acquainted. I just wanted you to know that my name's Nadia.</i>\"\n\n");
-		outputText("Well Nadia, that’s one name you don't plan to forget. still, she'd better be off on her way now. She nods and runs off disappearing in the forest.\n\n");
+		outputText("Well Nadia, that’s one name you don't plan to forget. Still, she'd better be off on her way now. She nods and runs off disappearing in the forest.\n\n");
 	}
 	else {
 		outputText("You tell the girl you will let her go. You have no business with her.\n\n");
@@ -499,11 +615,11 @@ public function breakingInYourMare():void {
 	clearOutput();
 	if (!player.hasCock()) {
 		outputText("You take the mixture, groaning as you suddenly feel a sizeable cock growing between your legs.\n\n");
-		transformations.CockHorse(0, 10 + rand(7), 2 + rand(10) / 10);
+		transformations.CockHorse(0, 10 + rand(7), 2 + rand(10) / 10).applyEffect(false);
 	}
 	outputText("Nadia, in a fit of excitement, suddenly climbs onto her knees and hands before turning around and presenting her rear for you to fuck, moving her tail out of the way of her virgin sex and her equally virgin arsehole, her whole body trembling in excitement.\n\n");
 	outputText("\"<i>Thank you!</i>\" Nadia says, her voice full of happiness, as she shakes her behind temptingly. \"<i>I’ll be a good mare to you, but please fuck me!! I really can’t take it anymore, I just need your cock in me now!!</i>\" her voice desperate.\n\n");
-	outputText("You place your hand on your new equine’s behind, her body quivering at your touch, as you slide across it, feeling the soft cheek under your fingers. Nadia moans loudly as you begin to fondle her arse, letting your fingers sink into yielding flesh, her body trembling butt is squeezed and molded by your hands.\n\n");
+	outputText("You place your hand on your new equine’s behind, her body quivering at your touch, as you slide across it, feeling the soft cheek under your fingers. Nadia moans loudly as you begin to fondle her ass, letting your fingers sink into yielding flesh, her body trembling butt is squeezed and molded by your hands.\n\n");
 	outputText("\"<i>Please stop teasing me, and just fuck me!!</i>\" Nadia moans.\n\n");
 	outputText("You tease, noting that she was supposed to be a good mare from now on. You give her ass another hard squeeze, earning a loud moan from Nadia. She should know a good mare would wait until her stallion is ready.\n\n");
 	outputText("She shivers at your words, as if your orders somehow gave her pleasure, before nodding her head and waiting for you to eventually fuck her senseless. You move one of your hands off her butt, slipping it down between her legs, moving it across her pussy which is totally soaked while her juices are running down her leg and dripping onto the ground.\n\n");
@@ -563,7 +679,7 @@ public function breakingInYourMare():void {
 		outputText("\"<i>I’m just... I’m just so happy,</i>\" Nadia says, trying to blink away the tears, \"<i>I feared this was another dream, but the pain feels so real, and just happy I’m able to be joined with you like this, I’m happy that you’ve taken both my first times at once and I’ll treasure this pain forever.</i>\"\n\n");
 		outputText("Smiling at Nadia’s cute and sweet words, you start to pull your cocks out slowly, realizing you should probably make this more special for Nadia, and make it more tender and loving. As your cocks slip out, Nadia makes cute but slightly pained moaning noises, obviously still tender from having her virginities taken. Once your cocks are nearly out you thrust back in, as hard but gentle as possible, earning a happy moan from Nadia as your cocks sink back into her.\n\n");
 		outputText("\"<i>You’re being so gentle...</i>\" Nadia moans, looking back at you, her eyes full of her love for you.\n\n");
-		outputText("The least you can do is let her get used to it. You Resume your slow thrusts into her, helping her holes grow accustomed to your girth.\n\n");
+		outputText("The least you can do is let her get used to it. You resume your slow thrusts into her, helping her holes grow accustomed to your girth.\n\n");
 		outputText("\"<i>Thank you, it feels really good...</i>\" Nadia moans again, her body shuddering as you gently fuck her, \"<i>You really are my perfect stallion.</i>\"\n\n");
 		outputText("You wait for her lead before speeding up, smiling at your cute mare.\n\n");
 		outputText("\"<i>Go... go faster. I'm ready, I want more of you... I need more,</i>\" Nadia moans, smiling back at you.\n\n");
@@ -595,6 +711,7 @@ public function breakingInYourMare():void {
 	outputText("Nadia smiles at you, planting a quick kiss on your mouth, \"<i>I guess I'm kinda happy that you're still going.</i>\"\n\n");
 	outputText("Smirking, you get back to making love to her. Eventually you’re finally satisfied, and the two of you lie on the ground together, catching your breath. Nadia’s head rests on your chest, breathing heavily." + (player.cumQ() >= 2000 ? "You can feel her legs shifting, and she groans as your spooge leaks from her overfull pussy." : "") + "" + (player.cocks.length == 1 ? "" : "s") + ".\n\n");
 	player.sexReward("vaginalFluids","Dick");
+	NadiaPregChance();
 	cleanupAfterCombat();
 	doNext(breakingInYourMare2);
 }
@@ -605,8 +722,9 @@ public function breakingInYourMare2():void {
 	outputText("(<b>Nadia has been added to the Lovers menu!</b>)\n\n");
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Nadia pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Nadia pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	flags[kFLAGS.NADIA_FOLLOWER] = 6;
+	explorer.stopExploring();
 	doNext(playerMenu);
 }
 
@@ -619,6 +737,10 @@ public function mainCampMenu():void {
 	//1 - Talk
 	addButton(2, "Spar", nadiaSparsWithPC).hint("Ask Nadia for a mock battle.")
 		.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 2, "You need a good sparring ring for that.");
+	if (sceneHunter.mockFights)
+		addButton(3, "Mock Fight", mockFightDiana)
+				.hint("Spice things up a little - make her fight for her pussy!")
+				.disableIf(player.isGenderless(), "Not for genderless!");
 	//3 - ??
 	if (player.lust > 33) addButton(4, "Sex", mainSexMenu);
 	else addButtonDisabled(4, "Sex", "Req. 33+ lust");
@@ -636,50 +758,66 @@ public function mainCampMenu():void {
 		addButtonDisabled(6, "C.C.(Base)", "You don't have any curses to cure. (non-multiplier)");
 		addButtonDisabled(7, "C.C.(Mult)", "You don't have any curses to cure. (multiplier)");
 	}
-	addButton(8, "Uncurse", uncurseItemsMenu)
-			.disableIf(player.equippedKnownCursedItems().length == 0 && player.carriedKnownCursedItems().length == 0, "You don't have any cursed items");
-
+	addButton(8, "Uncurse", uncurseItemsMenu).disableIf(player.equippedKnownCursedItems().length == 0 && player.carriedKnownCursedItems().length == 0, "You don't have any cursed items");
+	if (player.weaponRange == weaponsrange.SAGITTB) addButton(9, "Uncurse", uncurseItemsMenu2);
 	if (BelisaFollower.BelisaQuestOn && !BelisaFollower.BelisaQuestComp) addButton(13, "ToothacheQ", BelisaNadiaTalk);
 	addButton(14, "Back", camp.campLoversMenu);
 }
-		public function uncurseCost(item:IDynamicItem, equipped:Boolean):int {
-			var cost:int = 250 * (1 + item.rarity);
-			if (equipped) cost *= 2;
-			return cost;
-		}
-		public function uncurseItemsMenu():void {
-			clearOutput();
-			outputText("Uncurse which item?");
-			var buttons:ButtonDataList = new ButtonDataList();
-			var cost:int;
-			for each (var slot:ItemSlotClass in player.carriedKnownCursedItems()) {
-				cost = uncurseCost(slot.itype as IDynamicItem, false);
-				buttons.add(slot.itype.shortName, curry(uncurseItem, slot))
-						.hint("Lift the curse from "+slot.itype.longName+" ("+cost+" gems)")
-						.disableIf(player.gems < cost, "Not enough gems ("+cost+")")
-			}
-			for each (var item:ItemType in player.equippedKnownCursedItems()) {
-				cost = uncurseCost(item as IDynamicItem, true);
-				buttons.add(item.shortName, curry(uncurseEquippedItem,item))
-						.hint("Lift the curse from "+item.longName+" ("+cost+" gems)")
-						.disableIf(player.gems < cost, "Not enough gems ("+cost+")")
-			}
-			submenu(buttons, mainCampMenu, 0, false);
-		}
-		public function uncurseItem(slot:ItemSlotClass):void {
-			clearOutput();
-			var newItem:ItemType = (slot.itype as IDynamicItem).uncursedCopy();
-			outputText("The curse is lifted from "+slot.itype.longName);
-			slot.setItemAndQty(newItem, slot.quantity);
-			doNext(mainCampMenu);
-		}
-		public function uncurseEquippedItem(item:ItemType):void {
-			clearOutput();
-			var newItem:ItemType = (item as IDynamicItem).uncursedCopy();
-			player.replaceEquipment(item as Equipable, newItem as Equipable);
-			outputText("The curse is lifted from "+newItem.longName+". You can unequip it now.");
-			doNext(mainCampMenu);
-		}
+
+public function mockFightDiana():void {
+    mocking = true;
+    nadiaSparsWithPC();
+}
+
+private function uncurseItemsMenu2():void {
+	clearOutput();
+	outputText("As Nadia proceed with the purification ritual you struggle in pain at first as you feel the cursed weapon in your hand resist the unbinding before release washes over you as your grip opens dropping the malevolent item on the ground. ");
+	outputText("Nadia wrap the item in blessed cloth in order to seal its malice before handing you the neutralized cursed item back. Sure you can equip it again anytime but now you know the risks.\n\n");
+	player.removeStatusEffect(StatusEffects.TookSagittariusBanefulGreatBow);
+	player.createStatusEffect(StatusEffects.TookSagittariusBanefulGreatBow,1,0,0,0);
+	if (player.statStore.hasBuff('Sagittarius Curse')) player.buff("Sagittarius Curse").remove();
+	if (player.statStore.hasBuff('Sagittarius Focus')) player.buff("Sagittarius Focus").remove();
+	player.unequipWeaponRange(false,true);
+	inventory.takeItem(weaponsrange.SAGITTB, mainCampMenu);
+}
+public function uncurseCost(item:IDynamicItem, equipped:Boolean):int {
+	var cost:int = 250 * (1 + item.rarity);
+	if (equipped) cost *= 2;
+	return cost;
+}
+public function uncurseItemsMenu():void {
+	clearOutput();
+	outputText("Uncurse which item?");
+	var buttons:ButtonDataList = new ButtonDataList();
+	var cost:int;
+	for each (var slot:ItemSlotClass in player.carriedKnownCursedItems()) {
+		cost = uncurseCost(slot.itype as IDynamicItem, false);
+		buttons.add(slot.itype.shortName, curry(uncurseItem, slot))
+				.hint("Lift the curse from "+slot.itype.longName+" ("+cost+" gems)")
+				.disableIf(player.gems < cost, "Not enough gems ("+cost+")")
+	}
+	for each (var item:ItemType in player.equippedKnownCursedItems()) {
+		cost = uncurseCost(item as IDynamicItem, true);
+		buttons.add(item.shortName, curry(uncurseEquippedItem,item))
+				.hint("Lift the curse from "+item.longName+" ("+cost+" gems)")
+				.disableIf(player.gems < cost, "Not enough gems ("+cost+")")
+	}
+	submenu(buttons, mainCampMenu, 0, false);
+}
+public function uncurseItem(slot:ItemSlotClass):void {
+	clearOutput();
+	var newItem:ItemType = (slot.itype as IDynamicItem).uncursedCopy();
+	outputText("The curse is lifted from "+slot.itype.longName);
+	slot.setItemAndQty(newItem, slot.quantity);
+	doNext(mainCampMenu);
+}
+public function uncurseEquippedItem(item:ItemType):void {
+	clearOutput();
+	var newItem:ItemType = (item as IDynamicItem).uncursedCopy();
+	player.replaceEquipment(item as Equipable, newItem as Equipable);
+	outputText("The curse is lifted from "+newItem.longName+". You can unequip it now.");
+	doNext(mainCampMenu);
+}
 
 public function nadiaAppearance():void {
 	clearOutput();
@@ -818,6 +956,7 @@ public function SexMenuVaginal():void {
 		outputText("\"<i>Only if you're a good mare next time,</i>\" you say with a smirk on your face.\n\n");
 		outputText("Nadia pouts a bit before you both say your goodbyes, and then you head off.\n\n");
 	//}
+	NadiaPregChance();
 	player.sexReward("vaginalFluids","Dick");
 	endEncounter();
 }
@@ -830,7 +969,7 @@ public function SexMenuAnal():void {
 		outputText("You suck on one of your fingers, getting it nice and wet, before bringing it down and pushing it into her rear, making her let out a little happy moan as your finger surprisingly, or maybe not, easily slips in.\n\n");
 		outputText("\"<i>Your fingers are in my butt!</i>\" Nadia moans, looking over her shoulder at you.\n\n");
 		outputText("\"<i>Not yet,</i>\" you reply, before suddenly shoving another finger into her, making her gasp in surprise, \"<i>Now they are!</i>\"\n\n");
-		outputText("Nadia moans loudly as your two fingers stretch open, rub, and thrust into her hot ass, loosing her up further. Although the finger fucking seems already too much for the alicorn, whose front arms have already folded. Her face falls to the ground, leaving her inviting ass stuck up into the air.\n\n");
+		outputText("Nadia moans loudly as your two fingers stretch open, rub, and thrust into her hot ass, loosening her up further. Although the finger fucking seems already too much for the alicorn, whose front arms have already folded. Her face falls to the ground, leaving her inviting ass stuck up into the air.\n\n");
 		outputText("Seeing this, you bring your spare hand down on her thick asscheek, smacking it hard, making her moan and straighten up in surprise.\n\n");
 		outputText("\"<i>Hey don’t go enjoying too much,</i>\" you say, your fingers stick playing with her hot hole.\n\n");
 		outputText("\"<i>Sorry, but your fingers feel so good!</i>\" she moans, moving a hand down to her pussy, but you slap it away.\n\n");
@@ -857,6 +996,7 @@ public function SexMenuAnal():void {
 		}
 	//}
 	player.sexReward("no", "Dick");
+	NadiaPregChance();
 	endEncounter();
 }
 public function SexMenuTitsfuck():void {
@@ -951,5 +1091,60 @@ private function BelisaNadiaTalk():void {
 	BelisaFollower.BelisaQuestComp = true;
 	endEncounter();
 }
+	public function NadiaPregAnnouncement():void {
+		outputText("Your mare is waiting for you back at camp, with a smile on her face, nearly jumping from joy. Her eyes gleam as she sees you, and she nearly skips over, her J-cup breasts bouncing with each step. She breaks into a run, and you brace yourself as Nadia tackles you, Smothering you in her massive mammaries. \n\n");
+		outputText("\"<i>Oh, my stallion, you wonderful, wonderful lover!</i>\" She gives you a big smack on the lips. You look at her, confused, then the penny drops. You bring a hand to her belly, and she nods, her horn glowing, and her eyes flashing with excitement. \n\n");
+		outputText("\"<i>I’m pregnant</i>\", she says simply, cheeks red, and a huge grin on her face. \"<i>You’re going to be a father, [name].</i>\" She puts a hand on her stomach.  \n\n");
+		outputText("You congratulate Nadia, knowing that this has been what she wanted for a long time. She cuddles you for a minute or so, before letting you go. You excuse yourself, going about your day…but you can feel Nadia’s eyes on your back as you go about your work around camp.  \n\n");
+		outputText(" \n\n");
+		doNext(playerMenu);
+	}
+
+	public function NadiaPreg1():void {
+		outputText("Nadia’s stomach is noticeably larger than before, but barely. She pats her stomach occasionally, a huge, dopey smile on her face. You notice that she keeps a small bag of oats on her hip. She sees you looking, and gives you a smile.  \n\n");
+		outputText(" \n\n");
+		doNext(playerMenu);
+	}
+
+	public function NadiaPreg2():void {
+		outputText("Nadia’s belly hasn’t grown much more, but she’s moving slower than before. Occasionally, you can see her wince, and she seems to rub her pregnant belly more than usual.\n\n");
+		doNext(playerMenu);
+	}
+
+	public function NadiaPreg3():void {
+		outputText("Nadia’s stomach is distended, and it’s clear to anyone with eyes that she’s heavily pregnant. You notice her stomach jerk, getting a startled cry from Nadia. Rushing over, you ask her if she’s alright, and your unicorn lover sighs. \"<i>I’ll be fine…But your kid is kicking hard, my stallion.</i>\" She guides your hand to her belly, and you can feel a sudden impact. Nadia groans, and you gently rub her stomach, trying to ease her pain a little. Before long, the kicks subside, and she leans into you.  \n\n");
+		outputText("\"<i>Thank you for that.</i>\" She whispers, all but falling asleep on you. You help her over to her bed, and she sighs, lying down.  \n\n");
+		doNext(playerMenu);
+	}
+
+	public function NadiaGivesBirth():void {
+		outputText("You hear a choking cry from Nadia’s part of camp, and you rush over, seeing your unicorn lover, doubled over, with a small pool of clear fluid at her hooved feet.  \n\n");
+		outputText("\"<i>O-oh, [name]!</i>\" Nadia cries, reaching a hand out to you. You run over, catching her before she loses her balance entirely. \"<i>T-the baby’s coming!</i>\"  \n\n");
+		outputText("You tell her that you kind of guessed that, and she grits her teeth, grunting as a contraction hits. \"<i>Sm-smartass.</i>\" She grunts, and points to her bedroll. \"<i>Lay me down there, please.</i>\"  \n\n");
+		outputText("You half-drag, half-carry Nadia over to her bedroll, and as she groans, you grab a towel, gently spreading your unicorn lover’s legs. Nadia covers herself with her tail, but you gently take it, pushing it out of your way. \n\n");
+		outputText("\"<i>S-sorry…Force of habit.</i>\" Nadia grunts. You shake your head slightly, telling her not to worry. Just focus on the birth. She whinneys as a contraction hits, and you position yourself between Nadia’s legs, ready to receive your newborn foal.  \n\n");
+		outputText("It takes about a half hour before you can see a head, crowning. Nadia gasps in pain as the horn passes through, and you take her hand, telling her to breathe. Slowly, Nadia pushes, and you take the newborn Unicorn into your arms. \n\n");
+		switch (rand(3)) {
+			case 0:
+				outputText("It's a boy, and as he looks into your eyes, he stares, horn glowing ever so slightly. He coughs, taking in his first breath, and you sigh happily, swaddling your boy. \n\n");
+				NadiaTotalKidsNum += 1;
+				NadiaSonsNum += 1;
+				break;
+			case 1:
+				// 25% chance
+				outputText("It's a little girl. She opens her eyes, then quickly closes them again, burbling. She inhales deeply, then begins to cry loudly. You rock her, wrapping her up, and she turns her head, trying to put something between her eyes and the light. \n\n");
+				NadiaTotalKidsNum += 1;
+				NadiaDaughtersNum += 1;
+				break;
+			case 2:
+				outputText("You notice that your newborn Unicorn is a hermaphrodite, with both male and female genitals. You swaddle them in cloth, and they look around curiously, their eyes wandering. You hold their head, and they look at you curiously, before breaking out into an innocent smile. \n\n");
+				NadiaHermKidsNum +=1;
+				NadiaTotalKidsNum += 1;
+		}
+		outputText("Nadia’s barely conscious, but she holds her arms out for them, bringing your newborn to her sizable bosom to feed. You stay with Nadia and the baby for another hour, just to make sure they’re both alright, before excusing yourself.  \n\n");
+
+		doNext(playerMenu);
+	}
+
 	}
 }

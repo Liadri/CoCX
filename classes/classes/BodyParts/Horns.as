@@ -43,7 +43,7 @@ public class Horns extends BodyPart {
 		appearanceDescFunc: function(player: *): String {
 			var desc: String = "";
 
-			if (player.horns.count < 3) desc += "Two tiny horns-like nubs protrude from your forehead, resembling the horns of the young livestock kept by your village.";
+			if (player.horns.count < 3) desc += "Two tiny horn-like nubs protrude from your forehead, resembling the horns of the young livestock kept by your village.";
 			if (player.horns.count >= 3 && player.horns.count < 6) desc += "Two moderately sized horns grow from your forehead, similar in size to those on a young bovine.";
 			if (player.horns.count >= 6 && player.horns.count < 12) desc += "Two large horns sprout from your forehead, curving forwards like those of a bull.";
 			if (player.horns.count >= 12 && player.horns.count < 20) desc += "Two very large and dangerous looking horns sprout from your head, curving forward and over a foot long. They have dangerous looking points.";
@@ -103,10 +103,10 @@ public class Horns extends BodyPart {
 		appearanceDescFunc: function(player: *): String {
 			var desc: String = "";
 
-			if (player.horns.count < 3) desc += "Tiny horns-like nub protrude from your forehead, resembling the horns of the young unicorn.";
+			if (player.horns.count < 3) desc += "Tiny horn-like nub protrude from your forehead, resembling the horns of the young unicorn.";
 			if (player.horns.count >= 3 && player.horns.count < 6) desc += "A moderately sized horn sprouts from your forehead, similar in size to those on a young unicorn.";
 			if (player.horns.count >= 6 && player.horns.count < 12) desc += "A large horn sprouts from your forehead, spiraling and pointing forwards like those of an unicorn.";
-			if (player.horns.count >= 12 && player.horns.count < 20) desc += "A very large and dangerous looking spiraling horn sprouts from your forehead, pointing forward and over a foot long. It have dangerous looking tip.";
+			if (player.horns.count >= 12 && player.horns.count < 20) desc += "A very large and dangerous looking spiraling horn sprouts from your forehead, pointing forward and over a foot long. It has a dangerous-looking tip.";
 			if (player.horns.count >= 20) desc += "One huge and long spiraling horns erupt from your forehead, pointing forward. The weight of it is heavy and ends with dangerous and sharp looking tip.";
 
 			return desc;
@@ -199,7 +199,7 @@ public class Horns extends BodyPart {
 		appearanceDescFunc: function(player: *): String {
 			var desc: String = "";
 
-			if (player.horns.count < 3) desc += "A pair of tiny horns-like nubs protrude from your forehead, resembling the horns of the young bicorns.";
+			if (player.horns.count < 3) desc += "A pair of tiny horn-like nubs protrude from your forehead, resembling the horns of the young bicorns.";
 			if (player.horns.count >= 3 && player.horns.count < 6) desc += "Two moderately sized horns grow from your forehead, similar in size to those on a young bicorn.";
 			if (player.horns.count >= 6 && player.horns.count < 12) desc += "Two large horns sprout from your forehead, spiraling and pointing forwards like those of a bicorn.";
 			if (player.horns.count >= 12 && player.horns.count < 20) desc += "Two very large and dangerous looking spiraling horns sprout from your forehead, pointing forward and over a foot long. They have dangerous looking tip.";
@@ -317,11 +317,11 @@ public class Horns extends BodyPart {
 		appearanceDescFunc: function(player: *): String {
 			var desc: String = "";
 
-			if (player.horns.count < 3) desc += "Tiny horns-like nub protrude from your forehead, resembling the horns of the young kirin.";
+			if (player.horns.count < 3) desc += "Tiny horn-like nub protrude from your forehead, resembling the horns of the young kirin.";
 			if (player.horns.count >= 3 && player.horns.count < 6) desc += "A moderately sized horn sprouts from your forehead, similar in size to those on a young kirin.";
 			if (player.horns.count >= 6 && player.horns.count < 12) desc += "A large horn sprouts from your forehead, spiraling and pointing forwards like those of an kirin.";
-			if (player.horns.count >= 12 && player.horns.count < 20) desc += "A very large and dangerous looking spiraling horn sprouts from your forehead, pointing forward and over a foot long. It have dangerous looking tip around wich electricity naturaly accumulate.";
-			if (player.horns.count >= 20) desc += "One huge and long spiraling horns erupt from your forehead, pointing forward. The weight of it is heavy and ends with dangerous and sharp looking tip around wich electricity naturaly accumulate.";
+			if (player.horns.count >= 12 && player.horns.count < 20) desc += "A very large and dangerous looking spiraling horn sprouts from your forehead, pointing forward and over a foot long. It has a dangerous-looking tip around which electricity naturally accumulates.";
+			if (player.horns.count >= 20) desc += "One huge and long spiraling horn erupt from your forehead, pointing forward. The weight of it is heavy and ends with dangerous and sharp looking tip around which electricity naturally accumulates.";
 
 			return desc;
 		},
@@ -335,6 +335,20 @@ public class Horns extends BodyPart {
 			var desc: String = "";
 
 			if (player.horns.count > 0) desc += "A pair of large thick demonic horns sprout through your skin. They stand at nearly "+Measurements.inchesOrCentimetres(player.horns.count,0)+" . Arcane carvings decorate your horns though only a close look would reveal them to an observer, raising the potency of your spells."
+
+			return desc;
+		}
+	});
+	
+	//25
+
+	public static const BANDAGED_HEAD: int = 26;
+	EnumValue.add(Types, BANDAGED_HEAD, "BANDAGED_HEAD", {
+		name:"bandaged head",
+		appearanceDescFunc: function(player: *): String {
+			var desc: String = "";
+
+			if (player.horns.count > 0) desc += " Your body is partially bandaged to protect your sensitive skin wich constantly blush from pleasure. The bandages on your head are spaced in the fashion of a messy headband leaving most of your head exposed.";
 
 			return desc;
 		}

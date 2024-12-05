@@ -261,7 +261,7 @@ public function timeChangeLarge():Boolean {
         return true;
     }
     //Become permanently addicted (occurs when the player goes to sleep with addiction 100, before it is reduced by the standard 1):
-    if (player.statusEffectv3(StatusEffects.Marble) > 0 && player.statusEffectv2(StatusEffects.Marble) >= 100 && !player.hasPerk(PerkLib.MarblesMilk) && !player.hasPerk(PerkLib.MarbleResistant) && model.time.hours == 6) {
+    if (player.statusEffectv3(StatusEffects.Marble) > 0 && player.statusEffectv2(StatusEffects.Marble) >= 100 && !player.hasPerk(PerkLib.MarblesMilk) && !player.hasPerk(PerkLib.MarbleResistant) && !player.fiendishMetabolismNFER() && model.time.hours == 6) {
         marbleSprite();
         outputText("\nYou wake up feeling like something has changed. With slightly chilling clarity, you realize that you have finally become completely and utterly dependent on Marble's milk; you must drink her milk every day, or you will die. There is nothing that can be done to change that at this point. You hurry over to the farm; you have to drink Marble's milk, NOW.\n\n");
         outputText("You find Marble in her room. When you come in she looks up at you and smiles deeply. \"<i>What happened?</i>\" she asks, \"<i>Something about you feels so wonderful and right.</i>\" You explain to her that you've finally become entirely dependent on her milk.\n");
@@ -341,7 +341,7 @@ public function timeChangeLarge():Boolean {
             //Marble is still available at farm
             if (!player.hasStatusEffect(StatusEffects.NoMoreMarble)) {
                 postAddictionFarmMornings();
-                CoC.instance.timeQ++; //We can get rid of this: threshhold--;
+                CoC.instance.timeQ++; //We can get rid of this: threshold--;
             }
         }
         doNext(camp.returnToCampUseOneHour);
@@ -355,7 +355,7 @@ public function timeChangeLarge():Boolean {
 private function marbleFollowerInit():void {
     if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
     else player.createKeyItem("Radiant shard", 1,0,0,0);
-    outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Marble pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+    outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Marble pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
     player.createStatusEffect(StatusEffects.CampMarble, 0, 0, 0, 0);
     player.createStatusEffect(StatusEffects.NoMoreMarble,0,0,0,0);
     flags[kFLAGS.FOLLOWER_AT_FARM_MARBLE] = 0;
@@ -1623,14 +1623,11 @@ public function marbleMilkSex():void {
 	marbleSprite();
 	if(player.gender == 0) {
 		marbleGenderlessNoFuck();
-        doNext(recalling ? recallWakeUp : camp.returnToCampUseOneHour);
+        doNext(camp.returnToCampUseOneHour);
 		return;
 	}
-    if (!recalling) {
-        marbleFuckStatus(2);
-        outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
-    }
-	outputText("Drinking her milk has filled you with an intense need, and you can see that need in Marble's eyes too.  You have no choice; you are going to have sex with her.\n\n");
+    marbleFuckStatus(2);
+	outputText(" Drinking her milk has filled you with an intense need, and you can see that need in Marble's eyes too.  You have no choice; you are going to have sex with her.\n\n");
 	//[player is wearing fetish gear]
 	if(player.armorName == "bondage patient clothes" ||
 		   player.armorName == "crotch-revealing clothes" || player.armorName == "cute servant's clothes" ||
@@ -1672,11 +1669,9 @@ public function marbleMilkSex():void {
 		else outputText("Marble bottoms out at eight inches and you can go no further.  ");
 		outputText("With a delighted shiver, Marble starts to push herself up and down on you, her movements growing more and more frantic over time.  You try to slow her down but she seems to be beyond the capability of listening to you now, giving only louder and more frantic moans of pleasure.  Sooner than you would have preferred, you explode inside her. At that moment, Marble gives a final moan that sounds almost exactly like a moo.  She slows down, seeming to have already reached her peak.\n\n");
 		outputText("You can see that Marble is quite pleased and satisfied after that milking and sex combo session.  She rolls off you onto her bed and is soon asleep.  It takes you a few moments to get cleaned up, still in a slight daze after that frantic lovemaking.  As you depart, you give a final glance to Marble and see her still dozed off on her bed in a slightly lopsided position.");
-        if (!recalling) {
-            player.sexReward("vaginalFluids", "Dick");
-            player.sexReward("milk", "Lips");
-        }
-        doNext(recalling ? recallWakeUp : camp.returnToCampUseOneHour)
+        player.sexReward("vaginalFluids", "Dick");
+        player.sexReward("milk", "Lips");
+        doNext(camp.returnToCampUseOneHour)
 	}
 	//(player is female)
 	function vagF():void {
@@ -1712,8 +1707,8 @@ public function marbleMilkSex():void {
 		if(player.totalNipples() > 2) outputText("next");
 		else outputText("other");
 		outputText(" " + nippleDescript(0) + " and starts the experience all over again.  By the end, her efforts have successfully rung an orgasm from you. After cleaning up a bit, Marble sends you off in high spirits.");
-        if (!recalling) player.sexReward("milk", "Lips");
-        doNext(recalling ? recallWakeUp : camp.returnToCampUseOneHour);
+        player.sexReward("milk", "Lips");
+        doNext(camp.returnToCampUseOneHour);
 	}
 }
 
@@ -2358,7 +2353,7 @@ private function marbleCampSexNew():void {
 				else outputText("  Her thighs are gently rubbing beneath you, and you feel something hard poking you in the back.  You smile around the nipple you have in your mouth.");
 				if(player.hasBalls()) outputText("  As her hand reaches the base of your cock, she stops stroking it to take a moment and gently roll your [balls] with her fingers.  \"<i>Are these ready to shoot out for me soon, sweetie?</i>\"");
 				if(player.hasVagina()) outputText("  From the base of your cock, her hand moves even lower, gently rubbing your " + clitDescript() + ".  \"<i>This seems to also require some attention...  Maybe later, sweetie, if you do a good job nursing from me.  But right now, I want to see you shoot off,</i>\" she says, as her hand moves back to your [cocks].");
-				outputText("\n\nShe starts tugging at and stroking your [cock], eager to make you cum now.  You buck your hips again and she responds more agressively this time, pushing you back down with her breasts as her touch starts to become unbearable.  \"<i>You're close, aren't you, sweetie?  It's okay, I want to see you cum.</i>\"");
+				outputText("\n\nShe starts tugging at and stroking your [cock], eager to make you cum now.  You buck your hips again and she responds more aggressively this time, pushing you back down with her breasts as her touch starts to become unbearable.  \"<i>You're close, aren't you, sweetie?  It's okay, I want to see you cum.</i>\"");
 				outputText("\n\nWith that said, her stroking becomes unrelenting and you decide to simply give in to the pleasure.  The repeated feeling of her hand moving up and down your shaft, teasing the head and stimulating all along the length, has you shivering, and soon you feel a tingling at the base of your spine.  Her milk flows richly into your mouth, and the comforting taste relaxes you completely and makes it impossible not to give in to the pleasure.");
 				outputText("\n\nMoments later, Marble's rapid strokes cause you to ejaculate.  \"<i>There you go!  You've done great, sweetie!</i>\"  Your bottom shakes, causing your member to bob in her grasp as she squeezes out more and more of your cum onto her slimy hand.  You grab her breasts harder from the sudden sensations, causing her to yelp and moan.");
 				if(player.cumQ() < 500) outputText("  You cover her hand as she keeps jerking you off, squeezing out tiny little droplets once you're done ejaculating.");
@@ -2458,7 +2453,7 @@ private function marbleCampSexNew():void {
 		function breastsF():void {
 			clearOutput();
 			outputText("\"<i>You feeling antsy, sweetie?</i>\" Marble asks as you walk up to her.  \"<i>Don't worry; I'm ready and able to help.</i>\"  ");
-			//Select one option based on the sum of the player's and Marble's Corr, similar to the one in regular masterbation
+			//Select one option based on the sum of the player's and Marble's Corr, similar to the one in regular masturbation
 			if(player.cor + player.statusEffectv4(StatusEffects.Marble) < 66)
 				outputText("The two of you find a secluded place in the camp and slip off your clothes.\n\n");
 			else if (player.cor + player.statusEffectv4(StatusEffects.Marble) < 132)
@@ -2950,7 +2945,7 @@ public function marblePoopsBaybees():void {
 public function marbleNightSleepFlavor():Boolean {
 	marbleSprite();
 	//If player is marble-preggo, she builds nursery
-	if (flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION] == 0 && ((player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= 128) || (player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= 128))) {
+	if (flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION] == 0 && ((player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(128, player.pregnancyType)) || (player.pregnancy2Type == PregnancyStore.PREGNANCY_MARBLE && player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(128, player.pregnancy2Type)))) {
 		outputText("<b>Citing your pregnant belly, Marble informs you she'll be getting to work on building a nursery for your coming cow-child soon.</b>\n\n");
 		flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION]++;
 	}
@@ -3055,12 +3050,12 @@ public function marbleNightSleepFlavor():Boolean {
 }
 
 private function pcPregWithMarblesKids():Boolean {
-	return (player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= 280) ||
-            (player.pregnancy2Type == PregnancyStore.PREGNANCY_MARBLE && player.pregnancy2Incubation <= 280);
+	return (player.pregnancyType == PregnancyStore.PREGNANCY_MARBLE && player.pregnancyIncubation <= sceneHunter.adjustPregEventTimer(280, player.pregnancyType)) ||
+            (player.pregnancy2Type == PregnancyStore.PREGNANCY_MARBLE && player.pregnancy2Incubation <= sceneHunter.adjustPregEventTimer(280, player.pregnancy2Type));
 
 }
 private function marblePregWithPCKids():Boolean {
-	return pregnancy.type == PregnancyStore.PREGNANCY_PLAYER && pregnancy.incubation <= 280;
+	return pregnancy.type == PregnancyStore.PREGNANCY_PLAYER && pregnancy.incubation <= sceneHunter.adjustPregEventTimerNum(280, PregnancyStore.INCUBATION_KIHA);
 }
 
 private function marbleCuddlin():void {
@@ -3372,7 +3367,7 @@ private function marblePreggoChance(preggerMult:Number):void {
 	//GET HER PREGNANT
 	trace("MARBLE PREGGO ODDS: " + preggerOdds);
 
-	if(rand(100) < preggerOdds && (player.hasPerk(PerkLib.MarblesMilk) || flags[kFLAGS.MARBLE_PURIFICATION_STAGE] >= 5)) {
+	if((rand(100) < preggerOdds || player.hasPerk(PerkLib.PilgrimsBounty)) && (player.hasPerk(PerkLib.MarblesMilk) || flags[kFLAGS.MARBLE_PURIFICATION_STAGE] >= 5)) {
 		//SHUT UP SHES ALREADY PREGNANT
 		if (!pregnancy.isPregnant) {
 			trace("Marble got PREGNANT!");

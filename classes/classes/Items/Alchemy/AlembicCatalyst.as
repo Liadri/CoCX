@@ -1,5 +1,6 @@
 package classes.Items.Alchemy {
 import classes.Items.Useable;
+import classes.Scenes.SceneLib;
 
 public class AlembicCatalyst extends Useable {
 	public var reagentType:int;
@@ -60,7 +61,7 @@ public class AlembicCatalyst extends Useable {
 				break;
 		}
 		shortName +="ACat";
-		var description:String = "This magical crystal, when placed inside alchemical alembic, " + powerName + " chances to extract " + compName + ". It is not consumed in the process and can be used muliple times."
+		var description:String = "This magical crystal, when placed inside an alchemical alembic, " + powerName + " chances to extract " + compName + ". It is not consumed in the process and can be used mmultiple times."
 		super(id, shortName, longName, value, description);
 	}
 	
@@ -68,7 +69,8 @@ public class AlembicCatalyst extends Useable {
 		outputText(description);
 		outputText("You examine the magical crystal.");
 		outputText("\n\n");
-		outputText("<i>This item is used in 'Crafting - Extract' menu.</b>");
+		outputText("<i>This item is used in 'Crafting - Extract' menu.</i>");
+		SceneLib.inventory.returnItemToInventory(this);
 		return false;
 	}
 }

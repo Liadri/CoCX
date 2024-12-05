@@ -13,7 +13,7 @@ package classes.Items.Weapons
 		
 		public function SoulDrill()
 		{
-			super("SDrill", "SoulDrill", "soul drill", "a soul drill", "pierce", 20, 9600, "Soul Drill - the best solution for 'my drill is my soul' cases on this side of Mareth!  This huge hand drill could be powered by soulforce to spin. The more you power it up the faster it spin.", WT_EXOTIC, WSZ_LARGE);
+			super("SDrill", "SoulDrill", "soul drill", "a soul drill", "pierce", 20, 9600, "Soul Drill - the ultimate solution for 'my drill is my soul' cases on this side of Mareth!  This massive hand drill could be powered by soulforce to spin. The more power you channel into it, the faster it spins.", WT_EXOTIC, WSZ_LARGE);
 		}
 		
 		override public function get attack():Number {
@@ -30,19 +30,19 @@ package classes.Items.Weapons
 			return game.player.statusEffectv1(StatusEffects.SoulDrill1) >= 1 ? "drill" : "pierce";
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			game.player.createStatusEffect(StatusEffects.SoulDrill1,0,0,0,0);
-			super.afterEquip(doOutput);
+			super.afterEquip(doOutput, slot);
 		}
 		
-		override public function afterUnequip(doOutput:Boolean):void {
+		override public function afterUnequip(doOutput:Boolean, slot:int):void {
 			while (game.player.hasStatusEffect(StatusEffects.SoulDrill1)) game.player.removeStatusEffect(StatusEffects.SoulDrill1);
-			super.afterUnequip(doOutput);
+			super.afterUnequip(doOutput, slot);
 		}
 		
-		override public function canEquip(doOutput:Boolean):Boolean {
-			if (game.player.hasPerk(PerkLib.GigantGrip)) return super.canEquip(doOutput);
-			if (doOutput) outputText("You aren't skilled in handling large weapons with one hand yet to effectively use this drill. Unless you want to hurt yourself instead enemies when trying to use it...  ");
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (game.player.hasPerk(PerkLib.GigantGrip)) return super.canEquip(doOutput, slot);
+			if (doOutput) outputText("You aren't yet skilled enough to handle large weapons with one hand effectively. Unless you want to hurt yourself instead of your enemies when trying to use it...  ");
 			return false;
 		}
 	}

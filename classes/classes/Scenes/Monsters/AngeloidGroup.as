@@ -12,7 +12,7 @@ package classes.Scenes.Monsters
 		private function angelsReactsToLustiness():void {
 			outputText("Angeloids stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Sinner!!! We.Must.Contact.Supreviser.</i>\"");
-			outputText("\n\nThe angeloids starts to burn more and more intense causing you to temporaly avert your gaze. When you look agian at spot they were you could only see a bit of ashes.");
+			outputText("\n\nThe angeloids starts to burn more and more intense causing you to temporarily avert your gaze. When you look again at spot they were you could only see a bit of ashes.");
 			gems = 0;
 			XP = 0;
 			HP = minHP() - 1;
@@ -119,7 +119,7 @@ package classes.Scenes.Monsters
 			this.imageName = "angeloids";
 			this.long = "";
 			initStrTouSpeInte(10, 100, 45, 25);
-			initWisLibSensCor(180, 4, 30, 0);
+			initWisLibSensCor(180, 4, 30, -100);
 			this.tallness = 30;
 			this.randomDropChance = 0.2;
 			this.randomDropParams = {

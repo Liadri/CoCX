@@ -4,6 +4,7 @@ import classes.BodyParts.Face;
 import classes.BodyParts.LowerBody;
 import classes.BodyParts.Skin;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 
@@ -934,14 +935,15 @@ public function nagaPlayerConstrict():void {
 			else {
 				outputText("You quickly dig your way up and underneath your opponent and, as you break out of the ground, launch yourself at [themonster] and wrap yourself around [monster him]. You squeeze [monster him] tightly and hear [monster him] cry out in pain.");
 			}
-			monster.createStatusEffect(StatusEffects.Constricted, 1 + rand(4), 0, 0, 0);
+			if (player.perkv1(IMutationsLib.MightyLowerHalfIM) >= 4) monster.createStatusEffect(StatusEffects.Constricted, 2 + rand(4),0,0,0);
+			else monster.createStatusEffect(StatusEffects.Constricted, 1 + rand(4), 0, 0, 0);
 		}
 		//Failure
 		else {
 			//Failure (-10 HPs) -
 			outputText("You quickly dig your way up and underneath your opponent and, as you break out of the ground, launch yourself at your opponent and attempt to wrap yourself around [monster him]. Before you can even get close enough, [themonster] jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back. ");
 			player.takePhysDamage(5, true);
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				doNext(SceneLib.combat.endHpLoss);
 				if (monster.hasStatusEffect(StatusEffects.Dig)) monster.removeStatusEffect(StatusEffects.Dig);
 				return;
@@ -957,14 +959,15 @@ public function nagaPlayerConstrict():void {
 			else {
 				outputText("You launch yourself at [themonster] and wrap yourself around [monster him]. You squeeze [monster him] tightly and hear [monster him] cry out in pain.");
 			}
-			monster.createStatusEffect(StatusEffects.Constricted, 1 + rand(4), 0, 0, 0);
+			if (player.perkv1(IMutationsLib.MightyLowerHalfIM) >= 4) monster.createStatusEffect(StatusEffects.Constricted, 2 + rand(4), 0, 0, 0);
+			else monster.createStatusEffect(StatusEffects.Constricted, 1 + rand(4), 0, 0, 0);
 		}
 		//Failure
 		else {
 			//Failure (-10 HPs) -
 			outputText("You launch yourself at your opponent and attempt to wrap yourself around [monster him]. Before you can even get close enough, [themonster] jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back. ");
 			player.takePhysDamage(5, true);
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				doNext(SceneLib.combat.endHpLoss);
 				if (monster.hasStatusEffect(StatusEffects.Dig)) monster.removeStatusEffect(StatusEffects.Dig);
 				return;
@@ -987,6 +990,7 @@ public function nagaSqueeze():void {
 	outputText("Your coils wrap tighter around your prey, leaving [monster him] short of breath. You can feel it in your tail as [monster his] struggles are briefly intensified. ");
 	var damageBonus:int = 0;
 	var damage:int = monster.maxHP() * (.10 + rand(15) / 100);
+	if (player.perkv1(IMutationsLib.MightyLowerHalfIM) >= 2) damage += combat.scalingBonusStrength() * 0.5 * (player.perkv1(IMutationsLib.MightyLowerHalfIM) - 1);
     damage = combat.statusEffectBonusDamage(damage);
 	if (player.hasPerk(PerkLib.VladimirRegalia)) damage *= 2;
 	if (player.hasPerk(PerkLib.RacialParagon)) damage *= combat.RacialParagonAbilityBoost();
@@ -997,6 +1001,7 @@ public function nagaSqueeze():void {
 	if (player.hasPerk(PerkLib.UnbreakableBind)) damage *= 2;
 	if (player.hasStatusEffect(StatusEffects.ControlFreak)) damage *= player.statusEffectv1(StatusEffects.ControlFreak);
 	if (player.hasPerk(PerkLib.Sadomasochism)) damage *= player.sadomasochismBoost();
+	if (player.perkv1(IMutationsLib.MightyLowerHalfIM) >= 1) damage *= (1 + (0.25 * player.perkv1(IMutationsLib.MightyLowerHalfIM)));
 	damage = damage+damageBonus;
 	SceneLib.combat.doDamage(damage, true, true);
 	fatigue(20, USEFATG_PHYSICAL);
@@ -1011,7 +1016,7 @@ public function nagaSqueeze():void {
 	}
 	outputText("\n\n");
 	if (monster.hasStatusEffect(StatusEffects.HypnosisNaga)) monster.removeStatusEffect(StatusEffects.HypnosisNaga);
-    SceneLib.combat.enemyAIImpl();
+	SceneLib.combat.postStrandleExtraActionsCheck();
 }
 //Tease
 public function nagaTease():void {
@@ -1109,11 +1114,7 @@ public function nagaTease():void {
         outputText("\n[Themonster] seems unimpressed.");
     }
     outputText("\n\n");
-    if (monster.lust >= monster.maxOverLust()) {
-        doNext(SceneLib.combat.endLustVictory);
-        return;
-    }
-    SceneLib.combat.enemyAIImpl();
+    SceneLib.combat.postStrandleExtraActionsCheck();
 }
 
 public function nagaLeggoMyEggo():void {

@@ -57,7 +57,7 @@ public class Equipable extends Useable {
 	 */
 	protected var _playerPerks:Array;
 	
-	public function get name():String {
+	public override function get name():String {
 		return _name;
 	}
 	
@@ -133,7 +133,7 @@ public class Equipable extends Useable {
 	}
 	
 	override public function canUse():Boolean {
-		return canEquip(true);
+		return canEquip(true, -1);
 	}
 	
 	/**
@@ -148,7 +148,8 @@ public class Equipable extends Useable {
 		var equipLevel:int = 54;
 		equipLevel -= game.player.perkv1(PerkLib.AscensionHerosBirthrightRankX) * 9;
 		if (equipLevel < 0) equipLevel = 0;
-		if (game.player.compatibileSwordImmortalWeapons() && game.player.hasPerk(PerkLib.HiddenJobSwordImmortal)) equipLevel = 0;
+		if (game.player.compatibileSwordImmortalWeaponsMain() && game.player.hasPerk(PerkLib.HiddenJobSwordImmortal)) equipLevel = 0;// && ItemConstants.SLOT_WEAPON_MELEE
+		//if (game.player.compatibileSwordImmortalWeaponsMain() && ItemConstants.SLOT_WEAPON_MELEE_OFF && game.player.hasPerk(PerkLib.HiddenJobSwordImmortal)) equipLevel = 0;
 		return equipLevel;
 	}
 	
@@ -168,13 +169,13 @@ public class Equipable extends Useable {
 			case "onunequip":
 				return "You unequip "+longName+". ";
 			case "legendary_fail":
-				return "You try to equip the legendary item, but to your disapointment the item simply refuses to stay on your body. It seems you still lack the right to use this item.";
+				return "You try to equip the legendary item, but to your disappointment, it simply refuses to stay on your body. It seems you still lack the right to use this item.";
 			case "too_corrupt":
-				return "You grab hold of the handle of " + name + " only to have it grow burning hot. You're forced to let it go lest you burn yourself. Something within the tool must be displeased."
+				return "You grab hold of the handle of " + name + " only for it to grow burning hot. You're forced to let go lest you burn yourself. Something within the tool must be displeased."
 			case "too_pure":
 				return "As soon as you try to wield " + name + ", it jerks wildly like a bucking horse. You quickly put it back into your pouches before it can do harm to you."
 			case "rigidity_fail":
-				return "You would very like to equip this item but your body stiffness prevents you from doing so."
+				return "You would very much like to equip this item but your body stiffness prevents you from doing so."
 			default:
 				return "Error getEquipText("+textid+")";
 		}
@@ -185,9 +186,10 @@ public class Equipable extends Useable {
 	 * Should NOT check empty target slot (but can check other slots).
 	 * (ex. equipping large weapon can check for no shield but shouldn't check for no weapon)
 	 * @param doOutput Player tries equipping the item, if fails, print why. And do any side effects related to failed equip attempt.
+	 * @param slot Slot to equip the item onto. -1 - any slot.
 	 * @return true if the player can wear the item
 	 */
-	public function canEquip(doOutput:Boolean):Boolean {
+	public function canEquip(doOutput:Boolean, slot:int):Boolean {
 		if (game.player.cor > effectPower(IELib.Require_CorBelow, 100) + game.player.corruptionTolerance) {
 			if (doOutput) outputText(getItemText("too_corrupt"))
 			return false
@@ -206,6 +208,7 @@ public class Equipable extends Useable {
 	/**
 	 * Test if player can unequip the item
 	 * @param doOutput Player tries unequiping the item, if fails, print why. And do any side effects related to failed unequip attempt.
+	 * @param slot Slot here to equip, -1 - any slot
 	 * @return true if player can unequip the item
 	 */
 	public function canUnequip(doOutput:Boolean):Boolean {
@@ -226,7 +229,7 @@ public class Equipable extends Useable {
 	 * @param doOutput
 	 * @return Actual item to be put into slot, or null
 	 */
-	public function beforeEquip(doOutput:Boolean):Equipable {
+	public function beforeEquip(doOutput:Boolean, slot:int):Equipable {
 		if (doOutput) equipText();
 		return this;
 	}
@@ -241,7 +244,10 @@ public class Equipable extends Useable {
 	 * Apply equipment effects here.
 	 * @param doOutput
 	 */
-	public function afterEquip(doOutput:Boolean):void {
+	public function afterEquip(doOutput:Boolean, slot:int):void {
+		for each (var ie:ItemEffect in effectsFlagged(IEF_ONEQUIP)) {
+			ie.onEquip(game.player, this);
+		}
 		if (_buffs) {
 			// don't write into savefile
 			if (_buffsStack) {
@@ -250,7 +256,6 @@ public class Equipable extends Useable {
 				game.player.buff(tagForBuffs).setStats(_buffs).withText(name).withOptions({save:false});
 			}
 		}
-		
 		if (!game.isLoadingSave) {
 			if (_playerPerks) {
 				for each (var perk:Array in _playerPerks) {
@@ -267,12 +272,12 @@ public class Equipable extends Useable {
 	 * @param doOutput
 	 * @return Actual item to place into inventory (could be nothing)
 	 */
-	public function beforeUnequip(doOutput:Boolean):ItemType {
-		if (doOutput) unequipText();
+	public function beforeUnequip(doOutput:Boolean, slot:int):ItemType {
+		if (doOutput) unequipText(slot);
 		return this;
 	}
 	
-	public function unequipText():void {
+	public function unequipText(slot:int):void {
 		outputText(getItemText("onunequip"));
 	}
 	
@@ -281,7 +286,10 @@ public class Equipable extends Useable {
 	 * Undo effects here
 	 * @param doOutput
 	 */
-	public function afterUnequip(doOutput:Boolean):void {
+	public function afterUnequip(doOutput:Boolean, slot:int):void {
+		for each (var ie:ItemEffect in effectsFlagged(IEF_ONEQUIP)) {
+			ie.onEquip(game.player, this);
+		}
 		if (_buffs) {
 			if (game.player.countSameEquippedItems(this) == 0 || !_buffsStack) {
 				game.player.buff(tagForBuffs).remove();

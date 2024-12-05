@@ -62,10 +62,10 @@ public class YgddrasilRace extends Race {
 				.legType(LowerBody.YGG_ROOT_CLAWS, +1)
 				.legType(NONE(LowerBody.FROSTWYRM, LowerBody.FEY_DRAGON, LowerBody.LION), 0, -10)
 				.tailType(Tail.YGGDRASIL, +1)
-				.hasPerk(PerkLib.DragonPoisonBreath, +1);
+				.hasPerk(PerkLib.DragonPoisonousSapBreath, +1);
 		
-		addMutation(IMutationsLib.DraconicBonesIM);
-		addMutation(IMutationsLib.DraconicHeartIM);
+		addMutation(IMutationsLib.DrakeBonesIM);
+		addMutation(IMutationsLib.DrakeHeartIM);
 		addMutation(IMutationsLib.DrakeLungsIM);
 		
 		buildTier(12, "ygddrasil")

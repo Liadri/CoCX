@@ -19,13 +19,13 @@ public class Achievements extends BaseContent
 			//Set text.
 			if (!silent) outputText("<li><b>" + title + ":</b> ");
 			if (achievements[achievement] > 0) {
-				if (!silent) outputText("<font color=\"#008000\">Unlocked</font> - " + descUnlocked);
+				if (!silent) outputText("[font-green]Unlocked[/font] - " + descUnlocked);
 				achievementsTotalCurrentlyUnlocked++;
 				achievementsEarned++;
 			}
-			else if (!silent) outputText("<font color=\"#800000\">Locked</font> - " + descLocked);
+			else if (!silent) outputText("[font-dred]Locked[/font] - " + descLocked);
 			if (isShadow) {
-				if (!silent) outputText(" - <font color=\"#660066\">Shadow Achievement</font>");
+				if (!silent) outputText(" - [font-dark]Shadow Achievement[/font]");
 				achievementsTotalCurrentlyUnlocked++;
 				achievementsShadowEarned++;
 			}
@@ -135,7 +135,7 @@ public class Achievements extends BaseContent
 			addAchievement("Decade", kACHIEVEMENTS.TIME_DECADE, "Get to day 3,650. (10 years)", "Get to day 3,650. (10 years | Okay, you can stop now.)", true);
 			addAchievement("Century", kACHIEVEMENTS.TIME_CENTURY, "Get to day 36,500. (100 years)", "Get to day 36,500. (100 years | It's time to stop playing. Go outside.)", true);
 
-			titleAchievementSection("Dungeons"); //26 achievements
+			titleAchievementSection("Dungeons"); //30 achievements
 			addAchievement("Delver", kACHIEVEMENTS.DUNGEON_DELVER, "Clear any dungeon.");
 			addAchievement("Delver Apprentice", kACHIEVEMENTS.DUNGEON_DELVER, "Clear 2 dungeons.");
 			addAchievement("Delver Expert", kACHIEVEMENTS.DUNGEON_DELVER_MASTER, "Clear 4 dungeons.");
@@ -155,12 +155,15 @@ public class Achievements extends BaseContent
 			addAchievement("Buzz Off", kACHIEVEMENTS.DUNGEON_BUZZ_OFF, "Trick the hive guards into letting you pass witheout fighting.", "", true);
 			addAchievement("Tiger stalking the Dragon", kACHIEVEMENTS.DUNGEON_TIGER_STALKING_THE_DRAGON, "Fully clear the Hidden Cave.");
 			addAchievement("Slain the Heroslayer", kACHIEVEMENTS.DUNGEON_SLAIN_THE_HEROSLAYER, "Fully clear the Den of Desire.");
+			addAchievement("Weeding Out", kACHIEVEMENTS.DUNGEON_WEEDING_OUT, "Fully clear the Twilight Grove.");
 			addAchievement("Mirror Flower, Water Moon", kACHIEVEMENTS.DUNGEON_MIRROR_FLOWER_WATER_MOON, "Clear the River Dungeon.");
 			addAchievement("Dungeon Seeker (1st layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_1ST_LAYER, "Clear 1st floor of the River Dungeon.");
 			addAchievement("Dungeon Seeker (2nd layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_2ND_LAYER, "Clear 2nd floor of the River Dungeon.");
 			addAchievement("Dungeon Seeker (3rd layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_3RD_LAYER, "Clear 3rd floor of the River Dungeon.");
 			addAchievement("Dungeon Seeker (4th layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_4TH_LAYER, "Clear 4th floor of the River Dungeon.");
-			//addAchievement("Dungeon Seeker (5th layer)", kACHIEVEMENTS., "Clear 5th floor of the River Dungeon.");
+			addAchievement("Dungeon Seeker (5th layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_5TH_LAYER, "Clear 5th floor of the River Dungeon.");
+			//addAchievement("Dungeon Seeker (6th layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_6TH_LAYER, "Clear 6th floor of the River Dungeon.");
+			//addAchievement("Dungeon Seeker (7th layer)", kACHIEVEMENTS., "Clear 7th floor of the River Dungeon.");
 			addAchievement("Honorary Minotaur", kACHIEVEMENTS.DUNGEON_HONORARY_MINOTAUR, "Reach 50th room of Ebon Labyrinth. Clear the Ebon Labyrinth.");
 			addAchievement("Got lost?", kACHIEVEMENTS.DUNGEON_GOT_LOST, "Reach 100th room of Ebon Labyrinth.");
 			addAchievement("Hug the left wall", kACHIEVEMENTS.DUNGEON_HUG_THE_LEFT_WALL, "Reach 150th room of Ebon Labyrinth.");
@@ -177,7 +180,7 @@ public class Achievements extends BaseContent
 
 			titleAchievementSection("Fashion"); //24 achievements
 			addAchievement("Wannabe Wizard", kACHIEVEMENTS.FASHION_WANNABE_WIZARD, "Equip wizard robes and magic staff.");
-			addAchievement("Cosplayer (Begginer)", kACHIEVEMENTS.FASHION_COSPLAYER, "Wear 10 different clothings/armors.");
+			addAchievement("Cosplayer (Beginner)", kACHIEVEMENTS.FASHION_COSPLAYER, "Wear 10 different clothings/armors.");
 			addAchievement("Cosplayer (Amateour)", kACHIEVEMENTS.FASHION_COSPLAYER_1, "Wear 30 different clothings/armors.");
 			addAchievement("Cosplayer (Recognizable)", kACHIEVEMENTS.FASHION_COSPLAYER_2, "Wear 60 different clothings/armors.");
 			addAchievement("Cosplayer (Seasonal)", kACHIEVEMENTS.FASHION_COSPLAYER_3, "Wear 100 different clothings/armors.");
@@ -222,7 +225,7 @@ public class Achievements extends BaseContent
 			addAchievement("Meng Hao", kACHIEVEMENTS.WEALTH_MENG_HAO, "Have 20,000,000 spirit stones.", "Have 20,000,000 spirit stones. You can now exchange tips on getting more spirit stones with Meng Hao himself.", true);
 			//addAchievement("Item Vault", kACHIEVEMENTS.WEALTH_ITEM_VAULT, "Fill up your inventory, chest, jewelry box, weapon and armor racks.");
 
-			titleAchievementSection("Combat"); //19 achievements
+			titleAchievementSection("Combat"); //20 achievements
 			addAchievement("Are you a Wizard?", kACHIEVEMENTS.COMBAT_ARE_YOU_A_WIZARD, "Cast your first spell.");
 			addAchievement("Gandalf", kACHIEVEMENTS.COMBAT_GANDALF, "Learn all white spells.");
 			addAchievement("Sauron", kACHIEVEMENTS.COMBAT_SAURON, "Learn all black spells.");
@@ -249,6 +252,7 @@ public class Achievements extends BaseContent
 			addAchievement("Uncanny Bloodletter", kACHIEVEMENTS.COMBAT_UNCANNY_BLOOD_LETTER, "Deal a total of 1,000,000 damage.", "", true);
 			addAchievement("Uncanny Reiterpallasch", kACHIEVEMENTS.COMBAT_UNCANNY_REITERPALLASCH, "Deal a total of 5,000,000 damage.", "", true);
 			addAchievement("Arrow to the Knee", kACHIEVEMENTS.COMBAT_ARROW_TO_THE_KNEE, "Use your bow/crossbow for a first time.");
+			addAchievement("My name is Bruce—Bruce Wood!", kACHIEVEMENTS.COMBAT_MY_NAME_IS_BRUCE_BRUCE_WOOD, "Even training dummy beaten you?!?", "", true);
 
 			titleAchievementSection("Holiday Events"); //11 achievements
 			addAchievement("Egg Hunter", kACHIEVEMENTS.HOLIDAY_EGG_HUNTER, "Find 10 eggs as random drops during Easter event.", "", true);
@@ -263,7 +267,7 @@ public class Achievements extends BaseContent
 			addAchievement("Will You Be My Valentine?", kACHIEVEMENTS.HOLIDAY_VALENTINE, "Visit the Wet Bitch during Valentine's day. (Valentine)", "", true);
 			addAchievement("Year of the Goat", kACHIEVEMENTS.HOLIDAY_YEAR_OF_THE_GOAT, "Visit the He'Xin'Dao during Lunar New Year. (Winter)", "", true);
 
-			titleAchievementSection("Survival/Realistic Mode"); //15 achievements
+			titleAchievementSection("Survival/Realistic Mode"); //17 achievements
 			addAchievement("Tastes Like Chicken", kACHIEVEMENTS.REALISTIC_TASTES_LIKE_CHICKEN, "Refill your hunger for the first time.");
 			addAchievement("Champion Needs Food Badly (1)", kACHIEVEMENTS.REALISTIC_CHAMPION_NEEDS_FOOD, "Instantly refill your hunger from 0 to 100 in one go.");
 			addAchievement("Champion Needs Food Badly (2)", kACHIEVEMENTS.REALISTIC_CHAMPION_NEEDS_FOOD_2, "Instantly refill your hunger from 0 to 250 in one go.");
@@ -279,7 +283,7 @@ public class Achievements extends BaseContent
 			//addAchievement(" Glutton", kACHIEVEMENTS., "Eat while hunger is above 2490.", "", true);obecnie max to 3378
 			//addAchievement(" Glutton", kACHIEVEMENTS., "Eat while hunger is above 4990.", "", true);
 			addAchievement("Fasting", kACHIEVEMENTS.REALISTIC_FASTING, "Keep hunger below 25 for a week but don't let it reach 0.");
-			addAchievement("Lent", kACHIEVEMENTS.REALISTIC_LENT, "Keep hunger below 25 for fourty days but don't let it reach 0.", "Keep hunger below 25 for fourty days but don't let it reach 0. Now you're ready for Easter.", true);
+			addAchievement("Lent", kACHIEVEMENTS.REALISTIC_LENT, "Keep hunger below 25 for forty days but don't let it reach 0.", "Keep hunger below 25 for forty days but don't let it reach 0. Now you're ready for Easter.", true);
 			addAchievement("One more dish please", kACHIEVEMENTS.REALISTIC_ONE_MORE_DISH_PLEASE, "Increase your maximum hunger above 100.");
 			addAchievement("You not gonna eat those ribs?", kACHIEVEMENTS.REALISTIC_YOU_NOT_GONNA_EAT_THOSE_RIBS, "Increase your maximum hunger above 250.");
 			addAchievement("Dinner for Four", kACHIEVEMENTS.REALISTIC_DINNER_FOR_FOUR, "Increase your maximum hunger above 500.");
@@ -295,19 +299,27 @@ public class Achievements extends BaseContent
 			//eat 50 pts over max hunger without gaining weight
 			//eat 75 pts over max hunger without gaining weight (perki muszą dać zwiekszenie limitu przejedzenia sie bez przyrostu wagi ^^)
 
-			titleAchievementSection("Epic"); //16 achievements
+			titleAchievementSection("Epic"); //29 achievements
 			addAchievement("xXx2: The Next Level", kACHIEVEMENTS.EPIC_XXX2_THE_NEXT_LEVEL, "Start NG+ (or higher) game.", "", true);
 			addAchievement("xXx: The Return of Mareth Champion", kACHIEVEMENTS.EPIC_XXX_THE_RETURN_OF_MARETH_CHAMPION, "Start NG++ (or higher) game.", "", true);
 			addAchievement("xXx 4", kACHIEVEMENTS.EPIC_XXX_4, "Start NG+++ (or higher) game.", "", true);
 			addAchievement("xXx 5: Mareth's Judgment_Day", kACHIEVEMENTS.EPIC_XXX5_MARETHS_JUDGMENT_DAY, "Start NG 4+ (or higher) game.", "", true);
 			addAchievement("xXx 6: Rise of the Demons", kACHIEVEMENTS.EPIC_XXX6_RISE_OF_THE_DEMONS, "Start NG 5+ (or higher) game.", "", true);
 			addAchievement("xXx 7: Salvation", kACHIEVEMENTS.EPIC_XXX7_SALVATION, "Start NG 6+ (or higher) game.", "", true);
-			//addAchievement("xXx 8: Genisys", kACHIEVEMENTS.EPIC_XXX8_GENISYS, "Start NG 7+ (or higher) game.", "", true);
-			//addAchievement("xXx 9: Dark Fate", kACHIEVEMENTS.EPIC_XXX9_DARK_FATE, "Start NG 8+ (or higher) game.", "", true);
+			addAchievement("xXx 8: Genisys", kACHIEVEMENTS.EPIC_XXX8_GENISYS, "Start NG 7+ (or higher) game.", "", true);
+			addAchievement("xXx 9: Dark Fate", kACHIEVEMENTS.EPIC_XXX9_DARK_FATE, "Start NG 8+ (or higher) game.", "", true);
+			addAchievement("xXx 10: The Phantom Demon Menace", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 9+ (or higher) game.", "", true);
+			addAchievement("xXx 11: Attack of the Imps", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 10+ (or higher) game.", "", true);
+			addAchievement("xXx 12: Revenge of the Lethice", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 11+ (or higher) game.", "", true);
+			addAchievement("xXx 13: A New Hope", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 12+ (or higher) game.", "", true);
+			addAchievement("xXx 14: The Demon Empire Strikes Back", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 13+ (or higher) game.", "", true);
+			addAchievement("xXx 15: Return of the Champion", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 14+ (or higher) game.", "", true);
 			addAchievement("Guardian of Notre-Dame", kACHIEVEMENTS.EPIC_GUARDIAN_OF_NOTRE_DAME, "Become Gargoyle.", "", true);
 			addAchievement("The Devil Wears Prada", kACHIEVEMENTS.EPIC_THE_DEVIL_WEARS_PRADA, "Became Devil.", "", true);
 			addAchievement("Thriller", kACHIEVEMENTS.EPIC_THRILLER, "Became Jiangshi.", "", true);
 			addAchievement("Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, "Became Yuki Onna.", "", true);
+			addAchievement("Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, "Became Mummy.", "", true);
+			addAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, "Became Lich.", "", true);
 			//odblokowanie pierwszego animal ancestory starting bonus at chara creation
 			addAchievement("My own Demon Weapon", kACHIEVEMENTS.EPIC_MY_OWN_DEMON_WEAPON, "Find an evolving weapon.", "", true);
 			//znalezienie ewolującą zbroje
@@ -330,13 +342,15 @@ public class Achievements extends BaseContent
 			addAchievement("Achievements - Going Deeper (3rd layer)", kACHIEVEMENTS.EPIC_ACHIEVEMENTS_GOING_DEEPER_3L, "Unlocking 300 achievements.", "", true);
 			addAchievement("Achievements Limbo", kACHIEVEMENTS.EPIC_ACHIEVEMENTS_LIMBO, "Unlocking 600 achievements.", "", true);
 
-			titleAchievementSection("Shadow Slave"); //5 achievements
+			titleAchievementSection("Shadow Slave"); //6 achievements
 			addAchievement("Shadow Initiate", kACHIEVEMENTS.SHADOW_INITIATE, "Unlock first shadow achievement.", "", true);
 			addAchievement("Shadow Squire", kACHIEVEMENTS.SHADOW_SQUIRE, "Unlock 10 shadow achievements.", "", true);
 			addAchievement("Shadow Knight", kACHIEVEMENTS.SHADOW_KNIGHT, "Unlock 25 shadow achievements.", "", true);
 			addAchievement("Shadow Paladin", kACHIEVEMENTS.SHADOW_PALADIN, "Unlock 45 shadow achievements.", "", true);
 			addAchievement("Shadow General", kACHIEVEMENTS.SHADOW_GENERAL, "Unlock 70 shadow achievements.", "", true);
-			//addAchievement("Shadow ", kACHIEVEMENTS., "Unlock 100 shadow achievements.", "", true); 
+			addAchievement("Shadow Lieutenant General", kACHIEVEMENTS.SHADOW_LIEUTENANT_GENERAL, "Unlock 100 shadow achievements.", "", true);
+			//addAchievement("Shadow Major General", kACHIEVEMENTS.SHADOW_MAJOR_GENERAL, "Unlock 140 shadow achievements.", "", true); 
+			//addAchievement("Shadow ", kACHIEVEMENTS.SHADOW_, "Unlock 200 shadow achievements.", "", true);
 
 			titleAchievementSection("General");
 			addAchievement("Portal Defender", kACHIEVEMENTS.GENERAL_PORTAL_DEFENDER, "Defeat 20 demons and sleep 10 times.");
@@ -407,7 +421,7 @@ public class Achievements extends BaseContent
 			addAchievement("All Your People are Belong to Me (2)", kACHIEVEMENTS.GENERAL_ALL_UR_PPLZ_R_BLNG_2_ME_2, "Obtain in total thirty eight followers, lovers, and slaves. (Excluding mutual exclusivity)");//Obtain every follower, lover, and slave.
 			addAchievement("Scholar (1)", kACHIEVEMENTS.GENERAL_SCHOLAR, "Fill out twenty codex entries available in the game.");
 			addAchievement("Scholar (2)", kACHIEVEMENTS.GENERAL_SCHOLAR_2, "Fill out thirty codex entries available in the game.");
-			addAchievement("Scholar (3)", kACHIEVEMENTS.GENERAL_SCHOLAR_3, "Fill out fourty codex entries available in the game.");//Fill out all codex entries available in the game.
+			addAchievement("Scholar (3)", kACHIEVEMENTS.GENERAL_SCHOLAR_3, "Fill out forty codex entries available in the game.");//Fill out all codex entries available in the game.
 			addAchievement("Freeloader", kACHIEVEMENTS.GENERAL_FREELOADER, "Visit the Kitsune's mansion 3 times.");
 			addAchievement("Schizophrenic", kACHIEVEMENTS.GENERAL_SCHIZO, "Go between pure and corrupt 4 times. (Threshold of 20 and 80 corruption)");
 			addAchievement("Clean Slate", kACHIEVEMENTS.GENERAL_CLEAN_SLATE, "Go from 100 corruption to zero for the first time.");

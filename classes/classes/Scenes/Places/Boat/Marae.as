@@ -22,6 +22,10 @@ public class Marae extends Monster
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
 			}
 		}
 		public function tentacleRape():void {
@@ -59,6 +63,14 @@ public class Marae extends Monster
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
+				player.takePhysDamage(damage, true);
 			}
 		}
 		public function smite():void {
@@ -79,7 +91,7 @@ public class Marae extends Monster
 			if (hasStatusEffect(StatusEffects.Uber)) removeStatusEffect(StatusEffects.Uber);
 		}
 		public function maraeStrangulate():void {
-			outputText("Marae’s vines suddenly wrap tight around your neck and strangle you, preventing you from pronouncing any incantations. The godess woman gives you an annoyed glare.");
+			outputText("Marae’s vines suddenly wrap tight around your neck and strangle you, preventing you from pronouncing any incantations. The goddess woman gives you an annoyed glare.");
 			outputText("\"<i>I’m done with your magic. Be a good " + player.mf("boy", "girl") + " and just give in.</i>\"");
 			player.removeStatusEffect(StatusEffects.CastedSpell);
 			player.createStatusEffect(StatusEffects.Sealed, 2, 10, 0, 0);
@@ -146,7 +158,7 @@ public class Marae extends Monster
 				this.createVagina(false, VaginaClass.WETNESS_WET, VaginaClass.LOOSENESS_NORMAL);
 				createBreastRow(Appearance.breastCupInverse("DD"));
 				initStrTouSpeInte(640, 640, 440, 390);
-				initWisLibSensCor(390, 150, 320, 0);
+				initWisLibSensCor(390, 150, 320, -100);
 				this.weaponName = "fists";
 				this.weaponVerb="wrathful punch";
 				this.armorDef = 3000;

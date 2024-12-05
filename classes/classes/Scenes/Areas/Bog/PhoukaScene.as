@@ -5,6 +5,7 @@ package classes.Scenes.Areas.Bog
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.SceneLib;
 
 public class PhoukaScene extends BaseContent implements TimeAwareInterface {
@@ -213,7 +214,7 @@ public class PhoukaScene extends BaseContent implements TimeAwareInterface {
 
 		protected function phoukaDrinkWhilePregnant(playerOfferedTheBooze:Boolean):void
 		{
-			if ((player.hasVeryVisiblePregnancy()) || (player.buttPregnancyIncubation <= 100)) { //Pregnancy is obvious to the phouka
+			if ((player.hasVeryVisiblePregnancy()) || (player.buttPregnancyIncubation <= sceneHunter.adjustPregEventTimer(100, player.buttPregnancyType))) { //Pregnancy is obvious to the phouka
 				outputText("\n\n<i>\"Here\"</i> he says, offering you a full cup of whiskey, <i>\"give that baby what it needs.  You want 'em to grow up strong don't ya?\"</i>");
 			}
 			var acceptable:int = consumables.P_WHSKY.phoukaWhiskeyAcceptable(player);
@@ -255,18 +256,13 @@ public class PhoukaScene extends BaseContent implements TimeAwareInterface {
 			}
 			flags[kFLAGS.PREGNANCY_CORRUPTION]++; //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
 			consumables.P_WHSKY.phoukaWhiskeyAddStatus(player);
-			if (player.tou < 30) {
+			if (player.touStat.core.value < 30) {
 				outputText("\n\nYou quickly end up drunk and begin a rambling story about your adventures.  The phooka is a good listener, though he asks for lots of detail whenever you bring up sex or potential sex of any kind.  You realize you're in real trouble, turned on and watching the phouka stroking his cock, which is still hard despite the alcohol he's been downing.  He notices your interest and says <i>\"Now that you're relaxed, let's go for the main course.  I'll make sure you'll remember it even once you're sober.\"</i>");
-
 				menu();
 				phoukaSexAddStandardMenuChoices();
 			}
-			if (player.tou < 70) {
-				outputText("  It looks like the phouka is holding his liquor about as well as you are.");
-			}
-			else {
-				outputText("  It seems you can handle your liquor better than the phouka.");
-			}
+			else if (player.touStat.core.value < 70) outputText("  It looks like the phouka is holding his liquor about as well as you are.");
+			else outputText("  It seems you can handle your liquor better than the phouka.");
 			outputText("  Soon both of you start to share stories about your adventures in Mareth.");
 			phoukaDrinkTalk(false);
 		}
@@ -484,7 +480,8 @@ public class PhoukaScene extends BaseContent implements TimeAwareInterface {
 				player.fertility -= 18; //At low fertility the PC just gained up to 3 fertility due to standard post-pregnancy code. So -18 is really more like -10.
 				if (player.fertility < 5) player.fertility = 5;
 				fatigue(75);
-				flags[kFLAGS.BIRTHS_PHOUKA]++;
+				if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.BIRTHS_PHOUKA] += 2;
+				else flags[kFLAGS.BIRTHS_PHOUKA]++;
 				player.orgasm();
 			}
 			else if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 0) {
@@ -492,30 +489,32 @@ public class PhoukaScene extends BaseContent implements TimeAwareInterface {
 				player.fertility -= 8; //At low fertility the PC just gained up to 3 fertility due to standard post-pregnancy code. So - 8 is really more like -5.
 				if (player.fertility < 5) player.fertility = 5;
 				fatigue(50);
-				flags[kFLAGS.BIRTHS_PHOUKA]++;
+				if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.BIRTHS_PHOUKA] += 2;
+				else flags[kFLAGS.BIRTHS_PHOUKA]++;
 			}
 			else {
 				outputText("Your belly begins to deflate and a stream of sweet smelling sugary water rushes from your vagina.  You lay on the ground and wait, hoping this birth will be relatively painless.  You only have to give one little push and you feel a tiny shape slide gently down your birth canal.  Before you're ready for it you expel a little faerie onto the ground between your legs.\n\nThe full grown faerie looks up at you and smiles.  She shakes her little pink faerie wings out until they're dry, then does a little circuit around you, looking you over.  She zips up to your face and gives you a kiss on the cheek before backing away.\n\nThe faerie girl starts to fly higher and higher, waving to you as she goes.  Finally she turns and zips off towards the forest to meet her sisters.");
 				fatigue(5);
-				flags[kFLAGS.BIRTHS_FAERIE]++;
+				if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.BIRTHS_FAERIE] += 2;
+				else flags[kFLAGS.BIRTHS_FAERIE]++;
 			}
 		}
 
 		public function phoukaPregUpdate(womb:Object):Boolean
 		{ //Belly size doesn't change, instead you get updates on what's going on
-			if (womb["incubation"] == 170) { //Stage 1:
+			if (womb["incubation"] == sceneHunter.adjustPregEventTimer(170, womb["type"])) { //Stage 1:
 				if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 0)
 					outputText("\nYour belly still feels solid and heavy.  Whatever is growing inside doesn't want you to move around very much.  You might as well sit around at camp until you force it out.\n");
 				else outputText("\nYour belly still feels solid and heavy, but for some reason you feel energized and want to enjoy life.  You could really go for a stroll through the forest.\n");
 				return true;
 			}
-			if (womb["incubation"] == 140) { //Stage 2:
+			if (womb["incubation"] == sceneHunter.adjustPregEventTimer(140, womb["type"])) { //Stage 2:
 				if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 0)
 					outputText("\nYour belly feels a bit softer now.  Every once in a while you feel something tiny bump against the inside of your womb.\n");
 				else outputText("\nYour belly feels a bit softer now.  Every once in a while you feel a fluttering against the wall of your womb, almost as if something is flying around in there.\n");
 				return true;
 			}
-			if (womb["incubation"] == 100) { //Stage 3:
+			if (womb["incubation"] == sceneHunter.adjustPregEventTimer(100, womb["type"])) { //Stage 3:
 				outputText("\nYour belly feels like it's full of liquid, more like a normal pregnancy. ");
 				if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 0)
 					outputText("\nThat part is more comfortable for you. Too bad you feel like that liquid is stale and tainted.");
@@ -523,7 +522,7 @@ public class PhoukaScene extends BaseContent implements TimeAwareInterface {
 				outputText(" You've noticed that this pregnancy doesn't seem to be affecting your breasts. It's as if the child inside you has no use for your milk.\n");
 				return true;
 			}
-			if (womb["incubation"] == 60) { //Stage 4:
+			if (womb["incubation"] == sceneHunter.adjustPregEventTimer(60, womb["type"])) { //Stage 4:
 				if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 6)
 					outputText("\nWhatever unclean spawn is inside you hasn't grown very much. Your belly is still packed with tainted fluid and you find it difficult to keep food down.  You constantly experience urges to drink alcohol, the stronger the better.\n");
 				else if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 0)
@@ -531,7 +530,7 @@ public class PhoukaScene extends BaseContent implements TimeAwareInterface {
 				else outputText("\nWhatever kind of life is inside you hasn't grown very much. Your belly is still packed with fluid, though it somehow feels less saturated.\n");
 				return true;
 			}
-			if (womb["incubation"] == 36) { //Stage 5:
+			if (womb["incubation"] == sceneHunter.adjustPregEventTimer(36, womb["type"])) { //Stage 5:
 				outputText("\nEven though your belly remains the same size you somehow feel that your pregnancy is drawing to a close. ");
 				if (flags[kFLAGS.PREGNANCY_CORRUPTION] > 6)
 					outputText("Despite the small size of your belly you spend most of your time feeling deeply ill and you can't wait to force this thing out.  You can feel a constant dull pain from your womb and ovaries, probably the result of the tainted fluid inside you.  Only drinking alcohol settles your stomach.\n");

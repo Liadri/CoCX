@@ -188,7 +188,7 @@ public class Ears extends BodyPart {
 	public static const RED_PANDA: int = 30;
 	EnumValue.add(Types, RED_PANDA, "RED_PANDA", {
 		name: "red-panda",
-		appearanceDesc: "Big, white furred, red-panda ears lie atop your head, keeping you well aware to your surroundings.",
+		appearanceDesc: "Big, white-furred, red-panda ears lie atop your head, keeping you well aware to your surroundings.",
 		fur: true
 	});
 	public static const AVIAN: int = 31;
@@ -223,7 +223,7 @@ public class Ears extends BodyPart {
 	public static const SHARK: int = 36;
 	EnumValue.add(Types, SHARK, "SHARK", {
 		name: "shark",
-		appearanceDesc: "A pair of fin like ears with fins stick out from your head. They allow you to hear every sound with perfect clarity while underwater."
+		appearanceDesc: "A pair of fin-like ears stick out from your head. They allow you to hear every sound with perfect clarity while underwater."
 	});
 	public static const DISPLACER: int = 37;
 	EnumValue.add(Types, DISPLACER, "DISPLACER", {
@@ -241,7 +241,7 @@ public class Ears extends BodyPart {
 	EnumValue.add(Types, GREMLIN, "GREMLIN", {
 		name: "gremlin",
 		appearanceDescFunc: function(creature: *): String {
-			var desc: String = "A pair of sideways leaning furry ears stick out from the side of your head, they flick toward every slight sound. They don’t belong to any known animal but like anything demonic related, it helps improve your devilish charm." + (EngineCore.silly() ? " With ears like that, anyone would be hard-pressed to resist the urge to headpat you." : "");
+			var desc: String = "Your [hair] is parted by two sideways leaning furry ears that flick toward every slight sound. They don’t belong to any known animal but like anything demonic related help improve your devilish charm." + (EngineCore.silly() ? " With ears like that anyone would be hard pressed to resist the urge to headpat you." : "");
 
 			return desc;
 		}
@@ -266,7 +266,7 @@ public class Ears extends BodyPart {
 	public static const KIRIN: int = 43;
 	EnumValue.add(Types, KIRIN, "KIRIN", {
 		name: "kirin",
-		appearanceDesc: "A pair of animal like ears rise up from the top of your head. Well animal like is the proper therm seeing as your kirin ears are covered with scales.",
+		appearanceDesc: "A pair of animal-like ears rise up from the top of your head. Well, animal-like is the proper term seeing as your kirin ears are covered with scales.",
 		fur: true
 	});
 	public static const BIG: int = 44;
@@ -284,6 +284,18 @@ public class Ears extends BodyPart {
 	EnumValue.add(Types, JACKAL, "JACKAL", {
 		name: "jackal fox",
 		appearanceDesc: "A pair of jackal ears that gives you an austere outlook. With that kind of getup no one can question that you are the one in charge.",
+		fur: true
+	});
+	public static const TROLL: int = 47;
+	EnumValue.add(Types, TROLL, "TROLL", {
+		name: "troll",
+		appearanceDesc: "A pair of troll ears stick out from the sides of your head, each covered in soft, green fur.",
+		fur: true
+	});
+	public static const GLACIAL_TROLL: int = 48;
+	EnumValue.add(Types, GLACIAL_TROLL, "GLACIAL_TROLL", {
+		name: "g.troll",
+		appearanceDesc: "A pair of glacial troll ears stick out from the sides of your head, each covered in soft, white fur.",
 		fur: true
 	});
 	

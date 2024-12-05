@@ -19,9 +19,9 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 			super("AetherD", "AetherD", "Aether (Dex)", "an Aether (Dex)", "punch", 0, 0, "Aether - dexter part of mysterious sentient weapons pair rumored to be forged by the god of blacksmiths.", WT_GAUNTLET, WSZ_MEDIUM);
 		}
 		
-		override public function isDual():Boolean {
-			if (CoC.instance && CoC.instance.player && CoC.instance.player.shield == game.shields.AETHERS && AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers") return true;
-			return false;
+		private static const SLOTS:Array = [SLOT_WEAPON_MELEE];
+		override public function slots():Array {
+			return SLOTS;
 		}
 		
 		override public function get description():String {
@@ -39,7 +39,7 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 		}
 		
 		override public function get verb():String {
-			if (game.player.hasAetherTwinsTierS1() || game.player.hasAetherTwinsTierS2()) return "stab";
+			if (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield") return "stab";
 			else return "punch";
 		}
 		
@@ -49,26 +49,37 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 			return (0 + boost);
 		}
 		
+		override public function get type():String {
+			if (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield") return WT_DAGGER;
+			else return WT_GAUNTLET;
+		}
+		
+		override public function get size():int {
+			if (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield") return WSZ_SMALL;
+			else if (AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gauntlets") return WSZ_LARGE;
+			else return WSZ_MEDIUM;
+		}
+		
 		override public function useText():void {
 			outputText("\n\n\"<i>Well alright then, [name]!</i>\" Aether (Dex) says excitedly, \"<i>Let's go!</i>\"\n\n");
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			game.flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] = 2;
-			super.afterEquip(doOutput);
+			super.afterEquip(doOutput, slot);
 		}
 		
-		override public function unequipText():void {
-			outputText("Aether (Dex) lays on the ground for a moment, \"<i>I will be waiting in the camp</i>\" she says before teleporting back to your camp.\n\n(<b>Aether (Dex) is now available in the followers tab!</b>)");
+		override public function unequipText(slot:int):void {
+			outputText("Aether (Dex) lies on the ground for a moment, \"<i>I will be waiting in the camp</i>\" she says before teleporting back to your camp.\n\n(<b>Aether (Dex) is now available in the followers tab!</b>)");
 		}
 		
-		override public function afterUnequip(doOutput:Boolean):void {
+		override public function afterUnequip(doOutput:Boolean, slot:int):void {
 			game.flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] = 1;
-			super.afterUnequip(doOutput);
+			super.afterUnequip(doOutput, slot);
 		}
 		
-		override public function beforeUnequip(doOutput:Boolean):ItemType {
-			super.beforeUnequip(doOutput);
+		override public function beforeUnequip(doOutput:Boolean, slot:int):ItemType {
+			super.beforeUnequip(doOutput, slot);
 			return WeaponLib.FISTS;
 		}
 	}

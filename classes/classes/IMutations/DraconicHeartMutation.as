@@ -60,7 +60,7 @@ public class DraconicHeartMutation extends IMutationPerkType
         }
 
         public function DraconicHeartMutation() {
-            super(mName + " IM", mName, SLOT_HEART, 3);
+            super(mName + " IM", mName, SLOT_NONE, 1);//super(mName + " IM", mName, SLOT_HEART, 3);
         }
 
     }

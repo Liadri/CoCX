@@ -483,7 +483,7 @@ public class Crafting extends BaseContent implements SaveableState
 		}
 
 		public function isLuckyXianxiaMC():Boolean {
-			return xmcLuck < 10 && flags[kFLAGS.GAME_DIFFICULTY] == 4;
+			return xmcLuck < 10 && flags[kFLAGS.PRIMARY_DIFFICULTY] == 7;
 		}
 		public function useXianxiaMCLuck():void {
 			xmcLuck++;
@@ -717,23 +717,23 @@ private function craftingMaterialsMoonstone1Down():void {
 			outputText("<b>Item:</b> " + item.longName + "\n\n");
 			outputText("<b><u>Items Needed:</u></b>\n");
 			if (item1 != null) {
-				if (player.hasItem(item1, item1Quantity)) outputText("<font color=\"#008000\">" + player.itemCount(item1) + " / " + item1Quantity + " " + item1.longName + "</font>");
-				else outputText("<font color=\"#800000\">" + player.itemCount(item1) + " / " + item1Quantity + " " + item1.longName + "</font>");
+				if (player.hasItem(item1, item1Quantity)) outputText("[font-green]" + player.itemCount(item1) + " / " + item1Quantity + " " + item1.longName + "[/font]");
+				else outputText("[font-dred]" + player.itemCount(item1) + " / " + item1Quantity + " " + item1.longName + "[/font]");
 				outputText("\n");
 			}
 			if (item2 != null) {
-				if (player.hasItem(item2, item2Quantity)) outputText("<font color=\"#008000\">" + player.itemCount(item2) + " / " + item2Quantity + " " + item2.longName + "</font>");
-				else outputText("<font color=\"#800000\">" + player.itemCount(item2) + " / " + item2Quantity + " " + item2.longName + "</font>");
+				if (player.hasItem(item2, item2Quantity)) outputText("[font-green]" + player.itemCount(item2) + " / " + item2Quantity + " " + item2.longName + "[/font]");
+				else outputText("[font-dred]" + player.itemCount(item2) + " / " + item2Quantity + " " + item2.longName + "[/font]");
 				outputText("\n");
 			}
 			if (item3 != null) {
-				if (player.hasItem(item3, item3Quantity)) outputText("<font color=\"#008000\">" + player.itemCount(item3) + " / " + item3Quantity + " " + item3.longName + "</font>");
-				else outputText("<font color=\"#800000\">" + player.itemCount(item3) + " / " + item3Quantity + " " + item3.longName + "</font>");
+				if (player.hasItem(item3, item3Quantity)) outputText("[font-green]" + player.itemCount(item3) + " / " + item3Quantity + " " + item3.longName + "[/font]");
+				else outputText("[font-dred]" + player.itemCount(item3) + " / " + item3Quantity + " " + item3.longName + "[/font]");
 				outputText("\n");
 			}
 			if (item4 != null) {
-				if (player.hasItem(item4, item4Quantity)) outputText("<font color=\"#008000\">" + player.itemCount(item4) + " / " + item4Quantity + " " + item4.longName + "</font>");
-				else outputText("<font color=\"#800000\">" + player.itemCount(item4) + " / " + item4Quantity + " " + item4.longName + "</font>");
+				if (player.hasItem(item4, item4Quantity)) outputText("[font-green]" + player.itemCount(item4) + " / " + item4Quantity + " " + item4.longName + "[/font]");
+				else outputText("[font-dred]" + player.itemCount(item4) + " / " + item4Quantity + " " + item4.longName + "[/font]");
 				outputText("\n");
 			}
 			outputText("\n");
@@ -868,7 +868,7 @@ private function craftingMaterialsMoonstone1Down():void {
 			// [        ] [        ] [        ] [        ] [        ]
 			// [        ] [        ] [Bag     ] [Cheat   ] [Back    ]
 			button(0).show("Extract", alchemyExtraction.extractionMenu)
-					 .hint("Refined mutagens into alchemical reagents using your alembic.")
+					 .hint("Refine mutagens into alchemical reagents using your alembic.")
 					 .icon("I_Potion_Empty")
 					 .disableIf(alembicLevel == 0, "You don't have an alembic!");
 			button(1).show("Mutagen Pills", mutagenPillCrafting.craftingMenu)
@@ -1276,7 +1276,7 @@ private function craftingMaterialsMoonstone1Down():void {
 				outputText("\n\n<b>You don't have any pigments. Pigments can be extracted from consumables.</b> ");
 			}
 			if (dyeFnd == 0 && oilFnd == 0 && dropFnd == 0) {
-				outputText("\n\n<b>You have no foundations. Buy some from hair dye vendor.</b>")
+				outputText("\n\n<b>You don't have any foundations. Buy some from a hair dye vendor.</b>")
 			}
 
 			menu();
@@ -1284,7 +1284,7 @@ private function craftingMaterialsMoonstone1Down():void {
 					 .hint("Select a pigment to use")
 					 .disableIf(keys(pigmentStock).length == 0);
 			button(1).show("Craft Dye", craftHairDye)
-					 .hint("Craft "+selectedPigment+" hair dye.\n\nIt can be applied to fur, scales, and chiting with the use of additional reagents.")
+					 .hint("Craft "+selectedPigment+" hair dye.\n\nIt can be applied to fur, scales, and chitin with the use of additional reagents.")
 					 .icon("I_HairDye")
 					 .disableIf(dyeFnd == 0, "++\n<b>You need a dye foundation!</b>")
 					 .disableIf(!selectedPigment, "Select a pigment");
@@ -1310,7 +1310,7 @@ private function craftingMaterialsMoonstone1Down():void {
 		private function craftHairDye():void {
 			clearOutput();
 			player.giveAlchemyXP(1);
-			outputText("You pour the pigment into foundation and stir it with a spoon. The viscous mixture quickly turns "+selectedPigment+". You stir it for one more minute to get a uniform coloring, and then cork the vial.\n");
+			outputText("You pour the pigment into the foundation and stir it with a spoon. The viscous mixture quickly turns "+selectedPigment+". You stir it for one more minute to get a uniform coloring, and then cork the vial.\n");
 			player.destroyItems(useables.DYE_FOUNDATION, 1, true);
 			inventory.takeItem(itemTemplates.createHairDye(selectedPigment, 1), dyeCraftingMenu);
 			selectedPigment = "";
@@ -1318,7 +1318,7 @@ private function craftingMaterialsMoonstone1Down():void {
 		private function craftSkinDye():void {
 			clearOutput();
 			player.giveAlchemyXP(1);
-			outputText("You pour the pigment into foundation and stir it with a spoon. The viscous mixture quickly turns "+selectedPigment+". You stir it for one more minute to get a uniform coloring, and then cork the bottle.\n");
+			outputText("You pour the pigment into the foundation and stir it with a spoon. The viscous mixture quickly turns "+selectedPigment+". You stir it for one more minute to get a uniform coloring, and then cork the bottle.\n");
 			player.destroyItems(useables.OIL_FOUNDATION, 1, true);
 			inventory.takeItem(itemTemplates.createSkinOil(selectedPigment), dyeCraftingMenu);
 			selectedPigment = "";
@@ -1326,7 +1326,7 @@ private function craftingMaterialsMoonstone1Down():void {
 		private function craftEyeDye():void {
 			clearOutput();
 			player.giveAlchemyXP(1);
-			outputText("You pour the pigment into foundation and stir it with a spoon. The mixture quickly turns "+selectedPigment+". You stir it for one more minute to get a uniform coloring, and then cork the vial.\n");
+			outputText("You pour the pigment into the foundation and stir it with a spoon. The mixture quickly turns "+selectedPigment+". You stir it for one more minute to get a uniform coloring, and then cork the vial.\n");
 			player.destroyItems(useables.DROP_FOUNDATION, 1, true);
 			inventory.takeItem(itemTemplates.createEyeDye(selectedPigment), dyeCraftingMenu);
 			selectedPigment = "";

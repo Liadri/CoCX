@@ -23,7 +23,7 @@ public class BattlefieldOuter extends BaseContent
 {
 	public var battlefieldEnemiesScene:BattlefieldEnemiesScenes = new BattlefieldEnemiesScenes();
 	
-	public const areaLevel:int = 19;
+	public const areaLevel:int = 33;
 	public function isDiscovered():Boolean {
 		return SceneLib.exploration.counters.battlefieldOuter > 0;
 	}
@@ -64,7 +64,7 @@ public class BattlefieldOuter extends BaseContent
 			//Iridesian
 			name: "iridesian",
 			when: function ():Boolean {
-				return player.level >= 45
+				return (player.level >= 45 || flags[kFLAGS.HARDCORE_MODE] == 1)
 			},
 			call:SceneLib.iridesianFollower.firstMeetingIridesian
 		},*/ {
@@ -79,7 +79,7 @@ public class BattlefieldOuter extends BaseContent
 			kind  : 'npc',
 			unique: true,
 			when: function ():Boolean {
-				return player.level >= 25 && TyrantiaFollower.TyrantiaFollowerStage < 4 && !TyrantiaFollower.TyraniaIsRemovedFromThewGame && !player.hasStatusEffect(StatusEffects.SpoodersOff)
+				return TyrantiaFollower.TyrantiaFollowerStage < 4 && !TyrantiaFollower.TyraniaIsRemovedFromThewGame && !player.hasStatusEffect(StatusEffects.SpoodersOff)
 			},
 			chance: battlefieldOuterChance,
 			call: tyrantiaEncounterFn
@@ -117,8 +117,7 @@ public class BattlefieldOuter extends BaseContent
 			when: function ():Boolean {
 				return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 						&& flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
-						&& !player.hasStatusEffect(StatusEffects.EtnaOff)
-						&& (player.level >= 20);
+						&& !player.hasStatusEffect(StatusEffects.EtnaOff);
 			},
 			chance: battlefieldOuterChance,
 			call: SceneLib.etnaScene.repeatYandereEnc
@@ -151,7 +150,7 @@ public class BattlefieldOuter extends BaseContent
 			unique: true,
 			call: SceneLib.tedScene.introPostHiddenCave,
 			when: SceneLib.tedScene.canEncounterTed
-		}, SceneLib.exploration.commonEncounters.withChanceFactor(0.1), {
+		}, SceneLib.exploration.commonGroupEncounters.withChanceFactor(0.1), {
 			name: "vengefulAparitions",
 			label : "Vengeful Aparitions",
 			shortLabel: "V.Aparitions",
@@ -209,7 +208,7 @@ public class BattlefieldOuter extends BaseContent
 			outputText("You spend almost an hour exploring this deserted battlefield but you don't manage to find anything interesting. After checking another pile of weapons you hear some noise coming from nearby. Intrigued you cautiously approach source of it, which turns to be... " + (rand(2) == 0 ? "demons" : "imps") + ". Whole group of them running straight at you. ");
 			outputText("As they approach you ready your [weapon] but... the first ones after reaching you jsut give you a short glance and just pass by. Then another one and one more pass you by almost looking like they just seen you as merely obstacle to avoid during their run. Then you hear some fragments of the words they seems to talks form time to time.\n\n");
 			outputText("\"<i>...ster or the fog will catch up to u...</i>\", \"<i>...ut there is <b>SOMETHING</b> insid...</i>\", \"<i>...us..t reeee....port b...</i>\"\n\n");
-			outputText("After last one of them pass you by they soon vanish into distance behind you. What just happened? Usualy laidback and horny " + (rand(2) == 0 ? "demons" : "imps") + " was actualy running away? From fog? As you thinking over it you notice something moving slightly in the direction they came. ");
+			outputText("After the last one of them passes you by, they soon vanish into the distance behind you. What just happened? Usually laid-back and horny " + (rand(2) == 0 ? "demons" : "imps") + " were actually running away? From fog? As you think over it, you notice something moving slightly in the direction they came. ");
 			outputText("Some grey, maybe black colored shape seemly wiggling as it like moving in your direction." + (silly() ? " Oh are you approaching me?" : "") + " Bit tired and on the edge due to meeting potential enemies moments ago you decide to return this time. Maybe next time you will check out closer that 'fog' or whatever it's.");
 		} else outputText("You spend an hour exploring this deserted battlefield but you don't manage to find anything interesting, yet this trip had made you a little wiser.");
 		dynStats("wis", .5);

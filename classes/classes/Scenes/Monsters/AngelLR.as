@@ -8,6 +8,7 @@ package classes.Scenes.Monsters
 	import classes.*;
 	import classes.BodyParts.Wings;
 	import classes.Items.DynamicItems;
+	import classes.Scenes.Dungeons.RiverDungeon;
 	import classes.Scenes.SceneLib;
 	import classes.internals.ChainedDrop;
 
@@ -15,10 +16,12 @@ import coc.view.CoCButton;
 
 public class AngelLR extends AbstractAngel
 	{
+		public var floor4:RiverDungeon = new RiverDungeon();
+		
 		private function angelReactsToLustiness():void {
 			outputText("Angel with it lil helpers stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Tricky one opponent. Fighting like a demon.</i>\"");
-			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporaly avert your gaze. When you look again at spot it was you could only see a bit of powder.");
+			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporarily avert your gaze. When you look again at spot it was you could only see a bit of powder.");
 			gems = 0;
 			XP = 0;
 			HP = minHP() - 1;
@@ -28,7 +31,7 @@ public class AngelLR extends AbstractAngel
 			clearOutput();
 			outputText(this.short + " with it lil helpers stops their actions defeated.");
 			outputText("\n\n\"<i>Tricky one opponent. Need assistance.</i>\"");
-			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporaly avert your gaze. When you look again at spot it was you could see other angel with it helpers all ready to next round of the fight while the defeated one is recovering at the arena side.");
+			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporarily avert your gaze. When you look again at spot it was you could see other angel with it helpers all ready to next round of the fight while the defeated one is recovering at the arena side.");
 			touStat.core.value *= 0.25;
 			speStat.core.value *= 0.5;
 			wisStat.core.value *= 0.125;
@@ -176,6 +179,12 @@ public class AngelLR extends AbstractAngel
 			}
 		}
 		
+		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
+		{
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) floor4.defeatedByLowRankMistAngel();
+			else cleanupAfterCombat();
+		}
+		
 		override public function get long():String
 		{
 			var str:String = "You're currently fighting"+(player.hasStatusEffect(StatusEffects.SoulArena)?" "+this.short+" a":"")+" low-rank angel"+(player.hasStatusEffect(StatusEffects.RiverDungeonA)?" of mist":"")+". It's looks like example of perfect human with large pair of wings and around it hoover pair of winged eyeballs with small mouth full of jagged teeth and one eyes having two";
@@ -199,9 +208,9 @@ public class AngelLR extends AbstractAngel
 			super(false);
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
 				this.short = "low-rank angel of mist";
-				initStrTouSpeInte(14, 170, 90, 40);
-				initWisLibSensCor(240, 4, 60, 0);
-				this.randomDropChance = 0.2;
+				initStrTouSpeInte(24, 340, 180, 80);
+				initWisLibSensCor(480, 4, 120, -100);
+				this.randomDropChance = 0.5;
 				this.randomDropParams = {
 					rarity: DynamicItems.RARITY_CHANCES_MINOR_HIGH
 				};
@@ -209,22 +218,23 @@ public class AngelLR extends AbstractAngel
 						.add(useables.SRESIDUE, 0.5)
 						.add(useables.PCSHARD, 1);
 				this.level = 42;
-				this.bonusHP = 1500;
-				this.bonusLust = 106;
-				this.bonusWrath = 350;
-				this.bonusSoulforce = 700;
-				this.additionalXP = 210;
-				this.weaponAttack = 15;
-				this.armorDef = 45;
-				this.armorMDef = 45;
+				this.bonusHP = 3000;
+				this.bonusLust = 166;
+				this.bonusWrath = 700;
+				this.bonusSoulforce = 1400;
+				this.additionalXP = 420;
+				this.weaponAttack = 30;
+				this.armorDef = 90;
+				this.armorMDef = 90;
 				this.createStatusEffect(StatusEffects.ATranscendentSoulField, 28, 28, 0, 0);//X times less dmg, +X lvl diff bonus
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 				this.createPerk(PerkLib.DieHardHP, 28, 0, 0, 0);
 			}
 			else if (player.hasStatusEffect(StatusEffects.SoulArena)) {
 				if (rand(2) == 0) this.short = "Gabriel";
 				else this.short = "Uriel";
 				initStrTouSpeInte(6, 75, 35, 15);
-				initWisLibSensCor(100, 3, 25, 0);
+				initWisLibSensCor(100, 3, 25, -100);
 				this.randomDropChance = 0.5;
 				this.randomDropParams = {
 					rarity: DynamicItems.RARITY_CHANCES_MINOR_HIGH
@@ -246,7 +256,7 @@ public class AngelLR extends AbstractAngel
 			else {
 				this.short = "low-rank angel";
 				initStrTouSpeInte(7, 80, 40, 20);
-				initWisLibSensCor(120, 4, 30, 0);
+				initWisLibSensCor(120, 4, 30, -100);
 				this.randomDropChance = 0.2;
 				this.randomDropParams = {
 					rarity: DynamicItems.RARITY_CHANCES_MINOR_HIGH

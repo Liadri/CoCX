@@ -428,7 +428,7 @@ public class HeXinDao extends BaseContent
             [consumables.COAL___, "horny"],
             [consumables.DRYTENT, "anemone"],
             [consumables.ECTOPLS, "ghost"],
-            //[consumables.TRAPOIL, "sand trap"],
+            [consumables.TRAPOIL, "sand trap"],
             [consumables.ICICLE_, "ice shard"],
             [consumables.SDELITE, "cum hose"],
             [consumables.SSPONGE, "dryness"],
@@ -586,7 +586,7 @@ public class HeXinDao extends BaseContent
     }
     public function sellFiveLargeElementalShards():void {
         clearOutput();
-        outputText("\"<i>Large elemental shards. Let me check...yes all of them seems to be in a decent state,</i>\" after the examination he walks away and returns shortly. \"<i>Fourty five stones for them.</i>\"");
+        outputText("\"<i>Large elemental shards. Let me check...yes all of them seems to be in a decent state,</i>\" after the examination he walks away and returns shortly. \"<i>Forty five stones for them.</i>\"");
         player.destroyItems(useables.LELSHARD, 5);
         flags[kFLAGS.SPIRIT_STONES] += 45;
         doNext(sellItemsForSpiritStones);
@@ -863,7 +863,8 @@ public class HeXinDao extends BaseContent
 		addButton(7, weaponsflyingswords.O_HALFM.shortName, flyingSwordBuy, weaponsflyingswords.O_HALFM, qimerchant);
 		addButton(10, weaponsflyingswords.ASAUCHI.shortName, flyingSwordBuy, weaponsflyingswords.ASAUCHI, qimerchant);
         addButton(11, weaponsflyingswords.C_NEW_M.shortName, flyingSwordBuy, weaponsflyingswords.C_NEW_M, qimerchant);
-        addButton(13, "Qi", qimerchantTraningMain).hint("Flying Sword training and others related matters.");
+        addButton(12, consumables.SUNRMAN.shortName, flyingSwordBuy, consumables.SUNRMAN, qimerchant)
+		addButton(13, "Qi", qimerchantTraningMain).hint("Flying Sword training and others related matters.");
         addButton(14, "Back", riverislandVillageStuff);
         statScreenRefresh();
     }
@@ -875,7 +876,7 @@ public class HeXinDao extends BaseContent
 		if (player.hasPerk(PerkLib.SoulSense) && flags[kFLAGS.SPIRIT_STONES] >= 50) addButtonIfTrue(0, "Basic training", qimerchantTraningMainFlyingSwordPath1, "You already learned basic control of flying swords.", !player.hasPerk(PerkLib.FlyingSwordPath));
 		else addButtonDisabled(0, "Basic training", "Req. Soul Sense perk & 50 spirit stones.");
 		addButtonIfTrue(10, "Soaring Blades", qimerchantTraningMainSoaringBladesManual, "You need to learn how to control flying swords first (Req. Flying Sword Path perk).", player.hasPerk(PerkLib.FlyingSwordPath));
-		addButtonIfTrue(11, "1stAtk: F.Sword", qimerchantTraningMainFirstAttackFlyingSwordManual, "You need to learn how to control flying swords first (Req. Flying Sword Path perk).", player.hasPerk(PerkLib.FirstAttackFlyingSword));
+		addButtonIfTrue(11, "1stAtk: F.Sword", qimerchantTraningMainFirstAttackFlyingSwordManual, "You need to learn how to control flying swords first (Req. Flying Sword Path perk).", player.hasPerk(PerkLib.FlyingSwordPath));
 		addButton(14, "Back", qimerchant);
 	}
 	private function qimerchantTraningMainFlyingSwordPath1():void {
@@ -974,13 +975,13 @@ public function soularena():void {
         statScreenRefresh();
 		menu();
         //addButton(0, "Goblin", );//Goblinka
-        addButton(5, "D.Golem", arenaSelection,GolemDummy).hint("Dummy Golem LVL 6");
-        addButton(6, "I.D.Golem", arenaSelection,GolemDummyImproved).hint("Improved Dummy Golem LVL 12");
-        addButton(7, "A.D.Golem", arenaSelection,GolemDummyAdvanced).hint("Advanced Dummy Golem LVL 18");
-        addButton(8, "S.D.Golem", arenaSelection,GolemDummySuperior).hint("Superior Dummy Golem LVL 24");
-        addButton(10, "B.T.Golem", arenaSelection,GolemTrueBasic).hint("Basic True Golem LVL 33");
-        addButton(11, "I.T.Golem", arenaSelection,GolemTrueImproved).hint("Improved True Golem LVL 42");
-        addButton(12, "A.T.Golem", arenaSelection,GolemTrueAdvanced).hint("Advanced True Golem LVL 51");
+        addButton(5, "D.Golem", arenaSelection2,GolemDummy,0).hint("Dummy Golem LVL 6");
+        addButton(6, "I.D.Golem", arenaSelection1,GolemDummyImproved).hint("Improved Dummy Golem LVL 12");
+        addButton(7, "A.D.Golem", arenaSelection1,GolemDummyAdvanced).hint("Advanced Dummy Golem LVL 18");
+        addButton(8, "S.D.Golem", arenaSelection1,GolemDummySuperior).hint("Superior Dummy Golem LVL 24");
+        addButton(10, "B.T.Golem", arenaSelection1,GolemTrueBasic).hint("Basic True Golem LVL 33");
+        addButton(11, "I.T.Golem", arenaSelection1,GolemTrueImproved).hint("Improved True Golem LVL 42");
+        addButton(12, "A.T.Golem", arenaSelection1,GolemTrueAdvanced).hint("Advanced True Golem LVL 51");
         addButton(14, "Back", soularenaSoloBack);
     }
 	public function soularenaSoloBack():void {
@@ -996,13 +997,13 @@ public function soularena():void {
         statScreenRefresh();
 		menu();
         //addButton(0, "Goblins", );//Córki goblinki z solo areny ^^
-        addButton(5, "D.Golems", arenaSelection,GolemsDummy).hint("Dummy Golems LVL 6");
-        addButton(6, "I.D.Golems", arenaSelection,GolemsDummyImproved).hint("Improved Dummy Golems LVL 12");
-        addButton(7, "A.D.Golems", arenaSelection,GolemsDummyAdvanced).hint("Advanced Dummy Golems LVL 18");
-        addButton(8, "S.D.Golems", arenaSelection,GolemsDummySuperior).hint("Superior Dummy Golems LVL 24");
-        addButton(10, "B.T.Golems", arenaSelection,GolemsTrueBasic).hint("Basic True Golems LVL 33");
-        addButton(11, "I.T.Golems", arenaSelection,GolemsTrueImproved).hint("Improved True Golems LVL 42");
-        addButton(12, "A.T.Golems", arenaSelection,GolemsTrueAdvanced).hint("Advanced True Golems LVL 51");
+        addButton(5, "D.Golems", arenaSelection2,GolemsDummy,1).hint("Dummy Golems LVL 15");
+        addButton(6, "I.D.Golems", arenaSelection2,GolemsDummy,3).hint("Improved Dummy Golems LVL 24");
+        addButton(7, "A.D.Golems", arenaSelection2,GolemsDummy,5).hint("Advanced Dummy Golems LVL 33");
+        addButton(8, "S.D.Golems", arenaSelection2,GolemsDummy,7).hint("Superior Dummy Golems LVL 42");
+        addButton(10, "B.T.Golems", arenaSelection2,GolemsTrue,9).hint("Basic True Golems LVL 51");
+        //addButton(11, "I.T.Golems", arenaSelection2,GolemsTrue,11).hint("Improved True Golems LVL 60");
+        //addButton(12, "A.T.Golems", arenaSelection2,GolemsTrue,13).hint("Advanced True Golems LVL 69");
         addButton(14, "Back", soularenaGroupBack);
     }
 	public function soularenaGroupBack():void {
@@ -1021,33 +1022,33 @@ public function soularena():void {
 	private function soularenaChallengeSubpages(page:int = 1):void {
 		menu();
 		if (page == 1) {
-			if (player.statusEffectv1(StatusEffects.SoulArenaGaunlets1) > 1) addButtonDisabled(0, "Gaunlet 1", "You already won this gauntlet today. Come back tomorrow.");
-			else addButton(0, "Gaunlet 1", gaunletchallange1fight1).hint("Fight 3 diff enemies one after another.");
-			if (player.statusEffectv1(StatusEffects.SoulArenaGaunlets1) > 0) {
-				if (player.statusEffectv2(StatusEffects.SoulArenaGaunlets1) > 1) addButtonDisabled(1, "Gaunlet 2", "You already won this gauntlet today. Come back tomorrow.");
-				else addButton(1, "Gaunlet 2", gaunletchallange2fight1).hint("Fight 4 diff enemies one after another.");
+			if (player.statusEffectv1(StatusEffects.SoulArenaGauntlets1) > 1) addButtonDisabled(0, "Gauntlet 1", "You already won this gauntlet today. Come back tomorrow.");
+			else addButton(0, "Gauntlet 1", gauntletchallange1fight1).hint("Fight 3 diff enemies one after another.");
+			if (player.statusEffectv1(StatusEffects.SoulArenaGauntlets1) > 0) {
+				if (player.statusEffectv2(StatusEffects.SoulArenaGauntlets1) > 1) addButtonDisabled(1, "Gauntlet 2", "You already won this gauntlet today. Come back tomorrow.");
+				else addButton(1, "Gauntlet 2", gauntletchallange2fight1).hint("Fight 4 diff enemies one after another.");
 			}
-			else addButtonDisabled(1, "Gaunlet 2", "You need to finish Gauntlet 1 first.");
-			//addButton(2, "Gauntlet 3", gaunletchallange3).hint("Fight 5 diff enemies one after another.");
-			//addButton(3, "Gauntlet 4", gaunletchallange4).hint("Fight 6 diff enemies one after another.");
-			//addButton(4, "Gauntlet 5", gaunletchallange5).hint("Fight 7 diff enemies one after another.");
-			//addButton(5, "Gauntlet 6", gaunletchallange6).hint("Fight 8 diff enemies one after another.");
-			addButton(7, "LvL 24 Gargoyle (F)", arenaSelection,GargoyleFBasic).hint("Gargoyle (F) LVL 24 (axe-tail)");
-			addButton(8, "LvL 24 Gargoyle (M)", arenaSelection,GargoyleMBasic).hint("Gargoyle (M) LVL 24 (mace-tail)");
+			else addButtonDisabled(1, "Gauntlet 2", "You need to finish Gauntlet 1 first.");
+			//addButton(2, "Gauntlet 3", gauntletchallange3).hint("Fight 5 diff enemies one after another.");
+			//addButton(3, "Gauntlet 4", gauntletchallange4).hint("Fight 6 diff enemies one after another.");
+			//addButton(4, "Gauntlet 5", gauntletchallange5).hint("Fight 7 diff enemies one after another.");
+			//addButton(5, "Gauntlet 6", gauntletchallange6).hint("Fight 8 diff enemies one after another.");
+			addButton(7, "LvL 24 Gargoyle (F)", arenaSelection1,GargoyleFBasic).hint("Gargoyle (F) LVL 24 (axe-tail)");
+			addButton(8, "LvL 24 Gargoyle (M)", arenaSelection1,GargoyleMBasic).hint("Gargoyle (M) LVL 24 (mace-tail)");
 			addButton(9, "-2-", soularenaChallengeSubpages, page + 1);
-			addButton(10, "LvL 33 Golems", arenaSelection,GolemsBasic).hint("Basic Golems LVL 33");
-			addButton(11, "LvL 42 Golems", arenaSelection,GolemsImproved).hint("Improved Golems LVL 42");
-			addButton(12, "LvL 51 Golems", arenaSelection, GolemsAdvanced).hint("Advanced Golems LVL 51");
+			addButton(10, "LvL 33 Golems", arenaSelection1,GolemsBasic).hint("Basic Golems LVL 33");
+			addButton(11, "LvL 42 Golems", arenaSelection1,GolemsImproved).hint("Improved Golems LVL 42");
+			addButton(12, "LvL 51 Golems", arenaSelection1, GolemsAdvanced).hint("Advanced Golems LVL 51");
 			addButton(14, "Back", soularenaChallengeBack);
 		}
 		if (page == 2) {
-			//addButton(0, "Kitty", arenaSelection, Veronika);
-			//addButton(1, "Golemancer", arenaSelection,Jeniffer).hint("Golemancer goblin.");
-			//addButton(2, "AyotechManiac", arenaSelection,Jinx).hint("Crazy gremlin girl wearing lots of belts... err Ayotech weapons.");
-			//addButton(5, "Macho Mander", arenaSelection,Syth).hint("He's Macho & Mander.");
-			//if () addButton(6, "Miss Mander", arenaSelection,Asuka).hint("Salamander woman.");
-			//else addButton(6, "Miss Mander", arenaSelection,Asuka).hint("Young salamander girl.");
-			//addButton(7, "Miss Oni", arenaSelection,Rangiku);
+			//addButton(0, "Kitty", arenaSelection1, Veronika);
+			//addButton(1, "Golemancer", arenaSelection1,Jeniffer).hint("Golemancer goblin.");
+			//addButton(2, "AyotechManiac", arenaSelection1,Jinx).hint("Crazy gremlin girl wearing lots of belts... err Ayotech weapons.");
+			//addButton(5, "Macho Mander", arenaSelection1,Syth).hint("He's Macho & Mander.");
+			//if () addButton(6, "Miss Mander", arenaSelection1,Asuka).hint("Salamander woman.");
+			//else addButton(6, "Miss Mander", arenaSelection1,Asuka).hint("Young salamander girl.");
+			//addButton(7, "Miss Oni", arenaSelection1,Rangiku);
 			addButton(9, "-1-", soularenaChallengeSubpages, page - 1);
 			if (flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 0) {
 				if (flags[kFLAGS.PLAYER_COMPANION_1] == "") addButtonDisabled(10, "IntermedLeader", "Req. to have any henchman with you to start this fight.");
@@ -1056,8 +1057,16 @@ public function soularena():void {
 			addButton(14, "Back", soularenaChallengeBack);
 		}
 	}
-    private function arenaSelection(mon:Class):void{
+    private function arenaSelection1(mon:Class):void{
 		player.createStatusEffect(StatusEffects.SoulArena, 0, 0, 0, 0);
+		if (flags[kFLAGS.CHI_CHI_AFFECTION] < 10) flags[kFLAGS.CHI_CHI_AFFECTION]++;
+        startCombatImmediate(new mon());
+		monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
+		monster.XP = monster.XP * 2;
+    }
+    private function arenaSelection2(mon:Class, numer:Number):void{
+		player.createStatusEffect(StatusEffects.SoulArena, 0, 0, 0, 0);
+		flags[kFLAGS.GOLEM_ENEMY_TYPE] = numer;
 		if (flags[kFLAGS.CHI_CHI_AFFECTION] < 10) flags[kFLAGS.CHI_CHI_AFFECTION]++;
         startCombatImmediate(new mon());
 		monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
@@ -1066,7 +1075,7 @@ public function soularena():void {
 	public function soularenafightsbetween():void {
 		cleanupAfterCombat();
 		player.createStatusEffect(StatusEffects.SoulArena, 0, 0, 0, 0);
-		player.createStatusEffect(StatusEffects.SoulArenaGaunlet, 0, 0, 0, 0);
+		player.createStatusEffect(StatusEffects.SoulArenaGauntlet, 0, 0, 0, 0);
 	}
 	public function intermediateleadershipfight1():void {
 		clearOutput();
@@ -1332,7 +1341,7 @@ public function soularena():void {
 		}
 		SceneLib.combat.enemyAIImpl();
     }
-    public function gaunletchallange1fight1():void {
+    public function gauntletchallange1fight1():void {
         clearOutput();
         outputText("You register for the gauntlet challenge, and wait patiently until you are called. You're motioned forward quickly, and move out beyond the arena gate to face your opponent. The crowd is big, you certainly have quite the audience! A man with a necktie and a weird stick screams across the area.\n\n");
         outputText("\"<i>Ladies and gentlemen! Today a new gladiator enters the arena seeking the glory of the gauntlet! A triple battle for gems and fame!</i>\"\n\n");
@@ -1340,12 +1349,13 @@ public function soularena():void {
         outputText("\"<i>We're starting out with an old timer. Even if this is only the warm up, don't count these statues out! Beware... the Dummy golems!!!</i>\"\n\n");
         outputText("A set of walking stone statues enter the arena, ready for battle. It seems you are to fight these first.\n\n");
         player.createStatusEffect(StatusEffects.SoulArena, 0, 0, 0, 0);
-        player.createStatusEffect(StatusEffects.SoulArenaGaunlet, 0, 0, 0, 0);
+        player.createStatusEffect(StatusEffects.SoulArenaGauntlet, 0, 0, 0, 0);
         if (flags[kFLAGS.CHI_CHI_AFFECTION] < 10) flags[kFLAGS.CHI_CHI_AFFECTION]++;
-        startCombat(new GolemsDummy());
+        flags[kFLAGS.GOLEM_ENEMY_TYPE] = 1;
+		startCombat(new GolemsDummy());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
     }
-    public function gaunletchallange1fight2():void {
+    public function gauntletchallange1fight2():void {
         clearOutput();
 		soularenafightsbetween();
 		outputText("\n\nAs the last of the golems fall down, the commentator resumes.\n\n");
@@ -1354,7 +1364,7 @@ public function soularena():void {
         startCombat(new TentacleBeast());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
     }
-    public function gaunletchallange1fight3():void {
+    public function gauntletchallange1fight3():void {
         clearOutput();
 		soularenafightsbetween();
 		outputText("\n\nAs the tentacle beast whimpers and crawls away, the crowd cheers for you. Here comes the final round.\n\n");
@@ -1364,35 +1374,35 @@ public function soularena():void {
 		startCombat(new LightElfs());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
     }
-    public function gaunletchallange1postfight():void {
+    public function gauntletchallange1postfight():void {
         clearOutput();
         outputText("You exit the arena, victorious, basking in the cheering of the crowd and go to the prize counter for your reward. A woman greets you.\n\n");
-        if (player.statusEffectv1(StatusEffects.SoulArenaGaunlets1) == 1) {
+        if (player.statusEffectv1(StatusEffects.SoulArenaGauntlets1) == 1) {
             outputText("\"<i>Good show, champion. As a reward for your performance, please accept these 15 spirit stones. Please do come back again. Might I suggest a harder gauntlet, to test your skills?</i>\"\n\n");
-            player.addStatusValue(StatusEffects.SoulArenaGaunlets1, 1, 1);
+            player.addStatusValue(StatusEffects.SoulArenaGauntlets1, 1, 1);
 			flags[kFLAGS.SPIRIT_STONES] += 15;
             cleanupAfterCombat();
         }
         else {
             outputText("\"<i>Good show, champion. As a reward for your performance, please accept this magical bow. Please do come back again. Might I suggest a harder gauntlet, to test your skills?</i>\"\n\n");
-            if (player.hasStatusEffect(StatusEffects.SoulArenaGaunlets1)) player.addStatusValue(StatusEffects.SoulArenaGaunlets1, 1, 2);
-			else player.createStatusEffect(StatusEffects.SoulArenaGaunlets1, 2, 0, 0, 0);
+            if (player.hasStatusEffect(StatusEffects.SoulArenaGauntlets1)) player.addStatusValue(StatusEffects.SoulArenaGauntlets1, 1, 2);
+			else player.createStatusEffect(StatusEffects.SoulArenaGauntlets1, 2, 0, 0, 0);
             inventory.takeItem(weaponsrange.BOWGUID, cleanupAfterCombat);
         }
     }
-	public function gaunletchallange2fight1():void {
+	public function gauntletchallange2fight1():void {
 		clearOutput();
 		outputText("As you enter the arena you spot your opponent at the other edge of the battlefield. She's a goblin, not unlike those you've met in the wilderness, however she’s armed with a set of throwing knives and other gear you don’t see normally on those critters.\n\n");
         outputText("The voice of the announcer rings across the stadium.\n\n");
         outputText("\"<i>Ladies and gentlemans, this champion from another world has risen to challenge our second gladiatorial gauntlet! Can this would be hero defeat all three opponents? It's not just bragging rights on the line here, but also a sack full of fine gems, right from our coffers!  LET'S RUMBLE!</i>\"\n\n");
         outputText("The gates open and the goblin charges at you, weapon at the ready.\n\n");
         player.createStatusEffect(StatusEffects.SoulArena, 0, 0, 0, 0);
-        player.createStatusEffect(StatusEffects.SoulArenaGaunlet, 0, 0, 0, 0);
+        player.createStatusEffect(StatusEffects.SoulArenaGauntlet, 0, 0, 0, 0);
         if (flags[kFLAGS.CHI_CHI_AFFECTION] < 10) flags[kFLAGS.CHI_CHI_AFFECTION]++;
         startCombat(new GoblinAssassin());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
 	}
-	public function gaunletchallange2fight2():void {
+	public function gauntletchallange2fight2():void {
 		clearOutput();
 		soularenafightsbetween();
 		outputText("\n\nAs the goblin falls unconscious to the ground the crowd cheers you on.\n\n");
@@ -1401,7 +1411,7 @@ public function soularena():void {
         startCombat(new HellHound());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
 	}
-	public function gaunletchallange2fight3():void {
+	public function gauntletchallange2fight3():void {
 		clearOutput();
 		soularenafightsbetween();
 		outputText("\n\nThe mutt falls to the floor as the crowd screams your name. The announcer announces the next contestant.\n\n");
@@ -1411,7 +1421,7 @@ public function soularena():void {
         startCombat(new CorruptedDrider());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
 	}
-	public function gaunletchallange2fight4():void {
+	public function gauntletchallange2fight4():void {
 		clearOutput();
 		soularenafightsbetween();
 		outputText("\n\nAs the drider falls defeated, the crowd cheers. That said the battle is far from over yet. A large number of shadows mass behind the opposite gate and already you can guess what's coming for you.\n\n");
@@ -1420,21 +1430,21 @@ public function soularena():void {
         startCombat(new BossGolems());
         monster.createStatusEffect(StatusEffects.NoLoot, 0, 0, 0, 0);
 	}
-	public function gaunletchallange2postfight():void {
+	public function gauntletchallange2postfight():void {
 		clearOutput();
 		outputText("The last gargoyle crumbles to rubble and you hold its head up toward the stands, flexing your victory. The crowd roars, and the announcer takes his stand once again.\n\n");
         outputText("\"<i>The challenger defeated all of their opponents, what a miracle! Challenger, you may now exit the arena and claim your prize, well done!</i>\"\n\n");
         outputText("You make your way towards the exit and to your surprise meet face to face with the town golemancer. She grudgingly hands you your reward.\n\n");
         outputText("\"<i>I’m supposed to reward you ");
-        if (player.statusEffectv2(StatusEffects.SoulArenaGaunlets1) == 1) {
+        if (player.statusEffectv2(StatusEffects.SoulArenaGauntlets1) == 1) {
 			outputText("a full chest of spirit stones. Tsk, I guess my golems were not ready yet. My future creations won't make the same mistakes.</i>\"\n\n");
-			player.addStatusValue(StatusEffects.SoulArenaGaunlets1, 2, 1);
+			player.addStatusValue(StatusEffects.SoulArenaGauntlets1, 2, 1);
 			flags[kFLAGS.SPIRIT_STONES] += 20;
             cleanupAfterCombat();
 		}
 		else {
 			outputText("with this scepter. Tsk, I guess my golems were not ready yet. My future creations won't make the same mistakes.</i>\"\n\n");
-			player.addStatusValue(StatusEffects.SoulArenaGaunlets1, 2, 2);
+			player.addStatusValue(StatusEffects.SoulArenaGauntlets1, 2, 2);
 			inventory.takeItem(weapons.SCECOMM, cleanupAfterCombat);
 		}
 	}
@@ -1489,7 +1499,7 @@ public function soularena():void {
 		outputText("\"<i>Now that we've put the boring part behind us, let's begin.</i>\" kitsune walks to the podium and sits behind it. She rests an elbow on the podium, cradling her head, and crosses her legs in front of her. Moving her left hand to the side, she smirks, a small flame forming in her palm. \"<i>It's Fox Fire. An ability Kitsune can use naturally. However, to use it effectively, it requires both mana and soulforce.</i>\" She closes her hands into a fist, snuffing out the flame.\n\n");
 		outputText("\"<i>But mana is not the focus of today's lesson. You all paid to learn about the other aspect of Fox-Fire. Soulforce.</i>\" She looks around gathered before asking. \"<i>Do any of you have idea what soulforce is?</i>\"\n\n");
 		outputText("After a minute of silence, a lizan raises his hand. She nods, pointing at him, and he stands, stealing a glance at the kitsune's bountiful cleavage. \"<i>It's mystical energy that is purer than mana. It can be found nearly anywhere and gathered. Its users calls themself cultivators. As for the source of it that cultivators use...</i>\" ");
-		outputText("Lizan stops as if trying to think about the answer. \"<i>...They use their life force.</i>\" He finaly comes with an answer and ends quite pleased with himself.\n\n");
+		outputText("Lizan stops as if trying to think about the answer. \"<i>...They use their life force.</i>\" He finally comes with an answer and ends quite pleased with himself.\n\n");
 		outputText("\"<i>Hmmmm not bad, not bad. You got most of it right.</i>\" His smile becomes wider when the kitsune slightly shakes her head. \"<i>All living beings... then what about demons?</i>\" With that his smile freezes, shrinking as he looks down at his feet. \"<i>De... mons... they...</i>\" he stutters.\n\n");
 		outputText("\"<i>Oh my, are you troubled?</i>\" She smile like a vixen with her toy. \"<i>No. They would never be able to use soulforce.</i>\" She looks around all gathered. \"<i>Does anyone have idea why?</i>\"\n\n");
 		outputText("Long silence fall at audience interrupted only by ocassional teacher sighs. \"<i>Nobody? Fine. It's soul. Without it demons couldn't gather soulforce like any of you could or would be able to soon.</i>\" She stood up. \"<i>Now let move on to more...practical applications.</i>\"\n\n");
@@ -1510,7 +1520,7 @@ public function soularena():void {
 		clearOutput();
 		flags[kFLAGS.SPIRIT_STONES] -= 5;
 		if (player.hasPerk(PerkLib.HistoryCultivator) || (player.hasPerk(PerkLib.PastLifeCultivator) && player.hasPerk(PerkLib.JobSoulCultivator))) {
-			outputText("After paying the gems you followed guidance and entered one of the arena sides where was already set up stand in the middle nad places to sit around it. Squizzing between already gathered people founded empty spot near the front and after sitting down looked toward the place where the teaching person should be. And her looks suprised you, which espected to that elder been some old geezer that will talk hadrly undenstable words.\n\n");
+			outputText("After paying the gems, you followed the guidance and entered one of the arena sides where a stand was already set up in the middle with places to sit around it. Squeezing between the already gathered people, you found an empty spot near the front. After sitting down, you looked toward the place where the instructor should be. Her appearance surprised you, as you expected that elder to be some old geezer who would talk in hardly understandable words.\n\n");
 			outputText("An unrivalled woman that made all others feel inferior in their heart. Just by casually standing there, she was like a fairy of the highest heavens, ethereal and ephemeral. This woman had an appearance that neared perfection. She has an amazing body, silky smooth golden hair and has a voice of a lark that can instantly charm and captivate the masses, making it hard to resist her perfection.\n\n");
 			outputText("She has a fine raised nose, pointed chin and a slender jade like neck. There were simply no flaws that one could see. In addition, she exuded an aura of wisdom and purity, causing an inevitable thought to enter the minds of those who set their eyes on her: A peerless beauty.\n\n");
 			outputText("Her eyes were bright and deep, as if they contained undying stars.\n\n");
@@ -1527,7 +1537,7 @@ public function soularena():void {
 		outputText("\"<i>I see a few familiar faces today,</i>\" she says casually. Following her gaze you notice a certain lizan student from before, who blushes at her attention. \"<i>I congratulate you all. You've awoken your SoulForce. You can sense the energy around you, and took your first steps along the Cultivator's path. Do any of you know the subject of today's lesson?</i>\"\n\n");
 		outputText("The students begin murmuring, looking between themselves, but nobody answers. After five minutes, the curvy kitsune claps her hands. \"<i>Eyes on me, please. </i>\" No few students didn't need the prompt, shamelessly staring at her, but the chatter around the room stops.\n\n");
 		outputText("\"<i>Today's lecture is on the different fields of study. Now that you've awoken your SoulForce, many paths have opened up for you. Not all cultivators follow the same path and honestly...</i>\" she takes a breath, looking at the assembled students. \"<i>there are many paths to tread. Each of you will walk a different path, at your own pace, for as no two souls are the same, the paths we tread differ. But I digress, there are a few areas in which most souls gather. Three, to be exact. Three categories of discipline that encompass the paths that most cultivators take.</i>\" She motions with one hand, pointing to the back of the room. You turn to see three people stand, gracefully making their way to the stage. A white-furred wolf, a buxom lacta bovine, and a smaller, thinner raccoon-morph. They take a position next to her, and she motions to the Wolf.\n\n");
-		outputText("\"<i>My first assistant here is to demonstrate the most common, well-trodden path. He decided to develop his abilties of soulforce manipulation. It's the easiest path for most, especially those with experience in the mystic arts, and is especially popular among the Lizans, Unicorns, Nekomata, and my own race, the Kitsunes. This discipline focuses on manipulating the energy around them, not unlike more classic mages. </i>\" She motions, and the Winter Wolf raises his hands, spreading his arms wide. Etherial blades form above him, and with a flick of his hands, they spin, slicing the air with rapid strokes. He flicks his hands again, and the blades erupt into flame before vanishing. Several students clap, and he smiles slightly, bowing respectfully. Ms Shigure shakes her head, a small smile on her face. \"<i>We call that the Daoist's path.</i>\" She then turns to the second one.\n\n");
+		outputText("\"<i>My first assistant here is to demonstrate the most common, well-trodden path. He decided to develop his abilities of soulforce manipulation. It's the easiest path for most, especially those with experience in the mystic arts, and is especially popular among the Lizans, Unicorns, Nekomata, and my own race, the Kitsunes. This discipline focuses on manipulating the energy around them, not unlike more classic mages. </i>\" She motions, and the Winter Wolf raises his hands, spreading his arms wide. Etherial blades form above him, and with a flick of his hands, they spin, slicing the air with rapid strokes. He flicks his hands again, and the blades erupt into flame before vanishing. Several students clap, and he smiles slightly, bowing respectfully. Ms Shigure shakes her head, a small smile on her face. \"<i>We call that the Daoist's path.</i>\" She then turns to the second one.\n\n");
 		outputText("\"<i>Our bovine friend here decided to focus on her body instead. This path doesn't focus on manipulation, like the Daoists. Her energy isn't as fluid, or controlled... but instead, she draws the energy in, focusing it into her body. </i>\" Ms Shigure motions again, and two assistants drag a stone pillar in, placing it in front of the bovine. \"<i>This, of course, allows for physical abilities that the Daoists couldn't hope to match.</i>\" The bovine woman grins, bringing her hand down upon the top of the stone pillar. The rock splinters, shards of stone showering the stage with shards. The muscular woman doesn't seem effected in the slightest by the stone shards now embedded in her kimono, and as another round of applause breaks out, she chuckles and grins, scratching the back of her head. Ms Shigure looks out at the assembled students, motioning to her assistant. \"<i>This is the path of Body Cultivation. It tends to be popular among races with already impressive physicality, such as the Oni, Minotaur, Lacta-Bovine and Orca races.</i>\" The Lacta Bovina steps back, leaving the last assistant standing with Ms. Shigure.\n\n");
 		outputText("\"<i>This cultivator didn't pick the previous paths. Scholars have been arguing for centuries, as to which path is more demanding, this, or the Body Cultivator's path. He's developing heartforce, focusing on the mind and mental state. Some say it's pure willpower, unlike the esoteric nature of daoist magic or body cultivators raw physicality. Such cultivators we calls Heartforce Cultivators.</i>\" She motions, and an etherial white tiger forms around the raccoon-morph. He grins as several snakes erupt from his arms, sending a slight shock through the crowd. The animals bare their fangs, before fading away.\n\n");
 		outputText("With all three introduced, ms Shigure spends the next ten or so minutes explaining each path a little more in-depth, going over each path's basic strengths and weaknesses.\n\n");
@@ -1546,9 +1556,9 @@ public function soularena():void {
 		outputText("\"<i>Greetings, everyone. Another meeting with so many of you. One would think I’d start remembering your names, right?</i>\" Shigure cracks a small joke to lighten the mood.\n\n");
 		outputText("\"<i>It's good to see so many of you have continued on your path into SoulForce, and are still getting value out of my lectures. Or maybe you come here for different reasons...</i>\" Shigure says, looking down at her gown, which has slipped aside, showing her shapely thighs. As it slips further, nearly giving you (and everyone else) a glance at her womanhood, she winks, covering herself again.\n\n");
 		outputText("\"<i>Being here today means you all managed to ascend above the level of Soul Apprentice. I expect that my techniques were helpful, considering most of you returned.</i>\" She nods and then turns around, giving everyone a good look at her shapely back and tails as she reaches for some small booklet.\n\n");
-		outputText("\"<i>Now some of you may start to feel your...powers...growing. </i>\" She gives that Lizan from before a direct look. \"<i> You may feel confident in your power, from training, or perhaps from besting your peers. You can feel your SoulForce expanding, your skills rising, and you may feel ready to test yourself.</i>\" She smiles down at her students. \"<i>It's a wonderful feeling, being able to better yourself, to feel the power thrumming inside you...</i>\" Her smile fades, and she looks down sternly.  \"<i>unless it gets to your head. The path of the cultivator is a path to power, but it is by no means the only one to walk. Confidence can easily lead to arrogance. And that is what can fell even the strongest, the most skilled... Many, so many of our people have fallen victim to such. Some, we were able to find, to recover.</i>\" She looks up, eyes somber. \"<i> But most end up as some demon's sex toy, or worse...</i>\" she sighs, cutting herself off and breathing deeply. \"<i>Mareth is not forgiving, students. If you learn nothing else here, learn that the world is dangerous, especially for the weak or the foolish.</i>\" ");
+		outputText("\"<i>Now some of you may start to feel your...powers...growing. </i>\" She gives that Lizan from before a direct look. \"<i>You may feel confident in your power, from training, or perhaps from besting your peers. You can feel your SoulForce expanding, your skills rising, and you may feel ready to test yourself.</i>\" She smiles down at her students. \"<i>It's a wonderful feeling, being able to better yourself, to feel the power thrumming inside you...</i>\" Her smile fades, and she looks down sternly.  \"<i>unless it gets to your head. The path of the cultivator is a path to power, but it is by no means the only one to walk. Confidence can easily lead to arrogance. And that is what can fell even the strongest, the most skilled... Many, so many of our people have fallen victim to such. Some, we were able to find, to recover.</i>\" She looks up, eyes somber. \"<i> But most end up as some demon's sex toy, or worse...</i>\" she sighs, cutting herself off and breathing deeply. \"<i>Mareth is not forgiving, students. If you learn nothing else here, learn that the world is dangerous, especially for the weak or the foolish.</i>\" ");
 		outputText("She then looks at the ground, \"<i>Mareth is not just a place of demons and lunatics. There are much worse things buried below this land, ancient powers which you would never wish to let...Stir.</i>\" Shigure shudders, letting the silence build. Suddenly, she claps her hands, popping upright and sending her breasts jiggling.\n\n");
-		outputText("\"<i>Anyways, enough of that. For now, you don't need to worry about such things. They're well outside your grasp...However, I think something new is in order. A skill using your SoulForce. Not only is this skill convenient in your everyday life, but it's a very useful way to train at your level, and save some time and effort as well. It's called Soul Sense.</i>\" She looks over the audience. \"<i>Is anyone already familiar with this technique?</i>\" She waits for few minutes but noone speaks.\n\n");
+		outputText("\"<i>Anyways, enough of that. For now, you don't need to worry about such things. They're well outside your grasp... However, I think something new is in order. A skill using your SoulForce. Not only is this skill convenient in your everyday life, but it's a very useful way to train at your level, and save some time and effort as well. It's called Soul Sense.</i>\" She looks over the audience. \"<i>Is anyone already familiar with this technique?</i>\" She waits for a few minutes but no one speaks.\n\n");
 		outputText("\"<i>Well then, since nobody here has prior knowledge and the willingness to share, I shall explain it personally.</i>\" She sighs a bit, as if expected someone to step up. What follows is a lengthy explanation, a bit different form previous lectures, that relay lots of vital information about what soul sense is and what it could be used for. \"<i>My personal favorite use for Soul Sense is outside the walls of our fair city. Many odd traders and friendly souls still wander Mareth, and once you get to know these people, you can use your Soul Sense to easily find them again, avoiding the need for a potentially dangerous search.</i>\" ");
 		outputText("\"<i> This technique is limited, however, in its scope. Someone with a weak soul would be harder to detect, and there are techniques to prevent this skill from finding you, should you wish to remain hidden. Most importantly, things...or creatures...Without a soul cannot be found using soul sense. While this may be inconvenient, should you wish to find a lost object, more importantly, this skill cannot be used to find demons.</i>\" She shrugs. \"<i>Although why you would be searching for such creatures, I have no idea.</i>\" The busty Kitsune taps her podium with a finger, and a few students in front, including that Lizan from earlier, begin passing out small manuals. Once everyone's been handed one, they sit back down, and Ms. Shigure smiles.\n\n");
 		outputText("\"<i>I hope everyone found that lesson informative, and I expect to feel your SoulForce in the future, out in Mareth. Our next lesson will be about the various trials set before each of you. As cultivators, you will find your power plateau, and stagnate...Unless you take on said trials, and survive. </i>\" She makes a deep bow, allowing those in first rows see very deep into her bountiful cleavage. \"<i>Stay safe, and come back to me, my students.</i>\"\n\n");
@@ -1565,7 +1575,7 @@ public function soularena():void {
 		outputText("\"<i>However, survival isn't always your only focus in such a trial. While risky, it'\s sometimes possible to fight back, rather than simply surviving the trial. While it can leave you vulnerable, should you fail, a cultivator will often gain more by excelling at a trial, defeating it outright, as opposed to simply surviving.</i>\" At that moment some lizan interrupts, raising his hand.\n\n");
 		outputText("\"<i> Ms. Shigure, are you speaking from experience? Or is this word of mouth from other cultivators?</i>\"\n\n");
 		outputText("\"<i>Hmmmm...</i>\" she pauses, giving the Lizan a favorable smile. \"<i>Yes, I speak from experience. While my first tribulation, I simply sought to live, my subsequent trials were...easier for me. When I realized this, I took a more aggressive approach, dispelling the clouds with my own power. </i>\" She continues the lecture, describing what happened during her tribulations, and those of other cultivators. From there, she moves on to practical matters,  describing the tribulation's lightning, and how a cultivator could avoid or defend against such attacks.\n\n");
-		outputText("\"<i>When the time will come each of you should feel the approaching tribulation. Some feel it in their Dantain, others have noted a strong metallic smell in the air. Luckily for us, it takes time to build up a proper storm... well beside some rare, extreme, cases, it would take a few hours, at least. So be sure to find a good, open place to face it. Ahh and be careful to not involve others in your trial. Tribulations tend to get much harder if more than one cultivator faces it. Pets or minions should be fine, but trials are unfortunately not group projects.</i>\"\n\n");
+		outputText("\"<i>When the time will come each of you should feel the approaching tribulation. Some feel it in their Dantain, others have noted a strong metallic smell in the air. Luckily for us, it takes time to build up a proper storm... well, beside some rare, extreme, cases, it would take a few hours, at least. So be sure to find a good, open place to face it. Ahh and be careful to not involve others in your trial. Tribulations tend to get much harder if more than one cultivator faces it. Pets or minions should be fine, but trials are unfortunately not group projects.</i>\"\n\n");
 		outputText("The lecture continues for the next hour or so, as your busty teacher speaks in detail about her own tribulations, also using the words and stories from other cultivators. <i>While my second trial was like the first, a heavenly storm, Elder Namaste had a surge of water rise, nearly drowning him. Elder Lemouse, on the other hand, had a volcano erupt, spreading sacred ash around that slowed his movements, while also raining droplets of magma. </i>\n\n");
 		outputText("\"<i>At the ending i would like to once again bestow you all with a small blessing, in the form of this humble manual. Inside is all the knowledge in today's lecture, for those of you who didn't take notes already. </i>\" This gets a few chuckles. \"<i> I hope to see you all at my next lecture. I assume none of you will have an issue surviving your first tribulation.</i>\" With that, Ms. Shigure turns, sending her gown fluttering up and giving you all a long look at her legs and tails as she walks away. A few students take the stage as she leaves, taking the manuals from her desk and passing them out.\n\n");
 		outputText("<b>Gained Key Item: Heavenly Tribulation: Myths and Facts</b>");
@@ -1579,7 +1589,7 @@ public function soularena():void {
 		outputText("\"<i>Greetings, everyone. Is it just me, or does it smell like Ozone in here? It’s like every single one of you has been hit by lightning recently. </i>\" She waves her hand daintily in front of her nose, getting some laughs.\n\n");
 		outputText("\"<i>Congratulations everyone! From the feel of you, everyone here has survived your first tribulation.</i>\" She gives you a few claps, and some students join in, a small token applause echoing around the lecture hall. She sternly stares at those clapping, flicking her tails as a small scowl forms on her face. \"<i>Don't let it go to your heads. This was by far the easiest trial, and there will be more.</i>\" She inhales deeply, nodding sagely.  \"<i>After each of the three major levels of Cultivation, there will be another trial.</i>\" There are a few gasps, some groans, and she stares those students down, golden eyes deadly serious. \"<i>Three heavenly trials to pass, getting stronger as you do. No matter how powerful you feel, remember that your Tribulation will rise to meet you, no matter what.</i>\"\n\n");
 		outputText("\"<i>Now some of you may feel a stronger connection to some of the world's energies. We call such energy Dao, and you can find it in nearly anything. From the sky, the ground or even living beings, almost everything has a Dao. Some races, such as the Salamanders or Ice Wolves, have a natural affinity to their element. This makes it easier to comprehend, and makes that form of elemental dao easier for them to work with. So, for those of you without such natural advantages, don't be afraid to spend some time working with elemental energies. Such efforts can give you increased damage with that element, and");
-		outputText(" even some minor protection from it. But the last part may be not noticable until ending early stages of comprehension.</i>\" She continue her explanations on elemental daos giving even some examples.\n\n");
+		outputText(" even some minor protection from it. But the last part may not be noticable until ending early stages of comprehension.</i>\" She continue her explanations on elemental daos giving even some examples.\n\n");
 		outputText("\"<i>Second matter I would like to mention is sects. Some maybe heard about them or maybe not. In simpler words it's groups of similar minded cultivators with patriarch leader, it direct subordinates like elders and common members been disciplines. Now that you all have passed your first major trial, you could try joining a cultivator sect. Naturally, joining one would reduce the freedom you enjoy now as rogue cultivators but there are benefits to membership. Joining a sect will give access to better materials or ");
 		outputText("various manuals. Some will even fight alongside their members, granting some measure of protection. I must warn you, however, of some of the dangers of being in such an alliance.</i>\" The busty kitsune sighs, leaning on her podium. \"<i> While we cultivators are wiser than most...or so we like to think</i>\". This gets a few chuckles. \"<i>Unfortunately, we fight like any other mortals. Many sects have rivalries, alliances or even hatred, bad blood that only gets put aside when everything we all love is at stake.</i>\" She lowers her head, and drops her voice, closing her golden eyes. \"<i>One of the only times we've ever united the sects...Was the war that shall not be named.</i>\" Shigure visibly shivers, revealing a vulnerable side for the first time. \"<i>As cultivators, we can draw power from our surroundings, strength from the earth itself, and take to the sky...But even the mightiest of us can be felled by numbers. As it was against the demons.</i>\" She opens her eyes, tails glowing orange. ");
 		outputText("\"<i>After the goblin city fell, the council of the State of Azoh called for us, everyone who could fight...and we answered, souls blazing. While we were outnumbered, hundreds to one, the demons were not strong individually, and our Dao hearts were firm.</i>\" Ms. Shigure inhales, shaking her head. \"<i>...Too firm. We were so focused on the battle, on stopping those monstrosities...that we drew power from the land, more than it could sustain. Inch by inch, the land was robbed of power, of the SoulForce around it...To say nothing of what the demons did.\"</i> Ms. Shigure grips the podium with both hands, her golden tails limp. \"<i>You younger ones likely know this blighted place only as 'The Battlefield'...But now you know of its true story...And hopefully, you learn from our mistakes.</i>\" The younger Kitsune assistant puts a hand on Ms. Shigure's shoulder, and she shudders, visibly pulling herself back together. \"<i>Anyways, let's get into more lighthearted topics, shall we?</i>\" She goes on for another ten to twenty minutes talking about the various benefits or obligations that comes with several different sects of cultivators.\n\n");
@@ -1654,13 +1664,16 @@ public function soularena():void {
 	}
 	private function golemancershop1():void {
 		menu();
-		if (player.hasPerk(PerkLib.AdvancedGolemancyTheory) || player.hasPerk(PerkLib.EpicGolemMaker)) addButton(0, "Energy Core", buyItemEnergyCore).hint("A power source for devices.");
-		else addButtonDisabled(0, "???", "Items only for Epic Golemancer users or possesing Advanced Golemancy Theory knowledge.");
-		if (player.hasPerk(PerkLib.EpicGolemMaker)) addButton(1, "Mechanism", buyItemMechanism).hint("A complex set of gears and gyros.");
-		else addButtonDisabled(1, "???", "Items only for Epic Golemancer users.");
-		addButton(5, "G.Rod", buyItem, weapons.G_ROD).hint("Golemancer Rod");
-		addButton(6, "G.E.Man", buyItem, weaponsrange.G_E_MAN).hint("Golemancy Evocation Manuscript");
-		addButton(7, "Y.U.Panel", buyItem, shields.Y_U_PAN).hint("Yogi Uh Panel");
+		addButton(0, "MetalPiecesx1", buyItemMetalPlates, 1).hint("A metal pieces for making better golems. (x1)");
+		addButton(1, "MetalPiecesx5", buyItemMetalPlates, 5).hint("A metal pieces for making better golems. (x5)");
+		addButton(2, "MetalPiecesx10", buyItemMetalPlates, 10).hint("A metal pieces for making better golems. (x10)");
+		addButton(3, "MetalPiecesx20", buyItemMetalPlates, 20).hint("A metal pieces for making better golems. (x20)");
+		addButton(4, "MetalPiecesx50", buyItemMetalPlates, 50).hint("A metal pieces for making better golems. (x50)");
+		addButton(5, "Energy Core", buyItemEnergyCore).hint("A power source for devices.");
+		addButton(6, "Mechanism", buyItemMechanism).hint("A complex set of gears and gyros.");
+		addButton(7, "G.Rod", buyItem, weapons.G_ROD).hint("Golemancer Rod");
+		addButton(8, "G.E.Man", buyItem, weaponsrange.G_E_MAN).hint("Golemancy Evocation Manuscript");
+		addButton(9, "Y.U.Panel", buyItem, shields.Y_U_PAN).hint("Yogi Uh Panel");
 		if (player.hasPerk(PerkLib.MasterGolemMaker)) {
 			if (player.hasKeyItem("Golems, Animations and You") >= 0) addButtonDisabled(12, "G,A&Y Man.", "You already bought 'Golems, Animation and You' manual.");
 			else addButton(12, "G,A&Y Man.", golemancershopPermGolemsUpgradesGuide).hint("Buy 'Golems, Animation and You' manual to make golems great again.");
@@ -1711,6 +1724,25 @@ public function soularena():void {
 		player.createStatusEffect(StatusEffects.GolemUpgrades2, 0, 0, 0, 0);
 		player.createStatusEffect(StatusEffects.GolemUpgrades3, 0, 0, 0, 0);
 		player.createKeyItem("Golems, Animations and You", 0, 0, 0, 0);
+		doNext(golemancershopRepeat);
+	}
+	private function buyItemMetalPlates(amt:Number):void {
+		clearOutput();
+		var cost:int = (60 * amt) / 5;
+		if (player.hasPerk(PerkLib.MasterGolemMaker)) cost *= 0.5;
+		outputText("\"<i>That will be " + cost + " spirit stones. Show me da money baby.</i>\"\n\n");
+		menu();
+		if (flags[kFLAGS.SPIRIT_STONES] < cost) addButtonDisabled(1, "Buy", "You do not have enough spirit stones to buy this.");
+		else if (CampStatsAndResources.MetalPieces >= (201 - amt)) addButtonDisabled(1, "Buy", "You can't store any more of this type of items.");
+		else addButton(1, "Buy", curry(buyItemMetalPlatesYes, cost, amt));
+		addButton(3, "Don't Buy", golemancershopRepeat);
+	}
+	private function buyItemMetalPlatesYes(cost:Number, amt:Number):void {
+		flags[kFLAGS.SPIRIT_STONES] -= cost;
+		statScreenRefresh();
+		outputText("She counts the stones before handing your purchase over.\n\n");
+		outputText("\"<i>Always happy to do business, anything else you want to buy?</i>\"\n\n");
+		CampStatsAndResources.MetalPieces += amt;
 		doNext(golemancershopRepeat);
 	}
 	private function buyItemEnergyCore():void {

@@ -82,7 +82,7 @@ public class Harpy extends Monster
 			if (damage <= 0) {
 				outputText("The harpy dives at you with her foot-talons, but you deflect the attack, grasp onto her leg, and swing her through the air, tossing her away from you before she has a chance to right herself.");
 			} else {
-				outputText("The harpy surges forward, bringing her razor-sharp claws down on you, tearing at all the exposed flesh she can reach! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
+				outputText("The harpy surges forward, bringing her razor-sharp claws down on you, tearing at all the exposed flesh she can reach! <b>([font-damage]" + damage + "[/font])</b>");
 			}
 		}
 
@@ -95,6 +95,7 @@ public class Harpy extends Monster
 			this.imageName = "harpy";
 			this.long = "You are fighting a tall, deranged harpy. She appears very human, about six feet six inches tall but covered in a fine layer of powder-blue down. Her arms are sinewy and muscular, with a long web connecting them to her ample hips, covered in stringy blue feathers to aid her flight. A larger pair of powdery-blue wings also protrudes from her shoulder blades, flapping idly. She appears quite deranged as she circles you, approaching and backing away erratically. Her face is quite beautiful, with fine lilac makeup adorning the features of a handsome woman, and her lips are traced with rich golden lipstick. As she circles you, squawking frantically and trying to intimidate you, your eyes are drawn to her slender torso and small, pert breasts, each the size of a small fruit and covered in a layer of the softest feathers which ripple and move with the gusts from her wings. As astounding as her breasts are, her egg-bearing hips are even more impressive.  They're twice as wide as her torso, with enormous, jiggling buttocks where her huge, meaty thighs are coming up to meet them. Her legs end in three-pronged talons; their shadowy black curves glinting evilly in the light.";
 			// this.plural = false;
+			this.flyer = true;
 			this.createVagina(false, VaginaClass.WETNESS_SLICK, VaginaClass.LOOSENESS_GAPING_WIDE);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
 			createBreastRow(Appearance.breastCupInverse("B"));
@@ -109,19 +110,19 @@ public class Harpy extends Monster
 			this.skinDesc = "feathers";
 			this.hairColor = "blue";
 			this.hairLength = 16;
-			initStrTouSpeInte(130, 100, 170, 70);
-			initWisLibSensCor(80, 90, 40, 80);
+			initStrTouSpeInte(390, 300, 510, 210);
+			initWisLibSensCor(240, 270, 120, 60);
 			this.weaponName = "talons";
 			this.weaponVerb="slashing talons";
-			this.weaponAttack = 75;
+			this.weaponAttack = 225;
 			this.armorName = "feathers";
-			this.armorDef = 20;
-			this.armorMDef = 2;
-			this.bonusHP = 500;
-			this.bonusLust = 165;
+			this.armorDef = 500;
+			this.armorMDef = 100;
+			this.bonusHP = 2000;
+			this.bonusLust = 448;
 			this.lust = 10;
 			this.lustVuln = .6;
-			this.level = 35;
+			this.level = 58;
 			this.gems = 45 + rand(10);
 			this.drop = new ChainedDrop().add(armors.W_ROBES,1/10)
 					.add(consumables.SKYSEED,1/5)

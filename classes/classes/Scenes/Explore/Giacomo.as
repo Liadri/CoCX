@@ -25,6 +25,7 @@ For further information and license requests, Dxasmodeus may be contacted throug
 
 package classes.Scenes.Explore {
 import classes.*;
+import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.API.MerchantMenu;
 import classes.Scenes.Camp.Garden;
@@ -202,6 +203,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			if (player.hasCock() && player.hasVagina()) addButton(5, "Dual Belt", pitchDualStimulationBelt);
 			if (player.hasCock() && player.hasVagina()) addButton(6, "AN Onahole", pitchAllNaturalOnahole);
 			addButton(7, "Condom", pitchCondom);
+			addButton(10, "S.C.N.", pitchSilverCrossNecklace).hint("Silver cross necklace");
 			addButton(14, "Back", giacomoEncounter);
 			statScreenRefresh();
 		}
@@ -215,7 +217,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				if (player.farmingLevel >= 5) addButton(7, "Herb Bag (LowG)", pitchLHerbsBag).hint("Herbs Bag (Low Grade)");
 				else addButtonDisabled(7, "Herb Bag (LowG)", "Herbs Bag (Low Grade) Req. lvl 5 in Farming.");
 			}
-			if (Garden.PotionsBagSlot01Cap == 0) addButton(8, "Pot Bag (LowG)", pitchPotionsBag).hint("Potions Bag (Lowest Grade)");
+			if (Garden.PotionsBagSlot01Cap == 0) addButton(8, "Pot Bag (LowG)", pitchPotionsBag).hint("Potion Bag (Lowest Grade)");
 			if (player.hasKeyItem("Tarnished Ore Bag (Lowest grade)") >= 0) addButton(10, "Ore Bag (LowG)", pitchOreBag).hint("Ore Bag (Lowest Grade)");
 			if (Holidays.nieveHoliday()) {
 				if (flags[kFLAGS.CHRISTMAS_TREE_LEVEL] == 0) addButton(11, "Mysterious Seed", pitchMysteriousSeed);
@@ -343,6 +345,30 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			{
 				player.gems -= 10;
 				inventory.takeItem(useables.CONDOM, eroticaMenu);
+			}
+		}
+		
+		public function pitchSilverCrossNecklace():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			outputText("The trader smiles wide as you look at the strange jewelry on his table.\n\n");
+			outputText("\"<i>Oh this? This necklace is magical. Tell me friend, do you believe in eternal love? This necklace can lead you to it, all for the modest sum of 400 gems.</i>\"\n\n");
+			outputText("This sounds AND looks like a scam but do you buy it anyway?");
+			doYesNo(buySilverCrossNecklace, eroticaMenu);
+		}
+		
+		public function buySilverCrossNecklace():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			if (player.gems < 400)
+			{
+				clearOutput();
+				outputText("\n\nGiacomo sighs, indicating you need " + String(400 - player.gems) + " more gems to purchase this item.");
+				doNext(eroticaMenu);
+			}
+			else
+			{
+				player.gems -= 400;
+				inventory.takeItem(necklaces.SILCNEC, eroticaMenu);
 			}
 		}
 		
@@ -634,9 +660,9 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(miscMenu);
 			}
 			else {
-				outputText("\n\nYou decided to buy the bag. <b>You acquired Potions Bag (Lowest grade).</b>");
+				outputText("\n\nYou decided to buy the bag. <b>You acquired Potion Bag (Lowest grade).</b>");
 				player.gems -= 300;
-				player.createKeyItem("Potions Bag (Lowest grade)", 0, 0, 0, 0);
+				player.createKeyItem("Potion Bag (Lowest grade)", 0, 0, 0, 0);
 				Garden.PotionsBagSlot01Cap = 5;
 				Garden.PotionsBagSlot02Cap = 5;
 				Garden.PotionsBagSlot03Cap = 5;
@@ -1139,9 +1165,15 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(playerMenu);
 				return;
 			}
-			if (player.gender == 1)
+			sceneHunter.selectGender(dickF, null, null, hermF);
+
+			//==========================================================================================================
+
+			function dickF():void {
 				outputText("\"<i>Awwww!  Did my blue skin and pointy teeth scare you?</i>\" she says in a childish voice.  \"<i>Believe me stud, if I wanted to harm you, I would not have let you wake up at all.  I am here because you have 'called' me.</i>\"  She teases you with the empty blue bottle you bought from the merchant.  \"<i>My essence is in this bottle.  Any man who drinks this, I am compelled to return the pleasure by drinking his.</i>\"  The demon woman reaches her skinny hand down to your crotch where you see you have become fiercely erect.  The demon gently strokes your cock until you begin oozing generous amounts of your own natural lubricants.  The demon takes one of her massive breasts and teases you with her fat nipples.  \"<i>Open your mouth,</i>\" she demands.  \"<i>Take me into your mouth as I will soon take you into mine.</i>\"\n\n");
-			else if (player.gender == 3) {
+				sharedEnd(false);
+			}
+			function hermF():void {
 				flags[kFLAGS.CERULEAN_HERM_TIMES_USED]++;
 				outputText("\nIt is obvious that you have been confronted by a succubus.  As the fire illuminates your captor, her grin widens broadly.\n\n");
 				outputText("\"<i>Well, well, well!</i>\" the Succubus jingles.  \"<i>What have we here?!  A little girl with a big cock!</i>\"\n\n");
@@ -1150,15 +1182,18 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("You quickly try to struggle, but find the Succubus to be utterly dominating.  She wraps her arms around your back and entwines her lean legs around your hips.  The Succubus playfully licks your lips and grins.\n\n");
 				outputText("\"<i>You are getting your dick milked,</i>\" the Succubus says flatly, \"<i>Accept it.  Trust me, when I am done, you will want more of me, anyway.</i>\"\n\n");
 				outputText("As the Succubus finishes her ultimatum, you feel churning vaginal contractions stroking your massive cock.  Heavy, powerful, coordinated undulations work your dick as surely as the best handjob.  You quickly moan in shock and pleasure at such rough treatment.");
+				sharedEnd(true);
 			}
-			dynStats("lus", 35, "scale", false);
-			doNext(ceruleanSuccubusEncounterPart2);
+			function sharedEnd(herm:Boolean):void {
+				dynStats("lus", 35, "scale", false);
+				doNext(ceruleanSuccubusEncounterPart2, herm);
+			}
 		}
 		
-		private function ceruleanSuccubusEncounterPart2():void {
+		private function ceruleanSuccubusEncounterPart2(herm:Boolean):void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_cerulean_succubus);
-			if (player.gender == 1) {
+			if (!herm) {
 				outputText("Your natural instincts immediately take over and you open your mouth and allow her nipple inside.  Immediately, your mouth has a mind of its own as you press your head firmly into her breast and begin suckling the unnaturally long teat like a starving baby.  The demon-woman laughs in satisfaction.  \"<i>To think, that you believed me to do you harm!</i>\" she taunts.  \"<i>Drink, little man.  Feed your lust as you will soon feed mine.</i>\"  Immediately, you feel her milk flood your mouth.  Its taste immediately reminds you of the potion you got from Giacomo.  You realize the potion was not a potion at all, but this demon's breast milk!  Concerned only for your blind libido, the suction of your mouth coaxes torrents of the devil's fluid into your mouth and down your throat.  She continues teasing your cock only enough to maintain your erection.  In time, your stomach signals that you are full and you break the seal from her tit, making a loud 'pop'.  She briefly hoses you down with milk, soaking you.\n\n");
 				outputText("The demon has a satisfied look on her face.  \"<i>Did I taste good?  Was I wholesome and fulfilling?</i>\" she asks.  \"<i>Since you have fed from my life-milk, it is only fair that I do the same.  To be fair, 'yes', I am as fierce as I look and I will leave you sore and insensible.  However, I do so to pleasure you and feed myself.  Accept it and be happy.</i>\"  She gives you another inhumanly toothy grin and kisses you deeply.  A small pang of fear still shoots through you as you feel the sharpness of her teeth.  She breaks away from your lips and sighs in excitement.  \"<i>Now, I FEED!</i>\" she utters jubilantly.");
 			}
@@ -1168,13 +1203,13 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("\"<i>Ready to burst, are you?</i>\" the Succubus playfully challenges.  \"<i>Well, then.  No reason for you to hold back.</i>\"");
 			}
 			dynStats("tou", .3, "lib", .5, "sen", .5, "lus", 5, "cor", 1);
-			doNext(ceruleanSuccubusEncounterPart3);
+			doNext(ceruleanSuccubusEncounterPart3, herm);
 		}
 
-		private function ceruleanSuccubusEncounterPart3():void {
+		private function ceruleanSuccubusEncounterPart3(herm:Boolean):void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_cerulean_succubus);
-			if (player.gender == 1) {
+			if (!herm) {
 				outputText("Rotating herself into a 69 position, she seizes your throbbing member and effortlessly begins deep throating.  Her thighs wrap around your head and confront you with her surprisingly hairy pussy.  Her clitoris is long and erect, begging for attention and the smell of her pheromones enslaves you.  You bury your face into her furry mound, ignoring your normal revulsion to such an unshaved state and begin eating her as well as any woman you have ever pleased.  The demon takes your cock out of her mouth to cry in delight.  \"<i>YES, LITTLE MAN!</i>\" she screams.  \"<i>LICK ME!  TEASE ME!  LOVE MY WOMB WITH YOUR TONGUE!</i>\"  She responds by clamping her mouth around the head of your penis and sucking smartly.  A sharp pain in your ass signals the entry of her bony fingers working their way to your inner manhood.  Finding the root of your sex easily, she mashes down to force you to cum.\n\n");
 				outputText("Finding it impossible to resist such pleasure, you immediately begin cumming.  Glob after glob, stream after stream of your semen shoots into the woman's mouth.  Her timed sucking ensures that she swallows each drop as you launch it into her.  While you have been proud of the ability to cum in a woman for over a minute, you are wracked with both pain and pleasure as your ejaculations continue for almost ten.  Once you have spent your last, the demon releases your penis to bear down on your face with her thighs and unloads a massive squirting orgasm.  Your face is soaked with pussy juice as you see her cunt spasm from the force of her pleasure.  The sight of her rhythmic muscles is hypnotic.  She then promptly removes her finger from your ass.");
 			}
@@ -1189,12 +1224,12 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			fatigue(20);
 			player.orgasm();
 			dynStats("lib", .5);
-			doNext(ceruleanSuccubusEncounterPart4);
+			doNext(ceruleanSuccubusEncounterPart4, herm);
 		}
 		
-		private function ceruleanSuccubusEncounterPart4():void {
+		private function ceruleanSuccubusEncounterPart4(herm:Boolean):void {
 			spriteSelect(SpriteDb.s_cerulean_succubus);
-			if (player.gender == 1) {
+			if (!herm) {
 				clearOutput();
 				outputText("She stands up and helps you to your feet.  While dazed, ");
 				if (player.tallness < 80)
@@ -1217,59 +1252,43 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					outputText("\nAs you sleep, your rest becomes increasingly disturbed. You feel a great weight on top of you and you find it difficult to breathe. Stirred to consciousness, your eyes are greeted by an enormous pair of blue-tinged breasts. The nipples are quite long and thick and are surrounded by large, round areola. A deep, feminine voice breaks the silence, \"<i>I was wondering if you would wake up.</i>\" You turn your head to the voice to see the visage of a sharp featured, attractive woman. The woman grins mischievously and speaks again, \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\" Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features. The pupils of her eyes are slit like a cat's. As she grins, she bares her teeth, which contain two pairs of long and short fangs. This woman is clearly NOT human! In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground. You see that each finger on her hand also contains a fourth joint, further proving her status. Before you can speak a word, the woman begins mocking your fear and places her face in front of yours. Her face is almost certainly demonic in nature.\n\n");
 					outputText("She quickly moves down to your crotch...only to discover no organs down there.\n\n");
 					outputText("*record scratch*\n\n");
-			
 					outputText("\"<i>Wait a fucking minute.</i>\", the Succubus says, \"<i>Where's your dick?!</i>\"\n\n");
-			
 					outputText("As you state your genderless nature, the succubus hops off and from nowhere pulls out a large folder marked \"<i>Corruption of Champions-Script</i>\" and begins thumbing through the pages. After finding the page she is looking for, she reads it and looks off into the distance in disgust.\n\n");
-			
 					outputText("\"<i>Hey Fenoxo and Dxasmodeus!!!!!!</i>\", the Succubus crows, \"<i>The goddamn script says that I should be milking someone's DICK!!! Man, futa, herm, I don't give a shit. YOUR OWN FUCKING SCRIPT SAYS I SHOULD BE MOUNTING AND MILKING A COCK!!!! THIS IS A SEX GAME!!!!!! THAT MEANS FUCKING! WHAT THE HELL AM I SUPPOSED TO FUCK???!!!</i>\"\n\n");
-			
 					outputText("The Succubus looks at you with utter contempt, \"<i>THIS motherfucker doesn't have a DAMN thing! What am I supposed to do?! I can't exactly order a fucking Happy Meal!!!!!</i>\"\n\n");
-			
 					outputText("Throwing the script down in an utter rage, the tantrum continues, \"<i>Goddammit! I can't believe this shit! HEY!!!!! INTERN!!!! Bring me my robe, aspirins and cancer sticks!!!!</i>\"\n\n");
-			
 					outputText("The Succubus walks a few paces away where a plain-dressed woman with a clipboard hands the Succubus a pack of cigarettes and a small bottle of aspirin. She takes a fistful of the painkillers and immediately lights up a smoke. The Succubus takes a couple of drags off the cig and rubs her temples.\n\n");
-			
 					outputText("\"<i>You two are killing me!</i>\", she groans in clear frustration, \"<i>I come to work for you perverts based off the promise of MORE perverts to feed from and you do THIS to me! I can't work like this!</i>\"\n\n");
-			
 					outputText("The plain woman hands the Succubus a robe, which she crudely puts on as she storms off into the night.\n\n");
-			
 					outputText("\"<i>I will discuss this horseshit with my agent.</i>\", the Succubus continues bitching, \"<i>THIS was NOT in my contract.</i>\"\n\n");
-			
 					outputText("The Succubus stops, turns and points to you in derision. \"<i>And YOU! You no-cock, no-cunt having pissant! Take your ass back to the lab before they find out you escaped!!!!!</i>\"\n\n");
-			
 					outputText("The Succubus resumes her stormy exit. You look at the bottle of Cerulean Potion and wonder if it REALLY had some psychotropics in it. What the hell just happened?!");
 					flags[kFLAGS.CERULEAN_POTION_NEUTER_ATTEMPTED] = 1;
 				}
 				//REPEAT
 				else {
 					outputText("\nAs you begin to relax, you hear footsteps behind you, expecting the unholy interloper and pray for a better... and more understanding... encounter.\n\n");
-		
 					outputText("You turn around, hoping for an exciting encounter only to find a rather short, plain-faced woman with horned-rim glasses and a purple dress on. She appears to be holding a stack of papers in her hand.\n\n");
-		
 					outputText("\"<i>Ahem.</i>\", the woman says meekly, \"<i>I hate to bother you, but I was sent by the CoC writers and staff to hand you this.</i>\"\n\n");
-		
 					outputText("Scratching your head, you inquire what the document is. The woman smiles shyly and hands it to you.\n\n");
-		
 					outputText("\"<i>This is the script and production notes for Corruption of Champions,</i>\" she says with a small bit of pride, \"<i>Apparently, you need to read the highlighted sections. They are important.</i>\"\n\n");
-		
 					outputText("You take the script, scratching your head at the surreal nature of the moment. You thumb through the pages, finding virtually every aspect of your life and encounters written as if foreseen by great mystics. The accuracy is nothing short of horrifying. You find a highlighted section that appears to be what the woman is referring to. The note is terse and outright blunt.\n\n");
-					
 					outputText("\"<i>GENDER NEUTRAL CHARACTERS ARE BUTT-MONKEYS. IF THE ENCOUNTER INVOLVES SEX, EXPECT SOMETHING FUCKED UP TO HAPPEN INSTEAD. ACTORS WHO PLAY NEUTER CHARACTERS SHOULD EXPECT TO PLAY ONLY FOR LULZ</i>.\"\n\n");
-		
 					outputText("The shock is overwhelming. The script basically says that you will never catch a break. As this reality drapes about you, the script disappears and you hear a cacophony of mocking laughter in all directions. The woman is nowhere to be found.\n\n");
-		
 					outputText("As the cacophony fades, you only hear one facetiously toned word,\n\n");
-		
 					outputText("\"<i><b>Problem?</b></i>\"");
 				}
 				doNext(playerMenu);
 				return;
 			}
-			player.orgasm();
-			dynStats("cor", 2);
-			if(player.gender == 1) {
-				if(player.cor < 66) {
+
+			sceneHunter.selectGender(dickF, null, null, hermF);
+
+			function dickF():void {
+				sceneHunter.selectPureCor(["Succumb", pureF, "Let her have her way with you"],
+													["Aggressive", corF, "Fuck the succubus like the slut she is"], 66);
+				//=======================================
+				function pureF():void {
 					outputText("\nAgainst your better judgment, you've again partaken of the cerulean elixir and fallen asleep. You are quickly awakened by a thick nipple being thrust into your mouth and torrents of breast milk gushing down your throat as the succubus returns to have her way with you. Looking up, your eyes meet hers as a hungry manipulative grin stretches across her blue face. Unable to control your lust, your prick jumps to attention, which prompts the demoness to ");
 					if(player.isTaur()) outputText(" crouch between your legs and impale herself on your [cock] with a wet sound caused by her well-lubricated vulva. Y");
 					else outputText(" open her womb and quickly consume your [cock]. She embraces you, entrapping your head in her cleavage as y");
@@ -1282,9 +1301,10 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					outputText(" her contractions milking your [cock] as fiercely as a maid milks a cow! Another torrent of cum pushes its way out of your body and you let out a moan of pleasure and exhaustion.\n\n");
 					outputText("As you are passing out, you feel a deep kiss upon your lips from the succubus. \"You taste better each time we join. Call upon me soon, lest I take what I want from you anyway,\", says the lustful creature.\n\n");
 					outputText("Fatigue takes you and you collapse into a deep sleep.  ");
+					sharedEnd();
 				}
-				else {
-					clearOutput();
+
+				function corF():void {
 					outputText("\nKnowing the succubus will come, you do not even bother trying to sleep. Instead, you prepare a little surprise for her. You briefly jerk off and start edging yourself, preparing a massive batch to unload inside her. Hopefully, she will be the one to get more than she bargained for.\n\n");
 					outputText("The succubus comes, as you predicted. Despite her obvious strength and size difference to you, you grab her and push her down to the ground and immediately push your angry cock into her hairy hole. The succubus, surprised and enthralled, laughs at your aggression.\n\n");
 					outputText("\"<i>I thought I was the hungry one.</i>\", she chuckles. \"I am all yours, little man. FEED ME!\"\n\n");
@@ -1302,52 +1322,51 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					else outputText("She embraces you, moaning inhumanly, and reflexively digs her claws into your back. Searing with lust, the pain means little to you as you only feel the sensation of your body forcing your fluids out of your body and into hers. You slam your pelvis into hers");
 					outputText(", as if to force yourself to cum harder than you already are capable of, prompting an equally pleasurable reaction from her.\n\n");
 					outputText("For the first time since you have had your 'visits', the succubus appears winded. Without another word, her muscles release your manhood, which she quickly licks clean of your intermingled juices.  She tongues your face in lustful approval and flies away. You quickly fall asleep, utterly spent.  ");
+					sharedEnd();
 				}
 			}
-			else if(player.gender == 3) {
+
+			function hermF():void {
 				//Bad End-Cerulean Succubus Futa/herm
 				//[Conditions: Corruption >50. Drink 10 Cerulean potions over the course of 20 Days. (Other stipulations as required that prevent interference with other events-to be determined)]
-				if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10 && player.cor > 50) {
+				if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10 && player.cor > 50 && !player.hasPerk(PerkLib.Soulless) && !player.blockingBodyTransformations()) {
 					outputText("\nAs the Succubus mounts you, an uncontrollable urge takes over your mind and body. Without any thought, you quickly thrust one of her nipples in your mouth and begin suckling wildly like a newborn child. The Succubus cries in shock and pleasure as you begin feeding from her and quickly begins her ritualistic milking of your dong. The warm milk passes into your mouth and down your throat, where it settles peacefully in your stomach. The sensation of fulfillment from her tits is only eclipsed by the massive load of semen you feel cramping your prostate.");
 					//[ (Herm-Dickgirl variant only)
 					if(player.hasBalls()) outputText("  Even your nuts are unbearably sore.");
 					outputText("  As the milk begins to dry out of the Succubus' tit, you release it from your control and launch an impossible load of cum into the succubus. The demoness releases her hold of your cock and hops off your crotch and jumps to place her mouth over your erupting penis. Reflexively grabbing her head, you push your cock as deep as you can in her mouth and for minutes, pump stream after stream of hot lust into her gullet. After the last load leaves your dong, you pass out.\n\n");
-		
 					outputText("After a short time, you wake up sore from head to toe. The Succubus is sitting next to you with an utterly satisfied look on her face.\n\n");
-		
 					outputText("\"<i>Well, this was unexpected.</i>\", she says, \"<i>I did not expect you to change. Normally, men are susceptible to my milk, but apparently it works on herms, too.</i>\"\n\n");
-		
 					outputText("As you stand, you feel awkward as your body does not feel right. You look at the Succubus and she no longer appears as large as she once was. Quick to realize a problem, you look at your reflection in a small bucket at your campsite. Other than your own unique facial features, you see ANOTHER Cerulean Succubus looking back at you! You ARE a Cerulean Succubus!");
 					//[(if the player has a large number of transformations)
 					if(player.racialScore(Races.HORSE, false) + player.racialScore(Races.DOG, false) + player.racialScore(Races.NAGA, false) + player.racialScore(Races.GOBLIN, false) + player.racialScore(Races.SHARK, false) + player.racialScore(Races.MINOTAUR, false) + player.racialScore(Races.COW, false) > 5) outputText("  All of the other corruptions and changes to your body have faded away as your new form has taken shape.");
 					outputText("  As the reality soaks in, you feel a sharp pain in your stomach and your cock. You NEED to feed. Cum, milk, it doesn't matter. Likewise, your dick is hard and you need to cum. Despite your need, you cannot bring yourself to masturbate. You want ANOTHER'S attention.\n\n");
-		
 					outputText("Without further acknowledgement, you take up your on your demonic wings to find your first \"meal\". The Succubus left behind simply giggles as she sees another of her kind take up the night in search for more meals and pleasure.");
-					EventParser.gameOver();
-					return;
+					outputText("At first you scour the land looking for a plaything to suck the fluids out of but to your disappointment discover that it’s all imp or goblin in the region. Thirsty for sex you sate yourself on the closest greenskin but it's about the cheapest meal you can get. Even as you retrieve and eat the skank pathetic soul you yearn for more. It dawns on you that the portal to your homeworld still exists and that inevitably new champions will be thrown in, pure humans you can enslave and use for your own gains. You could always hook up with an incubus but what could ever replace the sweet taste of a harem trained for your own needs and tastes?"+(flags[kFLAGS.LETHICE_DEFEATED] <= 0?" Heck that bitch demon queen hoards all the Lethicite in the realm to herself. You could probably claim it as your own by taking her down.":"")+"\n\n");
+					outputText("With new resolve you resume your unholy quest to take this world by storm and make it your playground!\n\n");
+					consumables.DEMONME.demonizePlayer();
+					sharedEnd();
 				}
 				else {
 					flags[kFLAGS.CERULEAN_HERM_TIMES_USED]++;
 					flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER]++;
 					outputText("\nAs you begin to relax from a long day of adventuring, the succubus returns and lands squarely in your lap, just missing your throbbing erection. The succubus growls in arousal as she thrusts one of her fat nipples into your mouth. Reflexively, you begin suckling the teat with neither shame nor restraint. Milk floods into your mouth as you sense the weight of the succubus descend upon your cock. The familiar warmth and snugness of her cunt greet your hungry prick as her muscles begin the savory churning to coax your body into producing the 'milk' she needs to sate her own hunger. Your eyes roll back into your head as the torrent of milk pouring down your throat increases the sensitivity in all of your organs, compelling your hips to reflexively buck to press your dick deeper.\n\n");
-					
 					outputText("The Succubus restrains you without missing a stroke or disrupting your breastfeeding as the pangs of orgasmic pleasure swell up at the base of your cock. You wrap your arms forcefully around the succubus as you bear down upon your crotch, releasing the painfully stockpiled load of lust into the demoness' cunt for her own sustenance. The succubus lets out an inhuman howl of pleasure as her own orgasm begins to crush your cock, draining every last drop out of you.\n\n");
-		
 					outputText("Your consciousness begins to fade as the orgasm subsides. The succubus pops her tit out of your mouth and squeezes more of her essence into the empty bottle. She licks your lips and flies away just in time for you to pass out.  ");
 					//Clear out any queue'ed events if bad-end
 					//coming.  PC has to dig his own grave.
-					if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10) {
-						player.removeStatusEffect(StatusEffects.SuccubiNight);
-					}
+					if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10) player.removeStatusEffect(StatusEffects.SuccubiNight);
 					fatigue(20);
 					player.cumMultiplier++;
-					//[Maintain first encounter mechanics. New variable to keep track of subsequent encounters within a specific time period]
+					sharedEnd();
 				}
 			}
-			outputText("\n");
-			player.orgasm();
-			dynStats("str", rand(2),"tou", rand(2), "spe", rand(2), "int", rand(2), "cor", 1);
-			inventory.takeItem(consumables.CERUL_P, playerMenu);
+
+			function sharedEnd():void {
+				outputText("\n");
+				player.orgasm();
+				dynStats("str", rand(2), "tou", rand(2), "spe", rand(2), "int", rand(2), "cor", 1);
+				inventory.takeItem(consumables.CERUL_P, playerMenu);
+			}
 		}
 	}
 }

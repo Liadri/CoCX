@@ -32,7 +32,7 @@ public class HellHound extends Monster
 				player.takeFireDamage(temp, true);
 				player.takeLustDamage(20+(player.effectiveSensitivity()/10), true);
 				statScreenRefresh();
-				if(player.HP <= player.minHP()) {
+				if(Math.round(player.HP) <= Math.round(player.minHP())) {
 					doNext(SceneLib.combat.endHpLoss);
 					return;
 				}
@@ -65,7 +65,7 @@ public class HellHound extends Monster
 		override public function defeated(hpVictory:Boolean):void
 		{
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) SceneLib.combat.cleanupAfterCombatImpl();
-			else if (player.hasStatusEffect(StatusEffects.SoulArenaGaunlet)) SceneLib.hexindao.gaunletchallange2fight3();
+			else if (player.hasStatusEffect(StatusEffects.SoulArenaGauntlet)) SceneLib.hexindao.gauntletchallange2fight3();
 			else SceneLib.mountain.hellHoundScene.hellHoundPostFightOptions(hpVictory);
 		}
 
@@ -82,23 +82,24 @@ public class HellHound extends Monster
 		public function HellHound(noInit:Boolean=false)
 		{
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
-				initStrTouSpeInte(64, 64, 50, 1);
+				initStrTouSpeInte(69, 69, 54, 1);
 				initWisLibSensCor(1, 95, 20, 100);
-				this.weaponAttack = 10;
-				this.armorDef = 7;
-				this.armorMDef = 1;
+				this.weaponAttack = 15;
+				this.armorDef = 14;
+				this.armorMDef = 2;
 				this.bonusLust = 125;
 				this.level = 6;
-				this.gems = 15+rand(12);
+				this.gems = 15 + rand(12);
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			}
 			else {
-				initStrTouSpeInte(81, 81, 70, 1);
-				initWisLibSensCor(1, 97, 22, 100);
-				this.weaponAttack = 12;
-				this.armorDef = 11;
-				this.armorMDef = 2;
-				this.bonusLust = 129;
-				this.level = 20;
+				initStrTouSpeInte(281, 281, 270, 1);
+				initWisLibSensCor(1, 317, 77, 100);
+				this.weaponAttack = 60;
+				this.armorDef = 330;
+				this.armorMDef = 60;
+				this.bonusLust = 443;
+				this.level = 49;
 				this.gems = 25+rand(7);
 			}
 			if (noInit) return;

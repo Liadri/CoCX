@@ -75,6 +75,8 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 		var perk:Array          = (subtype.perk || []).slice();
 		var tags:Array          = subtype.tags || [];
 		var attack:Number       = subtype.attack;
+		var itemEffects:Array   = subtype.effects || [];
+		var qitemEffects:Array  = subtype.qeffects || [];
 		if (parsedParams.error) {
 			trace("[ERROR] Failed to parse " + id + " with error " + parsedParams.error);
 			name      = "ERROR " + name;
@@ -97,7 +99,7 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 				perk.join(", ")
 		);
 
-		DynamicItems.postConstruct(this, tags, buffs);
+		DynamicItems.postConstruct(this, tags, buffs, itemEffects, qitemEffects, quality);
 	}
 
 	override public function effectDescriptionParts():Array {
@@ -157,21 +159,21 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 		DynamicItems.equipText(this);
 	}
 
-	override public function beforeEquip(doOutput:Boolean):Equipable {
+	override public function beforeEquip(doOutput:Boolean, slot:int):Equipable {
 		if (!identified) {
-			return (identifiedCopy() as Equipable).beforeEquip(doOutput);
+			return (identifiedCopy() as Equipable).beforeEquip(doOutput, slot);
 		}
-		return super.beforeEquip(doOutput);
+		return super.beforeEquip(doOutput, slot);
 	}
 
-	override public function afterEquip(doOutput:Boolean):void {
-		super.afterEquip(doOutput);
+	override public function afterEquip(doOutput:Boolean, slot:int):void {
+		super.afterEquip(doOutput, slot);
 		for each (var e:Enchantment in effects) {
 			e.onEquip(game.player, this);
 		}
 	}
-	override public function afterUnequip(doOutput:Boolean):void {
-		super.afterUnequip(doOutput);
+	override public function afterUnequip(doOutput:Boolean, slot:int):void {
+		super.afterUnequip(doOutput, slot);
 		for each (var e:Enchantment in effects) {
 			e.onUnequip(game.player, this);
 		}
@@ -211,7 +213,7 @@ public class DynamicWeaponRange extends WeaponRange implements IDynamicItem {
 			name: "crossbow",
 			shortName: "Crossbow",
 			verb: "shot",
-			desc: "This is a light crossbow. A most basic one that fires bolts at your enemies.",
+			desc: "This is a light crossbow, a most basic one that fires bolts at your enemies.",
 			perk: WT_CROSSBOW,
 			attack: 5,
 			qattack: 0.25,

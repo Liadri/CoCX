@@ -794,7 +794,9 @@ public class BelisaFollower extends NPCAwareContent implements SaveableState
 					outputText("You have encounterd a BUG and i not mean drider-bug but just... BUG. Report to Ormael/Aimozg this (not at all drider) BUG.");
 			}
 			player.gems -= cost;
-			outputText("Temp dialogue until Snas gets back to me. \n\" Thanks for the gems, [name]. Here's the band!\"");
+			outputText("Belisa nods, looking seriously down at you. “This might sting a bit. The band will take a second or so to acclimate to your energies.” As she says that, she flattens the band against your [skin]");
+			outputText("Electricity seems to shoot from the band to your body, for a brief moment, you grimace, forcing yourself to stay still. The unpleasant sensation fades, leaving you with one of Belisa’s bands stuck tight to your arm. The band seems to pulse with your heartbeat, flexing as you move. ");
+			outputText(" \"<i>“Sorry.”</i> Belisa winces. <i>“Was that more than a sting?”</i> You give the little Drider a nod, and she sighs. <i>“You should feel a pulsing in your arm. That’s natural, and means the band’s synched up with your energies.”</i> She blinks twice. <i>“The pulsing should go away in an hour or so. If it doesn’t, come back here, it’ll need to be removed.”</i>");
 			statScreenRefresh();
 			doNext(BelisaShop);
 		}
@@ -1118,7 +1120,7 @@ public class BelisaFollower extends NPCAwareContent implements SaveableState
 		outputText("<b>Belisa has joined you as a lover.</b>\n\n");
 		if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 		else player.createKeyItem("Radiant shard", 1,0,0,0);
-		outputText("\n\n<b>Before fully settling in your camp as if remembering something Belisa pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+		outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Belisa pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 		BelisaFollowerStage = 3;
 		BelisaInCamp = true;
 		endEncounter();
@@ -1165,14 +1167,14 @@ public class BelisaFollower extends NPCAwareContent implements SaveableState
 		addButton(2, "Hang", BelisaHang);
 		addButton(3, "Shop", BelisaShop);
 		addButton(4, "Sex", BelisaSex);
-		if (BelisaHolyBands()) addButton(5, "Holy Bands", BelisaHolyBandsManagment).hint("Putting on ot taking of any of the Holy Bands you own. With little Belisa help ;)");
+		if (BelisaHolyBands()) addButton(5, "Holy Bands", BelisaHolyBandsManagment).hint("Putting on or taking off any of the Holy Bands you own. With Belisa's help ;)");
 		if (DriderTown.DriderTownComplete) addButton(13, "Back", SceneLib.dridertown.DriderTownEnter).hint("Return to main DriderTown menu.");
 		addButton(14, "Leave", camp.campLoversMenu);
 	}
 
 	public function BelisaAppearance():void {
 		clearOutput();
-		outputText("Belisa, at first glance, appears to be an odd cross between a spider-morph and a drider. She only has two humanlike eyes, with light brown pupils. Her face is mostly humanoid, save for a thin ridge of chitin that adorns her brow like a crown. Long, straight black hair runs down her back, almost touching her Drider back half. The top of her head is shielded from the sun by a large, glistening sun hat that you can only assume was woven from her own silk. Her skin is pale, almost white, and her full lips draw into a natural pout.\n\n");
+		outputText("Belisa, at first glance, appears to be an odd cross between a spider-morph and a drider. She only has two humanlike eyes, with light brown pupils. Her face is mostly humanoid, save for a thin ridge of chitin that adorns her brow like a crown. Long, straight black hair runs down her back, almost touching her Drider back half. The top of her head is shielded from the sun by a large, glistening sunhat hat that you can only assume was woven from her own silk. Her skin is pale, almost white, and her full lips draw into a natural pout.\n\n");
 		if (BelisaQuestComp) outputText("As she sees you looking at her face, she smiles, revealing her restored teeth and glimmering fangs. She blushes, but doesn’t seem to mind the attention.\n\n");
 		else outputText("One of her thin fangs sticks out over her lower lip, but she’s deliberately hidden the other from view. When you look at where that fang would be, she cringes, tilting her head so her sunhat hides her face from view.\n\n");
 		outputText("Unlike every drider you’ve ever seen, she only has two C-cup breasts, and she’s covered herself with a thin, opaque robe made from spider silk. Underneath, you can see she’s wearing a bra made out of scales, though from what, you have no idea. Her robe trails down and covers her naughty bits, and when it looks like it’s about to reveal her dark-brown pussy lips, she brings a hand down. You get a peek at some white silk panties before she covers back up.\n\n");
@@ -1483,7 +1485,7 @@ public class BelisaFollower extends NPCAwareContent implements SaveableState
 		outputText("You wake up in the hammock, with Belisa’s face close to yours. She’s clearly awake, but she’s stock still, watching your eyes. You blink, asking Belisa if she was watching you sleep. This gets a blush, but she seems to be getting used to having you close to her. <i>\"Well…I couldn’t exactly do much else. You were asleep, and…You’re sleeping on a few of my legs.\"</i>\n\n");
 		outputText("Now that you’re awake, you realize that, while your hips aren’t mashed together anymore, your body still rests on three of her chitin-covered spider legs. You reach out, tickling the end of one, which gets an involuntary giggle from Belisa.\n\n");
 		outputText("<i>\"H-hey, stop that, I’m ticklish!\"</i> You give her a grin, then realize that you’ve been napping for quite some time. Gently, you remove yourself from Belisa’s cot, freeing your Drider lover. She twitches, trying to get some feeling back into her legs.\n\n");
-		outputText("<i>\"I’m guessing you have to go now?\"</i> You give her a nod. You tell her that you have work you need to do. Belisa, still naked, body glistening with sweat and your combined love juices, looks you in the eyes, biting her lip. <i>\"Look…I know you’re capable…But stay safe.\"</i> Belisa notices you looking at her, and she sighs, covering her C-cups with one arm. \"You may be capable, powerful and all that…But…You’re still one person. Just…Come back to me.\"\n\n");
+		outputText("<i>\"I’m guessing you have to go now?\"</i> You give her a nod. You tell her that you have work you need to do. Belisa, still naked, body glistening with sweat and your combined love juices, looks you in the eyes, biting her lip. <i>\"Look…I know you’re capable…But stay safe.\"</i> Belisa notices you looking at her, and she sighs, covering her C-cups with one arm. <i>\"You may be capable, powerful and all that…But…You’re still one person. Just…Come back to me.\"</i>\n\n");
 		outputText("You give Belisa a chaste kiss on the cheek, and as you get dressed, you tell Belisa that you’ll always return. No demon’s going to get the best of you. She shakes her head, but doesn’t say anything. You dress and come back, ruffling her long, black hair roughly. <i>\"Headpats for luck!\"</i> You yell, stopping just short of giving Belisa a noogie.\n\n");
 		outputText("<i>\"H-hey!\"</i> She yells, and you laugh, tossing the door open and leaving back to camp. Belisa sticks her head out the door, then looks down, realizing she’s naked…and she almost joined you outside. <i>\"Eep!\"</i> She slams the door shut, and you head back to camp.\n\n");
 		if (!recalling) {

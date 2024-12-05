@@ -497,7 +497,7 @@ public class Vapula extends NPCAwareContent implements TimeAwareInterface
 				.disableIf(amilyScene.amilyFollower() && amilyScene.amilyCorrupt(),
 					"You need a corrupted mouse for this.", "???");
 			addButton(1, "Jojo", vapulaJojoThreesomes)
-				.disableIf(jojoScene.campCorruptJojo(), "You need a corrupted mouse with a dick.", "???");
+				.disableIf((!jojoScene.campCorruptJojo() || flags[kFLAGS.JOJO_BIMBO_STATE] == 3), "You need a corrupted mouse with a dick.", "???");
 			addButton(2, "Izma", vapulaAndIzmaThreeSome)
 				.disableIf(flags[kFLAGS.IZMA_NO_COCK], "Izma must have a cock.")
 				.disableIf(!izmaFollower(), "No sharks at your camp... yet?", "???");
@@ -506,7 +506,7 @@ public class Vapula extends NPCAwareContent implements TimeAwareInterface
 					"If you had some bimbo harpy, you could have some fun with her.", "???");
 			addButton(4, "Ceraph", vapulaCeraphThreesome)
 				.disableIf(!player.hasCock(), "You need a <b>REAL</b> cock for that.")
-				.disableIf(!ceraphFollowerScene.ceraphIsFollower(),
+				.disableIf((!ceraphFollowerScene.ceraphIsFollower() && !player.hasStatusEffect(StatusEffects.CeraphOff)),
 					"Sadly, you don't have any other demons in your submission.", "???");
 			addButton(14, "Back", callSlaveVapula);
 		}

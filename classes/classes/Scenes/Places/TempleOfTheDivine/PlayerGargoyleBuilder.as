@@ -381,8 +381,7 @@ use namespace CoC;
 			if (player.hasPerk(PerkLib.FutaForm)) player.removePerk(PerkLib.FutaForm);
 			if (player.hasPerk(PerkLib.FutaFaculties)) player.removePerk(PerkLib.FutaFaculties);
 			player.createPerk(PerkLib.TransformationImmunity, 0, 0, 0, 0);
-			if (player.hasPerk(PerkLib.RacialParagon))
-				flags[kFLAGS.APEX_SELECTED_RACE] = Races.GARGOYLE;
+			player.updateRacialParagon(Races.GARGOYLE);
 			player.updateRacialAndPerkBuffs();
 			player.destroyItems(useables.SOULGEM, 1);
 			outputText("After the weird feelings subside, you pick up what is your actual pedestal and move it to your camp.\n\n");

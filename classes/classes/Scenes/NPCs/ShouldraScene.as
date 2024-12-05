@@ -232,6 +232,10 @@ private function littlePigLittlePigLetMeIn():void {
 		.disableIf(!SceneLib.boat.isDiscovered()
 			|| !flags[kFLAGS.CODEX_ENTRY_SHARKGIRLS] && !flags[kFLAGS.CODEX_ENTRY_GOOGIRLS],
 			"You don't know any other place to show her... yet?", "???");
+	addButton(2, "Exgartuan", penisGartuanGhostSmex, true)
+			.disableIf(!exgartuan.dickAwake(), "You don't have Exgartuan or he isn't awake!");
+	addButton(3, "Xenora", ginaBoobgartuanShouldra, true)
+			.disableIf(!exgartuan.boobsAwake(), "You don't have Xenora or she isn't awake!");
 }
 //Lake Victory Scenes
 private function nowOnVickiLake():void {
@@ -539,16 +543,11 @@ private function genderlessGhostBuster(win:Boolean):void {
 
 private function penisSexMerged():void {
 	spriteSelect(SpriteDb.s_ghostGirl2);
-	var x:Number = player.biggestCockIndex();
 	clearOutput();
 	if(player.hasStatusEffect(StatusEffects.Infested)) {
 		dewormYourGhost();
 		return;
 	}
-	if (SceneLib.exgartuan.dickAwake()) {
-		penisGartuanGhostSmex(true);
-		return;
-	} else sceneHunter.print("Check failed: Exgartuan in dick and awake.");
 	if(flags[kFLAGS.SHOULDRA_PENIS_DEFEAT_TIMES] == 0) outputText("She abruptly gasps in excitement and begins moving her hands towards your groin, though you swiftly reclaim control of the unruly appendages. \"<i>You have a penis,</i>\" she telepathically pulses to you with an anxious and excited edge to her voice. \"<i>My hosts... they rarely... they...</i>\"");
 	else outputText("She chuckles softly as she recalls the times you've shared, and she hungrily goes for your maleness once more, though you mentally throw her off of it. ");
 	outputText("The communication suddenly breaks as the ghost-girl's will surges against yours, all thoughts of submissiveness vanishing from her mind.  ");
@@ -714,10 +713,6 @@ private function ghostGinaSexings(win:Boolean):void {
 	spriteSelect(SpriteDb.s_ghostGirl2);
 	if (win) {
 		clearOutput();
-		if (SceneLib.exgartuan.boobsAwake()) {
-			ginaBoobgartuanShouldra(true);
-			return;
-		} else sceneHunter.print("Check failed: Xenora (prev. Exgartuan) in boobs and awake.");
 		outputText("The ghost girl heaves a mildly disappointed sigh as she settles into your body fully.  \"<i>I've had... many female hosts,</i>\" she explains. You momentarily feel embarrassed by the ghost's disapproval, and you almost move to apologize before the words catch in your throat and you cross your arms defensively.  ");
 	}
 	else outputText("The ghost girl heaves a mildly disappointed sigh as she settles into your body fully.  \"<i>I've had... many female hosts,</i>\" she explains. You are almost embarrassed regarding her disapproval, and actually contemplate apologizing before remembering the source of the lament. You cross your arms (or try, as the ghost still has full control of your body) and give an annoyed huff.  ");
@@ -770,7 +765,7 @@ internal function loseToShouldra():void {
 				"Req. a vagina.", player.hasVagina(),
 				"This may sound boding, but at least she'll know what she's dealing with."],
 			[6, "Exgart-Tits", curry(ginaBoobgartuanShouldra, false),
-				"Req. a vagina and Xenora (prev. Exgartuan) in breasts.", player.hasCock() && SceneLib.exgartuan.boobsPresent(),
+				"Req. a vagina and Xenora (prev. Exgartuan) in breasts. Without SH:UniHerms, also the lack of cock", player.hasVagina() && (sceneHunter.uniHerms || !player.hasCock()) && SceneLib.exgartuan.boobsPresent(),
 				"Shouldra might be not surprised by your forms, but you know who CAN surprise her!"],
 			[2, "Herm-Style", curry(ghostGinaSexings, false),
 				"You're not a herm.", player.isHerm(),
@@ -814,13 +809,13 @@ private function ourDadTaughtUsNotToBeAshamedOfOurDicks(win:Boolean):void {
 	player.sexReward("vaginalFluids", "Dick");
 	flags[kFLAGS.SHOULDRA_PENIS_DEFEAT_TIMES]++;
 	if (win) {
-		outputText("Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she reaches down and plunges a hand into her still-dripping cunt. Evidently, she's taken ahold of something, and with a bit of effort she tugs a handful of translucent green goo right out. \"<i>Ectoplasm,</i>\" she explains, reaching down and grabbing her tunic. Reaching into a pocket, she produces a small bottle and pushes the slimy substance inside. \"<i>Essentially the product of a ghost orgasm, which you've so kindly provided for me.</i>\" She smiles, hands you the bottle, then moves to her clothing and swiftly dresses. With a little wave, she wanders away, rounding a corner and disappearing from sight. You resolve to find her again—her magic was pretty fun!");
+		outputText(" Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she reaches down and plunges a hand into her still-dripping cunt. Evidently, she's taken ahold of something, and with a bit of effort she tugs a handful of translucent green goo right out. \"<i>Ectoplasm,</i>\" she explains, reaching down and grabbing her tunic. Reaching into a pocket, she produces a small bottle and pushes the slimy substance inside. \"<i>Essentially the product of a ghost orgasm, which you've so kindly provided for me.</i>\" She smiles, hands you the bottle, then moves to her clothing and swiftly dresses. With a little wave, she wanders away, rounding a corner and disappearing from sight. You resolve to find her again—her magic was pretty fun!");
 		getEctoplasm();
 	} else loseEnding();
 }
 
 private function winEnding():void {
-	outputText("Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she smiles, moving to her clothing and swiftly dressing, then gives you a little wave before wandering away, rounding a corner and disappearing from sight. You resolve to find her again- her magic was pretty fun!");
+	outputText(" Her pleasure dealt with, the ghost girl appears head-first from your belly, flowing out and reconstituting herself into the normal, brown-eyed girl you first encountered.  Almost as an afterthought, she smiles, moving to her clothing and swiftly dressing, then gives you a little wave before wandering away, rounding a corner and disappearing from sight. You resolve to find her again- her magic was pretty fun!");
 	cleanupAfterCombat();
 }
 

@@ -57,6 +57,7 @@ public class Lethice extends Monster
 			this.createPerk(PerkLib.Diehard, 0, 0, 0, 0);
 			this.createPerk(PerkLib.ImprovedDiehard, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
@@ -203,7 +204,7 @@ public class Lethice extends Monster
 			// Append status effect immmunity and make Lethice immune to adapted debuff
 			for(var i:int=0; i < _statusEffects.length;i++){
 				// outputText( statusEffects[i].stype.id + " "+ statusEffects[i].value1 + " \n");
-				// Good job if you didnt use value1 for duration check
+				// Good job if you didn't use value1 for duration check
 				// Check for Shell becuz fucking
 				if(_statusEffects[i].stype.id!="Shell"){
 					var _index:int = dictOrder.indexOf(_statusEffects[i].stype.id);
@@ -259,7 +260,7 @@ public class Lethice extends Monster
 		}
 		private function sizeCheck():void{
 			// Limit immunity down to 9, remove the first added immunity
-			if(dictOrder.length>(3+flags[kFLAGS.GAME_DIFFICULTY])){
+			if(dictOrder.length>(3+flags[kFLAGS.PRIMARY_DIFFICULTY])){
 				dictOrder.removeAt(0);
 				dictValue.removeAt(0);
 			}
@@ -267,7 +268,7 @@ public class Lethice extends Monster
 		private function wheelHandleDesc():String{
 			var numberWheel:String = "";
 
-			switch(3+flags[kFLAGS.GAME_DIFFICULTY]){
+			switch(3+flags[kFLAGS.PRIMARY_DIFFICULTY]){
 				case 3:
 					numberWheel = "three";
 					break;
@@ -366,13 +367,13 @@ public class Lethice extends Monster
 			else{
 				return false;
 			}
-		}
+		}/*
 		override public function combatRoundUpdate():void{
 			if(_fightPhase!=2){
 				furubeYuraYuraYatsukaNoTsurugiIkaishinshoMakora();
 			}
 			super.combatRoundUpdate();
-		}
+		}*/
 		private function adaptionDeflect(damage:Number, font:String, dict:String="physical", damageType:Number=0):Number {
 			if(_fightPhase!=2){
 				if(companionCheck){
@@ -462,10 +463,10 @@ public class Lethice extends Monster
 			return adaptionDeflect(damage,"damage","true");
 		}
 
-		override protected function applyTease(lustDelta:Number, display:Boolean = true):void{
+		override protected function applyTease(lustDelta:Number, display:Boolean = true, aura:Boolean = false):void{
 			lustDelta = adaptionDeflect(lustDelta,"lust","lust");
 			if(lustDelta>0){
-				super.applyTease(lustDelta, display);
+				super.applyTease(lustDelta, display, aura);
 			}
 		}
 
@@ -643,7 +644,7 @@ public class Lethice extends Monster
 			outputText("Lethice narrows her eyes, focusing her mind with deadly intent. She snaps her fingers and a gout of black, twisting flames engulfs you!");
 			var damage:Number = (this.inte + 100 + rand(25)) * 10;
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			player.takeFireDamage(damage,true);
 		}
 

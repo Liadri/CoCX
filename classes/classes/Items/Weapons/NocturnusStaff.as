@@ -25,7 +25,7 @@ public class NocturnusStaff extends Weapon implements TimeAwareInterface
 		public function NocturnusStaff()
 		{
 			super("N.Staff", "N. Staff", "nocturnus staff", "a nocturnus staff", "bonk", 23, 3680,
-					"This corrupted staff is made in black ebonwood and decorated with a bat ornament in bronze. Malice seems to seep through the item, devouring the wielder’s mana to channel its unholy power. (+200% Spell cost, Spellpower bonus for corruption)",
+					"This corrupted staff is made in black ebonwood and decorated with a bronze bat ornament. Malice seeps from the item, devouring the wielder’s mana to channel its unholy power. (+200% spell cost, spellpower bonus scales with corruption)",
 					WT_STAFF, WSZ_LARGE);
 			withBuff('spellpower', +1.0);
 			withTag(I_LEGENDARY);
@@ -47,8 +47,9 @@ public class NocturnusStaff extends Weapon implements TimeAwareInterface
 				_buffs['spellpower'] = calcWizardsMult();
                 if (game.player.weapon == this) {
                     //re-requip to update player's perk
-                    afterUnequip(false);
-                    afterEquip(false);
+	                var slot:int = game.player.slotOfEquippedItem(this);
+                    afterUnequip(false, slot);
+                    afterEquip(false, slot);
                 }
             }
             lastCor = game.player.cor;
@@ -58,7 +59,7 @@ public class NocturnusStaff extends Weapon implements TimeAwareInterface
             if (game && game.player)
                 return _description + (
                     game.player.cor < 25 ? "\n\nYour pure aura almost breaks the flow of energy inside the staff, decreasing its power!\n" :
-                    game.player.cor < 50 ? "\n\nYour pure aura sligtly interrupts your connection with the staff, decreasing its power.\n" :
+                    game.player.cor < 50 ? "\n\nYour pure aura slightly interrupts your connection with the staff, decreasing its power.\n" :
                     game.player.cor < 75 ? "\n\nYour corrupted aura slightly increases the staff's power.\n" :
                     "\n\nYour corrupted energy flows throgh the staff, empowering it!\n");
             else

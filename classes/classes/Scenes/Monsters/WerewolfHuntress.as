@@ -58,7 +58,7 @@ import classes.Scenes.NPCs.*;
 		public function WerewolfHuntress()
 		{
 			initStrTouSpeInte(200, 165, 200, 50);
-			initWisLibSensCor(50, 100, 50, 75);
+			initWisLibSensCor(50, 100, 50, 50);
 			this.weaponAttack = 36 + 2;
 			this.armorDef = 200 + 10;
 			this.armorMDef = 5;
@@ -69,7 +69,7 @@ import classes.Scenes.NPCs.*;
 			this.short = "werewolf huntress";
 			this.imageName = "luna";
 			this.long = "Your opponent is a werewolf lycanthrope. While halfway human in appearance its glowing green eyes, canine ears, sharp fangs, bushy tails and claw armed paws reminds you of its bestial nature." +
-					" It circles you, sniffing the air as it looks for an opportunity to maul or snap at you, supernaturally fast in its movement. As a veteran huntress she actualy is far more experienced then the regular lycanthrope.";
+					" It circles you, sniffing the air as it looks for an opportunity to maul or snap at you, supernaturally fast in its movement. As a veteran huntress, she actually is far more experienced than the regular lycanthrope.";
 			// this.plural = false;
 			this.createVagina(false, VaginaClass.WETNESS_NORMAL, VaginaClass.LOOSENESS_NORMAL);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 20, 0, 0, 0);
@@ -86,7 +86,7 @@ import classes.Scenes.NPCs.*;
 			this.weaponVerb="paw-slash";
 			this.armorName = "fur";
 			this.lust = 10;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.gems = 5 + rand(5);
 			this.drop = new WeightedDrop().
 					add(null,1).

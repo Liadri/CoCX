@@ -29,7 +29,7 @@ public class SoulDrainSkill extends AbstractSoulSkill {
         if (uc) return uc;
 
 		if (monster && monster.hasPerk(PerkLib.EnemyTrueDemon)) {
-			return "You can't use this soulskill on somoene truly souless.";
+			return "You can't use this soulskill on someone truly souless.";
 		}
 		if (player.hasStatusEffect(StatusEffects.OniRampage) || player.wrath > player.maxSafeWrathMagicalAbilities()) {
 			return "You are too angry to think straight. Smash your puny opponents first and think later.";
@@ -76,7 +76,9 @@ public class SoulDrainSkill extends AbstractSoulSkill {
 	}
 
 	private function calcHealAmount():int {
-		return Math.round(player.maxHP() * 0.2);
+		var calcHA:Number = player.maxHP() * 0.2;
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) calcHA *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
+		return Math.round(calcHA);
 	}
 
 	private function calcSoulforceDrain(monster: Monster):int {

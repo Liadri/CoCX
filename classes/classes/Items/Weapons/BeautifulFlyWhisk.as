@@ -6,8 +6,8 @@ package classes.Items.Weapons
 import classes.Items.IELib;
 import classes.Items.Weapon;
 import classes.PerkLib;
-	import classes.EventParser;
-    import classes.TimeAwareInterface;
+import classes.EventParser;
+import classes.TimeAwareInterface;
 
 	public class BeautifulFlyWhisk extends Weapon implements TimeAwareInterface {
         //Implementation of TimeAwareInterface
@@ -35,7 +35,7 @@ import classes.PerkLib;
 				0,
 				400,
 				"This beautiful fly-whisk shines brilliantly in the light, showing its flawless craftsmanship." +
-				"  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this tool.",
+				"  The pommel and guard are heavily decorated in gold and brass.  Some craftsman has clearly poured their heart and soul into this tool.",
 				WT_EXOTIC,
 				WSZ_MEDIUM,
 				false
@@ -66,9 +66,10 @@ import classes.PerkLib;
 				_buffs['psoulskillpower'] = newMult;
 				_buffs['msoulskillpower'] = newMult;
                 if (game.player.weapon == this) {
+	                var slot:int = game.player.slotOfEquippedItem(this);
                     //re-requip to update player's perk
-					afterUnequip(false);
-					afterEquip(false);
+					afterUnequip(false, slot);
+					afterEquip(false, slot);
                 }
                 lastCor = game.player.cor;
             }

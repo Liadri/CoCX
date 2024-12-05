@@ -348,7 +348,7 @@ use namespace CoC;
 			outputText("<b>Lily has joined you as a lover.</b>\n\n");
 			if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 			else player.createKeyItem("Radiant shard", 1,0,0,0);
-			outputText("\n\n<b>Before fully settling in your camp as if remembering something Lily pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+			outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Lily pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 			LilyFollowerState = true;
 			DriderTown.LilyKidsPCPregnancy = 0;
 			cleanupAfterCombat(explorer.done);
@@ -455,7 +455,7 @@ use namespace CoC;
 
 		public function LilyBondageCabin():void {
 			clearOutput();
-			outputText("You take Lily by the chain on her four, pierced nipples, forcing her to blindly follow you into your cabin. Catching sight of one of the ceiling beams, you make a loop out of spider-silk, tossing your crude rope over the beam. Belisa squirms, letting out a surprised moan as her arms are lifted, forced up and over her head.\n\n");
+			outputText("You take Lily by the chain on her four, pierced nipples, forcing her to blindly follow you into your cabin. Catching sight of one of the ceiling beams, you make a loop out of spider-silk, tossing your crude rope over the beam. Lily squirms, letting out a surprised moan as her arms are lifted, forced up and over her head.\n\n");
 			outputText("Now completely at your mercy, the drider-woman’s cunt begins drooling, and she wiggles, thrusting her hips forward and letting out little squeaks. The sight is highly arousing. She even tries to move around the cabin blind, thrusting her hips randomly, trying to find you.\n\n");
 			menu();
 			addButton(0, "Wait", LilyBondageCabinWait);

@@ -1812,7 +1812,7 @@ private function talkMilkLimitationChange(newLimit:int):void {
 												break;
 		default:
 												outputText("You tell Kath that from now on she's not to keep her breasts in check.  The sky's the limit.\n\n");
-												outputText("Kath shakes her head and smiles, \"<i>" + (playerMaster() ? "Yes [master], I guess you can't get enough?" : "Can't get enough?  Alright [name],") + "I'll just let them make as much as they like.  But don't blame me if I get so full I try to force feed you.</i>\"\n\n");
+												outputText("Kath shakes her head and smiles, \"<i>" + (playerMaster() ? "Yes [master], I guess you can't get enough?" : "Can't get enough?  Alright [name],") + "I'll just let them make as much as they like.  But don't blame me if I get so full I try to force-feed you.</i>\"\n\n");
 												talkMilkMenu();
 												return;
 	}
@@ -3413,7 +3413,7 @@ private function katPenetrate():void {
 	menu();
 	addButton(0, "Vagina", penetrateKatsVag);
 	addButton(1, "Ass", pcPenetratesKatAnally);
-	addButtonIfTrue(2, "Both", pcPenetratesKatAnally,
+	addButtonIfTrue(2, "Both", pcPenetratesKatDoubly,
 		"Req. a second cock fitting 70 area.", player.cockThatFits2(70) >= 0);
 	addButtonIfTrue(3, "SucknFuck", suckNFuck,
 		"Req. her to have a dick and not oversized knot.", hasCock() && knotSize <= 4);
@@ -5991,7 +5991,7 @@ private function drunkFuck():void {
 	if (player.hasCock())
 		outputText("The constant battering overcomes you and " + (player.cocks.length > 1 ? "your cocks start" : "your cock starts") + " to spray, coating the door " + (player.cumQ() > 1000 ? "and then the floor " : "") + "with your sticky semen");
 	else if (player.hasVagina())
-		outputText("All that thrusting " + (player.isPregnant() && player.pregnancyIncubation < 100 ? "along with the bouncing of your huge belly " : "") + "overcomes you and the walls of your pussy " + (dPen ? "and ass " : "") + "clamp down on Kath’s spear");
+		outputText("All that thrusting " + (player.isPregnant() && player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(100, player.pregnancyType) ? "along with the bouncing of your huge belly " : "") + "overcomes you and the walls of your pussy " + (dPen ? "and ass " : "") + "clamp down on Kath’s spear");
 	else outputText("All the nerves in your rectum start to fire and your sphincter spasms furiously, trying to expel the invader");
 
 	outputText(".\n\nKath laughs like a madwoman and starts to hammer you even harder.  You feel her swollen knot" + (dPen ? "s" : "") + " fighting against your spasming passage" + (dPen ? "s, trying to force their" : ", trying to force its") + " way inside.  Katherine lets out a yowl and pulls back with all her strength.  Her knot" + (dPen ? "s, already near their final size, smash through your defenses, your muscles unable to hold them" : ", already near its final size, smashes through your defenses, your muscles unable to hold it") + " at bay.  At last Kath stops moving.  She must be enjoying the feeling as your ");

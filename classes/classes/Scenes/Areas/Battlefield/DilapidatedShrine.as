@@ -21,13 +21,13 @@ public class DilapidatedShrine extends BaseContent
 			clearOutput();
 			outputText("As you explore the battlefield, you notice a gravel path, curiously well-maintained, unlike everything else in this crater-ridden wasteland. You decide to follow the path, and it leads to a decently sized green space. In the middle of this surprisingly calm place, a large square building stands. At first glance, it's a majestic old wooden structure, radiating old grandeur and spirituality. You cautiously approach, the sparse trees and ancient building still calming compared to the wasteland around it. \n\n");
 			outputText("How could such a thing survive in such a war-torn place?\n\n You push open the chipped, charred wooden door as quietly as you can, but the soft scraping of the wood on the stone floor seems to carry throughout the place. ");
-			outputText("The vermillion hued gates are remarkably built, damage unable to hide the craftsmanship. As you step in, you notice two statues of strange beings, on either side of you. They seem to be half-lion and half-dog, a creature the likes of which you've never seen. You marvel at their almost life-like features. One stands with its jaw agape, the other with its lips sealed.\n\n");
+			outputText("The vermilion-hued gates, though damaged, still display remarkable craftsmanship. As you step in, you notice two statues of strange beings, on either side of you. They seem to be half-lion and half-dog, a creature the likes of which you've never seen. You marvel at their almost lifelike features. One stands with its jaw agape, the other with its lips sealed.\n\n");
 			outputText("Deeper into the shrine is a large plaza with statues located on each of your cardinal directions. Between the statues, the stones of the floor are carved, inlaid with ceramic, each tile depicting two or more of the statues, locked in combat or ordering smaller, less defined stick figures into battle. \n\n");
 			outputText("A voice echoes through the sanctum, breaking your thoughts, \"<i>What brings you here, young one?</i>\" Its voice is slightly raspy, clearly aged."+(silly()?" That or they seriously need to stop smoking.":"")+"\n\n");
 			outputText("You turn to face an odd person. They stand a little less than six feet tall, slumped over slightly and leaning on an old, worn broom. You can't make out anything beyond their height. The monk shows no skin, everything is completely sealed within dark layers of fabric.\n\n");
-			outputText("You stare for a moment, taken aback, and the old monk waves you off with one hand. \"<i>Oh, Don't mind me, traveller. I'm merely cleaning up here and there. I can't let the shrine of the four gods grow dusty, can I?</i>\" They shuffle their feet, sending a small bit of Dust up from the floor.\n\n");
-			outputText("You blink and when you open your eyes, they've vanished. An apparition? Illusion? You ready yourself for combat, backing away. Perhaps it's best to leave for now. \n\n");
-			outputText("<b>You have discovered Dilapidated Shrine. You can visit it from Places menu.</b>");
+			outputText("You stare for a moment, taken aback, and the old monk waves you off with one hand. \"<i>Oh, don't mind me, traveller. I'm merely cleaning up here and there. I can't let the shrine of the Four Gods grow dusty, can I?</i>\" They shuffle their feet, sending a small bit of Dust up from the floor.\n\n");
+			outputText("You blink, and when you open your eyes, they've gone. An apparition? Illusion? You ready yourself for combat, backing away. Perhaps it's best to leave for now. \n\n");
+			outputText("<b>You have discovered the Dilapidated Shrine. You can visit it from Places menu.</b>");
 			mainmenu();
 		}
 		public function repeatvisitshrineintro():void {
@@ -41,8 +41,8 @@ public class DilapidatedShrine extends BaseContent
 		public function shrinemainmenu():void {
 			clearOutput();
 			outputText("You're at the open plaza, large statues situated at each cardinal direction watch over you. Behind each statue are several small buildings decorated with braded ropes, strips of paper and smaller lion-dog statues at the sides.");
-			outputText("At the opposide side of the entrace is a path leading to small building with several manuscripts stored.");
-			outputText("At your left is a set of stairs that seem to lead into an underground chamber.");
+			outputText("On the opposite side of the entrance, a path leads to a small building with several manuscripts stored.");
+			outputText("To your left is a set of stairs that seem to lead into an underground chamber.");
 			outputText("At your right, you can see a small garden area.");
 			outputText("You consider what you should do or where to go.");
 			mainmenu();
@@ -73,8 +73,8 @@ public class DilapidatedShrine extends BaseContent
 			menu();
 			addButtonDisabled(2, "Spellcraft", "Placeholder button until one of the writers write something on this subject ^^");//story about god of magic			//addButtonDisabled(2, "The Fall", "Placeholder button until Lia write something on this subject ^^");//collection of propercies about gods fall on area later known as battlefield
 			addButtonDisabled(6, "Reaper", "Placeholder button until one of the writers write something on this subject ^^");//story about god of death/transformation
-			addButtonDisabled(8, "Lifegiver", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of life				//addButtonDisabled(0, "Souless Ones", "Placeholder button until Lia write something on this subject ^^");//story about early days of demons/their uprising (here or other place in mareth?)
-			addButtonDisabled(12, "Warmonger", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of war				//addButtonDisabled(1, "The Descent", "Placeholder button until Lia write something on this subject ^^");//orgin of soul cultivators in Mareth (here or other place in mareth?)
+			addButtonDisabled(8, "Lifegiver", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of life				//addButtonDisabled(0, "Souless Ones", "Placeholder button until Lia write something on this subject ^^");//story about early days of demons/their uprising (here or other place in Mareth?)
+			addButtonDisabled(12, "Warmonger", "Placeholder button until one of the writers write write something on this subject ^^");//story about god of war				//addButtonDisabled(1, "The Descent", "Placeholder button until Lia write something on this subject ^^");//orgin of soul cultivators in Mareth (here or other place in Mareth?)
 			addButton(14, "Back", shrinemainmenu);
 		}
 		*/
@@ -173,7 +173,7 @@ public class DilapidatedShrine extends BaseContent
 			var weaponClasses:Array = [ItemConstants.WT_GAUNTLET, ItemConstants.WT_SWORD, ItemConstants.WT_AXE, ItemConstants.WT_MACE_HAMMER, ItemConstants.WT_DUELING, ItemConstants.WT_POLEARM, ItemConstants.WT_SPEAR, ItemConstants.WT_DAGGER, ItemConstants.WT_WHIP, ItemConstants.WT_EXOTIC, ItemConstants.WT_THROWING, ItemConstants.WT_BOW, ItemConstants.WT_CROSSBOW, ItemConstants.WT_2H_FIREARM, ItemConstants.WT_RIFLE, ItemConstants.WT_PISTOL, ItemConstants.WT_DUAL_FIREARMS, ItemConstants.WT_EXOTIC, ItemConstants.WT_RIBBON]; // "Scythe", "Staff", "Tetsubo", "Ribbon", "Tome"
 			var btnInt:int = 0;
 			var tempAry:Array = [];
-			outputText("Welcome. Here, you can offer your weapons to the god of war, consuming the weapon to gain knowledge of the battles its seen.\n");
+			outputText("Welcome. Here, you can offer your weapons to the god of war, consuming the weapon to gain knowledge of the battles it's seen.\n");
 			for (var i:int = 0; i < inventory.getMaxSlots(); i++){
 				var weaponType:String = "";
 				var itemClassReplace:*;
@@ -195,7 +195,7 @@ public class DilapidatedShrine extends BaseContent
 					if (weaponClasses.indexOf(weaponType) >= 0){
 						tempAry.push([player.itemSlot(i).itype,weaponType])
 					}
-					else if (weaponType) outputText("\nYou canot offer "+player.itemSlot(i).itype.longName +" to the shrine.");
+					else if (weaponType) outputText("\nYou cannot offer "+player.itemSlot(i).itype.longName +" to the shrine.");
 				}
 				catch (e:Error){
 					outputText(e + "\n");
@@ -222,28 +222,28 @@ public class DilapidatedShrine extends BaseContent
 							combat.gauntletXP(40);
 							break;
 						case ItemConstants.WT_SWORD:
-                            combat.swordXP(40);
+                            combat.swordXP(40, false);
 							break;
 						case ItemConstants.WT_AXE:
-                            combat.axeXP(40);
+                            combat.axeXP(40, false);
 							break;
 						case ItemConstants.WT_MACE_HAMMER:
-                            combat.macehammerXP(40);
+                            combat.macehammerXP(40, false);
 							break;
 						case ItemConstants.WT_DUELING:
-                            combat.duelingswordXP(40);
+                            combat.duelingswordXP(40, false);
 							break;
 						case ItemConstants.WT_POLEARM:
-                            combat.polearmXP(40);
+                            combat.polearmXP(40, false);
 							break;
 						case ItemConstants.WT_SPEAR:
-                            combat.spearXP(40);
+                            combat.spearXP(40, false);
 							break;
 						case ItemConstants.WT_DAGGER:
-                            combat.daggerXP(40);
+                            combat.daggerXP(40, false);
 							break;
 						case ItemConstants.WT_WHIP:
-                            combat.whipXP(40);
+                            combat.whipXP(40, false);
 							break;
 						case ItemConstants.WT_THROWING:
                             combat.throwingXP(40);
@@ -268,10 +268,10 @@ public class DilapidatedShrine extends BaseContent
                             combat.dualWieldFirearmsXP(40);
 							break;
 						case ItemConstants.WT_EXOTIC:
-                            combat.exoticXP(40);
+                            combat.exoticXP(40, false);
 							break;
 						case ItemConstants.WT_RIBBON:
-                            combat.exoticXP(40);
+                            combat.exoticXP(40, false);
 							break;
 						}
 					player.destroyItems(wType[0],1);

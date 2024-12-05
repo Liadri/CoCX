@@ -32,13 +32,13 @@ import classes.VaginaClass;
             //effects: stop heat, stop rut, dysfunction, int curse, thick skin perk, ass looseness, vag looseness.
             var choices:Array = [];
             //effects: heat, rut, anal, vag looseness
-            if (player.inHeat) choices.push(1);
-            if (player.inRut) choices.push(2);
+            if (player.inRut) choices.push(1);
+            if (player.inHeat) choices.push(2);
             if (player.hasVagina() && player.vaginas[0].vaginalLooseness > VaginaClass.LOOSENESS_TIGHT) choices.push(3);
             if (player.ass.analLooseness > AssClass.LOOSENESS_VIRGIN) choices.push(4);
-            if (!player.hasPerk(PerkLib.ThickSkin)) choices.push(5);
-            if (rand(2) == 0) choices.push(6);
-            else if (rand(2) == 0) choices.push(7); //add one debuff to the pool
+            if (!player.hasPerk(PerkLib.ThickSkin)) choices.push(7);
+            if (rand(2) == 0) choices.push(5);
+            else if (rand(2) == 0) choices.push(6); //add one debuff to the pool
             else choices.push(0); //no effects
 
             switch(choices[rand(choices.length)]) {
@@ -57,7 +57,7 @@ import classes.VaginaClass;
                 case 4:
                     --player.ass.analLooseness;
                     outputText("  The feeling lasts pretty long, and at some point your entire [butt] feels numb and tickling. ");
-                    if (player.ass.analLooseness == AssClass.LOOSENESS_VIRGIN) outputText("You marvel at the odd feeling - <b>your [asshole] is so tight as if it was never penetrated!</b>!");
+                    if (player.ass.analLooseness == AssClass.LOOSENESS_VIRGIN) outputText("You marvel at the odd feeling - <b>your [asshole] is as tight as if it has never been penetrated!</b>!");
                     else outputText("Touching it experimentally, you try to slip a finger inside and find out that <b>your [asshole] is tighter than before!</b>!");
                     break;
                 case 5:
@@ -77,7 +77,7 @@ import classes.VaginaClass;
                         player.createStatusEffect(StatusEffects.Dysfunction, 50 + rand(100), 0, 0, 0);
                     }
                     else {
-                        outputText("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
+                        outputText("\n\nSadly, your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
                         player.addStatusValue(StatusEffects.Dysfunction, 1, 50 + rand(100));
                     }
                     break;

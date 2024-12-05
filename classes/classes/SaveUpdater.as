@@ -16,6 +16,7 @@ import classes.Races.GargoyleRace;
 import classes.Races.ImpRace;
 import classes.Scenes.*;
 import classes.Scenes.Camp.CampStatsAndResources;
+import classes.Scenes.Camp.Garden;
 import classes.Scenes.NPCs.*;
 import classes.Scenes.Places.HeXinDao.AdventurerGuild;
 import classes.Scenes.Places.HeXinDao.JourneyToTheEast;
@@ -39,10 +40,13 @@ public class SaveUpdater extends NPCAwareContent {
 			SceneLib.dungeons.checkSandCaveClear(),
 			SceneLib.dungeons.checkPhoenixTowerClear(),
 			SceneLib.dungeons.checkBeeHiveClear(),
+			SceneLib.dungeons.checkTwilightGroveClear(),
 			SceneLib.dungeons.checkHiddenCaveHiddenStageClear(),
 			SceneLib.dungeons.checkRiverDungeon1stFloorClear(),
 			SceneLib.dungeons.checkRiverDungeon2ndFloorClear(),
 			SceneLib.dungeons.checkRiverDungeon3rdFloorClear(),
+			SceneLib.dungeons.checkRiverDungeon4thFloorClear(),
+			SceneLib.dungeons.checkRiverDungeon5thFloorClear(),
 			SceneLib.dungeons.checkDenOfDesireClear(),
 			SceneLib.dungeons.checkEbonLabyrinthClear(),
 		];
@@ -63,6 +67,7 @@ public class SaveUpdater extends NPCAwareContent {
 			flags[kFLAGS.JOJO_DEAD_OR_GONE] == 2,
 			flags[kFLAGS.CORRUPTED_MARAE_KILLED] > 0,
 			flags[kFLAGS.FUCK_FLOWER_KILLED] > 0,
+			flags[kFLAGS.TAMANI_BAD_ENDED] > 0,
 			flags[kFLAGS.CHI_CHI_FOLLOWER] == 2 || flags[kFLAGS.CHI_CHI_FOLLOWER] == 5,
 			flags[kFLAGS.PATCHOULI_FOLLOWER] == 3,
 			flags[kFLAGS.D1_OMNIBUS_KILLED] > 0,
@@ -212,14 +217,15 @@ public class SaveUpdater extends NPCAwareContent {
 			["Fall of the Phoenix", kACHIEVEMENTS.DUNGEON_PHOENIX_FALL, SceneLib.dungeons.checkPhoenixTowerClear()],
 			["Extremely Chaste Delver", kACHIEVEMENTS.DUNGEON_EXTREMELY_CHASTE_DELVER, SceneLib.dungeons.checkPhoenixTowerClear() && flags[kFLAGS.TIMES_ORGASMED] <= 0],
 			["Victory, Sweet like honey", kACHIEVEMENTS.DUNGEON_VICTORY_SWEET_LIKE_HONEY, SceneLib.dungeons.checkBeeHiveClear()],
+			["Weeding Out", kACHIEVEMENTS.DUNGEON_WEEDING_OUT, SceneLib.dungeons.checkTwilightGroveClear()],
 			["Tiger stalking the Dragon", kACHIEVEMENTS.DUNGEON_TIGER_STALKING_THE_DRAGON, SceneLib.dungeons.checkHiddenCaveHiddenStageClear()],
 			["Mirror Flower, Water Moon", kACHIEVEMENTS.DUNGEON_MIRROR_FLOWER_WATER_MOON, SceneLib.dungeons.checkRiverDungeon1stFloorClear()],
 			["Dungeon Seeker (1st layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_1ST_LAYER, SceneLib.dungeons.checkRiverDungeon1stFloorClear()],
 			["Dungeon Seeker (2nd layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_2ND_LAYER, SceneLib.dungeons.checkRiverDungeon2ndFloorClear()],
 			["Dungeon Seeker (3rd layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_3RD_LAYER, SceneLib.dungeons.checkRiverDungeon3rdFloorClear()],
 			["Dungeon Seeker (4th layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_4TH_LAYER, SceneLib.dungeons.checkRiverDungeon4thFloorClear()],
+			["Dungeon Seeker (5th layer)", kACHIEVEMENTS.DUNGEON_DUNGEON_SEEKER_5TH_LAYER, SceneLib.dungeons.checkRiverDungeon5thFloorClear()],
 			["Slain the Heroslayer", kACHIEVEMENTS.DUNGEON_SLAIN_THE_HEROSLAYER, SceneLib.dungeons.checkDenOfDesireClear()],
-			//bee hive clear
 			["Delver", kACHIEVEMENTS.DUNGEON_DELVER, dungeonsCleared >= 1],
 			["Delver Apprentice", kACHIEVEMENTS.DUNGEON_DELVER_APPRENTICE, dungeonsCleared >= 2],
 			["Delver Expert", kACHIEVEMENTS.DUNGEON_DELVER_MASTER, dungeonsCleared >= 4],
@@ -399,6 +405,12 @@ public class SaveUpdater extends NPCAwareContent {
 			["xXx 7: Salvation", kACHIEVEMENTS.EPIC_XXX7_SALVATION, player.newGamePlusMod() >= 6],
 			["xXx 8: Genisys", kACHIEVEMENTS.EPIC_XXX8_GENISYS, player.newGamePlusMod() >= 7],
 			["xXx 9: Dark Fate", kACHIEVEMENTS.EPIC_XXX9_DARK_FATE, player.newGamePlusMod() >= 8],
+			["xXx 10: The Phantom Demon Menace", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, player.newGamePlusMod() >= 9],
+			["xXx 11: Attack of the Imps", kACHIEVEMENTS.EPIC_XXX11_ATTACK_OF_THE_IMPS, player.newGamePlusMod() >= 10],
+			["xXx 12: Revenge of the Lethice", kACHIEVEMENTS.EPIC_XXX12_REVENGE_OF_THE_LETHICE, player.newGamePlusMod() >= 11],
+			["xXx 13: A New Hope", kACHIEVEMENTS.EPIC_XXX13_A_NEW_HOPE, player.newGamePlusMod() >= 12],
+			["xXx 14: The Demon Empire Strikes Back", kACHIEVEMENTS.EPIC_XXX14_THE_DEMON_EMPIRE_STRIKES_BACK, player.newGamePlusMod() >= 13],
+			["xXx 15: Return of the Champion", kACHIEVEMENTS.EPIC_XXX15_RETURN_OF_THE_CHAMPION, player.newGamePlusMod() >= 14],
 			["My own Demon Weapon", kACHIEVEMENTS.EPIC_MY_OWN_DEMON_WEAPON, flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] > 0 || flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] > 0],
 			["Me Evolve", kACHIEVEMENTS.EPIC_ME_EVOLVE, EvolvingItems >= 1],
 			["Us Evolve", kACHIEVEMENTS.EPIC_US_EVOLVE, EvolvingItems >= 2],
@@ -413,6 +425,8 @@ public class SaveUpdater extends NPCAwareContent {
 			["The Devil Wears Prada", kACHIEVEMENTS.EPIC_THE_DEVIL_WEARS_PRADA, player.hasPerk(PerkLib.Phylactery)],
 			["Thriller", kACHIEVEMENTS.EPIC_THRILLER, player.isRace(Races.JIANGSHI)],
 			["Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, player.isRace(Races.YUKIONNA)],
+			["Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, player.isRace(Races.MUMMY)],
+			["Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, player.isRace(Races.LICH)],
 		];
 
 		for each (var ach:Array in achievementList)
@@ -427,6 +441,7 @@ public class SaveUpdater extends NPCAwareContent {
 		if (achStat.achievementsShadowEarned >= 25) awardAchievement("Shadow Knight", kACHIEVEMENTS.SHADOW_KNIGHT);
 		if (achStat.achievementsShadowEarned >= 45) awardAchievement("Shadow Paladin", kACHIEVEMENTS.SHADOW_PALADIN);
 		if (achStat.achievementsShadowEarned >= 70) awardAchievement("Shadow General", kACHIEVEMENTS.SHADOW_GENERAL);
+		if (achStat.achievementsShadowEarned >= 100) awardAchievement("Shadow Lieutenant General", kACHIEVEMENTS.SHADOW_LIEUTENANT_GENERAL);
 		//Epic
 		if (achStat.achievementsTotalCurrentlyUnlocked >= 10) awardAchievement("Achievementception", kACHIEVEMENTS.EPIC_ACHIEVEMENTCEPTION);
 		if (achStat.achievementsTotalCurrentlyUnlocked >= 30) awardAchievement("Achievement within Achievement", kACHIEVEMENTS.EPIC_ACHIEVEMENT_WITHIN_ACHIEVEMENT);
@@ -660,6 +675,22 @@ public class SaveUpdater extends NPCAwareContent {
 		}
 		player.setHeadJewelry(headjewelries.JIANGCT, false, true);
 		player.statStore.replaceBuffObject({'str.mult':0.2,'tou.mult':0.2,'lib.mult':0.2,'sens':80}, 'Jiangshi Curse Tag', { text: 'Jiangshi Curse Tag' });
+	}
+	
+	public function toEquipIsToFirstDeequip():void {
+		if (!player.weapon.isNothing && flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] != 2) {
+			outputText("\n\n");
+			inventory.takeItem(player.unequipWeapon(false,true), toEquipIsToFirstDeequip);
+		}
+		if (!player.weaponOff.isNothing) {
+			outputText("\n\n");
+			inventory.takeItem(player.unequipWeaponOff(false,true), toEquipIsToFirstDeequip);
+		}
+		if (!player.shield.isNothing && flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] != 2) {
+			outputText("\n\n");
+			inventory.takeItem(player.unequipShield(false,true), toEquipIsToFirstDeequip);
+			return;
+		}
 	}
 
 	public function promptSaveUpdate():void {
@@ -965,10 +996,10 @@ public class SaveUpdater extends NPCAwareContent {
 			}
 			if (player.level > 6) player.perkPoints += 7;
 			else player.perkPoints += player.level + 1;
-			if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNLETS] > 0) {
-				if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNLETS] == 1) player.createStatusEffect(StatusEffects.SoulArenaGaunlets1, 2, 0, 0, 0);
-				else player.createStatusEffect(StatusEffects.SoulArenaGaunlets1, 2, 2, 0, 0);
-				flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNLETS] = 0;
+			if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNTLETS] > 0) {
+				if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNTLETS] == 1) player.createStatusEffect(StatusEffects.SoulArenaGauntlets1, 2, 0, 0, 0);
+				else player.createStatusEffect(StatusEffects.SoulArenaGauntlets1, 2, 2, 0, 0);
+				flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNTLETS] = 0;
 			}
 			refundPerk(PerkLib.SenseCorruption);
 			refundPerk(PerkLib.SenseWrath);
@@ -1334,11 +1365,11 @@ public class SaveUpdater extends NPCAwareContent {
 			if (player.hasPerk(PerkLib.Rigidity) && (flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] == 2 || flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] == 2)) {
 				if (flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] == 2) {
 					flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] = 1;
-					if (player.weapon == weapons.AETHERD) player.unequipWeapon(false,true)
+					if (player.weapon == weapons.AETHERD) player.unequipWeapon(false, true);
 				}
 				if (flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] == 2) {
 					flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] = 1;
-					if (player.shield == shields.AETHERS) player.unequipShield(false,true)
+					if (player.shield == shields.AETHERS) player.unequipShield(false, true);
 				}
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] > 0) flags[kFLAGS.EVANGELINE_LVL_UP] = 0;
@@ -1828,7 +1859,7 @@ public class SaveUpdater extends NPCAwareContent {
 				//Reclaimed flag cleanup. Just leaving it here until the next save update.
 				flags[kFLAGS.HELSPAWN_HADSEX] = 0;
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.013;
-				outputText("<b>SceneHunter - new feature, 'Mock Fights', allowing to replay win/lose rape scenes with camp NPCs. Also, Loss Select wasn't properly saving its value outside of the save - fixed now.</b>")
+				outputText("<b>SceneHunter - new feature, 'Mock Fights', allowing you to replay win/lose rape scenes with camp NPCs. Also, Loss Select wasn't properly saving its value outside of the save - fixed now.</b>")
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.014) {
 				// Reorder SPP (Old slot unlock order: 56-69, 0-55, 70-97; new is 0-97)
@@ -1853,7 +1884,7 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.014;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.015) {
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00390] = 0; //Cleaning some temporal Hel flags
+				flags[kFLAGS.ZOMBIE_MUMMY_GENDER] = 0; //Cleaning some temporal Hel flags
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00392] = 0;
 				if (player.hasPerk(PerkLib.HclassHeavenTribulationSurvivor)) player.removePerk(PerkLib.HclassHeavenTribulationSurvivor);
 				if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor)) player.removePerk(PerkLib.GclassHeavenTribulationSurvivor);
@@ -2072,7 +2103,7 @@ public class SaveUpdater extends NPCAwareContent {
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.031) {
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00477] = 0;
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_01043] = 0;
+				flags[kFLAGS.ARIAN_PREGNANCY_TYPE] = 0;
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_02600] = 0;
 				if (HelSpawnScene.incestEnabled() && flags[kFLAGS.HAD_FIRST_HELSPAWN_TALK]) { //printed only for "our" people in debug version
 					flags[kFLAGS.HELSPAWN_INCEST] = 1;
@@ -2108,8 +2139,8 @@ public class SaveUpdater extends NPCAwareContent {
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.033) {
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_02358] = 0; //reclaiming soulforce flag
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00773] = 1; //reclaiming essy flag
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_02973] = 1; //reclaiming no gore flag (wasn't used)
+				flags[kFLAGS.ARIAN_PREGNANCY_INCUBATION] = 1; //reclaiming essy flag
+				flags[kFLAGS.SCENEHUNTER_SHORT_PREG] = 1; //reclaiming no gore flag (wasn't used)
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.033;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.034) {
@@ -2262,23 +2293,23 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.053;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.054) {
-				if (flags[kFLAGS.IMPROVED_PERMANENT_GOLEMS_BAG] > camp.campMake.maxPermanentImprovedStoneGolemsBagSize()) {
-					var costback1:Number = (flags[kFLAGS.IMPROVED_PERMANENT_GOLEMS_BAG] - camp.campMake.maxPermanentImprovedStoneGolemsBagSize());
+				if (flags[kFLAGS.IMPROVED_PERMANENT_GOLEMS_BAG] > SceneLib.campMakeWinions.maxPermanentImprovedStoneGolemsBagSize()) {
+					var costback1:Number = (flags[kFLAGS.IMPROVED_PERMANENT_GOLEMS_BAG] - SceneLib.campMakeWinions.maxPermanentImprovedStoneGolemsBagSize());
 					flags[kFLAGS.IMPROVED_PERMANENT_GOLEMS_BAG] -= costback1;
 					flags[kFLAGS.REUSABLE_GOLEM_CORES_BAG] += (costback1 * 3);
 					flags[kFLAGS.CAMP_CABIN_ENERGY_CORE_RESOURCES] += costback1;
 					flags[kFLAGS.CAMP_CABIN_STONE_RESOURCES] += (costback1 * 50);
 				}
-				if (flags[kFLAGS.PERMANENT_STEEL_GOLEMS_BAG] > camp.campMake.maxPermanentSteelGolemsBagSize()) {
-					var costback2:Number = (flags[kFLAGS.PERMANENT_STEEL_GOLEMS_BAG] - camp.campMake.maxPermanentSteelGolemsBagSize());
+				if (flags[kFLAGS.PERMANENT_STEEL_GOLEMS_BAG] > SceneLib.campMakeWinions.maxPermanentSteelGolemsBagSize()) {
+					var costback2:Number = (flags[kFLAGS.PERMANENT_STEEL_GOLEMS_BAG] - SceneLib.campMakeWinions.maxPermanentSteelGolemsBagSize());
 					flags[kFLAGS.PERMANENT_STEEL_GOLEMS_BAG] -= costback2;
 					flags[kFLAGS.REUSABLE_GOLEM_CORES_BAG] += costback2;
 					flags[kFLAGS.CAMP_CABIN_ENERGY_CORE_RESOURCES] += (costback2 * 2);
 					flags[kFLAGS.CAMP_CABIN_METAL_PIECES_RESOURCES] += (costback2 * 10);
 					flags[kFLAGS.CAMP_CABIN_MECHANISM_RESOURCES] += (costback2 * 4);
 				}
-				if (flags[kFLAGS.IMPROVED_PERMANENT_STEEL_GOLEMS_BAG] > camp.campMake.maxPermanentImprovedSteelGolemsBagSize()) {
-					var costback3:Number = (flags[kFLAGS.IMPROVED_PERMANENT_STEEL_GOLEMS_BAG] - camp.campMake.maxPermanentImprovedSteelGolemsBagSize());
+				if (flags[kFLAGS.IMPROVED_PERMANENT_STEEL_GOLEMS_BAG] > SceneLib.campMakeWinions.maxPermanentImprovedSteelGolemsBagSize()) {
+					var costback3:Number = (flags[kFLAGS.IMPROVED_PERMANENT_STEEL_GOLEMS_BAG] - SceneLib.campMakeWinions.maxPermanentImprovedSteelGolemsBagSize());
 					flags[kFLAGS.IMPROVED_PERMANENT_STEEL_GOLEMS_BAG] -= costback3;
 					flags[kFLAGS.REUSABLE_GOLEM_CORES_BAG] += (costback3 * 3);
 					flags[kFLAGS.CAMP_CABIN_ENERGY_CORE_RESOURCES] += (costback3 * 6);
@@ -2368,24 +2399,24 @@ public class SaveUpdater extends NPCAwareContent {
 				// deepwoods, boat - handled by onUnknownStatusEffect()
 				// explore, forestOuter, forestInner, lake, desertOuter - handled by postLoadSaveObject()
 				SceneLib.exploration.counters.desertInner         = flags[kFLAGS.WEREFOX_EXTRAS];
-				SceneLib.exploration.counters.battlefieldBoundary = flags[kFLAGS.DISCOVERED_BATTLEFIELD_BOUNDARY];
+				SceneLib.exploration.counters.battlefieldBoundary = flags[kFLAGS.GOLEM_ENEMY_TYPE];
 				SceneLib.exploration.counters.battlefieldOuter    = flags[kFLAGS.DISCOVERED_OUTER_BATTLEFIELD];
 				// mountainsMid - handled by postLoadSaveObject()
 				SceneLib.exploration.counters.hills               = flags[kFLAGS.DISCOVERED_HILLS];
 				SceneLib.exploration.counters.mountainsLow        = flags[kFLAGS.DISCOVERED_LOW_MOUNTAIN];
-				SceneLib.exploration.counters.highMountains       = flags[kFLAGS.DISCOVERED_HIGH_MOUNTAIN];
-				SceneLib.exploration.counters.plains              = flags[kFLAGS.UNKNOWN_FLAG_NUMBER_0131];
-				SceneLib.exploration.counters.swamp               = flags[kFLAGS.UNKNOWN_FLAG_NUMBER_0272];
-				SceneLib.exploration.counters.bog                 = flags[kFLAGS.BOG_EXPLORED];
-				SceneLib.exploration.counters.blightRidge         = flags[kFLAGS.DISCOVERED_BLIGHT_RIDGE];
-				SceneLib.exploration.counters.defiledRavine       = flags[kFLAGS.DISCOVERED_DEFILED_RAVINE];
-				SceneLib.exploration.counters.beach               = flags[kFLAGS.DISCOVERED_BEACH];
-				SceneLib.exploration.counters.ocean               = flags[kFLAGS.DISCOVERED_OCEAN];
-				SceneLib.exploration.counters.caves               = flags[kFLAGS.DISCOVERED_CAVES];
+				SceneLib.exploration.counters.highMountains       = flags[kFLAGS.TAMED_01_NAME];
+				SceneLib.exploration.counters.plains              = flags[kFLAGS.TAMED_02_NAME];
+				SceneLib.exploration.counters.swamp               = flags[kFLAGS.TAMED_03_NAME];
+				SceneLib.exploration.counters.bog                 = flags[kFLAGS.TAMED_05_NAME];
+				SceneLib.exploration.counters.blightRidge         = flags[kFLAGS.TAMANI_BAD_ENDED];
+				SceneLib.exploration.counters.defiledRavine       = flags[kFLAGS.TAMED_08_NAME];
+				SceneLib.exploration.counters.beach               = flags[kFLAGS.TAMED_08_NAME];
+				SceneLib.exploration.counters.ocean               = flags[kFLAGS.TAMED_10_NAME];
+				SceneLib.exploration.counters.caves               = flags[kFLAGS.ATTACKS_ACCURACY_OFF];
 				SceneLib.exploration.counters.tundra              = flags[kFLAGS.DISCOVERED_TUNDRA];
-				SceneLib.exploration.counters.glacialRiftOuter    = flags[kFLAGS.UNKNOWN_FLAG_NUMBER_2059];
+				SceneLib.exploration.counters.glacialRiftOuter    = flags[kFLAGS.TAMED_06_NAME];
 				SceneLib.exploration.counters.ashlands            = flags[kFLAGS.DISCOVERED_ASHLANDS];
-				SceneLib.exploration.counters.volcanicCragOuter   = flags[kFLAGS.UNKNOWN_FLAG_NUMBER_2060];
+				SceneLib.exploration.counters.volcanicCragOuter   = flags[kFLAGS.TAMED_07_NAME];
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.058;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.059) {
@@ -2442,10 +2473,10 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.070;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.080) {
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_2059] != 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_2059] = 0;
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_2060] != 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_2060] = 0;
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_0131] != 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_0131] = 0;
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_0272] != 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_0272] = 0;
+				if (flags[kFLAGS.TAMED_06_NAME] != 0) flags[kFLAGS.TAMED_06_NAME] = 0;
+				if (flags[kFLAGS.TAMED_07_NAME] != 0) flags[kFLAGS.TAMED_07_NAME] = 0;
+				if (flags[kFLAGS.TAMED_02_NAME] != 0) flags[kFLAGS.TAMED_02_NAME] = 0;
+				if (flags[kFLAGS.TAMED_03_NAME] != 0) flags[kFLAGS.TAMED_03_NAME] = 0;
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.080;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.09) {
@@ -2538,7 +2569,7 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.18;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.19) {
-				outputText("\n\nPerks are no longer needed for ranged multi attacks");
+				outputText("\n\nPerks are no longer needed for ranged multi-attacks");
 				refundPerk(PerkLib.Multishot);
 				refundPerk(PerkLib.WildQuiver);
 				refundPerk(PerkLib.Manyshot);
@@ -2616,9 +2647,110 @@ public class SaveUpdater extends NPCAwareContent {
 				refundPerk(PerkLib.FirstAttackFlyingSword);
 				refundPerk(PerkLib.KillingIntent);
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.45;
-			}/*
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.47) {
+				outputText("\n\nSometimes Dracula/lina must go back to basic about making Ghoul Servants.");
+				if (player.racialScore(Races.DRACULA) >= 22 && !player.hasStatusEffect(StatusEffects.Familiar)) player.createStatusEffect(StatusEffects.Familiar, 0, 0, 0, 0);
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.47;
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.48) {
+				outputText("\n\nPrincesses from the North been displeased with newest princess been too easily transformable and gave her First's blessing ;p");
+				if (player.tailType == Tail.ARIGEAN_PRINCESS && !player.hasPerk(PerkLib.TransformationImmunity2)) player.createPerk(PerkLib.TransformationImmunity2, 8, 0, 0, 0);
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.48;
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.49) {
+				if (player.racialScore(Races.DRACULA) >= 22 && !player.hasPerk(PerkLib.SoulDrinker)) player.createPerk(PerkLib.SoulDrinker, 0, 0, 0, 0);
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.49;
+			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.50) {
+				outputText("\n\nNew SH feature: ShortPreg for all preggo lovers. If you don't wanna wait for months for your character to give birth to another imp/goblin/mouse, just turn it on and everything will happen in up to 4 days. Yes, even Celess :P");
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.50;
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.51) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.51;
+				if (player.hasMutation(IMutationsLib.DraconicBonesIM) || player.hasMutation(IMutationsLib.DraconicHeartIM) || player.hasMutation(IMutationsLib.DraconicLungIM)) {
+					outputText("\n\nDragon race now would share all three internal mutations with their other familiy members like yggdrasil dragon. Draconic mutations shall be used at later date for true dragon (perm) race.");
+					if (player.hasMutation(IMutationsLib.DraconicBonesIM)) {
+						player.createPerk(IMutationsLib.DrakeBonesIM, player.perkv1(IMutationsLib.DraconicBonesIM), 0, 0, 0);
+						player.removePerk(IMutationsLib.DraconicBonesIM);
+					}
+					if (player.hasMutation(IMutationsLib.DraconicHeartIM)) {
+						player.createPerk(IMutationsLib.DrakeHeartIM, player.perkv1(IMutationsLib.DraconicHeartIM), 0, 0, 0);
+						player.removePerk(IMutationsLib.DraconicHeartIM);
+					}
+					if (player.hasMutation(IMutationsLib.DraconicLungIM)) {
+						if (player.hasMutation(IMutationsLib.DrakeLungsIM)) {
+							if (player.perkv1(IMutationsLib.DraconicLungIM) > player.perkv1(IMutationsLib.DrakeLungsIM)) player.addPerkValue(IMutationsLib.DrakeLungsIM, 1, (player.perkv1(IMutationsLib.DraconicLungIM) - player.perkv1(IMutationsLib.DrakeLungsIM)));
+						}
+						else player.createPerk(IMutationsLib.DrakeLungsIM, player.perkv1(IMutationsLib.DraconicLungIM), 0, 0, 0);
+						player.removePerk(IMutationsLib.DraconicLungIM);
+					}
+				}
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.52) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.52;
+				if (player.hasPerk(PerkLib.DragonPoisonBreath)) {
+					player.createPerk(PerkLib.DragonPoisonousSapBreath, 0, 0, 0, player.perkv4(PerkLib.DragonPoisonBreath));
+					player.removePerk(PerkLib.DragonPoisonBreath);
+				}
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.53) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.53;
+				if (player.hasPerk(PerkLib.BlessingOfTheAncestorTree) && !player.hasPerk(PerkLib.CovenantOfTheSpirits)) {
+					outputText("\n\nOnly today promotion for Wood Elfs. TWO perks in price of ONE!!!");
+					player.createPerk(PerkLib.CovenantOfTheSpirits, 0, 0, 0, 0);
+				}
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.54) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.54;
+				outputText("\n\nSmall update for more legendary items from beautiful items.");
+				if (!player.hasStatusEffect(StatusEffects.TempleOfTheDivineTracker2) && player.hasStatusEffect(StatusEffects.TempleOfTheDivineTracker)) player.createStatusEffect(StatusEffects.TempleOfTheDivineTracker2, 0, 0, 0, 0);
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.55) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.55;
+				outputText("\n\nSmall housekeeping for Warfr... Soulless PC's.");
+				if (player.hasPerk(PerkLib.Soulless)) {
+					if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) {
+						player.removeStatusEffect(StatusEffects.JojoNightWatch);
+						player.removeStatusEffect(StatusEffects.PureCampJojo);
+						JojoScene.monk = 1;
+					}
+					if (flags[kFLAGS.AMILY_FOLLOWER] == 1) {
+						flags[kFLAGS.AMILY_FOLLOWER] = 0;
+						flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] = 1;
+						flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] = 0;
+						if (player.hasStatusEffect(StatusEffects.CombatFollowerAmily)) player.removeStatusEffect(StatusEffects.CombatFollowerAmily);
+						if (flags[kFLAGS.PLAYER_COMPANION_1] == "Amily") flags[kFLAGS.PLAYER_COMPANION_1] = "";
+						if (flags[kFLAGS.PLAYER_COMPANION_2] == "Amily") flags[kFLAGS.PLAYER_COMPANION_2] = "";
+						if (flags[kFLAGS.PLAYER_COMPANION_3] == "Amily") flags[kFLAGS.PLAYER_COMPANION_3] = "";
+					}
+					if (flags[kFLAGS.KIHA_FOLLOWER] > 0) {
+						flags[kFLAGS.KIHA_CORRUPTION_BITCH] == 1;
+						if (player.hasStatusEffect(StatusEffects.CombatFollowerAmily)) player.removeStatusEffect(StatusEffects.CombatFollowerAmily);
+						if (flags[kFLAGS.PLAYER_COMPANION_1] == "Kiha") flags[kFLAGS.PLAYER_COMPANION_1] = "";
+						if (flags[kFLAGS.PLAYER_COMPANION_2] == "Kiha") flags[kFLAGS.PLAYER_COMPANION_2] = "";
+						if (flags[kFLAGS.PLAYER_COMPANION_3] == "Kiha") flags[kFLAGS.PLAYER_COMPANION_3] = "";
+					}
+				}
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.56) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.56;
+				outputText("\n\nTo equip is first to de-equip ^^");
+				toEquipIsToFirstDeequip();
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.57) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.57;
+				outputText("\n\nIt's PouLTice, not PoulTrice! ^^");
+				if (Garden.PotionsBagSlot01Potion == "Poultrice") Garden.PotionsBagSlot01Potion = "Poultice";
+			}
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.58) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.58;
+				outputText("\n\nEmber was bit too... corrupt to our liking so we adjusted her corruption to new standards ^^");
+				if (flags[kFLAGS.TOOK_EMBER_EGG] > 0) flags[kFLAGS.EMBER_COR] -= 50;
+			}/*
+			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.59) {
+				flags[kFLAGS.MOD_SAVE_VERSION] = 36.59;
+				if (player.hasPerk(PerkLib.TransformationImmunity2) && player.hasPerk(PerkLib.SoulDrinker)) player.addPerkValue(PerkLib.TransformationImmunity2, 1, 1);
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.60) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.60;

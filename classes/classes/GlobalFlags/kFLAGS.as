@@ -5,7 +5,7 @@ package classes.GlobalFlags
 {
 	public class kFLAGS
 	{
-public static const UNKNOWN_FLAG_NUMBER_00000:int                                   =    0;
+public static const KID_A_GOBLIN_NIGHT_HAPPENED:int                                 =    0;
 public static const MARBLE_PREGNANCY_INCUBATION:int                                 =    1; // Marble Pregnancy Incubation
 public static const MARBLE_PREGNANCY_TYPE:int                                       =    2; // Marble Pregnancy Type" Description="1 = cowgirl
 public static const MARBLE_LUST:int                                                 =    3; // Marble Lust
@@ -93,7 +93,7 @@ public static const JOJO_RATHAZUL_INTERACTION_COUNTER:int                       
 public static const MARBLE_OR_AMILY_FIRST_FOR_FREAKOUT:int                          =   85; // Which came first?  Marble(1) or Amily(2) - Freakout at Camp if both Marble and Amily present.    1=true, 2=No freakout
 public static const AMILY_NOT_FREAKED_OUT:int                                       =   86; // Amily Freakout Session
 public static const RATHAZUL_CAMP_INTERACTION_COUNTDOWN:int                         =   87; // Rathazul inter-follower countdown timer
-public static const DISCOVERED_HIGH_MOUNTAIN:int                                    =   88; // No longer used
+public static const TAMED_01_NAME:int                                   	 		=   88;
 public static const COMBAT_BONUS_XP_VALUE:int                                       =   89; // Sekrit Bonus XP Pass
 public static const MET_SOPHIE_COUNTER:int                                          =   90; // Met Sophie?
 public static const FUCKED_SOPHIE_COUNTER:int                                       =   91; // Times Had Sex With Sophie
@@ -136,7 +136,7 @@ public static const TIMES_PC_DEFEATED_VALA_AND_RAEPED:int                       
 public static const ZETAZ_DEFEATED_AND_KILLED:int                                   =  128; // Zetaz Killed
 public static const ZETAZ_LAIR_TOOK_BONDAGE_STRAPS:int                              =  129; // Bondage Straps Taken
 public static const ZETAZ_LAIR_DEMON_VENDOR_PRESENT:int                             =  130; // Sean Demon Vendor Here
-public static const UNKNOWN_FLAG_NUMBER_0131:int                                    =  131; // No longer used
+public static const TAMED_02_NAME:int                                    			=  131;
 public static const MET_BUNBUN:int                                                  =  132; // Met Bunbun
 public static const RAPHEAL_COUNTDOWN_TIMER:int                                     =  133; // Raphael Countdown (Time till Quiksilver Fawkes.  Set to -1 betrayed, set to -2 if covered for.
 public static const RAPHAEL_MET:int                                                 =  134; // Raphael Met? (1 = Y)
@@ -277,7 +277,7 @@ public static const PLAYER_DISARMED_WEAPON_ID:int                               
 public static const PLAYER_DISARMED_WEAPON_ATTACK:int                               =  269; // weapon damage
 public static const TIMES_ENCOUNTERED_FEMALE_SPIDER:int                             =  270; // Times encountered spiderbitches
 public static const FEMALE_SPIDERMORPH_PREGNANCY_INCUBATION:int                     =  271; // Spider Preggo Timer
-public static const UNKNOWN_FLAG_NUMBER_0272:int                                    =  272; // No longer used
+public static const TAMED_03_NAME:int                                    			=  272;
 public static const SHOW_SPRITES_FLAG:int                                           =  273; // Sprites off? toggle
 public static const RATHAZUL_SILK_ARMOR_COUNTDOWN:int                               =  274; // Rathazul silk armor queue - 1 = armor done!
 public static const RATHAZUL_ARMOR_TYPE:int                                   		=  275; // Rathazul armor type selector - 1=armor, 2=robes (3=bra, 4=panties, 5=loincloth)
@@ -395,7 +395,7 @@ public static const DOMINIKA_TIMES_MULTICOCK_SLOBBERED:int                      
 public static const DOMINIKA_TIMES_HYPNO_BJ:int                                     =  387; //
 public static const DOMINIKA_LAST_HYPNO_SUCK_COUNT:int                              =  388; //
 public static const CERAPH_ROLEPLAY_AS_DOMINIKA_COUNT:int                           =  389; //
-public static const UNKNOWN_FLAG_NUMBER_00390:int                                 	=  390; //
+public static const ZOMBIE_MUMMY_GENDER:int                                 		=  390; //
 public static const HEL_TALKED_ABOUT_HER:int                                        =  391; //
 public static const UNKNOWN_FLAG_NUMBER_00392:int                              		=  392; //
 public static const HEL_FUCKBUDDY:int                                               =  393; //
@@ -778,7 +778,7 @@ public static const BIKINI_ARMOR_BONUS:int                                      
 public static const OWN_MAIDEN_BIKINI:int                                           =  770; //
 public static const AMILY_X_IZMA_POTION_3SOME:int                                   =  771; //
 public static const MET_ESSY:int                                                    =  772; //
-public static const UNKNOWN_FLAG_NUMBER_00773:int                              		=  773; //
+public static const ARIAN_PREGNANCY_INCUBATION:int                              	=  773; //
 public static const ESSRAYLE_SEXED:int                                 				=  774; //
 public static const GIVEN_AMILY_NURSE_OUTFIT:int                                    =  775; //
 public static const TIMES_EATEN_EDRYN_PUSSY_RUT:int                                 =  776; //
@@ -872,7 +872,7 @@ public static const ESSRAYLE_ESCAPED_DUNGEON:int                                
 public static const TOLD_MOTHER_TO_RELEASE_ESSY:int                                 =  864; //
 public static const ESSY_DUNGEON_FUCKED:int                                         =  865; //
 public static const ESSY_MET_IN_DUNGEON:int                                         =  866; //
-public static const MULTIATTACK_STYLE:int                                           =  867; // MULTIATTACK_STYLE" Description="prefered number of attacks is (X+1)
+public static const TAMED_04_NAME:int                                   			=  867; //
 public static const SPELLS_CAST:int                                                 =  868; //
 public static const MILK_NAME:int                                                   =  869; //
 public static const MILK_SIZE:int                                                   =  870; //
@@ -1021,7 +1021,7 @@ public static const RUBI_BONDAGE_STRAPS:int                                     
 public static const RUBI_INQUISITORS_CORSET:int                                     = 1013; //
 public static const RUBI_SETUP:int                                                  = 1014; //
 public static const EXPLORATION_PAGE:int                                            = 1015; //
-public static const BOG_EXPLORED:int                                                = 1016; // No longer used
+public static const TAMED_05_NAME:int                                               = 1016; //
 public static const TIMES_ENCOUNTERED_FROG:int                                      = 1017; //
 public static const FERAS_GLADE_EXPLORED_YEAR:int                                   = 1018;
 public static const FERAS_TRAP_SPRUNG_YEAR:int                                      = 1019;
@@ -1048,7 +1048,7 @@ public static const IZUMI_TIMES_GRABBED_THE_HORN:int                            
 public static const IZUMI_TIMES_LOST_FIGHT:int                                      = 1040; // Times the player has been beaten by Izumi in a fight
 public static const IZUMI_SEEN_PC_GENDER:int                                        = 1041; // Indicates if Izumi knows the PCs true gender/equipment (val in the last gender int that izumi knows the player was)
 public static const CUSTOM_FONT_SIZE:int                                            = 1042; // Defines the currently set font size for output text elements. (Hacky, need to do something better, but this works for now.)
-public static const UNKNOWN_FLAG_NUMBER_01043:int                                   = 1043;
+public static const ARIAN_PREGNANCY_TYPE:int                                   		= 1043;
 public static const TIMES_TALKED_WITH_JOJO:int                                      = 1044; // Number of times the player has talked with Pure Jojo.
 public static const TIMES_TRAINED_WITH_JOJO:int                                     = 1045; // Number of times the player has trained with Jojo
 public static const UNLOCKED_JOJO_TRAINING:int                                      = 1046;
@@ -1339,17 +1339,17 @@ public static const UNKNOWN_FLAG_NUMBER_01329:int                               
 public static const THE_TRENCH_ENTERED:int                                   		= 1330;
 public static const GHOULISH_VAMPIRE_SERVANT_NAME:int                               = 1331;  
 public static const THIEFS_KILLED:int                                   			= 1333;
-public static const UNKNOWN_FLAG_NUMBER_01334:int                                   = 1334;
-public static const UNKNOWN_FLAG_NUMBER_01335:int                                   = 1335;
-public static const UNKNOWN_FLAG_NUMBER_01336:int                                   = 1336;
-public static const UNKNOWN_FLAG_NUMBER_01337:int                                   = 1337;
-public static const UNKNOWN_FLAG_NUMBER_01338:int                                   = 1338;
-public static const UNKNOWN_FLAG_NUMBER_01339:int                                   = 1339;
-public static const UNKNOWN_FLAG_NUMBER_01340:int                                   = 1340;
-public static const UNKNOWN_FLAG_NUMBER_01341:int                                   = 1341;
-public static const UNKNOWN_FLAG_NUMBER_01342:int                                   = 1342;
-public static const UNKNOWN_FLAG_NUMBER_01343:int                                   = 1343;
-public static const UNKNOWN_FLAG_NUMBER_01344:int                                   = 1344;
+public static const DISCOVERED_TWILIGHT_GROVE_DUNGEON:int                           = 1334;
+public static const TWILIGHT_GROVE_PURIFICATION:int                                 = 1335;
+public static const PC_CANT_DECIDE_ON_BEEN_ALRAUNE_OR_NOT:int                       = 1336;
+public static const ELECTRA_PREGNANCY_TYPE:int                    		            = 1337;
+public static const ELECTRA_INCUBATION:int                                   		= 1338;
+public static const LUNA_PREGNANCY_TYPE:int                                   		= 1339;
+public static const LUNA_INCUBATION:int                                  			= 1340;
+public static const NADIA_PREGNANCY_TYPE:int     	                                = 1341;
+public static const NADIA_INCUBATION:int		                                    = 1342;
+public static const DIVA_PREGNANCY_TYPE:int                                		    = 1343;
+public static const DIVA_INCUBATION:int                                  			= 1344;
 public static const UNKNOWN_FLAG_NUMBER_01345:int                                   = 1345;
 public static const UNKNOWN_FLAG_NUMBER_01346:int                                   = 1346;
 public static const UNKNOWN_FLAG_NUMBER_01347:int                                   = 1347;
@@ -1982,7 +1982,7 @@ public static const IN_COMBAT_PLAYER_COMPANION_0_ACTION:int                     
 public static const TRUE_DEMONS_KILLED:int                                   		= 1974;
 public static const WRATH_GIANT_SLAYER_GOBLIN_MECH:int                              = 1975;
 public static const AUTO_FLIGHT:int                                   				= 1976;
-public static const UNKNOWN_FLAG_NUMBER_01977:int                                   = 1977;
+public static const AUTO_GALLOP:int                                   				= 1977;
 public static const UNKNOWN_FLAG_NUMBER_01978:int                                   = 1978;
 public static const AKALI_FOLLOWER:int                                   			= 1979;
 public static const KAI_SA_FOLLOWER:int                                   			= 1980;
@@ -2064,8 +2064,8 @@ public static const CODEX_ENTRY_SUCCUBUS:int                                    
 public static const PIG_SLUT_DISABLED:int                                           = 2056;
 public static const MARBLE_CORRUPT_MARAE_STORY:int                                  = 2057;
 public static const CAMP_PORTAL_PROGRESS:int                                        = 2058; //Will eventually allow you to travel back to Ingnam.
-public static const UNKNOWN_FLAG_NUMBER_2059:int                                    = 2059; // No longer used
-public static const UNKNOWN_FLAG_NUMBER_2060:int                                    = 2060; // No longer used
+public static const TAMED_06_NAME:int                                    			= 2059;
+public static const TAMED_07_NAME:int                                    			= 2060;
 public static const MET_YETI_FIRST_TIME:int                                         = 2061;
 public static const VALERIA_FOUND_IN_GLACIAL_RIFT:int                               = 2062;
 public static const SHEILA_LETHICITE_FORGE_DAY:int                                  = 2063; //Scarred Blade forge progress.
@@ -2144,7 +2144,7 @@ public static const INGNAM_TAIL_LAST_TYPE:int                                   
 public static const DISABLED_JOJO_RAPE:int                                          = 2136; //If 1, disables Jojo rape for good, locks out corrupt path permanently.
 public static const MINERVA_PURE_TALKED_CORRUPTION:int                              = 2137; //Set to 1 after pure minerva talked to PC about HIS corruption
 public static const ENEMY_CRITICAL:int                                              = 2138;
-public static const UNKNOWN_FLAG_NUMBER_02139:int                                	= 2139;
+public static const FACTORY_TAKEN_DEMONIZE_ME:int                                	= 2139;
 public static const SHIFT_KEY_DOWN:int                                              = 2140;
 public static const UNKNOWN_FLAG_NUMBER_02141:int                                   = 2141;
 public static const UNKNOWN_FLAG_NUMBER_02142:int                                   = 2142;
@@ -2161,7 +2161,7 @@ public static const UNKNOWN_FLAG_NUMBER_02152:int                          			= 
 public static const UNKNOWN_FLAG_NUMBER_02153:int                               	= 2153;
 public static const UNKNOWN_FLAG_NUMBER_02154:int                             		= 2154;
 public static const UNKNOWN_FLAG_NUMBER_02155:int                            		= 2155;
-public static const UNKNOWN_FLAG_NUMBER_02156:int                                   = 2156;
+public static const JINX_LVL_UP:int                                   				= 2156;
 public static const NADIA_CURE_COOLDOWN:int                                   		= 2157;
 public static const NADIA_LVL_UP:int                                   				= 2158;
 public static const NADIA_FOLLOWER:int                                   			= 2159;
@@ -2289,14 +2289,14 @@ public static const KINDRA_DEFEATS_COUNTER:int 			                            = 
 public static const KINDRA_02281:int            		                        = 2281;		//Not Yet Used Flag
 public static const KINDRA_02282:int                       			            = 2282;		//Not Yet Used Flag
 public static const SOUL_CULTIVATION:int               		      	                = 2283;
-public static const DISCOVERED_BLIGHT_RIDGE:int               	                    = 2284; // No longer used
+public static const TAMANI_BAD_ENDED:int               	                    		= 2284;
 public static const DISCOVERED_OUTER_BATTLEFIELD:int   	                            = 2285; // No longer used
 public static const DISCOVERED_INNER_BATTLEFIELD:int                   			   	= 2286;	//Not Yet Used Flag
-public static const DISCOVERED_DEFILED_RAVINE:int                                   = 2287; // No longer used
-public static const DISCOVERED_BATTLEFIELD_BOUNDARY:int                             = 2288;
+public static const TAMED_08_NAME:int                                   			= 2287;
+public static const GOLEM_ENEMY_TYPE:int                             				= 2288;
 public static const IN_COMBAT_PLAYER_MUMMY_ATTACKED:int                          	= 2289;
-public static const DISCOVERED_BEACH:int                        					= 2290; // No longer used
-public static const DISCOVERED_OCEAN:int                           		            = 2291; // No longer used
+public static const TAMED_09_NAME:int                        						= 2290;
+public static const TAMED_10_NAME:int                           		            = 2291;
 public static const DISCOVERED_DEEP_SEA:int                           		        = 2292; // Not used
 public static const DISCOVERED_SEABED:int                                   		= 2293;	//Not Yet Used Flag
 public static const HEXINDAO_UNLOCKED:int                          		            = 2294;
@@ -2439,7 +2439,7 @@ public static const RANGIKU_LVL_UP:int                                   			= 24
 public static const RANGIKU_DEFEATS_COUNTER:int                                   	= 2431;	//Not Yet Used Flag
 public static const RANGIKU_02432:int                                               = 2432;	//Not Yet Used Flag
 public static const RANGIKU_02433:int                                               = 2433;	//Not Yet Used Flag
-public static const RYUBI_AFFECTION:int                              		        = 2434;	//Dragon Godess Lover (start)	//Not Yet Used Flag
+public static const RYUBI_AFFECTION:int                              		        = 2434;	//Dragon Goddess Lover (start)	//Not Yet Used Flag
 public static const RYUBI_FOLLOWER:int         			                            = 2435;									//Not Yet Used Flag
 public static const RYUBI_LVL_UP:int                    			                = 2436;									//Not Yet Used Flag
 public static const RYUBI_DEFEATS_COUNTER:int                                   	= 2437;									//Not Yet Used Flag
@@ -2447,7 +2447,7 @@ public static const RYUBI_02438:int                                             
 public static const RYUBI_02439:int                                                 = 2439;								//Not Yet Used Flag
 public static const RYUBI_02440:int                                                 = 2440;								//Not Yet Used Flag
 public static const RYUBI_02441:int                                                 = 2441;								//Not Yet Used Flag
-public static const RYUBI_02442:int                                                 = 2442; //Dragon Godess Lover (end)	//Not Yet Used Flag
+public static const RYUBI_02442:int                                                 = 2442; //Dragon Goddess Lover (end)	//Not Yet Used Flag
 public static const FOUND_TEMPLE_OF_THE_DIVINE:int                                  = 2443;
 public static const SAPPHIRE_AFFECTION:int                           		        = 2444;
 public static const SAPPHIRE_TALKS:int                       			            = 2445;
@@ -2466,10 +2466,10 @@ public static const MULTISHOT_STYLE:int                     	                   
 public static const ARROWS_ACCURACY:int            			                        = 2458;
 public static const PRISON_STORAGE_WEAPON_RANGE:int                                 = 2459;
 public static const ELEMENTAL_ARROWS:int                                 		    = 2460;
-public static const SOUL_SENSE_TAMANI:int                  		                    = 2461; // No longer used
-public static const SOUL_SENSE_TAMANI_DAUGHTERS:int                                 = 2462; // No longer used
-public static const SOUL_SENSE_KITSUNE_MANSION:int                                  = 2463; // No longer used
-public static const SOUL_SENSE_IZUMI:int                    		                = 2464; // No longer used
+public static const IN_COMBAT_PLAYER_GOBLIN_MECH_AI_ATTACKED:int                  	= 2461;
+public static const MULTIATTACK_STYLE_OFF:int                                 		= 2462; // MULTIATTACK_STYLE_OFF" Description="prefered number of attacks is (X+1)
+public static const MULTIPLE_ATTACKS_STYLE_MAIN_HAND:int                            = 2463;
+public static const MULTIPLE_ATTACKS_STYLE_OFF_HAND:int                    		    = 2464;
 public static const ARIAN_SCALES:int                            			        = 2465;
 public static const SEXUAL_FLUIDS_LEVEL:int                            		        = 2466;
 public static const HIDDEN_CAVE_FOUND:int          		                            = 2467;
@@ -2484,7 +2484,7 @@ public static const HIDDEN_CAVE_TAKEN_SOULPILLS:int                             
 public static const HIDDEN_CAVE_TAKEN_ITEMS_1:int                           	    = 2476;
 public static const CUPID_ARROWS:int              				                    = 2477;
 public static const ENVENOMED_BOLTS:int                			                    = 2478;
-public static const MULTIPLE_ATTACKS_STYLE:int                                      = 2479;
+public static const MULTIATTACK_STYLE_MAIN:int                                 		= 2479; // MULTIATTACK_STYLE_MAIN" Description="prefered number of attacks is (X+1)
 public static const ATTACKS_ACCURACY:int      		                                = 2480;
 public static const SPELLS_ACCURACY:int                        			            = 2481;
 public static const AUTO_CAST_CHARGE_WEAPON_DISABLED:int                            = 2482;
@@ -2492,7 +2492,7 @@ public static const AUTO_CAST_CHARGE_ARMOR_DISABLED:int                         
 public static const AUTO_CAST_MIGHT_DISABLED:int                               		= 2484;
 public static const AUTO_CAST_BLINK_DISABLED:int                                	= 2485;
 public static const SOUL_SENSE_WORLD_TREE:int             	     	                = 2486;
-public static const SOUL_SENSE_GIACOMO:int                                   		= 2487; // No longer used
+public static const PHANTOM_ARROWS:int                                   			= 2487;
 public static const AUTO_CAST_CHARGE_R_WEAPON_DISABLED:int                          = 2488;
 public static const SOUL_SENSE_2489:int                                             = 2489;			//Not Yet Used Flag
 public static const KITSUNE_SHRINE_UNLOCKED:int               	                    = 2490;
@@ -2546,7 +2546,7 @@ public static const REUSABLE_GOLEM_CORES_BAG:int                                
 public static const ELEMENTAL_CONJUER_SUMMONS:int                                   = 2538;
 public static const ATTACKING_ELEMENTAL_TYPE:int                                   	= 2539;
 public static const PINCHOU_SHOP:int                                   				= 2540;
-public static const SOUL_ARENA_FINISHED_GAUNLETS:int                                = 2541;
+public static const SOUL_ARENA_FINISHED_GAUNTLETS:int                                = 2541;
 public static const CHI_CHI_FOLLOWER:int		                                    = 2542;
 public static const CHI_CHI_AFFECTION:int		                                    = 2543;
 public static const CHI_CHI_TALKS:int			                                    = 2544;
@@ -2673,16 +2673,16 @@ public static const BLOOD_PUPPY_SUMMONS:int                                     
 public static const IN_COMBAT_PLAYER_BLOOD_PUPPIES_ATTACKED:int                     = 2664;
 public static const DISPLACER_BEAST_WINS:int                                   		= 2665;
 public static const HERM_CAVE_WYRM:int                                   			= 2666;
-public static const DISCOVERED_CAVES:int                                   			= 2667; // No longer used
+public static const ATTACKS_ACCURACY_OFF:int                                   		= 2667;
 public static const DISCOVERED_ASHLANDS:int                                   		= 2668; // No longer used
 public static const DISCOVERED_TUNDRA:int                                   		= 2669; // No longer used
-public static const DISCOVERED_HILLS:int                                   			= 2670;
+public static const DISCOVERED_HILLS:int                                   			= 2670; // No longer used
 public static const DISCOVERED_LOW_MOUNTAIN:int                                   	= 2671; // No longer used
 public static const AURORA_LVL:int                                   				= 2672;
 public static const AURORA_DEFEATS_COUNTER:int                                   	= 2673;
 public static const AURORA_02674:int                                                = 2674;	//Not Yet Used Flag
 public static const AURORA_02675:int                                                = 2675;	//Not Yet Used Flag
-public static const UNKNOWN_FLAG_NUMBER_02676:int                                   = 2676;	
+public static const UNKNOWN_FLAG_NUMBER_02676:int                                   = 2676;	//Not Yet Used Flag
 public static const UNKNOWN_FLAG_NUMBER_02677:int                                   = 2677;	//Not Yet Used Flag
 public static const SAMIRAH_FOLLOWER:int                                   			= 2678;
 public static const SAMIRAH_AFFECTION:int                                   		= 2679;
@@ -2778,7 +2778,7 @@ public static const PABLO_USED_YOUR_ASS:int                                   		
 public static const PABLO_FREAKED_OUT_OVER_WORMS:int                                = 2769;
 public static const WEREWOLF_PACK_PITY_SYSTEM:int                                   = 2770;
 public static const IN_COMBAT_PLAYER_USED_SHARK_BITE:int                            = 2771;
-public static const UNKNOWN_FLAG_NUMBER_02773:int                                   = 2773;
+public static const IN_COMBAT_BETTER_GRAPPLE:int                                    = 2773;
 public static const UNKNOWN_FLAG_NUMBER_02774:int                                   = 2774;
 public static const UNKNOWN_FLAG_NUMBER_02775:int                                   = 2775;
 public static const UNKNOWN_FLAG_NUMBER_02776:int                                   = 2776;
@@ -2949,7 +2949,7 @@ public static const UNKNOWN_FLAG_NUMBER_02940:int                               
 public static const UNKNOWN_FLAG_NUMBER_02941:int                                   = 2941;
 public static const UNKNOWN_FLAG_NUMBER_02942:int                                   = 2942;
 public static const UNKNOWN_FLAG_NUMBER_02943:int                                   = 2943;
-public static const UNKNOWN_FLAG_NUMBER_02944:int                                   = 2944;
+public static const HUMAN_BLOODLINE:int                                   			= 2944;
 public static const STATBAR_ANIMATIONS:int                                          = 2945; // 0: animate bar, 1: disable
 public static const BUTTON_ICONS_DISABLED:int                                       = 2946;
 public static const COMBAT_TEASE_HEALING:int                                        = 2947;
@@ -2978,7 +2978,7 @@ public static const STRENGTH_SCALING:int                                   			= 
 public static const TOUGHNESS_SCALING:int                                   		= 2970;
 public static const WISDOM_SCALING:int                                   			= 2971;
 public static const INTELLIGENCE_SCALING:int                                   		= 2972;
-public static const UNKNOWN_FLAG_NUMBER_02973:int                                   = 2973;
+public static const SCENEHUNTER_SHORT_PREG:int                                      = 2973;
 public static const SPARRABLE_NPCS_TRAINING:int                                     = 2974;
 public static const STAT_GAIN_MODE:int                                              = 2975;
 public static const CHARVIEW_ARMOR_HIDDEN:int                                       = 2976; // Toogles armor display
@@ -2996,8 +2996,8 @@ public static const USE_METRICS:int                                             
 public static const USE_OLD_FONT:int                                                = 2988; // Side bar font.
 public static const BACKGROUND_STYLE:int                                            = 2989; // Background theme.
 public static const GAME_DIFFICULTY:int                                             = 2990; // 0 is normal, 1 is hard, 2 is nightmare, 3 is extreme. Affects HP and damage.
-public static const HARDCORE_MODE:int                                               = 2991; // 0 is disabled, 1 is enabled. Forces save and causes deletion of save file on bad end.
-public static const HARDCORE_SLOT:int                                               = 2992; // The current slot for hardcore mode. Forced autosave will save over the selected slot.
+public static const HARDCORE_MODE:int                                               = 2991; // 0 is disabled, 1 is enabled.
+public static const PRIMARY_DIFFICULTY:int                                   		= 2992;
 public static const HUNGER_ENABLED:int                                              = 2993; // Determines if hunger is enabled. 1 is enabled.
 public static const USE_12_HOURS:int                                                = 2994; // 0 for 24-hour format, 1 for 12-hour format.
 public static const CORRUPTION_TOLERANCE_MODE:int                                   = 2995; // 0 - default, enabled if possible; 1 - disabled, 2 - 100% (debug)
@@ -3007,6 +3007,7 @@ public static const HYPER_HAPPY:int                                             
 public static const HP_STATBAR_PERCENTAGE:int                                   	= 2999; //HP bars show a percentage rather than the core number
 public static const LUST_STATBAR_PERCENTAGE:int                                   	= 3000; //Lust bars show a percentage rather than the core number
 public static const WRATH_STATBAR_PERCENTAGE:int                                   	= 3001; //Wrath bars show a percentage rather than the core number
+public static const CHARVIEWER_MODEL:int                                   			= 3002; //0 is old charviewer model, 1 is new one
 
 public static const GLOBAL_FLAGS_ARRAY:Array = [
 	NEW_GAME_PLUS_BONUS_UNLOCKED_HERM, SHOW_SPRITES_FLAG, SILLY_MODE_ENABLE_FLAG, SCENEHUNTER_PRINT_CHECKS,
@@ -3014,8 +3015,8 @@ public static const GLOBAL_FLAGS_ARRAY:Array = [
 	WATERSPORTS_ENABLED, LVL_UP_FAST, MUTATIONS_SPOILERS, NEWPERKSDISPLAY, INVT_MGMT_TYPE, CHARVIEWER_ENABLED,
 	CHARVIEW_STYLE, CHARVIEW_ARMOR_HIDDEN, USE_OLD_FONT, BACKGROUND_STYLE, IMAGEPACK_OFF, SPRITE_STYLE, USE_12_HOURS,
 	WATERSPORTS_ENABLED, USE_METRICS, AUTO_LEVEL, STRENGTH_SCALING, SPEED_SCALING, WISDOM_SCALING, INTELLIGENCE_SCALING,
-	TOUGHNESS_SCALING, SECONDARY_STATS_SCALING, BOSS_CHAMPION_ELITE_SCALING, USSDISPLAY_STYLE, IMDB_DETAILS,
-	BUTTON_ICONS_DISABLED,STATBAR_ANIMATIONS
+	TOUGHNESS_SCALING, SECONDARY_STATS_SCALING, BOSS_CHAMPION_ELITE_SCALING, HARDCORE_MODE, PRIMARY_DIFFICULTY,
+	USSDISPLAY_STYLE, IMDB_DETAILS, BUTTON_ICONS_DISABLED, STATBAR_ANIMATIONS
 ];
 	}
 }

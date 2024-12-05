@@ -222,6 +222,7 @@ internal function loseToSalamander():void {
 
 		outputText("She collapses atop you, panting heavily.  \"<i>That.  Was.  Awesome,</i>\" she laughs, reaching up to give your nipple a pinch as she nestles her head on you.  Your cock begins to deflate inside her as trickles of spooge spill out around your girth, but she doesn't seem intent on leaving any time soon, and you have to admit, the warmth of her against you is more than nice.  The salamander gives you one last grin and withdraws her tail from your lips.  A moment later, she slides it under your head like a pillow, and closes her eyes, exhausted.  Soon, you, too, fall into a peaceful sleep.\n\n");
 		player.sexReward("vaginalFluids","Dick");
+		sharedEnd();
 	}
 	//Player Loss – Rape – Female
 	//else if(player.hasVagina()) {
@@ -247,6 +248,7 @@ internal function loseToSalamander():void {
 		outputText("Before your mind has settled, your new friend has collapsed on top of you, resting her cheek on your " + chestDesc() + ".  Her breath is ragged, not unlike yours, and her eyelids seem suddenly heavy.  Smiling, she slowly withdraws her cum-soaked tail from your " + vaginaDescript(0) + " and slips it under your head like a pillow, soft and warm, if not a little moist.  Seeing as she doesn't seem intent on going anywhere, you, too, close your eyes and drift off to a peaceful sleep.");
 		player.sexReward("no", "Vaginal");
 		player.sexReward("vaginalFluids","Lips");
+		sharedEnd();
 	}
 	//Player Loss – Rape – Genderless & Male >helFollower.helCapacity() cockarea
 	//else {
@@ -273,13 +275,17 @@ internal function loseToSalamander():void {
 		outputText("Before your mind has settled, your new friend has collapsed on top of you, resting her cheek on your " + chestDesc() + ".  Her breath is ragged, not unlike yours, and her eyelids seem suddenly heavy.  Smiling, she slowly withdraws her tail from your " + assholeDescript() + " and slips it under your head like a pillow, soft and warm, if not a little moist.  Seeing as she doesn't seem intent on going anywhere, you, too, close your eyes and drift off to a peaceful sleep.");
 		player.sexReward("vaginalFluids","Lips");
 		player.sexReward("Default","Anal",true,false);
+		sharedEnd();
 	}
-	dynStats("sen", 1);
-	flags[kFLAGS.HEL_FUCK_COUNTER]++;
-	flags[kFLAGS.HEL_AFFECTION]++;
-	//Bump up follower tracking affection too
-	helFollower.helAffection(5);
-	cleanupAfterCombat();
+
+	function sharedEnd():void {
+		dynStats("sen", 1);
+		flags[kFLAGS.HEL_FUCK_COUNTER]++;
+		flags[kFLAGS.HEL_AFFECTION]++;
+		//Bump up follower tracking affection too
+		helFollower.helAffection(5);
+		cleanupAfterCombat();
+	}
 }
 
 
@@ -289,7 +295,7 @@ public function beatUpHel():void {
 	if(monster.HP <= monster.minHP()) outputText("Unable to withstand your onslaught, the salamander collapses to a knee, barely supporting her weight on her sword.");
 	else outputText("Panting heavily, knees shaking, she collapses onto the ground, heavily leaning upon her sword.");
 	outputText("\n\n");
-	if(player.cor > 85 + player.corruptionTolerance) helDefeatedCorrupt();
+	if(player.cor > 85 - player.corruptionTolerance) helDefeatedCorrupt();
 	else helDefeatedNormal();
 }
 private function helDefeatedCorrupt():void {
@@ -1046,7 +1052,7 @@ private function helChatMenu():void {
 	if (!flags[kFLAGS.HEL_TALKED_ABOUT_HER]) addButton(0, "About Her", askHelAboutHer);
 	if (!minoTalkBerserk) addButton(1, "Berserking?", berserkMode);
 	if (!flags[kFLAGS.HEL_FUCKBUDDY] && !minoTalkAttack) addButton(2, "YouAttackMe", askHelAboutAttackingYou);
-	addButton(2, "SecondTime", askMommaHelForSecondsAfterDinner);
+	else addButton(2, "SecondTime", askMommaHelForSecondsAfterDinner);
 	addButton(3, "MinosAreBad", telHelToGetOffTheMInoCock); //disables this talk forever
 	if (flags[kFLAGS.HEL_TALKED_ABOUT_HER]) addButton(4, "Leave", leaveHelAfterMinoThreeSomeChat);
 	else addButton(4, "Bug Out", bugOutAfterHelMinoThreesome);
@@ -1798,7 +1804,7 @@ private function pussyOutOfHelSexAmbush():void {
 	outputText("You push Hel off of you and tell her that you just aren't interested in fucking right now.");
 	outputText("\n\n\"<i>What,</i>\" she says, completely deadpan.  \"<i>WHAT!?</i>\"");
 	outputText("\n\n\"<i>No sex for you,</i>\" you answer.");
-	outputText("\n\n\"<i>I.  But.  What.  You said.  We.  But.... WELL FUCK YOU ANYWAY.</i>\"");
+	outputText("\n\n\"<i>I.  But.  What.  You said.  We.  But.... WELL, FUCK YOU ANYWAY.</i>\"");
 	outputText("\n\nYou shrug and head back to camp as Hel, half-mad with lust, starts masturbating, glaring at your back as you leave.");
 	endEncounter();
 	helFollower.helAffection(-20);

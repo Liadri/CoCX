@@ -70,7 +70,7 @@ import classes.internals.*;
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
 			clearOutput();
-			outputText("You fall to the ground, "+(player.HP <= player.minHP() ? "wounded from combat, unable to fight any longer":"your arousal has bested you")+".\n\n");
+			outputText("You fall to the ground, "+(Math.round(player.HP) <= Math.round(player.minHP()) ? "wounded from combat, unable to fight any longer":"your arousal has bested you")+".\n\n");
 			SceneLib.trollScene.encounterAdultGlacialFemaleTrollWon();
 		}
 		
@@ -89,7 +89,7 @@ import classes.internals.*;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
 			initStrTouSpeInte(400, 382, 366, 358);
-			initWisLibSensCor(378, 294, 100, 15);
+			initWisLibSensCor(378, 294, 100, -70);
 			this.weaponAttack = 120;
 			this.armorDef = 150;
 			this.armorMDef = 600;
@@ -110,7 +110,7 @@ import classes.internals.*;
 			this.drop = new WeightedDrop().add(consumables.ICY_FIG, 5)
 					.add(consumables.HEALHERB, 2);
 			this.createPerk(PerkLib.FireVulnerability, 0, 0, 0, 0);
-			this.createPerk(PerkLib.HydraRegeneration, 3, 0, 0, 0);
+			this.createPerk(PerkLib.TrollRegeneration, 6, 0, 0, 0);
 			this.createPerk(PerkLib.TrollResistance, 0, 0, 0, 0);
 			checkMonster();
 		}

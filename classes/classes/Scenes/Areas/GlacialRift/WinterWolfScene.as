@@ -23,17 +23,15 @@ package classes.Scenes.Areas.GlacialRift
 			menu();
 			if (player.lust >= 33) {
 				addButtonIfTrue(0, "RideHisCock", rideWinterWolfsCock, "", player.hasVagina());
-				addButton(14, "Leave", cleanupAfterCombat);
 				SceneLib.uniqueSexScene.pcUSSPreChecksV2(winAgainstWinterWolf);
 			}
-			else {
-				outputText("You aren't aroused enough to fuck him.");
-				cleanupAfterCombat();
-			}
+			else outputText("You aren't aroused enough to fuck him.");
+			addButtonIfTrue(12, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+			addButton(14, "Leave", cleanupAfterCombat);
 		}
 		
 		private function getFuckedByWinterWolfDoggyStyle():void {
-			if (player.HP <= player.minHP()) outputText("Too weak to continue fighting, you fall to your knees.");
+			if (Math.round(player.HP) <= Math.round(player.minHP())) outputText("Too weak to continue fighting, you fall to your knees.");
 			else outputText("Overcome by sexual desire, you submit to the hungry winter wolf.");
 			outputText("\n\nThe winter wolf grin with wicked desire as his sheathed pecker grow full mast. As the wolf stands before you, your eyes widen at the sight of its equipment: an eighteen-inch long monster with a massive sack containing a pair of freezing cold balls underneath. As the wolf swaggers closer, you gulp at the thought of what those balls likely are going to be pumping into you. You are helpless against the wolf as he pushes you onto your hands and knees and positions himself behind you. He grips you with his massive clawed paws on your shoulders and easily holds you in place. The powerful creature is easily able to get past your comfortable clothes and you ");
 

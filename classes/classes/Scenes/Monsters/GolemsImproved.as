@@ -64,7 +64,7 @@ package classes.Scenes.Monsters
 		override public function defeated(hpVictory:Boolean):void
 		{
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) SceneLib.combat.finishCombat();
-			else SceneLib.camp.campMake.postFightGolemOptions4();
+			else SceneLib.campMakeWinions.postFightGolemOptions4();
 		}
 		
 		public function GolemsImproved() 
@@ -75,7 +75,7 @@ package classes.Scenes.Monsters
 			this.imageName = "improved golems";
 			this.long = "You're currently improved fighting golems. They're all around seven and half feet tall without any sexual characteristics, their stone body covered in cracks and using bare stone fists to smash enemies.";
 			initStrTouSpeInte(260, 200, 140, 10);
-			initWisLibSensCor(10, 10, 10, 50);
+			initWisLibSensCor(10, 10, 10, 0);
 			this.tallness = 90;
 			this.drop = NO_DROP;
 			this.level = 42;

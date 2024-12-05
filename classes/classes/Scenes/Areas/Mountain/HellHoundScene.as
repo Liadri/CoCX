@@ -103,16 +103,14 @@ public class HellHoundScene extends BaseContent
 				addButtonIfTrue(1, "Fuck", hellHoundPropahRape, "Req. a vagina and NOT naga lower body.", player.hasVagina() && !player.isNaga());
 				addButtonIfTrue(2, "TakeBothIn", takeBothIn, "Req. to be a liliraune.", player.isLiliraune());
 				addButtonIfTrue(3, "Dominate", rapeCerberusStyle, "Req. to be a Cerberus.", player.isRaceCached(Races.CERBERUS));
-				addButton(14, "Leave", cleanupAfterCombat);
 				SceneLib.uniqueSexScene.pcUSSPreChecksV2(curry(hellHoundPostFightOptions, hpVictory)); //CALLED AT THE END
 			}
 			else {
-				if (hpVictory)
-					outputText("You're not aroused enough to rape your enemy.'.");
-				else
-					outputText("You turn away, not really turned on enough to be interested in such an offer.");
-				addButton(14, "Leave", cleanupAfterCombat);
+				if (hpVictory) outputText("You're not aroused enough to rape your enemy.'.");
+				else outputText("You turn away, not really turned on enough to be interested in such an offer.");
 			}
+			addButtonIfTrue(11, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+			addButton(14, "Leave", cleanupAfterCombat);
 		}
 
 		public function hellHoundGetsRaped():void
@@ -134,18 +132,18 @@ public class HellHoundScene extends BaseContent
 				cleanupAfterCombat();
 			}
 			function vagF():void {
-				if (player.gender == 2) outputText("The twin heads of the hellhound eagerly lick your " + vaginaDescript(0) + " for a while.  The large, flat tongues give you a rather unusual feeling, but it is definitely effective. As you approach your peak, one of the heads tries to force the other out of the way and push its snout into your " + vaginaDescript(0) + ". But the other head doesn't seem all that pleased with this, and the two start to nip at each other in an effort to claim the right to be the one to push you over the edge. Annoyed at being ignored, you give both heads a smack with your hand. After a moment of recoil, they look down apologetically before resuming their licking. As you peak, the heads resume their quarrel and try to drink as much as the fluids coming from your " + vaginaDescript(0) + " as they can.  You don't know, which got the most, but before long your " + vaginaDescript(0) + " is definitely quite clean.  With a pair of happy barks, the hellhound turns and runs away.");
+				outputText("The twin heads of the hellhound eagerly lick your " + vaginaDescript(0) + " for a while.  The large, flat tongues give you a rather unusual feeling, but it is definitely effective. As you approach your peak, one of the heads tries to force the other out of the way and push its snout into your " + vaginaDescript(0) + ". But the other head doesn't seem all that pleased with this, and the two start to nip at each other in an effort to claim the right to be the one to push you over the edge. Annoyed at being ignored, you give both heads a smack with your hand. After a moment of recoil, they look down apologetically before resuming their licking. As you peak, the heads resume their quarrel and try to drink as much as the fluids coming from your " + vaginaDescript(0) + " as they can.  You don't know, which got the most, but before long your " + vaginaDescript(0) + " is definitely quite clean.  With a pair of happy barks, the hellhound turns and runs away.");
 				player.sexReward("saliva","Vaginal");
 				cleanupAfterCombat();
 			}
 			function hermF():void {
-				if (player.gender == 3 && player.cocks.length == 1) outputText("One of the heads eagerly starts licking your [cock] while the other starts working on your " + vaginaDescript(0) + ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.  As you approach your peak, the head that had been licking your [cock] suddenly takes it into its mouth while the other pushes its snout into your " + vaginaDescript(0) + ". The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.");
+				outputText("One of the heads eagerly starts licking your [cock] while the other starts working on your " + vaginaDescript(0) + ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.  As you approach your peak, the head that had been licking your [cock] suddenly takes it into its mouth while the other pushes its snout into your " + vaginaDescript(0) + ". The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.");
 				player.sexReward("saliva","Dick");
 				player.sexReward("saliva","Vaginal");
 				cleanupAfterCombat();
 			}
 			function dickMultiF():void {
-				if (player.cocks.length > 1) outputText("One of the heads eagerly starts licking your [cock] while the other starts to work on your " + cockDescript(1) + ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.   As you approach your peak, the heads quickly take your [cock] and " + cockDescript(1) + " into their mouths. The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.");
+				outputText("One of the heads eagerly starts licking your [cock] while the other starts to work on your " + cockDescript(1) + ". The large, flat tongues give you a rather unusual feeling, but it is definitely effective.   As you approach your peak, the heads quickly take your [cock] and " + cockDescript(1) + " into their mouths. The pleasure from this new arrangement quickly overwhelms you, leaving you dazed.  When your senses return to you, you look up to see the hellhound's tongues running all over their mouths, clearly very happy.  With a pair of happy barks, the hellhound turns and runs away.");
 				player.sexReward("saliva","Dick");
 				player.sexReward("saliva","Dick");
 				cleanupAfterCombat();
@@ -476,7 +474,7 @@ public class HellHoundScene extends BaseContent
 				if (ptier > 1 && (LunaFollower.HellhoundPackMember < (ptier > 3 ? (Math.floor(2.5*ptier)) : ptier))) {
 					outputText("With his ass thoroughly bred the hellhound got two choices right now, either to yield to your overwhelming supremacy and maleness or go back to his old pack in shame. The hellhound hesitates for a moment before ");
 					if (rand(2) == 0) {
-						outputText("following you back to your camp, betraying his old pack to join yours as your subservient new member. Well you didn't expect him to be a subby bitch but so long as he's willing to take you in once in a while you don't mind keeping him around.");
+						outputText("following you back to your camp, betraying his old pack to join yours as your subservient new member. Well, you didn't expect him to be a subby bitch but so long as he's willing to take you in once in a while you don't mind keeping him around.");
 						LunaFollower.HellhoundPackMember++;
 					} else outputText("running off in shame back to his old pack. The poor guy is going to be chastised by his alpha, you would pity him if not for the fact that you don't care in the first place, he will inevitably meet you again and the next time you will make sure to fuck subserviance into his subby ass properly.");
 				}

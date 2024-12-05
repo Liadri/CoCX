@@ -178,7 +178,7 @@ private function nightSixChoiceEnding():void {
 public function graydaEncounterTheTrench():void {
 	clearOutput();
 	outputText("After sailing quite a far from shore distance from shore a bold idea you would never even consider trying crosses your mind, walking on water. The idea seems absurd at first however you recall that strange woman being able to walk on the water’s surface, surely you should be able to do the same seeing as you're now the same race. You start with carefully hanging your legs off the boat and slowly step down as if you were just getting off the boat onto land, and surprisingly you find yourself standing on the water instead of in it.\n\n");
-	outputText("You carefully take a few steps forward before getting a hang of walking on the somewhat shaky surface, and before long you find yourself running around without a care in the world. However after having your fun you decide it would be best to head back to camp, but you can’t seem to find your boat anywhere, after a bit of wandering a thick layer of fog seems to come out of nowhere and sudden panic floods your system, you could be attacked from any direction including from underneath. But why should you be afraid of anything out here? Clearly they should be afraid of an apex creature like yourself! You shake your head, such... overconfidence could get you killed, or much worse...\n\n");
+	outputText("You carefully take a few steps forward before getting a hang of walking on the somewhat shaky surface, and before long you find yourself running around without a care in the world. However, after having your fun you decide it would be best to head back to camp, but you can’t seem to find your boat anywhere, after a bit of wandering a thick layer of fog seems to come out of nowhere and sudden panic floods your system, you could be attacked from any direction including from underneath. But why should you be afraid of anything out here? Clearly they should be afraid of an apex creature like yourself! You shake your head, such... overconfidence could get you killed, or much worse...\n\n");
 	outputText("\"<i>So, you’ve come back.</i>\" A calm voice speaks, originating somewhere behind you.\n\n");
 	outputText("You quickly move to face the speaker, and place a hand on your weapon readying yourself for combat, but you can’t seem to draw your weapon, afterall it would be disrespectful to draw a weapon on your superior… You grip at your head as you wonder where these strange thoughts have been coming from, but for now it’s best to pay attention to your potential opponent. It appears to be the strange woman from before.\n\n");
 	outputText("\"<i>Relax, I mean you no harm.</i>\" Her posture seems more relaxed then when you first encountered her, and you can’t help but feel at ease in her presence. She places both of her hands on her staff, \"<i>I'm sorry for violating you like that… And stealing your gems, it was uncalled for. However, I don’t regret infecting you, as you might even grow to like having such a form.</i>\"\n\n");
@@ -413,7 +413,7 @@ private function theTrenchGraydaQuestNPCTalkColoring():void {
 	outputText("\"<i>How many ranks are there?</i>\"\n\n");
 	outputText("\"<i>There’s Recruits which possess green markings, Elites who possess red markings, Countesses who are marked yellow, and princesses who are marked blue, and often take on exotic forms.</i>\"\n\n");
 	outputText("\"<i>Princesses?</i>\"\n\n");
-	outputText("\"<i>Princesses are like leaders for our race, and while they are the strongest, and most durable of our kind, not everyone is naturally capable of becoming one, and fewer are strong enough to reach the point where they would become one. However with such strengths come many drawbacks, mainly one’s humanity as they permanently fuse with their symbiote. Becoming a princess is something one must do willingly, as it can’t be forced.</i>\"\n\n");
+	outputText("\"<i>Princesses are like leaders for our race, and while they are the strongest, and most durable of our kind, not everyone is naturally capable of becoming one, and fewer are strong enough to reach the point where they would become one. However, with such strengths come many drawbacks, mainly one’s humanity as they permanently fuse with their symbiote. Becoming a princess is something one must do willingly, as it can’t be forced.</i>\"\n\n");
 	doNext(theTrenchGraydaQuestNPCTalk);
 	advanceMinutes(5);
 }
@@ -439,7 +439,7 @@ private function theTrenchGraydaQuestNPCTalkHer():void {
 		outputText("\"<i>Let’s see…</i>\" she seems to almost space out, lost in thought. \"<i>Me and my sister used to be a part of a line of sailors, and we used to live a calm life almost entirely free from the corruption that plagued the land. However… our peace could not last forever, and the threat of being found by demons was becoming too great to ignore, so we stockpiled supplies, and tried to sail away from the mainland with a few close friends, family, and anyone who was willing to contribute.</i>\"\n\n");
 		outputText("Her glowing yellow eyes seem to dim to a low amber as she grabs, and takes another sip from her concealed flask. \"<i>It was all going well, we had enough supplies to last us a while… until a violent storm started hounding at our ship, and left us in a very poor condition, but that wasn’t the worst of it. One of those fanatic ‘Sea Witches’ attempted to attack our boat while turning us against each other.</i>\"\n\n");
 		outputText("Her eyes lose all of their glow, leaving them as nothing but milky white with a faint brown coloring where her irises should be, and a frown appears on her face as watery drops start to fall from her eyes. \"<i>I… was knocked overboard during the attack, and in my weakened state was unable to stay above the water.. Before I was about to pass out from a lack of air, this...</i>\" she pats the hat-like organism on her head in an affectionate manner. \"<i>It saved me from drowning by allowing me to breathe again… however there were no remains among the wreckage of the ship when I checked it. Meaning almost everyone I knew was most likely dead or turned into more fanatics.</i>\"\n\n");
-		outputText("She takes a long gulp of whatever the continents of the flask were, before returning the empty container to her cloak for a final time, a flush of blue on her cheeks makes it quite obvious as to what the contents were. \"<i>I'm not sure how long I stayed there, unable to move… to live with the reality that was forced upon me… eventually I couldn't remain conscious and collapsed from exhaustion. However when I woke up, I was somewhere different, as well as something I wasn't before, but the thing that mattered most to me was the desire to grow stronger. I wanted revenge, I would become a one-woman army if it meant finally being able to catch the one who caused so much ruin in a day.</i>\"\n\n");
+		outputText("She takes a long gulp of whatever the continents of the flask were, before returning the empty container to her cloak for a final time, a flush of blue on her cheeks makes it quite obvious as to what the contents were. \"<i>I'm not sure how long I stayed there, unable to move… to live with the reality that was forced upon me… eventually I couldn't remain conscious and collapsed from exhaustion. However, when I woke up, I was somewhere different, as well as something I wasn't before, but the thing that mattered most to me was the desire to grow stronger. I wanted revenge, I would become a one-woman army if it meant finally being able to catch the one who caused so much ruin in a day.</i>\"\n\n");
 		outputText("She leans back into her chair and takes a deep breath before continuing. \"<i>But that was all so long ago, and I was much too young to have a proper understanding of how the world works. So for now, my duty is leading those here and keeping them safe.</i>\" Her eyes regain their glow as she seems to return to her normal attitude.\n\n");
 	}
 	doNext(theTrenchGraydaQuestNPCTalk);
@@ -615,7 +615,7 @@ private function theTrenchGraydaQuestNPCMissionsTrackingTheMonstrosity():void {
 	else {
 		outputText("\"<i>Elite I have a more challenging task for you, if you feel up for it. I promise a very generous reward in return if you're successful.</i>\" Her breath seems heavier than normal and a few scrapes can be seen on her bare arms.\n\n");
 		outputText("Curious, you ask what she needs you to get done. It looks like she just got out of a fight with something.\n\n");
-		outputText("\"<i>A few months ago, one of our surface hunters disappeared. At first I just assumed she got caught up in another adventure and would be back soon, but she never came back. Well I was partially right with that guess. Earlier what… I could only assume that at some point, attempted to enter the trench. She was raving like a lunatic and masturbating furiously, she had clearly succumbed to the wretched demons... I was almost able to finish her off, and put her out of her misery, but she fled. I need you to find her, and end her suffering before she is able to harm anyone else.</i>\"\n\n");
+		outputText("\"<i>A few months ago, one of our surface hunters disappeared. At first I just assumed she got caught up in another adventure and would be back soon, but she never came back. Well, I was partially right with that guess. Earlier what… I could only assume that at some point, attempted to enter the trench. She was raving like a lunatic and masturbating furiously, she had clearly succumbed to the wretched demons... I was almost able to finish her off, and put her out of her misery, but she fled. I need you to find her, and end her suffering before she is able to harm anyone else.</i>\"\n\n");
 		outputText("You ask if there could be any way of easily tracking her. She could’ve gone anywhere.\n\n");
 		outputText("\"<i>She couldn’t have gone far. You should start with checking the nearby beaches.</i>\"\n\n");
 		flags[kFLAGS.THE_TRENCH_ENTERED] = 9;
@@ -689,7 +689,7 @@ private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart1():void {
 	outputText("\"<i>Eh? Did I play with my toy too hard? Dammit! I didn’t even get to wrap her into the fold.</i>\" She tosses your limp, cold body to the side.\n\n");
 	outputText("It hurts… so much…\n\n");
 	outputText("Your consciousness slowly comes to halt as your body feels like it’s overloading with foul otherworldly magic. However, before you slip into the dark, you're able to see a light blue glow emanating from where your heart used to beat, spreading an icy cold sensation to every part it touches.\n\n");
-	if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.ARIGEAN;
+	player.updateRacialParagon(Races.ARIGEAN);
 	IMutationsLib.ArigeanAssociationCortexIM.trueMutation = true;
 	player.removeAllRacialMutation();
 	player.tailType = Tail.ARIGEAN_PRINCESS;
@@ -698,6 +698,7 @@ private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart1():void {
 	player.eyes.colour = "blue";
 	player.createPerk(PerkLib.AlteredAnima, 0, 0, 0, 0);
 	player.createPerk(PerkLib.ArigeanKnowledge, 0, 0, 0, 0);
+	player.createPerk(PerkLib.TransformationImmunity2, 8, 0, 0, 0);
 	doNext(theTrenchGraydaQuestNPCMissionsCoronationFinalPart2);
 }
 private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart2():void {
@@ -725,7 +726,7 @@ private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart2():void {
 	outputText("The other princess seems to catch on to her companion's train of thought. \"<i>Don’t worry. We’ll assign another Countess to overlook those here. Now get going, we’ll handle the ordeals here, and new-blood! This is an opportunity to prove yourself.</i>\" Before you can protest their sudden orders, they are already gone.\n\n");
 	outputText("Grayda turns toward you before letting out a short sigh. \"<i>My apologies Princess, but it seems I’ll be staying with you for a while. Would you mind if I asked if you could help me pack?</i>\"\n\n");
 	outputText("One long walk later and a few stops has you successfully returned to camp with Grayda in tow. Mayhaps it would be a good idea to show her around, and introduce her to everyone?\n\n");
-	if (player.hasStatusEffect(StatusEffects.PureCampJojo)) {
+	if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) {
 		outputText("Before you can even continue with that thought, you feel something land and hit you square in the chest, effectively stealing the air from your very lungs.\n\n");
 		outputText("\"<i>[name]? I'm so sorry! Are you alright?</i>\" Jojo seems to have been your aggressor, but honestly, you're still in a bit of shock from the sudden attack.\n\n");
 		outputText("You gently tell him that you're alright and try to give him a smile, but he’s looking at you as if you just told him the grass was purple.\n\n");
@@ -739,7 +740,7 @@ private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart2():void {
 	outputText("\"<i>Thank you, my Princess. Now if you don’t mind, I'm going to start unpacking.</i>\"\n\n");
 	outputText("You take that as your cue to leave and give her a small wave before attending to your other duties for the day.\n\n");
 	outputText("\n\n(<b>Grayda has been added to the Followers menu!</b>)\n\n");
-	outputText("\n\n<b>As if remembering something Grayda pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>As if remembering something Grayda pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	if (player.hasKeyItem("Radiant shard") >= 0){
 		player.addKeyValue("Radiant shard",1,+1);
 	}
@@ -749,7 +750,7 @@ private function theTrenchGraydaQuestNPCMissionsCoronationFinalPart2():void {
 }
 private function theTrenchLoiter():void {
 	clearOutput();
-	outputText("Looking around the commons, you decide there shouldn’t be much harm in just relaxing for a while. Finding a nearby table and chair, you sit down, fold your arms and rest your head in them as you shut your eyes for a bit. However the chattering of individuals seems to draw your attention, surely they wouldn’t mind if you listened in, right? "+(player.tailType == Tail.ARIGEAN_PRINCESS ? "Afterall it wouldn’t hurt to know what’s on your subject’s minds. ":"")+"Your ears twitch as you strain your hearing, determined to hear your surroundings.\n\n");
+	outputText("Looking around the commons, you decide there shouldn’t be much harm in just relaxing for a while. Finding a nearby table and chair, you sit down, fold your arms and rest your head in them as you shut your eyes for a bit. However, the chattering of individuals seems to draw your attention, surely they wouldn’t mind if you listened in, right? "+(player.tailType == Tail.ARIGEAN_PRINCESS ? "Afterall it wouldn’t hurt to know what’s on your subject’s minds. ":"")+"Your ears twitch as you strain your hearing, determined to hear your surroundings.\n\n");
 	var option:Number = rand(4);
 	switch (option) {
         case 0:

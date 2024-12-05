@@ -13,20 +13,21 @@ public class ItemConstants extends Utils {
 	///////////////////////////////
 	
 	// Item categories
-	public static const CATEGORY_WEAPON_MELEE:String  = "weapon";
-	public static const CATEGORY_WEAPON_RANGED:String = "weaponranged";
-	public static const CATEGORY_SHIELD:String        = "shield";
-	public static const CATEGORY_ARMOR:String         = "armor";
-	public static const CATEGORY_UNDERGARMENT:String  = "undergarment";
-	public static const CATEGORY_NECKLACE:String      = "necklace";
-	public static const CATEGORY_JEWELRY_HEAD:String  = "headjewelry";
-	public static const CATEGORY_JEWELRY_RING:String  = "jewelry";
-	public static const CATEGORY_JEWELRY_MISC:String  = "miscjewelry";
-	public static const CATEGORY_VEHICLE:String       = "vehicle";
-	public static const CATEGORY_FLYING_SWORD:String  = "flyingsword";
-	public static const CATEGORY_CONSUMABLE:String    = "consumable";
-	public static const CATEGORY_USABLE:String        = "useable";
-	public static const CATEGORY_OTHER:String         = "other";
+	public static const CATEGORY_WEAPON_MELEE:String  		= "weapon";
+	//public static const CATEGORY_WEAPON_MELEE_OFF:String	= "weaponoff";
+	public static const CATEGORY_WEAPON_RANGED:String 		= "weaponranged";
+	public static const CATEGORY_SHIELD:String        		= "shield";
+	public static const CATEGORY_ARMOR:String         		= "armor";
+	public static const CATEGORY_UNDERGARMENT:String  		= "undergarment";
+	public static const CATEGORY_NECKLACE:String      		= "necklace";
+	public static const CATEGORY_JEWELRY_HEAD:String  		= "headjewelry";
+	public static const CATEGORY_JEWELRY_RING:String  		= "jewelry";
+	public static const CATEGORY_JEWELRY_MISC:String  		= "miscjewelry";
+	public static const CATEGORY_VEHICLE:String       		= "vehicle";
+	public static const CATEGORY_FLYING_SWORD:String  		= "flyingsword";
+	public static const CATEGORY_CONSUMABLE:String    		= "consumable";
+	public static const CATEGORY_USABLE:String        		= "useable";
+	public static const CATEGORY_OTHER:String         		= "other";
 	
 	// Item tags
 	
@@ -180,6 +181,14 @@ public class ItemConstants extends Utils {
 			return VehiclesLib.NOTHING;
 		}
 	})
+	public static const SLOT_WEAPON_MELEE_OFF:int   = 16;
+	EnumValue.add(EquipmentSlots, SLOT_WEAPON_MELEE_OFF, "WEAPON_MELEE_OFF", {
+		name: "Weapon (Melee Offhand)",
+		category: CATEGORY_WEAPON_MELEE,
+		nothing: function():ItemType {
+			return WeaponLib.FISTS;
+		}
+	});
 	
 	public static var EquipmentSlotIds:/*int*/Array; // can't do = ... because of the init. order
 	EquipmentSlotIds = Utils.mapOneProp(EquipmentSlots, "value");
@@ -255,6 +264,7 @@ public class ItemConstants extends Utils {
 	public static const W_THROWN:String         = "Thrown";
 	public static const W_TETSUBO:String        = "Tetsubo";
 	public static const W_MUSICINSTR:String     = "MusicalInstrument";
+	public static const W_HTECHWEAPON:String    = "High Tech Weapon";
 	public static const W_LGWRATH:String        = "LGWrath";
 	public static const W_MGWRATH:String        = "MGWrath";
 	public static const W_RAPIER:String         = "Rapier"; // Gets bonus from Raphael training
@@ -341,7 +351,8 @@ public class ItemConstants extends Utils {
 	public static const IEF_REQUIREMENT:int      = 1 << 1; // equipment requirement
 	public static const IEF_ATTACK:int           = 1 << 2; // attack bonus/penalty
 	public static const IEF_DEFENSE:int          = 1 << 3; // defense bonus/penalty
-	public static const ItemEffectLastFlag:int   = 1 << 3; // keep updated
+	public static const IEF_ONEQUIP:int          = 1 << 4; // invokes onequip/unequip
+	public static const ItemEffectLastFlag:int   = 1 << 4; // keep updated
 	
 	///////////////////
 	// Enchanted items

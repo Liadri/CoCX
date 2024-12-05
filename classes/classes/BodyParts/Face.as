@@ -593,7 +593,7 @@ public class Face extends SaveableBodyPart {
 	public static const CRAZY: int = 54;
 	EnumValue.add(Types, CRAZY, "CRAZY", {
 		name: "crazy",
-		appearanceDesc: "Although your mouth is quite human-looking, your have a near constant toothy smile makes you look quite unhinged, and your canines are slightly longer and pointier than human ones.",
+		appearanceDesc: "Your mouth is human all right though your near constant crazy toothy smile isn't exactly helping to make you look sane.",
 		humanShaped: true
 	});
 	public static const SMUG: int = 55;
@@ -647,7 +647,7 @@ public class Face extends SaveableBodyPart {
 			var desc: String = "";
 
 			desc += "You have a dog's face, complete with wet nose and panting tongue. You've got [skin coat], hiding your [skin base] underneath your furry visage. " +
-					"Flanking your main head are two more wich never truly fully agree with one another. You regularly need to put them back in their place and remind them who leads this body lest they start fighting each other.";
+					"Flanking your main head are two more which never truly fully agree with one another. You regularly need to put them back in their place and remind them who leads this body lest they start fighting each other.";
 			return desc;
 		},
 		bite: true,
@@ -687,8 +687,22 @@ public class Face extends SaveableBodyPart {
 	public static const DEMON: int = 64;
 	EnumValue.add(Types, DEMON, "DEMON", {
 		name: "demon",
-		appearanceDesc: "Your face is human in shape and structure albeith far too sexy to belong to one. With a face that hot, who would refuse you? Hidden behind your sensual lips is a pair of small fangs which betrays your fiendish nature.",
+		appearanceDesc: "Your face is human in shape and structure albeit far too sexy to belong to one. With a face that hot, who would refuse you? Hidden behind your sensual lips is a pair of small fangs which betrays your fiendish nature.",
 		bite: true
+	});
+	public static const TROLL: int = 65;
+	EnumValue.add(Types, TROLL, "TROLL", {
+		name: "troll",
+		appearanceDesc: "You have a face as that of a troll, covered in soft, green fur and a duo of tusks from your upper jaw that splits out from your mouth.",
+		bite: true,
+		humanShaped: true
+	});
+	public static const GLACIAL_TROLL: int = 66;
+	EnumValue.add(Types, GLACIAL_TROLL, "GLACIAL_TROLL", {
+		name: "g.troll",
+		appearanceDesc: "Your have a face as that of a glacial troll, covered in soft, white fur and a duo of tusks from your upper jaw that splits out from your mouth.",
+		bite: true,
+		humanShaped: true
 	});
 
 	public function Face(creature:Creature) {

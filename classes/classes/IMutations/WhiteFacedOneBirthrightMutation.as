@@ -32,7 +32,7 @@ public class WhiteFacedOneBirthrightMutation extends IMutationPerkType
             if (pTier == 4){
                 descS += "fully developed";
             }
-            if (descS != "")descS += " soul nexus-like organ modeled after White-Faced One. (+";
+            if (descS != "")descS += " soul nexus-like organ modeled after the White-Faced One. (+";
 			if (pTier == 1){
                 descS += "0.25/0.5/1";
             }
@@ -121,9 +121,9 @@ public class WhiteFacedOneBirthrightMutation extends IMutationPerkType
                 pBuffs['wis.mult'] = 0.2;
             }
             else if (pTier == 4){
-                pBuffs['str.mult'] = 0.15;
                 pBuffs['spe.mult'] = 0.15;
-                pBuffs['tou.mult'] = 0.42;
+                pBuffs['tou.mult'] = 0.15;
+                pBuffs['wis.mult'] = 0.42;
             }
             return pBuffs;
         }

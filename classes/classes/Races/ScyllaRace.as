@@ -80,7 +80,9 @@ public class ScyllaRace extends Race {
 				.cockOrVaginaOfType(CockTypesEnum.SCYLLATENTACLE, VaginaClass.SCYLLA, +1)
 				.noWings(+2);
 		
+		addBloodline(PerkLib.KrakensDescendant, PerkLib.BloodlineKraken);
 		addMutation(IMutationsLib.ScyllaInkGlandsIM);
+		addMutation(IMutationsLib.MightyLowerHalfIM);
 		
 		buildTier(7, "scylla")
 				.buffs({

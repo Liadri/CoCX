@@ -1,6 +1,7 @@
 ﻿package classes.Scenes.NPCs{
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 
@@ -856,7 +857,7 @@ private function acceptIzmaAsYourBitch():void {
 		player.addKeyValue("Radiant shard",1,+1);
 	}
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Izma pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Izma pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	endEncounter();
 }
 
@@ -1162,14 +1163,14 @@ private function submitToLakeIzma():void {
 	else assF();
 
 	//Herms have their unique part
-	function nonHermShared():void {
-		outputText("\"<i>All right; time to hold up your end,</i>\" she notes.  The double entendre is lost on your fuddled mind.  Her tone is conversational, but her grin is wicked, and she is slipping out of her grass skirt as hastily as she can, given the care she needs to take it off without damaging it.  After all, skirts that can so easily conceal the iron-hard foot-and-a-quarter-long erection she is sporting require considerable skill to make, especially if they must also conceal two pairs of baseball-sized nuts, so swollen and heavy with cum that you think you can hear them slosh softly from where you have fallen.  \"<i>We agreed to do it shark style; you lost, so that means I'm in charge.  Get undressed and show me that cute little " + (player.hasVagina() ? "cunt" : "pucker") + " of yours!</i>\"  ");
+	function nonHermShared(vag:int):void {
+		outputText("\"<i>All right; time to hold up your end,</i>\" she notes.  The double entendre is lost on your fuddled mind.  Her tone is conversational, but her grin is wicked, and she is slipping out of her grass skirt as hastily as she can, given the care she needs to take it off without damaging it.  After all, skirts that can so easily conceal the iron-hard foot-and-a-quarter-long erection she is sporting require considerable skill to make, especially if they must also conceal two pairs of baseball-sized nuts, so swollen and heavy with cum that you think you can hear them slosh softly from where you have fallen.  \"<i>We agreed to do it shark style; you lost, so that means I'm in charge.  Get undressed and show me that cute little " + (vag ? "cunt" : "pucker") + " of yours!</i>\"  ");
 		//[(If Izmafight is -1 or -2)
 		if(flags[kFLAGS.IZMA_TIMES_FOUGHT_AND_WON] >= -2) outputText("With some reluctance, but driven by your promise, you remove pieces of your [armor] until you stand naked before the hungrily ogling tigershark.");
 		else outputText("You are already undressed before Izma has finished speaking.  The tigershark is clearly surprised, and, to be honest, a part of you is surprised too... but it's drowned out by the need to give yourself over to Izma's lusts.");
 		outputText("\n\n");
 
-		outputText("Your 'cute little " + (player.hasVagina() ? "cunt" : "pucker") + " clenches tight in " + (player.HP < 1 ? "fear" : "anticipation") + " at the thought of something that huge forcing its way into it... but you did make a promise and you are " + (player.HP < 1 ? "too weak to resist" : "feeling very horny") + ", so you comply.  You remove the last bits of your [armor], and position yourself on the ground, your [butt] facing towards Izma.  You can hear her stalking across the sand toward you, but it still sends tingles up your spine when her hands - now free of her metal gauntlets - fall onto your [ass].\n\n");
+		outputText("Your 'cute little " + (vag ? "cunt" : "pucker") + " clenches tight in " + (player.HP < 1 ? "fear" : "anticipation") + " at the thought of something that huge forcing its way into it... but you did make a promise and you are " + (player.HP < 1 ? "too weak to resist" : "feeling very horny") + ", so you comply.  You remove the last bits of your [armor], and position yourself on the ground, your [butt] facing towards Izma.  You can hear her stalking across the sand toward you, but it still sends tingles up your spine when her hands - now free of her metal gauntlets - fall onto your [ass].\n\n");
 
 		outputText("\"<i>Ooh, looking good from this angle.  I'm going to enjoy taking you like this... after all, if you want to be on top, then you gotta fight for it.</i>\"\n\n");
 
@@ -1178,7 +1179,7 @@ private function submitToLakeIzma():void {
 
 	//(male/Unsexed)
 	function assF():void {
-		nonHermShared();
+		nonHermShared(0);
 		if(player.analCapacity() < 26) {
 			outputText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + assholeDescript() + ".");
 			outputText("\n\n\"<i>Holy-!  Think I better take it easy on this...</i>\" you hear Izma proclaim.  \"<i>For my own safety moreso than anything else!</i>\"  Her efforts become more gentle.  She still forces her way into you, inch by painstaking inch, but she does so at a slower, steady pace, allowing your pucker time to adjust to the fierce stretching she is subjecting it to and using her hot pre-cum like lubricant.");
@@ -1235,7 +1236,7 @@ private function submitToLakeIzma():void {
 	}
 	//(female)
 	function vagF():void {
-		nonHermShared();
+		nonHermShared(1);
 		if(player.vaginalCapacity() < 26) {
 			outputText("You can't help but yell in pain at the sudden sensation of something so huge forcing its way into your " + vaginaDescript(0) + ".\n\n");
 
@@ -1304,7 +1305,7 @@ private function submitToLakeIzma():void {
 		outputText("\n\nPulling her fingers free, Izma quickly flips your nude body over, leaving you on your back and staring up at her.  Izma's hands are resting on her hips and she seems to be puffing her large chest out proudly. Her foot-long cock is fully erect, hot beads of pre-cum occasionally dripping onto the sands.  She takes the time to examine your own cock, grinning with her fangs bared.  \"<i>Let's see what you've got, weakling.</i>\"\n\n");
 		var x:Number = player.biggestCockIndex();
 		//(1-10 inch penis)
-		if(player.cocks[x].cockLength <= 10) outputText("Izma manages to supress a snort of laughter at the sight of your cock.  \"<i>Um... wow?  It's simply... heh, huge...</i>\"");
+		if(player.cocks[x].cockLength <= 10) outputText("Izma manages to suppress a snort of laughter at the sight of your cock.  \"<i>Um... wow?  It's simply... heh, huge...</i>\"");
 		//(10-19 inches)
 		else if(player.cocks[x].cockLength <= 19) outputText("\"<i>Not bad, I'm actually impressed,</i>\" Izma says, nodding slightly in approval.");
 		//(20+ inches)
@@ -1463,7 +1464,7 @@ private function sendToFishery():void
 {
 	clearOutput();
 	izmaSprite();
-	outputText("Information Noona here: So you bossy today and asked Izma to work at fishery.... very clever.");
+	outputText("Seems like you're feeling bossy today, getting Izma to work at the fishery... very clever.");
 	if (flags[kFLAGS.FOLLOWER_AT_FISHERY_1] == "") flags[kFLAGS.FOLLOWER_AT_FISHERY_1] = "Izma";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_2] == "") flags[kFLAGS.FOLLOWER_AT_FISHERY_2] = "Izma";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_3] == "") flags[kFLAGS.FOLLOWER_AT_FISHERY_3] = "Izma";
@@ -1474,7 +1475,7 @@ private function backFromFishery():void
 {
 	clearOutput();
 	izmaSprite();
-	outputText("Information Noone reminds your sub tigershark no longer work at fishery.");
+	outputText("Your sub tigershark no longer works at the fishery.");
 	if (flags[kFLAGS.FOLLOWER_AT_FISHERY_1] == "Izma") flags[kFLAGS.FOLLOWER_AT_FISHERY_1] = "";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_2] == "Izma") flags[kFLAGS.FOLLOWER_AT_FISHERY_2] = "";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_3] == "Izma") flags[kFLAGS.FOLLOWER_AT_FISHERY_3] = "";
@@ -1620,7 +1621,7 @@ private function followerIzmaMountsPC(lastHalf:Boolean = false):void {
 private function izmaPreg():void {
 	if (flags[kFLAGS.FOLLOWER_AT_FARM_IZMA] == 1) return;
 	//PREGGO CHANCES
-	if (flags[kFLAGS.IZMA_PREGNANCY_ENABLED] == 1 && !pregnancy.isPregnant && rand(100) < (10 + Math.round(player.cumQ() / 100))) {
+	if (flags[kFLAGS.IZMA_PREGNANCY_ENABLED] == 1 && !pregnancy.isPregnant && (rand(100) < (10 + Math.round(player.cumQ() / 100)) || player.hasPerk(PerkLib.PilgrimsBounty))) {
 		pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_IZMA);
 		if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Izma is pregnant!</b>");
 	}
@@ -2322,12 +2323,14 @@ public function pcPopsOutASharkTot(womb:int = 0):void {
 		if(rand(100) <= 59) {
 			outputText("grey");
 			type = 0;
-			flags[kFLAGS.IZMA_CHILDREN_SHARKGIRLS]++;
+			if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.IZMA_CHILDREN_SHARKGIRLS] += 2;
+			else flags[kFLAGS.IZMA_CHILDREN_SHARKGIRLS]++;
 		}
 		else {
 			outputText("black-striped orange");
 			type = 1;
-			flags[kFLAGS.IZMA_CHILDREN_TIGERSHARKS]++;
+			if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.IZMA_CHILDREN_TIGERSHARKS] += 2;
+			else flags[kFLAGS.IZMA_CHILDREN_TIGERSHARKS]++;
 		}
 		outputText(" skin, it's obvious she's a baby ");
 		if(type == 0) outputText("shark-girl");
@@ -2754,9 +2757,11 @@ private function fuckIzmasPussyDominate():void {
 		outputText("Will you tend to her dick?");
 		//[Goo job]    [Leave it, leads to [Spanking scene])
 		simpleChoices("Goo Job", gooJob, "Leave It", radarIzmaSpanking, "", null, "", null, "", null);
-	} else sceneHunter.print("Check failed: Goo body!");
-	outputText("\n\n");
-	radarIzmaGasm();
+	} else {
+		sceneHunter.print("Check failed: Goo body!");
+		outputText("\n\n");
+		radarIzmaGasm();
+	}
 }
 
 //[Goo Job]
@@ -3035,7 +3040,7 @@ private function analFuckRadarEnding():void {
 			var choices:Array = [];
 			choices.push(0);
 			if (player.hasStatusEffect(StatusEffects.CampRathazul)) choices.push(1);
-			if (player.hasStatusEffect(StatusEffects.PureCampJojo)) choices.push(2);
+			if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) choices.push(2);
 			if (SceneLib.marbleScene.marbleFollower()) choices.push(3);
 			if (amilyScene.amilyFollower() && !amilyScene.amilyCorrupt()) choices.push(4);
 			if (amilyScene.amilyFollower() && amilyScene.amilyCorrupt()) choices.push(5);

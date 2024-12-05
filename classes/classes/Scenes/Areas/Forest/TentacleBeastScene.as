@@ -1,6 +1,7 @@
 ﻿package classes.Scenes.Areas.Forest{
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 
 public class TentacleBeastScene extends BaseContent{
@@ -121,8 +122,8 @@ private function startTentacleBeastCombat():void {
 		outputText("  Perhaps you could use it to sate yourself?");
 		addButtonIfTrue(0, "Dick Rape", dickRape, "Req. a dick", player.hasCock());
 		addButtonIfTrue(1, "MilkTentacle", milkTent, "Req. a vagina", player.hasVagina());
-		addButtonIfTrue(2, "Brutal Fuck", brutalFuck, "Req. a vagina and high corruption",
-			player.hasVagina() && player.cor >= 66 - player.corruptionTolerance);
+		addButtonIfTrue(2, "Brutal Fuck", brutalFuck, "Req. a vagina and high corruption", player.hasVagina() && player.cor >= 66 - player.corruptionTolerance);
+		addButtonIfTrue(3, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
 		addButton(4, "Leave", cleanupAfterCombat);
 	}
 
@@ -207,7 +208,7 @@ private function futaTentacleEpilogue():void {
 
 	private function alrauneLoss():void {
 		clearOutput();
-		outputText("The tentacle beast at first is confused, mainly because it’s body fails to detect an actual mammal. It occurs to you that you both, are in theory, plants. Well there's no such thing as incest amongst flowers, what’s this moron waiting for?");
+		outputText("The tentacle beast at first is confused, mainly because it’s body fails to detect an actual mammal. It occurs to you that you both, are in theory, plants. Well, there's no such thing as incest amongst flowers, what’s this moron waiting for?");
 		if (player.isLiliraune()){
 			outputText("You and your twin both agree this guy has to man up and take charge.\n\n" +
 				"\"<i>What are you waiting for you degenerate?</i>\"\n\n" +
@@ -859,6 +860,7 @@ private function tentacularGenderGooTimes():void {
 public function choiceofaction():void {
 	menu();
 	addButton(0, "Kill It", killTentacleBeast);
+	addButtonIfTrue(3, "Tame It", SceneLib.campMakeWinions.tamingAttempt , "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
 	addButton(4, "Leave", cleanupAfterCombat);
 }
 private function killTentacleBeast():void {

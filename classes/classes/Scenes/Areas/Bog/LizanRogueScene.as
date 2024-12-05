@@ -88,30 +88,35 @@ public class LizanRogueScene extends BaseContent
 		
 		public function winAgainstLizan():void {
 			clearOutput();
-			if (player.corAdjustedDown > 30) {
-				outputText("The lizan raises his hands in defeat and you celebrate with a victory dance. ");
-				if (player.lust >= 33) {
-					outputText("You wonder what you should do to the lizan.");
-					if (player.hasCock()) addButton(0, "Use Dick", rapeLizanInTheAss).hint("Anally penetrate him with your " + player.multiCockDescriptLight() + ".");
-					if (player.hasVagina()) addButton(1, "Use Pussy", rapeLizanWithPussy).hint("Get on top of the lizan and stuff his cock into your [pussy].");
-					LustyMaidensArmor.addTitfuckButton(2);
-					addButton(14, "Leave", cleanupAfterCombat);
-					SceneLib.uniqueSexScene.pcUSSPreChecksV2(winAgainstLizan);
-				}
-				else {
-					outputText("You're not aroused enough to rape him, so you rummage through his bag for something valuable.");
-					cleanupAfterCombat();
-				}
-			}
+			if (player.corAdjustedDown > 66) sexMenuRough();
 			else {
 				outputText("The lizan raises his hands in defeat, and you celebrate with a victory dance. ");
 				if (player.lust >= 33) {
 					outputText("<b>You could have sex with him if you like to.</b> ");
 					addButton(0, "Sex", haveSexWithLizan).hint("Have some fun with the oh-so-sexy lizan.");
+					addButton(1, "Rough", sexMenuRough).hint("Rape him roughly.");
 					addButton(14, "Leave", leaveLizanAfterCombat);
 					SceneLib.uniqueSexScene.pcUSSPreChecksV2(winAgainstLizan);
 				}
 				else leaveLizanAfterCombat();
+			}
+		}
+
+		public function sexMenuRough():void {
+			clearOutput();
+			menu();
+			if (player.lust >= 33) {
+				outputText("The lizan raises his hands in defeat and you celebrate with a victory dance. ");
+				outputText("You wonder what you should do to the lizan.");
+				if (player.hasCock()) addButton(0, "Use Dick", rapeLizanInTheAss).hint("Anally penetrate him with your " + player.multiCockDescriptLight() + ".");
+				if (player.hasVagina()) addButton(1, "Use Pussy", rapeLizanWithPussy).hint("Get on top of the lizan and stuff his cock into your [pussy].");
+				LustyMaidensArmor.addTitfuckButton(2);
+				addButton(14, "Leave", cleanupAfterCombat);
+				SceneLib.uniqueSexScene.pcUSSPreChecksV2(sexMenuRough);
+			}
+			else {
+				outputText("You're not aroused enough to rape him, so you rummage through his bag for something valuable.");
+				cleanupAfterCombat();
 			}
 		}
 		
@@ -325,7 +330,7 @@ public class LizanRogueScene extends BaseContent
 			}
 			else if (player.ass.analLooseness < AssClass.LOOSENESS_GAPING) {
 				outputText("\n\nThe lizan spreads your [ass], obviously set on entering you from the rear first. You feel a glob of spit land on your upturned [asshole]. The sudden coolness of the saliva dripping down your hole is quickly followed by the large head of the lizan's cock.");
-				outputText("\n\nYour voice vibrating your chest and stretching out into infinity is all the incentive the lizan needs. He slides his big bumpy dick into your [asshole], his hands pulling your [ass] back into him. Once he's burried the full length of his big purple dick in your backdoor he begins swirling his dick around in your guts, causing you to groan loudly as you push back against his large dick.");
+				outputText("\n\nYour voice vibrating your chest and stretching out into infinity is all the incentive the lizan needs. He slides his big bumpy dick into your [asshole], his hands pulling your [ass] back into him. Once he's buried the full length of his big purple dick in your backdoor, he begins swirling his dick around in your guts, causing you to groan loudly as you push back against his large dick.");
 			}
 			else {
 				outputText("\n\nThe lizan spreads your [ass], obviously set on entering you from the rear first. When he gets a good look at your [asshole] he shoves his fist into the air. He happily enters you after taking a moment to spit shine his bumpy purple dick. As his cock tunnels through you, you make sure to squeeze it, massaging the lizan as he begins t swirl his cock around inside of you as if trying to stir your guts.");
@@ -487,7 +492,7 @@ public class LizanRogueScene extends BaseContent
 		}
 		
 		public function rapeLizanWithPussy():void {
-			outputText("With a grin you slip off your [armor], the lizan doesn’t fight it in the least. In fact as you shove him onto his back he breathes a sigh of relief. Despite your having beaten him he is obviously quite attracted to you. He groans when you grab his twin peckers and inspect them. Each irregularly patterned bump is mirrored on its counterpart, like two sexy phallic twins. They grow hard in your hand. With a grin you look up into his face and watch his sexual attraction war with his lofty morals.");
+			outputText("With a grin you slip off your [armor], the lizan doesn’t fight it in the least. In fact, as you shove him onto his back he breathes a sigh of relief. Despite your having beaten him he is obviously quite attracted to you. He groans when you grab his twin peckers and inspect them. Each irregularly patterned bump is mirrored on its counterpart, like two sexy phallic twins. They grow hard in your hand. With a grin you look up into his face and watch his sexual attraction war with his lofty morals.");
 			outputText("\n\nWhen you straddle him with his lizan dicks pointed up at your [vagina] you look down into his eyes and watch as your body causes his lust to win the war.");
 			if (player.looseness() < VaginaClass.LOOSENESS_LOOSE) {
 				outputText("\n\nWith a deep breath you descend, engulfing only one of his purple dicks. The sensation of your [vagina] being spread open by his cock his like an electric wave of tingling ecstasy. Below you the lizan cringes, eyes wide as he feels how tight you are. You revel in the power you have over him. Soon his hands slide onto your hips, and he begins thrusting up into your [pussy].");

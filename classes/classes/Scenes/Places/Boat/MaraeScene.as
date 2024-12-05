@@ -126,7 +126,8 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
                 if (player.cor > 66 + player.corruptionTolerance) {
                     outputText("She bellows in rage, \"<i>I told you, begone!</i>\"\n\nYou turn tail and head back to your boat, knowing you cannot compete with her power directly.");
                     if (player.level >= 130) outputText(" Of course, you could probably try to overthrow her.");
-					endEncounter();
+			if (player.hasPerk(PerkLib.BlessingOfTheAncestorTree) || player.hasPerk(PerkLib.Soulless) || (player.hasPerk(PerkLib.Phylactery) && !player.hasPerk(PerkLib.InnerPhylactery)) || player.isRaceCached(Races.FMINDBREAKER) || player.isRaceCached(Races.MMINDBREAKER, 2) || player.isRaceCached(Races.ATLACH_NACHA, 3)) firstEncounterWentBad();
+			endEncounter();
                 } else {
                     //If you've taken her quest already
                     if (flags[kFLAGS.MARAE_QUEST_START] >= 1) {

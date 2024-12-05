@@ -19,7 +19,7 @@ public class Masturbation extends BaseContent {
 		}
 
 		public function masturButton(pos:int):CoCButton {
-			if (inDungeon || inRoomedDungeon || explorer.isActive) return addButton(pos, "Masturbate", masturbateGo)
+			if (inDungeon && DungeonAbstractContent.dungeonLoc != DungeonAbstractContent.DUNGEON_CABIN || inRoomedDungeon || explorer.isActive) return addButton(pos, "Masturbate", masturbateGo)
 				.hint("Attempt to masturbate in order to relieve your lust buildup.")
 				.disableIf(player.lust < 33, "You're not horny enough to masturbate.");
 			else if (canMeditate() && player.lust < 33) return addButton(pos, "Meditate", meditate)
@@ -367,6 +367,7 @@ public class Masturbation extends BaseContent {
                 if (!player.isNaga()) sceneHunter.print("Check failed: Naga.");
 				if (player.isNaga() && rand(2) == 0) SceneLib.exgartuan.exgartuanNagaStoleMyMasturbation();
                 else SceneLib.exgartuan.exgartuanMasturbation_dick();
+				return;
             } else sceneHunter.print("Check failed: Exgartuan.");
 			if (SceneLib.exgartuan.boobsAwake()) {
 				flags[kFLAGS.TIMES_MASTURBATED]++;
@@ -467,8 +468,7 @@ public class Masturbation extends BaseContent {
 			||       MASTURBATION CORE    ||
 			\\*****************************/
 			if (player.hasCock()) sceneHunter.print("For dicks, there WILL be checks for nipplecunts.");
-			sceneHunter.print("I'll explain the math. If you have nipplecunts, AND have one more big dick... magic will happen.")
-			sceneHunter.selectGender(curry(sceneHunter.selectSingleMulti, singleF, player.cockTotal() > 2 ? moreF : twoF), vagF);
+			sceneHunter.selectGender(player.cockTotal() == 1 ? singleF : player.cockTotal() == 2 ? twoF : moreF, vagF); // not worth singleMulti
 
 			//Cock masturbation!
 			function singleF():void {
@@ -1033,7 +1033,7 @@ public class Masturbation extends BaseContent {
 				if (player.lib < 45)
 					outputText("You caress your [breasts] gently with your fingers");
 				else if (player.lib < 70)
-					outputText("You grope your [breasts] agressively with both hands");
+					outputText("You grope your [breasts] aggressively with both hands");
 				else outputText("You squeeze your [breasts] brutally with both hands");
 			}
 			else if (player.breastRows.length > 1 && player.biggestTitSize() > 3) {
@@ -2098,7 +2098,7 @@ public class Masturbation extends BaseContent {
 			else {
 				//High corruption variant!
 				if (player.cor > 66) {
-					outputText("Grinning from ear to ear, you grab your \"pet\" from your bag and bury your dick deep into its maw. Somewhat stunned by your zeal, the creature shifts about lethargically. You impatiently wobble your dong, shaking the creature with it, in an attempt to wake the little dick-milking bastard up. The beast eventually comes to life and begins doing the only thing it knows how to do. Securing itself to your erection and easily entering your well-stretched urethra, the creature inserts itself to begin another feeding session. Enjoying the creature's efforts to milk you of your fluids, you choose to up the ante a bit. You begin flexing your pelvic muscles to make your cock bob about. Along with the gentle pinch of pleasure your flexing gives you, the creature mistakes your self-pleasure for an attempt to dislodge it and stabs its tendril deeper into your prostate, creating an even sharper response. Throwing your head back as the pleasure washes over, you continuously flex yourself to make the beast plunder deeper inside you. Welling up with an impressive load, you grab the animal with both hands as you expertly control your ejaculation reflex. With an expertise borne from repeated self-exploration, you force feed the beast gout upon gout of your seed. The thing quickly bloats as your shots are more than a match for even its ravenous appetite. It swells quickly and releases itself from your body, obviously stuffed to the proverbial gills. Undaunted and unsatisfied, you launch the creature off your cock with another great eruption from your sex. The creature lands smartly on the ground where you quickly waddle over to unload the rest of your pent-up cum all over its shell. Satisfactorily drained and the beast covered completely in your lust, you wipe the sweat from your forehead and silently congratulate yourself on the impressive job you did on keeping your pet well fed. You check to make sure your vigor did not injure the creature and, satisfied that it was otherwise uninjured, set it aside to vegetate on the massive load of cum you fed it with.");
+					outputText("Grinning from ear to ear, you grab your \"pet\" from your bag and bury your dick deep into its maw. Somewhat stunned by your zeal, the creature shifts about lethargically. You impatiently wobble your dong, shaking the creature with it, in an attempt to wake the little dick-milking bastard up. The beast eventually comes to life and begins doing the only thing it knows how to do. Securing itself to your erection and easily entering your well-stretched urethra, the creature inserts itself to begin another feeding session. Enjoying the creature's efforts to milk you of your fluids, you choose to up the ante a bit. You begin flexing your pelvic muscles to make your cock bob about. Along with the gentle pinch of pleasure your flexing gives you, the creature mistakes your self-pleasure for an attempt to dislodge it and stabs its tendril deeper into your prostate, creating an even sharper response. Throwing your head back as the pleasure washes over, you continuously flex yourself to make the beast plunder deeper inside you. Welling up with an impressive load, you grab the animal with both hands as you expertly control your ejaculation reflex. With an expertise borne from repeated self-exploration, you force-feed the beast gout upon gout of your seed. The thing quickly bloats as your shots are more than a match for even its ravenous appetite. It swells quickly and releases itself from your body, obviously stuffed to the proverbial gills. Undaunted and unsatisfied, you launch the creature off your cock with another great eruption from your sex. The creature lands smartly on the ground where you quickly waddle over to unload the rest of your pent-up cum all over its shell. Satisfactorily drained and the beast covered completely in your lust, you wipe the sweat from your forehead and silently congratulate yourself on the impressive job you did on keeping your pet well fed. You check to make sure your vigor did not injure the creature and, satisfied that it was otherwise uninjured, set it aside to vegetate on the massive load of cum you fed it with.");
 				}
 				//low corruption variant!
 				else {
@@ -2243,6 +2243,7 @@ public class Masturbation extends BaseContent {
 		private function gobomechImpregnator1():void {
 			clearOutput();
 			outputText("You take a look at your mech reservoir and smile gleefully noticing how it is about full, you're going to enjoy this!\n\n");
+			outputText("As you turn the mech on the welcoming voice of your AI booms in. \"<i>Welcome back aboard operator [name]. All functions are nominal.</i>\"");
 			outputText("You sit in your mech’s driver seat, open your personal compartment and draw out the tube taking your time to methodically plug it into the SPMK1 socket and use the fastener to lock it in place so it doesn't flail out wildly. That done you press the ON button and lay back to enjoy the fruit of your labor.\n\n");
 			outputText("The mech beeps for a few seconds as the pump starts working, and soon freshly harvested cum flows up the tube straight into your thirsty goblin pussy. You moan from pleasure as the reversed strapon vibrates with the cum flow, hitting every side of your vaginal wall. Now this is how you like sex! Efficient, pleasurable and sure to end with a top tier bukake with a heavy pregnancy percentage rate!\n\n");
 			outputText("The machine enters its second stage as the cable starts producing small jolts of electricity in your cunt, shocking your clitty in just the right way. Your eyes roll back in absolute bliss and you cum at once as your belly slowly inflates from the sheer amount of fluids your creation is pumping in, filling your addled mind with fireworks. You giggle in delight as the flow slowly ebbs, your SPMK1 holding the cum inside so no drops can leak out. Once it's over, you unfasten the tube and put it back in its compartment as you pat your belly in contentment. You really hope it took and if it didn’t, you will just have to harvest some more… hurray for progress!");
@@ -2255,6 +2256,7 @@ public class Masturbation extends BaseContent {
 		private function gobomechFuckingMachine():void {
 			clearOutput();
 			outputText("You launch the FUNTIME function and your mech’s structure opens out as gears and features align, the driver’s seat moving down to the ground for you to sit on.\n\n");
+			outputText("As you turn the mech on the welcoming voice of your AI booms in. \"<i>Welcome back aboard operator [name]. All functions are nominal.</i>\"");
 			outputText("You cheerfully sit on your seat, ready for a session. The screen before you quickly flickers to life, welcoming you and asking you to kindly place your feet in the appropriate safety straps and place your arms in the secure cuffs as to avoid injury. You grumble about the pointlessness of adding a set of safety measures but work your way into the tight-fitting straps anyways.\n\n");
 			outputText("Within moments, the machine lifts you up, pulling your arms out and apart, away from your pleasure aching body. You don't bother to fight the strong pull of the mechanical assistant. It whirs to life, stating that it is beginning \"Phase 1: Preconditioning\".\n\n");
 			outputText("You feel your mech begin to tug at your clothes with various mechanical clamps. It pulls your clothing free in moments, revealing your [breasts], [cunt], and your [ass] to the outside world’s air. It doesn’t take the machine but a couple of moments to place a metallic, phallic-shaped device against your labia and anus, the cold metal eliciting a pleasured gasp from you, allowing it to slip another cock into your mouth. The tip of the metal cock tastes salty, leaking some fluid slowly from the tip. You blush with arousal as your machine forcefeeds you cum.\n\n");
@@ -2987,7 +2989,7 @@ public class Masturbation extends BaseContent {
 			clearOutput();
 			if (SceneLib.exgartuan.boobsAwake()) {
 				//Exgartuan; breasts should be HH or larger, fuckable nipples, only if Exgartuan is awake
-				outputText("Smiling mischieviously to yourself, you look down to your possessed [chest] and tell Xenora that you have something you very much would like to do for her.");
+				outputText("Smiling mischievously to yourself, you look down to your possessed [chest] and tell Xenora that you have something you very much would like to do for her.");
 				outputText("\n\n\"<i>Oi bitch, I know what you're on about.  You think you can just lay eggs inside me?  Well... I'm proud of you, that's the sort of attention these magnificent cans deserve.</i>\"");
 				outputText("\n\nYour mischievous grin turns confused as you get the distinct impression that if Xenora had knuckles to crack and joints to pop, she would be.  Certainly, the uncanny jiggling of your [chest] implies some sort of activity.");
 				outputText("\n\n\"<i>Alright.  You sure you want to do this?  Nah, I'm just fucking with you, you have to now.</i>\"");

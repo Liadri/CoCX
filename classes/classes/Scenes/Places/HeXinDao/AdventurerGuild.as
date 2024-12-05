@@ -180,12 +180,8 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 			addButton(1, "Ferals(1)", BoardkeeperYangQuestFerals1).hint("(T.Beasts) Copper tier Quest.");
 			addButton(2, "Ferals(2)", BoardkeeperYangQuestFerals2).hint("(Imps) Copper tier Quest.");
 			addButton(3, "Minotaurs", BoardkeeperYangQuestMinotaurs).hint("Copper tier Quest.");
-			if (player.hasKeyItem("Adventurer Guild: Iron plate") >= 0) {
-				addButton(4, "Demons", BoardkeeperYangQuestDemons1).hint("Iron tier Quest.");
-			}
-			else {
-				addButtonDisabled(4, "Demons", "Only for Iron tier Adventurer.");
-			}
+			if (player.hasKeyItem("Adventurer Guild: Iron plate") >= 0) addButton(4, "Demons", BoardkeeperYangQuestDemons1).hint("Iron tier Quest.");
+			else addButtonDisabled(4, "Demons", "Only for Iron tier Adventurer.");
 			addButton(5, "Gel", BoardkeeperYangQuestGel).hint("Copper tier Quest.");
 			addButton(6, "Chitin", BoardkeeperYangQuestChitin).hint("Copper tier Quest.");
 			if (flags[kFLAGS.GALIA_LVL_UP] == 0.53 || (flags[kFLAGS.GALIA_LVL_UP] >= 0.5 && flags[kFLAGS.GALIA_TALKS] > 0)) addButtonDisabled(10, "Ferals (C)", "You already finished this quest.");
@@ -779,7 +775,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 		public function BoardkeeperYangTalkRequests():void {
 			clearOutput();
 			outputText("Ok, you are a member now, how do you take on a job?\n\n");
-			outputText("\"<i>First and foremost you come to me or any other board on mareth if you can find one. Then you choose a difficulty and I set you on a corresponding request.</i>\"\n\n");
+			outputText("\"<i>First and foremost you come to me or any other board on Mareth if you can find one. Then you choose a difficulty and I set you on a corresponding request.</i>\"\n\n");
 			outputText("Difficulty? You thought you could pick on the highest request right away.\n\n");
 			outputText("\"<i>No such thing " + player.mf("Mr.", "Mrs.") + " Hero. The guild has strict ruling to prevent people throwing their lives away on job they can’t handle. We have a difficulty system based on skill and rank. You cannot take on a request way above your ranking until you have qualified for it. The rank are determined by copper, bronze, silver, gold and platinum plates.</i>\"\n\n");
 			doNext(BoardkeeperYangTalk);

@@ -639,9 +639,8 @@ package classes.Scenes {
 			if (player.hasPerk(PerkLib.MetamorphEx)) BtMS += (100 * player.perkv1(PerkLib.MetamorphEx));
 			//if (player.hasPerk(PerkLib.MetamorphMastery)) BtMS += (100 * player.perkv1(PerkLib.MetamorphMastery));
 			outputText("<font size=\"36\" face=\"Georgia\"><u>Soulforce Metamorph</u></font>\n");
-			outputText("You calm your thoughts and take a moment to center yourself, recalling your past experiences. The transformations you have experienced so far have left their mark, not so easily forgotten even when undone and replaced innumerable times. When you focus, you can feel the threads in place, echoes of the many bodies you called your own, of limbs you once owned and skins you wore as comfortably as your current one.\n\nWith a little effort, you could imprint some of those recollections upon yourself. Powerful wings which carried you above the clouds, attentive ears which alerted you of danger; any such memories could return to you just as easily as they left, still rightfully yours.\n\nAs such, is there anything you would like to change about your current form?");
-			outputText("\n\n<b>Race added to Metamorph:\n");
-			outputText("Alicorn, Alruane, Bat, Bee, Bicorn, Boar, Cat, Cave Wyrm, Cheshire Cat, Cow, Couatl, Cyclop, Demon, Devil, Displacer Beast, Dragon, Elf, Fox, Frost Wyrm, Gazer, Gorgon, Harpy, Hellcat, Hinezumi, Horse, Human, Kitsune, Lizard, Manticore, Mantis, Minotaur, Mouse, Naga, Nekomata, Nightmare, Oni, Orc, Orca, Phoenix, Pig, Raccoon, Raiju, Red Panda, Salamander, Shark, Sphinx, Spider (+Drider), Unicorn, Vampire, Winter Wolf</b>");
+			outputText("You calm your thoughts and take a moment to center yourself, recalling your past experiences. The transformations you have experienced so far have left their mark, not so easily forgotten even when undone and replaced innumerable times. When you focus, you can feel the threads in place, echoes of the many bodies you called your own, of limbs you once owned and skins you wore as comfortably as your current one.");
+			outputText("\n\nWith a little effort, you could imprint some of those recollections upon yourself. Powerful wings which carried you above the clouds, attentive ears which alerted you of danger; any such memories could return to you just as easily as they left, still rightfully yours.\n\nAs such, is there anything you would like to change about your current form?");
 			outputText("\n\n<b>Bonus to Max Soulforce:</b> " + BtMS);
 
 			menu();
@@ -764,7 +763,8 @@ package classes.Scenes {
 				else addButtonDisabled (13, "Next Page");
 			}
 
-			if (player.hasPerk(PerkLib.JobSoulCultivator)) addButton(14, "Back", SceneLib.soulforce.accessSoulforceMenu);
+			if (player.hasPerk(PerkLib.JobSoulCultivator) && !player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", SceneLib.soulforce.accessSoulforceMenu);
+			else if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", SceneLib.soulforce.accessDemonicEnergyMenu);
 			else addButton(14, "Back", playerMenu);
 		}
 
@@ -1096,11 +1096,12 @@ package classes.Scenes {
 				const unlocked: Boolean = GeneticMemoryStorage[genMem.id] && (genMem.taurVariant ? GeneticMemoryStorage["Taur Lower Body"] : true);
 				const partsInUse: Boolean = (index==-1? genMem.transformation().isPresent() : genMem.transformation(index).isPresent());
 				const cost:Number=(genMem.cost is Function? genMem.cost() : genMem.cost);
-				const enoughSF: Boolean = player.soulforce >= cost;
+				var enoughSF: Boolean = player.soulforce >= cost;
+				var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 
-				if (unlocked && !partsInUse && enoughSF) addButton(currentButton++, buttonStr, doMetamorph, title, genMem, index).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : ""));
+				if (unlocked && !partsInUse && (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless)))) addButton(currentButton++, buttonStr, doMetamorph, title, genMem, index).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
 				else if (unlocked && partsInUse) addButtonDisabled(currentButton++, buttonStr, (!genMem.hint? "You already have this, the metamorphosis would have no effect!":genMem.hint));
-				else if (unlocked && !partsInUse && !enoughSF) addButtonDisabled(currentButton++, buttonStr, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)");
+				else if (unlocked && !partsInUse && !enoughSF && !enoughMana) addButtonDisabled(currentButton++, buttonStr, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
 				else if (!unlocked)	addButtonDisabled(currentButton++, buttonStr, "You haven't unlocked this metamorphosis yet!" + (genMem.lockedInfo ? "\n\n" + genMem.lockedInfo : ""));
 			}
 
@@ -1119,15 +1120,33 @@ package classes.Scenes {
 		}
 		
 		private function doMetamorph (title: String, genMem: *, index:int = -1): void {
-			clearOutput();
-			outputText(title);
-			if (index != -1)
-				genMem.transformation(index).applyEffect();
-			else
-				genMem.transformation().applyEffect();
-			player.soulforce -= (genMem.cost is Function? genMem.cost() : genMem.cost);
-			CoC.instance.mainViewManager.updateCharviewIfNeeded();
-			doNext(accessMetamorphMenu);
+			var genSFCost:int = (genMem.cost is Function? genMem.cost() : genMem.cost);
+			var genManaCost:int = Math.round(player.maxMana() / 10);
+
+			if (player.hasPerk(PerkLib.Soulless)) mmPayment(2, genManaCost);
+			else mmPayment(1, genSFCost);
+
+			function mmPayment(costType: int, costVal: int):void{
+				if (costType == 1){
+					player.soulforce -= costVal
+				}
+				else{
+					player.mana -= costVal
+				}
+				executeMM();
+			}
+
+			function executeMM():void{
+				clearOutput();
+				outputText(title);
+				if (index != -1)
+					genMem.transformation(index).applyEffect();
+				else
+					genMem.transformation().applyEffect();
+
+				CoC.instance.mainViewManager.updateCharviewIfNeeded();
+				doNext(accessMetamorphMenu);
+			}
 		}
 
 		private function openPaginatedSkinMenu (title: String, currentPage: int): void {
@@ -1273,7 +1292,7 @@ package classes.Scenes {
 		private function metamorphHeight1U():void {
 			clearOutput();
 			player.soulforce -= 300;
-			outputText("\n\nWhoa wait did you just gain some height!? You indeed notice you've grown by an inch.");
+			outputText("\n\nWhoa, wait, did you just gain some height!? You indeed notice you've grown by an inch.");
 			player.tallness += 1;
 			if (player.basetallness >= 132) player.tallness = 132;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1281,7 +1300,7 @@ package classes.Scenes {
 		private function metamorphHeight2U():void {
 			clearOutput();
 			player.soulforce -= 700;
-			outputText("\n\nWhoa wait did you just gain some height!? You indeed notice you've grown by two inches.");
+			outputText("\n\nWhoa, wait, did you just gain some height!? You indeed notice you've grown by two inches.");
 			player.tallness += 2;
 			if (player.basetallness >= 132) player.tallness = 132;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1289,7 +1308,7 @@ package classes.Scenes {
 		private function metamorphHeight1D():void {
 			clearOutput();
 			player.soulforce -= 100;
-			outputText("\n\nWhoa wait did you just lost some height!? You indeed notice you've shrunk by an inch.");
+			outputText("\n\nWhoa, wait, did you just lost some height!? You indeed notice you've shrunk by an inch.");
 			player.tallness -= 1;
 			if (player.basetallness < 42) player.tallness = 42;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1297,7 +1316,7 @@ package classes.Scenes {
 		private function metamorphHeight2D():void {
 			clearOutput();
 			player.soulforce -= 300;
-			outputText("\n\nWhoa wait did you just lost some height!? You indeed notice you've shrunk by two inches.");
+			outputText("\n\nWhoa, wait, did you just lost some height!? You indeed notice you've shrunk by two inches.");
 			player.tallness -= 2;
 			if (player.basetallness < 42) player.tallness = 42;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1545,6 +1564,7 @@ package classes.Scenes {
 				case "Goat": 			CoC.instance.transformations.EyesGoat.applyEffect();			break;
 				case "Goblin":			CoC.instance.transformations.EyesGoblinColors.applyEffect();	break;
 				case "Gorgon": 			CoC.instance.transformations.EyesGorgon.applyEffect();			break;
+				case "Gremlin":			CoC.instance.transformations.EyesGremlinColors.applyEffect();	break;
 				case "Gryphon": 		CoC.instance.transformations.EyesGryphon.applyEffect();			break;
 				case "Hinezumi": 		CoC.instance.transformations.EyesHinezumi.applyEffect();		break;
 				case "Human": 			CoC.instance.transformations.EyesHuman.applyEffect();			break;

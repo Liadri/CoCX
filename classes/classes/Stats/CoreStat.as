@@ -16,12 +16,15 @@ public class CoreStat extends RawStat{
 		var base:Number = 100;
 		base += 2 * host.perkv1(PerkLib.AscensionTranshumanism);
 		if (host.hasPerk(PerkLib.MunchkinAtBioLab)) base += 10;
+		if (host.hasPerk(PerkLib.DarkAscensionTheDarkSoul)) base += 10 * host.perkv1(PerkLib.DarkAscensionTheDarkSoul);
 		switch (statName) {
 			case 'str.core':
 				base += 16 * host.perkv1(PerkLib.AscensionTranshumanismStr);
 				base += host.perkv1(PerkLib.BodyTempering);
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 1) base += 5;
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 2) base += 5;
+				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 4) base += 10;
+				if (host.perkv1(IMutationsLib.HumanMusculatureIM) >= 4) base += 10;
 				if (host is Player && JourneyToTheEast.EvelynnCoreLimitBreakerCounter > 0) base += JourneyToTheEast.EvelynnCoreLimitBreakerCounter;
 				var str:Number = 1;
 				if (host.hasPerk(PerkLib.AsuraStrength)) str += 0.1;
@@ -34,6 +37,8 @@ public class CoreStat extends RawStat{
 				base += host.perkv1(PerkLib.BodyTempering);
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 1) base += 5;
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 2) base += 5;
+				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 4) base += 10;
+				if (host.perkv1(IMutationsLib.HumanFatIM) >= 4) base += 10;
 				if (host is Player && JourneyToTheEast.EvelynnCoreLimitBreakerCounter > 0) base += JourneyToTheEast.EvelynnCoreLimitBreakerCounter;
 				var tou:Number = 1;
 				if (host.hasPerk(PerkLib.AsuraToughness)) tou += 0.1;
@@ -47,6 +52,7 @@ public class CoreStat extends RawStat{
 				base += host.perkv1(PerkLib.BodyTempering);
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 1) base += 5;
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 2) base += 5;
+				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) base += 10;
 				if (host is Player && JourneyToTheEast.EvelynnCoreLimitBreakerCounter > 0) base += JourneyToTheEast.EvelynnCoreLimitBreakerCounter;
 				var spe:Number = 1;
 				if (host.hasPerk(PerkLib.AsuraSpeed)) spe += 0.1;
@@ -59,6 +65,7 @@ public class CoreStat extends RawStat{
 				base += host.perkv1(PerkLib.SoulTempering);
 				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 1) base += 5;
 				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 2) base += 5;
+				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 4) base += 10;
 				if (host is Player && JourneyToTheEast.EvelynnCoreLimitBreakerCounter > 0) base += JourneyToTheEast.EvelynnCoreLimitBreakerCounter;
 				var inte:Number = 1;
 				if (host.hasPerk(PerkLib.BloodDemonIntelligence)) inte += 0.1;
@@ -71,6 +78,7 @@ public class CoreStat extends RawStat{
 				base += host.perkv1(PerkLib.SoulTempering);
 				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 1) base += 5;
 				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 2) base += 5;
+				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 4) base += 10;
 				if (host is Player && JourneyToTheEast.EvelynnCoreLimitBreakerCounter > 0) base += JourneyToTheEast.EvelynnCoreLimitBreakerCounter;
 				var wis:Number = 1;
 				if (host.hasPerk(PerkLib.BloodDemonWisdom)) wis += 0.1;
@@ -84,6 +92,7 @@ public class CoreStat extends RawStat{
 				base += host.perkv1(PerkLib.SoulTempering);
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 1) base += 5;
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 2) base += 5;
+				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) base += 10;
 				if (host is Player && JourneyToTheEast.EvelynnCoreLimitBreakerCounter > 0) base += JourneyToTheEast.EvelynnCoreLimitBreakerCounter;
 				if (host.hasPerk(PerkLib.DemonSovereignToughnessAndLibido)) base *= 1.05;
 				break;

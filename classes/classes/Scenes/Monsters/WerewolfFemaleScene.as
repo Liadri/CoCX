@@ -67,6 +67,7 @@ public class WerewolfFemaleScene extends BaseContent
 			else addButtonDisabled(0, "Dominate", "This scene requires you to have a cock.", "Dominate");
 			if (player.hasVagina()) addButton(1, "Femdom", femDom).hint("You're top girl here. It's time to show it!");
 			else addButtonDisabled(1, "Femdom", "This scene requires you to have a vagina.", "Femdom");
+			addButtonIfTrue(12, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
 			addButton(14, "Leave", cleanupAfterCombat);
 			SceneLib.uniqueSexScene.pcUSSPreChecksV2(rapeMenu);
 		}
@@ -105,7 +106,7 @@ public class WerewolfFemaleScene extends BaseContent
 			}
 			else{
 				outputText("Perhaps as a last display of [monster his] fast breaking pride the defeated werewolf runs away");
-				if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well it looks like you didn't get that one, maybe next time.\n\n");
+				if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well, it looks like you didn't get that one, maybe next time.\n\n");
 				outputText(".\n\n");
 			}
 			outputText("Thoroughly satisfied by this nightly encounter you head back to camp.");
@@ -149,7 +150,7 @@ public class WerewolfFemaleScene extends BaseContent
 			}
 			else{
 				outputText("Perhaps as a last display of [monster his] fast breaking pride the defeated werewolf runs away");
-				if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well it looks like you didn't get that one, maybe next time.\n\n");
+				if(player.isAnyRaceCached(Races.WEREWOLF, Races.WOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) outputText(", preferring escape over subservience. Well, it looks like you didn't get that one, maybe next time.\n\n");
 				outputText(".\n\n");
 			}
 			outputText("Thoroughly satisfied by this nightly encounter you head back to camp.");

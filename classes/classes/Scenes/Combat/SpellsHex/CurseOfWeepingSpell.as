@@ -47,6 +47,7 @@ public class CurseOfWeepingSpell extends AbstractHexSpell {
 		var calcC:int = 7;
 		calcC += spellGenericCooldown();
 		if (player.hasPerk(PerkLib.Necromancy)) calcC -= 1;
+		if (player.hasPerk(PerkLib.DeathlyPower)) calcC -= 1;
 		return calcC;
 	}
 	

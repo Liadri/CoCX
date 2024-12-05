@@ -187,7 +187,7 @@ public class Evangeline2 extends Monster
 			if (inte >= 101) temp += ((inte * 1.25) + rand(inte * 1.75));
 			temp *= SpellMod();
 			temp = Math.round(temp);
-			outputText("Evangeline flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+			outputText("Evangeline flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 			addHP(temp);
 			fatigue += spellCostHeal();
 			flags[kFLAGS.EVANGELINE_SPELLS_CASTED]++;
@@ -438,6 +438,7 @@ public class Evangeline2 extends Monster
 			this.drop = NO_DROP;
 			this.buff("Wizard's Focus").addStat('spellpower', 0.5);
 			this.createPerk(PerkLib.EzekielBlessing, 0, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobGuardian, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobSorcerer, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobWarrior, 0, 0, 0, 0);

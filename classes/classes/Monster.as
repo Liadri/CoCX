@@ -43,6 +43,7 @@ import classes.Scenes.Dungeons.DungeonAbstractContent;
 import classes.Scenes.Dungeons.EbonLabyrinth.Hydra;
 import classes.Scenes.Dungeons.Factory.OmnibusOverseer;
 import classes.Scenes.Dungeons.Factory.SecretarialSuccubus;
+import classes.Scenes.Dungeons.TwilightGrove.LadyRafflesia;
 import classes.Scenes.NPCs.ChiChi;
 import classes.Scenes.Places.Boat.Marae;
 import classes.Scenes.Quests.UrtaQuest.MilkySuccubus;
@@ -170,9 +171,15 @@ import classes.Scenes.Combat.CombatAbilities;
 			_long = value;
 		}
 
-
-		//Is a creature a 'plural' encounter - mob, etc.
+		//Is a creature a specific type like 'plural' mob, etc.
 		public var plural:Boolean = false;
+		public var flyer:Boolean = false;
+		public var digger:Boolean = false;
+		public var aquatic:Boolean = false;
+		public var rangeuser:Boolean = false;
+		public var magicuser:Boolean = false;
+		public var soulforceuser:Boolean = false;
+		public var psychicuser:Boolean = false;
 		public var imageName:String = "";
 
 		//Lust vulnerability
@@ -335,13 +342,14 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (hasPerk(PerkLib.EnemyChampionType)) temp *= (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING]*2.5);
 				if (hasPerk(PerkLib.EnemyBossType)) temp *= (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING]*5);
 			}
+			if (hasPerk(PerkLib.EnemyTrueDemon)) temp *= 0.5;
 			temp *= stats_multi_based_on_misc();
 			if (this.level < 9) {
 				if (hasPerk(PerkLib.EnemyForBeginnersType)) temp *= 0.1;
 				else temp *= 0.6;
 			}
 			temp = Math.round(temp);
-			if (temp < (130 + 10 * this.level * (flags[kFLAGS.GAME_DIFFICULTY]+1) + (100 * newGamePlusMod()))) temp = (130 + 10 * this.level * (flags[kFLAGS.GAME_DIFFICULTY]+1) + (100 * newGamePlusMod()));
+			if (temp < (130 + 10 * this.level * (flags[kFLAGS.PRIMARY_DIFFICULTY]+1) + (100 * newGamePlusMod()))) temp = (130 + 10 * this.level * (flags[kFLAGS.PRIMARY_DIFFICULTY]+1) + (100 * newGamePlusMod()));
 			return temp;
 		}
 		private function maxHPmult():Number {
@@ -390,6 +398,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (perkv1(IMutationsLib.FerasBirthrightIM) >= 4) maxOver2 += 0.2;
 			maxOver *= maxOver2;//~290%
 			if (hasStatusEffect(StatusEffects.CorpseExplosion)) maxOver *= (1 - (0.2 * statusEffectv1(StatusEffects.CorpseExplosion)));
+			if (hasStatusEffect(StatusEffects.CombatWounds)) maxOver *= (1 - (0.01 * statusEffectv1(StatusEffects.CombatWounds)));
 			maxOver = Math.round(maxOver);
 			return maxOver;
 		}
@@ -918,20 +927,25 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp *= 2;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 3) temp *= 3;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 4) temp *= 5;
+				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 5) temp *= 7;
+				if (flags[kFLAGS.SECONDARY_STATS_SCALING] >= 6) temp *= 10;
 			}
 			else {
 				if (hasPerk(PerkLib.EnemyBossType)) {
 					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 1) temp *= 10;
-					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp *= 40;
-					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 3) temp *= 200;
-					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 4) temp *= 1600;
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp *= 30;
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 3) temp *= 100;
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 4) temp *= 500;
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 5) temp *= 3000;
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] >= 6) temp *= 21000;
 				}
 				else {
 					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 1) temp *= 5;
 					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp *= 10;
 					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 3) temp *= 25;
 					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 4) temp *= 100;
-					
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 5) temp *= 500;
+					if (flags[kFLAGS.SECONDARY_STATS_SCALING] >= 6) temp *= 3000;
 				}
 			}
 			if (flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1) temp = 1;
@@ -947,18 +961,27 @@ import classes.Scenes.Combat.CombatAbilities;
 		public function damageReductionBasedOnDifficulty():Number {
 			var dRBOD:Number = 1;
 			if (hasPerk(PerkLib.EnemyForBeginnersType)) {
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 1) dRBOD *= 1.1;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 2) dRBOD *= 1.25;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 3) dRBOD *= 1.5;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 4) dRBOD *= 2;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 1) dRBOD *= 1.1;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 2) dRBOD *= 1.25;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 3) dRBOD *= 1.5;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 4) dRBOD *= 2;
 			}
 			else {
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 1) dRBOD *= 2;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 2) dRBOD *= 5;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 3) dRBOD *= 10;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 4) dRBOD *= 25;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 1) dRBOD *= 2;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 2) dRBOD *= 5;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 3) dRBOD *= 10;
+				if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 4) dRBOD *= 25;
 			}
 			return dRBOD;
+		}
+		
+		public function lustVulnCap():Number {
+			var lVC:Number = 1;
+			if (game.player.hasPerk(PerkLib.CorruptTheBody)) lVC += 1;
+			if (game.player.hasPerk(PerkLib.CorruptTheHeart)) lVC += 1;
+			if (game.player.hasPerk(PerkLib.CorruptTheMind)) lVC += 1;
+			if (game.player.hasPerk(PerkLib.CorruptTheSoul)) lVC += 996;
+			return lVC;
 		}
 
 		public override function damagePercent():Number {
@@ -966,12 +989,13 @@ import classes.Scenes.Combat.CombatAbilities;
 			var armorMod:Number = armorDef;
 			//--BASE--
 			//Modify armor rating based on melee weapons
-			if ((game.player.weaponName.indexOf("staff") != -1 && game.player.hasPerk(PerkLib.StaffChanneling) )) {
+			if ((game.player.weapon.isWandType() || game.player.weaponOff.isWandType() || game.player.weapon.isStaffType() || game.player.weaponOff.isStaffType()) && game.player.hasPerk(PerkLib.StaffChanneling)) {
 				armorMod = 0;
 			} else {
 				var ar:int = game.player.weapon.effectPower(IELib.ArmorReduction);
 				armorMod -= ar;
 				var ap:int = game.player.weapon.effectPower(IELib.ArmorPenetration);
+				if (game.player.isSpearTypeWeapon() && game.player.hasPerk(PerkLib.SpearAffinity)) ap = 100;
 				armorMod *= (100 - ap) / 100;
 			}
 			if (game.player.hasPerk(PerkLib.LungingAttacks)) armorMod *= 0.5;
@@ -1087,14 +1111,14 @@ import classes.Scenes.Combat.CombatAbilities;
 
 		override public function getEvasionReason(considerBlindSpeed:Boolean = true, attackSpeed:int = int.MIN_VALUE, hitModifier:int = 0, dodgeArray:Array = null):String {
 			var evasionReason:String;
-
 			if (canAutoHit()) return null;
-
 			if (hasStatusEffect(StatusEffects.HurricaneDance)) dodgeArray.push([25, EVASION_HURRICANE_DANCE]);
-
 			if (!evasionReason) evasionReason = super.getEvasionReason(considerBlindSpeed, attackSpeed, hitModifier, dodgeArray);
-
 			return evasionReason;
+		}
+		
+		override public function isFlying():Boolean {
+			return hasStatusEffect(StatusEffects.Flying) && !hasStatusEffect(StatusEffects.EntangledByNet) && !hasStatusEffect(StatusEffects.Nailed);
 		}
 
 		public function canMonsterBleed():Boolean
@@ -1322,10 +1346,12 @@ import classes.Scenes.Combat.CombatAbilities;
 		protected function baseXP():Number
 		{
 			var baseMonXP:Number = this.level * 5;
-			if (flags[kFLAGS.GAME_DIFFICULTY] == 1) baseMonXP += this.level;
-			if (flags[kFLAGS.GAME_DIFFICULTY] == 2) baseMonXP += this.level * 2.5;
-			if (flags[kFLAGS.GAME_DIFFICULTY] == 3) baseMonXP += this.level * 5;
-			if (flags[kFLAGS.GAME_DIFFICULTY] == 4) baseMonXP += this.level * 7.5;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 1) baseMonXP += this.level;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 2) baseMonXP += this.level * 2.5;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 3) baseMonXP += this.level * 5;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 4) baseMonXP += this.level * 7.5;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 5) baseMonXP += this.level * 7.5;
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 6) baseMonXP += this.level * 7.5;
 			if (this.level < 7) baseMonXP += (this.level * 5) + rand(this.level * 5);
 			else baseMonXP += rand(this.level * 5);
 			return baseMonXP;
@@ -1665,7 +1691,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			this.wisStat.core.value = wis;
 			this.libStat.core.value = lib;
 			sensStat.redefine({base:sens});
-			this.cor = cor;
+			this.cor = cor + 100;
 			initedWisLibSensCor = true;
 		}
 
@@ -1686,6 +1712,9 @@ import classes.Scenes.Combat.CombatAbilities;
 					error += "Ability condition is not a Function. ";
 				}
 			}
+			this.cor -= 100;
+			if (hasPerk(PerkLib.EnemyTrueDemon)) this.cor += (1 + rand(100));
+			if (hasPerk(PerkLib.EnemyTrueAngel)) this.cor -= (1 + rand(100));
 			return error;
 		}
 
@@ -1819,7 +1848,7 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (flags[kFLAGS.ENEMY_CRITICAL] > 0) outputText("<b>Critical hit! </b>");
 				SceneLib.combat.CommasForDigits(damage);
 			}
-			else outputText("<b>([font-miss]" + damage + "</font>)</b>");
+			else outputText("<b>([font-miss]" + damage + "[/font])</b>");
 		}
 
 		/**
@@ -1880,6 +1909,19 @@ import classes.Scenes.Combat.CombatAbilities;
 					outputText(" slow " + weaponVerb + ".\n");
 
 			}
+		}
+
+		/**
+		 * Series of monster immunity
+		 * Default return true (Defeatable)
+		 */
+
+		public function isHPDefeatable():Boolean{
+			return true;
+		}
+
+		public function isLustDefeatable():Boolean{
+			return true;
 		}
 
 		/**
@@ -2068,6 +2110,7 @@ import classes.Scenes.Combat.CombatAbilities;
 				StatusEffects.TelekineticGrab,
 				StatusEffects.Entangled,
 				StatusEffects.Swallowed,
+				StatusEffects.Straddle,
 			]
 			for each (var effect:StatusEffectType in effects) if (hasStatusEffect(effect)) return true;
 			return false;
@@ -2105,9 +2148,16 @@ import classes.Scenes.Combat.CombatAbilities;
 		public function monsterIsBurned():Boolean {
 			var effects:Array = [
 				StatusEffects.BurnDoT,
-				StatusEffects.BurnDoT2,
 				StatusEffects.FirePunchBurnDoT,
 				StatusEffects.ImmolationDoT
+			]
+			for each (var effect:StatusEffectType in effects) if (hasStatusEffect(effect)) return true;
+			return false;
+		}
+
+		public function monsterIsFrostbiten():Boolean {
+			var effects:Array = [
+				StatusEffects.FrostburnDoT
 			]
 			for each (var effect:StatusEffectType in effects) if (hasStatusEffect(effect)) return true;
 			return false;
@@ -2251,7 +2301,7 @@ import classes.Scenes.Combat.CombatAbilities;
 		protected function handleConstricted():Boolean
 		{
 			interruptAbility();
-			if (hasStatusEffect(StatusEffects.Entangled)) {
+			if (hasStatusEffect(StatusEffects.Entangled) || hasStatusEffect(StatusEffects.EntangledByNet) || hasStatusEffect(StatusEffects.EntangledBySpell)) {
 				if (player.hasPerk(PerkLib.ControlFreak)) ControlFreakStacking();
 				return false;
 			}
@@ -2347,7 +2397,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					if (player.hasStatusEffect(StatusEffects.ControlFreak)) removeStatusEffect(StatusEffects.ControlFreak);
 					removeStatusEffect(StatusEffects.ConstrictedScylla);
 				}
-				addStatusValue(StatusEffects.ConstrictedScylla, 1, -1);
+				if (player.perkv1(IMutationsLib.ScyllaInkGlandsIM) < 4) addStatusValue(StatusEffects.ConstrictedScylla, 1, -1);
 				if (player.hasPerk(PerkLib.ControlFreak)) ControlFreakStacking();
 				return false;
 			}
@@ -2399,7 +2449,8 @@ import classes.Scenes.Combat.CombatAbilities;
 				else EngineCore.outputText("[Themonster] struggle but you manage to maintain the grab.");
 				addStatusValue(StatusEffects.GrabBear, 1, -1);
 				return false;
-			} if (hasStatusEffect(StatusEffects.Swallowed)) {
+			}
+			else if (hasStatusEffect(StatusEffects.Swallowed)) {
 				if (statusEffectv1(StatusEffects.Swallowed) <= 0) {
 					EngineCore.outputText("Desperately punching around to get free from the fleshy tentacle hell that is your insides your opponent finally strikes a weak spot forcing you to spit [monster him] out as you contort yourself.");
 					if (player.hasStatusEffect(StatusEffects.ControlFreak)) removeStatusEffect(StatusEffects.ControlFreak);
@@ -2411,7 +2462,12 @@ import classes.Scenes.Combat.CombatAbilities;
 				addStatusValue(StatusEffects.Swallowed, 1, -1);
 				if (player.hasPerk(PerkLib.ControlFreak)) ControlFreakStacking();
 				return false;
-			} else {
+			}
+			else if (hasStatusEffect(StatusEffects.Straddle)) {
+				if (player.hasPerk(PerkLib.ControlFreak)) ControlFreakStacking();
+				return false;
+			}
+			else {
 				EngineCore.outputText("Your prey pushes at your tail, twisting and writhing in an effort to escape from your tail's tight bonds.");
 				if (statusEffectv1(StatusEffects.Constricted) <= 0) {
 					EngineCore.outputText("  [Themonster] proves to be too much for your tail to handle, breaking free of your tightly bound coils.");
@@ -2743,6 +2799,119 @@ import classes.Scenes.Combat.CombatAbilities;
 		}
 
 		/**
+		 * <p>Called during combatStatusesUpdate Bind Statuses Check Section</p>
+		 * <p>Typically used for flavor text output</p>
+		 * <p>Also put in bondage check/text here (flags[kFLAGS.PC_FETISH] >= 2)</p>
+		 */
+		public function combatStatusesUpdateWhenBound():void{
+
+		}
+
+		/**
+		 * <p>Called during internal function struggle()</p>
+		 * @return If false, call enemyAIImpl at the end
+		 */
+		public function playerBoundStruggle():Boolean{
+			return false;
+		}
+
+		/**
+		 * <p>Called during internal function wait()</p>
+		 * @return If false, call enemyAIImpl at the end
+		 */
+		public function playerBoundWait():Boolean{
+			return false;
+		}
+
+		/**
+		 * <p>Patchwork solution for duplicated tentacleBind bondage text</p>
+		 * <p>Make use of extend class if you wanted to recycle code/combat move for new (sub-)monster (see extend Kitsune)</p>
+		 * <p>Used class: ArigeanOmnibusAbomination,TentacleBeast,MindbreakerFemale (StatusEffects.TentacleBind)</p>
+		 * call it during combatStatusesUpdateWhenBound
+		 */
+		protected function tentacleBindUpdateWhenBound():void{
+			outputText("You are firmly trapped in the tentacle's coils.  <b>The only thing you can try to do is struggle free!</b>\n\n");
+			if (flags[kFLAGS.PC_FETISH] >= 2) {
+				outputText("Wrapped tightly in the tentacles, you find it hard to resist becoming more and more aroused...\n\n");
+				player.takeLustDamage(3, true);
+			}
+		}
+
+		/**
+		 * <p>Patchwork solution for duplicated nagaBind bondage text</p>
+		 * <p>Make use of extend class if you wanted to recycle code/combat move for new (sub-)monster (see extend Kitsune)</p>
+		 * <p>Used class: CaiLin,Gorgon,Naga,Draculina,Diva (StatusEffects.NagaBind)</p>
+		 * call it during combatStatusesUpdateWhenBound
+		 */
+		protected function nagaBindUpdateWhenBound():void{
+			if (flags[kFLAGS.PC_FETISH] >= 2) {
+				outputText("Coiled tightly by [themonster] and utterly immobilized, you can't help but become aroused thanks to your bondage fetish.\n\n");
+				player.takeLustDamage(5, true);
+			}
+		}
+
+		/**
+		 * <p>Patchwork solution for duplicated struggle</p>
+		 * <p>Make use of extend class if you wanted to recycle code/combat move for new (sub-)monster (see extend Kitsune)</p>
+		 * <p>Used class: ArigeanOmnibusAbomination,TentacleBeast,MindbreakerFemale (StatusEffects.TentacleBind)</p>
+		 * @return result for playerBoundStruggle (If false, call enemyAIImpl at the end)
+		 */
+		protected function tentacleBindStruggle():Boolean{
+			clearOutput();
+			outputText("You struggle with all of your might to free yourself from the tentacles before the creature can fulfill whatever unholy desire it has for you.\n");
+			//33% chance to break free + up to 50% chance for strength
+			if (rand(3) == 0 || rand(80) < player.str / 2 || player.hasPerk(PerkLib.FluidBody)) {
+				outputText("As the creature attempts to adjust your position in its grip, you free one of your [legs] and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
+				player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+				createStatusEffect(StatusEffects.TentacleCoolDown, 3, 0, 0, 0);
+			}
+			//Fail to break free
+			else {
+				outputText("Despite trying to escape, the creature only tightens its grip, making it difficult to breathe.\n\n");
+				player.takePhysDamage(5);
+				if (player.cocks.length > 0)
+					outputText("The creature continues spiraling around your cock, sending shivers up and down your body. You must escape or this creature will overwhelm you!");
+				else if (player.hasVagina())
+					outputText("The creature continues sucking your clit and now has latched two more suckers on your nipples, amplifying your growing lust. You must escape or you will become a mere toy to this thing!");
+				else outputText("The creature continues probing at your asshole and has now latched " + num2Text(player.totalNipples()) + " more suckers onto your nipples, amplifying your growing lust.  You must escape or you will become a mere toy to this thing!");
+				player.takeLustDamage((3 + player.effectiveSensitivity() / 10 + player.lib / 20), true);
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * <p>Patchwork solution for duplicated wait</p>
+		 * <p>Make use of extend class if you wanted to recycle code/combat move for new (sub-)monster (see extend Kitsune)</p>
+		 * <p>Used class: ArigeanOmnibusAbomination,TentacleBeast,MindbreakerFemale (StatusEffects.TentacleBind)</p>
+		 * @return result for playerBoundWait (If false, call enemyAIImpl at the end)
+		 */
+		protected function tentacleBindWait():Boolean{
+			clearOutput();
+			if (player.cocks.length > 0)
+				outputText("The creature continues spiraling around your cock, sending shivers up and down your body. You must escape or this creature will overwhelm you!");
+			else if (player.hasVagina())
+				outputText("The creature continues sucking your clit and now has latched two more suckers on your nipples, amplifying your growing lust. You must escape or you will become a mere toy to this thing!");
+			else outputText("The creature continues probing at your asshole and has now latched " + num2Text(player.totalNipples()) + " more suckers onto your nipples, amplifying your growing lust.  You must escape or you will become a mere toy to this thing!");
+			player.takeLustDamage((8 + player.effectiveSensitivity() / 10), true);
+			return true;
+		}
+
+		/**
+		 * <p>Patchwork solution for duplicated wait</p>
+		 * <p>Make use of extend class if you wanted to recycle code/combat move for new (sub-)monster (see extend Kitsune)</p>
+		 * <p>Used class: Gorgon,Naga,Draculina (StatusEffects.NagaBind)</p>
+		 * @return result for playerBoundWait (If false, call enemyAIImpl at the end)
+		 */
+		protected function nagaBindWait():Boolean{
+			clearOutput();
+			outputText("The [monster name]'s grip on you tightens as you relax into the stimulating pressure.");
+			player.takeLustDamage(player.effectiveSensitivity() / 5 + 5, true);
+			player.takePhysDamage(5 + rand(5));
+			return true;
+		}
+
+		/**
 		 * <p>Combat.doDamage() Override Series - Part 1 (Ongoing maybe)</p>
 		 * <ul>
 		 *     <li>Called right before monster HP getting deducted</li>
@@ -2894,6 +3063,21 @@ import classes.Scenes.Combat.CombatAbilities;
 		 *     <li>Default: original damage number</li>
 		 * </ul>
 		 */
+		public function doPsychicDamageBefore(damage:Number):Number{
+			return damage;
+		}
+
+		/**
+		 * <p>Combat.doAI() Override Series - Part 1 (Ongoing maybe)</p>
+		 * <ul>
+		 *     <li>Called right before monster HP getting deducted</li>
+		 *     <li>Used to handle status effect that cancel doAI()</li>
+		 *     <li>Currently handle OrcaPlay/Straddle/Provoke/OrcaHasWackedFinish</li>
+		 *     <li>PS: Please update line above if you add another custom disable doAI statusEffects for some reason</li>
+		 *     <li>return true to handle Status Effects (doAI() continue)</li>
+		 *     <li>Default: false (doAI() interrupted)</li>
+		 * </ul>
+		 */
 		public function doTrueDamageBefore(damage:Number):Number{
 			return damage;
 		}
@@ -2993,12 +3177,21 @@ import classes.Scenes.Combat.CombatAbilities;
 			}
 			game.inCombat = false;
             game.player.clearStatuses(false);
-            var temp:Number = rand(10) + 1;
-			if(temp > player.gems) temp = player.gems;
-			outputText("\n\nYou'll probably wake up in six hours or so, missing " + temp + " gems.");
-			player.gems -= temp;
-			SceneLib.explorationEngine.stopExploring();
-			EngineCore.doNext(SceneLib.camp.returnToCampUseSixHours);
+			if (!player.hasCock() && !player.hasStatusEffect(StatusEffects.MeetXuviel) && player.necklace != necklaces.SILCNEC) {
+				outputText("\n\nYou'll probably wake up in six hours or so. Strangely, you discover a necklace you don’t recall putting on before around your neck. It is a simple chain with a silver cross.");
+				player.createStatusEffect(StatusEffects.MeetXuviel, 0, 0, 0, 0);
+				SceneLib.explorationEngine.stopExploring();
+				SceneLib.inventory.takeItem(player.unequipNecklace(), SceneLib.camp.returnToCampUseSixHours);
+				player.setNecklace(necklaces.SILCNEC);
+			}
+			else {
+				var temp:Number = rand(10) + 1;
+				if(temp > player.gems) temp = player.gems;
+				outputText("\n\nYou'll probably wake up in six hours or so, missing " + temp + " gems.");
+				player.gems -= temp;
+				SceneLib.explorationEngine.stopExploring();
+				EngineCore.doNext(SceneLib.camp.returnToCampUseSixHours);
+			}
 		}
 
 		/**
@@ -3038,7 +3231,7 @@ import classes.Scenes.Combat.CombatAbilities;
 		 * @param isNotSilent (Boolean) - Choose whether the default monster tease reaction text should be printed
 		 * @param display (Boolean) - Choose whether the tease damage number should be displayed
 		 */
-		public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true):void
+		public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			if(isNotSilent)
 			{
@@ -3056,7 +3249,12 @@ import classes.Scenes.Combat.CombatAbilities;
 				}
 			}
 			if (hasStatusEffect(StatusEffects.BerzerkingSiegweird)) lustDelta *= 0.5;
-			applyTease(lustDelta, display);
+			if (player.isGoblinoid() && player.perkv1(IMutationsLib.GoblinOvariesIM) >= 3 && hasCock()) {
+				var lustMDM:Number = 1.25;
+				if (player.perkv1(IMutationsLib.GoblinOvariesIM) >= 4) lustMDM += 0.25;
+				lustDelta *= lustMDM;
+			}
+			applyTease(lustDelta, display, aura);
 		}
 
 		protected function outputDefaultTeaseReaction(lustDelta:Number):void
@@ -3091,12 +3289,13 @@ import classes.Scenes.Combat.CombatAbilities;
 			}
 		}
 
-		protected function applyTease(lustDelta:Number, display:Boolean = true):void{
+		protected function applyTease(lustDelta:Number, display:Boolean = true, aura:Boolean = false):void{
 			if (damageReductionBasedOnDifficulty() > 1) lustDelta *= (1 / damageReductionBasedOnDifficulty());
+			if (aura && (lustDelta > (maxLust() * 0.1))) lustDelta = maxLust() * 0.1;
 			lustDelta *= SceneLib.combat.doDamageReduction();
 			lustDelta = Math.round(lustDelta);
 			lust += lustDelta;
-			if (display) SceneLib.combat.CommasForDigits(lustDelta, true);//outputText(" <b>([font-lust]" + Utils.formatNumber(lustDelta) + "</font>)</b>");
+			if (display) SceneLib.combat.CommasForDigits(lustDelta, true);//outputText(" <b>([font-lust]" + Utils.formatNumber(lustDelta) + "[/font])</b>");
 			if (player.armor == armors.ELFDRES && player.isElf() && flags[kFLAGS.COMBAT_TEASE_HEALING] == 0 && lustDelta >= 1) {
 				if (display) outputText(" You cool down a little bit ");
 				player.takeLustDamage(Math.round(-(player.maxLust() * 0.01)), display, true);
@@ -3214,9 +3413,10 @@ import classes.Scenes.Combat.CombatAbilities;
 		public function dropLoot():ItemType
 		{
 			//Chance of armor if at level 1 pierce fetish
-			if (!CoC.instance.plotFight && !this.noFetishDrop && flags[kFLAGS.PC_FETISH] == 1 && !hasPerk(PerkLib.NoItemsGained) && rand(10) == 0 && !player.hasItem(armors.SEDUCTA, 1) && !SceneLib.ceraphFollowerScene.ceraphIsFollower()) {
+			if (!CoC.instance.plotFight && !this.noFetishDrop && flags[kFLAGS.PC_FETISH] == 1 && !hasPerk(PerkLib.NoItemsGained) && rand(10) == 0 && !player.hasItem(armors.SEDUCTA, 1) && !SceneLib.ceraphFollowerScene.ceraphIsFollower() && !player.hasStatusEffect(StatusEffects.CeraphOff)) {
 				return armors.SEDUCTA;
 			}
+			if (!game.plotFight && rand(50) == 0 && !hasPerk(PerkLib.NoItemsGained) && hasPerk(PerkLib.EnemyTrueDemon)) return headjewelries.GHORNAM;
 			if (!game.plotFight && rand(200) == 0 && !hasPerk(PerkLib.NoItemsGained) && player.level >= 7) return consumables.BROBREW;
 			if (!game.plotFight && rand(200) == 0 && !hasPerk(PerkLib.NoItemsGained) && player.level >= 7) return consumables.BIMBOLQ;
 			if (!game.plotFight && rand(1000) == 0 && !hasPerk(PerkLib.NoItemsGained) && player.level >= 7) return consumables.RAINDYE;
@@ -3261,10 +3461,10 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (this.soulforce > maxOverSoulforce()) this.soulforce = maxOverSoulforce();
 			if (this.mana > maxOverMana()) this.mana = maxMana();
 			//health, soulforce and mana regeneration for monsters
-			if (((hasPerk(PerkLib.Regeneration) || hasPerk(PerkLib.LizanRegeneration) || perkv1(IMutationsLib.LizanMarrowIM) >= 1 || perkv1(IMutationsLib.DraconicHeartIM) >= 3 || perkv1(IMutationsLib.FerasBirthrightIM) >= 1 || hasPerk(PerkLib.EnemyPlantType) || hasPerk(PerkLib.FleshBodyApprenticeStage)
-			|| hasPerk(PerkLib.MonsterRegeneration) || hasPerk(PerkLib.HydraRegeneration) || hasPerk(PerkLib.Lifeline) || hasPerk(PerkLib.ImprovedLifeline) || hasPerk(PerkLib.GreaterLifeline) || hasPerk(PerkLib.EpicLifeline) || hasPerk(PerkLib.IcyFlesh) || hasPerk(PerkLib.HclassHeavenTribulationSurvivor)
-			|| hasPerk(PerkLib.GclassHeavenTribulationSurvivor) || hasPerk(PerkLib.FclassHeavenTribulationSurvivor) || hasPerk(PerkLib.FFclassHeavenTribulationSurvivor) || hasPerk(PerkLib.EclassHeavenTribulationSurvivor) || hasStatusEffect(StatusEffects.MonsterRegen) || hasStatusEffect(StatusEffects.MonsterRegen2)
-			|| hasPerk(PerkLib.EnemyTrueAngel) || hasPerk(PerkLib.EnemyTrueDemon)) && this.HP < maxOverHP()) || (hasStatusEffect(StatusEffects.MonsterVPT) && (this.HP < maxOverHP()) && (this.HP > minHP()))) {
+			if (((hasPerk(PerkLib.Regeneration) || hasPerk(PerkLib.LizanRegeneration) || perkv1(IMutationsLib.LizanMarrowIM) >= 1 || perkv1(IMutationsLib.DrakeHeartIM) >= 3 || perkv1(IMutationsLib.DrakeBloodIM) >= 1 || perkv1(IMutationsLib.FerasBirthrightIM) >= 1 || perkv1(IMutationsLib.HydraBloodIM) >= 1 || hasPerk(PerkLib.EnemyPlantType)
+			|| hasPerk(PerkLib.FleshBodyApprenticeStage) || hasPerk(PerkLib.MonsterRegeneration) || hasPerk(PerkLib.HydraRegeneration) || hasPerk(PerkLib.TrollRegeneration) || hasPerk(PerkLib.Lifeline) || hasPerk(PerkLib.ImprovedLifeline) || hasPerk(PerkLib.GreaterLifeline) || hasPerk(PerkLib.EpicLifeline) || hasPerk(PerkLib.IcyFlesh)
+			|| hasPerk(PerkLib.HclassHeavenTribulationSurvivor) || hasPerk(PerkLib.GclassHeavenTribulationSurvivor) || hasPerk(PerkLib.FclassHeavenTribulationSurvivor) || hasPerk(PerkLib.FFclassHeavenTribulationSurvivor) || hasPerk(PerkLib.EclassHeavenTribulationSurvivor) || hasStatusEffect(StatusEffects.MonsterRegen)
+			|| hasStatusEffect(StatusEffects.MonsterRegen2) || hasPerk(PerkLib.EnemyTrueAngel) || hasPerk(PerkLib.EnemyTrueDemon)) && this.HP < maxOverHP()) || (hasStatusEffect(StatusEffects.MonsterVPT) && (this.HP < maxOverHP()) && (this.HP > minHP()))) {
 				var healingPercent:Number = 0;
 				var temp2:Number = 0;
 				var temp3:Number = 0;
@@ -3279,7 +3479,8 @@ import classes.Scenes.Combat.CombatAbilities;
 					if (this.HP < (this.maxHP() * 0.6)) healingPercent += 2;
 					if (this.HP < (this.maxHP() * 0.2)) healingPercent += 2;
 				}
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 3) healingPercent += 1;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 3) healingPercent += 1;
+				if (perkv1(IMutationsLib.DrakeBloodIM) >= 1) healingPercent += perkv1(IMutationsLib.DrakeBloodIM);
 				if (perkv1(IMutationsLib.FerasBirthrightIM) >= 1 && !hasStatusEffect(StatusEffects.WereraceRegenerationDisabled) && !hasStatusEffect(StatusEffects.RegenInhibitorPetrify)) {
 					var br:Number = 0.5;
 					var mp:Number = 2;
@@ -3293,7 +3494,11 @@ import classes.Scenes.Combat.CombatAbilities;
 					if (perkv1(IMutationsLib.FerasBirthrightIM) >= 3) healingPercent += 2;
 					healingPercent += 2;
 				}
-				if (hasPerk(PerkLib.HydraRegeneration) && !hasStatusEffect(StatusEffects.HydraRegenerationDisabled) && !hasStatusEffect(StatusEffects.RegenInhibitorPetrify)) healingPercent += 1 * perkv1(PerkLib.HydraRegeneration);
+				if ((hasPerk(PerkLib.HydraRegeneration) || perkv1(IMutationsLib.HydraBloodIM) >= 1) && !hasStatusEffect(StatusEffects.HydraRegenerationDisabled) && !hasStatusEffect(StatusEffects.RegenInhibitorPetrify)) {
+					if (hasPerk(PerkLib.HydraRegeneration)) healingPercent += 1 * perkv1(PerkLib.HydraRegeneration);
+					if (perkv1(IMutationsLib.HydraBloodIM) >= 1) healingPercent += 1 * perkv1(IMutationsLib.HydraBloodIM);
+				}
+				if (hasPerk(PerkLib.TrollRegeneration) && !hasStatusEffect(StatusEffects.TrollRegenerationDisabled) && !hasStatusEffect(StatusEffects.RegenInhibitorPetrify)) healingPercent += 6;
 				if (hasPerk(PerkLib.IcyFlesh)) healingPercent += 1;
 				if (hasPerk(PerkLib.FleshBodyApprenticeStage)) healingPercent += 0.5;
 				if (hasPerk(PerkLib.FleshBodyWarriorStage)) healingPercent += 0.5;
@@ -3325,14 +3530,12 @@ import classes.Scenes.Combat.CombatAbilities;
 					healingPercent += 20;
 					if (perkv1(IMutationsLib.FerasBirthrightIM) >= 4) healingPercent += 10;
 				}
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 1) temp3 += 0.05;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 2) temp3 += 0.15;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 3) temp3 += 0.25;
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 4) temp3 += 0.55;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 1) temp3 += 0.05;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp3 += 0.12;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 3) temp3 += 0.2;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 4) temp3 += 0.3;
+				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 5) temp3 += 0.43;
+				if (flags[kFLAGS.SECONDARY_STATS_SCALING] >= 6) temp3 += 0.6;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 1) temp3 += 0.1;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 2) temp3 += 0.2;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 3) temp3 += 0.3;
@@ -3340,6 +3543,7 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 5) temp3 += 0.5;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 6) temp3 += 0.6;
 				if (temp3 > 0) healingPercent *= temp3;
+				if (hasPerk(PerkLib.EnemyTrueDemon)) healingPercent *= 2;
 				temp2 = Math.round(maxHP() * healingPercent / 100);
 				if (hasPerk(PerkLib.Lifeline)) temp2 += (45 * (1 + newGamePlusMod()));
 				if (hasPerk(PerkLib.ImprovedLifeline)) temp2 += (60 * (1 + newGamePlusMod()));
@@ -3350,7 +3554,7 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (temp2 > 0) {
 					temp2 = Math.round(temp2);
 					if (this is ChiChi && (flags[kFLAGS.CHI_CHI_SAM_TRAINING] < 2 || hasStatusEffect(StatusEffects.MonsterRegen))) {
-						outputText("To your surprise, Chi Chi’s wounds start closing! <b>([font-heal]+" + temp2 + "</font>)</b>.\n\n");
+						outputText("To your surprise, Chi Chi’s wounds start closing! <b>([font-heal]+" + temp2 + "[/font])</b>.\n\n");
 					}
 					else {
 						outputText("Due to natural regeneration " + short + " recover");
@@ -3384,9 +3588,10 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (hasPerk(PerkLib.DaoistWarriorStage)) soulforceRecovery += Math.round(maxSoulforce() * 0.005);
 				if (hasPerk(PerkLib.DaoistElderStage)) soulforceRecovery += Math.round(maxSoulforce() * 0.005);
 				if (hasPerk(PerkLib.DaoistOverlordStage)) soulforceRecovery += Math.round(maxSoulforce() * 0.005);
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 1) soulforceRecovery += 4;
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 2) soulforceRecovery += 4;
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 3) soulforceRecovery += 4;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 1) soulforceRecovery += 4;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 2) soulforceRecovery += 4;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 3) soulforceRecovery += 4;
+				if (perkv1(IMutationsLib.DrakeBloodIM) >= 1) soulforceRecovery += Math.round(maxSoulforce() * 0.01 * perkv1(IMutationsLib.DrakeBloodIM));
 				if (perkv1(IMutationsLib.WhiteFacedOneBirthrightIM) >= 1) soulforceRecovery += Math.round(maxSoulforce() * 0.0025 * this.tailCount);
 				if (perkv1(IMutationsLib.WhiteFacedOneBirthrightIM) >= 2) soulforceRecovery += Math.round(maxSoulforce() * 0.0025 * this.tailCount);
 				if (perkv1(IMutationsLib.WhiteFacedOneBirthrightIM) >= 3) soulforceRecovery += Math.round(maxSoulforce() * 0.0025 * this.tailCount);
@@ -3404,9 +3609,10 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (hasPerk(PerkLib.ArcaneRegenerationEpic)) manaRecovery += 30;
 				if (hasPerk(PerkLib.ArcaneRegenerationLegendary)) manaRecovery += 40;
 				if (hasPerk(PerkLib.ArcaneRegenerationMythical)) manaRecovery += 50;
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 1) manaRecovery += 5;
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 2) manaRecovery += 5;
-				if (perkv1(IMutationsLib.DraconicHeartIM) >= 3) manaRecovery += 5;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 1) manaRecovery += 5;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 2) manaRecovery += 5;
+				if (perkv1(IMutationsLib.DrakeHeartIM) >= 3) manaRecovery += 5;
+				if (perkv1(IMutationsLib.DrakeBloodIM) >= 1) manaRecovery += Math.round(maxMana() * 0.01 * perkv1(IMutationsLib.DrakeBloodIM));
 				if (hasPerk(PerkLib.GreyMageApprentice)) manaRecoveryMulti += 0.25;
 				if (hasPerk(PerkLib.GreyMage)) manaRecoveryMulti += 0.5;
 				if (hasPerk(PerkLib.GreyArchmage)) manaRecoveryMulti += 0.75;
@@ -3890,13 +4096,13 @@ import classes.Scenes.Combat.CombatAbilities;
 					createStatusEffect(StatusEffects.SandWormAcid, 1, 0, 0, 0);
 				addStatusValue(StatusEffects.SandWormAcid, 1, 1);
 			}
-			if(hasStatusEffect(StatusEffects.PCTailTangle)) {
+			if(player.hasStatusEffect(StatusEffects.KitsuneTailTangle)) {
 				//when Entwined
 				outputText("You are bound tightly in the kitsune's tails.  <b>The only thing you can do is try to struggle free!</b>\n\n");
 				outputText("Stimulated by the coils of fur, you find yourself growing more and more aroused...\n\n");
 				player.takeLustDamage(5+player.effectiveSensitivity()/10, true);
 			}
-			if(hasStatusEffect(StatusEffects.QueenBind)) {
+			if(player.hasStatusEffect(StatusEffects.QueenBind)) {
 				outputText("You're utterly restrained by the Harpy Queen's magical ropes!\n\n");
 				if(flags[kFLAGS.PC_FETISH] >= 2) player.dynStats("lus", 3);
 			}
@@ -3922,7 +4128,7 @@ import classes.Scenes.Combat.CombatAbilities;
 						if(temp == 3) outputText("She winks at you and licks her lips, and you can't help but imagine her tongue sliding all over your body.  You regain composure moments before throwing yourself at her.  That was close. ");
 					}
 				}
-				if (this is Alraune || this is Marae) {
+				if (this is Alraune || this is LadyRafflesia || this is Marae) {
 					if(player.lust < (player.maxLust() * 0.33)) outputText("The pollen in the air gradually increase your arousal. ");
 					if(player.lust >= (player.maxLust() * 0.33) && player.lust < (player.maxLust() * 0.66)) outputText("The pollen in the air is getting to you. ");
 					if(player.lust >= (player.maxLust() * 0.66)) outputText("You flush bright red with desire as the lust in the air worms its way inside you. ");
@@ -3972,6 +4178,26 @@ import classes.Scenes.Combat.CombatAbilities;
 					outputText("\n\n");
 				}
 			}
+			//Fire Punch Burn DoT
+			if (hasStatusEffect(StatusEffects.FirePunchBurnDoT)) {
+				//Countdown to heal
+				addStatusValue(StatusEffects.FirePunchBurnDoT,1,-1);
+				//Heal wounds
+				if(statusEffectv1(StatusEffects.FirePunchBurnDoT) <= 0) {
+					outputText("Flames left by Fire Punch on [themonster] finally stop burning.\n\n");
+					removeStatusEffect(StatusEffects.FirePunchBurnDoT);
+				}
+				//Deal damage if still wounded.
+				else {
+					var store6:Number = (player.spe + player.inte) * SceneLib.combat.soulskillMod() * 0.5;
+					if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store6 *= 1.2;
+					store6 = Math.round(store6 * SceneLib.combat.fireDamageBoostedByDao());
+					if(plural) outputText("[Themonster] burn from lingering Fire Punch after-effect. ");
+					else outputText("[Themonster] burns from lingering Fire Punch after-effect. ");
+					store6 = SceneLib.combat.doFireDamage(store6, true, true);
+					outputText("\n\n");
+				}
+			}
 			//Formic Acid DoT
 			if (hasStatusEffect(StatusEffects.AntAcid)) {
 				//Countdown to heal
@@ -3985,7 +4211,8 @@ import classes.Scenes.Combat.CombatAbilities;
 				else {
 					var store15:Number = (player.str + player.tou) * 2.5;
 					if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store15 *= 1.2;
-					if (player.racialScore(Races.ANT) <= 4) store15 *= 0.75
+					if (player.racialScore(Races.ANT) <= 4) store15 *= 0.75;
+					if (player.perkv1(IMutationsLib.HydraBloodIM) >= 2) store15 *= (1 + (0.25 * player.perkv1(IMutationsLib.HydraBloodIM)));
 					store15 = Math.round(store15 * SceneLib.combat.poisonDamageBoostedByDao());
 					store15 += maxHP() * statusEffectv2(StatusEffects.AntAcid);
 					store15 = SceneLib.combat.fixPercentDamage(store15);
@@ -4009,51 +4236,10 @@ import classes.Scenes.Combat.CombatAbilities;
 					outputText("Your lewd dissolving acid causes [themonster] to flush hotly with arousal.");
 					var store18:Number = (player.str + player.spe + player.tou) * 0.5;
 					if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store18 *= 1.2;
+					if (player.perkv1(IMutationsLib.HydraBloodIM) >= 2) store18 *= (1 + (0.25 * player.perkv1(IMutationsLib.HydraBloodIM)));
 					store18 = SceneLib.combat.fixPercentDamage(store18);
 					store18 = SceneLib.combat.doAcidDamage(store18, true, true);
 					if (!lustVuln <= 0) teased(SceneLib.combat.teases.teaseBaseLustDamage()  * lustVuln);
-					outputText("\n\n");
-				}
-			}
-			//Burn DoT
-			if (hasStatusEffect(StatusEffects.BurnDoT2)) {
-				//Countdown to heal
-				addStatusValue(StatusEffects.BurnDoT2,1,-1);
-				//Heal wounds
-				if(statusEffectv1(StatusEffects.BurnDoT2) <= 0) {
-					outputText("Flames left by Burn on [themonster] finally stop burning.\n\n");
-					removeStatusEffect(StatusEffects.BurnDoT2);
-				}
-				//Deal damage if still wounded.
-				else {
-					var store8:Number = (player.str + player.spe + player.tou) * 2.5;
-					if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store8 *= 1.2;
-					store8 = Math.round(store8 * SceneLib.combat.fireDamageBoostedByDao());
-					store8 += maxHP() * statusEffectv2(StatusEffects.BurnDoT2);
-					store8 = SceneLib.combat.fixPercentDamage(store8);
-					if(plural) outputText("[Themonster] burn from lingering Burn after-effect. ");
-					else outputText("[Themonster] burns from lingering Burn after-effect. ");
-					store8 = SceneLib.combat.doFireDamage(store8, true, true);
-					outputText("\n\n");
-				}
-			}
-			//Fire Punch Burn DoT
-			if (hasStatusEffect(StatusEffects.FirePunchBurnDoT)) {
-				//Countdown to heal
-				addStatusValue(StatusEffects.FirePunchBurnDoT,1,-1);
-				//Heal wounds
-				if(statusEffectv1(StatusEffects.FirePunchBurnDoT) <= 0) {
-					outputText("Flames left by Fire Punch on [themonster] finally stop burning.\n\n");
-					removeStatusEffect(StatusEffects.FirePunchBurnDoT);
-				}
-				//Deal damage if still wounded.
-				else {
-					var store6:Number = (player.spe + player.inte) * SceneLib.combat.soulskillMod() * 0.5;
-					if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store6 *= 1.2;
-					store6 = Math.round(store6 * SceneLib.combat.fireDamageBoostedByDao());
-					if(plural) outputText("[Themonster] burn from lingering Fire Punch after-effect. ");
-					else outputText("[Themonster] burns from lingering Fire Punch after-effect. ");
-					store6 = SceneLib.combat.doFireDamage(store6, true, true);
 					outputText("\n\n");
 				}
 			}
@@ -4073,8 +4259,18 @@ import classes.Scenes.Combat.CombatAbilities;
 				addStatusValue(StatusEffects.HydraRegenerationDisabled,1,-1);
 				//Heal wounds
 				if (statusEffectv1(StatusEffects.HydraRegenerationDisabled) <= 0) {
-					if (this is Hydra) outputText("[Themonster] sighs in relief as " + pronoun3 + " wounds resume regenerating!\n\n");
+					outputText("[Themonster] sighs in relief as " + pronoun3 + " wounds resume regenerating!\n\n");
 					removeStatusEffect(StatusEffects.HydraRegenerationDisabled);
+				}
+			}
+			//Regen Inhibitor Troll
+			if (hasStatusEffect(StatusEffects.TrollRegenerationDisabled)) {
+				//Countdown to heal
+				addStatusValue(StatusEffects.TrollRegenerationDisabled,1,-1);
+				//Heal wounds
+				if (statusEffectv1(StatusEffects.TrollRegenerationDisabled) <= 0) {
+					outputText("[Themonster] sighs in relief as " + pronoun3 + " wounds resume regenerating!\n\n");
+					removeStatusEffect(StatusEffects.TrollRegenerationDisabled);
 				}
 			}
 			//Recovery Inhibitor (Petrify)
@@ -4092,7 +4288,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					if (statusEffectv1(StatusEffects.FrostburnDoT) > 1) addStatusValue(StatusEffects.FrostburnDoT, 1, -1);
 					//Heal wounds
 					if (statusEffectv1(StatusEffects.FrostburnDoT) <= 0) {
-						outputText("The lingering frostbite on [themonster] finally fades away.\n\n");
+						outputText("The lingering frostburn on [themonster] finally fades away.\n\n");
 						removeStatusEffect(StatusEffects.FrostburnDoT);
 					}
 					//Deal damage if still wounded.
@@ -4102,8 +4298,8 @@ import classes.Scenes.Combat.CombatAbilities;
 						store12 = Math.round(store12 * SceneLib.combat.iceDamageBoostedByDao());
 						store12 += maxHP() * statusEffectv2(StatusEffects.FrostburnDoT);
 						store12 = SceneLib.combat.fixPercentDamage(store12);
-						if(plural) outputText("[Themonster] are hurt by the lingering frostbite. ");
-						else outputText("[Themonster] is hurt by the lingering frostbite. ");
+						if(plural) outputText("[Themonster] are hurt by the lingering frostburn. ");
+						else outputText("[Themonster] is hurt by the lingering frostburn. ");
 						store12 = SceneLib.combat.doIceDamage(store12, true, true);
 						outputText("\n\n");
 					}
@@ -4124,6 +4320,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					else {
 						var store7:Number = (player.str + player.spe + player.tou) * 2.5;
 						if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store7 *= 1.2;
+						if (player.perkv1(IMutationsLib.HydraBloodIM) >= 2) store7 *= (1 + (0.25 * player.perkv1(IMutationsLib.HydraBloodIM)));
 						store7 += maxHP() * statusEffectv2(StatusEffects.AcidDoT);
 						store7 = SceneLib.combat.fixPercentDamage(store7);
 						if(plural) outputText("[Themonster] are hurt by lingering Acid after-effect. ");
@@ -4148,6 +4345,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					else {
 						var store10:Number = (player.str + player.spe + player.tou) * 2.5;
 						if (game.player.hasPerk(PerkLib.KingOfTheJungle)) store10 *= 1.2;
+						if (player.perkv1(IMutationsLib.HydraBloodIM) >= 2) store10 *= (1 + (0.25 * player.perkv1(IMutationsLib.HydraBloodIM)));
 						store10 += maxHP() * statusEffectv2(StatusEffects.PoisonDoT);
 						store10 = SceneLib.combat.fixPercentDamage(store10);
 						if(plural) outputText("[Themonster] are hurt by lingering Poison after-effect. ");
@@ -4179,6 +4377,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					}
 				}
 			}
+			var touDmg:Number = 0;
 			//Lust Dot
 			if (hasStatusEffect(StatusEffects.LustDoT)) {
 				//Countdown to heal
@@ -4194,12 +4393,16 @@ import classes.Scenes.Combat.CombatAbilities;
 					else {
 						var lustDmg1:Number = player.lib / 10;
 						if (game.player.hasPerk(PerkLib.KingOfTheJungle)) lustDmg1 *= 1.2;
+						if (player.perkv1(IMutationsLib.HydraBloodIM) >= 2) lustDmg1 *= (1 + (0.25 * player.perkv1(IMutationsLib.HydraBloodIM)));
 						lustDmg1 += maxLust() * statusEffectv2(StatusEffects.LustDoT);
 						lustDmg1 = Math.round(lustDmg1);
 						if(plural) outputText("[Themonster] are aroused by lingering lust-induncing after-effect. ");
 						else outputText("[Themonster] is aroused by lingering lust-induncing after-effect. ");
 						teased(lustDmg1, false);
 						outputText("\n\n");
+						if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 2) touDmg = (tou * 0.01 * (player.perkv1(IMutationsLib.PoisonGlandIM) - 1));
+						statStore.addBuffObject({tou:-touDmg}, "Poison",{text:"Poison"});
+						if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 4) teased(SceneLib.combat.teases.teaseBaseLustDamage() * lustVuln, false);
 					}
 				}
 			}
@@ -4253,55 +4456,68 @@ import classes.Scenes.Combat.CombatAbilities;
 			var damage1B:Number = 0;
 			//Snake Venom
         	if (hasStatusEffect(StatusEffects.NagaVenom)) {
-				statStore.addBuffObject({str:-statusEffectv1(StatusEffects.NagaVenom), spe:-statusEffectv1(StatusEffects.NagaVenom)}, "Poison",{text:"Poison"});
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 2) touDmg += (tou * 0.01 * (player.perkv1(IMutationsLib.PoisonGlandIM) - 1));
+				statStore.addBuffObject({str:-statusEffectv1(StatusEffects.NagaVenom), spe:-statusEffectv1(StatusEffects.NagaVenom), tou:-touDmg}, "Poison",{text:"Poison"});
 				if (statusEffectv3(StatusEffects.NagaVenom) >= 1) venomLustDmg += statusEffectv3(StatusEffects.NagaVenom);
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 4) teased(SceneLib.combat.teases.teaseBaseLustDamage() * lustVuln, false);
 			}
 			//Apophis Venom
         	if (hasStatusEffect(StatusEffects.ApophisVenom)) {
 				damage1B = SceneLib.combat.teases.teaseBaseLustDamage();
+				touDmg = statusEffectv1(StatusEffects.ApophisVenom) * 2;
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 2) touDmg += (tou * 0.01 * (player.perkv1(IMutationsLib.PoisonGlandIM) - 1));
 				if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) {
 					damage1B *= 2;
 				}
 				venomLustDmg += damage1B;
 				SceneLib.combat.teaseXP(1 + SceneLib.combat.bonusExpAfterSuccesfullTease());
-				statStore.addBuffObject({str:-statusEffectv1(StatusEffects.ApophisVenom)*2, spe:-statusEffectv1(StatusEffects.ApophisVenom)*2, tou:-statusEffectv1(StatusEffects.ApophisVenom)*2}, "Poison",{text:"Poison"});
+				statStore.addBuffObject({str:-statusEffectv1(StatusEffects.ApophisVenom)*2, spe:-statusEffectv1(StatusEffects.ApophisVenom)*2, tou:-touDmg}, "Poison",{text:"Poison"});
 				if (statusEffectv3(StatusEffects.ApophisVenom) >= 1) venomLustDmg += statusEffectv3(StatusEffects.ApophisVenom);
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 4) teased(SceneLib.combat.teases.teaseBaseLustDamage() * lustVuln, false);
 			}
 			//Bee Venom
         	if (hasStatusEffect(StatusEffects.BeeVenom)) {
 				damage1B = SceneLib.combat.teases.teaseBaseLustDamage();
+				touDmg = statusEffectv1(StatusEffects.BeeVenom) * 2;
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 2) touDmg += (tou * 0.01 * (player.perkv1(IMutationsLib.PoisonGlandIM) - 1));
 				if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) {
 					damage1B *= 2;
 				}
 				venomLustDmg += damage1B;
 				SceneLib.combat.teaseXP(1 + SceneLib.combat.bonusExpAfterSuccesfullTease());
 				if (lustVuln != 0) lustVuln += 0.05;
-				statStore.addBuffObject({tou:-statusEffectv1(StatusEffects.ManticoreVenom)*2}, "Poison",{text:"Poison"});
-
+				statStore.addBuffObject({tou:-touDmg}, "Poison",{text:"Poison"});
 				if (statusEffectv3(StatusEffects.BeeVenom) >= 1) venomLustDmg += statusEffectv3(StatusEffects.BeeVenom);
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 4) teased(SceneLib.combat.teases.teaseBaseLustDamage() * lustVuln, false);
 			}
 			//Jabberwocky Poison Breath
         	if (hasStatusEffect(StatusEffects.JabberwockyVenom)) {
-				 damage1B = SceneLib.combat.teases.teaseBaseLustDamage();
+				damage1B = SceneLib.combat.teases.teaseBaseLustDamage();
+				touDmg = statusEffectv1(StatusEffects.JabberwockyVenom) * 2;
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 2) touDmg += (tou * 0.01 * (player.perkv1(IMutationsLib.PoisonGlandIM) - 1));
 				if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) {
 					damage1B *= 2;
 				}
 				venomLustDmg += damage1B;
 				SceneLib.combat.teaseXP(1 + SceneLib.combat.bonusExpAfterSuccesfullTease());
 				if (lustVuln != 0) lustVuln += 0.05;
-				statStore.addBuffObject({tou:-statusEffectv1(StatusEffects.JabberwockyVenom)*2}, "Poison",{text:"Poison"});
+				statStore.addBuffObject({tou:-touDmg}, "Poison",{text:"Poison"});
 				if (statusEffectv3(StatusEffects.JabberwockyVenom) >= 1) venomLustDmg += statusEffectv3(StatusEffects.JabberwockyVenom);
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 4) teased(SceneLib.combat.teases.teaseBaseLustDamage() * lustVuln, false);
 			}
 			//Manticore Venom
        		if (hasStatusEffect(StatusEffects.ManticoreVenom)) {
 				damage1B = SceneLib.combat.teases.teaseBaseLustDamage();
+				touDmg = statusEffectv1(StatusEffects.ManticoreVenom) * 2;
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 2) touDmg += (tou * 0.01 * (player.perkv1(IMutationsLib.PoisonGlandIM) - 1));
 				if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) {
 					damage1B *= 2;
 				}
 				venomLustDmg += damage1B;
 				SceneLib.combat.teaseXP(1 + SceneLib.combat.bonusExpAfterSuccesfullTease());
-				statStore.addBuffObject({tou:-statusEffectv1(StatusEffects.ManticoreVenom)*2}, "Poison",{text:"Poison"});
+				statStore.addBuffObject({tou:-touDmg}, "Poison",{text:"Poison"});
 				if (statusEffectv3(StatusEffects.ManticoreVenom) >= 1) venomLustDmg += statusEffectv3(StatusEffects.ManticoreVenom);
+				if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 4) teased(SceneLib.combat.teases.teaseBaseLustDamage() * lustVuln, false);
 			}
 			if (venomLustDmg > 0 && lustVuln != 0) {
 				outputText("[Themonster] is aroused from the poison coursing through them ");
@@ -4346,6 +4562,7 @@ import classes.Scenes.Combat.CombatAbilities;
 				}
 				else addStatusValue(StatusEffects.DefPDebuff,1,-1);
 			}
+			if (hasStatusEffect(StatusEffects.TimesBashed) && statusEffectv2(StatusEffects.TimesBashed) > 0) addStatusValue(StatusEffects.TimesBashed, 2, -1);
 		}
 
 		public function handleAwardItemText(itype:ItemType):ItemType
@@ -4500,6 +4717,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					armorMDef += (12 * (1 + newGamePlusMod()));
 				}*/
 			}
+			if (hasPerk(PerkLib.EnemyTrueDemon)) armorMDef += 30;
 			armorDef += ((int)(1 + armorDef / 10)) * 3 * newGamePlusMod();
 			armorMDef += ((int)(1 + armorMDef / 10)) * 3 * newGamePlusMod();
 			if (hasPerk(PerkLib.EpicStrength)) this.strStat.core.value += Math.round(this.strStat.core.value * 0.35);

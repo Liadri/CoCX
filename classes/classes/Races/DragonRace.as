@@ -86,12 +86,14 @@ public class DragonRace extends Race {
 					PerkLib.DragonIceBreath,
 					PerkLib.DragonLightningBreath,
 					PerkLib.DragonDarknessBreath
-				], +1);
+				], +1)
+				.hasPerk(PerkLib.Dracoforce, +1);
 		
 		addBloodline(PerkLib.DragonsDescendant, PerkLib.BloodlineDragon);
-		addMutation(IMutationsLib.DraconicBonesIM);
-		addMutation(IMutationsLib.DraconicHeartIM);
-		addMutation(IMutationsLib.DraconicLungIM);
+		addMutation(IMutationsLib.DrakeBloodIM);
+		addMutation(IMutationsLib.DrakeBonesIM);
+		addMutation(IMutationsLib.DrakeHeartIM);
+		addMutation(IMutationsLib.DrakeLungsIM);
 		
 		buildTier(16, "dragon")
 				.namesMaleFemaleMorphTaur("dragon-man","dragon-girl",

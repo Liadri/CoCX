@@ -14,7 +14,7 @@ import classes.Scenes.SceneLib;
 public class AirElemental extends Monster
 	{
 		public function baseElementalAttack():void {
-			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" launches the full force of its fists at you, guided with a strong force of wind.");
+			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" launches the full force of its fists at you, guided by a strong force of wind.");
 			var damage:Number = inte + wis;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.5);
 			damage = Math.round(damage);
@@ -29,16 +29,16 @@ public class AirElemental extends Monster
 		}
 		
 		public function fluffyOfPunches():void {
-			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" wraps itself in a swirling vortext before spinning toward you in a tornado of fighting fury.");
+			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Sylph":"Air elemental")+" wraps itself in a swirling vortex before spinning towards you in a tornado of fighting fury.");
 			var damage:Number = inte + wis;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.25);
 			damage = Math.round(damage);
 			//Dodge
-			if (damage <= 0 || (player.getEvasionRoll())) outputText(" You slide underneath it avoiding all punches!");
+			if (damage <= 0 || (player.getEvasionRoll())) outputText(" You slide underneath it, avoiding all punches!");
 			else
 			{
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
-				outputText(" Each hit connets, nearly causing you to spin from the force of the trauma. ");
+				outputText(" Each hit connects, nearly causing you to spin from the force of the trauma. ");
 				player.takeWindDamage(damage, true);
 				player.takeWindDamage(damage, true);
 				player.takeWindDamage(damage, true);
@@ -49,7 +49,7 @@ public class AirElemental extends Monster
 		}
 		
 		public function subbossSpecial():void {
-			outputText("The sylph concentrates, hardening the air until several crescent-like shards of air coalesce. With a twirl, it aims the razor wind toward you before shooting a gust of wind.");
+			outputText("The sylph concentrates, hardening the air until several crescent-like shards of air coalesce. With a graceful twirl, it directs the razor-sharp wind toward you, followed by a powerful gust.");
 			if (player.getEvasionRoll()) outputText(" You slide underneath the barrage!");
 			else {
 				var damage:Number = inte + wis;
@@ -132,76 +132,76 @@ public class AirElemental extends Monster
 			if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 0) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 48;
-				initStrTouSpeInte(10, 20, 60, 40);
-				initWisLibSensCor(40, 10, 20, 50);
-				this.weaponAttack = 5;
-				this.armorDef = 5;
-				this.armorMDef = 30;
+				initStrTouSpeInte(20, 40, 120, 80);
+				initWisLibSensCor(80, 20, 40, 0);
+				this.weaponAttack = 10;
+				this.armorDef = 10;
+				this.armorMDef = 60;
 				this.level = 12;
-				this.bonusHP = 400;
+				this.bonusHP = 800;
 				this.additionalXP = 50;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 1) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four foot, three inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four foot, three inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 51;
-				initStrTouSpeInte(12, 22, 62, 50);
-				initWisLibSensCor(50, 10, 25, 50);
-				this.weaponAttack = 6;
-				this.armorDef = 6;
-				this.armorMDef = 35;
+				initStrTouSpeInte(24, 44, 124, 100);
+				initWisLibSensCor(100, 20, 50, 0);
+				this.weaponAttack = 12;
+				this.armorDef = 12;
+				this.armorMDef = 70;
 				this.level = 14;
-				this.bonusHP = 450;
+				this.bonusHP = 900;
 				this.additionalXP = 75;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 2) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four and a half foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four and a half foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 54;
-				initStrTouSpeInte(14, 24, 64, 60);
-				initWisLibSensCor(60, 10, 30, 50);
-				this.weaponAttack = 7;
-				this.armorDef = 7;
-				this.armorMDef = 40;
+				initStrTouSpeInte(28, 48, 128, 120);
+				initWisLibSensCor(120, 20, 60, 0);
+				this.weaponAttack = 14;
+				this.armorDef = 14;
+				this.armorMDef = 80;
 				this.level = 16;
-				this.bonusHP = 500;
+				this.bonusHP = 1000;
 				this.additionalXP = 100;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 3) {
 				this.short = "air elemental";
 				this.imageName = "air elemental";
-				this.long = "You're currently fighting air elemental. It's a four foot, nine inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting an air elemental. It's a four foot, nine inch tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 57;
-				initStrTouSpeInte(16, 26, 66, 70);
-				initWisLibSensCor(70, 10, 35, 50);
-				this.weaponAttack = 8;
-				this.armorDef = 8;
-				this.armorMDef = 45;
+				initStrTouSpeInte(32, 52, 132, 140);
+				initWisLibSensCor(140, 20, 70, 0);
+				this.weaponAttack = 16;
+				this.armorDef = 16;
+				this.armorMDef = 90;
 				this.level = 18;
-				this.bonusHP = 550;
+				this.bonusHP = 1100;
 				this.additionalXP = 125;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4) {
 				this.short = "sylph";
 				this.imageName = "air sylph";
-				this.long = "You're currently fighting 'male' sylph. It's a nine foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it using its bare fists to fight.";
+				this.long = "You're currently fighting 'male' sylph. It's a nine foot tall creature. Its body is wrapped in an air current, almost completely concealing its form as it uses its bare fists to fight.";
 				this.tallness = 108;
-				initStrTouSpeInte(24, 39, 99, 105);
-				initWisLibSensCor(105, 15, 55, 50);
-				this.weaponAttack = 10;
-				this.armorDef = 10;
-				this.armorMDef = 60;
+				initStrTouSpeInte(48, 78, 198, 210);
+				initWisLibSensCor(210, 30, 110, 0);
+				this.weaponAttack = 20;
+				this.armorDef = 20;
+				this.armorMDef = 120;
 				this.level = 21;
-				this.bonusHP = 875;
+				this.bonusHP = 1750;
 				this.additionalXP = 190;
 			}
 			this.a = "the ";
 			this.plural = false;
-			this.lustVuln = 0;
+			this.lustVuln = 0.01;
 			this.createBreastRow(0, 1);
 			initGenderless();
 			this.weaponName = "fists";
@@ -211,12 +211,13 @@ public class AirElemental extends Monster
 			this.createPerk(PerkLib.WindNature, 0, 0, 0, 0);
 			if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4) {
 				this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
-				this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
+				this.createPerk(PerkLib.EnemyChampionType, 0, 0, 0, 0);
 				this.drop = new WeightedDrop()
 					.add(useables.LELSHARD, 3)
 					.add(useables.ELCRYST, 1);
 			}
 			else {
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 				this.drop = new WeightedDrop()
 					.add(useables.ELSHARD, 3)
 					.add(useables.LELSHARD, 1);

@@ -12,7 +12,7 @@ import classes.PerkLib;
 		
 		public function SuccubusArmor()
 		{
-			super("S.Armor", "S.Armor", "Succubus armor", "a Succubus armor", 50, 25, 3000, "The fully corrupted maiden armor became an armor fit for a succubus. It incite its owner to sex and rewards it for debauching herself. It's already suggestive design became downright obscene as the metal and clothes color turned black as night.", "Light", false, false);
+			super("S.Armor", "S.Armor", "Succubus armor", "a Succubus armor", 50, 25, 3000, "The fully corrupted maiden armor became an armor fit for a succubus. It incites its owner to engage in sex and rewards her for debauching herself. Its already suggestive design has become downright obscene, as both the metal and fabric have turned black as night.", "Light", false, false);
 			withBuffs({'teasedmg':10, 'minlustx': 0.3});
 			withTag(A_REVEALING);
 			withTag(I_LEGENDARY);
@@ -31,14 +31,14 @@ import classes.PerkLib;
 			return 10 + mod;
 		}
 		
-		override public function canEquip(doOutput:Boolean):Boolean {
-			if (!super.canEquip(doOutput)) return false;
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (!super.canEquip(doOutput, slot)) return false;
 			return LustyMaidensArmor.canUseStatic(doOutput);
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			_buffs['teasedmg'] = (10 + game.flags[kFLAGS.BIKINI_ARMOR_BONUS]) * 5;
-			super.afterEquip(doOutput);
+			super.afterEquip(doOutput, slot);
 		}
 	}
 }

@@ -29,7 +29,7 @@ public class Sirius extends Naga
 			if (damage<=0) {
 				super.outputAttack(damage);
 			} else {
-				outputText("You misjudge his pattern and wind up getting slashed by a series of swipes from his sharpened nails.  He distances himself from you in order to avoid retaliation and glares at you with his piercing yellow eyes, a hint of a smile on his face. <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
+				outputText("You misjudge his pattern and wind up getting slashed by a series of swipes from his sharpened nails.  He distances himself from you in order to avoid retaliation and glares at you with his piercing yellow eyes, a hint of a smile on his face. <b>([font-damage]" + damage + "[/font])</b>");
 			}
 		}
 
@@ -126,7 +126,7 @@ public class Sirius extends Naga
 			this.hairColor = "orange";
 			this.hairLength = 16;
 			initStrTouSpeInte(110, 90, 125, 92);
-			initWisLibSensCor(92, 45, 35, 40);
+			initWisLibSensCor(92, 45, 35, -20);
 			this.weaponName = "fangs";
 			this.weaponVerb="bite";
 			this.weaponAttack = 37;

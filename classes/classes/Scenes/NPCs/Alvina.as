@@ -35,7 +35,7 @@ public class Alvina extends Monster
 			var nosferatu:Number = this.inte;
 			nosferatu += this.wis;
 			nosferatu *= 20;
-			outputText("Alvina chants and her shadow surges toward you, grabbing at your own. You feel your energy being drained as her shadow retreats back to her, Alvina laughs as she steals your vitality. <b>(<font color=\"#800000\">" + nosferatu + "</font>)</b>");
+			outputText("Alvina chants and her shadow surges toward you, grabbing at your own. You feel your energy being drained as her shadow retreats back to her, Alvina laughs as she steals your vitality. <b>([font-damage]" + nosferatu + "[/font])</b>");
 			this.HP += nosferatu;
 			player.HP -= nosferatu;
 			statScreenRefresh();
@@ -64,7 +64,7 @@ public class Alvina extends Monster
 					damage += eBaseIntelligenceDamage() * 40;
 					if (hasStatusEffect(StatusEffects.Maleficium)) damage *= 2;
 					outputText("The room gets darker as lights are snuffed out, and it gets colder by the second. ");
-					if (flags[kFLAGS.GAME_DIFFICULTY] >= 2){
+					if (flags[kFLAGS.PRIMARY_DIFFICULTY] >= 2){
 						outputText("Alvina snaps her fingers and large spear-like shards of ice form all around you before raining from all directions. You are impaled from all sides by spears, your blood dripping on the floor. This is, however, only the first phase of this terrifying spell. ");
 						if (!player.immuneToBleed()) player.createStatusEffect(StatusEffects.IzmaBleed, 3, 0, 0, 0);
 					}
@@ -209,7 +209,7 @@ public class Alvina extends Monster
 				if (player.shieldBlock > 0) damage -= 0.01 * player.maxHP() * combatBlock2();
 				if (damage < 1) damage = 0;
 				player.HP -= damage;
-				if (player.HP <= player.minHP()) outputText("You dodge, deflect, parry and block as best as you can to take as little damage as possible yet are still impaled a few hundred times!"); //This seems rather boring of a death message.
+				if (Math.round(player.HP) <= Math.round(player.minHP())) outputText("You dodge, deflect, parry and block as best as you can to take as little damage as possible yet are still impaled a few hundred times!"); //This seems rather boring of a death message.
 				else {
 					outputText("Realising that you are still alive Alvina applauds your resilience in annoyance. The fight is far from over but what matters is that you can win.");
 				}
@@ -284,7 +284,7 @@ public class Alvina extends Monster
 		}
 
 		protected function RandomiseAction():void {
-			var choice:Number = rand((flags[kFLAGS.GAME_DIFFICULTY] >= 2) ? 11 : 9);
+			var choice:Number = rand((flags[kFLAGS.PRIMARY_DIFFICULTY] >= 2) ? 11 : 9);
 			switch (choice) {
 				case 0:
 					alvinaInfernalFlare();
@@ -341,7 +341,7 @@ public class Alvina extends Monster
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
 			cleanupAfterCombat();
-			if (flags[kFLAGS.GAME_DIFFICULTY] >= 2)
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] >= 2)
 				SceneLib.alvinaFollower.alvinaThirdEncounterYesNeverLostNightmare();
 			else
 				SceneLib.alvinaFollower.alvinaThirdEncounterYesNeverLost();
@@ -365,7 +365,7 @@ public class Alvina extends Monster
 			this.bodyColor = "purple";
 			this.hairColor = "black";
 			this.hairLength = 20;
-			if (flags[kFLAGS.GAME_DIFFICULTY] >= 2 || SceneLib.alvinaFollower.FightForAlvina) {
+			if (flags[kFLAGS.PRIMARY_DIFFICULTY] >= 2 || SceneLib.alvinaFollower.FightForAlvina) {
 				this.long = "Alvina is a goat-like succubus. She is obviously an accomplished spellcaster.  She holds a pair of burning scythes in both hands, her spellbook levitating around her. The aura of black magic emanating from her is almost smothering you. She has taken on a way more intimidating form, reaching 11 feet tall with ease. Her black wings stretch from one side of the room to the other while the very ground she walks catches on fire as if unable to support her energy pressure.";
 				this.tallness = 11*12;
 				initStrTouSpeInte(800, 930, 840, 1160);

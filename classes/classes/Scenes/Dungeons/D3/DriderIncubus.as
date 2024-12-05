@@ -8,6 +8,7 @@ import classes.Scenes.Areas.Swamp.AbstractSpiderMorph;
 import classes.Scenes.SceneLib;
 import classes.Stats.Buff;
 import classes.StatusEffects;
+import classes.internals.WeightedDrop;
 
 import coc.view.CoCButton;
 
@@ -26,19 +27,19 @@ public class DriderIncubus extends AbstractSpiderMorph
 			this.hoursSinceCum = 9999;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			initStrTouSpeInte(140, 300, 140, 90);
-			initWisLibSensCor(80, 160, 40, 100);
+			initStrTouSpeInte(190, 330, 180, 110);
+			initWisLibSensCor(90, 260, 50, 100);
 			this.weaponName = "spear";
-			this.weaponAttack = 38;
+			this.weaponAttack = 78;
 			this.weaponVerb = "lunge";
 			this.armorName = "chitin";
-			this.armorDef = 60;
-			this.armorMDef = 10;
-			this.bonusHP = 1500;
-			this.bonusLust = 244;
+			this.armorDef = 120;
+			this.armorMDef = 20;
+			this.bonusHP = 2500;
+			this.bonusLust = 384;
 			this.gems = 200 + rand(80);
 			this.additionalXP = 1500;
-			this.level = 44;
+			this.level = 74;
 			this.lustVuln = 0.45;
 			this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
@@ -48,6 +49,7 @@ public class DriderIncubus extends AbstractSpiderMorph
 			this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.OverMaxHP, 44, 0, 0, 0);//v1 = enemy lvl
 			this.drop = NO_DROP;
+			drop = new WeightedDrop(consumables.LETH3TE, 1);
 			this.checkMonster();
 		}
 
@@ -463,7 +465,7 @@ this.HP -= (this.maxHP() * 0.08);
 		
 		private function bootyTwerking():void
 		{
-			outputText("The goblin gives up on her futile chase for the moment. Instead of trying to lay her hands on her treasured scepter, she spins around, raising her cushy-looking ass into the air. She twists and gyrates, making her voluminous asscheeks bounce independantly. Sometimes they audibly clap together. A few assembled demonic slaves applaud her performance, and the drider can’t help but spare her a few hungry glances.");
+			outputText("The goblin gives up on her futile chase for the moment. Instead of trying to lay her hands on her treasured scepter, she spins around, raising her cushy-looking ass into the air. She twists and gyrates, making her voluminous asscheeks bounce independently. Sometimes they audibly clap together. A few assembled demonic slaves applaud her performance, and the drider can’t help but spare her a few hungry glances.");
 			lust += 5;
 		}
 		

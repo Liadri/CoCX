@@ -142,6 +142,10 @@ public class Races {
 	public static const ARIGEAN:ArigeanRace                = new ArigeanRace(117);
 	public static const DRACULA:DraculaRace                = new DraculaRace(118);
 	public static const MOTH:MothRace                      = new MothRace(119);
+	public static const GLACIAL_TROLL:GlacialTrollRace     = new GlacialTrollRace(120);
+	public static const LAQUINE:LaquineRace                = new LaquineRace(121);
+	public static const MUMMY:MummyRace             	   = new MummyRace(122);
+	public static const LICH:LichRace             		   = new LichRace(123);
 
 	// Racial groups
 	public static const CatlikeRaces:/*Race*/Array   = [
@@ -161,6 +165,9 @@ public class Races {
 	];
 	public static const KitsunelikeRaces:/*Race*/Array = [
 			KITSUNE, KITSHOO, RAISUNE
+	];
+	public static const UndeadRaces:/*Race*/Array = [
+			YUKIONNA, JIANGSHI, DRACULA, MUMMY, LICH
 	];
 	public static const RacesForRandomEnchantments:/*Race*/Array = [
 			// populated in load() as AllVisibleRaces - RacesExcludedFromRandomEnchantments

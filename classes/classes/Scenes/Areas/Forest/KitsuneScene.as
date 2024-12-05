@@ -651,19 +651,19 @@ public class KitsuneScene extends BaseContent
 			outputText("\n\nWhen you awaken the next morning, the sisters, the hot springs, and the mansion are nowhere to be found.  You are lying naked in the wilderness, your possessions sitting in a neat little pile a short distance away, and your memories of the previous night are little more than a hazy fever dream");
 			if (tentacles) outputText(" - at the very least, your groin seems to be back to its usual configuration");
 			outputText(".  You sit up, but fall back almost immediately, groaning as the full weight of your hangover hits you like a ton of bricks.  It takes a long time before you can muster up the willpower to gather your things and head back to camp, but as you set out, you swear you could hear the sound of ghostly laughter echoing through the trees.\n\n");
-			if (player.cumQ() < 10000 || (!player.hasCock() && player.lactationQ() < 10000)) {
+			if (player.cumQ() < 15000 || (!player.hasCock() && player.lactationQ() < 15000)) {
 				outputText("<b>Due to the residual effects of the sisters' magic, your ");
 				if (dick) {
 					outputText("cum ");
-					if (player.cumQ() < 500) player.cumMultiplier += 3;
-					if (player.cumQ() < 2000) player.cumMultiplier += 2;
-					if (player.cumQ() < 10000) player.cumMultiplier += 1;
+					if (player.cumQ() < 750) player.cumMultiplier += 3;
+					if (player.cumQ() < 3000) player.cumMultiplier += 2;
+					if (player.cumQ() < 15000) player.cumMultiplier += 1;
 				}
 				else {
 					outputText("milk ");
-					if (player.lactationQ() < 500) player.boostLactation(3);
-					if (player.lactationQ() < 2000) player.boostLactation(2);
-					if (player.lactationQ() < 10000) player.boostLactation(1);
+					if (player.lactationQ() < 750) player.boostLactation(3);
+					if (player.lactationQ() < 3000) player.boostLactation(2);
+					if (player.lactationQ() < 15000) player.boostLactation(1);
 				}
 				outputText("production has been enhanced.</b>");
 			}
@@ -1090,7 +1090,7 @@ public class KitsuneScene extends BaseContent
 				}
 				//Lust victory
 				else {
-					outputText("The kitsune falls to the ground, one hand buried in her robes as she plays with herself shamelessly, too turned on to continue fighting." + ((monster.hairColor == "red" && flags[kFLAGS.REDHEAD_IS_FUTA] == 0) ? "  The moment her rounded rump impacts the dirt, a swirling flame crackles to life between her legs, engulfing her exposed cock.  When it dies away, all that remains of her throbbing member is a pert cherry-colored bud between her dripping lips." : "") + "\n\n" + ((player.lust >= 33) ? "<b>As you watch her lewd display, you realize your own lusts have not been sated yet. What will you do to her?</b>" : ""));
+					outputText("The kitsune falls to the ground, one hand buried in her robes as she plays with herself shamelessly, too turned on to continue fighting." + ((monster.hairColor == "red" && flags[kFLAGS.REDHEAD_IS_FUTA] == 0) ? "  The moment her rounded rump impacts the dirt, a swirling flame crackles to life between her legs, engulfing her exposed cock.  When it dies away, all that remains of her throbbing member is a pert cherry-colored bud between her dripping lips." : "") + "\n\n" + ((player.lust >= 33) ? "As you watch her lewd display, you realize your own lusts have not been sated yet. What will you do to her?" : ""));
 				}
 			}
 			if (flags[kFLAGS.SPARRABLE_NPCS_TRAINING] == 2) {
@@ -1449,7 +1449,7 @@ public class KitsuneScene extends BaseContent
 
 			outputText("She cries out in protest as you wrestle her to the ground, uncorking the draft with your thumb and using your other hand to plug her nose.  You press the mouth of the vial up to her lips insistently, and it isn't long before she has to gasp for fresh air, allowing you to dump the contents down her throat.  She coughs and sputters a little, trying to spit it out, but you put a bit of pressure on her jaw to prevent exactly that, massaging her neck gently to help coerce her to swallow.  The moment the potent aphrodisiac begins to flow down her throat, you can feel the surface of her skin turn feverish with lust, a blush of deepest crimson spreading across her face.\n\n");
 
-			outputText("The powerful scent of feminine musk fills the air almost instantly, a viscous puddle spreading between her legs and soaking through the crotch of her robes." + ((player.dogCocks() > 0) || (player.inRut) ? "  As the potent smell fills your nostrils, your " + cockDescript(x) + " swells in anticipation, reacting instinctively to the scent of a female in heat.  Lurid fantasies of plugging her sloppy snatch with your " + ((player.dogCocks() > 0) ? "knot" : cockDescript(x)) + " and stuffing her belly full of kits rush into your mind unbidden" + ((player.cor < 20) ? ", disturbing you slightly" : "") + "." : "") + "  Her body trembles and quakes with carnal need, pure animalistic desire burning in her eyes.  As the effects of her chemical-induced heat come into full swing, she struggles to maintain some semblance of rational thought, desperately willing herself to crawl away.\n\n");
+			outputText("The powerful scent of feminine musk fills the air almost instantly, a viscous puddle spreading between her legs and soaking through the crotch of her robes." + (player.inRut ? "  As the potent smell fills your nostrils, your " + cockDescript(x) + " swells in anticipation, reacting instinctively to the scent of a female in heat.  Lurid fantasies of plugging her sloppy snatch with your " + (player.hasKnot(x) ? "knot" : cockDescript(x)) + " and stuffing her belly full of kids rush into your mind unbidden" + ((player.cor < 20) ? ", disturbing you slightly" : "") + "." : "") + "  Her body trembles and quakes with carnal need, pure animalistic desire burning in her eyes.  As the effects of her chemical-induced heat come into full swing, she struggles to maintain some semblance of rational thought, desperately willing herself to crawl away.\n\n");
 
 			outputText("You look on with mild amusement as she drags herself one, two, three feet away, and collapses in a shivering wreck, raising her ample rear into the air.  Her hips flex and pump in defiance of her will, all "+fluffCount()+" of her golden tails raised high and fanned out as she claws out of her robes, exposing her drenched fuckhole and gorgeous tattooed ass.\n\n");
 
@@ -1463,7 +1463,7 @@ public class KitsuneScene extends BaseContent
 
 			outputText("You grin a bit at her declaration, reaching forward and sliding your finger down her spine gently.  She practically collapses under your light touch, convulsing in pleasure as every one of her tails bristles in response, nearly orgasming again from that alone." + ((player.cor < 33) ? "  You wonder if you've gone too far, and whether you should be somewhat concerned for the poor thing's sanity.  If you don't do something to satisfy her insatiable lust, though, that alone might be enough to break her." : "  You grin evilly, dragging your fingertips down your new pet's back and laughing as she spasms uncontrollably, spraying femcum unceasingly.  The little cocktease was so keen on making a fool of you before - where's her smug sense of superiority now?") + "\n\n");
 
-			if (player.dogCocks() > 0 || player.inRut) outputText("The sweet musk of her voluminous fem-jizz fills your mind with a lustful haze, higher-order thought processes gradually shutting down as animalistic mating instinct begins to take over.  ");
+			if (player.inRut) outputText("The sweet musk of her voluminous fem-jizz fills your mind with a lustful haze, higher-order thought processes gradually shutting down as animalistic mating instinct begins to take over.  ");
 			outputText("You slide your " + cockDescript(x) + " up between the supple mounds of her ass, groaning in pleasure as she begins to glide her hips back and forth along the shaft, cooing softly.  The warm, moist breath radiating off her sodden vagina caresses your ");
 			if (player.hasBalls()) outputText(ballsDescriptLight());
 			else outputText(player.legs());
@@ -1472,7 +1472,7 @@ public class KitsuneScene extends BaseContent
 			outputText("  She raises her hips higher, whimpering a little as she desperately tries to line up your " + cockDescript(x) + " with her hungry fuckhole.\n\n");
 
 			outputText("\"<i>S-stop t-teasing...</i>\" she says breathlessly, whimpering as she fails to catch your " + player.cockHead(x) + " in her quivering snatch for the third time in a row.  Her hips clumsily rock back, a desperate whine escaping her throat as she tries to calm her shaking body enough to finally impale herself on your ever-hardening rod.");
-			if (player.cocks[x].cockType == CockTypesEnum.DOG || player.inRut) {
+			if (player.inRut) {
 				outputText("  Your animalistic need to impregnate the fertile female in front of you battles with your desire to tease her, but impulse is quickly winning out over rationality.  You can only hold yourself back for a few moments longer before you give in to baser instincts and plunge your shaft into her needy pussy");
 				if (player.cockArea(x) > 50) outputText(" heedless of whether she can handle it or not.  Thankfully, you needn't worry - her cunt eagerly swallows your cock whole with room to spare, somehow");
 			}
@@ -1487,20 +1487,20 @@ public class KitsuneScene extends BaseContent
 			outputText("\"<i>Nngah!  Fuck!  I-it feels s-so good!</i>\"\n\n");
 
 			outputText("You dig your fingertips into her massive, plush ass and begin to pound her wet snatch with all your might, grunting and groaning passionately.");
-			if (player.dogCocks() > 0 || player.inRut) outputText("  Vivid fantasies of stuffing her pussy full of your virile semen race through your mind, unable to think of anything else.  Come whatever may, you know you MUST impregnate her - there's simply no other option.");
+			if (player.inRut) outputText("  Vivid fantasies of stuffing her pussy full of your virile semen race through your mind, unable to think of anything else.  Come whatever may, you know you MUST impregnate her - there's simply no other option.");
 			outputText("  The force with which she mashes her voluptuous derriere back into your pelvis would surely leave you sore in the morning were it not for the expansive tattoo-adorned ass cushioning the blows.\n\n");
 
 			//if (dogCocks > 0)
-			if (player.cocks[x].cockType == CockTypesEnum.DOG) {
+			if (player.hasKnot(x)) {
 				outputText("The lips of her slippery pussy stretch over your canine knot a little more with every thrust, and with one last savage assault you force the bulge inside her, shaking from head to toe in pleasure.\n\n");
 
 				outputText("The kitsune rolls her eyes back and opens her mouth in a cacophonous scream of pleasure, stunned stiff by her hardest climax yet.  Her inner muscles contract around your knot powerfully, rooting you in place as steaming hot orgasmic juices gush out over your groin.\n\n");
 
 				outputText("Despite the minor difficulties you had squeezing it inside, her vagina accommodates your knot quite nicely, wrapping around the veiny bulge and rippling pleasantly as she gradually comes down from her high once more.  Tears of pleasure stain her cheeks, mixing with the shameless drool that pools under her chin, her mouth permanently agape in an expression of the purest lust.\n\n");
 			}
-			outputText("Gathering her tails into your arms, you pull them tight to your chest, eliciting a pleasured moan from the lust-maddened kitsune.  She lets out a pained squeal when you tug on them suddenly, using them for additional leverage as you redouble your powerful thrusting.  You can feel every pulse of her fluttering heartbeat through the walls of her vagina, liquid heat caressing and milking your cock as more juices squirt out around your " + ((player.dogCocks() > 0) ? "knot" : cockDescript(x) ) + ".\n\n");
+			outputText("Gathering her tails into your arms, you pull them tight to your chest, eliciting a pleasured moan from the lust-maddened kitsune.  She lets out a pained squeal when you tug on them suddenly, using them for additional leverage as you redouble your powerful thrusting.  You can feel every pulse of her fluttering heartbeat through the walls of her vagina, liquid heat caressing and milking your cock as more juices squirt out around your " + (player.hasKnot(x) ? "knot" : cockDescript(x) ) + ".\n\n");
 
-			outputText("Your pleasure begins to rise to a head, every passionate thrust bringing you closer and closer to your final, incredible release.  In preparation, you drop down over her, placing your hands on top of " + ((player.cor < 33) ? "hers." : "her wrists to pin her down.") + ( ((player.dogCocks() > 0) || player.inRut) ? "  You are stricken with the urge to bite her neck, and indulge it, pinching the scruff of her shoulder between your teeth." : "") + "  With a roaring moan, you buck your hips one last time, slamming down against her well-cushioned rear with one final thrust, holding there as the pressure in your " + ((player.hasBalls()) ? ballsDescriptLight() : "prostate" ) + " finally boils over.  ");
+			outputText("Your pleasure begins to rise to a head, every passionate thrust bringing you closer and closer to your final, incredible release.  In preparation, you drop down over her, placing your hands on top of " + ((player.cor < 33) ? "hers." : "her wrists to pin her down.") + ( (player.inRut) ? "  You are stricken with the urge to bite her neck, and indulge it, pinching the scruff of her shoulder between your teeth." : "") + "  With a roaring moan, you buck your hips one last time, slamming down against her well-cushioned rear with one final thrust, holding there as the pressure in your " + ((player.hasBalls()) ? ballsDescriptLight() : "prostate" ) + " finally boils over.  ");
 
 			if (player.cumQ() <= 150) {
 				outputText("Your cock spasms uncontrollably, spewing stream after stream of potent jizz into her hungry snatch.  The instant it begins to flow inside her, she locks down into another incredible orgasm, fingers digging into the dirt while tears flow from the corner of her eyes, moaning powerfully.  Her walls milk and massage you, drinking deeply of your virile cum.");
@@ -1522,7 +1522,7 @@ public class KitsuneScene extends BaseContent
 			}
 			outputText("\n\nNow with a womb full of fresh, warm semen, her insatiable mating lust at last seems to have calmed down, the presence of your seed quenching the raging fire in her loins.  Panting and sighing, she sinks into a relaxed stupor underneath you, though it seems like her orgasmic expression has been permanently etched into her face.  Her "+fluffCount()+" tails twitch limply, an arm or leg occasionally spasming involuntarily.");
 
-			outputText(((player.dogCocks() > 0) ? "  You try to pull out, but are a little dismayed to find that her pussy still has a vice grip on your distended knot.  Sighing, you collapse on top of her, enjoying the warmth of her flesh " + ((player.cor < 33) ? "while gently stroking her golden hair " : "" ) + "as you wait for the swollen bulge to deflate." : "" ) + "\n\n");
+			outputText((player.hasKnot(x) ? "  You try to pull out, but are a little dismayed to find that her pussy still has a vice grip on your distended knot.  Sighing, you collapse on top of her, enjoying the warmth of her flesh " + ((player.cor < 33) ? "while gently stroking her golden hair " : "" ) + "as you wait for the swollen bulge to deflate." : "" ) + "\n\n");
 
 			outputText("She releases a small whimper when your shaft begins to slide out, " + ((player.cumQ() > 1000) ? "and a small fountain of spooge follows, spurting out in an arc as her belly deflates to relieve some of the pressure." : "her engorged labia rhythmically squeezing around the sudden emptiness.") + "  Exhausted from pleasure, you pass out on top of her, and she beneath you, lying in a puddle of your combined fluids.\n\n");
 
@@ -2214,7 +2214,7 @@ public class KitsuneScene extends BaseContent
 			menu();
 			addButton(0, "Read Books", readKitsuneBooks);
 			if (flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) addButton(1, "Meditate", meditateLikeAKitsuneEhQuestionMark);
-			if ((player.hasItem(useables.GLDSTAT) || flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) && flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] < 1) addButton(2, "Statue", stealAStatue);
+			if (player.hasItem(useables.GLDSTAT) || flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) addButton(2, "Statue", stealAStatue);
 			if (player.hasPerk(PerkLib.StarSphereMastery) && player.perkv1(PerkLib.StarSphereMastery) < SphereMastery && player.gems >= 1000) addButton(3, "Offering", offeringToTaoth);
             if (flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] > 0 && flags[kFLAGS.AYANE_FOLLOWER] < 2) addButton(5, "Ayane", SceneLib.ayaneFollower.ayaneShop);
             if (flags[kFLAGS.AYANE_FOLLOWER] == 1) {
@@ -2415,7 +2415,7 @@ public class KitsuneScene extends BaseContent
 			Ayane9tailsPCMMfix();
 			outputText("\n\nAyane packs her belongings in a weird bag that seems to never be fuller or emptier and starts to follow you around.");
 			outputText("\n\n(<b>Ayane has been added to the Followers menu!</b>)\n\n");
-			outputText("\n\n<b>As if remembering something Ayane pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+			outputText("\n\n<b>As if remembering something Ayane pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 			if (player.hasKeyItem("Radiant shard") >= 0){
 				player.addKeyValue("Radiant shard",1,+1);
 			}
@@ -2444,7 +2444,7 @@ public class KitsuneScene extends BaseContent
 			outputText("\n\nYou laugh and reply that her sphere will be perfectly safe in your hands, so long as she serves you with unwavering loyalty that is.");
 			outputText("\n\n\"<i>You...you're a monster! Why would you go so far to...? Gah, I don’t want to know. Just let me pack up my things [master]...</i>\"");
 			outputText("\n\nShe looks at you, and gives you a hateful glares, but there’s little the fox can do as long as you hold the very source of her power within the palm of your hand. You both head back to camp, Ayane maintaining a submissive attitude.");
-			outputText("\n\n<b>Aquired Ayane Star Sphere.</b>");
+			outputText("\n\n<b>Acquired Ayane Star Sphere.</b>");
 			outputText("\n\n(<b>Ayane has been added to the Followers menu!</b>)\n\n");
 			player.createKeyItem("Ayane Star Sphere", 0, 0, 0, 0);
 			//dynStats("cor", 10); - dodawać czy nie to?
@@ -2459,6 +2459,10 @@ public class KitsuneScene extends BaseContent
 				outputText("[name].... I don't know how I missed this before, but your ascent into becoming one of our divine status, feels off. Don't worry though, because we have had records of similar situations happening. But you must come with me <b>NOW</b>, so you can attain your proper status.");
 				outputText("\nAyane then turns back around, grabs your arm and pulls you towards the direction of the forest, and you go with her, the surroundings blending and melting, until you suddenly arrive at a shrine, with a golden statue. She points you to the front of the statue as she goes around, scavenging in a small room to the side of the shrine, her tails swaying about as she finally finds a spare fox jewel and plops it onto your hand.");
 				outputText("\nYou are about to ask her what was going on when the jewel glows brightly in your hand, before it morphs into a star sphere, and your head fills with all the arcane knowledge you didn't get from your unnatural transformation. As the lights dim, Akane walks up to you, and gives you a curtsy, before she smiles and rushes off.\n");
+				player.statStore.replaceBuffObject({"wis.mult":0.10,"int.mult":0.10}, "KitsuneShrine",{text:"Kitsune shrine Meditation", rate:Buff.RATE_DAYS, tick:7});
+				dynStats("wis", 5,"int", 5, "lus", -50, "cor", -5);
+				player.createPerk(PerkLib.StarSphereMastery, 1, 0, 0, 0);
+				player.createKeyItem("Kitsune Star Sphere", 0, 0, 0, 0);
 				if (flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] == 0) {
 					outputText("\nYou have also learnt where the kitsune shrine is!\n");
 					flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] = 1;

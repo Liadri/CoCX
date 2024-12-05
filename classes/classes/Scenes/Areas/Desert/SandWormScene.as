@@ -4,6 +4,7 @@ import classes.*;
 import classes.BodyParts.Skin;
 import classes.GlobalFlags.kFLAGS;
 import classes.IMutations.IMutationsLib;
+import classes.Scenes.SceneLib;
 
 public class SandWormScene extends BaseContent
 {
@@ -33,7 +34,7 @@ public class SandWormScene extends BaseContent
 	}
 
 	private function loseAsTallPerson():void {
-		outputText("As you fall over to the ground defeated, the sand worm looms over you. Well clearly you just wouldn't fit in that gaping mouth of his so it can't exactly eat you. To your absolute surprise instead a tiny human sized pink woman slides out of its mouth and starts yelling angrily at you.[pg]");
+		outputText("As you fall over to the ground defeated, the sand worm looms over you. Well, clearly you just wouldn't fit in that gaping mouth of his so it can't exactly eat you. To your absolute surprise instead a tiny human sized pink woman slides out of its mouth and starts yelling angrily at you.[pg]");
 		outputText("\"<i>My territory you biggy no welcome you leave! You're scaring away mates!</i>\"[pg]");
 		outputText("You do try and clear the misunderstanding but the not so bright pink woman does not seem to care for your reasoning. In an effort to kick you out she begins to push your prone form across the desert. A few minutes later you're at the limit of her territory and she digs back underground heading back to whence she came. Beaten up you head back to camp.[pg]");
 		cleanupAfterCombat();
@@ -91,7 +92,7 @@ public class SandWormScene extends BaseContent
 		player.tallness = 11 * 12;
 		transformations.LowerBodyWorm.applyEffect(false);
 		player.skin.setBaseOnly({ type: Skin.PLAIN, color1:"light pink", adj: "slippery" });
-		if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.SANDWORM;
+		player.updateRacialParagon(Races.SANDWORM);
 		IMutationsLib.TrachealSystemIM.trueMutation = true;
 		IMutationsLib.TwinHeartIM.trueMutation = true;
 		player.removeAllRacialMutation();
@@ -114,7 +115,9 @@ public class SandWormScene extends BaseContent
 	public function beatSandWorm():void {
 		clearOutput();
 		outputText("Too "+(monster.HP <= monster.minHP() ? "wounded":"aroused") + " to keep on fighting, the sand worm digs underground, escaping the battleground. [if (silly)Geeze you hate it when low budget actors flee the battlefield before you rape them!][pg]");
-		cleanupAfterCombat();
+		menu();
+		addButtonIfTrue(3, "Tame It", SceneLib.campMakeWinions.tamingAttempt, "Req. to have Job: Tamer", player.hasPerk(PerkLib.JobTamer));
+		addButton(4, "Leave", cleanupAfterCombat);
 	}
 
 }

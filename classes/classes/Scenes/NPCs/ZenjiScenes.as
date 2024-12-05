@@ -8,6 +8,7 @@ import classes.*;
 import classes.BodyParts.Tail;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.Areas.Forest.CorruptedGlade;
 import classes.Scenes.Places.TrollVillage;
 import classes.display.SpriteDb;
@@ -29,7 +30,6 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public static var ZenjiLoverDays:int;
 		public static var ZenjiLoverDaysTracker:int;
 		public static var ZenjiTalkCount:int;
-
 
 		public function stateObjectName():String {
 			return "ZenjiScenes";
@@ -158,7 +158,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function part1TrollEncounterFightPCDefeated():void {
 			clearOutput();
 			zenjiPerspectiveOnPlayer(-4);
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				outputText("The troll looks down on you, bruised and beaten. \"<i>Ahaha, dat was fun, but it looks like someone couldn’t handle me. I’ll be gettin ma payment now if ya don't mind.</i>\"\n\n");
 				outputText("You see him rifling through your gem pouch as you black out.\n\n");
 			}
@@ -170,15 +170,23 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			cleanupAfterCombat();
 		}
 
-		public function part1TrollEncounterFightZenjiDefeated():void {
+		public function part1TrollEncounterFightZenjiDefeated(hpVictory:Boolean):void {
 			clearOutput();
-			outputText("The troll staggers backward, unable to fight anymore. \"<i>Heh... ya bested me...</i>\" he coughs, \"<i>Go on, ya can enter... I jus need a break...</i>\"\n\n");
-			outputText("He struggles a moment before he tumbles away, nowhere to be seen.\n\n");
-			zenjiPerspectiveOnPlayer(4);
-			menu();
-			if (player.cor >= 50 - player.corruptionTolerance) addButton(1, "Hunt him", part1TrollEncounterFightZenjiDefeatedHuntHim).hint("He’s not getting away that easily!");
-			else addButtonDisabled(1, "???", "Need 50+ corruption.");
-			addButton(3, "Leave", cleanupAfterCombat);
+			if (hpVictory) {
+				outputText("The troll staggers backward, unable to fight anymore. \"<i>Heh... ya bested me...</i>\" he coughs, \"<i>Go on, ya can enter... I jus need a break...</i>\"\n\n");
+				outputText("He struggles a moment before he tumbles away, nowhere to be seen.\n\n");
+				zenjiPerspectiveOnPlayer(4);
+				menu();
+				if (player.cor >= 50 - player.corruptionTolerance) addButton(1, "Hunt him", part1TrollEncounterFightZenjiDefeatedHuntHim).hint("He’s not getting away that easily!");
+				else addButtonDisabled(1, "???", "Need 50+ corruption.");
+				addButton(3, "Leave", cleanupAfterCombat);
+			}
+			else {
+				outputText("Zenji reels back, trying to control himself, his fingers trembling as his grip on his spear weakens. His gaze shifts toward you, losing all sense of control he has over the situation as his pupils dilate. The growing mass beneath his loincloth is becoming more and more difficult for him to hide.\n\n");
+				outputText("He sputters in defiance as his pulsating cock starts drooling precum, \"<i>GAH! NO! DIS… I WILL NOT! I… can’t… You did this!</i>\"\n\n");
+				outputText("He adjusts his bulge before giving up, tossing his spear toward you haphazardly and scurrying away, leaping out into the bog before you can catch up to him.\n\n");
+				cleanupAfterCombat();
+			}
 		}
 
 		public function part1TrollEncounterFightZenjiDefeatedHuntHim():void {
@@ -207,7 +215,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function part1TrollEncounterFightTOTHEDEATHPCDefeated():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				outputText("You fall to the ground, bruised and beaten, wounds too severe for you to walk off right now.\n\n");
 				if (player.cor < 90 + player.corruptionTolerance) {
 					outputText("\"<i>Qué lástima,</i>\" he growls, \"<i>Not even worth my time.</i>\"\n\n");
@@ -227,7 +235,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			}
 		}
 
-		public function part1TrollEncounterFightTOTHEDEATHZenjiDefeated():void {
+		public function part1TrollEncounterFightTOTHEDEATHZenjiDefeated(hpVictory:Boolean):void {
 			clearOutput();
 			outputText("The troll falls to the ground, severely wounded, unable to fight any longer. He struggles to regain his footing, desperately clinging onto the spear he has impaled to the ground.\n\n");
 			outputText("\"<i>I will not wither!</i>\" he grunts, \"<i>I WILL NOT FALL!</i>\" His voice trembles as he struggles to stand up before you, adopting a fighting stance. His legs buckle as he collapses, blood rushes down his face as he’s bleeding out, despite his attempts to regenerate.\n\n");
@@ -590,13 +598,21 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			cleanupAfterCombat();
 		}
 
-		public function part2TrollEncounterFirstFightZenjiDefeated():void {
+		public function part2TrollEncounterFirstFightZenjiDefeated(hpVictory:Boolean):void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			zenjiPerspectiveOnPlayer(12);
-			if (flags[kFLAGS.ZENJI_PROGRESS] < 6) flags[kFLAGS.ZENJI_PROGRESS] = 6;
-			outputText("\"<i>Hah...</i>\" He chuckles, out of breath, \"<i>Ya put up a strong fight, I can see da fire in ya eyes. I tink we can train more later, but I need a moment...</i>\" Zenji sits down by a tree, pressing his back against it. \"<i>I just need a moment ta rest, ya go off now, I will still be here later.</i>\"\n\n");
-			outputText("You make your way back to camp as the troll takes a moment to rest.\n\n");
+			if (hpVictory) {
+				zenjiPerspectiveOnPlayer(12);
+				if (flags[kFLAGS.ZENJI_PROGRESS] < 6) flags[kFLAGS.ZENJI_PROGRESS] = 6;
+				outputText("\"<i>Hah...</i>\" He chuckles, out of breath, \"<i>Ya put up a strong fight, I can see da fire in ya eyes. I tink we can train more later, but I need a moment...</i>\" Zenji sits down by a tree, pressing his back against it. \"<i>I just need a moment ta rest, ya go off now, I will still be here later.</i>\"\n\n");
+				outputText("You make your way back to camp as the troll takes a moment to rest.\n\n");
+			}
+			else {
+				if (rand(2) == 0) zenjiPerspectiveOnPlayer(12);
+				outputText("Zenji reels back, trying to control himself, his fingers trembling as his grip on his spear weakens. His gaze shifts toward you, losing all sense of control he has over the situation as his pupils dilate. The growing mass beneath his loincloth is becoming more and more difficult for him to hide.\n\n");
+				outputText("He sputters in defiance as his pulsating cock starts drooling precum, \"<i>GAH! NO! DIS… I WILL NOT! I… can’t… You did this!</i>\"\n\n");
+				outputText("He adjusts his bulge before giving up, tossing his spear toward you haphazardly and scurrying away, leaping out into the bog before you can catch up to him.\n\n");
+			}
 			cleanupAfterCombat();
 		}
 
@@ -647,7 +663,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function part2TrollEncounterRepeatFightPCDefeated():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				if (flags[kFLAGS.ZENJI_PERSPECTIVE_ON_PLAYER] < 30) outputText("\"<i>[name]... Are you okay..? Would it help if I went easier? You don’ have ta fight me if you aren’t ready… Please, get some rest.</i>\"\n\n");
 				else outputText("\"<i>Das all ya got?</i>\" Zenji shakes his head, \"<i>Ya gotta try harder dan dat next time. Ya be safe out dere now.</i>\"\n\n");
 				zenjiPerspectiveOnPlayer(-4);
@@ -664,12 +680,20 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			cleanupAfterCombat();
 		}
 
-		public function part2TrollEncounterRepeatFightZenjiDefeated():void {
+		public function part2TrollEncounterRepeatFightZenjiDefeated(hpVictory:Boolean):void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			zenjiPerspectiveOnPlayer(4);
-			outputText("\"<i>Hah... ya be strong I say, go on now, I just need a moment to rest before I see you again.</i>\"\n\n");
-			outputText("Zenji leans back against a tree and sits down, he rubs his hands along his tusks as if they were sore from combat.\n\n");
+			if (hpVictory) {
+				zenjiPerspectiveOnPlayer(4);
+				outputText("\"<i>Hah... ya be strong I say, go on now, I just need a moment to rest before I see you again.</i>\"\n\n");
+				outputText("Zenji leans back against a tree and sits down, he rubs his hands along his tusks as if they were sore from combat.\n\n");
+			}
+			else {
+				if (rand(2) == 0) zenjiPerspectiveOnPlayer(4);
+				outputText("Zenji reels back, trying to control himself, his fingers trembling as his grip on his spear weakens. His gaze shifts toward you, losing all sense of control he has over the situation as his pupils dilate. The growing mass beneath his loincloth is becoming more and more difficult for him to hide.\n\n");
+				outputText("He sputters in defiance as his pulsating cock starts drooling precum, \"<i>GAH! NO! DIS… I WILL NOT! I… can’t… You did this!</i>\"\n\n");
+				outputText("He adjusts his bulge before giving up, tossing his spear toward you haphazardly and scurrying away, leaping out into the bog before you can catch up to him.\n\n");
+			}
 			cleanupAfterCombat();
 		}
 
@@ -973,7 +997,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function followerZenjiSparPCDefeated():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				outputText("You hold up your hand and tell him that you can't fight him anymore.\n\n");
 				outputText("\"<i>Ya did good, but I know ya can do betta next time. Here, I know a trick ta help ya recova.</i>\" Zenji examines you for any wounds he may have caused and holds his hand over you, you feel a little better after he's done. \"<i>Give it a moment, you may want ta see if ya can do anything about it personally, 'cause I don’t usually use my tricks to help othas.</i>\"\n\n");
 			}
@@ -984,11 +1008,18 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			cleanupAfterCombat();
 		}
 
-		public function followerZenjiSparZenjiDefeated():void {
+		public function followerZenjiSparZenjiDefeated(hpVictory:Boolean):void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			outputText("Zenji crouches down and holds up a hand, \"<i>Enough! Enough... you are too good at dis.</i>\" He tries to catch his breath, \"<i>Don' worry 'bout me, I learned a few tricks to recova.</i>\" Zenji takes a deep breath and stands up. \"<i>Dat was fun, we should do it again lata, no?</i>\"\n\n");
-			outputText("You tell Zenji you'd need a moment before you could consider fighting him again.\n\n");
+			if (hpVictory) {
+				outputText("Zenji crouches down and holds up a hand, \"<i>Enough! Enough... you are too good at dis.</i>\" He tries to catch his breath, \"<i>Don' worry 'bout me, I learned a few tricks to recova.</i>\" Zenji takes a deep breath and stands up. \"<i>Dat was fun, we should do it again lata, no?</i>\"\n\n");
+				outputText("You tell Zenji you'd need a moment before you could consider fighting him again.\n\n");
+			}
+			else {
+				outputText("Zenji reels back, trying to control himself, his fingers trembling as his grip on his spear weakens. His gaze shifts toward you, losing all sense of control he has over the situation as his pupils dilate. The growing mass beneath his loincloth is becoming more and more difficult for him to hide.\n\n");
+				outputText("He sputters in defiance as his pulsating cock starts drooling precum, \"<i>No! I can’t… I need some alone time… Dis fight is over!</i>\"\n\n");
+				outputText("He adjusts his bulge before giving up, tossing his spear toward you haphazardly and scurrying away, leaping out into the surrounding forest before you can catch up to him.\n\n");
+			}
 			cleanupAfterCombat();
 		}
 
@@ -1719,7 +1750,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			outputText("You tell him that you’re always happy to make him happy.\n\n");
 			if (player.statusEffectv2(StatusEffects.ZenjiModificationsList) >= 998700) {
 				outputText("You can feel even more cum run down your [legs]. You look up and Zenji is panting softly as he tries to give you a cheeky grin.\n\n");
-				outputText("Zenji moans softly, \"<i>I… I tink I’m at my limit, [player]... I can’t hold it anymore...</i>\"\n\n");
+				outputText("Zenji moans softly, \"<i>I… I tink I’m at my limit, [name]... I can’t hold it anymore...</i>\"\n\n");
 				outputText("There is so much cum, it quickly pools at your [feet]. You have turned him into a non-stop geyser of cum, it looks like Zenji will never stop at this point.\n\n");
 				awardAchievement("Virility God", kACHIEVEMENTS.GENERAL_VIRILITY_GOD, true, true);
 			}
@@ -2465,7 +2496,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			clearOutput();
 			outputText("You decide that you don't want to work yourself before getting a good night's sleep with your lover. You tell Zenji that you just want to feel his embrace for now and relax in his arms.\n\n");
 			outputText("Zenji gives you a toothy smile as he moves the covers over, sliding into bed as you join him. You press up against his toned frame, his powerful body encompassing you as he wraps his fuzzy arms over you, ardently pulling you close into the warmth of his fur.");
-			if (player.tailType != Tail.NONE) outputText(" You feel his tail coil around you, you reflexively bring your [tail] to tangle with his, the two of you locking tails with each other.");
+			if (player.tailType != Tail.NONE) outputText(" You feel his tail coil around you, you instinctively bring your [tail] to tangle with his, the two of you locking tails with each other.");
 			else outputText(" You can feel his tail fondly stroke your body with tender caresses.");
 			if (player.tailType == Tail.FOX) outputText(" You hate to admit it, but Zenji’s tail just might almost kind of rival yours in terms of how soft and cuddly it is.");
 			outputText("\n\nHis erection is pressed up against you, but he doesn't press the matter further, seemingly content on sniffing you from time to time. The world becomes hazy and your consciousness drifts as you fall asleep in Zenji's soft embrace.\n\n");
@@ -2803,7 +2834,8 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		private function applyZenjikidName3():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			flags[kFLAGS.ZENJI_KIDS]++;
+			if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.ZENJI_KIDS] += 2;
+			else flags[kFLAGS.ZENJI_KIDS]++;
 			outputText("It's finally time for your pregnancy to come to an end. You feel yourself falling over as your cervix slowly dilates in preparation. This baby is coming out now! Your cry in pain as you start to feel the contractions as your abdominal muscles attempt to push out your child.\n\n");
 			outputText("You glance around for... for the father. Zenji... he is truly a deadbeat husband. He couldn't handle you for yourself, so he doesn't deserve to have this child.\n\n");
 			outputText("You groan in pain as you spread your legs, ready to give birth, hoping for a healthy child.\n\n");

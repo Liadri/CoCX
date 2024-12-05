@@ -53,8 +53,12 @@ public class HellcatRace extends Race{
 				.customRequirement("","more hellcat features than other magical feline",
 						CatRace.isHellcatSubrace,0,-1000
 				);
+		
+		addBloodline(PerkLib.FelinesDescendant, PerkLib.BloodlineFeline);
 		addMutation(IMutationsLib.CatLikeNimblenessIM);
 		addMutation(IMutationsLib.EyeOfTheTigerIM);
+		addMutation(IMutationsLib.BlazingHeartIM);
+		
 		buildTier(10, "hellcat")
 				.buffs({
 					"spe.mult": +0.40,

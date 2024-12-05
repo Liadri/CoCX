@@ -15,7 +15,27 @@ public class GooGirl extends Monster
 		 You are fighting a goo-girl.
 		 The goo-girl has a curious expression on her youthful, shimmering face. Her body is slender and globs of slime regularly drip from her limbs, splattering into the goo puddle pooling beneath her hips. A small, heart-shaped nucleus pulses in her chest with a red glow. [if the player has a c-cup or larger chest: She has apparently made herself a bit more like you, as her chest appears to be a perfect copy of your " + biggestBreastSizeDescript()+ ".]
 		 */
-		
+		override public function playerBoundStruggle():Boolean{
+			clearOutput();
+			//[Struggle](successful) :
+			if (rand(3) == 0 || rand(80) < player.str) {
+				outputText("You claw your fingers wildly within the slime and manage to brush against her heart-shaped nucleus. The girl silently gasps and loses cohesion, allowing you to pull yourself free while she attempts to solidify.");
+				player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+			}
+			//Failed struggle
+			else {
+				outputText("You writhe uselessly, trapped inside the goo girl's warm, seething body. Darkness creeps at the edge of your vision as you slow, lulled into surrendering by the rippling vibrations of the girl's pulsing body around yours. ");
+				player.takePhysDamage(.15 * player.maxHP(), true);
+			}
+			return true;
+		}
+
+		override public function playerBoundWait():Boolean{
+			clearOutput();
+			outputText("You writhe uselessly, trapped inside the goo girl's warm, seething body. Darkness creeps at the edge of your vision as you are lulled into surrendering by the rippling vibrations of the girl's pulsing body around yours.");
+			player.takePhysDamage(.35 * player.maxHP(), true);
+			return true;
+		}
 		
 		override public function postPlayerAbility(ability:CombatAbility, display:Boolean = true):void {
 			//[Using fire attacks on the goo]
@@ -98,7 +118,7 @@ public class GooGirl extends Monster
 		private function gooEngulph():void
 		{
 			outputText("The goo-girl gleefully throws her entire body at you and, before you can get out of the way, she has engulfed you in her oozing form! Tendrils of " + bodyColor + " slime slide up your nostrils and through your lips, filling your lungs with the girl's muck. You begin suffocating!");
-			if (!player.hasStatusEffect(StatusEffects.GooBind)) player.createStatusEffect(StatusEffects.GooBind, 0, 0, 0, 0);
+			if (!player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) player.createStatusEffect(StatusEffects.PlayerBoundPhysical, 0, 0, 0, 0);
 		}
 
 		override protected function performCombatAction():void
@@ -126,7 +146,7 @@ public class GooGirl extends Monster
 			}
 		}
 
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			if (lust <= maxLust() * 0.99) {
 				if (lustDelta <= 0) outputText("\nThe goo-girl looks confused by your actions, as if she's trying to understand what you're doing.");
@@ -134,7 +154,7 @@ public class GooGirl extends Monster
 				else outputText("\nThe girl begins to understand your intent. She opens and closes her mouth, as if panting, while she works slimy fingers between her thighs and across her jiggling nipples.");
 			}
 			else outputText("\nIt appears the goo-girl has gotten lost in her mimicry, squeezing her breasts and jilling her shiny " + bodyColor + " clit, her desire to investigate you forgotten.");
-			applyTease(lustDelta, display);
+			applyTease(lustDelta, display, aura);
 		}
 
 		public function GooGirl(noInit:Boolean = false)
@@ -160,23 +180,24 @@ public class GooGirl extends Monster
 			this.skin.setBaseOnly({color:tone,type:Skin.GOO});
 			this.hairColor = tone;
 			this.hairLength = 12 + rand(10);
-			initStrTouSpeInte(32, 40, 20, 30);
-			initWisLibSensCor(30, 50, 40, 10);
+			initStrTouSpeInte(52, 70, 50, 30);
+			initWisLibSensCor(30, 55, 45, -20);
 			this.weaponName = "hands";
 			this.weaponVerb="slap";
 			this.weaponAttack = 7;
 			this.armorName = "gelatinous skin";
-			this.armorDef = 4;
-			this.armorMDef = 12;
+			this.armorDef = 8;
+			this.armorMDef = 24;
 			this.bonusHP = 40;
-			this.bonusLust = 96;
+			this.bonusLust = 107;
 			this.lust = 45;
 			this.lustVuln = .75;
-			this.level = 6;
+			this.level = 7;
 			this.gems = rand(6) + 4;
 			this.drop = new ChainedDrop().add(weapons.PIPE,1/10)
 					.add(consumables.WETCLTH,1/2)
 					.elseDrop(useables.GREENGL);
+			this.createPerk(PerkLib.EnemyForBeginnersType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.FireVulnerability, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyGooType, 0, 0, 0, 0);
 			checkMonster();

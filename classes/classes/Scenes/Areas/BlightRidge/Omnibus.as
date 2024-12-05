@@ -42,16 +42,17 @@ use namespace CoC;
 		{
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
 				this.short = "mist omnibus";
-				initStrTouSpeInte(220, 180, 165, 140);
-				initWisLibSensCor(140, 150, 75, 100);
-				this.weaponAttack = 39;
-				this.armorDef = 36;
-				this.armorMDef = 6;
-				this.bonusHP = 775;
-				this.bonusLust = 273;
+				initStrTouSpeInte(440, 360, 330, 280);
+				initWisLibSensCor(280, 300, 150, 100);
+				this.weaponAttack = 78;
+				this.armorDef = 72;
+				this.armorMDef = 12;
+				this.bonusHP = 1550;
+				this.bonusLust = 498;
 				this.level = 48;
 				this.additionalXP = 300;
 			    this.gems = rand(40) + 50;
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 				this.createPerk(PerkLib.OverMaxHP, 49, 0, 0, 0);
 			}
 			else if (inDungeon) { //EL check
@@ -88,6 +89,7 @@ use namespace CoC;
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) this.long = "She stands about six feet tall and is hugely voluptuous, her impressive breasts wobble delightfully as she moves.  Her hips flare out into an exaggerated hourglass shape, with a long tail tipped with a fleshy arrow-head spade that waves above her spankable butt.  She is wearing rags that cover only a tiny fraction of her glowing vein covered body, concealing just her naughty bits to make the whole display more erotic.  Her crotch is a combination of both genders – a drooling cunt topped with a thick demonic shaft, sprouting from where a clit should be.  She's using a leather whip as a weapon.";
 			else this.long = "She stands about six feet tall and is hugely voluptuous, her impressive breasts wobble delightfully as she moves.  Her hips flare out into an exaggerated hourglass shape, with a long tail tipped with a fleshy arrow-head spade that waves above her spankable butt.  She is wearing rags that cover only a tiny fraction of her body, concealing just her naughty bits to make the whole display more erotic.  Her crotch is a combination of both genders – a drooling cunt topped with a thick demonic shaft, sprouting from where a clit should be.  She's using a leather whip as a weapon.";
 			// this.plural = false;
+			this.flyer = true;
 			this.createCock(10,1.5,CockTypesEnum.DEMON);
 			this.balls = 0;
 			this.ballSize = 0;

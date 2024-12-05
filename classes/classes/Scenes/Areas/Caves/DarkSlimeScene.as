@@ -20,7 +20,7 @@ public class DarkSlimeScene extends BaseContent
             outputText("You take the turn at the end of the cave and run right into a dark slime. For a few second both of you consider each other before the slime shrugs and simply asks.\n\n");
             outputText("\"<i>No luck finding fluids that way?</i>\"");
             outputText("You didn’t find any and if you did you would have pumped it out until it ran dry.\n\n");
-            outputText("\"<i>Well darn, if you spot a fleshling do share!</i>\"");
+            outputText("\"<i>Well darn, if you spot a fleshling do share!</i>\"\n\n");
             outputText("Well that was easy… you can only guess slimes don’t get much out of other slimes’ bodies. You proceed deeper into the caves unhindered, though, you wish you indeed had found someone to milk the fluids off.\n\n");
             endEncounter();
             return;
@@ -74,7 +74,7 @@ public class DarkSlimeScene extends BaseContent
             outputText("\"<i>Mmmm...a prey that doesn’t resist. How delicious…. Nice body, too. Quite the catch I have found, huh. I think I will help myself.</i>\"\n\n");
         }
         else {
-            outputText("You smirk and proceed to play with the slime’s body, discarding your gear to the side as you prepare for some nice relief. However the moment your naked body comes into contact with her she swiftly uses her mass to shift the position, forcing you on your back as she now towers over you.\n\n" +
+            outputText("You smirk and proceed to play with the slime’s body, discarding your gear to the side as you prepare for some nice relief. However, the moment your naked body comes into contact with her she swiftly uses her mass to shift the position, forcing you on your back as she now towers over you.\n\n" +
             "\"<i>Hehehe… you poor idiot you thought you could just rape the rapist? I got you right where I wanted and now that you're naked I can proceed with what I had in mind, starting with making you more compliant.</i>\"\n\n" +
             "You realise the depth of your mistake as your body begins to tingle. Obviously her fluids are filled with aphrodisiacs and they began affecting you the moment you were in contact with her body. " +
             "Now that you are weakened by your own arousal the slime has no issue taking over, some of her drool falling over your chest as she slowly covers you. Eventually, you are left floating inside her body as she forces you to sit, a slimy hand holding you up. ");
@@ -172,7 +172,11 @@ public class DarkSlimeScene extends BaseContent
     public function beatingDarkSlimeUseHer2():void {
         outputText("Regardless of the number of tendrils massaging you in every right way, your having one hell of a great session. The slime is pleasing you in a rhythmic tempo not unlike that of your heartbeat its body pulsing with every small drop of fluid you produce. At this rate, you won’t be able to hold off any further and the slime knowing it speeds up its pace eager for the reward.\n\n");
         outputText("You cum magnificently your fluids mixing and flooding in the slime’s body mass. You almost doze off to sleep too but the mass of the slime moving off from you jar you awake, guess she does not double up as a real bed for resting purposes. She waves off goodbye as she takes her departure leaving you there to ponder who truly raped who.\n\n");
-        player.sexReward("no", "Default");
+        if (player.hasCock() || player.hasVagina()) {
+			if (player.hasCock()) player.sexReward("saliva","Dick");
+			if (player.hasVagina()) player.sexReward("saliva","Vaginal");
+		}
+		else player.sexReward("no", "Default");
         cleanupAfterCombat();
     }
 

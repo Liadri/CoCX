@@ -100,7 +100,7 @@ public class ChameleonGirl extends Monster
 			if (damage <= 0) {
 				outputText("The Chameleon Girl lashes out with her tongue, but you deflect the sticky projectile off your arm, successfully defending against it.  She doesn't look happy about it when she slurps the muscle back into her mouth.");
 			} else {
-				outputText("The chameleon whips her head forward and sends her tongue flying at you.  It catches you in the gut, the incredible force behind it staggering you.  The pink blur flies back into her mouth as quickly as it came at you, and she laughs mockingly as you recover your footing. <b>(<font color=\"#000080\">" + damage + "</font>)</b>");
+				outputText("The chameleon whips her head forward and sends her tongue flying at you.  It catches you in the gut, the incredible force behind it staggering you.  The pink blur flies back into her mouth as quickly as it came at you, and she laughs mockingly as you recover your footing. <b>([font-miss]" + damage + "[/font])</b>");
 			}
 		}
 
@@ -134,19 +134,19 @@ public class ChameleonGirl extends Monster
 			this.skin.setBaseOnly({color:skinToneAdj[0],adj:skinToneAdj[1],type:Skin.PLAIN});
 			this.hairColor = "black";
 			this.hairLength = 15;
-			initStrTouSpeInte(120, 120, 105, 95);
-			initWisLibSensCor(100, 60, 45, 50);
+			initStrTouSpeInte(380, 380, 315, 285);
+			initWisLibSensCor(300, 180, 135, 50);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 40;
+			this.weaponAttack = 120;
 			this.armorName = "skin";
-			this.armorDef = 30;
-			this.armorMDef = 3;
-			this.bonusHP = 350;
-			this.bonusLust = 133;
+			this.armorDef = 150;
+			this.armorMDef = 60;
+			this.bonusHP = 750;
+			this.bonusLust = 363;
 			this.lust = 30;
 			this.lustVuln = .25;
-			this.level = 28;
+			this.level = 48;
 			this.gems = 50 + rand(60);
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);

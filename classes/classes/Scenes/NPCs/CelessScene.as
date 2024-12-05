@@ -2,6 +2,7 @@ package classes.Scenes.NPCs {
 import classes.CoC;
 import classes.EventParser;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.ItemType;
 import classes.PerkLib;
 import classes.PregnancyStore;
@@ -45,8 +46,7 @@ public class CelessScene extends XXCNPC implements TimeAwareInterface {
 
 	public static function canMeetUnicorn():Boolean {
 		return (
-				CoC.instance.player.level >= 25
-				&& !CoC.instance.player.isPregnant()
+				!CoC.instance.player.isPregnant()
 				&& !instance.armorFound
 				&& (instance._age == 0 || instance._age < -1)
 		);
@@ -95,7 +95,7 @@ public class CelessScene extends XXCNPC implements TimeAwareInterface {
 	}
 
 	public function get isCorrupt():Boolean {
-		return _corruption > 50;
+		return _corruption > 50 || player.perkv1(IMutationsLib.FiendishOvariesIM) >= 2;
 	}
 
 	public function get isAdult():Boolean {
@@ -395,7 +395,11 @@ public class CelessScene extends XXCNPC implements TimeAwareInterface {
 			[CoC.instance.armors.SPKIMO, CoC.instance.armors.OEKIMO, CoC.instance.armors.OTKIMO],
 			[CoC.instance.armors.CTPALAD, CoC.instance.armors.CTHPALA, CoC.instance.armors.CTBGUAR],
 			[CoC.instance.armors.LTHRPNT, null, CoC.instance.armors.CGUNSLI],
-			[CoC.instance.armors.DEATHPO, null, CoC.instance.armors.DEATHPGA]
+			[CoC.instance.armors.DEATHPO, null, CoC.instance.armors.DEATHPGA],
+			[CoC.instance.armors.B_QIPAO, CoC.instance.armors.SFLAREQ, null],
+			[CoC.instance.armors.G_QIPAO, CoC.instance.armors.SFLAREQ, null],
+			[CoC.instance.armors.P_QIPAO, CoC.instance.armors.SFLAREQ, null],
+			[CoC.instance.armors.R_QIPAO, CoC.instance.armors.SFLAREQ, null]
 		];
 		var selectfrom:int = corrupt ? 2 : 1;
 		var selectMenu:ButtonDataList = new ButtonDataList();
@@ -485,7 +489,7 @@ public class CelessScene extends XXCNPC implements TimeAwareInterface {
 				"The woman has silvery white hair flowing around her perfect visage; and her sizable E cup would make most women back in Ingnam green with envy, then again, most things even somewhat female here in Mareth would cause the same reaction. "+
 				"The comparison to a human, however, ends there. "+
 				"Below her waist is the large lower-body of an immaculate white horse. "+
-				"Her ears are covered with silvery white fur and while at first you mistook her for just a centaur warrior, the spear-like spiraling horns on her forehead warns you that there might be more to her.\n\n"+
+				"Her ears are covered with silvery white fur and while at first you mistook her for just a centaur warrior, the spear-like spiraling horn on her forehead warns you that there might be more to her.\n\n"+
 				"<i>\"Just leave and I won’t have to attack you. I swear on my honor that I won’t give chase should you leave peacefully. This is for your own good.\"</i>");
 				if (playerIsVirgin()) {
 					outputText("She suddenly sniffs something in the air and her expression changes to one of baffled disbelief.\n\n"+

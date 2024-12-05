@@ -95,7 +95,7 @@ use namespace CoC;
 		{
 			if (flags[kFLAGS.TED_LVL_UP] < 1) {
 				initStrTouSpeInte(30, 50, 50, 30);
-				initWisLibSensCor(30, 20, 40, 50);
+				initWisLibSensCor(30, 20, 40, 0);
 				this.weaponAttack = 8;
 				this.armorDef = 5;
 				this.armorMDef = 50;
@@ -104,7 +104,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.TED_LVL_UP] == 1) {
 				initStrTouSpeInte(40, 70, 70, 40);
-				initWisLibSensCor(40, 25, 50, 50);
+				initWisLibSensCor(40, 25, 50, 0);
 				this.weaponAttack = 10;
 				this.armorDef = 10;
 				this.armorMDef = 55;
@@ -113,7 +113,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.TED_LVL_UP] == 2) {
 				initStrTouSpeInte(50, 90, 90, 50);
-				initWisLibSensCor(50, 30, 60, 50);
+				initWisLibSensCor(50, 30, 60, 0);
 				this.weaponAttack = 12;
 				this.armorDef = 15;
 				this.armorMDef = 60;
@@ -122,7 +122,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.TED_LVL_UP] == 3) {
 				initStrTouSpeInte(63, 115, 115, 62);
-				initWisLibSensCor(62, 35, 70, 50);
+				initWisLibSensCor(62, 35, 70, 0);
 				this.weaponAttack = 15;
 				this.armorDef = 21;
 				this.armorMDef = 66;
@@ -141,7 +141,7 @@ use namespace CoC;
 			else if (flags[kFLAGS.TED_LVL_UP] >= 3 && flags[kFLAGS.TED_LVL_UP] < 6) this.drop = new WeightedDrop(consumables.BAGOCA2, 1);
 			else this.drop = new WeightedDrop(consumables.BAGOCA1, 1);
 			this.imageName = "mysterious dragon-boy";
-			this.long = "Before you stands a dragon-boy.  He stands only six and half feet tall and is covered in lean muscle. He moves with a grace akin to a skilled balet dancer.  He wears armor made of green dragon scales and fight using an oversized hammer that got inscribed on it words 'bam' and 'hammer'. As you glance over it, the word 'bam' looks like it was orginaly word 'ban'.";
+			this.long = "Before you stands a dragon-boy.  He stands only six and half feet tall and is covered in lean muscle. He moves with a grace akin to a skilled ballet dancer.  He wears armor made of green dragon scales and fight using an oversized hammer that got inscribed on it words 'bam' and 'hammer'. As you glance over it, the word 'bam' looks like it was originally word 'ban'.";
 			// this.plural = false;
 			this.createCock(4,1);
 			this.balls = 2;
@@ -169,6 +169,7 @@ use namespace CoC;
 			this.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
 			this.createPerk(PerkLib.LizanRegeneration, 0, 0, 0, 0);
 			this.createPerk(IMutationsLib.LizanMarrowIM, 1, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			IMutationsLib.LizanMarrowIM.acquireMutation(this, "none");

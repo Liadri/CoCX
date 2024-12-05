@@ -30,7 +30,7 @@ use namespace CoC;
 		public var wanderer:Wanderer = new Wanderer();
 		//public var gorgonScene:GorgonScene = new GorgonScene();przenieść do deep desert potem
 		
-		public const discoverLevelOuter:int = 0;
+		public const discoverLevelOuter:int = 10;
 		public const areaLevelOuter:int = 1;
 		public function isDiscoveredOuter():Boolean {
 			return SceneLib.exploration.counters.desertOuter > 0;
@@ -54,7 +54,7 @@ use namespace CoC;
 		}
 		
 		
-		public const areaLevelInner:int = 10;
+		public const areaLevelInner:int = 22;
 		public function isDiscoveredInner():Boolean {
 			return SceneLib.exploration.counters.desertInner > 0;
 		}
@@ -98,23 +98,21 @@ use namespace CoC;
 					name: "naga",
 					label : "Naga",
 					kind  : 'monster',
-					when: fn.ifLevelMin(4),
 					chance: nagaChance,
 					call: nagaScene.nagaEncounter
-				}, {/*
+				}, {
 					name  : "sandtrap",
 					label : "Sand Trap",
 					kind  : 'monster',
 					chance: 0.5,
-					when  : fn.ifLevelMin(2),
 					call  : sandTrapScene.encounterASandTarp
-				}, {*/
+				}, {
 					name: "sandwitch",
 					label : "Sand Witch",
 					kind  : 'monster',
 					night : false,
 					when: function ():Boolean {
-						return player.level >= 3 && flags[kFLAGS.SAND_WITCH_LEAVE_ME_ALONE] == 0;
+						return flags[kFLAGS.SAND_WITCH_LEAVE_ME_ALONE] == 0;
 					},
 					call: sandWitchScene.encounter
 				}, {
@@ -126,6 +124,13 @@ use namespace CoC;
 						return flags[kFLAGS.CUM_WITCHES_FIGHTABLE] > 0;
 					},
 					call: SceneLib.dungeons.desertcave.fightCumWitch
+				},{
+					name: "mummy",
+					label : "Mummy",
+					kind : 'monster',
+					day   : false,
+					chance: 0.7,
+					call: SceneLib.zombiesmummies.encounterMummyOuterDesert
 				}, {
 					name  : "wanderer",
 					label : "Wanderer",
@@ -150,7 +155,7 @@ use namespace CoC;
 					unique: true,
 					night : false,
 					when  : function ():Boolean {
-						return player.level >= 9 && flags[kFLAGS.ANT_WAIFU] == 0 && flags[kFLAGS.ANTS_PC_FAILED_PHYLLA] == 0 && flags[kFLAGS.ANT_COLONY_KEPT_HIDDEN] == 0;
+						return flags[kFLAGS.ANT_WAIFU] == 0 && flags[kFLAGS.ANTS_PC_FAILED_PHYLLA] == 0 && flags[kFLAGS.ANT_COLONY_KEPT_HIDDEN] == 0;
 					},
 					chance: phyllaAnthillChance,
 					call  : antsScene.antColonyEncounter
@@ -160,8 +165,7 @@ use namespace CoC;
 					kind  : 'place',
 					unique: true,
 					when: function ():Boolean {
-						return (player.level >= 4 || timesExploredOuter() > 45)
-							   && flags[kFLAGS.DISCOVERED_WITCH_DUNGEON] == 0;
+						return timesExploredOuter() > 10 && flags[kFLAGS.DISCOVERED_WITCH_DUNGEON] == 0;
 					},
 					call: SceneLib.dungeons.desertcave.enterDungeon
 				}, {
@@ -179,7 +183,7 @@ use namespace CoC;
 					kind  : 'item',
 					unique: true,
 					when: function ():Boolean {
-						return player.level >= 6 && player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns1) && player.statusEffectv1(StatusEffects.TelAdreTripxiGuns1) == 0 && player.hasKeyItem("Desert Eagle") < 0;
+						return (player.level >= 6 || flags[kFLAGS.HARDCORE_MODE] == 1) && player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns1) && player.statusEffectv1(StatusEffects.TelAdreTripxiGuns1) == 0 && player.hasKeyItem("Desert Eagle") < 0;
 					},
 					chance: 30,
 					call: partsofDesertEagle
@@ -241,7 +245,7 @@ use namespace CoC;
 					chance: desertChance,
 					when: function ():Boolean
 					{
-						return (flags[kFLAGS.ETNA_FOLLOWER] < 1 && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2 && !player.hasStatusEffect(StatusEffects.EtnaOff) && (player.level >= 20));
+						return (flags[kFLAGS.ETNA_FOLLOWER] < 1 && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2 && !player.hasStatusEffect(StatusEffects.EtnaOff) && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1));
 					},
 					call: SceneLib.etnaScene.repeatYandereEnc
 				}, {
@@ -254,13 +258,6 @@ use namespace CoC;
 					call  : SceneLib.helScene.helSexualAmbush,
 					chance: desertChance,
 					when  : SceneLib.helScene.helSexualAmbushCondition
-				}, {
-					name: "mimic",
-					label : "Mimic",
-					kind : 'monster',
-					chance: 0.25,
-					when: fn.ifLevelMin(3),
-					call: curry(SceneLib.mimicScene.mimicTentacleStart, 1)
 				}, {
 					name  : "desertloot",
 					label : "Cake",
@@ -285,25 +282,33 @@ use namespace CoC;
 				});
 			_desertInnerEncounter = Encounters.group("inner desert",
 				{
-					name: "gorgon",
-					label : "Gorgon",
-					kind  : 'monster',
-					when: fn.ifLevelMin(31),
-					call: gorgonScene.gorgonEncounter
-				}, {
-					name  : "werefoxEFemale",
-					label : "E.Werefox (F)",
+					name  : "werefoxFemale",
+					label : "Werefox (F)",
 					kind : 'monster',
 					day : false,
-					when: fn.ifLevelMin(43),
-					call  : SceneLib.werefoxScene.werefoxOuterDeepDesertEncounter,
+					call  : SceneLib.werefoxScene.werefoxFemaleInnerDesertEncounter,
 					chance: 0.50
+				},{
+					name  : "werefoxMale",
+					label : "Werefox (M)",
+					kind : 'monster',
+					day : false,
+					call  : SceneLib.werefoxScene.werefoxMaleInnerDesertEncounter,
+					chance: 0.50
+				},{
+					name: "mummy",
+					label : "Mummy",
+					kind : 'monster',
+					day   : false,
+					chance: 0.7,
+					call: SceneLib.zombiesmummies.encounterMummyInnerDesert
 				}, {
-					name: "sandworm",
-					label : "Sandworm",
-					kind  : 'monster',
-					night: false,
-					call: sandWormScene.SandWormEncounter
+					name: "mimic",
+					label : "Mimic",
+					kind : 'monster',
+					chance: 0.1,
+					when: fn.ifLevelMin(3),
+					call: curry(SceneLib.mimicScene.mimicTentacleStart, 1)
 				}, {
 					name: "anubis",
 					label : "Anubis",
@@ -311,12 +316,33 @@ use namespace CoC;
 					night: false,
 					call: anubisScene.anubisEncounter
 				}, {
-					name  : "werefoxFemale",
-					label : "Werefox (F)",
+					name  : "werefoxEFemale",
+					label : "E.Werefox (F)",
 					kind : 'monster',
 					day : false,
-					call  : SceneLib.werefoxScene.werefoxInnerDesertEncounter,
+					when: fn.ifLevelMin(43),
+					call  : SceneLib.werefoxScene.werefoxFemaleOuterDeepDesertEncounter,
 					chance: 0.50
+				}, {
+					name  : "werefoxEMale",
+					label : "E.Werefox (M)",
+					kind : 'monster',
+					day : false,
+					when: fn.ifLevelMin(43),
+					call  : SceneLib.werefoxScene.werefoxMaleOuterDeepDesertEncounter,
+					chance: 0.50
+				}, {
+					name: "gorgon",
+					label : "Gorgon",
+					kind  : 'monster',
+					when: fn.ifLevelMin(31),
+					call: gorgonScene.gorgonEncounter
+				}, {
+					name: "sandworm",
+					label : "Sandworm",
+					kind  : 'monster',
+					night: false,
+					call: sandWormScene.SandWormEncounter
 				}, {
 					name: "etna",
 					label : "Etna",
@@ -325,7 +351,7 @@ use namespace CoC;
 					chance: desertChance,
 					when: function ():Boolean
 					{
-						return (flags[kFLAGS.ETNA_FOLLOWER] < 1 && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2 && !player.hasStatusEffect(StatusEffects.EtnaOff) && (player.level >= 20));
+						return (flags[kFLAGS.ETNA_FOLLOWER] < 1 && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2 && !player.hasStatusEffect(StatusEffects.EtnaOff) && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1));
 					},
 					call: SceneLib.etnaScene.repeatYandereEnc
 				}, {
@@ -345,7 +371,7 @@ use namespace CoC;
 					unique: true,
 					night : false,
 					when: function():Boolean {
-						return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && flags[kFLAGS.ELECTRA_AFFECTION] >= 2 && !player.hasStatusEffect(StatusEffects.ElectraOff) && (player.level >= 20);
+						return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && flags[kFLAGS.ELECTRA_AFFECTION] >= 2 && !player.hasStatusEffect(StatusEffects.ElectraOff) && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 					},
 					chance: desertChance,
 					call: function ():void {

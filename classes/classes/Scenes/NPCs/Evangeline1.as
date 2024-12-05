@@ -212,7 +212,7 @@ public class Evangeline1 extends Monster
 			temp *= SpellMod();
 			temp /= 3;
 			temp = Math.round(temp);
-			outputText("Evangeline flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+			outputText("Evangeline flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 			addHP(temp);
 			mana -= spellCostHeal();
 			flags[kFLAGS.EVANGELINE_SPELLS_CASTED]++;
@@ -366,7 +366,7 @@ public class Evangeline1 extends Monster
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 5) {
 				initStrTouSpeInte(46, 48, 68, 110);
-				initWisLibSensCor(20, 25, 35, 50);
+				initWisLibSensCor(20, 25, 35, 0);
 				this.weaponAttack = 10;
 				this.armorDef = 14;
 				this.armorMDef = 3;
@@ -378,7 +378,7 @@ public class Evangeline1 extends Monster
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 6) {
 				initStrTouSpeInte(82, 87, 105, 115);
-				initWisLibSensCor(25, 30, 45, 50);
+				initWisLibSensCor(25, 30, 45, 0);
 				this.weaponAttack = 12;
 				this.armorDef = 18;
 				this.armorMDef = 5;
@@ -403,7 +403,7 @@ public class Evangeline1 extends Monster
 				createBreastRow(Appearance.breastCupInverse("A"));
 				this.hips.type = Hips.RATING_BOYISH;
 				this.butt.type = Butt.RATING_BUTTLESS;
-				initWisLibSensCor(15, 10, 10, 50);
+				initWisLibSensCor(15, 10, 10, 0);
 				this.hairColor = "red";
 				this.hairLength = 6;
 				this.lustVuln = .85;
@@ -418,6 +418,7 @@ public class Evangeline1 extends Monster
 			this.gems = 0;
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EzekielBlessing, 0, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 1) this.createPerk(PerkLib.JobSorcerer, 0, 0, 0, 0);
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 2) {
 				this.createPerk(PerkLib.JobGuardian, 0, 0, 0, 0);

@@ -53,12 +53,12 @@ public function firstMeetingMichiko():void {
 	outputText("\"<i>Great! And you don’t need to escort me, I know the way. When you return to camp and you ever want to chat, just call out for me when you’re near the forest. I’ll be there in a second.</i>\"\n\n");
 	outputText("Right. Having nothing else to talk about, you dig into your meal. You both finish around the same time, and you thank her once more for purchasing the food for you. \"<i>Really, it’s no trouble at all, [name]. For now, I’ll get started moving to camp. I’ll see you there.</i>\" You exit the tavern alongside her, waving goodbye as she walks down the road.\n\n");
 	outputText("Michiko moves into your camp, setting up a tent which she fills up with books and scrolls she picks up from her bag.\n\n");
-	if (player.hasStatusEffect(StatusEffects.PureCampJojo)) outputText("Intrigued, Jojo snoops up to check on your new scholarly guest.\n\n");
+	if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) outputText("Intrigued, Jojo snoops up to check on your new scholarly guest.\n\n");
 	if (player.hasStatusEffect(StatusEffects.CampRathazul)) outputText("Rathazul raises an eyebrow as the squirrel girl walks around and sets up her installations, though he swiftly goes back to his experiments.\n\n");
 	outputText("(<b>Michiko has been added to the Followers menu!</b>)\n\n");
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Michiko pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Michiko pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	flags[kFLAGS.MICHIKO_FOLLOWER] = 1;
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -145,7 +145,7 @@ public function campMichikoTalkMM():void {
 }
 public function campMichikoTalkRegion():void {
 	menu();
-	outputText("You would like to know more about the various area of mareth.\n\n");
+	outputText("You would like to know more about the various area of Mareth.\n\n");
 	outputText("\"<i>Sure [name], which one you want to know about?</i>\"\n\n");
 	addButton(0, "Wasteland", campMichikoTalkRegionWasteland);
 	addButton(1, "Forest", campMichikoTalkRegionForest);
@@ -187,7 +187,7 @@ public function campMichikoTalkRegionForest():void {
 public function campMichikoTalkRegionDeepwood():void {
 	clearOutput();
 	outputText("You ask Michiko if she got anything on the deep woods.\n\n");
-	outputText("\"<i>Yea I kind of do, the place is nasty as it's pretty much the source of all the corruption in the forest. At first you would think it’s just that sealed demon Akhbal but truth be told it goes way deeper than that, it's like the deepwoods became a refuge for fiends ranging from the infamous Erlking’s Wyld hunt to the dark mistress of the twilight grove. Speaking of grove watch out for tentacle beast and more then anything watch out for alraunes, ");
+	outputText("\"<i>Yea I kind of do, the place is nasty as it's pretty much the source of all the corruption in the forest. At first you would think it’s just that sealed demon Akhbal but truth be told it goes way deeper than that, it's like the deepwoods became a refuge for fiends ranging from the infamous Erlking’s Wyld hunt to the dark mistress of the twilight grove. Speaking of grove watch out for tentacle beast and more than anything watch out for alraunes, ");
 	outputText("they just seem to grow all over the place. Amidst all this corruption the kitsunes somehow still manage to thrive in secrecy while the fairies flutter around. Be wary of who you trust in those woods.</i>\"\n\n");
 	doNext(campMichikoTalkRegion);
 	advanceMinutes(15);
@@ -236,7 +236,7 @@ public function campMichikoTalkRegionSwamp():void {
 	clearOutput();
 	outputText("What does she have on the local swamps?\n\n");
 	outputText("\"<i>The swamps of Mareth are old [name]. The dragon tribes used to reside there until they became extinct or so I think. No one has seen a dragon in years but if an artefact of the dragon does exist it’s likely hidden somewhere in the swamp away from the gaze of the lesser races. The spider morphs and driders are the local nuisances there and they are as random as a coin. ");
-	outputText("Either they attack you or they talk to you. I generally prefer to flee rather then find out.</i>\"\n\n");
+	outputText("Either they attack you or they talk to you. I generally prefer to flee rather than find out.</i>\"\n\n");
 	doNext(campMichikoTalkRegion);
 	advanceMinutes(15);
 }

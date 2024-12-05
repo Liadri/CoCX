@@ -113,7 +113,7 @@ package classes.GeneticMemories {
 			id: "Buck Teeth",
 			name: "Buck Teeth",
 			cost: 100,
-			title: "Buck Teeth",
+			title: "Bunny Face",
 			transformation: function(): Transformation {
 				return CoC.instance.transformations.FaceBunny;
 			}
@@ -679,6 +679,28 @@ package classes.GeneticMemories {
 			title: "Demon Face",
 			transformation: function(): Transformation {
 				return CoC.instance.transformations.FaceDemon;
+			}
+		});
+
+		public static const TROLL:int = _partid++;
+		EnumValue.add(Memories, TROLL, "TROLL", {
+			id: "Troll Face",
+			name: "Troll Face",
+			cost: 100,
+			title: "Troll Face",
+			transformation: function(): Transformation {
+				return CoC.instance.transformations.FaceTroll;
+			}
+		});
+
+		public static const GLACIAL_TROLL:int = _partid++;
+		EnumValue.add(Memories, GLACIAL_TROLL, "GLACIAL_TROLL", {
+			id: "G.Troll Face",
+			name: "G.Troll Face",
+			cost: 100,
+			title: "G.Troll Face",
+			transformation: function(): Transformation {
+				return CoC.instance.transformations.FaceGlacialTroll;
 			}
 		});
 

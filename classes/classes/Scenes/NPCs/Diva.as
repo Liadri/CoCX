@@ -19,9 +19,34 @@ public class Diva extends Monster {
     private var finalFight:Boolean = false;
     private var _sonicScreamCooldown:int = 0;
 
+    override public function combatStatusesUpdateWhenBound():void{
+        nagaBindUpdateWhenBound();
+    }
+
+    override public function playerBoundStruggle():Boolean{clearOutput();
+        if (rand(3) == 0 || rand(80) < player.str / 1.5 || player.hasPerk(PerkLib.FluidBody)) {
+            outputText("You wriggle and squirm violently, tearing yourself out from within [themonster]'s coils.");
+            player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+        } else {
+            outputText("The [monster name]'s grip on you tightens as you struggle to break free from the stimulating pressure.");
+            player.takeLustDamage(player.effectiveSensitivity() / 10 + 2, true);
+            moveBite();
+        }
+        return true;
+    }
+
+    override public function playerBoundWait():Boolean{
+        clearOutput();
+        moveBite();
+        outputText("The [monster name]'s grip on you tightens as you relax into the stimulating pressure.");
+        player.takeLustDamage(player.effectiveSensitivity() / 5 + 5, true);
+        player.takePhysDamage(5 + rand(5));
+        return true;
+    }
+
     public function Diva(ff:Boolean = false) {
         this.finalFight = ff;
-        var levelBonus:int = ff ? 50 : 20;
+        var levelBonus:int = ff ? 70 : 40;
         this.a = "";
         this.short = "Diva";
         this.long = "";
@@ -35,16 +60,16 @@ public class Diva extends Monster {
         this.bodyColor = "pale";
         this.hairColor = "blonde";
         this.hairLength = 16;
-        initWisLibSensCor(4.5 * levelBonus, 40, 50, 60);
-        initStrTouSpeInte(1.5 * levelBonus, 3 * levelBonus, 4 * levelBonus, 4.5 * levelBonus);
+        initStrTouSpeInte(8 * levelBonus, 10 * levelBonus, 12 * levelBonus, 14 * levelBonus);
+        initWisLibSensCor(14 * levelBonus, 10 * levelBonus, 12 * levelBonus, 20);
         this.weaponName = "dive";
         this.weaponVerb = "swoop";
         this.armorName = "dress";
-        this.armorDef = levelBonus;
-        this.armorMDef = levelBonus;
+        this.armorDef = levelBonus * 4;
+        this.armorMDef = levelBonus * 4;
         this.wings.type = Wings.BAT_LIKE_LARGE;
-        this.bonusHP = levelBonus * 500;
-        this.bonusLust = levelBonus * 8;
+        this.bonusHP = levelBonus * 2000;
+        this.bonusLust = levelBonus * 23;
         this.lustVuln = 1;
         this.level = levelBonus;
         this.drop = new ChainedDrop(consumables.VAMPBLD);
@@ -75,7 +100,7 @@ public class Diva extends Monster {
     }
 
     override protected function performCombatAction():void {
-        if (player.hasStatusEffect(StatusEffects.NagaBind)) {
+        if (player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) {
             moveBite();
         } else {
             var options:Array = [moveEmbrace, moveSwoopToss];
@@ -119,7 +144,7 @@ public class Diva extends Monster {
 
     private function moveEmbrace():void {
         if (rand(120) >= (player.spe > 80) ? player.spe : 80) {
-            player.createStatusEffect(StatusEffects.NagaBind, 0, 0, 0, 0);
+            player.createStatusEffect(StatusEffects.PlayerBoundPhysical, 0, 0, 0, 0);
             outputText("Diva suddenly dives and closes her wings and arms on you, locking you in an embrace!");
             if (EngineCore.silly()) outputText("  Bad touch, bad touch!");
         } else {

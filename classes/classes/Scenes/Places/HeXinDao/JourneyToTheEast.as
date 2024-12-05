@@ -66,7 +66,7 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 				EvelynnTavernTalks = valueOr(o["EvelynnTavernTalks"], false);
 				EvelynnCoreLimitBreakerCounter = valueOr(o["EvelynnCoreLimitBreakerCounter"], 0);
 				DianaTavernTalks1 = valueOr(o["DianaTavernTalks1"], false);
-				DianaTavernTalks2 = valueOr(o["DianaTavernTalks1"], false);
+				DianaTavernTalks2 = valueOr(o["DianaTavernTalks2"], false);
 			} else {
 				// loading from old save
 				resetState();
@@ -92,7 +92,7 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 			addButton(0, "Drink", drinkAlcohol);
 			addButton(2, "Felix", shadyPerson).hint("A strange two-headed chimera with two tails is sitting near the bar.");
 			addButton(4, "Adv.Guild", SceneLib.adventureGuild.BoardkeeperYangMain);
-			//addButton(5, "Monkey", SceneLib.waizabi.bimboMonkey).hint("You see a massive-breasted woman sitting at a table on your right. At first, she seems human, but as you look, her monkey tail flicks up, grabbing her drink and bringing it to her lips. Her body is heavily muscled, almost amazonian.");//monkey bimbo go go - Waiz'abi
+			addButton(5, "Monkey", SceneLib.waizabi.bimboMonkey).hint("You see a massive-breasted woman sitting at a table on your right. At first, she seems human, but as you look, her monkey tail flicks up, grabbing her drink and bringing it to her lips. Her body is heavily muscled, almost amazonian.");//monkey bimbo go go - Waiz'abi
 			if (workHoursMadam() || workHoursTemptress()) addButton(6, "5/0/0", tableNo5);
 			else addButtonDisabled(6, "5/0/0", "Table No. 5 is curently empty.");
 			if (flags[kFLAGS.MICHIKO_FOLLOWER] < 1) addButton(8, "???", SceneLib.michikoFollower.firstMeetingMichiko).hint("You see a suspicious looking squirrel in one corner, nursing a drink and small bowl of peanuts.");
@@ -155,9 +155,13 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 			outputText("\"<i>Welcome to 'Felix's Corner' traveler. Do you wanna buy something?</i>\" asks the cat head ending it with a short purr. \"<i>We have wares if you have the spirit stones.</i>\"\n\n");
 			outputText("After that the other head stops looking around, baring its teeth at you. \"<i>If you not interested in buying anything, then get lost... we don't have all day.</i>\"\n\n");
 			menu();
-			addButton(7, necklaces.NECRONE.shortName, itemBuy, necklaces.NECRONE).hint("120 spirit stones");
-			addButton(8, weapons.NECROWA.shortName, itemBuy, weapons.NECROWA).hint("128 spirit stones");
-			addButton(9, shields.NECROSH.shortName, itemBuy, shields.NECROSH).hint("100 spirit stones");
+			addButton(3, necklaces.TREELNE.shortName, itemBuy, necklaces.TREELNE).hint("800 spirit stones");
+			addButton(4, headjewelries.TREELCR.shortName, itemBuy, headjewelries.TREELCR).hint("800 spirit stones");
+			addButton(5, necklaces.NECRONE.shortName, itemBuy, necklaces.NECRONE).hint("120 spirit stones");
+			addButton(6, weapons.NECROWA.shortName, itemBuy, weapons.NECROWA).hint("128 spirit stones");
+			addButton(7, shields.NECROSH.shortName, itemBuy, shields.NECROSH).hint("100 spirit stones");
+			addButton(8, necklaces.SKULLNE.shortName, itemBuy, necklaces.SKULLNE).hint("800 spirit stones");
+			addButton(9, headjewelries.SKULLCR.shortName, itemBuy, headjewelries.SKULLCR).hint("800 spirit stones");
 			addButton(10, necklaces.EZEKIELN.shortName, itemBuy, necklaces.EZEKIELN).hint("50 spirit stones");
 			addButton(11, headjewelries.EZEKIELC.shortName, itemBuy, headjewelries.EZEKIELC).hint("40 spirit stones");
 			addButton(12, jewelries.EZEKIELS.shortName, itemBuy, jewelries.EZEKIELS).hint("10 spirit stones");
@@ -203,7 +207,6 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 		}
 		private function workHoursMadam():Boolean {
 			return (model.time.hours >= 7 && model.time.hours <= 9) || (model.time.hours >= 18 && model.time.hours <= 22);
-
 		}
 		private function visitMadam():void {
 			clearOutput();
@@ -255,7 +258,6 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 		}
 		private function workHoursTemptress():Boolean {
 			return (model.time.hours >= 8 && model.time.hours <= 9) || (model.time.hours >= 18 && model.time.hours <= 23);
-
 		}
 		private function visitTemptress():void {
 			clearOutput();//Temptress - female displacer devil npc for perk points to stat points conversion outputText("\"<i></i>\"\n\n");
@@ -325,6 +327,11 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 				addButtonDisabled(1, "C.C.(Base)", "You don't have any curses to cure. (non-multiplier)");
 				addButtonDisabled(2, "C.C.(Mult)", "You don't have any curses to cure. (multiplier)");
 			}
+			addButton(3, "Uncurse", SceneLib.dianaScene.dianaAtJttECursedItemsRemoval1)
+				.hint("Ask horse healer to remove your cursed item. Costs 500 gems. ")
+				.disableIf(player.gems < 500, "Ask horse healer to remove your cursed item. Costs 500 gems (Can't afford).")
+				.disableIf(player.equippedKnownCursedItems().length == 0 && player.carriedKnownCursedItems().length == 0, "You don't have any cursed items");
+			if (player.weaponRange == weaponsrange.SAGITTB) addButton(4, "Uncurse", SceneLib.dianaScene.dianaAtJttECursedItemsRemoval2);
 			addButton(14, "Back", curry(enteringInn,false));
 		}
 		public function dianaAtJttEMainHeal():void {
@@ -555,7 +562,7 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 			outputText("He grins wide and opens up his wizard robe, revealing the hardening cock you have been focusing on all this time before he unstraps you from the table and lets you get up on your own. Without hesitation, you take his cock inside your mouth. He grumbles to himself, annoyed at your sluggish, somewhat stiff motions, but you still manage to wrap your lips around him, rocking back and forth as you suck him off.\n\n");
 			outputText("\"<i>Um, I didn't consider rigor mortis in my calculation, I will need to mention this hiccup to the client… at least "+player.mf("he","she")+" makes up for it with enthusiasm.</i>\"\n\n");
 			outputText("A few seconds later he finally orgasms, causing that amassed energy in his cock to flood down your throat in a white cascade. You almost faint as pleasure floods your head... You watch his reaction, waiting for an opening...You realize the fog has lifted somewhat! For whatever reason, this seems to not only restore your mind but also sharpen it. You bend your arm, and your range of motion also seems to have returned!. ");
-			outputText("It would seem your torturer messed up something in the charm and instead of removing your free will, he only emptied you of it, turning you into some kind of energy vampire that gets dumber when starved. Well your face might be stuck in that zombie like expression right now but your mind is racing as you take full awareness of the situation, and how easily it would be to turn the tables on your captor.\n\n");
+			outputText("It would seem your torturer messed up something in the charm and instead of removing your free will, he only emptied you of it, turning you into some kind of energy vampire that gets dumber when starved. Well, your face might be stuck in that zombie like expression right now but your mind is racing as you take full awareness of the situation, and how easily it would be to turn the tables on your captor.\n\n");
 			outputText("Satisfied with fucking your throat, the cat morph heads to the back of the room to retrieve a big box, likely the one he intended for you to lay into until he shipped you to whatever asshole serves as his client. Poor guy thinks you're too stupid to attempt anything. He gets one hell of a surprise as you grab his left arm with until now unprecedented agility, immobilizing him and begin ");
 			outputText("to drink directly from the tap of his life force through your hand. He did say something about making you capable of guarding your master too, right? Seems he loaded you with quite a few upgrades. Guess he didn't account for the risks of getting overwhelmed by his own creations as you literally drain his soulforce until he passes out. ");
 			outputText("You let him fall limply on the ground and look at him, he has foam at the mouth. Geeze your nails are poisonous too? While you doubt you killed him, you don't want him to just get away with this either so you dump him in the box he originally reserved for you and lock him up.\n\n");
@@ -575,8 +582,7 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 			player.createPerk(PerkLib.Rigidity, 0, 0, 0, 0);
 			player.createPerk(PerkLib.LifeLeech, 0, 0, 0, 0);
 			player.createPerk(PerkLib.Undeath, 0, 0, 0, 0);
-			if (player.hasPerk(PerkLib.RacialParagon))
-				flags[kFLAGS.APEX_SELECTED_RACE] = Races.JIANGSHI;
+			player.updateRacialParagon(Races.JIANGSHI);
 			player.createPerk(PerkLib.EnergyDependent, 0, 0, 0, 0);
 			if (flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] == 0) flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD]++;
 			var item:ItemType;

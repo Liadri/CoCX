@@ -5,6 +5,7 @@ import classes.*;
 import classes.BodyParts.Tongue;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 import classes.lists.Gender;
@@ -20,7 +21,7 @@ public class MinervaPurification extends BaseContent
 			return (player.hasStatusEffect(StatusEffects.CampRathazul) || player.statusEffectv2(StatusEffects.MetRathazul) >= 3);
 		}
 		public function checkJojo():Boolean {
-			return (player.hasStatusEffect(StatusEffects.PureCampJojo));
+			return (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3);
 		}
 		public function checkMarae():Boolean {
 			return (flags[kFLAGS.FACTORY_SHUTDOWN] == 1 && flags[kFLAGS.MARAE_QUEST_COMPLETE] >= 1);
@@ -578,7 +579,7 @@ public class MinervaPurification extends BaseContent
 				outputText("\n\nWith devilish intent you creep up on the sleeping siren, her shapely shark tail twitching gently as she naps. You sneak closer and closer until you are right by her and as soon as you can you grab her tail and pull. Unsurprisingly, and likely your intent, Minerva is jolted away by the touch and jumped what seemed to be feet in the air. Her four wings fluffing up and spreading out in surprise. The broodmother's golden eyes widen as she looks around for what pulled her tail, as soon as she sees you, though, she visibly calms down. Pouting, she punches you gently in the shoulder, a deep blush on her cheeks. \"<i>Hey! Why did you do that? Scaring me like that... you're a mean lover, you know that?</i>\"");
 
 			}
-			outputText("\n\nClearly she is not angry at all, and is in fact happy that you suprised her with a visit. Sitting back, Minerva stretches and yawns, letting out a dove-like coo before turning to you and reaching out, yanking you to her and placing you in her soft lap with her arms around you, her big pillowy tits pressed against your back as she holds you. \"<i>So nice of you to come and see me, my strong brave champion. Now that I'm awake, what shall we do? Want to cuddle? Or perhaps you would like to take a bath with me?</i>\" She grins and nibbles your ear. \"<i>...Or perhaps you want to work on ");
+			outputText("\n\nClearly she is not angry at all, and is in fact happy that you surprised her with a visit. Sitting back, Minerva stretches and yawns, letting out a dove-like coo before turning to you and reaching out, yanking you to her and placing you in her soft lap with her arms around you, her big pillowy tits pressed against your back as she holds you. \"<i>So nice of you to come and see me, my strong brave champion. Now that I'm awake, what shall we do? Want to cuddle? Or perhaps you would like to take a bath with me?</i>\" She grins and nibbles your ear. \"<i>...Or perhaps you want to work on ");
 			if (flags[kFLAGS.MINERVA_CHILDREN] <= 0) outputText("having some babies");
 			else outputText("making more adorable daughters");
 			outputText("?</i>\" she croons, and teasingly licks your cheek.");
@@ -704,10 +705,10 @@ public class MinervaPurification extends BaseContent
 			menu();
 			if (minervaScene.pregnancy.isPregnant) {
 				outputText("\n\n");
-				if (minervaScene.pregnancy.incubation >= 216) outputText("<b>Her belly appears to be a bit swollen.</b>");
-				else if (minervaScene.pregnancy.incubation >= 144 && minervaScene.pregnancy.incubation < 216) outputText("<b>Her belly shows obvious signs of pregnancy.</b>");
-				else if (minervaScene.pregnancy.incubation >= 72 && minervaScene.pregnancy.incubation < 144) outputText("<b>Her gravid belly has gotten bigger.</b>");
-				else if (minervaScene.pregnancy.incubation < 72) outputText("<b>It's impossible to not notice her pregnancy. She is about to give birth soon.</b>");
+				if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(216, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>Her belly appears to be a bit swollen.</b>");
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_MINERVA) && minervaScene.pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(216, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>Her belly shows obvious signs of pregnancy.</b>");
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_MINERVA) && minervaScene.pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>Her gravid belly has gotten bigger.</b>");
+				else if (minervaScene.pregnancy.incubation < sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_MINERVA)) outputText("<b>It's impossible to not notice her pregnancy. She is about to give birth soon.</b>");
 			}
 			doNext(pureMinervaMenu);
 		}
@@ -742,7 +743,7 @@ public class MinervaPurification extends BaseContent
 				
 				outputText("\n\n\"<i>I guess they really took a liking to me, since they force-fed me these soft things that looked like teeth, but they changed me. You remember how I used to look, my skin got all grey and blue, I grew a tail like them, I even grew a fin on my back, but that's gone now. Turning me into something like a tiger-shark dicked shark-girl, which actually made things worse for me at the time; there are others in that lake, these more aggressive striped shark-girls with big dicks and balls.</i>\" She bit her lip, momentarily showing her own sharky teeth. \"<i>I sometimes wonder what happened with that tigershark.</i>\" she says with a wistful look before giving you a playful one. \"<i>Don't worry lover, you're a much better mate than she was.</i>\"");
 				outputText("\n\n\"<i>Anyway...that tigershark, there was this one that didn't like the fact I was around and had knocked up those sharks, I guess it thought I was trying to wedge in on its harem, and really, really didn't like it. So, it, she decided she was going to add me to her harem, as you can see it didn't turn out like that. I was tired from the other sharks and this one was much more aggressive. She grabbed me and this time I was on the receiving end. The tigershark was so rough. I guess she wanted to teach me a lesson as she raped me as hard as she could before dumping this insane load of sperm into me...so much that my stomach got all big like I was already pregnant...but, you know, I'm pretty sure my balls could churn out more, then her any day</i>\" Minerva says proudly, a thick bulge starting to tent her silky sarong thanks to the memories.");
-				outputText("\n\n\"<i>Aaahhh... well with it enjoying its orgasm I struggled and managed to get away. In the fight, it dropped one of those 'teeth\ the other sharks had used on me, but this one was glowing. I grabbed the thing and swam and swam until I reached the shore. I ran into the forest and just... I felt like giving up at the time. The world had been trying to kill me or rape me since I got here... it was probably the lowest point in my life. I took that tooth and ate it, getting these lovely stripes of mine.</i>\" The siren smiles and puts a hand to her belly. \"<i>It turns out that I had in fact gotten pregnant from that tigershark, and I decided to keep going strong. I didn't have to wait very long, about 12 days after she came in me, I was so swollen with a baby I gave birth. I gave birth to a beautiful adorable baby shark-girl.</i>\" She said with a smile as she strokes her tummy. for the moment reveling in the maternal memories. \"<i>I miss her...</i>\"");
+				outputText("\n\n\"<i>Aaahhh... Well, with it enjoying its orgasm I struggled and managed to get away. In the fight, it dropped one of those 'teeth\ the other sharks had used on me, but this one was glowing. I grabbed the thing and swam and swam until I reached the shore. I ran into the forest and just... I felt like giving up at the time. The world had been trying to kill me or rape me since I got here... it was probably the lowest point in my life. I took that tooth and ate it, getting these lovely stripes of mine.</i>\" The siren smiles and puts a hand to her belly. \"<i>It turns out that I had in fact gotten pregnant from that tigershark, and I decided to keep going strong. I didn't have to wait very long, about 12 days after she came in me, I was so swollen with a baby I gave birth. I gave birth to a beautiful adorable baby shark-girl.</i>\" She said with a smile as she strokes her tummy. for the moment reveling in the maternal memories. \"<i>I miss her...</i>\"");
 				outputText("\n\nMinerva seemed to smile, though a little sadly at the memory. It was odd, you would think that she would have had very negative feelings about having a shark-girl daughter, but clearly she missed her. \"<i>When I saw her... The way she squirmed in my arms and looked at me. All I could feel was a sense of pride and maternal instincts. I kept her, I suckled her, and watched as she grew in my arms. As she drank from me her body swelled to the size of a young girl, maybe 12 years old. It was amazing to watch, and she was so cute, I was happy to have her in my arms...</i>\" Minerva said with a tear in her eye before wiping it away.</i>\" I miss her, my firstborn daughter. thank you so much for talking with my lover. I'll see you later, alright? Maybe we can finish the story next time.</i>\"");
 				
 				outputText("\n\nSeeing that she seems to be reminiscing about her lost shark-girl daughter. Shuffling over you give her a kiss before heading back home to your camp, leaving Minerva to her thoughts.");
@@ -1466,8 +1467,7 @@ public class MinervaPurification extends BaseContent
 			outputText("\n\nDeciding to relax for a while after your sexual exertion, you curl up on the soft moss with Minerva, both of you just basking in the warmth that the spring gives off, and the softness of the moss, content with each other's presence. Unfortunately, you know you have to go; the call of your duty to this land is too great, and despite the comfort of this place, you must go. Pulling away from the siren you promise to return and visit her soon.");
 			//PC returns to camp.
 			player.sexReward("Default","Default",true,false);
-
-if (CoC.instance.inCombat) cleanupAfterCombat();
+			if (CoC.instance.inCombat) cleanupAfterCombat();
             else doNext(camp.returnToCampUseOneHour);
 		}
 		
@@ -1476,13 +1476,13 @@ if (CoC.instance.inCombat) cleanupAfterCombat();
 		//------------------
 		public function checkPregnancy():void {
 			if (minervaScene.pregnancy.isPregnant && ((player.pregnancyType != PregnancyStore.PREGNANCY_MINERVA && player.pregnancy2Type != PregnancyStore.PREGNANCY_MINERVA) || rand(3) > 0)) {
-				if (minervaScene.pregnancy.incubation >= 168) pregnancyStage1(flags[kFLAGS.MINERVA_CHILDREN] > 0);
-				else if (minervaScene.pregnancy.incubation >= 144) pregnancyStage2(flags[kFLAGS.MINERVA_CHILDREN] > 0);
-				else if (minervaScene.pregnancy.incubation >= 72) pregnancyStage3(flags[kFLAGS.MINERVA_CHILDREN] > 0);
+				if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(168, PregnancyStore.INCUBATION_MINERVA)) pregnancyStage1(flags[kFLAGS.MINERVA_CHILDREN] > 0);
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(144, PregnancyStore.INCUBATION_MINERVA)) pregnancyStage2(flags[kFLAGS.MINERVA_CHILDREN] > 0);
+				else if (minervaScene.pregnancy.incubation >= sceneHunter.adjustPregEventTimerNum(72, PregnancyStore.INCUBATION_MINERVA)) pregnancyStage3(flags[kFLAGS.MINERVA_CHILDREN] > 0);
 				else pregnancyStage4(flags[kFLAGS.MINERVA_CHILDREN] > 0);
 			}
 			else {
-				if (player.pregnancyIncubation >= 108) pregnancyPlayerStage1();
+				if (player.pregnancyIncubation >= sceneHunter.adjustPregEventTimer(108, player.pregnancyType)) pregnancyPlayerStage1();
 				else pregnancyPlayerStage2();
 			}
 		}
@@ -1686,7 +1686,8 @@ if (CoC.instance.inCombat) cleanupAfterCombat();
 			if (flags[kFLAGS.MINERVA_CHILDREN] > 0) outputText(". My daughters are already excited to see their new addition to our family");
 			outputText(",</i>\" she says. You spend some time resting while she breastfeeds her newborn sirens.");
 			outputText("\n\nEventually, you get up and give her a kiss. \"<i>Come back later. Our daughters are already excited to see you come back,</i>\" she says. You acknowledge and head back to your camp.");
-			flags[kFLAGS.MINERVA_CHILDREN] += 2;
+			if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.MINERVA_CHILDREN] += 4;
+			else flags[kFLAGS.MINERVA_CHILDREN] += 2;
 			flags[kFLAGS.TIMES_BIRTHED_SHARPIES]++;
 			doNext(camp.returnToCampUseOneHour);
 		}

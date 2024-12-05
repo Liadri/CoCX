@@ -1,6 +1,7 @@
 package classes.Races {
 import classes.BodyParts.*;
 import classes.GeneticMemories.RaceMem;
+import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
 import classes.Race;
 
@@ -62,6 +63,9 @@ public class JiangshiRace extends Race {
 				.noRearBody(+1)
 				.skinBasePattern(Skin.PATTERN_NONE, +1)
 				.hasPerk(PerkLib.Undeath, +2);
+		
+		addMutation(IMutationsLib.BlackBloodIM);
+		addMutation(IMutationsLib.StillHeartIM);
 		
 		buildTier(15, "Half Jiangshi")
                 .requireHornType(Horns.SPELL_TAG)

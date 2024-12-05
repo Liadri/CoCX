@@ -127,6 +127,7 @@ private function resistKeltsBSBreakHimIntro():void {
 		//[if (PC doesn't have items)
 		if(!(player.hasItem(consumables.SUCMILK,15) || (player.hasItem(consumables.SUCMILK,10) && hasPinkEgg()) || (player.hasItem(consumables.P_S_MLK,10) && hasPinkEgg()) || player.hasItem(consumables.P_S_MLK,15))) {
 			outputText(" Unfortunately, you don't have anything that could be useful to tame his arrogant maleness.  You want items that would make his disgracious horsecock and balls shrink.  A nice set of breasts on his human chest would be fine, too.  You know you're going to need A LOT of such items - or very potent ones.");
+			sceneHunter.print("15 Succubus Milk should be enough")
 			menu();
 			addButton(0,"Next",farm.farmExploreEncounter);
 		}
@@ -1576,7 +1577,7 @@ private function kellyPreggers():void {
 	var x:int = Math.round(player.cumQ() / 20);
 	if (x > 80) x = 80;
 	if (flags[kFLAGS.KELLY_HEAT_TIME] > 0) x += 15;
-	if (x <= 80) {
+	if (x <= 80 || player.hasPerk(PerkLib.PilgrimsBounty)) {
 		pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_CENTAUR - 84);
 		if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Kelly is pregnant!</b>");
 		trace("Kelly knocked up.");

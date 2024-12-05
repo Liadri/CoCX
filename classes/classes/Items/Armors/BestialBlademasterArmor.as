@@ -17,16 +17,17 @@ import classes.PerkLib;
 				withBuffs({'teasedmg':8});
 				withPerk(PerkLib.InfernalRage, 0, 0, 0, 0);
 				withTag(A_AGILE);
+				withTag(A_REVEALING);
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			SceneLib.setItemsChecks.equipBestialBlademasterItemsSet();
-			super.afterEquip(doOutput);
+			super.afterEquip(doOutput, slot);
 		}
 		
-		override public function afterUnequip(doOutput:Boolean):void {
+		override public function afterUnequip(doOutput:Boolean, slot:int):void {
 			SceneLib.setItemsChecks.unequipBestialBlademasterItemsSet();
-			super.afterUnequip(doOutput);
+			super.afterUnequip(doOutput, slot);
 		}
 	}
 }

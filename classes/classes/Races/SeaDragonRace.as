@@ -67,11 +67,13 @@ public class SeaDragonRace extends Race{
 									body.player.dragonCocks() > 0
 						},
 						+1)
-				.hasPerk(PerkLib.DragonWaterBreath, +1);
+				.hasPerk(PerkLib.DragonWaterBreath, +1)
+				.hasPerk(PerkLib.Dracoforce, +1);
 		
-		addMutation(IMutationsLib.DraconicBonesIM);
-		addMutation(IMutationsLib.WhaleFatIM);
+		addMutation(IMutationsLib.DrakeBloodIM);
+		addMutation(IMutationsLib.DrakeBonesIM);
 		addMutation(IMutationsLib.DrakeLungsIM);
+		addMutation(IMutationsLib.WhaleFatIM);
 		
 		buildTier(20,"sea dragon")
 				.namesMaleFemaleTaur("sea dragon-boy", "sea dragon-girl","sea dragon-taur")

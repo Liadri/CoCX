@@ -62,7 +62,7 @@ package classes.Scenes.Monsters
 		override public function defeated(hpVictory:Boolean):void
 		{
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) SceneLib.combat.finishCombat();
-			else SceneLib.camp.campMake.postFightGolemOptions3();
+			else SceneLib.campMakeWinions.postFightGolemOptions3();
 		}
 		
 		public function GolemsBasic() 
@@ -73,7 +73,7 @@ package classes.Scenes.Monsters
 			this.imageName = "basic golems";
 			this.long = "You're currently fighting basic golems. They're all around seven feet tall without any sexual characteristics, their stone body covered in cracks and using bare stone fists to smash enemies.";
 			initStrTouSpeInte(200, 150, 100, 10);
-			initWisLibSensCor(10, 10, 10, 50);
+			initWisLibSensCor(10, 10, 10, 0);
 			this.tallness = 84;
 			this.drop = NO_DROP;
 			this.level = 33;

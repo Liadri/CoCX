@@ -72,7 +72,7 @@ public class Armor extends Equipable
 			return list;
 		}
 		
-		override public function canEquip(doOutput:Boolean):Boolean {
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
 			if (!this.supportsUndergarment && (!game.player.upperGarment.isNothing || !game.player.lowerGarment.isNothing)) {
 				var output:String = "";
 				var wornUpper:Boolean = false;
@@ -95,24 +95,24 @@ public class Armor extends Equipable
 				if (doOutput) outputText("You would very like to equip this item but your body stiffness prevents you from doing so.");
 				return false;
 			}
-			return super.canEquip(doOutput);
+			return super.canEquip(doOutput, slot);
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
-			super.afterEquip(doOutput);
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
+			super.afterEquip(doOutput, slot);
 			if (!game.isLoadingSave) {
 				game.player.addToWornClothesArray(this);
 			}
 		}
-		override public function afterUnequip(doOutput:Boolean):void {
-			super.afterUnequip(doOutput);
+		override public function afterUnequip(doOutput:Boolean, slot:int):void {
+			super.afterUnequip(doOutput, slot);
 			game.player.removePerk(PerkLib.BulgeArmor); //Exgartuan check
 			if (game.player.modArmorName.length > 0) game.player.modArmorName = "";
 		}
 		
 		
 		override public function getItemText(textid:String):String {
-			if (textid == "legendary_fail") return "You try to equip the legendary armor, but to your disappointment the item simply refuses to stay on your body. It seems you still lack the right to wear this item.";
+			if (textid == "legendary_fail") return "You try to equip the legendary armor, but to your disappointment, the item simply refuses to stay on your body. It seems you still lack the right to wear this item.";
 			return super.getItemText(textid);
 		}
 	}

@@ -19,18 +19,11 @@ public class TwinHeartMutation extends IMutationPerkType
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
-            if (pTier == 1){
-                descS = "+40% fatigue recovery, with tauric/drider body: +100% fatigue recovery, reduce Charge fatigue cost by ~10% as well as its cooldown by 1.";
-            }
-            if (pTier == 2){
-                descS = "+80% fatigue recovery, with tauric/drider body: +200% fatigue recovery, reduce Charge fatigue cost by ~20% as well as its cooldown by 2, increase damage by 20%.";
-            }
-            if (pTier == 3){
-                descS = "+120% fatigue recovery, with tauric/drider body: +300% fatigue recovery, reduce Charge fatigue cost by ~30% as well as its cooldown by 3, increase damage by 80%.";
-            }
-            if (pTier == 4){
-                descS = "+160% fatigue recovery, with tauric/drider body: +400% fatigue recovery, reduce Charge fatigue cost by ~40% as well as its cooldown by 4, increase damage by 200%.";
-            }
+            descS += "+"+(pTier*4)+"0% fatigue recovery, with tauric/drider body: +"+pTier+"00% fatigue recovery, reduce Charge fatigue cost by ~"+pTier+"0% as well as its cooldown by "+pTier+", reduce Gallop fatigue cost by ~"+(pTier*5)+"%";
+            if (pTier == 2) descS += ", increase damage by 20%";
+            if (pTier == 3) descS += ", increase damage by 80%";
+            if (pTier == 4) descS += ", increase damage by 200%";
+			descS += ".";
             return descS;
         }
 

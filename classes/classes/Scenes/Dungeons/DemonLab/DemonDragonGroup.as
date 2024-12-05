@@ -15,7 +15,7 @@ import classes.internals.WeightedDrop;
 
 /**
  * ...
- * @author ...
+ * @author Canadian Snas
  */
 public class DemonDragonGroup extends Monster {
 
@@ -57,12 +57,13 @@ public class DemonDragonGroup extends Monster {
         this.lustVuln = 0.44;
         this.level = 60;
         this.gems = rand(50) + 75;
-        this.drop = new WeightedDrop().add(useables.D_SCALE, 5).add(consumables.LETHITE, 2).add(jewelries.POWRRNG, 1);
+        this.drop = new WeightedDrop().add(useables.D_SCALE, 5).add(consumables.LETH1TE, 3).add(consumables.LETH2TE, 2).add(jewelries.POWRRNG, 1);
         this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
         this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
         this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
         this.createPerk(PerkLib.LegendaryStrength, 0, 0, 0, 0);
         this.createPerk(PerkLib.MonsterRegeneration, 2, 0, 0, 0);
+		this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
         if (inDungeon) this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
         checkMonster();
     }
@@ -71,7 +72,7 @@ public class DemonDragonGroup extends Monster {
         // when you use melee, chance is reduced to 50% if you’re flying
         if (!player.isFlying() || rand(2) == 0) {
             outputText("You rush towards the corrupted dragonoids, but before you can get near them, three of the succubi-dragons take a half-step forward, letting a sound somewhere between a moan and a belch escape their lips. A wall of flame erupts in your path. ");
-            if (player.hasPerk(PerkLib.FireAffinity)) outputText("You laugh, the dragon’s breath feeling like a warm breeze. You barrel through the flame.")
+            if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity)) outputText("You laugh, the dragon’s breath feeling like a warm breeze. You barrel through the flame.")
             else player.takeFireDamage(((inte + wis) * 1.2) + rand(80), true);
             outputText("\n\n");
         }

@@ -15,21 +15,25 @@ public final class KitsuneGift extends Consumable {
 			clearOutput();
 			outputText("Curiosity gets the best of you, and you decide to open the package.  After all, what's the worst that could happen?\n\n");
 			//Opening the gift randomly results in one of the following:
-			switch (Utils.rand(12)) {
+			switch (Utils.rand(16)) {
 			//[Fox Jewel]
-				case 0: 
-				outputText("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, sitting in the center is a small teardrop-shaped jewel!");
+				case 0:
+				case 12:
+				case 13:
+				case 14:
+					outputText("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, sitting in the center is a small teardrop-shaped jewel!");
 				outputText("\n\n<b>You've received a shining Fox Jewel from the kitsune's gift!  How generous!</b>  ");
 				SceneLib.inventory.takeItem(game.consumables.FOXJEWL, SceneLib.inventory.inventoryMenu);
-				return(true);
+				return true;
 
 			//[Fox Berries]
 				case 1:
+				case 15:
 				outputText("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, there is a small cluster of orange-colored berries sitting in the center!");
 				outputText("\n\n<b>You've received a fox berry from the kitsune's gift!  How generous!</b>  ");
 				//add Fox Berries to inventory
 				SceneLib.inventory.takeItem(game.consumables.FOXBERY, SceneLib.inventory.inventoryMenu);
-				return(true);
+				return true;
 
 			//[Gems]
 				case 2:
@@ -77,7 +81,7 @@ public final class KitsuneGift extends Consumable {
 
 			//[Thief!]
 				case 6:
-				outputText("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and sitting in the center is an artfully crafted paper doll.  Before your eyes, the doll springs to life, dancing about fancifully.  Without warning, it leaps into your item pouch, then hops away and gallavants into the woods, carting off a small fortune in gems.");
+				outputText("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and sitting in the center is an artfully crafted paper doll.  Before your eyes, the doll springs to life, dancing about fancifully.  Without warning, it leaps into your item pouch, then hops away and gallivants into the woods, carting off a small fortune in gems.");
 
 				outputText("\n\n<b>The kitsune's familiar has stolen your gems!</b>");
 				// Lose X gems as though losing in battle to a kitsune
@@ -107,7 +111,7 @@ public final class KitsuneGift extends Consumable {
 			//[Wither]
 				case 9:
 				outputText("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and sitting in the center is an artfully crafted paper doll.  Before your eyes, the doll springs to life, dancing about fancifully.  Without warning, it tosses a handful of sour-smelling orange powder into your face, then hops over the rim of the box and gallavants off into the woods.  Before you know what has happened, you feel the strength draining from your muscles, withering away before your eyes.");
-				outputText("\n\n<b>Oh no!  The kitsune's familiar has hit you with a strength draining spell!  Hopefully it's only temporary...</b>");
+				outputText("\n\n<b>Oh no!  The kitsune's familiar has hit you with a strength draining spell!  Hopefully, it's only temporary...</b>");
 				player.addCurse("str", 5,2);
 				player.addCurse("tou", 5,2);
 				break;

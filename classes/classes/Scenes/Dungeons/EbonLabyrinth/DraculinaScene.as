@@ -8,7 +8,7 @@ import classes.IMutations.IMutationsLib;
 import classes.Scenes.NPCs.DivaScene;
 import classes.Player;
 import classes.Races;
-import classes.Races.AtlachNachaRace;
+import classes.Scenes.SceneLib;
 import classes.Scenes.Metamorph;
 import classes.StatusEffects;
 import classes.display.SpriteDb;
@@ -20,8 +20,25 @@ import classes.EventParser;
 public class DraculinaScene extends BaseContent {
     public function DraculinaScene() {}
     
-    public function encounter():void {
-        clearOutput();
+    private function allTheTricksForDarkness():Boolean {
+		if (player.hasStatusEffect(StatusEffects.KnowsBlind) || player.hasStatusEffect(StatusEffects.KnowsSunrise) || (player.tailType == Tail.KITSHOO && player.tailCount >= 6)) return true;
+		else return false;
+	}
+	public function encounter():void {
+        if (player.wis >= 150 && allTheTricksForDarkness()) encounterYes();
+		else {
+			clearOutput();
+			outputText("<b>"+(player.wis < 150 ? "This area look suspicious your senses are duller then a sword that's not been sharpened for two centuries, should you get ambushed here who's to tell what may happen to you It might be smarter to turn back now while you still can and train your wits. ":"")+(allTheTricksForDarkness() ? "":"The room ahead is rather dark. Without any source of magical light you might be in great danger. ")+"Do you proceed anyway?</b>");
+			menu();
+			addButton(1, "No", encounterNo);
+			addButton(3, "Yes", encounterYes);
+		}
+    }
+	public function encounterNo():void {
+		SceneLib.dungeons.ebonlabyrinth.returnFromDraculinaRoom();
+	}
+	public function encounterYes():void {
+		clearOutput();
         //spriteSelect(SpriteDb.s_Atlach_16bit);
 		if (player.racialScore(Races.DRACULA) >= 22) {
 			outputText("As you explore the labyrinth, you find yourself in a familiar room. Nonchalantly, you push open the large, unassuming stone door to enter the vampire's lair. If you were another person, this would certainly be your demise, being but another snack for the entity that dwells here, but in your case, you are a different type of deal entirely. You enter the dwelling without hesitation, ears perking up to your surroundings as you locate your kind easily, spotting her resting by a large stalactite.\n\n");
@@ -82,7 +99,7 @@ public class DraculinaScene extends BaseContent {
 				else defeatedBadEnd();
 			}
 		}
-    }
+	}
 
     public function defeatedBy():void {
         clearOutput();
@@ -174,17 +191,20 @@ public class DraculinaScene extends BaseContent {
 		player.rearBody.type = RearBody.THIRSTY_NECK;
 		if (player.hasCock()) transformations.CockDemon().applyEffect(false);
 		if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
-        if (!player.hasPerk(PerkLib.Familiar)) player.createPerk(PerkLib.Familiar,0,0,0,0);
+		if (!player.hasStatusEffect(StatusEffects.Familiar)) player.createStatusEffect(StatusEffects.Familiar, 0, 0, 0, 0);
+        if (!player.hasPerk(PerkLib.Familiar)) player.createPerk(PerkLib.Familiar, 0, 0, 0, 0);
 		IMutationsLib.BlackHeartIM.trueMutation = true;
         IMutationsLib.VampiricBloodstreamIM.trueMutation = true;
         IMutationsLib.HollowFangsIM.trueMutation = true;
-        if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.DRACULA;
+        player.updateRacialParagon(Races.DRACULA);
         player.removeAllRacialMutation();
         outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
         player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
 		player.createPerk(PerkLib.Undeath, 0, 0, 0, 0);
-        player.createPerk(PerkLib.TransformationImmunity2,8,0,0,0);
+		player.createPerk(PerkLib.SoulDrinker, 0, 0, 0, 0);
+        player.createPerk(PerkLib.TransformationImmunity2, 9, 0, 0, 0);
 		outputText("\n<b>Gained Perk: Transformation Immunity</b>\n\n");
+		player.npcsThatLeaveSoullessPC();
 		if (combat.inCombat) cleanupAfterCombatTFEvent();
 		else doNext(playerMenu);
     }

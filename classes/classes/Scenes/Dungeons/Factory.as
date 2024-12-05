@@ -2,15 +2,11 @@
 package classes.Scenes.Dungeons
 {
 import classes.*;
-import classes.BodyParts.Antennae;
-import classes.BodyParts.Ears;
-import classes.BodyParts.Face;
-import classes.BodyParts.Horns;
-import classes.BodyParts.LowerBody;
-import classes.BodyParts.Tail;
+import classes.BodyParts.*;
 import classes.GeneticMemories.BallsMem;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Armors.LustyMaidensArmor;
+import classes.Races.DemonRace;
 import classes.Scenes.Dungeons.Factory.*;
 import classes.Scenes.Metamorph;
 import classes.display.SpriteDb;
@@ -107,6 +103,19 @@ use namespace CoC;
 			player.createKeyItem("Supervisor's Key", 0, 0, 0, 0);
 			doNext(roomForemanOffice);
 		}
+		private function readTheLetter():void {
+			clearOutput();
+			outputText("As you root through the desk, you find some…oddly organised letters. You begin to read them, curious about what the demons could be up to. One in particular sticks out.\n\n");
+			outputText("<i>Dear Grevia:</i>\n\n");
+			outputText("<i>I have come to understand that you’ve been promoted. I am pleasantly surprised by this. You’ve come a long way from when we knew each other. As you know, you oversee operation Deluge, or the push to corrupt that holdout bitch ‘Goddess’ Marae.</i>\n\n");
+			outputText("<i>All the same, you and I both know how much of a waste it is to be using uncorrupted humans for this operation. Such things are rarities, and as you well know, just about any demon can produce the corrupted fluids needed for your operation. Humans need to be processed and changed extensively for such uses.</i>\n\n");
+			outputText("<i>You also know, or at least suspect, how extensive my own operations are, and how important they are to our queen’s current objectives.</i>\n\n");
+			outputText("<i>Infighting would be pointless, and only serve to benefit our enemies. I propose a…mutually beneficial exchange. Any humans you find, or otherwise obtain, you give to me. In exchange, I provide you with three fully functional fluid-cows. You know how effective my people are at…modifications. They’ll be more effective than your current supply.</i>\n\n");
+			outputText("<i>To sweeten the deal further, you know I have the queen’s ear. Your dedication to working together, for the benefit of all, will be noted. In a world where Queen Lethice needs to carefully watch most of her overseers, a trustworthy one is worth her weight in gems…And you know what kinds of benefits the queen’s favour can provide.</i>\n\n");
+			outputText("<i>Time is of the essence, you know how impatient our kind can be.\nTalk to you soon, my friend.</i>\n\n");
+			outputText("<i>-A</i>");
+			doNext(roomForemanOffice);
+		}
 
 		private function takeGroPlus():void {
 			flags[kFLAGS.FACTORY_TAKEN_GROPLUS]++;
@@ -137,11 +146,18 @@ use namespace CoC;
                 else outputText(" As interesting as the theory is, you already have mastered the practical applications");
                 outputText(".  The final few chapters...  After a quick skim, you believe that with enough stone and some time, you could set up a ward around your camp.");
                 if (player.statusEffectv1(StatusEffects.TelAdre) >= 1) outputText("  Sort of like Tel’Adre’s defences in miniature.");
-
                 player.createKeyItem("Warding Tome", 0, 0, 0, 0);
                 flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD] = 1;
 			}
             doNext(roomPremiumStorage);
+		}
+		private function takeDemonizeMe():void {
+			clearOutput();
+			outputText("A violet crystalline bottle looking too artistic to be an ordinary draft, standing ominously within the hidden compartment.\n\n");
+			outputText("The simple, crooked label catches your eye.\n\n");
+			outputText("\"<i>Demonize Me</i>\"\n\n");
+			flags[kFLAGS.FACTORY_TAKEN_DEMONIZE_ME] = 1;
+			inventory.takeItem(consumables.DEMONME, roomPremiumStorage);
 		}
 
 		private function drinkCoffee():void {
@@ -329,11 +345,12 @@ use namespace CoC;
 				}
 				outputText("\n\n\"<i>Much better,</i>\" the demon coos, licking her lips as your ");
 			}
-			sceneHunter.selectGender(dickF, vagF, null, hermF);
+			sceneHunter.selectGender(player.isHerm() ? null : dickF, vagF, null, hermF);
 
 			//========================================================
 			function dickF():void {
-				sceneHunter.selectSingleMulti(singleF, multiF);
+				if (player.countCocks() > 1) multiF();
+				else singleF(); // yes, it's repeating. Don't wanna refactor anyway.
 
 				//========================================================
 				function multiF():void {
@@ -343,8 +360,8 @@ use namespace CoC;
 					if(player.hasBalls()) outputText("your [balls] and ");
 					outputText("the bases of your [cocks].\n\n");
 					outputText("\"<i>There, that'll make sure you feel every squeeze and caress of my velvet walls, and keep you from getting off until you're ready,</i>\" says the succubus as she climbs the table and straddles your eager form.\n\n");
-					outputText("She lifts herself up with her shapely legs and spreads her thighs, proudly revealing her puffy pierced folds.  They drip with demonic nectar as she wiggles over you, spattering you with demon-honey.  Slowly, nearly imperceptibly, she swivels the lewd opening closer and closer, and your cocks, as if possessed, angle themselves upward towards the juicy target.  The grinning succubus looks over her shoulder and asks, \"<i>Ready are we? Ok, I won't keep you waiting.</i>\"\n\n");
-					outputText("Marvelous heat and wetness sweeps over you in a fluid motion, wrapping your [cock] tightly.  You sigh happily, already lost in the feeling of having a succubus' tight walls wriggling around you.  Were you not already so corrupt, you would probably be coming already, but as it is, you can lie there and enjoy it, reveling in the sensations your unholy lover is spreading through your body.  You shiver, finally approaching your climax, but as it nears you find yourself denied by the whip binding your [cocks].  It isn't just the physical tightness either – something else about it keeps your release buried deep, inaccessible.\n\n");
+					outputText("She lifts herself up with her shapely legs and spreads her thighs, proudly revealing her puffy pierced folds.  They drip with demonic nectar as she wiggles over you, spattering you with demon-honey.  Slowly, nearly imperceptibly, she swivels the lewd opening closer and closer, and your cock, as if possessed, angles itself upwards towards the juicy target.  The grinning succubus looks over her shoulder and asks, \"<i>Ready are we? Ok, I won't keep you waiting.</i>\"\n\n");
+					outputText("Marvelous heat and wetness sweeps over you in a fluid motion, wrapping your [cock] tightly.  You sigh happily, already lost in the feeling of having a succubus' tight walls wriggling around you.  Were you not already so corrupt, you would probably be coming already, but as it is, you can lie there and enjoy it, reveling in the sensations your unholy lover is spreading through your body.  You shiver, finally approaching your climax, but as it nears you find yourself denied by the whip binding your [cock].  It isn't just the physical tightness either – something else about it keeps your release buried deep, inaccessible.\n\n");
 					outputText("\"<i>Have you hit it yet?</i>\" the succubus asks as she rocks on top of you, \"<i>I've placed a block inside you.  Don't worry, it's temporary, it'll only stop you from orgasming for a few days...</i>\"\n\n");
 					outputText("You moan pitifully, begging for her to remove it and allow you to cum.\n\n");
 					outputText("\"<i>Oh I can't remove it,</i>\" she says, \"<i>The only way you'll be rid of it with any sort of certainty is to melt through it with something stronger.  Something, like, I don't know, the focused remains of your soul and humanity.  Now you think on that while I melt away any doubts you might have.</i>\"\n\n");
@@ -360,7 +377,7 @@ use namespace CoC;
 					else outputText("new");
 					outputText(" demon-cock for a few more orgasms.");
 					player.sexReward("vaginalFluids", "Dick");
-					doNext(doBadEndDemon, 1);
+					doNext(goDemonSharedEnd);
 				}
 				function singleF():void {
 					outputText(multiCockDescriptLight() + " pulsates, straining for just a touch of the succubus' hand.  She paces around you, giggling and toying with you as your " + multiCockDescript() + " seems to follow her, twitching and thickening anytime she takes a step closer.\n\n");
@@ -368,10 +385,6 @@ use namespace CoC;
 					outputText("You glance down, seeing just how hard her words have made you.  You squirm your " + hipDescript() + "s pathetically, trying to hump her hand and increase the stimulation.  The succubus immediately releases you and draws back, shedding her secretary's clothes like a snake sheds its skin.  Now clad only in a tight leather corset and thigh-high stockings with garters, the succubus tosses you onto a table, surprising you with her raw strength.  Seemingly from nowhere, she produces a whip, winding it tightly around ");
 					if(player.hasBalls()) outputText("your [balls] and ");
 					outputText("the base of your [cock].\n\n");
-					outputText("\"<i>There, that'll make sure you feel every squeeze and caress of my velvet walls, and keep you from getting off until you're ready,</i>\" says the succubus as she climbs the table and straddles your eager form.\n\n");
-					outputText("She lifts herself up with her shapely legs and spreads her thighs, proudly revealing her puffy pierced folds.  They drip with demonic nectar as she wiggles over you, spattering you with demon-honey.  Slowly, nearly imperceptibly, she swivels the lewd opening closer and closer, and your cock, as if possessed, angles itself upwards towards the juicy target.  The grinning succubus looks over her shoulder and asks, \"<i>Ready are we? Ok, I won't keep you waiting.</i>\"\n\n");
-					outputText("Marvelous heat and wetness sweeps over you in a fluid motion, wrapping your [cock] tightly.  You sigh happily, already lost in the feeling of having a succubus' tight walls wriggling around you.  Were you not already so corrupt, you would probably be coming already, but as it is, you can lie there and enjoy it, reveling in the sensations your unholy lover is spreading through your body.  You shiver, finally approaching your climax, but as it nears you find yourself denied by the whip binding your [cock].  It isn't just the physical tightness either – something else about it keeps your release buried deep, inaccessible.\n\n");
-					outputText("\"<i>Have you hit it yet?</i>\" the succubus asks as she rocks on top of you, \"<i>I've placed a block inside you.  Don't worry, it's temporary, it'll only stop you from orgasming for a few days...</i>\"\n\n");
 					outputText("You moan pitifully, begging for her to remove it and allow you to cum.\n\n");
 					outputText("\"<i>Oh I can't remove it,</i>\" she says, \"<i>The only way you'll be rid of it with any sort of certainty is to melt through it with something stronger.  Something, like, I don't know, the focused remains of your soul and humanity.  Now you think on that while I melt away any doubts you might have.</i>\"\n\n");
 					outputText("She resumes fucking you, driving you insane with need, all the while fiddling with her clit and pulling up a nipple to lick.  It feels so good, but you NEED to cum.  She fucks you like that for hours, until the table collapses under the pair of you and dumps you both on the floor. More than anything you crave release, and over time you cave in further and further to the need.  In time, you can feel the block weakening, melting, and eroding.  Your life has been distilled down into this one moment, this one desire, this need for release.  The block shatters, melting away under the force of your need.\n\n");
@@ -386,13 +399,13 @@ use namespace CoC;
 					else outputText("new");
 					outputText(" demon-cock for a few more orgasms.");
 					player.sexReward("vaginalFluids", "Dick");
-					doNext(doBadEndDemon, 1);
+					doNext(goDemonSharedEnd);
 				}
 			}
 			function vagF():void {
 				outputText(vaginaDescript(0) + " grows wet and ready, practically juicing itself as the demoness' hand caresses your inner thigh.  She teases, \"<i>Oh my! You're so wet and ready and I haven't even touched your moist little cum-receptacle.  You're a slut, aren't you?  Who else would be so turned on by the idea of cumming until all your humanity drips out?</i>\"\n\n");
 				outputText("The words make you blush hard, shaming you and stoking the growing fire between your [legs].  You know two things for certain: she's right and you're more turned on that ever.  You don't resist as the demoness easily lifts you up, setting you down on a table with your [legs] spread.  \"<i>There,</i>\" she comments, \"<i>now your juicy snatch is on display, just like you've always wanted.</i>\"\n\n");
-				outputText("She effortlessly swings her lissomelegs onto the table as she pulls herself up, mounting you as a man might.  You can feel waves of heat rolling off her sex, bathing your own slit in her warmth.  ");
+				outputText("She effortlessly swings her lissome legs onto the table as she pulls herself up, mounting you as a man might.  You can feel waves of heat rolling off her sex, bathing your own slit in her warmth.  ");
 				if(player.clitLength >= 2) outputText("Your " + clitDescript() + " pushes free, nuzzling against her hairless cunt and slipping inside, as if drawn in by its desire.  She openly moans, and begins rocking on top of you.  You gasp in delight as she rides your " + clitDescript() + ", fucking and grinding against it.  ");
 				else outputText("She lowers herself down, rubbing smooth hairless netherlips over you, smearing you with her fragrant demon-honey.  You feel her clit grinding on your own, drawing out gasps of delight from both of your mouths as she relentlessly scissors against you.  ");
 				outputText("In no time flat you feel your climax building.  Your " + vaginaDescript(0) + " quivers and grows wetter in anticipation.  Tugging on your aching " + nippleDescript(0) + "s and aching for release, you squirm under your demonic mistress, smashing your " + vaginaDescript(0) + " against her in a lewd attempt to find your orgasm.  It does not happen, and you moan in disappointment as the pleasure continues to build, oblivious to your desire for orgasm.\n\n");
@@ -409,7 +422,7 @@ use namespace CoC;
 				outputText("The succubus interrupts your delight by recovering far faster than you, rolling up to a standing position and watching something between your legs.  You prop yourself up on your elbows to see what the fuss is about.  Between your legs something curious is happening – a trickle of pinkish fluid is still escaping your nethers, rolling towards a rapidly expanding pool, along with every other drop of the pink goop.  Before your very eyes the pool grows until every drop of pink fluid has collected together, and it grows upwards, solidifying into a sparkling crystalline shape.\n\n");
 				outputText("Before you can react, she grasps the newly-formed lethicite and noisily begins eating it, her eyes glowing with newfound power.  Watching her makes you more than a little jealous and angry with yourself.  You should've taken the lethicite and gained its power!  No use fretting about it, you can still fuck this succubus for a few hours before you go out in search of your own victims...\n\n");
 				player.sexReward("vaginalFluids", "Vaginal");
-				doNext(doBadEndDemon, 2);
+				doNext(goDemonSharedEnd);
 			}
 			function hermF():void {
 				//Buh.  Zombie fen need brains.
@@ -435,7 +448,7 @@ use namespace CoC;
 				outputText(" demon-cock for a few more orgasms.");
 				outputText("  Before you get into that, you spy a small piece of pink crystal on the floor between your legs.  You snatch it and devour it before the succubus has a chance and eat it, turning part of your soul into new-found demonic strength before you return to a long night of sex...");
 				player.sexReward("vaginalFluids", "Dick");
-				doNext(doBadEndDemon, 3);
+				doNext(goDemonSharedEnd);
 			}
 		}
 
@@ -749,7 +762,7 @@ use namespace CoC;
 					[1, "Vagfuck", curry(otherF, true), "Req. a vagina.", player.hasVagina()],
 					[2, "Assfuck", curry(otherF, false)]
 				],
-				"[Themonster] wins. This isn't as bad as it sounds though: [moster he] is definitely not going to kill you. Maybe you'll even get off, while [moster he] fucks you? Let's do this!\n\n"
+				"[Themonster] wins. This isn't as bad as it sounds though: [monster he] is definitely not going to kill you. Maybe you'll even get off, while [monster he] fucks you? Let's do this!\n\n"
 			);
 			//Nipplefuck city
 			function nippleF():void {
@@ -853,7 +866,7 @@ use namespace CoC;
 					if (player.hasCock()) player.sexReward("Default", "Dick");
 					player.sexReward("cum", "Anal");
 					if (player.isGargoyle() && player.hasPerk(PerkLib.GargoyleCorrupted)) player.refillGargoyleHunger(30);
-					if (player.isRace(Races.JIANGSHI, 1, false) && player.hasPerk(PerkLib.EnergyDependent)) player.EnergyDependentRestore();
+					if ((player.isRace(Races.JIANGSHI, 1, false) || player.isRace(Races.MUMMY, 1, false)) && player.hasPerk(PerkLib.EnergyDependent)) player.EnergyDependentRestore();
 					if (mechanic) {
 						if (flags[kFLAGS.D3_GARDENER_DEFEATED] > 0 && flags[kFLAGS.D3_CENTAUR_DEFEATED] > 0 && flags[kFLAGS.D3_STATUE_DEFEATED] > 0) outputText("\n\n\"<i>You're lucky I've decided to let you go since you've overthrown Lethice,</i>\" the incubus grumbles.");
 						dynStats("cor", 25);
@@ -970,9 +983,8 @@ use namespace CoC;
 		private function doFightOmnibus():void {
 			clearOutput();
 			outputText("You strike a combat pose and prepare your [weapon].  She smiles and saunters around the desk, letting something bulbous and fleshy drop free from between her nether-lips.  You watch in shock as it hardens into a dick, growing right from where her clit should be.\n\nShe taunts, \"<i>Like what you see cow?  I'll be sure to visit you in the pens.</i>'\" \n\nAn unseen force closes the glass door to the north, preventing you from running away!");
-			flags[kFLAGS.FACTORY_OMNIBUS_DEFEATED] = 1;
-			startCombat(new OmnibusOverseer(), true);
 			spriteSelect(SpriteDb.s_factory_omnibus);
+			startCombat(new OmnibusOverseer(), true);
 		}
 
 		private function acceptOmnibus():void {
@@ -989,6 +1001,7 @@ use namespace CoC;
 
 		//Choose your poison
 		public function winAgainstOmnibus():void {
+			flags[kFLAGS.FACTORY_OMNIBUS_DEFEATED] = 1;
 			clearOutput();
 			if(monster.lust >= monster.maxOverLust()) {
 				outputText("The omnibus trembles where she stands, her proud demonic dick twitching and pulsating as her desires totally overwhelm her.  The tainted nodules covering the purplish hermaphrodite's member ripple and swell from the base towards the tip, culminating with an explosive eruption of sticky, white demon-seed.  She moans with shame and pleasure, pumping larger and larger volumes of cum onto her office's floor.  She drops to her knees, too exhausted and ashamed by her premature orgasm to continue fighting.\n\n");
@@ -1016,7 +1029,7 @@ use namespace CoC;
 			spriteSelect(SpriteDb.s_factory_omnibus);
 			clearOutput();
 			outputText("The demon pouts at you. <i>Fiiiiine. All I've got on me is some processed lethicite. You'll need my help to absorb it.</i> The demoness reaches into her incredible skimpy chest band and pulls out a vial she had somehow managed to conceal there.\n\nShe unscrews the top, and then holds it before her and blows across it. A cloud of sparkling purplish black powder burst from the vial, flying right at you!");
-			outputText("\n\nYou stumble back in surprise, as the demoness makes a quick arcane gesture. The cloud glows, and then flies at your face, flowing into your mouth and nose before you can react.\n\n Your vision flashes purple, and a burning heat seems to spread through both your body and soul.\n\nThe heat in your body quickly turns into arousal, but the heat in your soul mostly dissapears - though what remains makes it feel like your soul is aroused! You realize that <b>your sex drive is increasing your soulforce, and you feel more demonic!</b>\n(Perk Gained - Demonic Lethicite - Soulforce increased and you are permanently slightly demonic!)");
+			outputText("\n\nYou stumble back in surprise, as the demoness makes a quick arcane gesture. The cloud glows, and then flies at your face, flowing into your mouth and nose before you can react.\n\n Your vision flashes purple, and a burning heat seems to spread through both your body and soul.\n\nThe heat in your body quickly turns into arousal, but the heat in your soul mostly disappears - though what remains makes it feel like your soul is aroused! You realize that <b>your sex drive is increasing your soulforce, and you feel more demonic!</b>\n(Perk Gained - Demonic Lethicite - Soulforce increased and you are permanently slightly demonic!)");
 			dynStats("lus",player.maxLust);
 			player.createPerk(PerkLib.DemonicLethicite,0,0,0,0);
 			postOmnibusBoon();
@@ -1363,7 +1376,7 @@ use namespace CoC;
 			//Tits – regular
 			if(player.biggestLactation() < 1) outputText("Your " + nippleDescript(0)  + "s begin prodding painfully against your [armor], every touch serving to make them harder and more erect.  ");
 			//Tits – lactating
-			if(player.biggestLactation() >= 1 && player.biggestLactation() < 3) outputText("Your " + nippleDescript(0) + "s get painfully hard as you feel milk begin backing up inside your [allbreasts].   The succubus glances down mischieviously as her hands begin to grope you through your [armor], squeezing out a few drops of milk.  ");
+			if(player.biggestLactation() >= 1 && player.biggestLactation() < 3) outputText("Your " + nippleDescript(0) + "s get painfully hard as you feel milk begin backing up inside your [allbreasts].   The succubus glances down mischievously as her hands begin to grope you through your [armor], squeezing out a few drops of milk.  ");
 			//Tits – megalactating
 			if(player.biggestLactation() >= 3) outputText("Your " + nippleDescript(0) + "s get painfully hard as milk begins drooling down your over-productive chest, making your [armor] slide across your leaky milk-spouts in an agonizingly pleasurable way.  ");
 			//Cock – single
@@ -1627,12 +1640,45 @@ use namespace CoC;
 			EventParser.gameOver();
 		}
 
-		private function doBadEndDemon(usedGender:int):void {
+		private function goDemonSharedEnd():void {
 			clearOutput();
-			if (usedGender == 1) outputText("As a demon, you rapidly moved up the ranks, eventually taking command of the factory and its inhabitants.  The previous commander was reduced to a willing cock-sleeve, ever-eager to obey your slightest order.  By the time the next year has come around, you've managed to earn the coveted honor of collecting the next champion.");
-			else if (usedGender == 2) outputText("Now a full-fledged demon, you leave the factory, setting off on your own.  Over the next year you capture many foolish mortals, and even convince more than a few of them to give up their souls.  With your rapid gain in power, it's easy to rise in the demonic ranks, and in no time flat your power far exceeds that of the succubus that 'turned' you.  You live in luxury, surrounded by a harem of slaves, waiting in your camp for the next victim to step through...");
-			else outputText("As a demon, you rapidly moved up the ranks, eventually taking command of the factory and its inhabitants.  The previous commander was reduced to a willing cock-sleeve, ever-eager to obey your slightest order.  By the time the next year has come around, you've managed to earn the coveted honor of collecting the next champion. It should be quite satisfying...");
-			EventParser.gameOver();
+			player.skin.setBaseOnly({type:Skin.PLAIN, color1:"blue", pattern: Skin.PATTERN_DEMONIC_PLEASURE_RUNE});
+			if (!InCollection(player.skinColor1, DemonRace.DemonSkinColors) && !InCollection(player.skinColor2, DemonRace.DemonSkin2Colors)) {
+				var choice1:String = randomChoice(DemonRace.DemonSkinColors);
+                var choice2:String = randomChoice(DemonRace.DemonSkin2Colors);
+                player.skinColor1 = choice1;
+                player.skinColor2 = choice2;
+			}
+			if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
+			else {
+				if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
+				else {
+					if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
+					else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
+				}
+			}
+			player.legCount = 2;
+			transformations.TailDemonic.applyEffect(false);
+			transformations.HairHuman.applyEffect(false);
+			transformations.FaceDemon.applyEffect(false);
+			transformations.EyesDemon.applyEffect(false);
+			transformations.ArmsDemon.applyEffect(false);
+			transformations.TongueDemonic.applyEffect(false);
+			transformations.EarsElfin.applyEffect(false);
+			transformations.HornsDemonic.applyEffect(false);
+			transformations.AntennaeNone.applyEffect(false);
+			transformations.GillsNone.applyEffect(false);
+			transformations.WingsDemonicLarge.applyEffect(false);
+			transformations.RearBodyNone.applyEffect(false);
+			if (player.hasCock()) transformations.CockDemon().applyEffect(false);
+			if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
+			outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
+			player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
+			player.npcsThatLeaveSoullessPC();
+			if (player.level < 25) inventory.takeItem(consumables.LETHITE, playerMenu);
+			else if (player.level < 50) inventory.takeItem(consumables.LETH1TE, playerMenu);
+			else if (player.level < 75) inventory.takeItem(consumables.LETH2TE, playerMenu);
+			else inventory.takeItem(consumables.LETH3TE, playerMenu);
 		}
 
 		//ROOMS
@@ -1672,7 +1718,10 @@ use namespace CoC;
 					outputText("She exclaims, \"<i>Omigawsh!  You're the champion!  Your, like, soul is still there and everything!  But, you're like, completely corrupt an' stuff!  Ya know what'd be fun?  I could fuck you 'til you cum so hard your soul melts out an' you turn into a demon.  Wouldn't that be great?</i>\"\n\n");
 					outputText("The secretarial demoness pulls out a file and fiddles with her nails, murmuring, \"<i>I guess if you don't wanna, we could just hook you up in the factory.  What's it gonna be?</i>\"");
 					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_SUCCUBUS);
-					simpleChoices("Fight", doFightSuccubus, "Go Demon", goDemon, "Hook Up", talkSuccubusYes, "", null, "", null);
+					menu();
+					addButton(1, "Fight", doFightSuccubus);
+					addButtonIfTrue(2, "Go Demon", goDemon, "You already got no soul!!! Or you're pernamently transformed!!!", (!player.hasPerk(PerkLib.Soulless) && !player.blockingBodyTransformations()), "THIS WILL TURN YOU INTO TRUE DEMON!!! ARE YOU SURE ABOUT THAT???");
+					addButton(3, "Hook Up", talkSuccubusYes);
 					return;
 				}
 				sceneHunter.print("Check failed: high corruption & demon-morph.");
@@ -1761,7 +1810,7 @@ use namespace CoC;
 				}
 			}
 			if (!player.hasKeyItem("Cock Milker: Anal Attachment") && player.hasKeyItem("Cock Milker - Installed At Whitney's Farm")) {
-				outputText("You see a box in the bottom of the cupboard you didnt notice before and go to open it up. Inside you find a strange device that looks like it may be part of a Cock Milker.\n\nDo you take the Cock Milker: Anal Attachment?\n\n");
+				outputText("You see a box in the bottom of the cupboard you didn't notice before and go to open it up. Inside you find a strange device that looks like it may be part of a Cock Milker.\n\nDo you take the Cock Milker: Anal Attachment?\n\n");
 				addButton(1, "Anal Attachment", takeAnalAttachment);
 			}
 			outputText("The only exit is back to the south.");
@@ -1807,9 +1856,10 @@ use namespace CoC;
 			}
 			else {
 				if (player.hasKeyItem("Supervisor's Key") < 0) {
-					addButton(0, "Desk", takeSupervisorKey).hint("Check the desk for something.");
+					addButton(1, "Key", takeSupervisorKey).hint("Check the desk for something.");
 				}
 			}
+			if (flags[kFLAGS.FACTORY_OMNIBUS_DEFEATED] > 0) addButton(0, "Desk", readTheLetter).hint("Check the desk.");
 		}
 
 		public function roomControlRoom():void {
@@ -1864,6 +1914,7 @@ use namespace CoC;
 				addButton(1, "GroPlus", takeGroPlus);
 			}
 			if(flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD] < 1) addButton(2, "Search", takeWardTome);
+			if(flags[kFLAGS.FACTORY_TAKEN_DEMONIZE_ME] < 1) addButton(3, "Potion", takeDemonizeMe);
 		}
 
 		public function roomBathroom():void {

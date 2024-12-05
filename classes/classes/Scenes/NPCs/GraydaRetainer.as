@@ -155,7 +155,7 @@ private	function graydaMainTalkHer():void {
 	outputText("Her glowing yellow eyes seem to dim to a low amber as she grabs, and takes another sip from her concealed flask. \"<i>It was all going well, we had enough supplies to last us a while… until a violent storm started hounding our ship, and left us in a very poor condition, but that wasn’t the worst of it. One of those fanatic ‘Sea Witches’ attempted to attack our boat while turning us against each other.</i>\"\n\n");
 	outputText("Her eyes lose all of their glow, leaving them as nothing but milky white with a faint brown coloring where her irises should be, and a frown appears on her face as watery drops started to fall from her eyes. \"<i>I… was knocked overboard during the attack, and in my weakened state was unable to stay above the water. Before I was about to pass out from a lack of air, this...</i>\" ");
 	outputText("she pats the hat-like organism on her head in an affectionate manner. \"<i>It saved me from drowning by allowing me to breathe again… however there were no remains among the wreckage of the ship when I checked it. Meaning almost everyone I knew was most likely dead or turned into more fanatics.</i>\"\n\n");
-	outputText("She takes a long gulp of whatever the continents of the flask were, before returning the empty container to her cloak for a final time, a flush of blue on her cheeks makes it quite obvious as to what the contents were. \"<i>I'm not sure how long I stayed there, unable to move… to live with the reality that was forced upon me… eventually I couldn't remain conscious and collapsed from exhaustion. However when I woke up, I was somewhere different, as well as something I wasn't before, but the thing that mattered most to me was the desire to grow stronger. I wanted revenge, I would become a one-woman army if it meant finally being able to catch the one who caused so much ruin in a day.</i>\"\n\n");
+	outputText("She takes a long gulp of whatever the continents of the flask were, before returning the empty container to her cloak for a final time, a flush of blue on her cheeks makes it quite obvious as to what the contents were. \"<i>I'm not sure how long I stayed there, unable to move… to live with the reality that was forced upon me… eventually I couldn't remain conscious and collapsed from exhaustion. However, when I woke up, I was somewhere different, as well as something I wasn't before, but the thing that mattered most to me was the desire to grow stronger. I wanted revenge, I would become a one-woman army if it meant finally being able to catch the one who caused so much ruin in a day.</i>\"\n\n");
 	outputText("She leans back into her chair and takes a deep breath before continuing. \"<i>But that was all so long ago, and I was much too young to have a proper understanding of how the world works. So for now, my duty is protecting you and giving you my guidance. Or at least until we both perish.</i>\" Her eyes regain their glow as she seems to return to her normal attitude.\n\n");
 	outputText("She shuffles a bit as her attention is regained on you. \"<i>I suppose you wouldn’t mind if I asked what you did before our encounter? I understand you have a duty that takes priority over being a leader for our kind, but what were you like before our encounter?</i>\"\n\n");
 	outputText("You can’t help but let out a low growl looking back on your time in your hometown. ");
@@ -169,7 +169,7 @@ private	function graydaMainTalkHer():void {
 private	function graydaMainTalkOutsiders():void {
 	clearOutput();
 	spriteSelect(SpriteDb.s_grayda);
-	outputText("You ask Grayda what she thinks of the other races of mareth.\n\n");
+	outputText("You ask Grayda what she thinks of the other races of Mareth.\n\n");
 	outputText("\"<i>Outsiders? With all due respect Princess I don't trust them, they seem quick to turn on each other, however, the demons are a more serious threat for the moment. I would also be wary of any Mindbreakers you come across my princess, they seem to have some ulterior motive which could prove detrimental if left unchecked.</i>\"\n\n");
 	outputText("She takes a moment to look around the camp before continuing. \"<i>Although, most of the folk you’ve gathered around here seem quite pleasant, and trade between one of the nearby towns could help this place grow quite nicely.</i>\"\n\n");
 	graydaAffection(2.5);
@@ -203,7 +203,7 @@ private	function graydaMainTalkOthersAtCamp():void {
 	if (player.hasStatusEffect(StatusEffects.CampRathazul)) outputText("\"<i>The old one seems quite friendly, but I wish he would stop trying to collect ‘samples’ from me. It's getting quite irritating. Please let me know if he starts bugging you, my Princess.</i>\"\n\n");
 	if (EvangelineFollower.EvangelineFollowerStage >= 1) outputText("\"<i>That rather tall human with the cross-shaped pupils seems almost afraid of us, did you do something, my princess? Or is she just always weary?</i>\"\n\n");
 	if (flags[kFLAGS.KONSTANTIN_FOLLOWER] >= 2 && !player.hasStatusEffect(StatusEffects.KonstantinOff)) outputText("\"<i>The smith seems surprisingly polite for how large he is, hopefully, he doesn’t get the wrong idea if I were to ask to sample his wares, or put off by our… strange diets</i>\"\n\n");
-	if (player.hasStatusEffect(StatusEffects.PureCampJojo)) outputText("\"<i>I'm sorry my Princess, but I can’t help but see that little monk as prey. Surely I'm not the only one thinking he would taste well with a bit of seasoning. However, other than that I've noticed he seems quite cautious around me, I hope I haven’t scared him too badly.</i>\"\n\n");
+	if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3) outputText("\"<i>I'm sorry my Princess, but I can’t help but see that little monk as prey. Surely I'm not the only one thinking he would taste well with a bit of seasoning. However, other than that I've noticed he seems quite cautious around me, I hope I haven’t scared him too badly.</i>\"\n\n");
 	if (DivaScene.instance.isCompanion()) outputText("\"<i>Is… that a vampire? I thought they were nothing but a myth, although it is nice to meet another who is irritated by the harsh sun here.</i>\"\n\n");
 	if (flags[kFLAGS.ALVINA_FOLLOWER] > 12 && flags[kFLAGS.ALVINA_FOLLOWER] < 20 && !SceneLib.alvinaFollower.AlvinaPurified) outputText("\"<i>My Princess there seems to be a witch near our camp who reeks of corruption, and when I tried confronting her she shooed me away saying you had allowed her to be here. I would be cautious of her Princess, she seems to be the kind to have her own interests in mind.</i>\"\n\n");
 	if (flags[kFLAGS.SIEGWEIRD_FOLLOWER] > 3) outputText("\"<i>That paladin doesn’t seem to be the brightest, but he certainly is dedicated towards his cause. If he wasn’t so hostile towards me then I could imagine we would get along quite well. That soup also smells lovely.</i>\"\n\n");
@@ -391,7 +391,7 @@ public function graydaRandomnCampEvents():void {
 		outputText("\"<i>In Fact… I would take great pleasure in the action.</i>\" She pats down her stomach as if she was attempting to remove dirt which may be clinging to her clothing. Rathazul looks like he is about to speak before he is abruptly cut off by Grayda. \"<i>And don’t ask my Princess for samples… this is my only warning.</i>\"\n\n");
 		outputText("Well, it seems like someone is certainly a bit overprotective of you.\n\n");
 	}
-	if (player.hasStatusEffect(StatusEffects.PureCampJojo) && rand(2) == 0) {
+	if (player.hasStatusEffect(StatusEffects.PureCampJojo) && flags[kFLAGS.JOJO_BIMBO_STATE] != 3 && rand(2) == 0) {
 		outputText("You can see Jojo and Grayda meditating a bit further out on the camp’s perimeter, or at least Jojo is. Grayda seems to be giving him a side glance as she tries to hide her drooling mouth. However, this doesn’t seem to last long as the small mouse boy takes notice of Grayda.\n\n");
 		outputText("\"<i>Please focus, Grayda. The sooner you focus, the sooner we can get to solving the mystery of your and [name]’s corruption.</i>\"\n\n");
 		outputText("\"<i>R-Right!</i>\" Grayda seems to quickly regain her composure and goes back to attempting to meditate. It doesn’t last long however as she seemingly goes back to looking at Jojo as if he was prey.\n\n");
@@ -406,7 +406,7 @@ public function graydaRandomnCampEvents():void {
 		outputText("\"<i>You are not much better, 'Dragon', you reek of corruption as well.</i>\"\n\n");
 		outputText("And with that Kiha swings her ax down upon Grayda, who swiftly steps out of the way, but their fight is stopped just as fast as it started as they finally take note of your presence.\n\n");
 	}
-	else doNext(playerMenu);
+	endEncounter();
 }
 public function graydaRandomnCampEvents2():void {
 	flags[kFLAGS.THE_TRENCH_ENTERED]++;

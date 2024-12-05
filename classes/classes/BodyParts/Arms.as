@@ -2,7 +2,7 @@ package classes.BodyParts {
 import classes.Creature;
 import classes.internals.EnumValue;
 
-public class Arms extends BodyPart {
+public class Arms extends SaveableBodyPart {
 	/**
 	 * Entry properties:
 	 * - value: numerical id (0, 1)
@@ -363,7 +363,7 @@ public class Arms extends BodyPart {
 	public static const FROSTWYRM:int = 45;
 	EnumValue.add(Types, FROSTWYRM, "FROSTWYRM", {
 		name:"frostwyrm",
-		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five fingered clawed hands. Your claws are strong enough to rip and tear through next to anything.",
+		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five-fingered clawed hands. Your claws are strong enough to rip and tear through next to anything.",
 		claw: true,
 		scales: true
 	});
@@ -420,7 +420,7 @@ public class Arms extends BodyPart {
 	public static const WENDIGO:int = 53;
 	EnumValue.add(Types, WENDIGO, "WENDIGO", {
 		name:"wendigo",
-		appearanceDesc: "Your arms and hands are practically human, save for the sharp white claws you have in place of normal nails.",
+		appearanceDesc: "Your arms and hands are practically human, save for the sharp white, claws you have in place of normal nails.",
 		claw: true
 	});
 
@@ -449,7 +449,7 @@ public class Arms extends BodyPart {
 	public static const JABBERWOCKY:int = 57;
 	EnumValue.add(Types, JABBERWOCKY, "JABBERWOCKY", {
 		name:"jabberwocky",
-		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five fingered clawed hands. Your claws are strong enough to rip and tear through next to anything though you tend to use your arms as a mean to keep your partners pinned down so they don't move during sex.",
+		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five-fingered clawed hands. Your claws are strong enough to rip and tear through next to anything though you tend to use your arms as a mean to keep your partners pinned down so they don't move during sex.",
 		claw: true,
 		scales: true
 	});
@@ -504,7 +504,8 @@ public class Arms extends BodyPart {
 	public static const ARMORED_FOREARMS:int = 64;
 	EnumValue.add(Types, ARMORED_FOREARMS, "ARMORED_FOREARMS", {
 		name:"arigean",
-		appearanceDesc: "Your arms are identical to those of a human, However your forearms seem to be covered in fragments of a black, glossy metal acting as natural bracers."
+		appearanceDesc: "Your arms are identical to those of a human, However your forearms seem to be covered in fragments of a black, glossy metal acting as natural bracers.",
+		claw: true
 	});
 
 	public static const DEMON:int = 65;
@@ -542,15 +543,42 @@ public class Arms extends BodyPart {
 		claw: true,
 		fur: true
 	});
+
+	public static const TROLL:int = 70;
+	EnumValue.add(Types, TROLL, "TROLL", {
+		name:"troll",
+		appearanceDesc: "Your arms are covered with [fur color] fur. They end with somewhat human-like hands with sharp nails. Such dexterous hands are as adept at playing a piper as they would to draw out moans out of a partner.",
+		fur: true
+	});
+
+	public static const GLACIAL_TROLL:int = 71;
+	EnumValue.add(Types, GLACIAL_TROLL, "GLACIAL_TROLL", {
+		name:"g.troll",
+		appearanceDesc: "Your arms are covered with [fur color] fur. They end with somewhat human-like hands with sharp nails. Such dexterous hands are as adept at playing a piper as they would to draw out moans out of a partner.",
+		claw: true,
+		fur: true
+	});
+	
+	public static const LICH:int = 72;
+	EnumValue.add(Types, LICH, "LICH", {
+		name:"lich",
+		appearanceDesc: "Your arms are human in shape and appearance but the nails of your hand glow with unholy powers. Your very touch drains the life out of the living."
+	});
+
+	public static const MUMMY:int = 73;
+	EnumValue.add(Types, MUMMY, "MUMMY", {
+		name:"mummy",
+		appearanceDesc: "Your arms are human in shape and appearance but the skin is extremely sensitive to the touch. As such they are covered from the elbows to the tip of your fingers with bandages."
+	});
 	
 	public static function canFly(id: int): Boolean {
 		return Types[id].canFly || false;
 	}
 
 	public function Arms(creature:Creature) {
-		super(creature, null);
+		super(creature, "arms", ["armCount"]);
 	}
-	
+
 	override public function hasMaterial(type:int):Boolean {
 		switch (type) {
 			case BodyMaterial.SKIN:
@@ -569,6 +597,18 @@ public class Arms extends BodyPart {
 				return false;
 		}
 	}
+
+	/*
+	override protected function loadFromOldSave(savedata:Object):void {
+		type = intOr(savedata.arms, HUMAN);
+		//armCount = intOr(savedata.armCount,2);
+	}
+
+	override protected function saveToOldSave(savedata:Object):void {
+		savedata.arms = type;
+		savedata.armCount = armCount;
+	}
+	 */
 
 	public static function getAppearanceDescription(creature: *):String {
 		const id: int = creature.arms.type;

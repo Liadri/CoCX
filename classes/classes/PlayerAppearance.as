@@ -7,6 +7,11 @@ import classes.Scenes.NPCs.JojoScene;
 import classes.Scenes.NPCs.SophieFollowerScene;
 import classes.internals.Utils;
 
+import coc.view.CoCButton;
+import coc.view.Block;
+import coc.view.MainView;
+
+
 public class PlayerAppearance extends BaseContent {
 
 
@@ -111,7 +116,7 @@ public class PlayerAppearance extends BaseContent {
 
 	public function	BoobDisplay():void {
 		clearOutput();
-		outputText("Do you want to display Breast Bigger then F cup.");
+		outputText("Do you want to display Breast Bigger than F cup.");
 		if (flags[kFLAGS.BOOB_DISPLAY_FLAG] == 0) outputText("[pg]Display Style: <b>Yes</b>");
 		if (flags[kFLAGS.BOOB_DISPLAY_FLAG] == 1) outputText("[pg]Display Style: <b>No</b>");
 		mainView.hideAllMenuButtons();
@@ -197,7 +202,7 @@ public class PlayerAppearance extends BaseContent {
 		if (player.necklaceName != "nothing")
 			gearDesc += " On your neck is a " + player.necklaceName + ".";
 		if (player.hasKeyItem("Gleipnir Collar") >= 0) {
-			if (player.necklaceName != "nothing") gearDesc += " Benath it is ";
+			if (player.necklaceName != "nothing") gearDesc += " Beneath it is ";
 			else gearDesc += " On your neck is ";
 			gearDesc += "Fenrir's spiked Collar, pieces of the spectral chain Gleipnir still dangling from it, floating weightlessly and tracing your movements.";
 		}
@@ -262,22 +267,22 @@ public class PlayerAppearance extends BaseContent {
 		if (player.hasPerk(PerkLib.ElementalBody)) {
 			var element:int = ElementalRace.getElement(player);
 			if (element == ElementalRace.ELEMENT_UNDINE) {
-				outputText("You have currently fusioned with an water elemental spirit as an undine. Your body is humanoid in shape but many of your traits remind of water. You have light blue skin the color of azure while your "+Hair.getHairLength(player)+" blue liquid hair are human at a first glance but drips into a vanishing trail of water toward the end. ");
+				outputText("You have currently fused with a water elemental spirit as an undine. Your body is humanoid in shape, but many of your traits resemble water. You have light blue skin the color of azure while your "+Hair.getHairLength(player)+" blue liquid hair are human at a first glance but drips into a vanishing trail of water toward the end. ");
 				outputText("Your eyes are the color sea water and your expression albeit serene mask the violent mood swing your element can be subject to. Calm like a pond or raging like the sea amidst a storm you can just as easily move from one to the other in a blink.\n\n");
 				outputText("Your body, while mostly unified like a pool of water, is ornamented by a number of energy runes that allows you to maintain a solid shape somewhat. Your arms are human-like in shape, but just as the rest of your body, you can extend and shift your arms into churning water at any will. The skin is like water and can be semi seen through. ");
 				outputText("Your legs are human-like in shape, though they occasionally drip water to the ground. Just like the rest of your semi liquid body, it's translucent as if staring through a pool of water. Your semi liquid form allows you to pleasantly float in the air like condensation, though you cannot outright fly.");
 			}
 			else if (element == ElementalRace.ELEMENT_IGNIS) {
-				outputText("You have currently fusioned with an fire elemental spirit as a ignis. Your body is humanoid in shape but many of your traits remind of fire. You have tan skin as if spending too much time under the sun while your "+Hair.getHairLength(player)+" burning, raging flame like hair flow like raging flames. Your eyes are the color of blazing embers while your vicious expression mirrors the raging fire in your heart. You feel like going violent and reckless might solve some of your problems.\n\n");
+				outputText("You have currently fused with a fire elemental spirit as a ignis. Your body is humanoid in shape, but many of your traits resemble fire. You have tan skin as if spending too much time under the sun while your "+Hair.getHairLength(player)+" burning, raging flame like hair flow like raging flames. Your eyes are the color of blazing embers while your vicious expression mirrors the raging fire in your heart. You feel like going violent and reckless might solve some of your problems.\n\n");
 				outputText("Your arms are human-like in shape, but at the junction of your wrists, fire wicks about in the palm of your hands. Your legs are human-like in shape, but a raging fire starts at your ankles, coating your feet entirely. You levitate by burning the ambient air around you. Wreathed in a corona of flame, you can fly freely as long as you have oxygen to propel you.");
 			}
 			else if (element == ElementalRace.ELEMENT_GNOME) {
-				outputText("You have currently fusioned with an earth elemental spirit as a gnome. Your body is humanoid in shape but many of your traits remind of the solid stone. You have dark brown skin the color of stone and fertile earth while your "+Hair.getHairLength(player)+" polished stone, golem like, straight hair are decorated with a single budding vine. ");
+				outputText("You have currently fused with an earth elemental spirit as a gnome. Your body is humanoid in shape, but many of your traits resemble the solid stone. You have dark brown skin the color of stone and fertile earth while your "+Hair.getHairLength(player)+" polished stone, golem-like, straight hair are decorated with a single budding vine. ");
 				outputText("Your eyes are the color of emerald and verdant greenery, brimming with life while your calm serene expression mirrors the stone near infinite patience but can abruptly turn to violent quaking anger when provoked.\n\n");
 				outputText("Your arms are human-like in shape, at least up to your elbow. Past your elbows, your arms shift into something large, sturdy and golem-like, capable of crushing anything. Beneath your torso, your legs turn to solid rock, fully fusing with the ground beneath you. While anybody could assume you have no mobility, you can simply move by sliding across the solid ground as if you were merely swimming.");
 			}
 			else {
-				outputText("You have currently fused with a wind elemental spirit, morphing your body and becoming a sylph. Your body is humanoid in shape but many of your traits remind of wind. You have light green skin and "+Hair.getHairLength(player)+", weightless flowing hair that swirls into a vortex above your head in flowing locks. ");
+				outputText("You have currently fused with a wind elemental spirit, morphing your body and becoming a sylph. Your body is humanoid in shape, but many of your traits resemble wind. You have light green skin and "+Hair.getHairLength(player)+", weightless flowing hair that swirls into a vortex above your head in flowing locks. ");
 				outputText("Your eyes are the color of the orange twilight sky and your expression is playful and capricious but mostly free. The wind goes where it wants and does what it wants. You feel like you could do anything without barrier or restraint.\n\n");
 				outputText("Your arms are human-like in shape, but are covered in tattoos, vaguely resembling swirling vortexes of wind. Silky smooth gloves cover your hands up to your shoulders. "+(player.gender == 1 ?"":" like cloth forming what would appear like a translucent skirt to the untrained eye")+". ");
 				outputText(" Being air incarnate, you can float and fly at will anywhere. It’s as if you’re one with the air itself.");
@@ -559,7 +564,7 @@ public class PlayerAppearance extends BaseContent {
 				pregnancyDesc += "<b>";
 				//Compute size
 				temp = player.statusEffectv3(StatusEffects.Eggs) + player.statusEffectv2(StatusEffects.Eggs) * 10;
-				if(womb["incubation"] <= 50 && womb["incubation"] > 20) {
+				if(womb["incubation"] <= sceneHunter.adjustPregEventTimer(50, womb["type"]) && womb["incubation"] > sceneHunter.adjustPregEventTimer(20, womb["type"])) {
 					pregnancyDesc += "Your swollen pregnant belly is as large as a ";
 					if(temp < 10)
 						pregnancyDesc += "basketball.";
@@ -568,7 +573,7 @@ public class PlayerAppearance extends BaseContent {
 					if(temp >= 20)
 						pregnancyDesc += "beach ball.";
 				}
-				if(womb["incubation"] <= 20) {
+				if(womb["incubation"] <= sceneHunter.adjustPregEventTimer(20, womb["type"])) {
 					pregnancyDesc += "Your swollen pregnant belly is as large as a ";
 					if(temp < 10)
 						pregnancyDesc += "watermelon.";
@@ -581,13 +586,13 @@ public class PlayerAppearance extends BaseContent {
 			}
 			//Satur preggos - only shows if bigger than regular pregnancy or not pregnancy
 			else if (player.buttPregnancyType == PregnancyStore.PREGNANCY_SATYR && (!player.isPregnant() || player.buttPregnancyIncubation < womb["incubation"])) {
-				if(player.buttPregnancyIncubation < 125 && player.buttPregnancyIncubation >= 75) {
+				if(player.buttPregnancyIncubation <  sceneHunter.adjustPregEventTimer(128, player.buttPregnancyType) && player.buttPregnancyIncubation >= sceneHunter.adjustPregEventTimer(75, player.buttPregnancyType)) {
 					pregnancyDesc += "<b>You've got the beginnings of a small pot-belly.</b>";
 				}
-				else if(player.buttPregnancyIncubation >= 50) {
+				else if(player.buttPregnancyIncubation >= sceneHunter.adjustPregEventTimer(50, player.buttPregnancyType)) {
 					pregnancyDesc += "<b>The unmistakable bulge of pregnancy is visible in your tummy, yet it feels odd inside you - wrong somehow.</b>";
 				}
-				else if(player.buttPregnancyIncubation >= 30) {
+				else if(player.buttPregnancyIncubation >= sceneHunter.adjustPregEventTimer(30, player.buttPregnancyType)) {
 					pregnancyDesc += "<b>Your stomach is painfully distended by your pregnancy, making it difficult to walk normally.</b>";
 				} else { //Surely Benoit and Cotton deserve their place in this list
 					if (womb["type"] == PregnancyStore.PREGNANCY_MARBLE)
@@ -597,38 +602,38 @@ public class PlayerAppearance extends BaseContent {
 					else pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>";
 				}
 			} else if (player.isButtPregnant()) {
-				if(player.buttPregnancyIncubation <= 8 && player.buttPregnancyType == PregnancyStore.PREGNANCY_FROG_GIRL)
+				if(player.buttPregnancyIncubation <= sceneHunter.adjustPregEventTimer(8, player.buttPregnancyType) && player.buttPregnancyType == PregnancyStore.PREGNANCY_FROG_GIRL)
 					pregnancyDesc += "<b>Your stomach is so full of frog eggs that you look about to birth at any moment, your belly wobbling and shaking with every step you take, packed with frog ovum.</b>";
 				else if (player.buttPregnancyType != PregnancyStore.PREGNANCY_GOO_STUFFED) pregnancyDesc += "<b>You're stuffed so full with eggs that your belly looks obscenely distended, huge and weighted with the gargantuan eggs crowding your gut. They make your gait a waddle and your gravid tummy wobble obscenely.</b>";
 			}
 			//URTA PREG
 			else if ((womb["type"] == PregnancyStore.PREGNANCY_URTA)) {
-				if (womb["incubation"] <= 432 && womb["incubation"] > 360) {
+				if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(432, womb["type"]) && womb["incubation"] > sceneHunter.adjustPregEventTimer(360, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is larger than it used to be.</b>\n";
 				}
-				else if (womb["incubation"] > 288) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(288, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is more noticeably distended. You're pretty sure it's Urta's.</b>";
 				}
-				else if (womb["incubation"] > 216) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(216, womb["type"])) {
 					pregnancyDesc += "<b>The unmistakable bulge of pregnancy is visible in your tummy, and the baby within is kicking nowadays.</b>";
 				}
-				else if (womb["incubation"] > 144) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(144, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is large and very obviously pregnant to anyone who looks at you. It's gotten heavy enough to be a pain to carry around all the time.</b>";
 				}
-				else if (womb["incubation"] > 72) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(72, womb["type"])) {
 					pregnancyDesc += "<b>It would be impossible to conceal your growing pregnancy from anyone who glanced your way. It's large and round, frequently moving.</b>";
 				}
-				else if (womb["incubation"] > 48) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(48, womb["type"])) {
 					pregnancyDesc += "<b>Your stomach is painfully distended by your pregnancy, making it difficult to walk normally.</b>";
 				}
 				else {
-					pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the Urta's Kits.</b>";
+					pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the Urta's Kids.</b>";
 				}
 			} else if (womb["type"] == PregnancyStore.PREGNANCY_FAERIE) { //Belly size remains constant throughout the pregnancy
 				pregnancyDesc += "<b>Your belly remains swollen like a watermelon. ";
-				if (womb["incubation"] <= 100)
+				if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(100, womb["type"]))
 					pregnancyDesc += "It's full of liquid, though unlike a normal pregnancy the passenger you’re carrying is tiny.</b>";
-				else if (womb["incubation"] <= 140)
+				else if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(140, womb["type"]))
 					pregnancyDesc += "It feels like it’s full of thick syrup or jelly.</b>";
 				else pregnancyDesc += "It still feels like there’s a solid ball inside your womb.</b>";
 			} else if (womb["type"] == PregnancyStore.PREGNANCY_HARPY_HATCHING) {
@@ -636,22 +641,22 @@ public class PlayerAppearance extends BaseContent {
 				if (7 - SophieFollowerScene.HarpyEggDay > 0)  pregnancyDesc += "in " + (7 - SophieFollowerScene.HarpyEggDay) + " days.";
 				else pregnancyDesc += "tomorrow.";
 			} else {
-				if (womb["incubation"] <= 336 && womb["incubation"] > 280) {
+				if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(336, womb["type"]) && womb["incubation"] > sceneHunter.adjustPregEventTimer(280, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is larger than it used to be.</b>";
 				}
-				else if(womb["incubation"] > 216) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(216, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is more noticeably distended. You are probably pregnant.</b>";
 				}
-				else if(womb["incubation"] > 180) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(180, womb["type"])) {
 					pregnancyDesc += "<b>The unmistakable bulge of pregnancy is visible in your tummy.</b>";
 				}
-				else if(womb["incubation"] > 120) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(120, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is very obviously pregnant to anyone who looks at you.</b>";
 				}
-				else if(womb["incubation"] > 72) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(72, womb["type"])) {
 					pregnancyDesc += "<b>It would be impossible to conceal your growing pregnancy from anyone who glanced your way.</b>";
 				}
-				else if(womb["incubation"] > 48) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(48, womb["type"])) {
 					pregnancyDesc += "<b>Your stomach is painfully distended by your pregnancy, making it difficult to walk normally.</b>";
 				}
 				else { //Surely Benoit and Cotton deserve their place in this list
@@ -1027,7 +1032,344 @@ public class PlayerAppearance extends BaseContent {
 	/**
 	 * @param sortBy 0: name, 1: score
 	 */
+	
+	public var new_ui:Boolean = true;
+	public function set_ui_version(bool:Boolean, auto_run:Boolean = false):void{
+		new_ui=bool
+		if (auto_run){RacialScores()}
+	}
 	public function RacialScores(clickedRace:Race = null, sortBy:int=0):void {
+		if (new_ui){
+			RacialScores_new(clickedRace,sortBy)
+		}else{
+			RacialScores_old(clickedRace,sortBy)
+		}
+	}
+	private function race_clicked_display(race:Race = null,sortby:int=0):void{
+		clearOutput();
+		var body:BodyData = player.bodyData();
+		var rscore:int     = player.racialScoreCached(race);
+		var rtier:RaceTier = race.getTier(body, rscore);
+		outputText("<b>")
+		if (rtier) {
+				outputText("[font-lblue]");
+			} else if (rscore > 0) {
+				outputText("[font-green]");
+			} else {
+				outputText("[font-default]");
+			}
+		
+		outputText(Utils.capitalizeFirstLetter(rtier?rtier.nameFor(body):race.name)+"[/font]</b> racial scores (and bonuses to stats if applicable):\n");
+		outputText("Details legend: [font-lblue]active tier[/font], [font-green]passed check[/font], failed check, [font-red]score penalty[/font].\n");
+		//outputText("\n\n")
+		
+		outputText("\n");
+		outputText(race.printDetails(body));
+		//scrollPos = Math.max(0, 6+i);
+		if (debug && race.debugFormNames().length > 0) {
+			outputText("Transform into");
+			for each (var tfname:String in race.debugFormNames()) {
+				outputText(" ");
+				printLink(tfname, "tf,"+race.id+","+tfname);
+			}
+		}
+		menu();
+		addButton(0, "Back", curry(RacialScores,race,sortby));
+		addButton(1, "Exit", playerMenu);
+	}
+	
+	private function RacialScores_new(clickedRace:Race = null, sortBy:int=0):void {
+		var body:BodyData = player.bodyData();
+		var btn:CoCButton;
+
+		//For saving state across sessions and "time".
+		sortBy = flags[kFLAGS.RACESORT_SETTING];
+
+		clearOutput();
+		outputText("<b>Current racial scores (and bonuses to stats if applicable):</b>\n");
+		outputText("Sort by: ");
+		if (sortBy == 0) {
+			outputText('<b>name</b>, ');
+			printLink("score", "sort,1");
+		} else {
+			printLink('name',"sort,0");
+			outputText(', <b>score</b>');
+		}
+		outputText(". ");
+		outputText("Click on a race to view details.\n");
+		outputText("List legend: [font-lblue]active race[/font], [font-green]positive score[/font], zero score.\n");
+		
+		player.updateRacialCache();
+		var list:/*Race*/Array = Races.AllRacesByName;
+		var scrollPos:int = 0;
+		if (sortBy == 1) {
+			list = sortedBy(list, function (a:Race):int {
+				return player.racialScoreCached(a);
+			}, true);
+		}
+		
+		//race_blue_color= #009FFF
+		//race_green_color= #009F00
+		var contentBlock:Block = new Block({
+			layoutConfig: {
+				type: "flow",
+				direction: "column"
+			}
+		});
+		var groupgrid:Block=new Block({
+			layoutConfig: {
+				type: "grid",
+				setWidth: true,
+				columns: [160],
+				gap: 2
+			},
+			width: MainView.TEXTZONE_W - 16
+		});
+		
+		function dummy():void{}
+		
+		function local_button(text:String="Label",text_color:String="black",hint:String="",corner_text:String=""):CoCButton
+		{
+			var tColor:String="#010101"
+			if (text_color=="blue") {
+				//outputText("[font-lblue]");
+				tColor="#009FFF"
+			} else if (text_color=="green") {
+				//outputText("[font-green]");
+				tColor="#009F00"
+			}
+			
+			
+			var local_button:CoCButton=new CoCButton({square:true})
+						.show(text,dummy)
+						//.disableIf(race==clickedRace)
+						.hint(hint)
+						.disableIf(true)
+						.color(tColor)
+						.cornerLabel(corner_text)
+		groupgrid.addElement(local_button);
+		return local_button;
+		}
+		
+		for (var i:int = 0; i<list.length; i++) {
+			var race:Race = list[i];
+			// skip "old" races
+			if (race.requirements.length == 0 || race.tiers.length == 0) continue;
+			
+			if (!new_ui){outputText("\n");}
+			var rscore:int     = player.racialScoreCached(race);
+			var rtier:RaceTier = race.getTier(body, rscore);
+			var tColor:String="#010101"
+			if (rtier) {
+				tColor="#009FFF"
+			} else if (rscore > 0) {
+				tColor="#009F00"
+			}
+			var s:String=" "
+			if (rtier) {
+				if (rtier.hasBuffs()) {
+					s = rtier.describeBuffs(body);
+					if (!s) {s = " "}
+				}
+			}
+			
+			
+			groupgrid.addElement(new CoCButton({square:true})
+						.show(race.name, curry(race_clicked_display, race,sortBy))
+						//.disableIf(race==clickedRace)
+						.hint(s)
+						.color(tColor)
+						.cornerLabel(""+rscore));
+				
+			if (race == clickedRace) {
+
+			}
+		}
+		
+		
+		mainView.linkHandler = function(event:String):void {
+			var parts:Array = event.split(",");
+			switch (parts[0]) {
+				case "race":
+					var clickedRace2:Race = Race.byId(parseInt(parts[1]));
+					if (clickedRace2 == clickedRace) clickedRace2 = null;
+					RacialScores(clickedRace2, sortBy);
+					break;
+				case "sort":
+					flags[kFLAGS.RACESORT_SETTING] = parseInt(parts[1]);
+					RacialScores(clickedRace, parseInt(parts[1]));
+					break;
+				case "tf":
+					clearOutput();
+					Race.byId(parseInt(parts[1])).takeForm(player, parts[2]);
+					mainViewManager.updateCharviewIfNeeded();
+					doNext(RacialScores, clickedRace, sortBy);
+					break;
+			}
+		}
+		var score:Number;
+		var scoreH:Number;
+		//CHIMERA
+		if (new_ui){
+			local_button("CHIMERA",player.chimeraScore()>0?"green":"black", "",player.chimeraScore());
+		}else {
+		outputText("\nCHIMERA: " + player.chimeraScore());
+		}
+		//GRAND CHIMERA
+		if (new_ui){
+			local_button("GRAND CHIMERA",player.grandchimeraScore()>0?"green":"black", "",player.grandchimeraScore());
+		}else {
+		outputText("\nGRAND CHIMERA: " + player.grandchimeraScore());
+		}
+		//INTERNAL CHIMERICAL DISPOSITION
+		score = player.internalChimeraScore();
+		if (new_ui){
+			if (score>0) {
+			local_button("INTERNAL CHIMERICAL DISPOSITION", player.hasPerk(PerkLib.RacialParagon)?"green":"blue"
+			,player.hasPerk(PerkLib.RacialParagon)?"- no buffs because of the Racial Paragon perk":" ("+player.internalChimeraRating()+") "+score+"\n(+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib"
+			,score);
+			}
+		}else {
+		if (score >= 1) {
+			outputText("\n");
+			outputText(player.hasPerk(PerkLib.RacialParagon) ? "[font-green]" : "[font-lblue]");
+			outputText("INTERNAL CHIMERICAL DISPOSITION: (" + player.internalChimeraRating() + ") " + score);
+            if (player.hasPerk(PerkLib.RacialParagon)) outputText(" - no buffs because of the Racial Paragon perk");
+            else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib");
+			outputText("[/font]");
+        } else {
+			outputText("\nINTERNAL CHIMERICAL DISPOSITION: 0");
+		}
+		}
+		
+		scoreH = player.internalHumanScore();
+		if (new_ui){
+			local_button("INTERNAL HUMAN DISPOSITION", scoreH>0?(player.hasPerk(PerkLib.RacialParagon)?"green":"blue"):"black", 
+			"", 
+			scoreH);
+		}else {
+		if (scoreH >= 1) {
+			outputText("\n");
+			outputText(player.hasPerk(PerkLib.RacialParagon) ? "[font-green]" : "[font-lblue]");
+			outputText("INTERNAL HUMAN DISPOSITION: " + player.internalHumanScore());
+            //if (player.hasPerk(PerkLib.RacialParagon)) outputText(" - no buffs because of the Racial Paragon perk");
+            //else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib");
+			outputText("[/font]")
+        } else {
+			outputText("\nINTERNAL HUMAN DISPOSITION: 0");
+		}
+		}
+		
+		// Other body part-related buffs that contribute to the "Racial" buff object in Player.calcRacialBuffs
+		outputText("\n");
+		
+		var factor:Number = 0;
+		if (player.hasCoatOfType(Skin.CHITIN)) factor += 2;
+		else if (player.hasCoatOfType(Skin.SCALES)) factor += 1;
+		if (player.hasPerk(PerkLib.ThickSkin)) factor += 1;
+		score = player.perkv1(IMutationsLib.MantislikeAgilityIM);
+		var bonus:Number = 0;
+		if (score >= 3) {
+			bonus = 30*factor;
+		} else if (score >= 2) {
+			bonus += 15*factor;
+		} else if (score >= 1) {
+			bonus += 5*factor;
+		}
+		if (bonus > 0) {
+			if (new_ui){
+			local_button("Mantislike Agility","blue", "+"+bonus+"% Speed","");
+		}else {outputText("\n[font-lblue]Mantislike Agility[/font]: +"+bonus+"% Speed.");}
+		}
+		if (player.hasPerk(PerkLib.Flexibility) && player.isAnyRaceCached(Races.CatlikeRaces)) {
+			if (new_ui){
+			local_button("Cat-like race + Flexibility","blue", "+10% Speed","");
+		}else {outputText("\n[font-lblue]Cat-like race + Flexibility[/font]: +10% Speed.");}
+		}
+		if (player.isNaga()) {
+			if (player.lowerBody == LowerBody.FROSTWYRM) {
+				if (new_ui){
+					local_button("Frost wyrm lower body","blue", "+20% Strength, +10% Toughness.","");
+				}else {outputText("\n[font-lblue]Frost wyrm lower body[/font]: +20% Strength, +10% Toughness.");}
+			} else {
+				if (new_ui){
+					local_button("Naga lower body","blue", "+15% Strength, +15% Toughness.","");
+				}else {outputText("\n[font-lblue]Naga lower body[/font]: +15% Strength, +15% Toughness.");}
+			}
+		}
+		
+		if (player.isTaur()) {
+			if (new_ui){
+					local_button("Taur lower body","blue", "+20% Speed.","");
+				}else {outputText("\n[font-lblue]Taur lower body[/font]: +20% Speed.")}
+		}
+		
+		if (player.isDrider()) {
+			if (player.lowerBody == LowerBody.CANCER) {
+				if (new_ui){
+					local_button("Cancer lower body","blue", "+15% Strength, +5% Speed, +10% Toughness.","");
+				}else {outputText("\n[font-lblue]Cancer lower body[/font]: +15% Strength, +5% Speed, +10% Toughness.");}
+			} else {
+				if (new_ui){
+					local_button("Drider lower body","blue", "+15% Toughness, +15% Speed.","");
+				}else {outputText("\n[font-lblue]Drider lower body[/font]: +15% Toughness, +15% Speed.");}
+			}
+		}
+		if (player.isScylla()) {
+			if (new_ui){
+					local_button("Scylla lower body","blue", "+30% Strength.","");
+				}else {outputText("\n[font-lblue]Scylla lower body[/font]: +30% Strength.")}
+		}
+		if (player.isKraken()) {
+			if (new_ui){
+					local_button("Kraken lower body","blue", "+60% Strength, +15 Sensitivity.","");
+				}else {outputText("\n[font-lblue]Kraken lower body[/font]: +60% Strength, +15 Sensitivity");}
+		}
+		if (player.lowerBody == LowerBody.CENTIPEDE) {
+			outputText("\n[font-lblue]Centipede lower body[/font]: +15% Strength, +5% Toughness, +10% Speed.")
+		}
+		if (player.isAlraune()) {
+			if (new_ui){
+					local_button("Alraune lower body","blue", "+15% Toughness, +15% Libido.","");
+				}else {outputText("\n[font-lblue]Alraune lower body[/font]: +15% Toughness, +15% Libido.")}
+		}
+		if (player.hasPerk(PerkLib.RacialParagon)) {
+			if (new_ui){
+					local_button("Racial Paragon","blue", "+"+player.level+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Racial Paragon[/font]: +"+player.level+"% to core stats.")}
+		}
+		if (player.hasPerk(PerkLib.Apex)) {
+			if (new_ui){
+					local_button("Apex","blue", "+"+(2*player.level)+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Apex[/font]: +"+(2*player.level)+"% to core stats.")}
+		}
+		if (player.hasPerk(PerkLib.AlphaAndOmega)) {
+			if (new_ui){
+					local_button("Alpha And Omega","blue", "+"+(2*player.level)+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Alpha And Omega[/font]: +"+(2*player.level)+"% to core stats.")}
+		}
+		if (player.hasPerk(PerkLib.AscensionOneRaceToRuleThemAllX)) {
+			if (new_ui){
+					local_button("One Race To Rule Them All","blue", "(Ascension)\n+"+(2*player.perkv1(PerkLib.AscensionOneRaceToRuleThemAllX)*player.level)+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Ascension: One Race To Rule Them All[/font]: +"+(2*player.perkv1(PerkLib.AscensionOneRaceToRuleThemAllX)*player.level)+"% to core stats.");}
+		}
+		
+		groupgrid.addBitmapDataSprite({}, {colspan: Math.max(1, 6)});
+		groupgrid.width = MainView.TEXTZONE_W - MainView.VSCROLLBAR_W;
+		groupgrid.doLayout();
+		contentBlock.addElement(groupgrid);
+		contentBlock.width = MainView.TEXTZONE_W - MainView.VSCROLLBAR_W;
+		flushOutputTextToGUI();
+		mainView.setCustomElement(contentBlock, true, false, true);
+		contentBlock.doLayout();
+		menu();
+		
+		if (scrollPos) mainView.scrollBar.value = scrollPos;
+		addButton(1, "Exit", playerMenu);
+		addButton(14, "Old UI",curry(set_ui_version,false,true))
+	}
+
+	private function RacialScores_old(clickedRace:Race = null, sortBy:int=0):void {
 		var body:BodyData = player.bodyData();
 
 		//For saving state across sessions and "time".
@@ -1218,8 +1560,9 @@ public class PlayerAppearance extends BaseContent {
 		menu();
 		if (scrollPos) mainView.mainText.scrollV = scrollPos;
 		addButton(0, "Next", playerMenu);
+		addButton(14, "New UI",curry(set_ui_version,true,true))
 	}
-
+	
 	public function GenderForcedSetting():void {
 		clearOutput();
 		outputText("This menu allows you to choose if the game will treat your character as a female or a male. Using the automatic option will let the game orginal system do the work instead of setting your sex in one or another way.");

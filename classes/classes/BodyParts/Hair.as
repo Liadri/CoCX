@@ -152,7 +152,17 @@ public class Hair extends BodyPart {
 	EnumValue.add(Types, CRAZY, "CRAZY", {
 		name:"crazy",
 		shortDesc: "crazy {hair}",
-		appearanceDesc: "Your wild {hairInfo} is positively crazy, with spiked tips pointing outwards to your sides.",
+		appearanceDescFunc: function(creature: *): String {
+			var desc: String = "Your wild {hairInfo} is positively crazy. They are permanently stuck in a messed up spiky shape";
+
+			if (creature.headjewelryName == "Machinist Goggles" || creature.headjewelryName == "Scanner goggles" || creature.headjewelryName == "S.A Tech Goggles") {
+				desc += ". On top of them is your pair of trusty "+creature.headjewelryName+". You never remove them, even for sex";
+			}
+
+			desc += "."
+
+			return desc;
+		},
 		ignoresStyle: true
 	});
 
@@ -193,8 +203,8 @@ public class Hair extends BodyPart {
 	public static const COW:int = 21;
 	EnumValue.add(Types, COW, "COW", {
 		name:"cow like",
-		shortDesc: "dark spoted {hair}",
-		appearanceDesc: "Your {hairInfo} looks about normal except that they have darker spot reminding of cow fur."
+		shortDesc: "dark spotted {hair}",
+		appearanceDesc: "Your {hairInfo} looks about normal except that they have darker spot reminiscent of cow fur."
 	});
 
 	public static const DRIPPING:int = 22;

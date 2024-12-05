@@ -277,9 +277,9 @@ public class AbstractSpell extends CombatAbility {
 				}
 				if (player.statStore.hasBuff("AjidAji")) damage *= 1.3;
 				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "ruby" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "ruby" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "ruby" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.fireDamageBoostedByDao();
 				break;
 			}
@@ -287,9 +287,9 @@ public class AbstractSpell extends CombatAbility {
 				damage = calcVoltageMod(damage, casting);
 				if (player.hasPerk(PerkLib.ElectrifiedDesire)) damage *= (1 + (player.lust100 * 0.01));
 				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "topaz" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "topaz" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "topaz" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.lightningDamageBoostedByDao();
 				break;
 			}
@@ -299,18 +299,18 @@ public class AbstractSpell extends CombatAbility {
 				if (player.armor == armors.BLIZZ_K) damage *= 1.5;
 				if (player.headJewelry == headjewelries.SNOWFH) damage *= 1.3;
 				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "sapphire" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.iceDamageBoostedByDao();
 				break;
 			}
 			case DamageType.DARKNESS: {
 				damage = calcEclypseMod(damage, casting);
 				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 3) damage *= 1.25
-				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement >= 4) damage *= 1.5
 				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 3) damage *= 1.12
-				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 4) damage *= 1.25
+				if (Forgefather.gem == "amethyst" && Forgefather.refinement >= 4) damage *= 1.25
 				damage *= combat.darknessDamageBoostedByDao();
 				break;
 			}
@@ -402,16 +402,16 @@ public class AbstractSpell extends CombatAbility {
 	}
     
     public static function omnicasterDamageFactor_osc():Number {
-		if ((player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
-			if (player.isPartiallyStaffTypeWeapon()) return 0.8;
+		if ((player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
+			if (player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) return 0.8;
 			else return 0.7;
 		}
         else return 0.0;
     }
 	
 	public static function omnicasterRepeatCount_osc():int {
-		if ((player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
-			if (player.isPartiallyStaffTypeWeapon()) return 2;
+		if ((player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
+			if (player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) return 2;
 			else return 3;
 		}
         else return 1;
@@ -424,7 +424,7 @@ public class AbstractSpell extends CombatAbility {
     }
 	
 	public static function omnicasterDamageFactor():Number {
-        if ((player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
+        if ((player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
             if (player.hasPerk(PerkLib.Omnicaster) && !oscOverGazer())
                 return omnicasterDamageFactor_gazer() * 1.2;
             else
@@ -440,7 +440,7 @@ public class AbstractSpell extends CombatAbility {
 	
 	public static function omnicasterRepeatCount():int {
         if (!player.hasPerk(PerkLib.Omnicaster) &&
-                !(player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling))
+                !(player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling))
             return 1;
         return oscOverGazer() ? omnicasterRepeatCount_osc() : omnicasterRepeatCount_gazer();
 	}
@@ -476,7 +476,7 @@ public class AbstractSpell extends CombatAbility {
 	protected function postLustSpellEffect(hits:int):void {
 		if (player.hasPerk(PerkLib.EromancyMaster)) combat.teaseXP((1 + combat.bonusExpAfterSuccesfullTease()) * hits);
 		if (player.hasPerk(PerkLib.VerdantLeech)) {
-			if (monster.lustVuln != 0 && !monster.hasPerk(PerkLib.EnemyTrueAngel)) monster.lustVuln += hits * 0.025;
+			if (monster.lustVuln != 0 && !player.enemiesImmuneToLustResistanceDebuff()) monster.lustVuln += hits * 0.025;
 			HPChange(Math.round(player.maxHP() * 0.01 * hits), false);
 		}
 	}

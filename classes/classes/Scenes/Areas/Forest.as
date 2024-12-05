@@ -45,7 +45,7 @@ use namespace CoC;
 			onGameInit(init);
 		}
 		public const areaLevelOuter:int = 0;
-		public const discoverLevelOuter:int = 0;
+		public const discoverLevelOuter:int = 5;
 		public function isDiscoveredOuter():Boolean {
 			return SceneLib.exploration.counters.forestOuter > 0;
 		}
@@ -57,15 +57,16 @@ use namespace CoC;
 		}
 		public function discoverOuter():void {
 			clearOutput();
-			outputText("You walk for quite some time, roaming the hard-packed and pink-tinged earth of the demon-realm.  Rust-red rocks speckle the wasteland, as barren and lifeless as anywhere else you've been.  A cool breeze suddenly brushes against your face, as if gracing you with its presence.  You turn towards it and are confronted by the lush foliage of a very old-looking forest.  You smile as the plants look fairly familiar and non-threatening.  Unbidden, you remember your decision to test the properties of this place, and think of your campsite as you walk forward.  Reality seems to shift and blur, making you dizzy, but after a few minutes you're back, and sure you'll be able to return to the forest with similar speed.\n\n<b>You've discovered the Forest!</b>");
+			outputText("You walk for quite some time, roaming the hard-packed and pink-tinged earth of the demon-realm.  Rust-red rocks speckle the wasteland, as barren and lifeless as anywhere else you've been.  A cool breeze suddenly brushes against your face, as if gracing you with its presence.  You turn towards it and are confronted by the lush foliage of a very old-looking forest.  You smile as the plants look fairly familiar and non-threatening.  Unbidden, you remember your decision to test the properties of this place, and think of your campsite as you walk forward.  ");
+			outputText("Reality seems to shift and blur, making you dizzy, but after a few minutes you're back, and sure you'll be able to return to the forest with similar speed.\n\n<b>You've discovered the Outer Forest!</b>");
 			SceneLib.exploration.counters.forestOuter = 1;
 			endEncounter(60);
 		}
 		
 		
-		public const areaLevelInner:int = 3;
+		public const areaLevelInner:int = 16;
 		public function isDiscoveredInner():Boolean {
-			return /*SceneLib.exploration.counters.forestInner > 0 */ SceneLib.exploration.counters.forestOuter > 0;
+			return SceneLib.exploration.counters.forestInner > 0;
 		}
 		public function canDiscoverInner():Boolean {
 			return !isDiscoveredInner() && adjustedPlayerLevel() >= areaLevelInner;
@@ -73,8 +74,14 @@ use namespace CoC;
 		public function timesExploredInner():int {
 			return SceneLib.exploration.counters.forestInner;
 		}
+		public function discoverInner():void {
+			clearOutput();
+			outputText("After exploring the forest so many times, you decide to really push it, and plunge deeper and deeper into the woods.  The further you go the darker it gets, but you courageously press on, until you reach deeper parts.\n\n<b>You've discovered the Inner Forest!</b>");
+			SceneLib.exploration.counters.forestInner = 1;
+			endEncounter(60);
+		}
 		
-		public const areaLevelDeepwoods:int = 7;
+		public const areaLevelDeepwoods:int = 27;
 		public function isDiscoveredDeepwoods():Boolean {
 			return SceneLib.exploration.counters.deepwoods > 0;
 		}
@@ -119,8 +126,8 @@ use namespace CoC;
 		private function init():void {
             const fn:FnHelpers = Encounters.fn;
 			_forestOutskirtsEncounter = Encounters.group("outskirtsforest",
-					SceneLib.exploration.commonEncounters.withChanceFactor(0.1),
-					SceneLib.exploration.angelEncounters.wrap(fn.ifLevelMin(5), [0.05]),
+					SceneLib.exploration.commonEncounters.withChanceFactor(0.025),
+					SceneLib.exploration.angelEncounters.wrap(fn.ifLevelMin(5), [0.0125]),
 					{
 						//Helia monogamy fucks
 						name  : "helcommon",
@@ -131,6 +138,16 @@ use namespace CoC;
 						call  : SceneLib.helScene.helSexualAmbush,
 						chance: forestChance2,
 						when  : SceneLib.helScene.helSexualAmbushCondition
+					}, {
+						name  : "innerforest",
+						label : "New Area",
+						kind  : 'event',
+						unique: true,
+						call  : discoverInner,
+						when  : function ():Boolean {
+							return ((player.level + combat.playerLevelAdjustment()) >= 7) && !isDiscoveredInner();
+						},
+						chance: Encounters.ALWAYS
 					}, {
 						name  : "Tamani",
 						kind  : 'npc',
@@ -147,12 +164,14 @@ use namespace CoC;
 						},
 						when  : function ():Boolean {
 							return flags[kFLAGS.TAMANI_TIME_OUT] == 0
-								   && player.gender > 0
-								   && (player.hasCock() || player.hasKeyItem("Deluxe Dildo") < 0);
+									&& flags[kFLAGS.TAMANI_BAD_ENDED] == 0
+									&& player.gender > 0
+									&& (player.hasCock() || player.hasKeyItem("Deluxe Dildo") < 0)
+									&& !player.hasStatusEffect(StatusEffects.TamaniOff);
 						}
 					}, {
 						name  : "Tamani_Daughters",
-						label : "Tamain Daughters",
+						label : "Tamani Daughters",
 						kind  : 'npc',
 						unique: true,
 						night : false,
@@ -182,6 +201,13 @@ use namespace CoC;
 						when: fn.ifLevelMin(12),
 						call  : SceneLib.werewolfFemaleScene.introWerewolfFemale,
 						chance: 0.50
+					}, {
+						name: "mimic",
+						label : "Mimic",
+						kind : 'monster',
+						// TODO @aimozg use area tags instead
+						call: curry(SceneLib.mimicScene.mimicTentacleStart, 3),
+						chance: 0.1
 					}, {
 						name  : "healingherb",
 						label : "HealingHerb",
@@ -294,7 +320,7 @@ use namespace CoC;
 						call: SceneLib.exploration.demonLabProjectEncounters
 					});
 			_forestInnerEncounter = Encounters.group("forest",
-					SceneLib.exploration.commonEncounters.withChanceFactor(0.1),
+					SceneLib.exploration.commonEncounters.withChanceFactor(0.025),
 					{
 						//Helia monogamy fucks
 						name  : "helcommon",
@@ -340,8 +366,10 @@ use namespace CoC;
 						},
 						when  : function ():Boolean {
 							return flags[kFLAGS.TAMANI_TIME_OUT] == 0
-								   && player.gender > 0
-								   && (player.hasCock() || player.hasKeyItem("Deluxe Dildo") < 0);
+									&& flags[kFLAGS.TAMANI_BAD_ENDED] == 0
+									&& player.gender > 0
+									&& (player.hasCock() || player.hasKeyItem("Deluxe Dildo") < 0)
+									&& !player.hasStatusEffect(StatusEffects.TamaniOff);
 						}
 					}, {
 						name  : "Tamani_Daughters",
@@ -370,7 +398,6 @@ use namespace CoC;
 								   && (JojoScene.monk < 2 || rand(2) == 0))
 								   || SceneLib.alvinaFollower.JojoDevilPurification == 1;
 						},
-						mods  : [fn.ifLevelMin(4)],
 						chance: function ():Number {
 							//Extra chance of Jojo encounter.
 							return (player.hasPerk(PerkLib.PiercedFurrite)
@@ -383,7 +410,6 @@ use namespace CoC;
 						label : "Tentacle Beast",
 						kind  : 'monster',
 						call  : tentacleBeastEncounterFn,
-						when  : fn.ifLevelMin(3),
 						chance: 0.80
 					}, corruptedGlade.encounter, {
 						name  : "beegirl",
@@ -401,7 +427,7 @@ use namespace CoC;
 						call  : SceneLib.woodElves.findElves,
 						chance: 0.5,
 						when  : function ():Boolean {
-							return WoodElves.WoodElvesQuest == WoodElves.QUEST_STAGE_NOT_STARTED && player.level >= 10 && !player.blockingBodyTransformations()
+							return WoodElves.WoodElvesQuest == WoodElves.QUEST_STAGE_NOT_STARTED && !player.blockingBodyTransformations() && !player.hasPerk(PerkLib.Soulless)
 						}
 					}, {
 						name  : "WoodElfRematch",
@@ -412,7 +438,7 @@ use namespace CoC;
 						call  : SceneLib.woodElves.findElvesRematch,
 						chance: 0.75,
 						when  : function ():Boolean {
-							return WoodElves.WoodElvesQuest == WoodElves.QUEST_STAGE_METELFSANDEVENBEATSTHEM && player.level >= 10 && !player.blockingBodyTransformations()
+							return WoodElves.WoodElvesQuest == WoodElves.QUEST_STAGE_METELFSANDEVENBEATSTHEM && !player.blockingBodyTransformations() && !player.hasPerk(PerkLib.Soulless)
 						}
 					}, {
 						name  : "chitin",
@@ -529,26 +555,16 @@ use namespace CoC;
 						},
 						chance: forestChance4
 					}, {
-						name: "mimic",
-						label : "Mimic",
-						kind : 'monster',
-						when: fn.ifLevelMin(3),
-						// TODO @aimozg use area tags instead
-						call: curry(SceneLib.mimicScene.mimicTentacleStart, 3),
-						chance: 0.25
-					}, {
 						name  : "succubus",
 						label : "Ivory Succubus",
 						kind : 'monster',
 						call  : SceneLib.ivorySuccubusScene.encounterSuccubus,
-						when  : fn.ifLevelMin(3),
 						chance: 0.25
 					}, {
 						name  : "werewolfFemale",
 						label : "Werewolf (F)",
 						kind : 'monster',
 						day : false,
-						when: fn.ifLevelMin(12),
 						call  : SceneLib.werewolfFemaleScene.introWerewolfFemale,
 						chance: 0.50
 					}, {
@@ -576,7 +592,7 @@ use namespace CoC;
 				kind  : 'npc',
 				unique: true,
 				when: function():Boolean {
-					return flags[kFLAGS.AYANE_FOLLOWER] < 2 && player.level >= 20 && !player.isRace(Races.KITSUNE) && !player.isRace(Races.KITSHOO);
+					return flags[kFLAGS.AYANE_FOLLOWER] < 2 && !player.isRace(Races.KITSUNE) && !player.isRace(Races.KITSHOO);
 				},
 				chance: forestChance,
 				call: SceneLib.ayaneFollower.randomEncounter
@@ -599,7 +615,7 @@ use namespace CoC;
 					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
 						   && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
 						   && !player.hasStatusEffect(StatusEffects.EtnaOff)
-						   && (player.level >= 20);
+						   && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				call  : SceneLib.etnaScene.repeatYandereEnc
 			}, {
@@ -612,7 +628,7 @@ use namespace CoC;
 					return flags[kFLAGS.ELECTRA_FOLLOWER] < 2
 						   && flags[kFLAGS.ELECTRA_AFFECTION] >= 2
 						   && !player.hasStatusEffect(StatusEffects.ElectraOff)
-						   && (player.level >= 20);
+						   && (player.level >= 20 || flags[kFLAGS.HARDCORE_MODE] == 1);
 				},
 				chance: forestChance,
 				call  : function ():void {
@@ -661,8 +677,10 @@ use namespace CoC;
 				},
 				when  : function ():Boolean {
 					return flags[kFLAGS.TAMANI_TIME_OUT] == 0
+						   && flags[kFLAGS.TAMANI_BAD_ENDED] == 0
 						   && player.gender > 0
-						   && (player.hasCock() || player.hasKeyItem("Deluxe Dildo") < 0);
+						   && (player.hasCock() || player.hasKeyItem("Deluxe Dildo") < 0)
+						   && !player.hasStatusEffect(StatusEffects.TamaniOff);
 				}
 			}, {
 				name  : "Tamani_Daughters",
@@ -777,7 +795,7 @@ use namespace CoC;
 				unique: true,
 				call: aikoScene.encounterAiko,
 				when: function ():Boolean {
-					return (player.level > 35
+					return ((player.level > 35 || flags[kFLAGS.HARDCORE_MODE] == 1)
 						&& flags[kFLAGS.AIKO_TIMES_MET] < 4
 						&& flags[kFLAGS.AIKO_BALL_RETURNED] != 2);
 				}
@@ -795,6 +813,13 @@ use namespace CoC;
 				unique: true,
 				call: SceneLib.dungeons.deepcave.enterDungeon,
 				when: SceneLib.dungeons.canFindDeepCave
+			}, {
+				name: "dungeon",
+				label : "Twilight Grove",
+				kind  : 'event',
+				unique: true,
+				call: SceneLib.dungeons.twilightgrove.enterDungeon,
+				when: function ():Boolean { return (flags[kFLAGS.DISCOVERED_TWILIGHT_GROVE_DUNGEON] < 1); }
 			}, {
 				name  : "walk",
 				call  : deepwoodsWalkFn,

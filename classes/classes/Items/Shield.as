@@ -37,20 +37,17 @@ public class Shield extends Equipable
 		
 		public function get perk():String { return _perk; }
 		
-		override public function get description():String {
-			var desc:String = _description;
-			//Type
-			desc += "\n\nType: Shield";
-            if (perk != "") desc += " (" + perk + ")";
-			//Block Rating
-			desc += "\nBlock: " + String(block);
-			//Value
-			desc += "\nBase value: " + String(value);
-			return desc;
+		override public function effectDescriptionParts():Array {
+			var list:Array = super.effectDescriptionParts();
+			// Type
+			list.push([10,"Type: Shield"]);
+			// Attack
+			var block:Number = this.block;
+			list.push([20, "Block: " + block ]);
+			return list;
 		}
 		
-		
-		override public function canEquip(doOutput:Boolean):Boolean {
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
 			if (game.player.weaponRangePerk == "Dual Firearms" || game.player.weaponRangePerk == "Dual 2H Firearms") {
 				if (doOutput) outputText("Your current range weapons requires two hands. Unequip your current range weapons or switch to one-handed before equipping this shield. ");
 				return false;
@@ -59,33 +56,41 @@ public class Shield extends Equipable
 				if (doOutput) outputText("Your current range weapon requires two hands. Unequip your current range weapon or switch to one-handed before equipping this shield. ");
 				return false;
 			}
-			else if ((game.player.weapon.isSingleLarge() && !game.player.hasPerk(PerkLib.GigantGrip)) || (game.player.weapon.isSingleMassive() && !game.player.hasPerk(PerkLib.TitanGrip))
-					|| game.player.weapon.isDual() || game.player.weaponName == "Daisho") {
+			else if ((game.player.weapon.isSingleLarge() && !game.player.hasPerk(PerkLib.GigantGrip)) || (game.player.weapon.isSingleMassive() && !game.player.hasPerk(PerkLib.TitanGrip))) {
 				if (doOutput) outputText("Your current melee weapon requires two hands. Unequip your current melee weapon or switch to one-handed before equipping this shield. ");
 				return false;
 			}
+			else if ((game.player.weapon.isDualWielded() && game.player.weapon != WeaponLib.FISTS && game.player.weapon.isGauntletType() && game.player.weapon != game.weapons.AETHERD) || game.player.weaponName == "Daisho") {
+				if (doOutput) outputText("Your current melee weapons requires both hands. Unequip your current melee weapons or switch to one-handed before equipping this shield. ");
+				return false;
+			}
+			else if (!game.player.weaponOff.isNothing) {
+				if (doOutput) outputText("You can't hold both an off-hand weapon and a shield with one hand. Unequip your current melee off-hand weapon before equipping this shield. ");
+				return false;
+			}
 			else if (game.player.hasPerk(PerkLib.Rigidity)) {
-				if (doOutput) outputText("You would very like to equip this item but your body stiffness prevents you from doing so.");
+				if (doOutput) outputText("You would very much like to equip this item but your body stiffness prevents you from doing so.");
 				return false;
 			}
 			else if (game.player.shieldPerk == "Massive" && !game.player.hasPerk(PerkLib.GigantGrip)) {
-				if (doOutput) outputText("This shield requires use of both hands. Unequip your current melee weapon before equipping it. ");
+				if (doOutput) outputText("This shield requires the use of both your hands. Unequip your current melee weapon before equipping it. ");
 				return false;
 			}
-			return super.canEquip(doOutput);
+			return super.canEquip(doOutput, slot);
 		}
 		
-		override public function afterEquip(doOutput:Boolean):void {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			if (!game.isLoadingSave) {
 				if ((perk == "Massive" && game.player.weapon != WeaponLib.FISTS && !game.player.hasPerk(PerkLib.GigantGrip))
 						|| (game.player.weapon.isSingleLarge() && !game.player.hasPerk(PerkLib.GigantGrip))
 						|| (game.player.weapon.isSingleMassive() && !game.player.hasPerk(PerkLib.TitanGrip))
-						|| game.player.weapon.isDual()) {
+						|| ((game.player.weapon.isDualWielded() && game.player.weapon != WeaponLib.FISTS) && game.player.weapon.isGauntletType()) || game.player.weaponName == "Daisho") {
 					SceneLib.inventory.unequipWeapon();
 				}
+				if (!game.player.weaponOff.isNothing) SceneLib.inventory.unequipWeaponOff();
 				if (game.player.weaponRangePerk == "Dual Firearms" || game.player.weaponRangePerk == "2H Firearm" || game.player.weaponRangePerk == "Dual 2H Firearms") SceneLib.inventory.unequipWeaponRange();
 			}
-			super.afterEquip(doOutput);
+			super.afterEquip(doOutput, slot);
 		}
 		
 		override public function getItemText(textid:String):String {

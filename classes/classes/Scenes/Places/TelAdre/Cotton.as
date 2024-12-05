@@ -1,6 +1,7 @@
 ﻿package classes.Scenes.Places.TelAdre {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.NPCs.JojoScene;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
@@ -42,7 +43,7 @@ private function pregCottonChance(bonusMult:Number = 1):void {
 	//Okay, we have a chance!  Run the numbers!
 	//Herbs off?  Good chances!
 	if (flags[kFLAGS.COTTON_HERBS_OFF] > 0) {
-		if (rand(5) == 0 || player.cumQ() > rand(1000) || player.virilityQ() >= 0.5) {
+		if (rand(5) == 0 || player.cumQ() > rand(1000) || player.virilityQ() >= 0.5 || player.hasPerk(PerkLib.PilgrimsBounty)) {
 			pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_COTTON);
 			if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Cotton is pregnant!</b>");
 		}
@@ -51,13 +52,13 @@ private function pregCottonChance(bonusMult:Number = 1):void {
 	else {
 		//First kid is lucky!
 		if (flags[kFLAGS.COTTON_KID_COUNT] == 0) {
-			if (rand(5) == 0 || player.cumQ() * player.virilityQ() >= rand(1000)) {
+			if (rand(5) == 0 || player.cumQ() * player.virilityQ() >= rand(1000) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 				pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_COTTON);
 				if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Cotton is pregnant!</b>");
 			}
 		}
 		//NOT FIRST KID - LESS LUCKY!
-		else if (player.cumQ() * player.virilityQ() >= rand(1000)) {
+		else if (player.cumQ() * player.virilityQ() >= rand(1000) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 			pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_COTTON);
 			if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Cotton is pregnant!</b>");
 		}
@@ -739,7 +740,7 @@ private function fuckCottonInShowerRepeat():void {
 
 		outputText("You keep this up for a while before fatigue takes over. You carefully lay Cotton down in the spray of water and continue your work unhindered. She kisses your lips, neck, and whatever she can get her mouth on.  ");
 		if(player.cockArea(x) >= 100) outputText("Her own cock, still limp, visibly twitches and begins leaking cum onto her belly as an orgasm rocks her body.");
-		else if (pregnancy.event > 1) outputText("Her own cock twitches and spasms, loosing a spray of cum across her swollen, pregnant belly, breasts and face as an orgasm rocks her body.");
+		else if (pregnancy.event > 1) outputText("Her own cock twitches and spasms, letting loose a spray of cum across her swollen, pregnant belly, breasts and face as an orgasm rocks her body.");
 		else outputText("Her own cock twitches and spasms, letting loose a spray of cum across her belly, breasts and face as an orgasm rocks her body.");
 		//(If player is too big, add)
 		if(player.cockArea(x) > 70) outputText("  Even in the missionary position you can't stuff your entire enormous girth into her, but she doesn't care. Her eyes seem to roll back and forth like it's hard to focus, and her tongue drips water, sweat and saliva onto her body. She's panting for breath and you are able to make out faint, \"<i>Oh gods, oh gods</i>\" over the running water. You can even make out the shape of your cock in Cotton's toned stomach, pumping back and forth, which brings a smile to your face. Her back arches under the shower, her hair messily spread out beneath her and she bites her lip as another orgasm rocks her body.");
@@ -1306,6 +1307,7 @@ public function goTellCottonShesAMomDad():void {
 //Birthing*
 public function birthingCottonsKids():void {
 	var kid:int = rand(3) + 1; //1,2,3
+	if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) kid *= 2; 
 	function kidSel(male:String, fem:String, herm:String = ""):String {
 		return kid == 1 ? male : kid == 2 || !herm ? fem : herm;
 	}

@@ -192,7 +192,7 @@ import classes.internals.*;
 		public function castHealDinah():void {
 			outputText("Dinah focuses on her body and her desire to end pain, trying to draw on her arousal without enhancing it.");
 			var temp:int = int((inte / (2 + rand(3))) * (maxHP() / 50));
-			outputText("She flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+			outputText("She flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 			addHP(temp);
 			mana -= spellCostHeal();
 			flags[kFLAGS.DINAH_SPELLS_CASTED]++;
@@ -367,13 +367,13 @@ import classes.internals.*;
 			if (flags[kFLAGS.DINAH_LVL_UP] < 1) {
 				this.a = "the ";
 				this.short = "cat";
-				this.long = "You are fighting a cat-morph. She would looks quite averange if not for black stripes on purple fur.";
+				this.long = "You are fighting a cat-morph. She would looks quite average if not for black stripes on purple fur.";
 				this.createVagina(false, VaginaClass.WETNESS_WET, VaginaClass.LOOSENESS_NORMAL);
 				this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
 				this.tallness = 5*12+10;
 				this.hairLength = 7;
 				initStrTouSpeInte(20, 20, 20, 60);
-				initWisLibSensCor(30, 20, 20, 50);
+				initWisLibSensCor(30, 20, 20, 0);
 				this.weaponAttack = 5;
 				this.armorDef = 3;
 				this.armorMDef = 6;
@@ -397,7 +397,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 1) {
 				initStrTouSpeInte(30, 25, 60, 80);
-				initWisLibSensCor(40, 40, 30, 50);
+				initWisLibSensCor(40, 40, 30, 0);
 				this.weaponAttack = 10;
 				this.armorDef = 40;
 				this.armorMDef = 30;
@@ -408,7 +408,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 2) {
 				initStrTouSpeInte(40, 30, 100, 100);
-				initWisLibSensCor(50, 60, 40, 50);
+				initWisLibSensCor(50, 60, 40, 0);
 				this.weaponAttack = 20;
 				this.armorDef = 42;
 				this.armorMDef = 32;
@@ -419,7 +419,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 3) {
 				initStrTouSpeInte(50, 35, 140, 120);
-				initWisLibSensCor(60, 80, 50, 50);
+				initWisLibSensCor(60, 80, 50, 0);
 				this.weaponAttack = 30;
 				this.armorDef = 44
 				this.armorMDef = 33;
@@ -430,7 +430,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 4) {
 				initStrTouSpeInte(60, 40, 180, 140);
-				initWisLibSensCor(70, 100, 60, 50);
+				initWisLibSensCor(70, 100, 60, 0);
 				this.weaponAttack = 40;
 				this.armorDef = 46;
 				this.armorMDef = 35;
@@ -441,7 +441,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 5) {
 				initStrTouSpeInte(70, 45, 220, 160);
-				initWisLibSensCor(80, 120, 70, 50);
+				initWisLibSensCor(80, 120, 70, 0);
 				this.weaponAttack = 50;
 				this.armorDef = 48;
 				this.armorMDef = 36;
@@ -452,7 +452,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 6) {
 				initStrTouSpeInte(80, 50, 260, 180);
-				initWisLibSensCor(90, 140, 80, 50);
+				initWisLibSensCor(90, 140, 80, 0);
 				this.weaponAttack = 60;
 				this.armorDef = 50;
 				this.armorMDef = 38;
@@ -463,7 +463,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 7) {
 				initStrTouSpeInte(90, 55, 300, 200);
-				initWisLibSensCor(100, 160, 90, 50);
+				initWisLibSensCor(100, 160, 90, 0);
 				this.weaponAttack = 70;
 				this.armorDef = 52;
 				this.armorMDef = 39;
@@ -474,7 +474,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 8) {
 				initStrTouSpeInte(100, 60, 340, 220);
-				initWisLibSensCor(110, 180, 100, 50);
+				initWisLibSensCor(110, 180, 100, 0);
 				this.weaponAttack = 75;
 				this.armorDef = 54;
 				this.armorMDef = 40;
@@ -485,7 +485,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 9) {
 				initStrTouSpeInte(110, 65, 380, 240);
-				initWisLibSensCor(120, 200, 110, 50);
+				initWisLibSensCor(120, 200, 110, 0);
 				this.weaponAttack = 80;
 				this.armorDef = 56;
 				this.armorMDef = 41;

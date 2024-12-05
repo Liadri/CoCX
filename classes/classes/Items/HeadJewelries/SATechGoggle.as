@@ -16,12 +16,12 @@ public class SATechGoggle extends HeadJewelry
 			withPerk(PerkLib.BlindImmunity, 0, 0, 0, 0);
 		}
 		
-		override public function canEquip(doOutput:Boolean):Boolean {
-			if (!super.canEquip(doOutput)) {
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (!super.canEquip(doOutput, slot)) {
 				return false;
 			}
 			if (game.player.basetallness > 48) { //Taller than 4 ft
-				if (doOutput) outputText("You try to put your goggles on but the things clearly weren't designed for someone your size. Frustrated, you put them back in the bag.\n\n");
+				if (doOutput) outputText("You try to put your goggles on but they clearly weren't designed for someone your size. Frustrated, you put them back in the bag.\n\n");
 				return false;
 			}
 			return true;

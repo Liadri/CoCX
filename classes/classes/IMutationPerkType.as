@@ -54,7 +54,7 @@ public class IMutationPerkType extends PerkType
 			[SLOT_NERVSYS, {name: "NervSys"}],
 			[SLOT_THYROID, {name: "Thyroid Gland"}],
 			[SLOT_PARATHYROID, {name: "Parathyroid Gland"}],
-			[SLOT_ADAPTATIONS, {name: "Adaptations"}],
+			[SLOT_ADAPTATIONS, {name: "Adaptations"}]
 		]);
 		public static const SlotList:/*String*/Array = [
 			SLOT_HEART,
@@ -72,7 +72,7 @@ public class IMutationPerkType extends PerkType
 			SLOT_NERVSYS,
 			SLOT_THYROID,
 			SLOT_PARATHYROID,
-			SLOT_ADAPTATIONS,
+			SLOT_ADAPTATIONS
 		];
 		
 		/**
@@ -83,14 +83,22 @@ public class IMutationPerkType extends PerkType
 		
 		private var _maxLvl:int;
 		private var _slot:String;
-		private var _pBuffs:Object;
-		private var _trueVariant:Boolean;
+		private var _pBuffs:Object = {};
+		private static var _IMvalid:Object = {};
+		private static var _IMNotvalid:Object = {};
 
-		public function IMutationPerkType(id:String, name:String, slot:String, maxLvl:int, trueVariant:Boolean = false) {
+
+		public function IMutationPerkType(id:String, name:String, slot:String, maxLvl:int) {
+			//GDI probably pre-initialization issue again
+			if (_IMvalid.hasOwnProperty(id)) {
+				name += "_errorIM"
+				_IMNotvalid[id] = name;
+			} else {
+				_IMvalid[id] = name;
+			}
 			super(id, name, name, name, false);
 			this._maxLvl = maxLvl;
 			this._slot = slot;
-			this._trueVariant = trueVariant;
 			(MutationsBySlot[slot] ||= []).push(this);
 		}
 
@@ -110,10 +118,19 @@ public class IMutationPerkType extends PerkType
 		}
 
 		public function get trueMutation():Boolean{
-			return _trueVariant;
+			return player.trueMutations.indexOf(this.id) != -1;
 		}
 		public function set trueMutation(isTrue:Boolean):void{
-			_trueVariant = isTrue;
+			var tmIndex:int = player.trueMutations.indexOf(this.id);
+			if (isTrue) { // Add it to the true mutations array
+				if (tmIndex == -1) { // ... but only, if it's not already added to avoid dupes.
+					player.trueMutations.push(this.id);
+				}
+			} else {      // Remove it from the true mutations array
+				if (tmIndex != -1) { // ... but only, if it's listed.
+					player.trueMutations.splice(tmIndex, 1);
+				}
+			}
 		}
 		public function evolveText():String {
 			var descS:String = "";
@@ -269,6 +286,16 @@ public class IMutationPerkType extends PerkType
 
 		public function get mName():String {
 			return "";
+		}
+
+
+		public static function get runValidIMutates():String {
+			if (_IMNotvalid != {}) {
+				for (var badIM:String in _IMNotvalid) {
+					outputText("[font-red]<b><i>ERROR: IMutation " + badIM + " is invalid. Please report this to the devs, and ask them to check the latest IMutation released. \nMeanwhile, DO NOT PURCHASE/UPGRADE THE NEW, OR AFFECTED PERK.</i></b> \n\n[/font]");
+				}
+			}
+			return ""
 		}
 	}
 }

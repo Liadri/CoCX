@@ -28,6 +28,7 @@ public final class GroPlus extends Consumable {
         if (player.hasVagina()) EngineCore.addButton(4, "Clit", pickDoses, growPlusClit);
         EngineCore.addButton(5, "Butt", pickDoses, groPlusButt);
         EngineCore.addButton(6, "Hips", pickDoses, groPlusHips);
+        if (player.horns.count > 0) EngineCore.addButton(7, "Horns", growHorns);
         EngineCore.addButton(14, "Never mind", growPlusCancel);
         return true;
     }
@@ -90,6 +91,13 @@ public final class GroPlus extends Consumable {
         sharedEnd(dose, true);
     }
 
+    public function growHorns():void {
+        outputText("You doubt if the liquid is going to work but you inject it in the base of your horns anyways.\n\n");
+        outputText("Incredibly, it works and you can feel your horns growing by an inch.");
+        game.player.horns.count++;
+        SceneLib.inventory.itemGoNext();
+    }
+
     private function growPlusCock():void {
         if (player.cocks.length == 1) pickPlace(1);
         else {
@@ -107,13 +115,18 @@ public final class GroPlus extends Consumable {
             EngineCore.addButton(0, "Tip(+Len)", pickDoses, curry(inject, dick1 - 1, "tip"));
             EngineCore.addButton(1, "Side(+Thick)", pickDoses, curry(inject, dick1 - 1, "side"));
             EngineCore.addButton(2, "Base(+Both)", pickDoses, curry(inject, dick1 - 1, "base"));
+            EngineCore.addButton(3, "Knot", pickDoses, curry(inject, dick1 - 1, "knot"))
+                    .disableIf(!player.hasKnot(dick1 - 1), "No knot present!");
             EngineCore.addButton(4, "Back", useItem);
         }
 
         function inject(dick:int, part:String, dose:int):void {
             clearOutput();
             outputText("You sink the needle into the " + part + " of your [cock " + (dick + 1) + "].  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
-            if (part == "tip") {
+            if (part == "knot") {
+                outputText("Your [cock " + (dick + 1) + "]'s knot grows bigger.");
+                player.cocks[dick].knotMultiplier += 0.2*dose;
+            } else if (part == "tip") {
                 outputText("Your [cock " + (dick + 1) + "] twitches, pouring more than an inch of new length from your " + (player.hasSheath() ? "sheath." : "crotch."));
                 player.growCock(dick, 6 * dose);
             } else if (part == "side") {

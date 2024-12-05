@@ -73,7 +73,7 @@ public class DraconicBonesMutation extends IMutationPerkType
         }
 
         public function DraconicBonesMutation() {
-            super(mName + " IM", mName, SLOT_BONE, 3);
+            super(mName + " IM", mName, SLOT_NONE, 1);//super(mName + " IM", mName, SLOT_BONE, 3);
         }
 
     }

@@ -334,7 +334,7 @@ public class ArmsTransformations extends MutationsHelper {
 
 				desc += "";
 				if (player.arms.type != Arms.HUMAN) desc += "You watch, spellbound, while your arms gradually changing it entire outer structure into plain human-like form. ";
-				desc += "The skin on your arms feels like it’s burning as a whole set of intricate warlike tattoos covers them. Furthermore your nails become increasingly pointed turning black just like a set of claws. Well it seems you will have issues hiding your <b>war tattooed arms with sharp nails.</b>";
+				desc += "The skin on your arms feels like it’s burning as a whole set of intricate warlike tattoos covers them. Furthermore your nails become increasingly pointed turning black just like a set of claws. Well, it seems you will have issues hiding your <b>war tattooed arms with sharp nails.</b>";
 				player.arms.type = Arms.ONI;
 
 				if (doOutput) outputText(desc);
@@ -353,7 +353,7 @@ public class ArmsTransformations extends MutationsHelper {
 
 				TransformationUtils.applyTFIfNotPresent(transformations.ArmsHuman, doOutput);
 
-				desc += "Something in your hands shift as they change taking on a more feminine fragile yet agile structure. You discover with surprise your dexterity has greatly increased allowing you to manipulate things in your delicate elven fingers with almost unreal precision. However your grip has become weaker as a result, weakening your ability to use raw force over finesse. <b>You now have delicate elven hands.</b>";
+				desc += "Something in your hands shift as they change taking on a more feminine fragile yet agile structure. You discover with surprise your dexterity has greatly increased allowing you to manipulate things in your delicate elven fingers with almost unreal precision. However, your grip has become weaker as a result, weakening your ability to use raw force over finesse. <b>You now have delicate elven hands.</b>";
 				player.arms.type = Arms.ELF;
 
 				if (doOutput) outputText(desc);
@@ -372,7 +372,7 @@ public class ArmsTransformations extends MutationsHelper {
 
 				desc += "You watch, spellbound, while your forearms gradually become shiny. The entire outer structure of your arms tingles while it divides into segments, turning the [skin.type] into a shiny green carapace.";
 				desc += "\nA moment later the pain fades and you are able to turn your gaze down to your beautiful new arms, covered in shining green chitin from the upper arm down.";
-				desc += "\nThe transformation end as down the lenght of your forearms you grow a pair of massive scythe like appendage just like a mantis.";
+				desc += "\nThe transformation end as down the length of your forearms you grow a pair of massive scythe like appendage just like a mantis.";
 				desc += "\nYou nonchalantly run them across a young tree slicing the plant trunk in half. This might prove a deadly weapon if used as part of your unarmed strikes. <b>You now have mantis arms.</b>";
 				player.arms.type = Arms.MANTIS;
 
@@ -1366,6 +1366,42 @@ public class ArmsTransformations extends MutationsHelper {
 			// is present
 			function (): Boolean {
 				return player.arms.type === Arms.SATYR;
+			}
+	);
+
+	public const ArmsTroll: Transformation = new SimpleTransformation("Troll Arms",
+			// apply effect
+			function (doOutput: Boolean): void {
+				var desc: String = "";
+
+				TransformationUtils.applyTFIfNotPresent(transformations.ArmsHuman, doOutput);
+				desc += " You feel your fingers tighten as they feel more dexterous. You look down and before you know it you’ve lost a finger, the rest seem slightly bigger now as well. <b>You now have troll arms!</b>!";
+
+				player.arms.type = Arms.TROLL;
+				if (doOutput) outputText(desc);
+				Metamorph.unlockMetamorph(ArmsMem.getMemory(ArmsMem.TROLL));
+			},
+			// is present
+			function (): Boolean {
+				return player.arms.type === Arms.TROLL;
+			}
+	);
+
+	public const ArmsGlacialTroll: Transformation = new SimpleTransformation("Glacial Troll Arms",
+			// apply effect
+			function (doOutput: Boolean): void {
+				var desc: String = "";
+
+				TransformationUtils.applyTFIfNotPresent(transformations.ArmsHuman, doOutput);
+				desc += " You can feel your nails elongate and sharpen, before you know it you have claws! As this happens they feel more dexterous. You look down and before you know it you’ve lost a finger, the rest seem slightly bigger now as well. <b>You now have glacial troll arms!</b>!";
+
+				player.arms.type = Arms.GLACIAL_TROLL;
+				if (doOutput) outputText(desc);
+				Metamorph.unlockMetamorph(ArmsMem.getMemory(ArmsMem.GLACIAL_TROLL));
+			},
+			// is present
+			function (): Boolean {
+				return player.arms.type === Arms.GLACIAL_TROLL;
 			}
 	);
 	/*

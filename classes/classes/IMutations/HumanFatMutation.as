@@ -23,10 +23,16 @@ public class HumanFatMutation extends IMutationPerkType
                 descS = "Your altered fat tissue allows to increase your natural toughness and thickness.";
             }
             if (pTier == 2){
-                descS = "Your fat tissue continue to increase your natural toughness and thickness gained from previous change. (+15% of max core Tou as phantom Tou)";
+                descS = "Your fat tissue continues to increase your natural toughness and thickness gained from previous changes. (+15% of max core Tou as phantom Tou)";
+            }
+            if (pTier >= 3){
+                descS += "Your fat tissue once again increases your natural toughness and thickness limit. Increased damage reduction against physical damage (+";
             }
             if (pTier == 3){
-                descS = "Your fat tissue increased again your natural toughness and thickness limit. Increased damage reduction against physical damage & increase natural resistance to damage, increase max Hunger cap by 50 (if PC have Hunger bar active) (+45% of max core Tou as phantom Tou)";
+                descS += "15% DR), natural resistance to damage (+15 armor/m.res), increase max Hunger cap by 50 (if PC have Hunger bar active) (+45% of max core Tou as phantom Tou)";
+            }
+            if (pTier == 4){
+                descS += "40% DR), natural resistance to damage (+40 armor/m.res), maximum base/core Tou by 10, +10% to max overfatigue, negate up to 3 points of internal chimera score, increase max Hunger cap by 150 (if PC have Hunger bar active) (+90% of max core Tou as phantom Tou)";
             }
             if (pTier >= 1) descS += " (req. 18+ human score to have all effects active)";
             return descS;
@@ -59,12 +65,13 @@ public class HumanFatMutation extends IMutationPerkType
             if (pTier == 1) pBuffs['tou.mult'] = 0.15;
             if (pTier == 2) pBuffs['tou.mult'] = 0.45;
             if (pTier == 3) pBuffs['tou.mult'] = 0.9;
+            if (pTier == 4) pBuffs['tou.mult'] = 1.8;
             return pBuffs;
         }
 
         public function HumanFatMutation() 
 		{
-			super(mName + " IM", mName, SLOT_FAT, 3);
+			super(mName + " IM", mName, SLOT_FAT, 4);
         }
 
     }

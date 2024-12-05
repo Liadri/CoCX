@@ -67,12 +67,15 @@ public class JabberwockyRace extends Race {
 				.hasPerk(PerkLib.DragonLustPoisonBreath, +1)
 				.hasPerk(PerkLib.Insanity, +1);
 		addScoresAfter(10)
-				.height(GREATER_THAN(120),+1);
+				.height(GREATER_THAN(120),+1)
+				.hasPerk(PerkLib.Dracoforce, +1);
 		
 		addBloodline(PerkLib.DragonsDescendant,PerkLib.BloodlineDragon);
-		addMutation(IMutationsLib.DraconicBonesIM);
-		addMutation(IMutationsLib.DraconicHeartIM);
+		addMutation(IMutationsLib.DrakeBloodIM);
+		addMutation(IMutationsLib.DrakeBonesIM);
+		addMutation(IMutationsLib.DrakeHeartIM);
 		addMutation(IMutationsLib.DrakeLungsIM);
+		addMutation(IMutationsLib.MightyLegsIM);
 		
 		buildTier(10, "lesser jabberwocky")
 				.namesTauric("lesser jabberwocky", "lesser jabberwocky-taur")

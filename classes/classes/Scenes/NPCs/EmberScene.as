@@ -141,7 +141,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
     private function emberCorruption(changes:Number = 0):Number {
         flags[kFLAGS.EMBER_COR] += changes;
         if (flags[kFLAGS.EMBER_COR] > 100) flags[kFLAGS.EMBER_COR] = 100;
-        else if (flags[kFLAGS.EMBER_COR] < 0) flags[kFLAGS.EMBER_COR] = 0;
+        else if (flags[kFLAGS.EMBER_COR] < -100) flags[kFLAGS.EMBER_COR] = -100;
         return flags[kFLAGS.EMBER_COR];
     }
 
@@ -400,7 +400,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
         //set flags
         player.createKeyItem("Dragon Egg", 0, 0, 0, 0);
         flags[kFLAGS.TOOK_EMBER_EGG] = 1;
-        flags[kFLAGS.EMBER_COR] = 50;
+        flags[kFLAGS.EMBER_COR] = 0;
         endEncounter();
     }
 
@@ -547,10 +547,10 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
         clearOutput();
         if (purified) {
             player.consumeItem(consumables.P_DRAFT);
-            emberCorruption(-10);
+            emberCorruption(-20);
         } else {
             player.consumeItem(consumables.INCUBID);
-            emberCorruption(10);
+            emberCorruption(20);
         }
         outputText("Uncorking the vial, you drizzle the slimy off-white fluid onto the pointed cone of the egg.  It oozes slowly across the surface, then seeps through the shell, leaving not a drop of moisture.");
         if (flags[kFLAGS.EMBER_GENDER] == 3 || flags[kFLAGS.EMBER_GENDER] == 0) {
@@ -569,10 +569,10 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
         clearOutput();
         if (purified) {
             player.consumeItem(consumables.P_S_MLK);
-            emberCorruption(-10);
+            emberCorruption(-20);
         } else {
             player.consumeItem(consumables.SUCMILK);
-            emberCorruption(10);
+            emberCorruption(20);
         }
         outputText("Popping the cap off of the milk bottle, you pour the contents onto the egg - the porous shell soaks up the milk as fast as you dump it, spilling not a drop.");
         //(If Unsexed or Herm:
@@ -822,7 +822,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
         outputText("\n\n(<b>Ember has been gained as a follower! Mysterious Egg quest is now complete.</b>)");
         if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard", 1, +1);
         else player.createKeyItem("Radiant shard", 1, 0, 0, 0);
-        outputText("\n\n<b>Before fully settling in your camp as if remembering something Ember pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+        outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Ember pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
         flags[kFLAGS.EMBER_HATCHED] = 1;
         player.removeKeyItem("Dragon Egg");
         endEncounter();
@@ -972,7 +972,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
                 endEncounter();
                 return;
             }
-            if (player.pregnancyIncubation < 200 && (player.pregnancyType != PregnancyStore.PREGNANCY_EMBER || player.pregnancy2Type != PregnancyStore.PREGNANCY_EMBER) && flags[kFLAGS.EMBER_BITCHES_ABOUT_PREGNANT_PC] == 0) {
+            if (player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(200, player.pregnancyType) && (player.pregnancyType != PregnancyStore.PREGNANCY_EMBER || player.pregnancy2Type != PregnancyStore.PREGNANCY_EMBER) && flags[kFLAGS.EMBER_BITCHES_ABOUT_PREGNANT_PC] == 0) {
                 manEmberBitchesAboutPCPregnancy();
                 endEncounter();
                 return;
@@ -1216,7 +1216,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
     //This scene only appears if Ember is male or herm and PC is pregnant and showing (ie: pregnancy has progressed as much as stage 2, at least.)
     //PC must be pregnant with something besides Ember's child/egg to get this scene.
     //Occurs once per pregnancy.
-    //To be implimented once preggers is set up.
+    //To be implemented once preggers is set up.
     private function manEmberBitchesAboutPCPregnancy():void {
         clearOutput();
         flags[kFLAGS.EMBER_BITCHES_ABOUT_PREGNANT_PC] = 1;
@@ -1231,7 +1231,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
     //Scene appears when selecting [Talk]
     //This scene only appears if the PC is pregnant with Ember's child.
     //Occurs only once.
-    //To be implimented once preggers is set up.
+    //To be implemented once preggers is set up.
     private function emberTalksToPCAboutPCDragoNPregnancy():void {
         clearOutput();
         flags[kFLAGS.EMBER_TALKS_TO_PC_ABOUT_PC_MOTHERING_DRAGONS] = 1;
@@ -1662,7 +1662,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
             outputText("\n\nEmber flushes with embarrassment.  \"<i>I-I... That's it!  No more milk for you!</i>\" [ember ey] declares, hauling you upright and shooing you out of her den.");
             outputText("\n\nYou shake your head with good temper.  Still, you got your fill of her milk, and you feel refreshed and renewed, new vitality flowing through your veins.");
             //(PC's D.Breath timer = not ready: Your throat feels soothed as the scratching and soreness die down; you feel like you could shout to the mountaintops!)
-            if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 1)) {
+            if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 1)) {
                 if (player.hasStatusEffect(StatusEffects.DragonBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonBreathCooldown);
                 if (player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonDarknessBreathCooldown);
                 if (player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonFireBreathCooldown);
@@ -1727,7 +1727,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
             outputText("\n\nEmber can't hide the faintest of smiles that graces [ember eir] scaly face.  You yelp softly as you feel a sharp prick against your belly; when you feel it again, you jump out of Ember's lap to reveal the clawed finger prodding you.  \"<i>Payback for teasing me earlier.  And don't think I'll be feeding you my milk everytime you ask,</i>\" [ember ey] finishes, with a small puff of smoke.");
             outputText("\n\nYou can't resist pointing out that [ember ey] certainly seemed eager to let you drink your fill, and you didn't hear any complaining over [ember eir] purring.  Before [ember ey] can rebut that, you turn and leave the dragon in [ember eir] den.");
             outputText("\n\nThe drink you got did you plenty of good; you feel refreshed and renewed, new vitality flowing through your veins.");
-            if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 1)) {
+            if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 1)) {
                 if (player.hasStatusEffect(StatusEffects.DragonBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonBreathCooldown);
                 if (player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonDarknessBreathCooldown);
                 if (player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonFireBreathCooldown);
@@ -1802,7 +1802,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
             outputText("\n\nThe soft purrs that accompany each suckle and the soft caresses on your body, bringing you ever closer to these two motherlodes of Ember-flavoured treasure, only serve to enhance the whole experience.");
 
             outputText("\n\nEventually, your swallows of the rich, freely-flowing, creamy dragon-milk cease as your stomach fills up.");
-            if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 1)) {
+            if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 1)) {
                 if (player.hasStatusEffect(StatusEffects.DragonBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonBreathCooldown);
                 if (player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonDarknessBreathCooldown);
                 if (player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonFireBreathCooldown);
@@ -3064,7 +3064,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
     //Bred by Ember
     //Only available to Medium/High Affection Ember.
     //Only occurs if the PC has a pussy and is in heat; Ember must have a dick; both must not be pregnant.
-    //In case Ember and the PC are herms, both being able to impregnate and be impregnated. One of the scenes will be randomly choosen.
+    //In case Ember and the PC are herms, both being able to impregnate and be impregnated. One of the scenes will be randomly hosen.
     //Ember never fails to impregnate the PC or be impregnated - unless the player is on contraceptives.
     private function getKnockedUpByEmbrahBroBaby():void {
         clearOutput();
@@ -3579,9 +3579,18 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
             outputText(" coos, giggles and nuzzles into your neck, clearly happy to be here in the real world at last.");
 
             outputText("\n\n\"<i>I'll tend to the little one, you can just rest for a while longer,</i>\" Ember offers, taking the cute little dragon up in [ember eir] arms.  You sigh and nod your head gratefully, then lay back down to get some more rest.\n");
-            if (roll < 40) flags[kFLAGS.EMBER_CHILDREN_MALES]++;
-            else if (roll < 80) flags[kFLAGS.EMBER_CHILDREN_FEMALES]++;
-            else flags[kFLAGS.EMBER_CHILDREN_HERMS]++;
+            if (roll < 40) {
+				if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.EMBER_CHILDREN_MALES] += 2;
+				else flags[kFLAGS.EMBER_CHILDREN_MALES]++;
+			}
+            else if (roll < 80) {
+				if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.EMBER_CHILDREN_FEMALES] += 2;
+				else flags[kFLAGS.EMBER_CHILDREN_FEMALES]++;
+			}
+            else {
+				if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.EMBER_CHILDREN_HERMS] += 2;
+				else flags[kFLAGS.EMBER_CHILDREN_HERMS]++;
+			}
         }
         //PC Lays Egg
         else {
@@ -3634,7 +3643,8 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
             outputText(", anyway.  The dragon ");
             if (flags[kFLAGS.EMBER_ROUNDFACE] > 0) outputText("blushes and then ");
             outputText("scurries away, even as you pull yourself upright and get ready to go about your business.\n");
-            flags[kFLAGS.EMBER_EGGS]++;
+            if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.EMBER_EGGS] += 2;
+			else flags[kFLAGS.EMBER_EGGS]++;
         }
         player.createStatusEffect(StatusEffects.EmberNapping, 5, 0, 0, 0);
     }
@@ -4262,7 +4272,7 @@ public class EmberScene extends NPCAwareContent implements TimeAwareInterface {
                 outputText("\n\nYou've been at this for quite some time now... how many times have you drained Ember's breasts?  Four?  Five?  You don't know... and besides that, you're feeling rather tired yourself... plus all this milk sloshing inside your belly does not help keep you awake... still you must press on...");
                 outputText("\n\n<b>Even later...</b>");
                 outputText("\n\nWith a final powerful suckle, you finally drain the last of Ember's milk... for the 8th time you believe... tired and full... you don't even bother getting off the sleeping dragon.  You settle your head between Ember's soft, milky mounds, and surrounded by their soft " + (flags[kFLAGS.EMBER_ROUNDFACE] == 0 ? "scales" : "flesh") + ", you fall asleep right there...");
-                if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DraconicLungIM) >= 1)) {
+                if ((player.hasStatusEffect(StatusEffects.DragonBreathCooldown) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 2) || ((player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonIceBreathCooldown) || player.hasStatusEffect(StatusEffects.DragonLightningBreathCooldown)) && !player.perkv1(IMutationsLib.DrakeLungsIM) >= 1)) {
                     if (player.hasStatusEffect(StatusEffects.DragonBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonBreathCooldown);
                     if (player.hasStatusEffect(StatusEffects.DragonDarknessBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonDarknessBreathCooldown);
                     if (player.hasStatusEffect(StatusEffects.DragonFireBreathCooldown)) player.removeStatusEffect(StatusEffects.DragonFireBreathCooldown);

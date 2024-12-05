@@ -84,7 +84,7 @@ public class GoblinShaman extends Goblin
 			else if (spellChooser == 4 && mana >= spellCostHeal) {
 				outputText("She focuses on her body and her desire to end pain, trying to draw on her arousal without enhancing it.");
 				var temp:int = int(10 + (inte/2) + rand(inte/3)) * spellMultiplier();
-				outputText("She flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+				outputText("She flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 				addHP(temp);
 				mana -= spellCostHeal;
 			}
@@ -141,7 +141,7 @@ public class GoblinShaman extends Goblin
 			this.hairColor = "indigo";
 			this.hairLength = 4;
 			initStrTouSpeInte(79, 60, 80, 97);
-			initWisLibSensCor(97, 45, 45, 60);
+			initWisLibSensCor(97, 45, 45, 20);
 			this.weaponName = "wizard staff";
 			this.weaponVerb = "bludgeon";
 			this.weaponAttack = 16;

@@ -201,7 +201,7 @@ public function knockUpUrtaChance():void { //Moved here from UrtaPregs since it 
 	//Bonus virility time!
 	chance += Math.min(player.virilityQ() * 100, 50);
 	//FINAL ROLL!
-	if (chance > rand(100)) {
+	if (chance > rand(100) || player.hasPerk(PerkLib.PilgrimsBounty)) {
 		pregnancy.knockUpForce(PregnancyStore.PREGNANCY_PLAYER, 384);
 		flags[kFLAGS.URTA_PREGNANT_DELIVERY_SCENE] = 0;
 		if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Urta is pregnant!</b>");
@@ -582,7 +582,7 @@ private function drinkUrtasBoozeLetHer():void {
 	if(player.hasVagina()) outputText("waiting womb");
 	else outputText("abused asshole");
 	outputText(".");
-	if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < 250) outputText("  Whatever's growing inside you is probably bathing in the stuff now.");
+	if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(250, player.pregnancyType)) outputText("  Whatever's growing inside you is probably bathing in the stuff now.");
 	else if(player.hasVagina()) outputText("  You briefly wonder if she's capable of knocking you up, and what the baby would look like.");
 	else outputText("  Your backside fills with warmth as her spunk seeps deep inside you.");
 	outputText("  Another blast fills you to capacity, and you're mortified by the sensation of your body being shifted by your growing belly.\n\n");
@@ -592,7 +592,7 @@ private function drinkUrtasBoozeLetHer():void {
 		if(player.cockTotal() > 1) outputText("Each of y");
 		else outputText("Y");
 		outputText("our [cocks] squirts hard, unloading a batch of sticky jism under your ");
-		if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < 100) outputText("pregnancy swollen ");
+		if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(100, player.pregnancyType)) outputText("pregnancy swollen ");
 		outputText("belly, making you squish with each brutal thrust of your oversized lover's rod.");
 	}
 	else {
@@ -1440,7 +1440,7 @@ private function tenderTakeItUpTheAssFromUrta():void {
 			outputText("  Urta winks and guides ");
 			if(cocks > 1) outputText("one of ");
 			outputText("your [cocks] between her tits");
-			if(player.cocks[0].cockLength >= 20 && player.cocks[0].cockLength <= 28) outputText(", even taking time to lick and suck on the head");
+			if(player.cocks[0].cockLength >= 20) outputText(", even taking time to lick and suck on the head");
 			outputText(".");
 			outputText("  She begins giving you a slow tit-fuck, trying to encourage you to pick up the pace and start riding her.  It does the trick as your " + hipDescript() + " start rocking on their own in reaction to her efforts.  She licks harder, and you reward her by lifting yourself up and sliding back down.  Her massive girth squeezes a squirt of pre-cum from your prostate with every few strokes, splattering it on her muzzle.");
 		}
@@ -2108,7 +2108,7 @@ internal function urtaHomeLuvLuvinsMenu():void {
 		.disableIf(!player.isGoo() || player.skinType != Skin.GOO, "Req. goo skin and body", "???");
 	if (flags[kFLAGS.URTA_PETPLAY_DONE] >= 0) addButton(7, "Collar", urtaPetPlayDeletedForeverBecauseThirdProovedMeWrongAboutDice)
 		.disableIf(player.isGenderless(), "Not for genderless.");
-	if (flags[kFLAGS.KATHERINE_TRAINING] & KatherineEmployment.KBIT_TRAINING_URTA_HELP)
+	if (flags[kFLAGS.KATHERINE_TRAINING] && KatherineEmployment.KBIT_TRAINING_URTA_HELP)
 		addButton(8, "ChastityBelt", chastityBeltFun, true);
 }
 
@@ -3044,7 +3044,7 @@ private function urtaDiscussAlcoholDrinkMore():void {
 	urtaSprite();
 	outputText("You blush a little bit and ask why she thinks you want her to drink LESS.  She stares at you quizzically and your blush deepens as you explain that when she gets drunk, lets her guard down, and gets so aggressive, you... well, you like it.  A lot.  Her ears perk up at your words, though her expression is a little uncertain while you explain it.  By the time you finish, something warm brushes by your leg and gently 'thunks' the table.  Clearly, she's as into the idea of encouraging her unrestrained, carefree self as you are.");
 	if (pregnancy.type == PregnancyStore.PREGNANCY_PLAYER) {
-		outputText("\n\nUrta smiles, gently at first, though it carries a bit of a predatory glint by the time she waves down a waitress and orders a full bottle of non-alcholic beer.  You give her a rueful smile, a stroke under the table, and a kiss just bursting with tongue before you conclude the conversation.  Urta's chuckles, \"<i>After the baby I'll be sure to have a little liquid motivation on hand.</i>\"");
+		outputText("\n\nUrta smiles, gently at first, though it carries a bit of a predatory glint by the time she waves down a waitress and orders a full bottle of non-alcoholic beer.  You give her a rueful smile, a stroke under the table, and a kiss just bursting with tongue before you conclude the conversation.  Urta's chuckles, \"<i>After the baby I'll be sure to have a little liquid motivation on hand.</i>\"");
 	}
 	else {
 		outputText("\n\nUrta smiles, gently at first, though it carries a bit of a predatory glint by the time she waves down a waitress and orders a full bottle of Barkardi 151.  You give her a rueful smile, a stroke under the table, and a kiss just bursting with tongue before you conclude the conversation.  Urta's already half-way through the bottle of alcohol by the time you reach the door - you have a feeling the fox-herm's going to be a lot of fun from now on...");
@@ -3314,7 +3314,7 @@ private function urtaDiscussesEdrynRomance():void {
 			//(If Edryn has had at least one baby:
 			if(flags[kFLAGS.EDRYN_NUMBER_OF_KIDS] > 0) {
 				if(flags[kFLAGS.URTA_QUEST_STATUS] == 1) {
-					if(urtaPregs.urtaKids() == 0) outputText("  \"<i>...I still can't believe that you actually get her pregnant, though.  It's just not fair that Edryn's got little hooves running around, and after everything I went through, I don't have kits of my own... yet.</i>\" She gives you a slightly predatory smile along with the last word.");
+					if(urtaPregs.urtaKids() == 0) outputText("  \"<i>...I still can't believe that you actually get her pregnant, though.  It's just not fair that Edryn's got little hooves running around, and after everything I went through, I don't have kids of my own... yet.</i>\" She gives you a slightly predatory smile along with the last word.");
 					else outputText("  \"<i>...I still can't believe that you actually got her pregnant, though.  I guess I'll have to keep you busy in the sack if we're going to keep up, huh?</i>\" She gives you a slightly predatory smile along with the last word.");
 				}
 				else outputText("  \"<i>...I still can't believe that you actually got her pregnant, though. It's just not fair that Edryn's got little hooves running around, and you and I can't have any.</i>\"  Urta sighs.");
@@ -4039,14 +4039,14 @@ private function fillMeUpPleaseUrta():void {
 	outputText("\n\nStill, that doesn't seem to concern the vixen as she continues to cream your twat further, stuffing you so full that your belly button pops out");
 	if(player.biggestTitSize() >= 4) outputText(" and your [chest] rest heavily upon your cum-stuffed form");
 	outputText(".");
-	if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < 150) outputText("  You may have been pregnant before, but you're beyond pregnant now... with cum AND child.");
+	if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(150, player.pregnancyType)) outputText("  You may have been pregnant before, but you're beyond pregnant now... with cum AND child.");
 	//{Goo:
 	if(player.isGoo()) outputText("  Successive eruptions make you bigger, but your flexible cunt soon grows so bloated that the onrushing injections mostly squirt back out, painting Urta, the bed, and your [legs] white with cum.");
 	else outputText("  Successive eruptions do little to bloat you further - your body is stretched to capacity, so the onrushing injections only squirt back out through your entrance, painting Urta, the bed, and your [legs] white with cum.");
 	outputText("\n\nYour pussy, spent after cumming so long, gives up and goes slack, vacantly allowing fluid to flow in and out.  You're equally exhausted by the ordeal and your heavy womb.  Swaying to the side, you lose your balance and slide off, coming to rest next to the still-spurting fox.  She's pumping her tool hard, spraying semen into the air to rain down over both of you.  The fox revels in it, wildly moaning and thrashing, smearing it into her skin and yours.");
 	outputText("\n\nEven after she finishes painting the walls and ceiling white, Urta flops her drooling member onto your ass and allows it to thoroughly cream your crack.  She rubs it all over your butt, squeezing and kneading your backside as she comes down.  After a while, you roll over and return the favor, massaging the fox with her own orgasmic goo.  You're both white messes, but thoroughly, delectably sated.");
 	outputText("\n\nYou snuggle with the vixen a while, simply enjoying the comfort while your [vagina] drains.  It doesn't completely empty, but your belly-button does pop back in.  You'll probably look ");
-	if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < 150) outputText("even more ");
+	if(player.pregnancyIncubation > 0 && player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(150, player.pregnancyType)) outputText("even more ");
 	outputText("pregnant for a while, at least until you can pass all that filling!  She plants a salty kiss on your lips ");
 	if(urtaLove()) outputText("and nuzzles against your cheek, just holding you for a few moments, lover to lover.");
 	else outputText("and sheepishly pulls back.");
@@ -4431,7 +4431,7 @@ internal function slurpFawkesCocksForFunAndInflation():void {
 
 	outputText("\n\nYou survey your new condition, finding your stretched belly modeled more towards a nine-month pregnancy");
 
-	if(player.pregnancyIncubation < 100 && player.pregnancyIncubation > 0) outputText(" than it already was");
+	if(player.pregnancyIncubation < sceneHunter.adjustPregEventTimer(100, player.pregnancyType) && player.pregnancyIncubation > 0) outputText(" than it already was");
 	outputText(".  You slide your way back into your seat with some difficulty, fighting the wriggling, bouncing mass that is your stomach over the now shrinking room between the seat and table.  By now, some of the patrons have realized what has happened, pointing, whispering, rubbing their stomachs, and pulling their hands away from each other to symbolize your new... asset.");
 
 	outputText("\n\nYou lift your equipment up off of your belly, making your breaths come a little fuller, but simultaneously showing off your cum-laden orb.  You glance at Urta, who blushes.  \"<i>Oh, honey!  I'm so sorry!  I just hadn't... I mean I never expected...</i>\"");
@@ -4510,7 +4510,7 @@ private function raphaelAndUrtaPartTwo():void {
 
 	outputText("\n\nUrta, perhaps feeling a bit ignored, suddenly forces a finger into Raphael's tight pucker as she crouches, using her free hand to line her blunt horse-cock up with your [asshole].  You ");
 	if(player.tailType > Tail.NONE) outputText("lift your tails and ");
-	outputText("try to relax with her thick slab of penis so close to your backdoor, hoping she'll be gentle.  A drunken twinge of arousal knifes through your [vagina] as you imagine her forcefully raping your hind-end, and Raphael can certainly feel the convulsive fluttering of your love tunnel as you sink into your imaginings.  The gray vixen nips at your ear as she presses against your [asshole]");
+	outputText("try to relax with her thick slab of penis so close to your backdoor, hoping she'll be gentle.  A drunken twinge of arousal stabs through your [vagina] as you imagine her forcefully raping your hind-end, and Raphael can certainly feel the convulsive fluttering of your love tunnel as you sink into your imaginings.  The gray vixen nips at your ear as she presses against your [asshole]");
 	if(player.analCapacity() < 30) outputText(", slowly stretching your tight sphincter with constant pressure.  You're not really loose enough back there for this to be entirely comfortable, but the incredible fullness her length provides has a way of muting the pain of stretching.");
 	else if(player.analCapacity() < 60) outputText(", slowly sliding into your sphincter.  You groan into your other lover's mouth as your anus is claimed by the thick horse-pole, and you do your best to relax around the butthole-stretching shaft.");
 	else outputText(", easily slipping inside your well-practiced anus.  You groan into your other lover's mouth as the thick cock claims your ready asshole, and you're glad your butthole was so well prepared to handle having a hot meat pole injected into it.");
@@ -4725,7 +4725,7 @@ private function urtasRuinedOrgasmsFromGooPartII():void {
 	if(player.skinColor != "milky white") {
 		outputText("\n\nThen you catch sight of your body...  You hold up a hand in surprise.  Your skin has changed color!  Your time inside Urta's balls has taken its toll, it seems.  <b>You now have milky white skin!</b>");
 		player.skinColor = "milky white";
-		player.cumMultiplier += 10;
+		player.hairColor = "milky white";
 	}
 	outputText("\n\nUrta and ");
 	if (edrynAvailable) outputText("Edryn");
@@ -5291,7 +5291,7 @@ private function urtaTakesPCOnWalkies():void {
 		outputText("\n\n[EachCock] spring" + (player.cockTotal() == 1 ? "s" : "") + " up and rub" + (player.cockTotal() == 1 ? "s" : "") + " against her sex from below. Your lover moans and wiggles with delight; her snatch still slick and sensitive from her climax. \"<i>Oh! Quite a go getter, aren't you? How lucky of me to have a lover with as much stamina as I do,</i>\" Urta purrs out. Her compliment is followed by a soft suckling bite of your neck. You tell her you need a lot of stamina to keep up with her 'little stallion'.");
 		outputText("\n\nUrta pulls back from your neck and gives you a meaningful look. You're marvellously lost in those brilliant green eyes of hers. Not another word is spoken and your lips inch closer together. It's not long before they are sweetly locked in unison and you are melting together. You are totally lost in each other's loving warmth.");
 		outputText("\n\nBoth of you then begin to kiss each other with overwhelming need. It's as if you have both been seized by a maddening need for each other's taste, yet are unable to quench it. Your bodies needily rub against each other and create delicious friction. You can feel both " + player.multiCockDescript() + " and hers rubbing and pressing achingly hard against each other.");
-		if (flags[kFLAGS.URTA_FERTILE] > 0) outputText("\n\nUrta breathily slips out words between each kiss, unwilling to part her lips from yours for more than an instant. \"<i>I want.</i>\" Kiss. \"<i>You.</i>\" Kiss. \"<i>Inside of me.</i>\" Kiss. \"<i>And I want.</i>\" Kiss. \"<i>You</i>\" Kiss. \"<i>To give me your child.\"</i.> Your vulpine lover rubs your [cockhead] against her slick velvety lips. You can feel her desperate yearning for you inside of her and your [cock] filling her with your virile seed. ");
+		if (flags[kFLAGS.URTA_FERTILE] > 0) outputText("\n\nUrta breathily slips out words between each kiss, unwilling to part her lips from yours for more than an instant. \"<i>I want.</i>\" Kiss. \"<i>You.</i>\" Kiss. \"<i>Inside of me.</i>\" Kiss. \"<i>And I want.</i>\" Kiss. \"<i>You</i>\" Kiss. \"<i>To give me your child.\"</i> Your vulpine lover rubs your [cockhead] against her slick velvety lips. You can feel her desperate yearning for you inside of her and your [cock] filling her with your virile seed. ");
 		outputText("\n\nUnable to restrain yourself a second longer, you grab her curvy thighs firmly between your hands, and lift her above your [cockHead]. She moans as it rubs against her slick velvety lips, and her slick wetness drools down your [sheath].");
 		outputText("\n\nYou lower her down on your [cock], and at the same time, thrust up to meet her . Her moist folds gently caress your member. Soon you are gloriously sheathed inside of her, and her hot warmth radiates around your length.");
 		outputText("\n\n\"Fuck me!\" she breathily whimpers, all the while grinding her hips and pussy against your base. You grind together in primal rhythm, pressing your [cockhead] deep into her snatch. Her full breasts and black nipples bounce in front of your eyes, adding more fuel to your carnal thrusts.");
