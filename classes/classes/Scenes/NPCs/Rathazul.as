@@ -323,7 +323,7 @@ private function rathazulWorkOffer():Boolean {
 		addButton(1, "Purify", purifySomething).hint("Ask him to purify any tainted potions. \n\nCost: 20 Gems.");
 		if (flags[kFLAGS.ARIAN_SCALES] >= 1) {
 			if (dyes && player.hasItem(consumables.REPTLUM, 1)) addButton(3, "Make Dye", makeDyes).hint("Ask him to make a special dye for you. (Only dyes here are for Arian) \n\nCost: 50 Gems.");
-			else addButtonDisabled(3, "Make Dye", "You need 50+ gems and 1 vial of Reptilium.");
+			else addButtonDisabled(3, "Make Dye", "You need 50+ gems and 1 vial of Reptilum.");
 		}
 		if (player.hasItem(consumables.BEEHONY)) addButton(4, consumables.PURHONY.shortName, rathazulMakesPureHoney).hint("Ask him to distill a vial of bee honey into a pure honey. \n\nCost: 25 Gems \nNeeds 1 vial of Bee Honey");
 		if (debimbo) addButton(5, "Debimbo", makeADeBimboDraft).hint("Ask Rathazul to make a debimbofying potion for you. \n\nCost: 250 Gems \nNeeds 5 Scholar Teas.");
@@ -396,8 +396,8 @@ private function oneTimeOptions():void {
 	}
 	if (TyrantiaFollower.TyrantiaFollowerStage == 5) addButton(1, "Tyrantia", TyrantiaEggQuestRathazul);
 	if (flags[kFLAGS.SAMIRAH_FOLLOWER] == 7) {
-		if (player.hasItem(consumables.HUMMUS_, 1) && player.hasItem(consumables.REPTLUM, 1) && player.hasItem(consumables.OVIELIX, 1)) addButton(5, "ReptaTongue P", makeReptaTonguePotion).hint("Ask him to make Repta-Tongue Potion. \n\nNeeds 1 Hummus, 1 Reptilium and 1 Ovi Elixir");
-		else addButtonDisabled(5, "ReptaTongue P", "Need to gather 1 Hummus, 1 Reptilium and 1 Ovi Elixir for this potion.");
+		if (player.hasItem(consumables.HUMMUS_, 1) && player.hasItem(consumables.REPTLUM, 1) && player.hasItem(consumables.OVIELIX, 1)) addButton(5, "ReptaTongue P", makeReptaTonguePotion).hint("Ask him to make Repta-Tongue Potion. \n\nNeeds 1 Hummus, 1 Reptilum and 1 Ovi Elixir");
+		else addButtonDisabled(5, "ReptaTongue P", "Need to gather 1 Hummus, 1 Reptilum and 1 Ovi Elixir for this potion.");
 	}
 	if (player.hasItem(consumables.PURHONY, 1) && player.hasItem(consumables.C__MINT, 1) && player.hasItem(consumables.PURPEAC, 1) && player.hasKeyItem("Rathazul's Purity Potion") < 0 &&(flags[kFLAGS.MINERVA_PURIFICATION_RATHAZUL_TALKED] == 2 && flags[kFLAGS.MINERVA_PURIFICATION_PROGRESS] < 10)) {
 		addButton(6, "Pure Potion", rathazulMakesPurifyPotion).hint("Ask him to brew a purification potion for Minerva.");
@@ -679,7 +679,7 @@ private function cureMitziStay():void {
 private function rathazulReptaTonguePotionOffer():void {
 	spriteSelect(SpriteDb.s_rathazul);
 	clearOutput();
-	outputText("You mention the desert naga to Rathazul who look at you somewhat surprised.\n\n\"<i>Well that is an odd request? You need me to craft a potion that will allow some naga to understand the common language? Yes I can do that, but it would require some pretty rare ingredients such as hummus, reptilium, and one ovi elixir. Get me those three and I will make the potion for you.</i>\"\n\n");
+	outputText("You mention the desert naga to Rathazul who look at you somewhat surprised.\n\n\"<i>Well that is an odd request? You need me to craft a potion that will allow some naga to understand the common language? Yes I can do that, but it would require some pretty rare ingredients such as hummus, reptilum, and one ovi elixir. Get me those three and I will make the potion for you.</i>\"\n\n");
 	flags[kFLAGS.SAMIRAH_FOLLOWER] = 7;
 	//Rath menu
 	menu();
@@ -688,7 +688,7 @@ private function rathazulReptaTonguePotionOffer():void {
 private function makeReptaTonguePotion():void {
 	spriteSelect(SpriteDb.s_rathazul);
 	clearOutput();
-	outputText("Rathazul picks up the hummus, the reptilium and the ovi elixir before mixing them up in his alchemical equipment. He hands you the potion and get back to his things. You realise he didn’t mix in the ovi elixir and you are about to ask him about it when you see that weird gleam in his eyes as he mix it with firemander whisky and what might be a massive dose of lust draft. You back down, some things are better left unknown...");
+	outputText("Rathazul picks up the hummus, the reptilum and the ovi elixir before mixing them up in his alchemical equipment. He hands you the potion and get back to his things. You realise he didn’t mix in the ovi elixir and you are about to ask him about it when you see that weird gleam in his eyes as he mix it with firemander whisky and what might be a massive dose of lust draft. You back down, some things are better left unknown...");
 	outputText("\n\n<b>Acquired Repta-Tongue potion</b>");
 	player.consumeItem(consumables.HUMMUS_, 1);
 	player.consumeItem(consumables.REPTLUM, 1);

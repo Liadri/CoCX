@@ -120,7 +120,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.WEREFOX_EXTRAS] == 2) {
 				this.short = "elder werefox";
-				this.long = "Your opponent is a elder werefox. While halfway human in appearance its glowing green eyes, fennec ears, sharp fangs, five bushy tails and claw armed paws reminds you of its bestial nature.";
+				this.long = "Your opponent is an elder werefox. While halfway human in appearance its glowing green eyes, fennec ears, sharp fangs, five bushy tails and claw armed paws reminds you of its bestial nature.";
 				this.createStatusEffect(StatusEffects.BonusVCapacity, 60, 0, 0, 0);
 				createBreastRow(Appearance.breastCupInverse("D"));
 				initStrTouSpeInte(75, 230, 191, 125);

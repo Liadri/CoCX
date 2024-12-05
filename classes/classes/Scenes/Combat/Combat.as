@@ -15474,7 +15474,7 @@ public function assumeAsuraForm():void {
     player.wrath -= asuraformCost();
     outputText("As you starts to unleash your inner wrath two additional faces emerge from head"+(player.faceType == Face.CERBERUS?"s":"")+" on sides and " + (player.playerHasFourArms() ? "":"two ") + "additional pair" + (player.playerHasFourArms() ? "":"s") + " of arms grows under your " + (player.playerHasFourArms() ? "second":"first") + " pair" + (player.playerHasFourArms() ? "s":"") + " of arms. ");
     if (player.hasPerk(PerkLib.AsuraStrength)) {
-        outputText("Additionaly from your back emerge ");
+        outputText("Additionally from your back emerge ");
 		if (player.hasPerk(PerkLib.ItsZerkingTime)) outputText("three ");
 		else if (player.hasPerk(PerkLib.LikeAnAsuraBoss)) outputText("two ");
         outputText("pair ");

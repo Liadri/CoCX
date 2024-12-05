@@ -82,7 +82,7 @@ import classes.VaginaClass;
                     }
                     break;
                 case 6:
-                    outputText("\n\nNumbness clouds your mind, making you feel slow witted and dull.  Maybe these candies weren't such a exceptio... fantas... good idea.");
+                    outputText("\n\nNumbness clouds your mind, making you feel slow witted and dull.  Maybe these candies weren't such an exceptio... fantas... good idea.");
                     player.addCurse("int", (1 + rand(5)),1);
                     break;
                 case 7:

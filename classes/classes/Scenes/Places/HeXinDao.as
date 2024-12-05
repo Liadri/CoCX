@@ -1108,10 +1108,10 @@ public function soularena():void {
 		player.createStatusEffect(StatusEffects.MinoKing,henchman,0,0,0);
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Neisa")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You tell Neisa you need her to handle the bova girl so you can fight the Minotaur Challanger alone.\n\n");
+				outputText("You tell Neisa you need her to handle the bova girl so you can fight the Minotaur Challenger alone.\n\n");
 				outputText("Neisa nods, \"<i>A sound stratagem, leave it to me!</i>\" She raises her shield before ramming into the bova girl. The stun knocks her out cold.\n\n");
 				outputText("Neisa turns back, giving you a thumbs up along with an excited smile.\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You tell Neisa you need her to handle Excellia so you can fight the Minotaur King alone.\n\n");
@@ -1122,11 +1122,11 @@ public function soularena():void {
 		}
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Etna") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Etna")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You tell Etna you need her to take care of bova girl so you can focus your assault on the Minotaur Challanger.\n\n");
+				outputText("You tell Etna you need her to take care of bova girl so you can focus your assault on the Minotaur Challenger.\n\n");
 				outputText("Etna smirks, \"<i>Let’s see if her face will enjoy my tail.</i>\"\n\n");
 				outputText("She wastes no time flying into the air before dive-bombing into the bova girl, quickly wrapping the cow girl within her tail. It doesn’t take long for the bova girl to succumb to the venom, enthralled by Etna’s presence.\n\n");
 				outputText("Etna speaks out to you, \"<i>I’ll keep this little toy occupied, you have fun, [name].</i>\"\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You tell Etna you need her to take care of Excellia so you can focus your assault on the Minotaur King.\n\n");
@@ -1140,7 +1140,7 @@ public function soularena():void {
 		}
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Aurora") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Aurora")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You tell Aurora you need her to take care of the bova girl so you can focus your assault on the Minotaur Challanger.\n\n");
+				outputText("You tell Aurora you need her to take care of the bova girl so you can focus your assault on the Minotaur Challenger.\n\n");
 				outputText("Aurora nods before raising her wings before swooping down onto the Bova girl, pinning her beneath her stone frame. The bova girl is quickly pinned down.\n\n");
 				outputText("Aurora calls out to you, \"<i>I’ll just watch from here, this girl won’t be doing anything now.</i>\"\n\n");
 			}
@@ -1153,11 +1153,11 @@ public function soularena():void {
 		}
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Alvina") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Alvina")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You tell Alvina you need her to handle the Bova girl so you can focus your assault on the Minotaur Challanger.\n\n");
+				outputText("You tell Alvina you need her to handle the Bova girl so you can focus your assault on the Minotaur Challenger.\n\n");
 				outputText("Alvina rolls her eyes, \"<i>Fine, I’ll just keep her restrained for now.</i>\"\n\n");
 				outputText("She sets down her scythe before drawing somatic symbols with a single finger. The girl is forcibly risen, hoisted further into the air before vanishing in an instant.\n\n");
 				outputText("\"<i>That’ll keep her contained, it’s so much easier when they’re a weak-willed slave like her. I’ll just keep this focused so I don’t kill her… yet…</i>\"\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You tell Alvina you need her to handle Excellia so you can focus your assault on the Minotaur King.\n\n");
@@ -1169,12 +1169,12 @@ public function soularena():void {
 		}
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Mitzi") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Mitzi")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You tell Mizti and her daughters you need them to take care of bova girl so you can focus your assault on the Minotaur Challanger.\n\n");
+				outputText("You tell Mizti and her daughters you need them to take care of bova girl so you can focus your assault on the Minotaur Challenger.\n\n");
 				outputText("Mitzi raises her fist as her several daughters cheer, \"<i>Let’s get that slut!</i>\"\n\n");
 				outputText("Furxia, Lidea, Mizti, and Roxy rush the bova girl, flanking her from every direction.\n\n");
 				outputText("The Bova girl holds up her hands, \"<i>Please, have mercy!</i>\"\n\n");
 				outputText("The goblins exchange sinister glances with each other. It would seem they have their prey all to themselves.\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You tell Mizti and her daughters you need them to take care of Excellia so you can focus your assault on the Minotaur King.\n\n");
@@ -1207,12 +1207,12 @@ public function soularena():void {
 		}
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Amily") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Amily")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You ask Amily if she can take care of the Bova girl so you can focus on fighting the Minotaur Challanger alone.\n\n");
+				outputText("You ask Amily if she can take care of the Bova girl so you can focus on fighting the Minotaur Challenger alone.\n\n");
 				outputText("Amily nods before coating her daggers in some poison, \"<i>I got this, you can count on me.</i>\"\n\n");
 				outputText("She rushes through, evading the Minotaur King before throwing a knife at the girl. The bova girl stumbles back as Amily wastes no time recovering her knife while keeping up the pressure.\n\n");
 				outputText("\"<i>Ah, you bitch!</i>\" The girl shouts as she’s pinned to the ground.\n\n");
 				outputText("Amily calls back to you, \"<i>You got this, [name]! I’ll stay here and make sure she does not do anything stupid, but I won’t take her out just yet.</i>\"\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You ask Amily if she can take care of Excellia so you can focus on fighting the Minotaur King alone.\n\n");
@@ -1224,7 +1224,7 @@ public function soularena():void {
 		}
 		if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Zenji") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Zenji")) {
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				outputText("You tell Zenji you need him to hold back Excellia so you can take care of the Minotaur Challanger.\n\n");
+				outputText("You tell Zenji you need him to hold back Excellia so you can take care of the Minotaur Challenger.\n\n");
 				outputText("Zenji nods, \"<i>Leave it ta me, champion!</i>\"\n\n");
 				outputText("He readies his spear before pouncing on the bova girl, keeping her pinned beneath his weight.\n\n");
 				outputText("\"<i>Stay down!</i>\" he shouts.\n\n");
@@ -1232,7 +1232,7 @@ public function soularena():void {
 				else outputText("She moans lewdly, not resisting him in the slightest.\n\n");
 				outputText("\"<i>No! Bad!</i>\" Zenji retorts before knocking her out with the butt of his spear.\n\n");
 				outputText("Zenji calls out to you, \"<i>I will keep dis brat down, ya can do dis, [name]!</i>\"\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You tell Zenji you need him to hold back Excellia so you can take care of the Minotaur King.\n\n");
@@ -1264,7 +1264,7 @@ public function soularena():void {
 				outputText("Swinging her spear, Tyrantia rolls her seven working eyes. \"<i>I’m not a cattle rancher, [name]</i>\", she mutters, before giving you a thumbs-up \"<i>But that cow doesn’t stand a chance.</i>\"\n\n");
 				outputText("Tyrantia charges, her spear hitting bova girl in the gut. As the bovine is stunned, Tyrantia follows through with a shoulder charge, slamming them both into a wall.\n\n");
 				outputText("\"<i>Kick his ass, [name]!</i>\" She calls back, as bova girl tries to gore her. Tyrantia dodges, but the effort seems to piss her off. Tyrantia grabs bova girl by the horns, and begins to bodily toss the unfortunate bovine around like a ragdoll.\n\n");
-				outputText("Now it’s just you and the Minotaur Challanger.\n\n");
+				outputText("Now it’s just you and the Minotaur Challenger.\n\n");
 			}
 			else {
 				outputText("You look at Excellia, realizing the problem she poses. Turning to Tyrantia, you tell your amazoness to stop her from interfering.\n\n");

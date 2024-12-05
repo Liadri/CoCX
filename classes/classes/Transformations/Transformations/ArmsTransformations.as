@@ -554,7 +554,7 @@ public class ArmsTransformations extends MutationsHelper {
 
 				desc += "";
 				if (player.arms.type == Arms.SPIDER) desc += "On your upper arms slowly starting to grown yellow fuzz making them looks more like those of bee.";
-				else if (player.arms.type == Arms.MANTIS) desc += "The long scythe extending from your wrist crumbling, while chitin covering your mantis arms slowly starting to change colors, <b>turning the " + player.skinFurScales() + " into a shiny black carapace</b>. Additionaly on your upper arms appear yellow fuzz.";
+				else if (player.arms.type == Arms.MANTIS) desc += "The long scythe extending from your wrist crumbling, while chitin covering your mantis arms slowly starting to change colors, <b>turning the " + player.skinFurScales() + " into a shiny black carapace</b>. Additionally on your upper arms appear yellow fuzz.";
 				else {
 					if (player.arms.type == Arms.HARPY) desc += "The feathers covering your arms fall away, leaving them to return to a far more human appearance. ";
 					desc += "You watch, spellbound, while your forearms gradually become shiny. The entire outer structure of your arms tingles while it divides into segments, <b>turning the " + player.skinFurScales() + " into a shiny black carapace</b>. A moment later the pain fades and you are able to turn your gaze down to your beautiful new arms, covered in shining black chitin from the upper arm down, and downy yellow fuzz along your upper arm.";
@@ -1225,12 +1225,12 @@ public class ArmsTransformations extends MutationsHelper {
 				if (player.arms.type == Arms.HARPY) desc += "The feathers covering your arms fall away, leaving them to return to a far more human appearance. You watch, spellbound, while your forearms gradually become shiny. The entire outer structure of your arms tingles while it divides into segments, <b>turning the [skinfurscales] into a shiny carapace</b>.  A second pair has even begun sprouting just underneath, forming these same traits. You touch the exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.";
 				else if (player.arms.type == Arms.BEE) desc += "A second pair of arms starts sprouting underneath your original pair, and the fizz covering your upper arms starting to fall down leaving only four shiny chitin clad arms.";
 				else if (player.arms.type == Arms.SALAMANDER || player.arms.type == Arms.LIZARD || player.arms.type == Arms.DRACONIC) desc += "A second pair of arms starts sprouting underneath your original pair, and the scales covering your upper arms starting to fall down leaving only four shiny chitin clad arms.";
-				else if (player.arms.type == Arms.MANTIS) desc += "The long scythe extending from your wrist crumbling, leaving you with shiny, chitonous but humanoid arms. A second pair then starts to sprout out below";
+				else if (player.arms.type == Arms.MANTIS) desc += "The long scythe extending from your wrist crumbling, leaving you with shiny, chitinous but humanoid arms. A second pair then starts to sprout out below";
 				else if (player.arms.type == Arms.SPIDER) desc += "There's a sudden swelling below your armpits, and you look to see a second pair of chitinous arms sprouting below your main pair."
 				else {
 					TransformationUtils.applyTFIfNotPresent(transformations.ArmsHuman, doOutput);
 
-					desc += "You watch, spellbound, while your forearms gradually become shiny. The entire outer structure of your arms tingles while it divides into segments, <b>turning the [skinfurscales] into a shiny  carapace</b>. A econd pair has even begun sprouting just underneath, forming these same traits. You touch the exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.";
+					desc += "You watch, spellbound, while your forearms gradually become shiny. The entire outer structure of your arms tingles while it divides into segments, <b>turning the [skinfurscales] into a shiny  carapace</b>. A second pair has even begun sprouting just underneath, forming these same traits. You touch the exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.";
 				}
 
 				player.arms.type = Arms.ANT;

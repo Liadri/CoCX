@@ -352,7 +352,7 @@ public class UniqueSexScenes extends BaseContent
         private function USSEastrBny():Array{
             var btnSet:Array = ["EGGS!!"];
             if (player.hasPerk(PerkLib.EasterBunnyBalls) && player.hasCock() && player.ballSize > 3) btnSet.push(EasterBunnyLayEggsRape, "");
-            else btnSet.push(false, "Req. to be a Easter Bunny.");
+            else btnSet.push(false, "Req. to be an Easter Bunny.");
             return btnSet;
         }
         private function USSTentRape():Array{

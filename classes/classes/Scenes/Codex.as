@@ -598,12 +598,12 @@ import coc.view.ButtonDataList;
 			outputText("<b>Type:</b> Tome\n");
 			outputText("<b>Slot:</b> Shield\n");
 			headerSub("Description");
-			outputText("This questionable artefact was created by the greater demon Nalcanthet[if (silly): Herma Moira]. The lady was obsessed with and desired for her body to be used and fucked forever by her favorite pets, thus she poured her entire being into this unholy tome wich gained sentience. It is believed each imp entering a pact and living within the tome grants her increasing pleasure. Whoever owns the tome inevitably will be warped into an imp upon which the tome will attempt to claim the soul to birth an anomalous occurrence known as an Arch-Imp from the unholy womb within its page.");
+			outputText("This questionable artefact was created by the greater demon Nalcanthet[if (silly): Herma Moira]. The lady was obsessed with and desired for her body to be used and fucked forever by her favorite pets, thus she poured her entire being into this unholy tome which gained sentience. It is believed each imp entering a pact and living within the tome grants her increasing pleasure. Whoever owns the tome inevitably will be warped into an imp upon which the tome will attempt to claim the soul to birth an anomalous occurrence known as an Arch-Imp from the unholy womb within its page.");
 			headerSub("Effects");
 			outputText("Gradual transformation to the Imp race\n");
 			outputText("Casting Multiplier +100%\n");
 			outputText("Increase tease spells potency by 100%\n");
-			outputText("These effects are amplified in the hands of a imp\n");
+			outputText("These effects are amplified in the hands of an imp\n");
 		}
 
 		private function codexEntryLaBovines():void {

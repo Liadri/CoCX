@@ -548,8 +548,8 @@ private function centaurAss():void {
 
 //Knot sand witch
 private function knotSandwitch(x:int):void {
-	outputText("You press the tip of your " + player.cockDescript(x) + " at the entrance of her fragent flower.  It slides in, thanks to the pre already dribbling from your cock, your eyes rolling back in your head from the touch of her slippery folds.  You can't help but suddenly stab the length of your " + player.cockDescript(x) + " to the hilt within her, moaning as the tip pushes against her cervix.\n\n");
-	outputText("As your " + player.cockDescript(x) + " stirs within her, she begins to push back, her velvet walls gripping you tightly as you get a extra bit inside.  She pulls free and pounds in again, causing her to grunt from the force of your knot stretching her.  Your balls swing back and forth, slapping and bouncing against her ass in a delicious way.  You can feel the beginnings of the orgasm building within your loins, pulsing up through the tip of your " + player.cockDescript(x) + ". As the pleasure increases, your body readies itself for the spill, and your knot begins to swell.  ");
+	outputText("You press the tip of your " + player.cockDescript(x) + " at the entrance of her fragrant flower.  It slides in, thanks to the pre already dribbling from your cock, your eyes rolling back in your head from the touch of her slippery folds.  You can't help but suddenly stab the length of your " + player.cockDescript(x) + " to the hilt within her, moaning as the tip pushes against her cervix.\n\n");
+	outputText("As your " + player.cockDescript(x) + " stirs within her, she begins to push back, her velvet walls gripping you tightly as you get an extra bit inside.  She pulls free and pounds in again, causing her to grunt from the force of your knot stretching her.  Your balls swing back and forth, slapping and bouncing against her ass in a delicious way.  You can feel the beginnings of the orgasm building within your loins, pulsing up through the tip of your " + player.cockDescript(x) + ". As the pleasure increases, your body readies itself for the spill, and your knot begins to swell.  ");
    outputText("You begin to buck into her at a frenzied pace, your body's need to release your motivation.  At first, your knot swelling is an extra sensation, a tightness that squeezes deliciously as more and more blood is forced inside by sheer stimulation.\n\n");
 	outputText("Then it begins to get in the way, preventing your length from going all the way in, causing the pointed tip of your " + player.cockDescript(x) + " to lust for the unattainable depths of her cunt.  You press in, and get the sensation of the knot being squeezed in, crushing you with warm wet pleasure within her spasming cunt, only to release as you pull free.  As it continues to swell, you can no longer get your dick all the way inside her, your sperm-swollen knot bloated beyond her capacity.  Your desire is almost at its peak; within your grasp, but without that vice-like tightness around your knot it will be hard to cum.  ");
 	outputText("You grunt and push hard, desperate to force the bulbous cock-flesh inside, and you're rewarded as it pops in with a wet squelch. The tightening pressure around the base of your " + player.cockDescript(x) + " pushes you over the edge, and the cum begins to shoot in her tight hole, with your " + player.cockDescript(x) + " trapped inside!\n\n");
@@ -557,7 +557,7 @@ private function knotSandwitch(x:int):void {
   	if(player.cumQ() < 25) outputText("The cum slicks your dick as you continue trying to hump, easing the over-sensation of your dick while you're glued together by the bulbous knot locked in her snatch.");
    if(player.cumQ() >= 25 && player.cumQ() < 100) outputText("Your cum expands her pussy, stretching her out and leaving your " + player.cockDescript(x) + " swimming in your spunk, trapped within her tight-stretched walls by your massive knot.");
    if(player.cumQ() >= 100 && player.cumQ() < 500) outputText("Your cum begins to pump into her corked body, filling her hole to the brim.  Surely the pressure is piling the jizz deep into her womb, and after what feels like forever, the overfull spunk shoves back on your knot, a little dribbling out around the edges of her taut feminine folds as her pussy reaches its limit.");
-   if(player.cumQ() >= 500) outputText("Your cum spurts into her in rapid jets, coating the inside of her walls briefly white as more continues to pour into her. Her cunt begins to fill, and as she strugles to relieve the pressure that continues to pump into her, she only succeeds in spurring your orgasm to a new height.  You continue to blast within her, your knot holding her fast as she squirms, each shot of cum from your prick managing to squirt a tiny bit of jizz from your locked genitals.");
+   if(player.cumQ() >= 500) outputText("Your cum spurts into her in rapid jets, coating the inside of her walls briefly white as more continues to pour into her. Her cunt begins to fill, and as she struggles to relieve the pressure that continues to pump into her, she only succeeds in spurring your orgasm to a new height.  You continue to blast within her, your knot holding her fast as she squirms, each shot of cum from your prick managing to squirt a tiny bit of jizz from your locked genitals.");
 	player.sexReward("vaginalFluids","Dick");
     cleanupAfterCombat();
 }
@@ -565,7 +565,7 @@ private function knotSandwitch(x:int):void {
 //Sandwitch multi-cock corrupt rape
 private function rapeSandwitchMultiStone():void {
 	outputText("With the corruption of this realm comfortably throbbing in your shameless veins, you feel your mind opening to new possibilities.  Despite the slickly perfect fit of the sand witch's multiple pussies as you pound into her, and the way she moans with each thrust of your titanic members, you feel there are still some further alleys of pleasure within her left to explore.  Long inured to carnal pleasure that would have rendered your earlier, purer self unconscious,  your mind wanders back to the witch's weapon of lust, the vibrating stone of pleasure.  You feel it's time to give her a dose of her own medicine.\n\n");
-	outputText("You grin wickedly at the humiliated and whimpering witch as you rape her.  Between involuntary gasps of pleasure as you steadily pound into her sopping snatches, she looks afraid, not knowing the source of your mirth.  It soon becomes clear enough. She struggles a little once she hears the low buzzing of her own corrupted pleasure stone and bucks and thrashes as you push the persistent little charm into her tight, but well-cum-lubed ass.  The feel of the stone vibrating within her spreads through to your cocks, enhancing the pleasure as she clenches and spasmes while being violated multiple ways.  All too soon, it brings you to a gushing orgasm.  As you finally withdraw from the troublesome sand witch, you spit on her milk-oozing form and take your leave.");
+	outputText("You grin wickedly at the humiliated and whimpering witch as you rape her.  Between involuntary gasps of pleasure as you steadily pound into her sopping snatches, she looks afraid, not knowing the source of your mirth.  It soon becomes clear enough. She struggles a little once she hears the low buzzing of her own corrupted pleasure stone and bucks and thrashes as you push the persistent little charm into her tight, but well-cum-lubed ass.  The feel of the stone vibrating within her spreads through to your cocks, enhancing the pleasure as she clenches and spasms while being violated multiple ways.  All too soon, it brings you to a gushing orgasm.  As you finally withdraw from the troublesome sand witch, you spit on her milk-oozing form and take your leave.");
 	player.sexReward("vaginalFluids","Dick");
 	cleanupAfterCombat();
 }
@@ -625,7 +625,7 @@ public function sexMenu():void {
 	addButtonIfTrue(5, "Dildo Rape", sandwitchGetsDildoed, "Req. Deluxe Dildo", player.hasKeyItem("Deluxe Dildo") >= 0);
     if (SceneLib.shouldraFollower.followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff))
         addButtonIfTrue(6, "Use Shouldra", SceneLib.shouldraFollower.sandWitchGetsGhostly, "Not for genderless...", player.gender != 0);
-    else addButtonDisabled(6, "???", "Req. to be posessed by some ghost");
+    else addButtonDisabled(6, "???", "Req. to be possessed by some ghost");
     addButtonIfTrue(7, "Ride", centaurRide, "Req. low corruption and centaur lower body", lowCor && player.isTaur());
     addButtonIfTrue(8, "Taur Rape", centaurRape, "Req. high corruption and centaur lower body", hiCor && player.isTaur());
 	addButtonIfTrue(9, "Lay Eggs", ovipositSandWitches, "Req. oviposition", player.gender > 0 && player.canOviposit());
@@ -725,7 +725,7 @@ private function missingoSex5():void {
 	
 	outputText("You flip up the little plastic fedora on your Imp-head-shaped Fentendo, exposing the cartridge slot and giving it a looksee. No problems there, it seems. Just to be sure, you huff and puff and blow for dust. It's bad enough that this system only supports one game, AND you have to go out to the store and pick up a new copy of it every time the developer makes one or two tiny little changes to the game. But those crashes and terrible dialogue in the last scene? You'd think that some of the writers just weren't trying anymore.\n\n");
 	
-	outputText("The system powers up with the usual blips and boops you'd expect from this 8-bit powerhouse. So far so good. The Corruption of Champions title screen pops up, heralded by a little pixelated imp eagerly waving at the player with both hands and something else that protrudes from his body. The CoC theme kicks up, and you smile to yourself. Goddamn if that theme isn't catchy as all getout. You're going to have it stuck in your head for the rest of the day, you wager, but at least you'll have something to hum while you masterbate.\n\n");
+	outputText("The system powers up with the usual blips and boops you'd expect from this 8-bit powerhouse. So far so good. The Corruption of Champions title screen pops up, heralded by a little pixelated imp eagerly waving at the player with both hands and something else that protrudes from his body. The CoC theme kicks up, and you smile to yourself. Goddamn if that theme isn't catchy as all getout. You're going to have it stuck in your head for the rest of the day, you wager, but at least you'll have something to hum while you masturbate.\n\n");
 	
 	outputText("Oh goddammit. You remember that your progress from before was lost, and now you have to start from the beginning. You can't help but roll your eyes and groan, though you're hardly angry enough to put a controller-shaped hole through your TV screen over this. But hey! At least you were smart enough to jot down the Champion Password. Perhaps one day video games will be sophisticated enough to have some internal means of storing progress, but at least with this, you should be able to get all of your old stuff!");
 	
@@ -742,7 +742,7 @@ private function missingoSex6():void {
 	clearOutput();
 	outputText("You successfully restore your game. Everything's intact. At least, you thought it was. You must have messed up the password somewhere along the line, but oddly enough, the only difference is the clock being set an hour ahead and a few extra gems and EXP in your pocket.\n\n");
 
-	outputText("It is like fucking christmas up in here.");
+	outputText("It is like fucking Christmas up in here.");
 	//{Player gains about as many gems experience points as they would from a Sand Witch encounter, and the Champion is returned to camp.}
 	endEncounter();
 }
@@ -916,7 +916,7 @@ public function sammitchBirthsDriders():void {
 	
 	outputText("\n\nThat is, until another howl reaches your ear; much louder than before.  Upon reflection that howl of wind sounds anything but; you surmise that someone is nearby and probably in distress... or in the throes of sex, because who knows in this place?");
 	
-	outputText("\n\nTrying your best to locate the cries amidst the light sand storms, you set out in the general direction that you heard them from.  Struggling to see where you are going as sand blows in your eyes, you happen to stumble upon the prone form of a desert traveller; judging from their shape, the traveller is most definitely female... and apparently with child!  ");
+	outputText("\n\nTrying your best to locate the cries amidst the light sand storms, you set out in the general direction that you heard them from.  Struggling to see where you are going as sand blows in your eyes, you happen to stumble upon the prone form of a desert traveler; judging from their shape, the traveler is most definitely female... and apparently with child!  ");
 	if(player.cor < 50) outputText("Intending to help");
 	else outputText("Curious");
 	outputText(", you slide down the dune that you are on and come to a stop next to the distressed woman.  However, upon seeing her face you realize that this is the very sand witch that you had a hot and steamy tumble with!");
@@ -1020,7 +1020,7 @@ public function witchBirfsSomeBees():void {
 
 private function sandwitchSpanking():void {
 	clearOutput();
-	outputText("Feeling euphoric after your clear victory, you lazily circle the panting witch and laugh at her.  \"<i>Look at you,</i>\" you taunt, \"<i>A mighty witch of the sands, laid low by a helpless traveller.");
+	outputText("Feeling euphoric after your clear victory, you lazily circle the panting witch and laugh at her.  \"<i>Look at you,</i>\" you taunt, \"<i>A mighty witch of the sands, laid low by a helpless traveler.");
 	if(monster.HP <= monster.minHP()) outputText("  You can't even stand up!");
 	else outputText("  You can't even stop masturbating, can you?");
 	outputText("</i>\"  You kick her hand away, and she tumbles down into a distraught heap, crying softly");

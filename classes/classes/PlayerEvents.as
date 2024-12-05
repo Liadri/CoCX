@@ -1567,7 +1567,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			//Blood Mastery
 			needNext ||= player.gainOrLosePerk(PerkLib.BloodMastery, player.isAnyRaceCached(Races.VAMPIRE, Races.DRACULA), "Your head is suddenly filled with strange otherworldly knowledge. Things you didn't think possible before could become a reality now thanks to your supernatural intellect and abilities. You could even apply these newfound abilities to your equipment.", "Your supernatural knowledge fades along with the abilities that came with it as you become more corporeal.");
 			//Easter bunny egg balls Loosing
-			needNext ||= player.gainOrLosePerk(PerkLib.EasterBunnyBalls, player.isRaceCached(Races.EASTERBUNNY) || player.perkv1(IMutationsLib.EasterBunnyEggBagIM) >= 1, "", "Something changes in your balls you can feel them as if they stopped growing. Guess you're no longer enough of a easter bunny to produce eggs.");
+			needNext ||= player.gainOrLosePerk(PerkLib.EasterBunnyBalls, player.isRaceCached(Races.EASTERBUNNY) || player.perkv1(IMutationsLib.EasterBunnyEggBagIM) >= 1, "", "Something changes in your balls you can feel them as if they stopped growing. Guess you're no longer enough of an easter bunny to produce eggs.");
 			//Easter bunny egg balls Cumming the eggs out
 			if (player.hasStatusEffect(StatusEffects.EasterBunnyCame)) { //Easter bunny cumming its eggs out
 				if (player.balls == 2)outputText("\nYou sigh in relief as your balls now empty of their eggs dangle under your cock two new way smaller eggs sliding " +
@@ -1575,7 +1575,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				if (player.balls == 4)outputText("\nYou sigh in relief as your balls now empty of their eggs dangle under your cock four new way smaller eggs sliding " +
 						"inside to fill the void in them. Of course you also collected those that you shot out, never know when these can come in handy.\n");
 				player.ballSize = 1;
-				var changeLib1:Number = (player.ballSize*5/100)+1; //Exemple (1*5/100)+1= 1.05 wich is the modifier to libido
+				var changeLib1:Number = (player.ballSize*5/100)+1; //Example (1*5/100)+1= 1.05 which is the modifier to libido
 				player.buff("EasterBunnyBalls").setStat("lib.mult",changeLib1).withText("Easter Bunny Balls");
 				player.buff("EasterBunnyBalls").setStat("minlust", 0.1 * player.ballSize).withText("Easter Bunny Balls");
 				player.removeStatusEffect(StatusEffects.EasterBunnyCame); //Remove cumming status

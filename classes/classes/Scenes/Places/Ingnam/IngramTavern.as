@@ -63,7 +63,7 @@ public class IngramTavern extends BaseContent implements SaveableState {
                 IngramRumors = 3;
                 break;
             case 3:
-                outputText("\n\nI shouldnt tell you this but since you are soon going to be sent through the portal, about 4 years before you were chosen as the next tribute, I was approached by a group of people being lead by somone named ChiChi.");
+                outputText("\n\nI shouldn't tell you this but since you are soon going to be sent through the portal, about 4 years before you were chosen as the next tribute, I was approached by a group of people being lead by someone named ChiChi.");
                 outputText("\n\nThey came to my inn for lodging and paid heavily to keep it hush hush because they planned to sneak through the portal the next day.");
                 outputText("\n\nBefore they left I heard them talking about setting up some kind of settlement if they succeed in surviving on the other side of the portal. If they survived they may be able to help you.")
                 IngramRumors = 4;

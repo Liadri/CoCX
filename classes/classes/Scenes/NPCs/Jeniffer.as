@@ -68,7 +68,7 @@ package classes.Scenes.NPCs
 			if (flags[kFLAGS.JENIFFER_LVL_UP] < 1) {
 				this.short = "J1c golem";
 				this.imageName = "J1Golem";
-				this.long = "You're currently fighting a golemancer controling personaly created golem called J1c. It's six feet tall with general shape of a female but lacking any fine details. It stone body is covered with thin soulmetal plates in many placed and from it looks like using spike covered fists to smash enemies. Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
+				this.long = "You're currently fighting a golemancer controlling personally created golem called J1c. It's six feet tall with general shape of a female but lacking any fine details. It stone body is covered with thin soulmetal plates in many placed and from it looks like using spike covered fists to smash enemies. Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				createBreastRow(Appearance.breastCupInverse("A"));
 				this.tallness = 72;
 				initStrTouSpeInte(60, 80, 40, 100);
@@ -86,7 +86,7 @@ package classes.Scenes.NPCs
 			}
 			if (flags[kFLAGS.JENIFFER_LVL_UP] == 1) {
 				this.short = "J2a golem";
-				this.long = "You're currently fighting a golemancer controling personaly created golem called J2a. It's twelve feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
+				this.long = "You're currently fighting a golemancer controlling personally created golem called J2a. It's twelve feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				this.tallness = 144;
 				initStrTouSpeInte(100, 120, 80, 100);
 				initWisLibSensCor(100, 100, 60, 50);
@@ -100,7 +100,7 @@ package classes.Scenes.NPCs
 			if (flags[kFLAGS.JENIFFER_LVL_UP] == 2) {
 				this.short = "J2b golem";
 				this.imageName = "J2Golem";
-				this.long = "You're currently fighting a golemancer controling personaly created golem called J2a. It's fourteen feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
+				this.long = "You're currently fighting a golemancer controlling personally created golem called J2a. It's fourteen feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				this.tallness = 168;
 				initStrTouSpeInte(120, 140, 100, 100);
 				initWisLibSensCor(100, 110, 70, 50);
@@ -114,7 +114,7 @@ package classes.Scenes.NPCs
 			if (flags[kFLAGS.JENIFFER_LVL_UP] == 3) {
 				this.short = "J2c golem";
 				this.imageName = "J2Golem";
-				this.long = "You're currently fighting a golemancer controling personaly created golem called J2a. It's sixteen feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
+				this.long = "You're currently fighting a golemancer controlling personally created golem called J2a. It's sixteen feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				this.tallness = 192;
 				initStrTouSpeInte(140, 160, 120, 100);
 				initWisLibSensCor(100, 120, 80, 50);

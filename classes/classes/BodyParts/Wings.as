@@ -30,7 +30,7 @@ public class Wings extends SaveableBodyPart {
 
 	public static const NONE: int = 0;
 	EnumValue.add(Types, NONE, "NONE", {
-		name:"non-existant"
+		name:"non-existent"
 	});
 
 	public static const BEE_SMALL: int = 1;
@@ -394,7 +394,7 @@ public class Wings extends SaveableBodyPart {
 		canFly: true,
 		physical: true
 	});
-	public var desc:String = "non-existant";
+	public var desc:String = "non-existent";
 	public function Wings(creature:Creature) {
 		super(creature, "wings", []);
 	}

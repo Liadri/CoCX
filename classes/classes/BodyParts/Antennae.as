@@ -7,13 +7,13 @@ public class Antennae extends BodyPart {
 	 * Entry properties:
 	 * - value: numerical id (0, 1)
 	 * - id: name of the constant ("NONE", "MANTIS")
-	 * - name: human-readable name, ("non-existant", "mantis")
+	 * - name: human-readable name, ("non-existent", "mantis")
 	 */
 	public static var Types:/*EnumValue*/Array = [];
 
 	public static const NONE: int = 0;
 	EnumValue.add(Types, NONE, "NONE", {
-		name: "non-existant",
+		name: "non-existent",
 		appearanceDesc: ""
 	});
 	public static const MANTIS: int = 1;

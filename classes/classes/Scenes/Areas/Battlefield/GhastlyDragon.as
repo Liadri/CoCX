@@ -18,7 +18,7 @@ import classes.internals.*;
 			this.a = "the ";
 			this.short = "ghastly dragon";
 			this.imageName = "ghastlydragon";
-			this.long = "You are currently battling the ghastly dragon. Ocassionaly it fades away partialy but this only server to increase difficulty of predicting it attacks. It body covers translucent scales and lashes tail along the ground, with claws spread and teeth bared ferociously.";
+			this.long = "You are currently battling the ghastly dragon. Occasionally it fades away partially but this only server to increase difficulty of predicting it attacks. It body covers translucent scales and lashes tail along the ground, with claws spread and teeth bared ferociously.";
 			// this.plural = false;
 			this.createCock(4,1);
 			this.balls = 2;

@@ -36,7 +36,7 @@ public function KitsuneShrine():void {
 private function AyaneStayAtCamp():void {
 	clearOutput();
 	outputText("\"<i>Thank you " + player.mf("lord", "lady") + " [name]. Please allow me to tend to your every need from now on.</i>\"");
-	outputText("\n\nAyane bows her head, then heads back to the forest to gather her things. You follow, and she packs up her possessions in a weird bag. As you watch, she packs her bedroll up and puts it in...And the bag doesn't seem to change at all. She smiles at your surprise. \"<i> Surprised? This bag is much larger on the inside. Convienient, is it not?\"</i> She finishes, and you lead your new acolyte back to camp.");
+	outputText("\n\nAyane bows her head, then heads back to the forest to gather her things. You follow, and she packs up her possessions in a weird bag. As you watch, she packs her bedroll up and puts it in...And the bag doesn't seem to change at all. She smiles at your surprise. \"<i> Surprised? This bag is much larger on the inside. Convenient, is it not?\"</i> She finishes, and you lead your new acolyte back to camp.");
 	outputText("\n\n(<b>Ayane has been added to the Followers menu!</b>)\n\n");
 	flags[kFLAGS.AYANE_FOLLOWER] = 2;
 	doNext(camp.returnToCampUseOneHour);
@@ -88,7 +88,7 @@ public function HaveABoysBath():void {
 		    outputText(", your [cock biggest] makes it clear that you have the right to be amongst them.\n");
         else
             outputText(", they allow you to stay.\n")
-		outputText("\n\nThe bath hasn't started yet, but the boys are giving you odd looks. Some boys look slightly ucomfortable, others steal glances at your curves.");
+		outputText("\n\nThe bath hasn't started yet, but the boys are giving you odd looks. Some boys look slightly uncomfortable, others steal glances at your curves.");
 		if (player.cor < 33)
 			outputText("  You feel slightly nervous yourself under their hungry gazes, but try not to show your nervousness.\n\n");
 		else
@@ -426,7 +426,7 @@ public function FFclassHTintro():void {
 }
 public function FFclassHTbeaten():void {
 	clearOutput();
-	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("After your attack clouds starts to disperse. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
 	outputText("<b>You're now Early Soul King.\nYou can now create three additional clones.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTBa:Number = 1;
@@ -485,7 +485,7 @@ public function EclassHTintro():void {
 }
 public function EclassHTbeaten():void {
 	clearOutput();
-	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("After your attack clouds starts to disperse. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
 	//outputText("<b>You're now Early Soul Ancestor.\nYou can now create three additional clones.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTBa:Number = 1;
@@ -633,7 +633,7 @@ public function PCGoblinDaughters():void {
 }
 public function PCGoblinDaughtersBuilingWorkshop():void {
 	clearOutput();
-	outputText("You wake up this morning and notice a new structure in your camp you didn’t see before. You can hear the sounds of hammering and drilling inside. Upon closer inspection, you realise your daughters finally built that workshop they were talking about. Inside, your daughters are busy, tinkering with inventions or disassembling scrap metal. " + flags[kFLAGS.ELDEST_GOBLIN_DAUGHTER] + " looks up from a nearby workbench, and she walks over to greet you.\n\n");
+	outputText("You wake up this morning and notice a new structure in your camp you didn’t see before. You can hear the sounds of hammering and drilling inside. Upon closer inspection, you realize your daughters finally built that workshop they were talking about. Inside, your daughters are busy, tinkering with inventions or disassembling scrap metal. " + flags[kFLAGS.ELDEST_GOBLIN_DAUGHTER] + " looks up from a nearby workbench, and she walks over to greet you.\n\n");
 	outputText("\"<i>Good morning Ma! we finally built that workshop we were all dreaming of! Heh, it didn't take long, once we all pitched in. We all run our own private projects here. You see that scrap pile there? Any parts you want, you can take some. It's the least we can do. </i>\"\n\n");
 	outputText("Well, how nice of them! You sure will dig in for spare parts every now and then, not to mention, this place is a clean and productive area to work on your own projects. You make sure to thank your eldest for setting this up for everyone.\n\n");
 	player.createStatusEffect(StatusEffects.PCDaughtersWorkshop, 0, 0, 0, 0);

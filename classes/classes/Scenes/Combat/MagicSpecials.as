@@ -81,7 +81,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (flags[kFLAGS.ASURA_FORM_COMBAT_MODE] == 1 && flags[kFLAGS.CRINOS_SHAPE_COMBAT_MODE] == 0 && player.wrath >= combat.asuraformCost() && !player.hasPerk(PerkLib.ElementalBody)) {
 			outputText("As you starts to unleash your inner wrath two additional faces emerge from head"+(player.faceType == Face.CERBERUS?"s":"")+" on sides and " + (player.playerHasFourArms() ? "":"two ") + "additional pair" + (player.playerHasFourArms() ? "":"s") + " of arms grows under your " + (player.playerHasFourArms() ? "second":"first") + " pair" + (player.playerHasFourArms() ? "s":"") + " of arms. ");
 			if (player.hasPerk(PerkLib.AsuraStrength)) {
-				outputText("Additionaly from your back emerge ");
+				outputText("Additionally from your back emerge ");
 				outputText("pair");
 				outputText(" of semi-transparent arms. ");
 			}
@@ -1308,7 +1308,7 @@ public class MagicSpecials extends BaseCombatContent {
 		else {
 			fatigue(50, USEFATG_MAGIC_NOBM);
 			clearOutput();
-			outputText("You start singing a enrapturing song.");
+			outputText("You start singing an enrapturing song.");
 			var lustDmg:Number = monster.lustVuln * 0.5 * (player.inte / 5 * (player.teaseLevel * 0.2) + rand(monster.lib - monster.inte * 2 + monster.cor) / 5);
 			lustDmg += IntligenceModifier * 0.25;
 			lustDmg *= LustyLusty; 
@@ -1328,7 +1328,7 @@ public class MagicSpecials extends BaseCombatContent {
 	public function ElectricDischarge():void {
 		flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
 		clearOutput();
-		outputText("You begin to gather energy within your electrocytes your bodily lights turning bright white as you enter overcharge. Suddenly you deliver the amassed current your energy running throught the air like a bright bolt of white death and roaring thunder.");
+		outputText("You begin to gather energy within your electrocytes your bodily lights turning bright white as you enter overcharge. Suddenly you deliver the amassed current your energy running through the air like a bright bolt of white death and roaring thunder.");
 		if (monster.hasStatusEffect(StatusEffects.DragonWaterBreath)){
 			outputText("Electrified Water is blasted all around your wet target as lightning and fluid turn into a booming explosion the force of wich plaster [monster him] to the ground dazed the violence of the impact!");
 			monster.removeStatusEffect(StatusEffects.DragonWaterBreath);
@@ -4021,8 +4021,8 @@ public class MagicSpecials extends BaseCombatContent {
 		fatigue(petrifycost, USEFATG_MAGIC_NOBM);
 		if(monster.plural) {
 			outputText("With a moment of concentration you activating petrifying properties of your gaze");
-			if (player.hairType == Hair.GORGON) outputText(" and awaken normaly dormant snake hair that starts to hiss");
-			outputText(" and then casual glance at enemies. Due to many of them your petrifying power spread on too many targets to be much effective. Still few of them petrified for a short moment and rest scared or suprised by such turn of events also refrain from attacking you for a moment.\n\n");
+			if (player.hairType == Hair.GORGON) outputText(" and awaken normally dormant snake hair that starts to hiss");
+			outputText(" and then casual glance at enemies. Due to many of them your petrifying power spread on too many targets to be much effective. Still few of them petrified for a short moment and rest scared or surprised by such turn of events also refrain from attacking you for a moment.\n\n");
 			if (!monster.hasStatusEffect(StatusEffects.Stunned)) {
 				if (enhanced) {
 					petrifyduration += 1;
@@ -4044,7 +4044,7 @@ public class MagicSpecials extends BaseCombatContent {
 		}
 		else {
 			outputText("With a moment of concentration you activating petrifying properties of your gaze");
-			if (player.hairType == Hair.GORGON) outputText(" and awaken normaly dormant snake hair that starts to hiss");
+			if (player.hairType == Hair.GORGON) outputText(" and awaken normally dormant snake hair that starts to hiss");
 			outputText(" and then casual glance at enemy. Caught off guard [themonster] petrify.\n\n");
 			if (!monster.hasStatusEffect(StatusEffects.Stunned)) {
 				petrifyduration += 1;
@@ -6224,7 +6224,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) >= 30) stoneskinduration += 3;
 		if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) >= 31) stoneskinduration += 3;
 		player.createStatusEffect(StatusEffects.StoneSkin, stoneskinbonus, stoneskinduration, 0, 0);
-		outputText("Your elemental lifts stone and dirt from the ground, encasing you in a earthen shell stronger than any armor.\n\n");
+		outputText("Your elemental lifts stone and dirt from the ground, encasing you in an earthen shell stronger than any armor.\n\n");
 		enemyAI();
 	}
 

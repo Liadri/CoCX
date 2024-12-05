@@ -641,7 +641,7 @@ public class Mindbreaker extends BaseContent implements SaveableState{
 			outputText("\n\nHis balls have swelled to absurd size, easily two feet large from the use of transformatives and the accumulation of cum waiting to be expelled as he fiercely masturbates to no avail." +
 					" Without your brain signal, he is unable to find any release.");
 			if (MindBreakerFullConvert >= 2) outputText("\n\nYou move him toward a waiting group of mind breakers");
-			else outputText("\n\nYou move him toward a empty wall");
+			else outputText("\n\nYou move him toward an empty wall");
 			outputText(" as you slowly jerk him, making him groan in a mix of pain and pleasure, as his pillow-sized balls churn." +
 					" Finally, you insert your tentacle in his head and remove the mental block, granting him his long-awaited release." +
 					" His cock bursts into a fountain, as his body spasms from the mind-shattering orgasm that races through him." +

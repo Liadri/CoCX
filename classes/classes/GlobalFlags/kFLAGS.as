@@ -1,4 +1,4 @@
-// The extra folder is to let the package namespacing seperate out the statics from the classes.* space.
+// The extra folder is to let the package namespacing separate out the statics from the classes.* space.
 // Global flags can now be brought into the main program by "import classes.GlobalFlags.*"
 
 package classes.GlobalFlags

@@ -1006,7 +1006,7 @@ import classes.lists.Gender;
 				outputText("\n\n\"<i>Oh, [name]. I do want to, like, have fun with you. But, like, I also have to give you a reason to train again. Like, I had so much fun groping and rubbing you all over,</i>\" she confesses with a sheepish grin.");
 				outputText("\n\nYou can't help but pout and call her a tease, then playfully flick her on the nose.");
 				outputText("\n\nJoy giggles and says, \"<i>Like, come train with me again [name].</i>\" Then she gives you a little peck on the cheek and skips away.");
-				outputText("\n\nWatching her go, you redress yourself and then head your seperate ways.");
+				outputText("\n\nWatching her go, you redress yourself and then head your separate ways.");
 			}
 			//Increase toughness
 			player.trainStat("tou", +1, player.trainStatCap("tou",50));

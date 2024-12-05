@@ -128,7 +128,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
                     if (player.level >= 130) outputText(" Of course, you could probably try to overthrow her.");
 					endEncounter();
                 } else {
-                    //If youve taken her quest already
+                    //If you've taken her quest already
                     if (flags[kFLAGS.MARAE_QUEST_START] >= 1) {
                         outputText("Marae reminds you, \"<i>You need to disable the demonic factory!  It's located in the foothills of the mountain.  Please, I do not know how long I can resist.</i>\"");
                         endEncounter();

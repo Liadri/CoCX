@@ -690,7 +690,7 @@ public class KatherineEmployment extends TelAdreAbstractContent {
 			outputText("Urta pouts, clearly not too happy at having her thunder stolen, while Kath rolls her eyes.  \"<i>Corny much, [name]?</i>\"  Still, there’s a twinkle in her eyes that makes you feel you really have bolstered her spirits.  \"<i>So, what does this training consist of, anyway?</i>\"\n\n");
 			outputText("Upon hearing that, you grin evilly at Urta and ask her if you should get the package?\n\n");
 			outputText("Urta shakes her head and passes you the key, indicating silently that you should lock the front door instead.  Nodding in agreement, you concur that this is probably a good idea, there’s no telling how Kath will react.\n\n");
-			outputText("The cat-morph watches nervously as you and Urta head your seperate ways.  As the fox rummages amongst the junk on the side, she audibly professes, \"<i>Why do I think I’m not going to like this?</i>\"\n\n");
+			outputText("The cat-morph watches nervously as you and Urta head your separate ways.  As the fox rummages amongst the junk on the side, she audibly professes, \"<i>Why do I think I’m not going to like this?</i>\"\n\n");
 			outputText("You tell Kath to relax, this will all be over soon...\n\n");
 			outputText("\"<i>Okay, now I’m really worried,</i>\" she retorts, eyes flicking nervously between you and Urta.\n\n");
 			outputText("\"<i>Before we begin, you should put this on,</i>\" Urta says, holding the chastity belt towards Kath.\n\n");

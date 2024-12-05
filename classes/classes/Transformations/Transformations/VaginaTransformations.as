@@ -185,7 +185,7 @@ public class VaginaTransformations extends MutationsHelper {
 						desc += GrowVaginaGenericText();
 						desc += "To your absolute surprise it suddenly resume deepening inside your body. " +
 								"When you finally take a look you discover your vagina is now not unlike that of a horse, capable of taking the largest cock with ease." +
-								"<b>  You now have a equine vagina!</b>";
+								"<b>  You now have an equine vagina!</b>";
 					}
 					if (doOutput) outputText(desc);
 					player.vaginaType(VaginaClass.EQUINE, vagina);

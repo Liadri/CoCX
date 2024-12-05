@@ -617,7 +617,7 @@ public function ChiChiCampMainMenu():void {
 public function chichiAppearance():void {
 	spriteSelect(SpriteDb.s_chichi);
 	clearOutput();
-	outputText("Chi Chi is a hinezumi, a subspecies of mouse morph with fiery affinities. Hair are fiery red, the strands turning pink at the tip the same color as the rest of her fur. Her face is that of a mouse with the characteristic buck teeths and twitching nose and her embery eyes have a serious expression to them which, unlike Jojo" + (flags[kFLAGS.JOJO_BIMBO_STATE] == 3 ? " who is now Joy,":"") + " do warn those she teaches to that she will be merciless.");
+	outputText("Chi Chi is a hinezumi, a subspecies of mouse morph with fiery affinities. Hair are fiery red, the strands turning pink at the tip the same color as the rest of her fur. Her face is that of a mouse with the characteristic buck teeth and twitching nose and her embery eyes have a serious expression to them which, unlike Jojo" + (flags[kFLAGS.JOJO_BIMBO_STATE] == 3 ? " who is now Joy,":"") + " do warn those she teaches to that she will be merciless.");
 	if (ChiChiCorruption >= 90) outputText(" She has grown twin embery horns up her forehead.");
 	if (flags[kFLAGS.CHI_CHI_FOLLOWER] >= 6) outputText(" That said Chi Chi tends to soften around you thanks to the feelings you both share. She wears the ruby ring you gave her at all time, symbol and reminder of your love.");
 	outputText("\n\nHer body is well toned and battle trained from years of martial training. She wears a qipao from her homeland at all time. Chi Chi has the standard mouse morph small frame, albeit her shapely D cup breasts, with a "+(ChiChiCorruption >= 90?"spaded tail":"mouse tail") + " and pawed hands and feet but what makes her special is her natural ability to ignite herself. ");
@@ -646,7 +646,7 @@ public function chichiTalksMenu():void {
 	addButton(0, "M. Arts", chichiTalksMartialArts);
 	addButton(1, "F. Students", chichiTalksFormerStudents);
 	addButton(2, "Fiery Hair", chichiTalksFieryFairTrouble).disableIf(player.hairType != Hair.BURNING, "You need flaming hair for this topic to be relatable...");
-	addButton(3, "Her Fur", talkAboutFur).disableIf(ChiChiDefurred, "She doesnt have fur anymore...");
+	addButton(3, "Her Fur", talkAboutFur).disableIf(ChiChiDefurred, "She doesn't have fur anymore...");
 	addButton(14, "Back", ChiChiCampMainMenu);
 	
 }

@@ -643,7 +643,7 @@ public class FaceTransformations extends MutationsHelper {
 			function (doOutput: Boolean): void {
 				var desc: String = "";
 
-				desc += "You bring your hands to your [face] as a sudden agony sweeps over it. Through the pain, you can feel its shape changing, details shifting little by little with purpose. When you come back to your senses, you notice <b>you have a innocent, almost angelic face!</b>";
+				desc += "You bring your hands to your [face] as a sudden agony sweeps over it. Through the pain, you can feel its shape changing, details shifting little by little with purpose. When you come back to your senses, you notice <b>you have an innocent, almost angelic face!</b>";
 
 				if (doOutput) outputText(desc);
 				player.faceType = Face.INNOCENT;

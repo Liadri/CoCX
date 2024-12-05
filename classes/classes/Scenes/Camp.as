@@ -610,8 +610,8 @@ public class Camp extends NPCAwareContent{
 			SceneLib.excelliaFollower.ExcelliaAndJojoCampScene();
 			return;
 		}
-		/*Rathazul april fool:
-            - aprel fools, no effect, OR max stage and a year passed since the beginning, BUT limited at 5 elixirs
+		/*Rathazul April fool:
+            - April fools, no effect, OR max stage and a year passed since the beginning, BUT limited at 5 elixirs
             - second stage. No checking for fools.
         */
         if (player.hasStatusEffect(StatusEffects.CampRathazul) && isAprilFools() && (!player.hasStatusEffect(StatusEffects.RathazulAprilFool) ||
@@ -629,7 +629,7 @@ public class Camp extends NPCAwareContent{
 			hideMenus();
 			return;
 		}
-		//Bimbo Sophie finds ovi elixer in chest!
+		//Bimbo Sophie finds ovi elixir in chest!
 		if (bimboSophie() && hasItemInStorage(consumables.OVIELIX) && rand(5) == 0 && flags[kFLAGS.TIMES_SOPHIE_HAS_DRUNK_OVI_ELIXIR] == 0 && player.gender > 0) {
 			sophieBimbo.sophieEggApocalypse();
 			hideMenus();
@@ -2285,19 +2285,19 @@ public class Camp extends NPCAwareContent{
 		addButtonIfTrue(11, "Pocket Watch", mainPagePocketWatch, "Req. having Pocket Watch key item.", player.hasKeyItem("Pocket Watch") >= 0);
 		if (player.hasItem(useables.ENECORE, 1) && CampStatsAndResources.EnergyCoreResc < 200) addButton(12, "E.Core", convertingEnergyCoreIntoFlagValue).hint("Convert Energy Core item into flag value.");
 		if (player.hasItem(useables.MECHANI, 1) && CampStatsAndResources.MechanismResc < 200) addButton(12, "C.Mechan", convertingMechanismIntoFlagValue).hint("Convert Mechanism item into flag value.");
-		addButton(13, "C & S", menuForCombiningAndSeperating).hint("Combining & Seperating");
+		addButton(13, "C & S", menuForCombiningAndSeperating).hint("Combining & Separating");
 		addButton(14, "Back", campActions);
 	}
 	private function convertingEnergyCoreIntoFlagValue():void {
 		clearOutput();
-		outputText("1 Energy Core converted succesfully.");
+		outputText("1 Energy Core converted successfully.");
 		player.destroyItems(useables.ENECORE, 1);
 		CampStatsAndResources.EnergyCoreResc += 1;
 		doNext(campMiscActions);
 	}
 	private function convertingMechanismIntoFlagValue():void {
 		clearOutput();
-		outputText("1 Mechanism converted succesfully.");
+		outputText("1 Mechanism converted successfully.");
 		player.destroyItems(useables.MECHANI, 1);
 		CampStatsAndResources.MechanismResc += 1;
 		doNext(campMiscActions);
@@ -2309,7 +2309,7 @@ public class Camp extends NPCAwareContent{
 		menu();
 		var weaponList: Array = weapons.SingleDualPairList.concat(weaponsrange.SingleDualPairList);
 		addButton(0, "Combine Weapons", menuCombineStaging, weaponList);
-		addButton(4, "Seperate Weapons", menuSeperateStaging, weaponList)
+		addButton(4, "Separate Weapons", menuSeperateStaging, weaponList)
 		addButton(14, "Back", campMiscActions);
 	}
 
@@ -4080,7 +4080,7 @@ public class Camp extends NPCAwareContent{
 				} else outputText("Luna hugs you tightly, almost possessively so as you both doze off to sleep.");
 			} else if (flags[kFLAGS.SLEEP_WITH] == "Samirah" && flags[kFLAGS.SAMIRAH_FOLLOWER] > 9) {
 				outputText("As you both head to sleep, Samirah slithers to you and coils her tail around " + ((player.lowerBody == 3)? "yours" : "your lower half") + ", wrapping her arms around your torso as she rests her head on your shoulder. Her body is cold and she looks at you as if in a daze.");
-				if (player.isNaga()) outputText(" She’s not alone either. It indeed took you a while to realise that you are also cold-blooded now. The cold night air sure puts you in a similar state as of late.");
+				if (player.isNaga()) outputText(" She’s not alone either. It indeed took you a while to realize that you are also cold-blooded now. The cold night air sure puts you in a similar state as of late.");
 				outputText("\n\n\"<i>Sweet dreams [name], till morning and sunshine come.</i>\"\n");
 			} else if (flags[kFLAGS.SLEEP_WITH] == "Belisa" && BelisaFollower.BelisaInCamp) {
 				outputText("You decide to sleep with Belisa tonight. You help her close up her shop, packing the bands away, and climb into her hammock/bed, putting a hand on her cheek. Belisa pulls you towards her, resting one of her pillows under each of your heads. She hugs your arm, head on your shoulder, and you can’t help but feel safe as she expertly pulls a light blanket over the two of you. ");

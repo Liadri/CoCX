@@ -293,7 +293,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 					else outputText("You try to turn in the quest, but Yang tells you you don’t have enough tentacles yet.\n\n");
 				}
 				else if (player.statusEffectv1(StatusEffects.AdventureGuildQuests2) == 4) {
-					outputText("\"<i>Someone put up a bounty for slaying tentacle beasts. I would need... let's say 3 tentacles from those mishapen creatures as proof of your deed. Of course, you will be rewarded for the job.</i>\"\n\n");
+					outputText("\"<i>Someone put up a bounty for slaying tentacle beasts. I would need... let's say 3 tentacles from those misshapen creatures as proof of your deed. Of course, you will be rewarded for the job.</i>\"\n\n");
 					player.addStatusValue(StatusEffects.AdventureGuildQuests2, 1, 2);
 				}
 				else if (player.statusEffectv1(StatusEffects.AdventureGuildQuests2) == 3) {
@@ -309,7 +309,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 					else outputText("You try to turn in the quest, but Yang tells you you don’t have enough tentacles yet.\n\n");
 				}
 				else if (player.statusEffectv1(StatusEffects.AdventureGuildQuests2) == 2) {
-					outputText("\"<i>Someone put up a bounty for slaying tentacle beasts. I would need... let's say 2 tentacles from those mishapen creatures as proof of your deed. Of course, you will be rewarded for the job.</i>\"\n\n");
+					outputText("\"<i>Someone put up a bounty for slaying tentacle beasts. I would need... let's say 2 tentacles from those misshapen creatures as proof of your deed. Of course, you will be rewarded for the job.</i>\"\n\n");
 					player.addStatusValue(StatusEffects.AdventureGuildQuests2, 1, 1);
 				}
 				else {
@@ -329,7 +329,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 				}
 			}
 			else {
-				outputText("\"<i>Someone put up a bounty for slaying tentacle beast. I would need lets say 1 tentacle from those mishapen creature as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
+				outputText("\"<i>Someone put up a bounty for slaying tentacle beast. I would need lets say 1 tentacle from those misshapen creature as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
 				outputText("You shrug and accept the job. Plants... what could go wrong?\n\n");
 				if (!player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter2)) player.createStatusEffect(StatusEffects.AdventureGuildQuestsCounter2, 0, 0, 0, 0);
 				if (player.hasStatusEffect(StatusEffects.AdventureGuildQuests2)) player.addStatusValue(StatusEffects.AdventureGuildQuests2, 1, 1);
@@ -441,7 +441,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 					else outputText("You try to turn in the quest, but Yang tells you you don’t have enough feral imp skulls yet.\n\n");
 				}
 				else if (player.statusEffectv2(StatusEffects.AdventureGuildQuests2) == 4) {
-					outputText("\"<i>Someone put up a bounty for slaying feral imps. I would need... let's say 5 feral imp skulls from those mishapen creatures as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
+					outputText("\"<i>Someone put up a bounty for slaying feral imps. I would need... let's say 5 feral imp skulls from those misshapen creatures as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
 					player.addStatusValue(StatusEffects.AdventureGuildQuests2, 2, 2);
 				}
 				else if (player.statusEffectv2(StatusEffects.AdventureGuildQuests2) == 3) {
@@ -457,7 +457,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 					else outputText("You try to turn in the quest but Yang tells you you don’t have enough feral imp skulls yet.\n\n");
 				}
 				else if (player.statusEffectv2(StatusEffects.AdventureGuildQuests2) == 2) {
-					outputText("\"<i>Someone put up a bounty for slaying feral imps. I would need... let's say 4 feral imp skulls from those mishapen creature as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
+					outputText("\"<i>Someone put up a bounty for slaying feral imps. I would need... let's say 4 feral imp skulls from those misshapen creature as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
 					player.addStatusValue(StatusEffects.AdventureGuildQuests2, 2, 1);
 				}
 				else {
@@ -477,7 +477,7 @@ public class AdventurerGuild extends HeXinDaoAbstractContent implements Saveable
 				}
 			}
 			else {
-				outputText("\"<i>Someone put up a bounty for slaying feral imps. I would need... let's say 3 feral imp skulls from those mishapen creature as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
+				outputText("\"<i>Someone put up a bounty for slaying feral imps. I would need... let's say 3 feral imp skulls from those misshapen creature as proof of your deed. Of course you will be rewarded for the job.</i>\"\n\n");
 				outputText("You shrug and accept the job. It's time to hunt some imps.\n\n");
 				if (!player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter2)) player.createStatusEffect(StatusEffects.AdventureGuildQuestsCounter2, 0, 0, 0, 0);
 				if (player.hasStatusEffect(StatusEffects.AdventureGuildQuests2)) player.addStatusValue(StatusEffects.AdventureGuildQuests2, 2, 1);

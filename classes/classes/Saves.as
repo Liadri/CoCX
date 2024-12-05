@@ -2850,7 +2850,7 @@ public function unFuckSave():void
 		player.changeStatusValue(StatusEffects.SlimeCraving, 4, 1); //Value four indicates this tracks strength and speed separately
 	}
 
-	// Fix issues with corrupt cockTypes caused by a error in the serialization code.
+	// Fix issues with corrupt cockTypes caused by an error in the serialization code.
 
 	//trace("CockInfo = ", flags[kFLAGS.RUBI_COCK_TYPE]);
 	//trace("getQualifiedClassName = ", getQualifiedClassName(flags[kFLAGS.RUBI_COCK_TYPE]));

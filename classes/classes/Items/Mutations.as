@@ -12384,7 +12384,7 @@ public final class Mutations extends MutationsHelper {
                         player.consumeItem(consumables.MINOCUM);
                     }
                 } else {
-                    outputText("[pg]Your insides feel... roomy.  Accomodating, even.  You could probably carry a whole litter of little [name]s right now.  Filled with a sudden flush of desire, you look around furtively for any fertile males.  With a shake of your head, you try to clear your thoughts, but daydreams of being stuffed with seed creep right back in - it looks like your body is intent on probing the limits of your new fertility.  <b>You're in heat, and pregnable in several senses of the word!</b>");
+                    outputText("[pg]Your insides feel... roomy.  Accommodating, even.  You could probably carry a whole litter of little [name]s right now.  Filled with a sudden flush of desire, you look around furtively for any fertile males.  With a shake of your head, you try to clear your thoughts, but daydreams of being stuffed with seed creep right back in - it looks like your body is intent on probing the limits of your new fertility.  <b>You're in heat, and pregnable in several senses of the word!</b>");
                     // Also make a permanent nudge.
                     player.fertility++;
                 }
@@ -16599,7 +16599,7 @@ public final class Mutations extends MutationsHelper {
         clearOutput();
         outputText("You eat the kelp and a deep chill runs across your body as something in you begins to change.");
         if (player.blockingBodyTransformations()) {
-            outputText("[pg]Or rather normaly it would but since you are seldom immunised to transformatives nothing happens.");
+            outputText("[pg]Or rather normally it would but since you are seldom immunized to transformatives nothing happens.");
         }
         if (!player.blockingBodyTransformations()) {
             //spe change
@@ -16816,7 +16816,7 @@ public final class Mutations extends MutationsHelper {
         clearOutput();
         outputText("You bite into the candy, your mouth foaming small sweet bubbles. Your body seems to react to it as you begin to change.");
         if (player.blockingBodyTransformations()) {
-            outputText("[pg]Or rather normaly it would but since you are seldom immunised to transformatives nothing happens.");
+            outputText("[pg]Or rather normally it would but since you are seldom immunized to transformatives nothing happens.");
         }
         if (!player.blockingBodyTransformations()) {
             //str change
