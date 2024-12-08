@@ -321,6 +321,9 @@ public class Changelog extends BaseContent
 			outputText("-New tier 1 misc lvl-up perk: Sudden Run. Req. Job: Feral Champion perk and 25+ tou/spe. Effect: You may start combat galloping.\n");
 			outputText("-New tier 2 misc lvl-up perk: Earth and Sky. Req. Sudden Run perk and 50+ tou/spe. Effect: Damage is increased (x2) while in motion gallop or flight.\n");
 			outputText("-Twin Heart IM's now have additional effect of lowering Gallop fatigue cost by 5% per tier.\n");
+			outputText("-New tier 9 misc lvl-up perk: Utility Skills: Professional. Req. Utility Skills: Skilled & any non combat skill at lvl 10. Effect: Increasing mastery gains in non-combat skills by 400% of base and decreasing a bit req. exp to level up.\n");
+			outputText("-New tier 12 misc lvl-up perk: Utility Skills: Artisan. Req. Utility Skills: Professional & any non combat skill at lvl 13. Effect: Increasing mastery gains in non-combat skills by 500% of base and decreasing a bit req. exp to level up.\n");
+			outputText("-Utility Skills: Apprentice perk req. for non combat skill lowered from 5+ to 4+ and tier decreased from 4 to 3. Utility Skills: Skilled req. for non combat skill lowered from 10+ to 7+ and tier decreased from 8 to 6.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -344,9 +347,6 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
 			outputText("-\n");
 			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
 			outputText("-\n");//Motivation (Su) now req. additionaly Advanced Leadership perk
@@ -360,9 +360,9 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
 			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

@@ -554,8 +554,12 @@ public class PerkLib
 		public static const UtilitySkillsSkilled:PerkType = mk("Utility Skills: Skilled", "Utility Skills: Skilled",
 				"Increasing mastery gains in non-combat skills by 300% of base and slightly decreasing the experience required to level up.",
 				"You've chosen the 'Utility Skills: Skilled' perk. Increasing mastery gains in non-combat skills by 300% of base and slightly decreasing the experience required to level up");
-		
-		//, , , Professional, Artisan, Master, and Guru
+		public static const UtilitySkillsProfessional:PerkType = mk("Utility Skills: Professional", "Utility Skills: Professional",
+				"Increasing mastery gains in non-combat skills by 400% of base and slightly decreasing the experience required to level up.",
+				"You've chosen the 'Utility Skills: Professional' perk. Increasing mastery gains in non-combat skills by 400% of base and slightly decreasing the experience required to level up");
+		public static const UtilitySkillsArtisan:PerkType = mk("Utility Skills: Artisan", "Utility Skills: Artisan",
+				"Increasing mastery gains in non-combat skills by 500% of base and slightly decreasing the experience required to level up.",
+				"You've chosen the 'Utility Skills: Artisan' perk. Increasing mastery gains in non-combat skills by 500% of base and slightly decreasing the experience required to level up");//Master, and Guru
 		public static const SubzeroLustfulFury:PerkType = mk("Subzero Lustful Fury", "Subzero Lustful Fury",
 				"Decreasing health loss from activating higher grades of berzerking/lustzerking by 25%. Allow to activate 2 grades of berzerker/lustzerker state at once when you have Endless Rage perk.",
 				"You've chosen the 'Subzero Lustful Fury' perk, decreasing health loss from activating higher grades of berzerking/lustzerking by 25%. Allow to activate 2 grades of berzerker/lustzerker state at once when you have Endless Rage perk.");
@@ -8125,7 +8129,12 @@ public class PerkLib
 					.requireCustomFunction(function (player:Player):Boolean {
 						return Crafting.alembicLevel >= 1;
 					}, "Alchemy Level 1 or higher");
-			//Tier 4
+			UtilitySkillsApprentice.requireLevel(18)
+                    .requirePerk(UtilitySkillsBeginner)
+					.requireCustomFunction(function (player:Player):Boolean {
+						return (Crafting.alembicLevel >= 4 || player.herbalismLevel >= 4 || player.farmingLevel >= 4 || player.miningLevel >= 4);
+					}, "Any non combat skill at lvl 4");
+            //Tier 4
 			ChimericalBodySemiImprovedStage.requirePerk(ChimericalBodyBasicStage)
                     .requireLevel(24)
                     .requireCustomFunction(function (player:Player):Boolean {
@@ -8223,11 +8232,6 @@ public class PerkLib
 					.requireCustomFunction(function (player:Player):Boolean {
 					return player.playerMinionsCount() >= 6;
 					}, "6+ pets/minions/tamed monsters");
-            UtilitySkillsApprentice.requireLevel(24)
-                    .requirePerk(UtilitySkillsBeginner)
-					.requireCustomFunction(function (player:Player):Boolean {
-						return (Crafting.alembicLevel >= 5 || player.herbalismLevel >= 5 || player.farmingLevel >= 5 || player.miningLevel >= 5);
-					}, "Any non combat skill at lvl 5");
             //Tier 5
             ChimericalBodyImprovedStage.requireAnyPerk(ChimericalBodySemiImprovedStage, ChimericalBodySemiImprovedStageEx)
                     .requireLevel(30)
@@ -8303,6 +8307,11 @@ public class PerkLib
 					.requireCustomFunction(function (player:Player):Boolean {
                         return player.isAnyRaceCached(Races.SLIME, Races.DARKSLIME, Races.MAGMASLIME, Races.MANTICORE, Races.DISPLACERBEAST, Races.VAMPIRE, Races.DRACULA) || CoC.instance.flags[kFLAGS.HUNGER_ENABLED] > 0;
                     }, "Slime, Manticore, Displacer beast, Vampire, Dracula race or hunger enabled.");
+            UtilitySkillsSkilled.requireLevel(36)
+                    .requirePerk(UtilitySkillsApprentice)
+					.requireCustomFunction(function (player:Player):Boolean {
+						return (Crafting.alembicLevel >= 7 || player.herbalismLevel >= 7 || player.farmingLevel >= 7 || player.miningLevel >= 7);
+					}, "Any non combat skill at lvl 7");
             //Tier 7
             ChimericalBodyAdvancedStage.requirePerk(ChimericalBodySemiAdvancedStage)
                     .requireLevel(42)
@@ -8372,11 +8381,6 @@ public class PerkLib
 					.requirePerk(LimitBreakerBody1stStage);
             MasterAllRounderEducation.requireLevel(48)
                     .requirePerk(ExpertAllRounderEducation);
-            UtilitySkillsSkilled.requireLevel(48)
-                    .requirePerk(UtilitySkillsApprentice)
-					.requireCustomFunction(function (player:Player):Boolean {
-						return (Crafting.alembicLevel >= 10 || player.herbalismLevel >= 10 || player.farmingLevel >= 10 || player.miningLevel >= 10);
-					}, "Any non combat skill at lvl 10");
             //Tier 9
             ChimericalBodySuperiorStage.requireAnyPerk(ChimericalBodySemiSuperiorStage, ChimericalBodySemiSuperiorStageEx)
                     .requireLevel(54)
@@ -8419,6 +8423,11 @@ public class PerkLib
                     .requireAnyPerk(ColderFury, ColderLust);
             AbsoluteBash.requireLevel(54)
                     .requirePerks(ShieldSlam, PrestigeJobSentinel);
+            UtilitySkillsProfessional.requireLevel(54)
+                    .requirePerk(UtilitySkillsSkilled)
+					.requireCustomFunction(function (player:Player):Boolean {
+						return (Crafting.alembicLevel >= 10 || player.herbalismLevel >= 10 || player.farmingLevel >= 10 || player.miningLevel >= 10);
+					}, "Any non combat skill at lvl 10");
             //Tier 10
             ChimericalBodySemiPeerlessStage.requirePerk(ChimericalBodySuperiorStage)
                     .requireLevel(60)
@@ -8488,6 +8497,11 @@ public class PerkLib
 					.requirePerk(Escort);
 			LimitBreakerBody2ndStage.requireLevel(72)
 					.requirePerk(LimitBreakerSoul1stStage);
+            UtilitySkillsArtisan.requireLevel(72)
+                    .requirePerk(UtilitySkillsProfessional)
+					.requireCustomFunction(function (player:Player):Boolean {
+						return (Crafting.alembicLevel >= 13 || player.herbalismLevel >= 13 || player.farmingLevel >= 13 || player.miningLevel >= 13);
+					}, "Any non combat skill at lvl 13");
             //Tier 13
             ChimericalBodyEpicStage.requireAnyPerk(ChimericalBodySemiEpicStage, ChimericalBodySemiEpicStageEx)
                     .requireLevel(78)

@@ -7012,6 +7012,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) mineMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) mineMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) mineMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) mineMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) mineMlt += 5;
 			if (hasKeyItem("Tel'Adre Magazine Issue 10") >= 0) mineMlt *= 2;
 			return mineMlt;
 		}
@@ -7028,6 +7030,7 @@ use namespace CoC;
 			var expToLevelUp01:Number = 5;
 			var expToLevelUp02:Number = miningLevel + 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) expToLevelUp00 -= 1;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) expToLevelUp00 -= 2;
 			//-2;//4th
 			//-3;//6th
 			if (hasMutation(IMutationsLib.HumanVersatilityIM) && perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && racialScore(Races.HUMAN) > 17) expToLevelUp01 -= 1;
@@ -7035,6 +7038,7 @@ use namespace CoC;
 			//if (hasPerk(PerkLib.SuperSensual)) expToLevelUp01 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) expToLevelUp02 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) expToLevelUp02 -= 2;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) expToLevelUp02 -= 3;
 			//-3;//5th
 			expToLevelUp += expToLevelUp00 * expToLevelUp01 * expToLevelUp02;
 			return expToLevelUp;
@@ -7076,6 +7080,7 @@ use namespace CoC;
 			var expToLevelUp01:Number = 5;
 			var expToLevelUp02:Number = farmingLevel + 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) expToLevelUp00 -= 1;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) expToLevelUp00 -= 2;
 			//-2;//4th
 			//-3;//6th
 			if (hasMutation(IMutationsLib.HumanVersatilityIM) && perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && racialScore(Races.HUMAN) > 17) expToLevelUp01 -= 1;
@@ -7083,6 +7088,7 @@ use namespace CoC;
 			//if (hasPerk(PerkLib.SuperSensual)) expToLevelUp01 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) expToLevelUp02 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) expToLevelUp02 -= 2;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) expToLevelUp02 -= 3;
 			//-3;//5th
 			expToLevelUp += expToLevelUp00 * expToLevelUp01 * expToLevelUp02;
 			return expToLevelUp;
@@ -7118,6 +7124,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) farmMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) farmMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) farmMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) farmMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) farmMlt += 5;
 			//if (hasPerk(PerkLib.PlantKnowledge)) herbMlt *= 2;
 			//if (hasPerk(PerkLib.NaturalHerbalism)) herbMlt *= 2;
 			if (hasKeyItem("Tel'Adre Magazine Issue 8") >= 0) farmMlt *= 2;
@@ -7142,6 +7150,7 @@ use namespace CoC;
 			var expToLevelUp01:Number = 5;
 			var expToLevelUp02:Number = herbalismLevel + 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) expToLevelUp00 -= 1;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) expToLevelUp00 -= 2;
 			//-2;//4th
 			//-3;//6th
 			if (hasMutation(IMutationsLib.HumanVersatilityIM) && perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && racialScore(Races.HUMAN) > 17) expToLevelUp01 -= 1;
@@ -7149,6 +7158,7 @@ use namespace CoC;
 			//if (hasPerk(PerkLib.SuperSensual)) expToLevelUp01 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) expToLevelUp02 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) expToLevelUp02 -= 2;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) expToLevelUp02 -= 3;
 			//-3;//5th
 			expToLevelUp += expToLevelUp00 * expToLevelUp01 * expToLevelUp02;
 			return expToLevelUp;
@@ -7184,6 +7194,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) herbMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) herbMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) herbMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) herbMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) herbMlt += 5;
 			if (hasPerk(PerkLib.PlantKnowledge)) herbMlt *= 2;
 			if (hasPerk(PerkLib.NaturalHerbalism)) herbMlt *= 2;
 			if (hasKeyItem("Tel'Adre Magazine Issue 5") >= 0) herbMlt *= 2;
@@ -7196,6 +7208,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) alchMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) alchMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) alchMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) alchMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) alchMlt += 5;
 			if (hasKeyItem("Tel'Adre Magazine Issue 2") >= 0) alchMlt *= 2;
 			if (alchMlt > 1) XP *= alchMlt;
 			alchemySkillStat.giveXp(XP);
