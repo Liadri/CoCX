@@ -129,7 +129,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 			if (player.hasPerk(PerkLib.BlessingOfTheAncestorTree) || player.hasPerk(PerkLib.Soulless) || (player.hasPerk(PerkLib.Phylactery) && !player.hasPerk(PerkLib.InnerPhylactery)) || player.isRaceCached(Races.FMINDBREAKER) || player.isRaceCached(Races.MMINDBREAKER, 2) || player.isRaceCached(Races.ATLACH_NACHA, 3)) firstEncounterWentBad();
 			endEncounter();
                 } else {
-                    //If youve taken her quest already
+                    //If you've taken her quest already
                     if (flags[kFLAGS.MARAE_QUEST_START] >= 1) {
                         outputText("Marae reminds you, \"<i>You need to disable the demonic factory!  It's located in the foothills of the mountain.  Please, I do not know how long I can resist.</i>\"");
                         endEncounter();

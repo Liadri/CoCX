@@ -19,10 +19,10 @@ import flash.text.TextField;
 		private var _button2:CoCButton;
 		
 		/**
-		 * Create a new composite object, initilizing the label to be used for display, as well as the two
+		 * Create a new composite object, initializing the label to be used for display, as well as the two
 		 * buttons used for user interface.
 		 *
-		 * @param	maxWidth	Defines the maximum available width that the control can consume for positining math
+		 * @param	maxWidth	Defines the maximum available width that the control can consume for positioning math
 		 */
 		public function BindDisplay(maxWidth:int)
 		{

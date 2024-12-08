@@ -217,7 +217,7 @@ import classes.internals.*;
 		 * @param bugId a string to help developers find whatever triggered the bug
 		 */
 		private function reportABug(bugId:String): void {
-			outputText("This is probably a bug. Please open a issue so it can be fixed - " + bugId);
+			outputText("This is probably a bug. Please open an issue so it can be fixed - " + bugId);
 		}
 
 		private function aikoTease():void

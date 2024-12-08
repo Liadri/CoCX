@@ -111,7 +111,7 @@ public final class Mutations extends MutationsHelper {
 
     public function incenseOfInsight(player:Player):void {
         clearOutput();
-        outputText("You use the incense and sit to meditate as the perfume of flowers and fruits fill the area. You see visions of things you could do and things you could’ve done good and bad, and when you open your eyes you realise you found new insight on your goals.");
+        outputText("You use the incense and sit to meditate as the perfume of flowers and fruits fill the area. You see visions of things you could do and things you could’ve done good and bad, and when you open your eyes you realize you found new insight on your goals.");
         if (rand(3) == 0) {
             if (player.hasPerk(PerkLib.GoblinoidBlood) && player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 3) outputText(player.modTone(15, 2));
             else outputText(player.modTone(15, 1));
@@ -1476,7 +1476,7 @@ public final class Mutations extends MutationsHelper {
         }
         if (player.blockingBodyTransformations()) changeLimit = 0;
         if (rand(3) == 0 && player.basetallness < 120 && changes < changeLimit) {
-            outputText("[pg]You suddenly realise the ground is farther down then you remember it to be… did you just grew taller?");
+            outputText("[pg]You suddenly realize the ground is farther down then you remember it to be… did you just grew taller?");
             player.tallness += (1 + rand(5));
             changes++;
         }
@@ -12736,7 +12736,7 @@ public final class Mutations extends MutationsHelper {
                         player.consumeItem(consumables.MINOCUM);
                     }
                 } else {
-                    outputText("[pg]Your insides feel... roomy.  Accomodating, even.  You could probably carry a whole litter of little [name]s right now.  Filled with a sudden flush of desire, you look around furtively for any fertile males.  With a shake of your head, you try to clear your thoughts, but daydreams of being stuffed with seed creep right back in - it looks like your body is intent on probing the limits of your new fertility.  <b>You're in heat, and pregnable in several senses of the word!</b>");
+                    outputText("[pg]Your insides feel... roomy.  Accommodating, even.  You could probably carry a whole litter of little [name]s right now.  Filled with a sudden flush of desire, you look around furtively for any fertile males.  With a shake of your head, you try to clear your thoughts, but daydreams of being stuffed with seed creep right back in - it looks like your body is intent on probing the limits of your new fertility.  <b>You're in heat, and pregnable in several senses of the word!</b>");
                     // Also make a permanent nudge.
                     player.fertility++;
                 }
@@ -17507,7 +17507,7 @@ public final class Mutations extends MutationsHelper {
 
     public function stomiidaeFillet(player:Player):void {
         clearOutput();
-        outputText("You unwrap the fillet, and take a bite of the juicy meat, before long you realise there’s no more left. It fills your stomach little, but nothing more.");
+        outputText("You unwrap the fillet, and take a bite of the juicy meat, before long you realize there’s no more left. It fills your stomach little, but nothing more.");
         player.refillHunger(30);
     }
 

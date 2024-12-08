@@ -1371,7 +1371,7 @@ public class MagicSpecials extends BaseCombatContent {
 		else {
 			fatigue(50, USEFATG_MAGIC_NOBM);
 			clearOutput();
-			outputText("You start singing a enrapturing song.");
+			outputText("You start singing an enrapturing song.");
 			var lustDmg:Number = monster.lustVuln * 0.5 * (player.inte / 5 * (player.teaseLevel * 0.2) + rand(monster.lib - monster.inte * 2 + monster.cor) / 5);
 			lustDmg += IntligenceModifier * 0.25;
 			lustDmg *= LustyLusty; 
@@ -6383,7 +6383,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) >= 30) stoneskinduration += 3;
 		if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) >= 31) stoneskinduration += 3;
 		player.createStatusEffect(StatusEffects.StoneSkin, stoneskinbonus, stoneskinduration, 0, 0);
-		outputText("Your elemental lifts stone and dirt from the ground, encasing you in a earthen shell stronger than any armor.\n\n");
+		outputText("Your elemental lifts stone and dirt from the ground, encasing you in an earthen shell stronger than any armor.\n\n");
 		enemyAI();
 	}
 

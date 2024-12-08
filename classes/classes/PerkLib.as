@@ -445,7 +445,7 @@ public class PerkLib
 				"Everyone's had their turn with you. +10% max lust, +5 to anal/vaginal capacity.",
 				"You've chosen the 'Door Knob' perk. +10% max lust, +5 to anal/vaginal capacity.")
 				.withBuffs({'maxlust_mult':+0.1});
-		public static const EnchancedWarriorsRage:PerkType = mk("Enchanced Warrior's Rage", "Enhanced Warrior's Rage",
+		public static const EnchancedWarriorsRage:PerkType = mk("Enhanced Warrior's Rage", "Enhanced Warrior's Rage",
 				"Warrior's Rage automatically recasts when it ends, as long as you have enough wrath. While active, instead of 10%, it now grants a 20% boost to your core Strength, Toughness, and Speed.",
 				"You've chosen the 'Enhanced Warrior's Rage' perk. Warrior's Rage automatically recasts when it ends, as long as you have enough wrath. While active, instead of 10%, it now grants a 20% boost to your core Strength, Toughness, and Speed.");
 		public static const Fellowship:PerkType = mk("Fellowship", "Fellowship",
@@ -834,7 +834,7 @@ public class PerkLib
 				"You've chosen the 'Anvil' perk, increasing armor proficiency. (+5% phys/mag resistance)");
 		public static const Apex:PerkType = mk("Apex", "Apex",
 				"Add up to 2 to each stat per level but remove all chimerical disposition stat gains and increase racial skill power by 75%. Stacks on top of Racial Paragon.",
-				"You've chosen the 'Apex' perk. Further increasing your specialisation into a unique race and increasing racial skill power by 75%.");
+				"You've chosen the 'Apex' perk. Further increasing your specialization into a unique race and increasing racial skill power by 75%.");
 		public static const ApprenticeGolemMaker:PerkType = mk("Apprentice Golem Maker", "Apprentice Golem Maker",
 				"Your proficiency in making golems allows to decrease by 10 mana cost of their creation, lower by 2% chance of core shattering, storing more golems/golem cores and increase dmg scaling up on current int/wis.",
 				"You've chosen the 'Apprentice Golem Maker' perk, increasing your proficiency in making golems.");
@@ -1097,7 +1097,7 @@ public class PerkLib
 				"You've chosen the 'Channeling' perk, boosting the strength of your spellcasting and expanding your mana pool!");
 		public static const ChargedCore:PerkType = mk("Charged Core", "Charged Core",
 				"At the cost of using additional mana you can charge each temporary golem core allowing them to deal minor area of effect damages (it have small synergistic effect when more golems attacks at once).",
-				"You've chosen the 'Charged Core' perk, learning how to make golems' attacks be slighty stronger.");
+				"You've chosen the 'Charged Core' perk, learning how to make golems' attacks be slightly stronger.");
 		public static const CheatDeath:PerkType = mk("Cheat Death", "Cheat Death",
 				"Increasing healing spells effect by another 100% when below 10% max HP (cumulative with Close to death perk effect for total boost of 150%).",
 				"You've chosen the 'Cheat Death' perk, increasing healing spells effect when below 10% max HP.");
@@ -1277,7 +1277,7 @@ public class PerkLib
 				.withBuffs({'maxfatigue_perspe':+1.5});
 		public static const DarkRitual:PerkType = mk("Dark Ritual", "Dark Ritual",
 				"Allows you to use the Dark Ritual option which can be Toggled on or off. While Dark Ritual is active spells are 300% stronger but consume 10% health on cast as they are paid in blood.",
-				"You've chosen the 'Dark Ritual' perk, Allowing you to sacricice health to empower your spells.");
+				"You've chosen the 'Dark Ritual' perk, Allowing you to sacrifice health to empower your spells.");
 		public static const DazzlingDisplay:PerkType = mk("Dazzling display", "Dazzling display",
 				"Teasing can stun enemy for one round or increase lust damage for grapple-type teases.",
 				"You've chosen the 'Dazzling display' perk, allowing you to slightly increase tease damage or even stun your enemy for a short moment.");
@@ -1297,9 +1297,9 @@ public class PerkLib
 		public static const DeathPlunge:PerkType = mk("Death plunge", "Death plunge",
 				"When using Great Dive you may add your weapon damage as part of the attack damage as if using power attack at its current maximum value consuming no wrath in the process.",
 				"You've chosen the 'Death plunge' perk. When using Great Dive you may add your weapon damage as part of the attack damage as if using power attack at its current maximum value consuming no wrath in the process.");
-		public static const DefenceStance:PerkType = mk("Defence Stance", "Defence Stance",
+		public static const DefenceStance:PerkType = mk("Defense Stance", "Defense Stance",
 				"Defend move now reduce incoming damage a little more and allow for very small improvement of fatigue/mana/soulforce recovery.",
-				"You've chosen the 'Defence Stance' perk, training to master your defence pose.");
+				"You've chosen the 'Defense Stance' perk, training to master your defense pose.");
 		public static const DefensiveStaffChanneling:PerkType = mk("Defensive Staff Channeling", "Defensive Staff Channeling",
 				"When you would cast defensive spell holding staff or wand its effects would be increased a bit (higher defensive effect or longer duration).",
 				"You've chosen the 'Defensive Staff Channeling' perk. When you would cast defensive spell holding staff or wand its effects would be increased a bit (higher defensive effect or longer duration).");
@@ -1337,8 +1337,8 @@ public class PerkLib
 				"You can't lose by HP until your health drops into the negatives any more than 2% of max HP + 600(scalable). When below 0 HP would lose 1% of max HP per turn.",
 				"You've chosen the 'Diehard' perk, allowing you to continue fighting even when below 0 HP.");
 		public static const DivineArmament:PerkType = mk("Divine armament", "Divine armament",
-				"Charge melee weapon/rangeed weapon/armor spell power is doubled and works at full power even when using heavy armor. If wearing a robe, PC gains a bonus to armor equal to 1/3 of its level. Staves wielded without a shield can now be used to block (10%) and gain a tripled base damage value on physical attacks.",
-				"You've chosen the 'Divine armament' perk. Charge melee weapon/rangeed weapon/armor spell power is doubled and works at full power even when using heavy armor. If wearing a robe, PC gains a bonus to armor equal to 1/3 of its level. Staves wielded without a shield can now be used to block (10%) and gain a tripled base damage value on physical attacks.");
+				"Charge melee weapon/ranged weapon/armor spell power is doubled and works at full power even when using heavy armor. If wearing a robe, PC gains a bonus to armor equal to 1/3 of its level. Staves wielded without a shield can now be used to block (10%) and gain a tripled base damage value on physical attacks.",
+				"You've chosen the 'Divine armament' perk. Charge melee weapon/ranged weapon/armor spell power is doubled and works at full power even when using heavy armor. If wearing a robe, PC gains a bonus to armor equal to 1/3 of its level. Staves wielded without a shield can now be used to block (10%) and gain a tripled base damage value on physical attacks.");
 		public static const DivineKnowledge:PerkType = mk("Divine Knowledge", "Divine Knowledge",
 				"Allows you to cast divine magic spells as long as corruption is 20-, locks access to black spells and deal 20% more dmg when using white or divine magic to attack corrupted enemies.",
 				"You've chosen the 'Divine Knowledge' perk. Allows you to cast divine magic spells as long as corruption is 20-, locks access to black spells and deal 20% more dmg when using white or divine magic to attack corrupted enemies.");
@@ -1527,7 +1527,7 @@ public class PerkLib
 				"When initiating a song start as if having empowered your Aria 3 times. The aria can now be empowered up to twice as many times and increases at twice the rate.",
 				"You've chosen the 'Empowered Aria' perk, When initiating a song start as if having empowered your Aria 3 times. The aria can now be empowered up to twice as many times and increases at twice the rate.");
 		public static const EnableCriticals:PerkType = mk("Enable Criticals", "Enable Criticals",
-				"You now score crits on all naturaly immune to them enemies like constructs, goo or plants.",
+				"You now score crits on all naturally immune to them enemies like constructs, goo or plants.",
 				"You've chosen the 'Enable Criticals' perk, allowing you to get crits on enemies normally immune to criticals.");
 		public static const Enchantment:PerkType = mk("Enchantment", "Enchantment",
 				"Using your arcane knowledge associated with alchemy,  you enchant each item to further power its effects +2% alchemy/mutagen boost.",
@@ -1610,15 +1610,15 @@ public class PerkLib
 				"+3 extra maximum mana for each point of intelligence and +1 extra maximum fatigue for each point of libido.",
 				"You've chosen the 'Eromancy (Beginner)' perk, granting +3 extra maximum mana for each point of intelligence and +1 extra maximum fatigue for each point of libido.");
 		public static const EromancyExpert:PerkType = mk("Eromancy (Expert)", "Eromancy (Expert)",
-				"+3 extra maximum mana for each point of intelligence and +2 extra maximum fatigue for each point of libido, bonus to lust dmg dealt by m. specials similary to the one given by Arcane Lash.",
-				"You've chosen the 'Eromancy (Expert)' perk, granting +3 extra maximum mana for each point of intelligence and +2 extra maximum fatigue for each point of libido, bonus to lust dmg dealt by m. specials similary to the one given by Arcane Lash.");
+				"+3 extra maximum mana for each point of intelligence and +2 extra maximum fatigue for each point of libido, bonus to lust dmg dealt by m. specials similarly to the one given by Arcane Lash.",
+				"You've chosen the 'Eromancy (Expert)' perk, granting +3 extra maximum mana for each point of intelligence and +2 extra maximum fatigue for each point of libido, bonus to lust dmg dealt by m. specials similarly to the one given by Arcane Lash.");
 		public static const EromancyMaster:PerkType = mk("Eromancy (Master)", "Eromancy (Master)",
 				"+6 extra maximum mana for each point of intelligence and +2 extra maximum fatigue for each point of libido, tease exp for use of Arouse spell or m. specials dealing lust dmg.",
 				"You've chosen the 'Eromancy (Master)' perk, granting +6 extra maximum mana for each point of intelligence and +2 extra maximum fatigue for each point of libido, tease exp for use of Arouse spell or m. specials dealing lust dmg.");
 		public static const Escort:PerkType = mk("Escort", "Escort",
 				"You've gotten so good you can now charge people money for having sex with you. There's many tricks you learned, increasing your tease damage by 15%.",
 				"You've chosen the 'Escort' perk, gaining +15% tease dmg.");
-		public static const EternalyLastingBuffs:PerkType = mk("(Eternaly) Lasting Buffs", "(Eternally) Lasting Buffs",
+		public static const EternalyLastingBuffs:PerkType = mk("(Eternally) Lasting Buffs", "(Eternally) Lasting Buffs",
 				"Buff spells last another 5 turns longer at another 2x increase of their costs.",
 				"You've chosen the '(Eternally) Lasting Buffs' perk. Your mastery over buffs has reached (eternally) lasting level. (+5 turns duration and increasing cost 2x)");
 		public static const Evade:PerkType = mk("Evade", "Evade",
@@ -1658,11 +1658,11 @@ public class PerkLib
 				"Allows you to see more information than usual about the enemy (req. 25+ sensitivity). +1 exploration reveal.",
 				"You've chosen the 'Eyes of the Hunter (Novice)' perk, allowing you to gain more information about the enemies you fight. +1 exploration reveal.");
 		public static const EyesOfTheHunterEx:PerkType = mk("Eyes of the Hunter (Ex)", "Eyes of the Hunter (Ex)",
-				"Allowing you to be able to fight much higher level enemies than you as long your sensitivtiy is high enough, allows you to find new areas at a lower level than usual. (increase by 1 lvl (up to 30) per 25 sensitivity cap on lvl diff after which attacks deal 1 dmg to enemy). +1 exploration reveal.",
-				"You've chosen the 'Eyes of the Hunter (Ex)' perk, allowing you to be able to fight much higher level enemies than you as long your sensitivtiy is high enough, allows you to find new areas at a lower level than usual. (increase by 1 lvl (up to 30) per 25 sensitivity cap on lvl diff after which attacks deal 1 dmg to enemy). +1 exploration reveal.");
+				"Allowing you to be able to fight much higher level enemies than you as long your sensitivity is high enough, allows you to find new areas at a lower level than usual. (increase by 1 lvl (up to 30) per 25 sensitivity cap on lvl diff after which attacks deal 1 dmg to enemy). +1 exploration reveal.",
+				"You've chosen the 'Eyes of the Hunter (Ex)' perk, allowing you to be able to fight much higher level enemies than you as long your sensitivity is high enough, allows you to find new areas at a lower level than usual. (increase by 1 lvl (up to 30) per 25 sensitivity cap on lvl diff after which attacks deal 1 dmg to enemy). +1 exploration reveal.");
 		public static const EyesOfTheHunterSu:PerkType = mk("Eyes of the Hunter (Su)", "Eyes of the Hunter (Su)",
-				"Allowing you to increase critical chance and overall damage dealt to enemies (all with specific type that eyes of hunter allows you to recognize) based on how high is sensitivty. (+1% crit chance/+2% damage per 5 sensitvity up to 95%/190% bonus). +1 exploration reveal.",
-				"You've chosen the 'Eyes of the Hunter (Su)' perk, allowing you to increase critical chance and overall damage dealt to enemies (all with specific type that eyes of hunter allows you to recognize) based on how high is sensitivty. (+1% crit chance/+2% damage per 5 sensitvity up to 95%/190% bonus). +1 exploration reveal.");
+				"Allowing you to increase critical chance and overall damage dealt to enemies (all with specific type that eyes of hunter allows you to recognize) based on how high is sensitivity. (+1% crit chance/+2% damage per 5 sensitivity up to 95%/190% bonus). +1 exploration reveal.",
+				"You've chosen the 'Eyes of the Hunter (Su)' perk, allowing you to increase critical chance and overall damage dealt to enemies (all with specific type that eyes of hunter allows you to recognize) based on how high is sensitivity. (+1% crit chance/+2% damage per 5 sensitivity up to 95%/190% bonus). +1 exploration reveal.");
 		public static const Feint:PerkType = mk("Feint", "Feint",
 				"Unlocks special attack 'Feint' that has a chance to cause 1 turn long distraction of enemy(ies) that allows you to use a Sneak Attack.",
 				"You've chosen the 'Feint' perk. Unlocks special attack 'Feint' that has a chance to cause 1 turn long distraction of enemy(ies) that allows you to use a Sneak Attack.");
@@ -1680,13 +1680,13 @@ public class PerkLib
 				"+5% firearms attacks multiplier bonus and then adds 50% on top of final result.",
 				"You've chosen the 'Firearms Attack Multiplier' perk. +5% firearms attacks multiplier bonus and then adds 50% on top of final result.");
 		public static const FirstAttackElementals:PerkType = mk("First Attack: Elementals", "First Attack: Elementals",
-				"Instead of melee attacking in PC place one of summoned elementals will attack before PC allowing latter to take any action even personaly attacking with melee weapon. Or allows you to use both options at once.",
-				"You've chosen the 'First Attack: Elementals' perk, allowing your summoned elementals to attack independly from you.");
+				"Instead of melee attacking in PC place one of summoned elementals will attack before PC allowing latter to take any action even personally attacking with melee weapon. Or allows you to use both options at once.",
+				"You've chosen the 'First Attack: Elementals' perk, allowing your summoned elementals to attack independently from you.");
 		public static const FirstAttackElementalsEx:PerkType = mk("First Attack: Elementals (Ex)", "First Attack: Elementals (Ex)",
 				"Your summoned elementals when attacking would deal 5%/10%/20% more for each normal/rare/unique elemental in group/party outside the attacking elemental. In case of option when elemental attack on it own it would attack 2 or 3 times (10% chance).",
 				"You've chosen the 'First Attack: Elementals (Ex)' perk, allowing your summoned elementals to deal more damage the more total amount of summoned elementals you have and sometimes them hitting more often.");
 		public static const FirstAttackElementalsSu:PerkType = mk("First Attack: Elementals (Su)", "First Attack: Elementals (Su)",
-				"Mana cost scaling of elemental attacking based on int/wis stats lowered by 68% and 84%. Additionally cost halfed before final rounding up. Elemental always attack 4 times. Epic elementals can now also attack (as another turn of elementals attacks)",
+				"Mana cost scaling of elemental attacking based on int/wis stats lowered by 68% and 84%. Additionally cost halved before final rounding up. Elemental always attack 4 times. Epic elementals can now also attack (as another turn of elementals attacks)",
 				"You've chosen the 'First Attack: Elementals (Su)' perk, becoming more efficient in reducing mana costs of elementals attacks and increasing their attacks per turn. Epic elementals will now join attacks of their lesser kind. (int and wis scaling of costs decreased by ~68% and ~84%, 4 attacks per action)");
 		public static const FirstAttackFlyingSword:PerkType = mk("First Attack: Flying Sword", "First Attack: Flying Sword",
 				"Before your actions your flying sword will attack.",
@@ -3334,7 +3334,7 @@ public class PerkLib
 		public static const ToughHide:PerkType = mk("Tough Hide", "Tough Hide",
 				"Increase your armor by 2 and magic resistance by 1 so long as you have scale chitin fur or other natural armor. (boost scalable with ng tiers)",
 				"You've chosen the 'Tough Hide' perk, increasing your armor and magic resistance as long you have any natural armor!");
-		public static const ToxineMaster:PerkType = mk("Toxine master", "Toxin master",
+		public static const ToxineMaster:PerkType = mk("Toxin master", "Toxin master",
 				"You learned how to make most use of any venom in your possession, refining them to their maximum potential by combining them with various plants to deadly effects. If no toxin is available the sky poison pearl can produce a violent poison for your personal use. " +
 					"(Envenomed bolt venom effect now is two times as strong on each projectile and gains an extra dot as 5 toughness damage per round. If the PC doesn't have a poison, they can use the Sky Poison Pearl to produce a deadly toxin that adds the base 5 toughness damage to weapon attacks.)",
 				"You've chosen the 'Toxin master' perk. Envenomed bolt venom effect now is two times as strong on each projectile and gains an extra dot as 5 toughness damage per round. If the PC doesn't have a poison, they can use the Sky Poison Pearl to produce a deadly toxin that adds the base 5 toughness damage to weapon attacks.");
@@ -3545,9 +3545,9 @@ public class PerkLib
 		public static const Whistles:PerkType = mk("Whistles", "Whistles",
 				"Sample Text Here/+20% fatigue recovery rate",
 				"You've chosen the 'Whistles' perk, gaining +20% fatigue recovery rate.");
-		public static const WisenedHealer:PerkType = mk("Wisened Healer", "Wisened Healer",
+		public static const WisenedHealer:PerkType = mk("Wizened Healer", "Wizened Healer",
 				"Adds wisdom based scaling to healing spells at cost of doubling spells costs.",
-				"You've chosen the 'Wisened Healer' perk. Increasing healing spells effects based on current wisdom.");/*
+				"You've chosen the 'Wizened Healer' perk. Increasing healing spells effects based on current wisdom.");/*
 		public static const WispBrigadierGeneral:PerkType = mk("Wisp Brigadier General", "Wisp Brigadier General",
 				"Increase wisp commanding aura boosting other summoned pets/minions attack power effects by 60% (210% in total).",
 				"You've chosen the 'Wisp Brigadier General' perk, training your wisp to Wisp Brigadier General.");*/
@@ -4390,7 +4390,7 @@ public class PerkLib
 		public static const CovenantOfTheSpirits:PerkType = mk("Covenant of the spirits", "Covenant of the spirits",
 				"Your shared soul with the sacred tree halves your soulforce but doubles your mana and fatigue. This connection greatly weakens your ability to control fire but reinforces your mastery over earth, wind and water. Furthermore your natural attunement and improved magical circulation allows you to add half of your intelligence to your speed score.");
 		public static const CraftedArrows:PerkType = mk("Crafted Arrows", "Crafted Arrows",
-				"You have personaly crafted arrows in your quiver. Depending on their type it will increase bow attack from 10% to 40%");
+				"You have personally crafted arrows in your quiver. Depending on their type it will increase bow attack from 10% to 40%");
 		public static const DaoOfTheElements:DaoOfTheElementsPerk = new DaoOfTheElementsPerk();
 		public static const DaoOfTraning:DaoOfTraningPerk = new DaoOfTraningPerk();
 		public static const DemonicLethicite:PerkType = mk("Demonic Lethicite", "Demonic Lethicite",

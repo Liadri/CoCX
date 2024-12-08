@@ -10,7 +10,7 @@ public class Horns extends BodyPart {
 	 * Entry properties:
 	 * - value: numerical id (0, 1)
 	 * - id: name of the constant ("NONE", "DEMON")
-	 * - name: human-readable default name, ("non-existant", "demon")
+	 * - name: human-readable default name, ("non-existent", "demon")
 	 *
 	 * - appearanceDesc: description for PlayerAppearance.as (always visible)
 	 * - appearanceDescFunc: a function that returns a description for PlayerAppearance.as (appearanceDesc is ignored if this exists)
@@ -19,7 +19,7 @@ public class Horns extends BodyPart {
 
 	public static const NONE: int = 0;
 	EnumValue.add(Types, NONE, "NONE", {
-		name:"non-existant"
+		name:"non-existent"
 	});
 
 	public static const DEMON: int = 1;

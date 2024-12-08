@@ -975,7 +975,7 @@ doNext (EnterVillage);
 public function Ameliar():void {
 		clearOutput();
 		outputText("<i>“Oh, me?</i>” She blushes slightly, just like her mom. <i>“I’m Ameliar. I was in mom’s second litter.</i>” She shrugs. <i>“I wanted to take up a more safe option to defend our village,and so...I got this bow.</i>” You raise your eyebrows, and she puts a hand on your shoulder. <i>“No, not from that Centaur on the farm, don’t worry, (mom/dad). We know better than to go near that tainted beast.</i>”  \n\n");
-		outputText("<i>“Anyways, we need to get back to training. Please feel free to join us, but if you’re not, we need to focus.</i>” You excuse yourself, and walk back to the centre of town.  \n\n"); 
+		outputText("<i>“Anyways, we need to get back to training. Please feel free to join us, but if you’re not, we need to focus.</i>” You excuse yourself, and walk back to the center of town.  \n\n"); 
 doNext(EnterVillage);
 }
 

@@ -570,7 +570,7 @@ public class BeeGirlScene extends BaseContent
 			sceneHunter.selectGender(dickF, null, ["Her Stinger", stingerF]);
 			//Dicked version...
 			function dickF():void {
-				outputText("As if you have lost control of your body, you fall into her arms, happy. As she holds you close, a stinger slowly emerges from her abdomen, as well as a thick knot-like organ, both covered in a sweet smelling lubricant. As your mind synaesthetically sees a myriad of colors and scents, you don't resist as she gently pushes you down to your ");
+				outputText("As if you have lost control of your body, you fall into her arms, happy. As she holds you close, a stinger slowly emerges from her abdomen, as well as a thick knot-like organ, both covered in a sweet smelling lubricant. As your mind synesthetically sees a myriad of colors and scents, you don't resist as she gently pushes you down to your ");
 				if (player.isTaur()) outputText(" hocks and knees");
 				else outputText("stomach");
 				outputText(". Nor do you protest as she leans over you, her stinger - thank goodness it isn't poison - looming close to your anus.  With no more words she shoves the thick, lengthy stinger and knot inside of you. Her 'cock' slips in slowly, the lubricant keeping you from shaking out of your scent-induced pleasure coma. Your hand even ventures to your own engorged ");
@@ -1219,7 +1219,7 @@ public class BeeGirlScene extends BaseContent
 			if (!player.isTaur() && player.hasCock() && (!player.hasVagina() || rand(2) == 0)) {
 				if (player.lust >= player.maxOverLust()) outputText("Overcome by lust, you throw yourself into her waiting arms.  ");
 				else outputText("Overcome by your wounds, you are unable to resist as she lifts you into her arms and embraces you.  ");
-				outputText("At first, she holds you close, but as she does, a stinger slowly emerges from her abdomen, as well as a thick knot like organ, both covered in a sweet-smelling lubricant. Your mind synaesthetically sees a myriad of colors and scents, and you don't resist as she gently pushes you down to your stomach. Nor do you protest as she leans over you, her stinger - thank goodness it isn't poison - looming close to your anus. With no more words she shoves the thick, lengthy stinger and knot inside of you. Her 'cock' slipping in slowly, the lube keeping you from shaking out of your scent-induced pleasure coma. Your hand even ventures to your own engorged ");
+				outputText("At first, she holds you close, but as she does, a stinger slowly emerges from her abdomen, as well as a thick knot like organ, both covered in a sweet-smelling lubricant. Your mind synesthetically sees a myriad of colors and scents, and you don't resist as she gently pushes you down to your stomach. Nor do you protest as she leans over you, her stinger - thank goodness it isn't poison - looming close to your anus. With no more words she shoves the thick, lengthy stinger and knot inside of you. Her 'cock' slipping in slowly, the lube keeping you from shaking out of your scent-induced pleasure coma. Your hand even ventures to your own engorged ");
 				if (player.cockTotal() == 1) outputText("member");
 				if (player.cockTotal() > 1) outputText("members");
 				outputText(" as she rather forcefully rapes your once-tight hole, humming her tune all the while.\n\n");

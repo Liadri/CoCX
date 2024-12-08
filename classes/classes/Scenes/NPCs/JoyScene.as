@@ -395,7 +395,7 @@ import classes.lists.Gender;
 			outputText("\n\nYou raise your mug and say, \"<i>Cheers!</i>\"  Then clatters your mug against Jojo’s and takes the mug to your lips, pretending to be taking a sip.");
 			outputText("\n\nJojo thirstily tips the mug back, chugging it down in several long swallows, licking his lips when he’s done.  \"<i>What an odd flavor; but it’s nice!</i>\" He proclaims enthusiastically.");
 			outputText("\n\nWell, no need to hold back.  You pour him another mugful.");
-			outputText("\n\nJojo downs this with all the same enthusiasm as the first, letting out a very unmonkly belch after he’s done.  \"<i>Oh, excuse me!</i>\" He apologises, gently placing his fingers over his lips before giggling with embarrassment.  He sounds a lot more feminine than usual... ");
+			outputText("\n\nJojo downs this with all the same enthusiasm as the first, letting out a very unmonkly belch after he’s done.  \"<i>Oh, excuse me!</i>\" He apologizes, gently placing his fingers over his lips before giggling with embarrassment.  He sounds a lot more feminine than usual... ");
 			outputText("\n\nWell, if he likes it so much... he can have your mug too.");
 			outputText("\n\nJojo seems to barely restrain himself from snatching it from your hands, eagerly guzzling it down.  \"<i>More, please!  This is yummy!</i>\" He begs you.");
 			outputText("\n\nYou keep pouring Jojo mugful after mugful of liqueur, until the bottle is emptied.");
@@ -523,7 +523,7 @@ import classes.lists.Gender;
 					outputText("\"<i>Well, you're a human. I haven't seen one of your kind in, like, many, many years. I think the demons got 'em all, or at least they got most of 'em. They try to round up every human who comes through, like, the portals, too. Still, I think there's some of you still hidden around.</i>\"");
 					break;
 				case Races.DOG:
-					outputText("\"<i>Well, you're a doggy - woof woof! There used to be a lot of doggys in a city called Tel'Adre somewhere... I dunno what happened to 'em all,</i>\"");
+					outputText("\"<i>Well, you're a doggy - woof woof! There used to be a lot of doggies in a city called Tel'Adre somewhere... I dunno what happened to 'em all,</i>\"");
 					break;
 				case Races.CENTAUR:
 					outputText("\"<i>Well, you're a centaur. You look kinda like somebody stuck a human on a horse. How'd that happen, anyway?</i>\"");
@@ -1027,7 +1027,7 @@ import classes.lists.Gender;
 			if (player.spe <= 33) {
 				outputText("\n\nYou try your hardest, but as the surprisingly graceful mouse swings you and dips you and takes you through steps you've only heard of in stories back in Ingnam, it's no surprise that you end up accidentally dropping the entire cup onto the ground underfoot.");
 				outputText("\n\nJoy stops to gaze at the cup on the floor. \"<i>Awww... you, like, dropped the whole cup?</i>\" she asks with a pout.");
-				outputText("\n\nYou apologise, but point out you were expecting to run with her, not dance with her.");
+				outputText("\n\nYou apologize, but point out you were expecting to run with her, not dance with her.");
 				outputText("\n\n\"<i>You're, like, supposed to be ready for anything... well, we can always try again right?</i>\" she says with a smile.");
 				outputText("\n\nYou tell her that's true, and promise her you'll try and be better prepared the next time.");
 				outputText("\n\nShe giggles and gives you a little peck on the cheek for encouragement.");
@@ -2024,7 +2024,7 @@ import classes.lists.Gender;
 			outputText("\n\nIt doesn't look like the mouse needs any further stimulation, though. She grinds her swollen belly " + joyHasCockText("and painfully erect, pre-gushing cock ") + "against your midriff, clumsily trying to slot your [cock] into her ravenous pussy.");
 			outputText("\n\nFinally satisfied with the foreplay, you align yourself and push your [cock] into her warm, inviting depths.");
 			outputText("\n\n\"<i>Ooh, yeah, that hits the spot, [name]!</i>\" Joy squeals. \"<i>Fuck me hard; like, show my babies who their " + player.mf("daddy", "daddy-mommy") + " is!</i>\"");
-			outputText("\n\nYou intend to do just that; you thrust into her with all the strength you can muster, rocking her and the babies inside with every wet slam of your hips against hers. " + joyHasCockText("Her cock dribbles pre like an open tap, glazing your crotch as well as her belly. ") + "One of you hands strokes her bulging belly, the other gropes her breast, as your rhythms grows more franctic.");
+			outputText("\n\nYou intend to do just that; you thrust into her with all the strength you can muster, rocking her and the babies inside with every wet slam of your hips against hers. " + joyHasCockText("Her cock dribbles pre like an open tap, glazing your crotch as well as her belly. ") + "One of you hands strokes her bulging belly, the other gropes her breast, as your rhythms grows more frantic.");
 			outputText("\n\nJoy gasps and moans, slamming back against you just as hard and furious, her swollen belly wobbling all over the place as she does - when she pushes hard against you, you can actually feel the babies inside kicking and squirming inside her; she wasn't joking about how active they are after all. She babbles incoherently, urging you on.");
 			outputText("\n\nAs you approach your inevitable orgasm an idea hits you, and you withdraw from Joy.");
 			outputText("\n\n\"<i>Hey! What gives?</i>\" She complains. When she sees what you're doing, though, she grins, her eyes lighting up. \"<i>Well, this looks fun!</i>\" She grins.");

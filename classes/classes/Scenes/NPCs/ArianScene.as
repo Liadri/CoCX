@@ -1215,7 +1215,7 @@ private function arianScalesTalk():void {
 		outputText("\"<i>Even when I recovered from my condition, I still saw it as something normal. Actually, I’m not even sure if their color was something related to my sickness, or their natural hue. Now, since I’m fully recovered, I’m not opposed to a color change, to celebrate my recovering, but...</i>\"\n\n");
 		outputText("But?\n\n");
 		outputText("\"<i>Most Marethians change the color of their bodies with dyes, but those dyes only work for hair and similar features, like fur or feathers. Scales have a surface that rejects most mixtures and won’t allow them to get changed, so how would you manage to get my scales dyed?</i>\"\n\n");
-		outputText("Luckily for [arian em], you answer, you had thought over the same problem earlier, so you spoke with the camp’s alchemist, and, using some Reptilium, and a few special dyes that you chose especially for Arian, you managed to make some dyes that’ll give [arian em] a totally new look, if [arian ey]’s ok using them, of course.");
+		outputText("Luckily for [arian em], you answer, you had thought over the same problem earlier, so you spoke with the camp’s alchemist, and, using some Reptilum, and a few special dyes that you chose especially for Arian, you managed to make some dyes that’ll give [arian em] a totally new look, if [arian ey]’s ok using them, of course.");
 	}
 	else {
 		outputText("You ask Arian if [arian ey]’d like to change the color of [arian eir] scales.\n\n");
@@ -2625,7 +2625,7 @@ private function doublePenetrateArian():void {
 
 		outputText("\n\n\"<i>I'm really sorry...</i>\"");
 
-		outputText("\n\nYou tell [arian em] that [arian ey] doesn't need to apologise, but you do need to know; are you going to be a father now?  Is [arian ey] really pregnant as a result of the sex you just had with [arian em]?");
+		outputText("\n\nYou tell [arian em] that [arian ey] doesn't need to apologize, but you do need to know; are you going to be a father now?  Is [arian ey] really pregnant as a result of the sex you just had with [arian em]?");
 
 		outputText("\n\nArian shakes [arian eir] head.  \"<i>Not really.  I didn't have a clutch of eggs for you to fertilize, so the answer is no,</i>\" [arian ey] says, with a slight tinge of disappointment.");
 
@@ -3419,7 +3419,7 @@ private function useReductoOnAriansAsshole():void {
 private function giveArianReptilum():void {
 	clearOutput();
 	player.consumeItem(consumables.REPTLUM);
-	outputText("Fingering the vial of reptilium, you smirk to yourself.  Quickly wiping it off your face, you instruct Arian to close [arian eir] eyes and open [arian eir] mouth, as you have a special surprise for [arian em].");
+	outputText("Fingering the vial of Reptilum, you smirk to yourself.  Quickly wiping it off your face, you instruct Arian to close [arian eir] eyes and open [arian eir] mouth, as you have a special surprise for [arian em].");
 
 	outputText("\n\nArian, quickly complies.  \"<i>Okay, but can you at least tell me what is this about?</i>\"  [arian ey] asks in curiosity.");
 
@@ -3431,9 +3431,9 @@ private function giveArianReptilum():void {
 
 	outputText("\n\n\"<i>Aww, come on, you can trust me.  I promise not to peek!</i>\"");
 
-	outputText("\n\nYou tell [arian em] it's more fun this way, popping the bottle of Reptilium open as you do so and following your words up by tipping it into the lizan's carelessly open mouth.");
+	outputText("\n\nYou tell [arian em] it's more fun this way, popping the bottle of Reptilum open as you do so and following your words up by tipping it into the lizan's carelessly open mouth.");
 
-	outputText("\n\n\"<i>I sweagrlpff-</i>\" the lizan's protests are cut short by the stream of cool reptilum being poured down [arian eir] throat.  [arian Ey] chokes a bit, but quickly adapts, drinking eagerly.  When you finish tipping the bottle and remove it from [arian eir] lips, Arian coughs a bit and licks [arian eir] lips.  \"<i>Hmm... that tasted good, what was it?</i>\"");
+	outputText("\n\n\"<i>I sweagrlpff-</i>\" the lizan's protests are cut short by the stream of cool Reptilum being poured down [arian eir] throat.  [arian Ey] chokes a bit, but quickly adapts, drinking eagerly.  When you finish tipping the bottle and remove it from [arian eir] lips, Arian coughs a bit and licks [arian eir] lips.  \"<i>Hmm... that tasted good, what was it?</i>\"");
 
 	outputText("\n\nYou tell [arian em] [arian ey]'ll just have to wait to find out, taking off [arian eir] blindfold and smiling wryly at [arian em].  \"<i>Umm... ok...</i>\"");
 	//(if ArianFirstRept == 1)
@@ -4392,7 +4392,7 @@ private function arianAppearance():void {
 	outputText("Like [arian eir] body, the lizan’s head is covered ");
 	if (flags[kFLAGS.ARIAN_SCALES] <= 1) outputText("entirely in white scales, probably a harmless remnant of [arian em] time of sickness");
 	if (flags[kFLAGS.ARIAN_SCALES] == 2) outputText("in bright turquoise scales, turning a lighter shade of the same color upon reaching to [arian eir] neck, while [arian eir] inner neck has creamy-gold colored scales");
-	if (flags[kFLAGS.ARIAN_SCALES] == 3) outputText("in lovely pink scales, turning a into a pinkish-white upon reaching to [arian eir] neck. Purplish-pink accents surround [arian eir] eyes and upper head");
+	if (flags[kFLAGS.ARIAN_SCALES] == 3) outputText("in lovely pink scales, turning into a pinkish-white upon reaching to [arian eir] neck. Purplish-pink accents surround [arian eir] eyes and upper head");
 	if (flags[kFLAGS.ARIAN_SCALES] == 4) outputText("in scales, the ones on [arian eir] head a soft, almost pinkish ruby-red, softly turning to orange-golden at [arian eir] neck. [arian Eir] inner neck has a creamy-golden coloration");
 	outputText(". [arian Eir] ears are small holes at the sides of [arian eir] head, utterly concealed from view given its small size. Coming from Arian’s snout, a long, forked tongue slips out from time to time.\n\n");
 	outputText("Situated upon [arian eir] chest are two ");
@@ -4439,8 +4439,8 @@ private function arianAppearance():void {
 //Arian Pregnancy Scenes
 
 public function ArianPregChampCarries1():void {
-		outputText("As you get back to camp, you see your lizard-wizard lover, Arian, standing by your [cabin]. You ask what brings [arian em] over, and he tilts his head.  \n\n");
-		outputText("\"<i>I apologise for the intrusion…But something’s felt…a little off about you, ever since we…</i>\" He blushes, and you almost roll your eyes. Since you had sex last.  \n\n");
+		outputText("As you get back to camp, you see your lizard-wizard lover, Arian, standing by your [cabin]. You ask what brings [arian em] over, and [arian ey] tilts [arian eir] head.  \n\n");
+		outputText("\"<i>I apologize for the intrusion…But something’s felt…a little off about you, ever since we…</i>\" He blushes, and you almost roll your eyes. Since you had sex last.  \n\n");
 		outputText("\"<i>Yes.</i>\" Arian steps forward. \"<i>I-if you wouldn’t mind, I want to…examine you.</i>\"  \n\n");
 		outputText("Giving your bashful lover a wink, you ask [arian em] if [arian ey] didn’t get a thorough enough examination last time.  \n\n");
 		outputText("\"<i>Not like that, [name].</i>\" [arian ey] scratches his neck, tail twining around one of his legs. \"<i>I mean your mana’s flowing a little differently, in a way consistent with…</i>\" [arian ey] blushes. \"<i>Consistent with lizan pregnancy.</i>\"  \n\n");

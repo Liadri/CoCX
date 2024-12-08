@@ -7,13 +7,13 @@ public class Gills extends BodyPart {
 	 * Entry properties:
 	 * - value: numerical id (0, 1)
 	 * - id: name of the constant ("NONE", "ANEMONE")
-	 * - name: human-readable default name, ("non-existant", "anemone")
+	 * - name: human-readable default name, ("non-existent", "anemone")
 	 */
 	public static var Types:/*EnumValue*/Array = [];
 
 	public static const NONE: int = 0;
 	EnumValue.add(Types, NONE, "NONE", {
-		name:"non-existant",
+		name:"non-existent",
 		appearanceDesc: ""
 	});
 	public static const ANEMONE: int = 1;

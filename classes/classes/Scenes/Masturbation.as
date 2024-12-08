@@ -1657,7 +1657,7 @@ public class Masturbation extends BaseContent {
 					else outputText("girl-lube spurts out of your tortured nipples with each thrust of your hips, spattering your arms and face with your secretions. ");
 				}
 			}
-			//if your dog cocks wouldnt fit, or you had enough holes for all your dicks (potentailly doubled up) then there are no dicks left for you to suck. Return false
+			//if your dog cocks wouldn't fit, or you had enough holes for all your dicks (potentially doubled up) then there are no dicks left for you to suck. Return false
 			return !((!doubleUp && fittableCocks <= holeTotal) || (doubleUp && fittableCocks <= holeTotal * 2));
 		}
 

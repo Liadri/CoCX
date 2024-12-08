@@ -46,7 +46,7 @@ public class CockatriceScene extends BaseContent {
                 + "It has to be close to half its body length, with a mane of feathers stopping in a v-shape about 4 inches down its length as it transitions from its feathered body into midnight blue scales.\n\n");
             outputText("From its slightly wide hips, powerful feathered haunches transition in reptilian legs at the knee, black scales coating its digitigrade legs. "
                 + "Its three long toes terminate in wicked looking talons, while a smaller emerges at the heel. "
-                + "You don’t want to get on the wrong side of those. You realise as you appraise its vaguely familiar features, that this must be some kind of harpy basilisk hybrid, a Cockatrice! "
+                + "You don’t want to get on the wrong side of those. You realize as you appraise its vaguely familiar features, that this must be some kind of harpy basilisk hybrid, a Cockatrice! "
                 + "Boy, [benoit name] was right, they are weird looking!\n\n");
             outputText("As it turns to leave, it notices you and its electric blue eyes light up with excitement. "
                 + "It jumps from rock to rock with ease, quickly closing in on you with a squawking shout. "
@@ -62,7 +62,7 @@ public class CockatriceScene extends BaseContent {
             }
             outputText(images.showImage("monster-cockatrice"));
             outputText("As you once again climb high in the mountains, you spend some time catching your breath on a rocky plateau to avoid the loose gravelly ground. "
-                + "You see a brightly coloured creature in the distance, ");
+                + "You see a brightly colored creature in the distance, ");
             if (cockatrice.canFly())
                 outputText("feathered wings unfurled to aid its movements, ");
             outputText("hopping from stone to stone with ease and what seems to be enjoyment. As you let out a sigh and move to leave the creature notices you, speedily moving from rock to rock with flaps of its feathers. "
@@ -367,7 +367,7 @@ public class CockatriceScene extends BaseContent {
     //Cockatrice buttfuck (Taur version)
     private function cockatriceTaurButtFuck():void {
         clearOutput();
-        outputText("As you decide what to do with the cockatrice, your loins heated with arousal, you realise a you’ll have a hard time managing anything, what with your tauric form being less than compatible with what many folk are packing. "
+        outputText("As you decide what to do with the cockatrice, your loins heated with arousal, you realize a you’ll have a hard time managing anything, what with your tauric form being less than compatible with what many folk are packing. "
             + "Looking around briefly, you notice an alcove on the mountainside which spawns a brilliant idea. "
             + "You could use the rock to pin him at the right height to fuck your ass with that nubby reptile cock of his. Talk about between a rock and a hard place!\n\n");
         outputText("Grabbing his arm you lead him to the gap, turning before pinning him eagerly with your rump, grinding your tauric rear against him enthusiastically. "
@@ -411,7 +411,7 @@ public class CockatriceScene extends BaseContent {
 
         clearOutput();
         outputText(images.showImage("cockatrice-ridehim-drider"));
-        outputText("As you decide what to do with the cockatrice, your loins heated with arousal, you realise that you’ll have a hard time managing anything, what with your spider-like form being less than compatible with what many folk are packing. "
+        outputText("As you decide what to do with the cockatrice, your loins heated with arousal, you realize that you’ll have a hard time managing anything, what with your spider-like form being less than compatible with what many folk are packing. "
             + "Looking around briefly, you notice an alcove on the mountainside which spawns a brilliant idea. "
             + "You could tie him up in there and get him to use that nubby reptile cock to fuck your ass!\n\n");
         outputText("Taking him by the hand, you lead him to the alcove before using some of your spider silk to tie him up by his arms, holding him in between the two walls. "
@@ -664,7 +664,7 @@ public class CockatriceScene extends BaseContent {
             + "His cock slides over your tongue with each thrust, the tip poking into your throat now and then [if (isBimbo) as you relax it so you can better swallow his cock|making you gag at each sudden intrusion]. "
             + "You suck at him, running the tip of your tongue along some of the bumps on his length and he settles down a little, thrusting slow and deep so you can do the work for him. "
             + "Encouraged by his response, you continue to work his shaft [if (isBimbo) your cock lust slowly clouding your thoughts, making you eager to worship the shaft "
-            + "in your mouth|glad to minimise it battering into your throat while he coats your tastebuds in his unique flavor].\n\n");
+            + "in your mouth|glad to minimize it battering into your throat while he coats your tastebuds in his unique flavor].\n\n");
         outputText("Before long he twitches in your mouth and his thrusts begin to pick up in pace, making him mash his pelvis into your [if (isBimbo)pillowy|spit slicked] lips. "
             + "His grip on your face tightens as his thrusts become more erratic, his cock pushing into your throat with each thrust and giving barely any reprieve. "
             + "Your throat [if (isBimbo)milks him|spasms around him] as he buries himself deep as he can in your warm, wet throat. "
@@ -675,7 +675,7 @@ public class CockatriceScene extends BaseContent {
             + "Your arousal has leveled out, leaving you needy but rational, but you can’t help but wonder if he’s going to fuck you again. "
             + "To your surprise, he spends some time massaging your lower body, easing the tension in your muscles and making you relax under his firm but slow kneading. "
             + "All too soon he finishes, leaving you on the ground where you lay with little more than a wave. "
-            + "At first, you panic, concerned that you’ve been left at the mercy of other creatures but as your leg twitches, you come to realise you can move again. "
+            + "At first, you panic, concerned that you’ve been left at the mercy of other creatures but as your leg twitches, you come to realize you can move again. "
             + "While somewhat leaden feeling, your body is no longer petrified, allowing you to leave the area slowly. "
             + "You smile a little, thankful for the massage that evidently released your joints from the spell of his eyes, wondering if next time you could just skip the fight and go straight to such a leisurely massage.\n\n");
         outputText("By the time you return to camp you feel a slight heat in your loins from the encounter.");

@@ -571,7 +571,7 @@ public class CampUpgrades extends BaseContent {
     }
 
     public function addAWoodenWalls():void {
-        outputText("Do you start work on addine wooden walls? (Cost: 500 wood.)\n");
+        outputText("Do you start work on adding wooden walls? (Cost: 500 wood.)\n");
         checkMaterials();
         if (CampStatsAndResources.WoodResc >= 500) {
             doYesNo(doAddAWoodenWallsWork, noThanks);

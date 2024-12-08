@@ -1646,7 +1646,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				if (player.balls == 4)outputText("\nYou sigh in relief as your balls now empty of their eggs dangle under your cock four new way smaller eggs sliding " +
 						"inside to fill the void in them. Of course you also collected those that you shot out, never know when these can come in handy.\n");
 				player.ballSize = 1;
-				var changeLib1:Number = (player.ballSize*5/100)+1; //Exemple (1*5/100)+1= 1.05 wich is the modifier to libido
+				var changeLib1:Number = (player.ballSize*5/100)+1; //Example (1*5/100)+1= 1.05 which is the modifier to libido
 				player.buff("EasterBunnyBalls").setStat("lib.mult",changeLib1).withText("Easter Bunny Balls");
 				player.buff("EasterBunnyBalls").setStat("minlust", 0.1 * player.ballSize).withText("Easter Bunny Balls");
 				player.removeStatusEffect(StatusEffects.EasterBunnyCame); //Remove cumming status
@@ -1661,10 +1661,10 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			//Troll Regeneration
 			needNext ||= player.gainOrLosePerk(PerkLib.TrollRegeneration, player.isAnyRaceCached(Races.TROLL, Races.GLACIAL_TROLL), "", "You accidentally cut yourself but to your stupor the wound does not close as fast as it should. I appears your lack of troll blood is no longer enough to benefit from superior regeneration.");
 			if (!player.hasStatusEffect(StatusEffects.Overheat) && (player.isAnyRaceCached(Races.SALAMANDER, Races.KITSHOO, Races.HELLCAT) || player.hasStatusEffect(StatusEffects.HinezumiCoat))) {
-				//Argument 1 is weither pc is in heat stage or not 1 means active
-				//Argument 2 is how many day left before player enter heats again typicaly 3;
+				//Argument 1 is whether pc is in heat stage or not 1 means active
+				//Argument 2 is how many day left before player enter heats again typically 3;
 				//Argument 3 tells if player had sex and satisfied its overheat set to 1 when true;
-				outputText("\n\nWoa your body is heating up like crazy. You suddenly realise that due to being a");
+				outputText("\n\nWoa your body is heating up like crazy. You suddenly realize that due to being a");
 				if (player.isRaceCached(Races.SALAMANDER)) outputText(" salamander");
 				else if (player.isRaceCached(Races.KITSHOO)) outputText(" kitsumori");
 				else if (player.isRaceCached(Races.HELLCAT)) outputText(" hellcat");
@@ -1788,7 +1788,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				EngineCore.ManaChange(100 + (player.inte*2));
 				EngineCore.changeFatigue(-(100 + (player.spe*2)));
 				EngineCore.SoulforceChange(500 + (player.wis*2));
-				outputText("You feel energised and empowered by the life force drained out of the fluids of your recent blind date. What a meal!\n\n");
+				outputText("You feel energized and empowered by the life force drained out of the fluids of your recent blind date. What a meal!\n\n");
 				player.removeStatusEffect(StatusEffects.KitsuneEnergyThirstFeed);
 			}
 			//Hydra heads
@@ -1810,12 +1810,12 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			//Troll passives / perks
 			needNext ||= player.gainOrLosePerk(PerkLib.PheromoneCloud, player.isAnyRaceCached(Races.TROLL, Races.GLACIAL_TROLL) && player.hasVagina(), "You take a deep breath as your heart beats. You reflexively clench your legs at the thought of finding a man to slake your desires. The air around you feels dense as you notice a pheromone cloud is growing around you to attract another male.", "Your breathing gets a little easier as your heart rate slows slightly. You don't feel a need to find another male as the pheromone cloud around you dissipates.");
 			needNext ||= player.gainOrLosePerk(PerkLib.SpearAffinity, player.isAnyRaceCached(Races.TROLL, Races.GLACIAL_TROLL), "As your thoughts coalesce together, you can feel your hands itching for a proper spear to wield. You feel invigorated and ready to use it with deadly force as needed.", "Your fingers twitch and your take a moment to look at your hands, you don't feel the same knack as you used to for holding a spear.");
-			needNext ||= player.gainOrLosePerk(PerkLib.TrollResistance, player.isAnyRaceCached(Races.TROLL, Races.GLACIAL_TROLL), "You reflexively scratch your coat of fur, feeling the luxurious softness beneath your fingers. You feel a sense of safety, as if you were impenetrable to outside forces. Maybe not invicible, but magic should be a little less effective on you.", "You scratch you arm as you can no longer feel that same protective aura around yourself from your fur. You feel less protected from magical forces now.");
+			needNext ||= player.gainOrLosePerk(PerkLib.TrollResistance, player.isAnyRaceCached(Races.TROLL, Races.GLACIAL_TROLL), "You reflexively scratch your coat of fur, feeling the luxurious softness beneath your fingers. You feel a sense of safety, as if you were impenetrable to outside forces. Maybe not invincible, but magic should be a little less effective on you.", "You scratch you arm as you can no longer feel that same protective aura around yourself from your fur. You feel less protected from magical forces now.");
 
 			if (player.hasKeyItem("Gleipnir Collar") >= 0) {
 				//Freezing Breath
 				if (player.faceType == Face.WOLF && !player.hasPerk(PerkLib.FreezingBreath)) {
-					outputText("\nYou suddenly feel something raging in you wanting to be unleashed as it slowly climbs out of your chest. It rushes through your throat and you scream a titanic primordial roar as the air in front of you ondulate with a massive drop of temperature and everything covers with a thick layer of solid ice. You massage your throat for a moment noticing as thin volume of condensation constantly escape from your maw.\n\n(<b>Gained Perk: Freezing Breath</b>)\n");
+					outputText("\nYou suddenly feel something raging in you wanting to be unleashed as it slowly climbs out of your chest. It rushes through your throat and you scream a titanic primordial roar as the air in front of you undulate with a massive drop of temperature and everything covers with a thick layer of solid ice. You massage your throat for a moment noticing as thin volume of condensation constantly escape from your maw.\n\n(<b>Gained Perk: Freezing Breath</b>)\n");
 					player.createPerk(PerkLib.FreezingBreath, 0, 0, 0, 0);
 					needNext = true;
 				} else if (player.faceType != Face.WOLF && player.hasPerk(PerkLib.FreezingBreath)) {
@@ -1884,23 +1884,23 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			//Dark Affinity
 			needNext ||= player.gainOrLosePerk(PerkLib.DarknessAffinity, player.isAnyRaceCached(Races.VAMPIRE, Races.APOPHIS, Races.ANUBIS, Races.DRACULA, Races.LICH) || player.hasPerk(PerkLib.Nightshade), "You are at home while shrouded in darkness, seeing clearly within the shadows as if it were broad daylight.", "The inky black darkness grows hostile toward you once more as your affinity for it is lost.");
 			//Compelling Aria
-			needNext ||= player.gainOrLosePerk(PerkLib.HarpySong, player.isAnyRaceCached(Races.SIREN, Races.HARPY, Races.PHOENIX, Races.THUNDERBIRD) || player.hasMutation(IMutationsLib.HarpyHollowBonesIM), "Your voice sound like magicaly entrancing music to your ears now, it would seem you have gained the infamous magicaly compeling voices common to harpies.", "Your voice no longer carries the magical power it used to and thus you are no longer able to use your compelling aria.");
-			needNext ||= player.gainOrLosePerk(PerkLib.MelkieSong, player.tongue.type == Tongue.MELKIE || player.hasMutation(IMutationsLib.MelkieLungIM), "Your words are notes, your sentence a melody. Your voice is like music to your ears and you realise it is because your body became closer to that of a Melkie adapting even your tongue and voice. Well, you could always go sit on a rock and sing in case some sailor came by.", "Your voice no longer carries the magical power it used to and thus you are no longer able to use your compelling aria.")
+			needNext ||= player.gainOrLosePerk(PerkLib.HarpySong, player.isAnyRaceCached(Races.SIREN, Races.HARPY, Races.PHOENIX, Races.THUNDERBIRD) || player.hasMutation(IMutationsLib.HarpyHollowBonesIM), "Your voice sound like magically entrancing music to your ears now, it would seem you have gained the infamous magically compelling voices common to harpies.", "Your voice no longer carries the magical power it used to and thus you are no longer able to use your compelling aria.");
+			needNext ||= player.gainOrLosePerk(PerkLib.MelkieSong, player.tongue.type == Tongue.MELKIE || player.hasMutation(IMutationsLib.MelkieLungIM), "Your words are notes, your sentence a melody. Your voice is like music to your ears and you realize it is because your body became closer to that of a Melkie adapting even your tongue and voice. Well, you could always go sit on a rock and sing in case some sailor came by.", "Your voice no longer carries the magical power it used to and thus you are no longer able to use your compelling aria.")
 
 			//Alraune perks
-			needNext ||= player.gainOrLosePerk(PerkLib.AlrauneNectar, player.isAlraune(), "Your flower now produces a delicious nectar the scent of wich is sure to draw in partners.", "As you no longer have a pitcher to produce nectar your scent has became more like that of an ordinary human.", function():void {
+			needNext ||= player.gainOrLosePerk(PerkLib.AlrauneNectar, player.isAlraune(), "Your flower now produces a delicious nectar the scent of which is sure to draw in partners.", "As you no longer have a pitcher to produce nectar your scent has became more like that of an ordinary human.", function():void {
 						player.vaginaType(VaginaClass.ALRAUNE);
 					}, function():void {
 						player.vaginaType(VaginaClass.HUMAN);
 					});
-			needNext ||= player.gainOrLosePerk(PerkLib.PlantKnowledge, player.isAlraune(), "It would seem you acquired additional skills in herbalism thanks to behing a plant yourself.", "No longer a plant you lost some of your innate floral knowledge.");
+			needNext ||= player.gainOrLosePerk(PerkLib.PlantKnowledge, player.isAlraune(), "It would seem you acquired additional skills in herbalism thanks to being a plant yourself.", "No longer a plant you lost some of your innate floral knowledge.");
 			//Kamaitachi perks
 			needNext ||= player.gainOrLosePerk(PerkLib.CursedWound, player.arms.type == Arms.KAMAITACHI, "Your kamaitachi blades shines with a sharp, deadly glow. Those will clearly leaves deadly wounds.", "Lacking a pair of kamaitachi scythe you can no longer inflict your trademark cursed kamaitachi wounds.");
 			needNext ||= player.gainOrLosePerk(PerkLib.NaturalHerbalism, player.isRaceCached(Races.KAMAITACHI), "Great knowledges flows through your mind as you become more Kamaitachi like. It dawns on you that you have acquired a natural affinity for medicine and herbalism, something your species is famous for, heck you can identify every single plant near your camp by name and species now.", "No longer a Kamaitachi, you seem to have lost your knack for herbs and medicines.");
 			//Aquatic Affinity
 			needNext ||= player.gainOrLosePerk(PerkLib.AquaticAffinity, (InCollection(player.lowerBody,LowerBody.ORCA,LowerBody.SEA_DRAGON) && InCollection(player.arms.type,Arms.ORCA,Arms.SEA_DRAGON) && player.tailType == Tail.ORCA && InCollection(player.ears.type,Ears.ORCA,Ears.ORCA)) || player.isScylla() || player.isKraken() || InCollection(player.tailType,Tail.ARIGEAN_GREEN,Tail.ARIGEAN_RED,Tail.ARIGEAN_YELLOW,Tail.ARIGEAN_PRINCESS),
-					"You suddenly feel an urge to jump into the nearest pool of water as your breath becomes ragged and messy. You swiftly run up to the stream and scream in release as you fill your aching respiratory systems with water. Wait water? You realise you just gained the ability to breath underwater but to make sure you can still breath normal air you go back to the surface. It soon appears you can still breath fresh air. Reassured on your condition you head back to camp." +(player.rearBody.type == RearBody.ORCA_BLOWHOLE ? "\nIt dawns on you that you didn't breathe for a full hour. When you realise this you relax your blowhole and take in some air. Well,wow it seems you can now hold in your breath for very lengthy periods. This will be perfect for underwater exploration.":""),
-					"As you lose the respiratory organ to breath underwater it also becomes obvious that you will drown if attempting to breath water in. You will need to get items or transform to breath underwater again."+(player.rearBody.type == RearBody.ORCA_BLOWHOLE ? "\nIt dawns on you that you didn't breath for a full hour. When you realise this you relax your blowhole and take in some air. Well,wow it seems you can now hold in your oxigen for very lengthy period. This will be perfect for underwater explorations.":""));
+					"You suddenly feel an urge to jump into the nearest pool of water as your breath becomes ragged and messy. You swiftly run up to the stream and scream in release as you fill your aching respiratory systems with water. Wait water? You realize you just gained the ability to breath underwater but to make sure you can still breath normal air you go back to the surface. It soon appears you can still breath fresh air. Reassured on your condition you head back to camp." +(player.rearBody.type == RearBody.ORCA_BLOWHOLE ? "\nIt dawns on you that you didn't breathe for a full hour. When you realize this you relax your blowhole and take in some air. Well,wow it seems you can now hold in your breath for very lengthy periods. This will be perfect for underwater exploration.":""),
+					"As you lose the respiratory organ to breath underwater it also becomes obvious that you will drown if attempting to breath water in. You will need to get items or transform to breath underwater again."+(player.rearBody.type == RearBody.ORCA_BLOWHOLE ? "\nIt dawns on you that you didn't breath for a full hour. When you realize this you relax your blowhole and take in some air. Well,wow it seems you can now hold in your oxygen for very lengthy period. This will be perfect for underwater explorations.":""));
 			//Salamander bullshit
 			needNext ||= player.gainOrLosePerk(PerkLib.LustingWarrior, player.isRaceCached(Races.SALAMANDER,2) && player.hasStatusEffect(StatusEffects.Overheat),
 					"You're so horny right now... so damn horny, you would beat up someone if only for something to blow up the steam. As the thought rushes to your mind, your body reacts strangely. It would seem your overwhelming need as a salamander and your ability to lustzerk have actually unlocked some form of new power within you. You feel newfound strength, the strength required to defeat any adversary if only for a chance to fuck, and you are very keen on using it right about now.",
@@ -1908,30 +1908,30 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			needNext ||= player.gainOrLosePerk(PerkLib.FluidBody, player.isGoo() && (player.isAnyRace(Races.SLIME, Races.MAGMASLIME, Races.DARKSLIME)), "Whoa your body is so malleable now attacks running through you can't damage you much anymore. This said the feeling of being penetrated by just anything leaves you with mind melting pleasure.", "Your body no longer being slime enough you worry that weapon will draw blood the next time they strike you as you lose your fluidic nature.");
 			if (!player.hasPerk(PerkLib.MorphicWeaponry) && (player.isRace(Races.DARKSLIME, 2) || player.isRace(Races.SLIME,2) || player.isRace(Races.MAGMASLIME, 2)) && player.buff("Fluid Growth").getValueOfStatBuff("tou.mult") > 50){
 				player.createPerk(PerkLib.MorphicWeaponry,0,0,0,0);
-				outputText("\nYour body has become so bloated with fluids and so large that you gain the ability to use your excess mass to form any number of additional tendrils wich you can use to attack your opponents.\n(<b>Gained New Perk: Morphic Weaponry.</b>\n>\n");
+				outputText("\nYour body has become so bloated with fluids and so large that you gain the ability to use your excess mass to form any number of additional tendrils which you can use to attack your opponents.\n(<b>Gained New Perk: Morphic Weaponry.</b>\n>\n");
 			}
 			if (player.hasPerk(PerkLib.MorphicWeaponry) && ((!player.isRace(Races.DARKSLIME, 2) && !player.isRace(Races.SLIME,2) && !player.isRace(Races.MAGMASLIME, 2)) && player.buff("Fluid Growth").getValueOfStatBuff("tou.mult") <= 50)){
 				player.removePerk(PerkLib.MorphicWeaponry);
 				if((!player.isRace(Races.DARKSLIME, 2) && !player.isRace(Races.SLIME,2) && !player.isRace(Races.MAGMASLIME,2))){
-					outputText("\nAs you are mo longer a slime, you can't use the morphic weaponry ability anymore.\n(<b>Lost Perk: Morphic Weaponry.</b>\n>\n");
+					outputText("\nAs you are no longer a slime, you can't use the morphic weaponry ability anymore.\n(<b>Lost Perk: Morphic Weaponry.</b>\n>\n");
 				}
 				else{
 					outputText("\nHaving lost fluids, you no longer have enough body mass to produce extra tendril attacks.\n(<b>Lost Perk: Morphic Weaponry.</b>\n>\n");
 				}
 			}
 			//Fire Shadow Affinity		player.isAnyRaceCached(Races.NEKOMATA, Races.HELLCAT, Races.FIRESNAILS, Races.KITSHOO, Races.CERBERUS)
-			needNext ||= player.gainOrLosePerk(PerkLib.FireShadowAffinity, player.isRaceCached(Races.NEKOMATA), "A sinister fire grows within you and your body begins casting terrifying shadows from it. You realise you can innately control both those shadows and the flame like they are part of your own body wich after a few minute of contemplation you realise they are.", "As your inner flames dims so does the supernatural shadows you cast.");
+			needNext ||= player.gainOrLosePerk(PerkLib.FireShadowAffinity, player.isRaceCached(Races.NEKOMATA), "A sinister fire grows within you and your body begins casting terrifying shadows from it. You realize you can innately control both those shadows and the flame like they are part of your own body which after a few minute of contemplation you realize they are.", "As your inner flames dims so does the supernatural shadows you cast.");
 			//Fire Affinity
-			needNext ||= player.gainOrLosePerk(PerkLib.FireAffinity, player.isAnyRaceCached(Races.SALAMANDER, Races.PHOENIX, Races.HELLCAT, Races.FIRESNAILS, Races.KITSHOO, Races.CERBERUS) || player.isRaceCached(Races.MOUSE, 2) || player.hasPerk(PerkLib.Cinderbloom), "You suddenly feels your body temperature rising to ridiculus level. You pant for several minutes until you're finally at ease with your bodily heat. You doubt any more heat is going to make you more uncomfortable then this as you quietly soak in the soothing warmth your body naturally produce. It's like your body is made out of living fire.", "You suddenly feel chilly as your bodily temperature drop down to human level. You lost your natural warmth reverting to that of a standard human.");
+			needNext ||= player.gainOrLosePerk(PerkLib.FireAffinity, player.isAnyRaceCached(Races.SALAMANDER, Races.PHOENIX, Races.HELLCAT, Races.FIRESNAILS, Races.KITSHOO, Races.CERBERUS) || player.isRaceCached(Races.MOUSE, 2) || player.hasPerk(PerkLib.Cinderbloom), "You suddenly feels your body temperature rising to ridiculous level. You pant for several minutes until you're finally at ease with your bodily heat. You doubt any more heat is going to make you more uncomfortable then this as you quietly soak in the soothing warmth your body naturally produce. It's like your body is made out of living fire.", "You suddenly feel chilly as your bodily temperature drop down to human level. You lost your natural warmth reverting to that of a standard human.");
 			//Lightning Affinity
 			if ((player.isRaceCached(Races.SEA_DRAGON)) && !player.hasPerk(PerkLib.LightningAffinity)) {
-				outputText("\nYou suddenly feel a rush of electricity run across your skin as your biolight goes crazy! It would seem you gained the ability to generate and control electricity not unlike an electric eel or more specificaly a sea dragon\n");
+				outputText("\nYou suddenly feel a rush of electricity run across your skin as your biolight goes crazy! It would seem you gained the ability to generate and control electricity not unlike an electric eel or more specifically a sea dragon\n");
 				outputText("\n(<b>Gained the lightning affinity perk and Electric discharge ability!</b>)\n");
 				player.createPerk(PerkLib.LightningAffinity, 0, 0, 0, 0);
 				needNext = true;
 			}
 			if ((player.isRaceCached(Races.RAIJU) || player.isRaceCached(Races.THUNDERBIRD) || player.isRaceCached(Races.KIRIN)) && !player.hasPerk(PerkLib.LightningAffinity)) {
-				outputText("\nYou suddenly feel a rush of electricity run across your skin as your arousal builds up and begin to masturbate in order to get rid of your creeping desire. However, even after achieving orgasm not only are you still aroused but you are even hornier than before! You realise deep down that the only way for you to be freed from this jolting pleasure is to have sex with a partner!\n");
+				outputText("\nYou suddenly feel a rush of electricity run across your skin as your arousal builds up and begin to masturbate in order to get rid of your creeping desire. However, even after achieving orgasm not only are you still aroused but you are even hornier than before! You realize deep down that the only way for you to be freed from this jolting pleasure is to have sex with a partner!\n");
 				if (player.isRaceCached(Races.THUNDERBIRD)){
 					player.createStatusEffect(StatusEffects.IsThunderbird,0,0,0,0);
 					player.createPerk(PerkLib.Supercharged,0,0,0,0);
@@ -1961,7 +1961,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				needNext = true;
 			}
 			else if (!player.isRaceCached(Races.KIRIN) && !player.isRaceCached(Races.RAIJU) && !player.isRaceCached(Races.THUNDERBIRD) && player.hasPerk(PerkLib.LightningAffinity) && player.hasStatusEffect(StatusEffects.IsRaiju) && !player.hasStatusEffect(StatusEffects.IsThunderbird) && !player.hasStatusEffect(StatusEffects.IsKirin)) {
-				outputText("\nYour natural electricity production start dropping at a dramatic rate until finally there is no more. You realise you likely aren’t kirin enough to build electricity anymore which, considering you can reach satisfaction again, might not be a bad thing.\n\n<b>(Lost the lightning affinity perk, electrified desire perk, Lightning claw perk, Pleasure bolt ability and Orgasmic lightning strike ability!)</b>\n");
+				outputText("\nYour natural electricity production start dropping at a dramatic rate until finally there is no more. You realize you likely aren’t kirin enough to build electricity anymore which, considering you can reach satisfaction again, might not be a bad thing.\n\n<b>(Lost the lightning affinity perk, electrified desire perk, Lightning claw perk, Pleasure bolt ability and Orgasmic lightning strike ability!)</b>\n");
 				player.removeStatusEffect(StatusEffects.IsKirin);
 				player.removePerk(PerkLib.LightningAffinity);
 				player.removePerk(PerkLib.ElectrifiedDesire);
@@ -1969,7 +1969,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				needNext = true;
 			}
 			else if (!player.isRaceCached(Races.THUNDERBIRD) && player.hasPerk(PerkLib.LightningAffinity) && player.hasStatusEffect(StatusEffects.IsThunderbird) && !player.hasStatusEffect(StatusEffects.IsRaiju) && !player.hasStatusEffect(StatusEffects.IsKirin)) {
-				outputText("\nYour natural electricity production starts dropping at a dramatic rate until finally there is no more. You realise you likely aren’t thunderbird enough to build electricity anymore which, considering you can reach satisfaction again, might not be a bad thing.\n\n<b>(Lost the lightning affinity perk, electrified desire perk, Lightning claw perk, Pleasure bolt ability and Orgasmic lightning strike ability!)</b>\n");
+				outputText("\nYour natural electricity production starts dropping at a dramatic rate until finally there is no more. You realize you likely aren’t thunderbird enough to build electricity anymore which, considering you can reach satisfaction again, might not be a bad thing.\n\n<b>(Lost the lightning affinity perk, electrified desire perk, Lightning claw perk, Pleasure bolt ability and Orgasmic lightning strike ability!)</b>\n");
 				player.removeStatusEffect(StatusEffects.IsThunderbird);
 				player.removePerk(PerkLib.LightningAffinity);
 				player.removePerk(PerkLib.ElectrifiedDesire);
@@ -1977,7 +1977,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				needNext = true;
 			}
 			else if (!player.isRaceCached(Races.SEA_DRAGON) && player.hasPerk(PerkLib.LightningAffinity) && !player.hasStatusEffect(StatusEffects.IsKirin) && !player.hasStatusEffect(StatusEffects.IsThunderbird) && !player.hasStatusEffect(StatusEffects.IsRaiju)) {
-				outputText("\nYour natural electricity production starts dropping at a dramatic rate until finally there is no more. You realise you likely aren’t a sea dragon enough to build electricity anymore.\n\n<b>(Lost the lightning affinity perk and electric discharge ability!!)</b>\n");
+				outputText("\nYour natural electricity production starts dropping at a dramatic rate until finally there is no more. You realize you likely aren’t a sea dragon enough to build electricity anymore.\n\n<b>(Lost the lightning affinity perk and electric discharge ability!!)</b>\n");
 				player.removePerk(PerkLib.LightningAffinity);
 				needNext = true;
 			}
@@ -2014,12 +2014,12 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			/*
 
 			if (player.thundermantis() >= 10 && player.tailType == Tail.THUNDERBIRD && !player.hasPerk(PerkLib.LightningAffinity)) {
-				outputText("\nYou suddenly feel a rush of electricity run across your skin as your static energy builds up. You realise deep down that the only way for you to be freed from this is to unleash it on someone else.\n\n(<b>Gained the lightning affinity perk and Orgasmic lightning strike ability!</b>)\n");
+				outputText("\nYou suddenly feel a rush of electricity run across your skin as your static energy builds up. You realize deep down that the only way for you to be freed from this is to unleash it on someone else.\n\n(<b>Gained the lightning affinity perk and Orgasmic lightning strike ability!</b>)\n");
 				player.createPerk(PerkLib.LightningAffinity, 0, 0, 0, 0);
 				needNext = true;
 			}
 			else if (player.thundermantis() < 10 && player.tailType != Tail.THUNDERBIRD && player.hasPerk(PerkLib.LightningAffinity)) {
-				outputText("\nYour natural electricity production start dropping at a dramatic rate until finally there is no more. You realise you likely aren’t thunderbird enough to build electricity anymore.\n\n<b>(Lost the lightning affinity perk and Orgasmic lightning strike ability!)</b>\n");
+				outputText("\nYour natural electricity production start dropping at a dramatic rate until finally there is no more. You realize you likely aren’t thunderbird enough to build electricity anymore.\n\n<b>(Lost the lightning affinity perk and Orgasmic lightning strike ability!)</b>\n");
 				player.removePerk(PerkLib.LightningAffinity);
 				needNext = true;
 			}*/
@@ -2045,7 +2045,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				needNext = true;
 			}
 			//Necromancy perk
-			needNext ||= player.gainOrLosePerk(PerkLib.Necromancy, (player.tailType == Tail.CAT && player.tailCount == 2) || player.tailType == Tail.NEKOMATA_FORKED_2_3 || player.tailType == Tail.NEKOMATA_FORKED_1_3, "You feel tremendous fell powers investing your being. You blink and almost jump as you realise you can literally can see the souls of the dead as well as those of the living now. Your powers over life and death have grown as you seem to have acquired a natural talents for the darker arts.", "Having lost the source of your nekomata powers the fell energy in your body seems to recede and vanish completely.", player.perkv4(PerkLib.Necromancy) == 0);
+			needNext ||= player.gainOrLosePerk(PerkLib.Necromancy, (player.tailType == Tail.CAT && player.tailCount == 2) || player.tailType == Tail.NEKOMATA_FORKED_2_3 || player.tailType == Tail.NEKOMATA_FORKED_1_3, "You feel tremendous fell powers investing your being. You blink and almost jump as you realize you can literally can see the souls of the dead as well as those of the living now. Your powers over life and death have grown as you seem to have acquired a natural talents for the darker arts.", "Having lost the source of your nekomata powers the fell energy in your body seems to recede and vanish completely.", player.perkv4(PerkLib.Necromancy) == 0);
 			//Cancer stance
 			if (player.arms.type == Arms.HUMAN && player.lowerBody == LowerBody.CANCER && !player.hasStatusEffect(StatusEffects.CancerCrabStance)) {
 				outputText("\n\nEver since your lower body became that of a crab you began instinctively folding your arms and hands like those of a mantis or rather, the pincers of a crab. " +
@@ -2064,7 +2064,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			//Wood elf fixed by blessing of the ancestor tree
 			if (player.hasPerk(PerkLib.BlessingOfTheAncestorTree)) {
 				if (!player.hasPerk(PerkLib.ElvenSense)) {
-					outputText("\nYour acute hearing warns you of imminent danger and you dodge as a branch falls from a nearby tree missing your head by mere inches. You realise your newly sharpened senses granted you increased agility and precision.  <b>You gained the ability Elven Senses.</b>\n\n");
+					outputText("\nYour acute hearing warns you of imminent danger and you dodge as a branch falls from a nearby tree missing your head by mere inches. You realize your newly sharpened senses granted you increased agility and precision.  <b>You gained the ability Elven Senses.</b>\n\n");
 					outputText("<b>(Gained Perk: Elven Sense</b>)");
 					player.createPerk(PerkLib.ElvenSense, 0, 0, 0, 0);
 				}
@@ -2089,7 +2089,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			}
 			//Ferocity
 			if (!player.isRaceCached(Races.ORC) && player.hasPerk(PerkLib.Ferocity) && (!player.hasMutation(IMutationsLib.OrcAdrenalGlandsIM) || player.perkv1(IMutationsLib.OrcAdrenalGlandsIM) < 3)) {
-				outputText("\nYour natural ferocity starts vanishing at a dramatic rate until finally there is no more. You realise you likely aren’t orc enough anymore, considering you felt so invincible with it, which might not be a good thing.\n\n<b>(Lost the Ferocity perk!)</b>\n");
+				outputText("\nYour natural ferocity starts vanishing at a dramatic rate until finally there is no more. You realize you likely aren’t orc enough anymore, considering you felt so invincible with it, which might not be a good thing.\n\n<b>(Lost the Ferocity perk!)</b>\n");
 				player.removePerk(PerkLib.Ferocity);
 				needNext = true;
 			}
@@ -2138,11 +2138,11 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				}
 			}
 			//VerdantMight
-			needNext ||= player.gainOrLosePerk(PerkLib.VerdantMight, player.isAnyRaceCached(Races.PLANT, Races.ALRAUNE), "Raw green power flows through your veins. While being a plant hasn't done much to improve your muscle, your general sturdyness more than makes up for it. You can now use your toughness instead of your strength when delivering blows.", "Being less of a plant, you lose the ability to add your own sturdyness to your attacks.");
+			needNext ||= player.gainOrLosePerk(PerkLib.VerdantMight, player.isAnyRaceCached(Races.PLANT, Races.ALRAUNE), "Raw green power flows through your veins. While being a plant hasn't done much to improve your muscle, your general sturdiness more than makes up for it. You can now use your toughness instead of your strength when delivering blows.", "Being less of a plant, you lose the ability to add your own sturdiness to your attacks.");
 			//Enigma
 			needNext ||= player.gainOrLosePerk(PerkLib.Enigma, player.isRaceCached(Races.SPHINX), "Being a sphinx has granted you insight on many things including various secrets to martial combat, guess this is what they mean about using your smarts before your brawn.", "As you no longer possess the insight of a sphinx you no longer have the ability to fully use your smarts to improve your martial prowess.");
 			//Rampant Might
-			needNext ||= player.gainOrLosePerk(PerkLib.RampantMight, player.isRaceCached(Races.YGGDRASIL), "Raw green power flows through your veins. While being a plant dragon hasn't done much to improve your muscle, your general sturdyness more than makes up for it. You can now use your toughness and strength when delivering blows.", "Being less of a plant dragon, you lose the ability to add your own sturdyness to your attacks.");
+			needNext ||= player.gainOrLosePerk(PerkLib.RampantMight, player.isRaceCached(Races.YGGDRASIL), "Raw green power flows through your veins. While being a plant dragon hasn't done much to improve your muscle, your general sturdiness more than makes up for it. You can now use your toughness and strength when delivering blows.", "Being less of a plant dragon, you lose the ability to add your own sturdiness to your attacks.");
 			//Wisdom of the Ages
 			needNext ||= player.gainOrLosePerk(PerkLib.WisdomoftheAges, player.isRaceCached(Races.YGGDRASIL), "Becoming a member of the Yggdrasil race has granted you insight on many things, which you can use in combat.", "Being less of a plant dragon, you lose the ability to fully use your smarts to improve your martial prowess.");
 			//Vegetal Affinity
@@ -2152,16 +2152,16 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			//Bull Strength
 			needNext ||= player.gainOrLosePerk(PerkLib.BullStrength, player.isRaceCached(Races.MINOTAUR, 2) || player.isRaceCached(Races.COW, 2), "Whoa, you feel tremendous power accumulate in "+(player.isRaceCached(Races.MINOTAUR, 2)? "your balls. It fills your body with bovine strength, nourishing your muscles with manly power. They say having big balls makes you stronger... Well, its not like you can deny the correlation anymore!" : "your mammaries. It fills your body with bovine strength, nourishing your muscles with milky power. Talk about storing all your might into your jugs!"), "You feel weaker, it looks like you lost the benefit of your bull strength. Probably because you are no longer bovine enough.");
 			//Dracoforce
-			needNext ||= player.gainOrLosePerk(PerkLib.Dracoforce, player.isRaceCached(Races.DRAGON, 3) || player.isRaceCached(Races.FAERIEDRAGON, 3) || player.isRaceCached(Races.FROSTWYRM, 3) || player.isRaceCached(Races.JABBERWOCKY, 4) || player.isRaceCached(Races.SEA_DRAGON, 2), "Your draconic blood boil with contained power as your body sturdyness and strength increase to match that of a great wyrm.", "As your body becomes less draconic you feel the might of the dragons within you wanes.");
+			needNext ||= player.gainOrLosePerk(PerkLib.Dracoforce, player.isRaceCached(Races.DRAGON, 3) || player.isRaceCached(Races.FAERIEDRAGON, 3) || player.isRaceCached(Races.FROSTWYRM, 3) || player.isRaceCached(Races.JABBERWOCKY, 4) || player.isRaceCached(Races.SEA_DRAGON, 2), "Your draconic blood boil with contained power as your body sturdiness and strength increase to match that of a great wyrm.", "As your body becomes less draconic you feel the might of the dragons within you wanes.");
 			//Hinezumi Coat
 			if (player.isRaceCached(Races.MOUSE, 2) && !player.hasStatusEffect(StatusEffects.HinezumiCoat)) {
-				outputText("\nYour body suddenly coats itself with fire turning incandescent as your lust and body heat spikes up reaching a critical point, this must be the infamous hinezumi coat. You gasp as your lust begins to overwelm you, the flare of desire burns in you and you need to vent it one way or another. ");
+				outputText("\nYour body suddenly coats itself with fire turning incandescent as your lust and body heat spikes up reaching a critical point, this must be the infamous hinezumi coat. You gasp as your lust begins to overwhelm you, the flare of desire burns in you and you need to vent it one way or another. ");
 				outputText("Feeling inspired you try and expel it through kick and punch on a tree and indeed it works the more you discharge your flames the clearer your mind get. Your hinezumi coat finally stable you sigh in relief.\n\n<b>(Gained Hinezumi Coat!)</b>\n");
 				player.createStatusEffect(StatusEffects.HinezumiCoat, 1, 0, 0, 0);
 				needNext = true;
 			}
 			if (!player.isRaceCached(Races.MOUSE, 2) && player.hasStatusEffect(StatusEffects.HinezumiCoat)) {
-				outputText("\nFor one reason or another your inner flames suddenly die down leaving you penting but clear of mind. Seems you no longer are hinezumi enough for the coat to maintain itself.\n\n<b>(Lost the Hinezumi Coat!)</b>\n");
+				outputText("\nFor one reason or another your inner flames suddenly die down leaving you panting but clear of mind. Seems you no longer are hinezumi enough for the coat to maintain itself.\n\n<b>(Lost the Hinezumi Coat!)</b>\n");
 				player.removeStatusEffect(StatusEffects.HinezumiCoat);
 				needNext = true;
 			}
@@ -2318,7 +2318,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			}
 			//Marae corrupted or killed + Zenji
 			if (ZenjiScenes.isLover() && (flags[kFLAGS.MET_MARAE_CORRUPTED] >= 1 || flags[kFLAGS.CORRUPTED_MARAE_KILLED] > 0) && !ZenjiScenes.ZenjiMarae) {
-				outputText("\nZenji approaches you, \"<i>[name]. I.. I felt something, not long ago. Someting terrible has happened, I feel it deep within me.</i>\"");
+				outputText("\nZenji approaches you, \"<i>[name]. I.. I felt something, not long ago. Something terrible has happened, I feel it deep within me.</i>\"");
 				outputText("\n\nHe pulls you into his protective arms, \"<i>Stay close, [name], dis world just doesn’t feel right anymore.</i>\"");
 				ZenjiScenes.ZenjiMarae = true;
 				needNext = true;
@@ -2331,12 +2331,12 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			needNext ||= player.gainOrLosePerk(PerkLib.DisplacerMilkAddict, player.rearBody.type == RearBody.DISPLACER_TENTACLES, "You suddenly feel a desire to eat, or rather, drink. It's like you have been thirsty for months, yet the thirst does not originate from your throat. Your tentacles are dying for milks and you feel that as long as you don't sate them, you will only be getting hornier! Milk... You need milk, a lot of it. It’s obvious now why displacer beasts are this crazy for sex as you feel the urge to pounce and feed on every single pair of breast in Mareth you can find!", "You suddenly feel like your mind is clear of the constant haze of lust and hunger for the first time since you had these tentacles. Losing them was perhaps for the best.", true, function():void { flags[kFLAGS.SEXUAL_FLUIDS_LEVEL] = 50; });
 			//Vampire Thirst
 			if (player.faceType == Face.VAMPIRE && !player.hasStatusEffect(StatusEffects.VampireThirst)) {
-				outputText("\nAn ominous thirst settle in your throat as you begin to hallucinate glasses of blood... how delicious it would feel on your palates. You realise you are salivating and do your best to control yourself. Still you now are clearly dependant on blood.\n");
+				outputText("\nAn ominous thirst settle in your throat as you begin to hallucinate glasses of blood... how delicious it would feel on your palates. You realize you are salivating and do your best to control yourself. Still you now are clearly dependent on blood.\n");
 				player.createStatusEffect(StatusEffects.VampireThirst, 0, 0, 0, 0);
 				needNext = true;
 			}
 			if (player.faceType != Face.VAMPIRE && player.hasStatusEffect(StatusEffects.VampireThirst) && !player.perkv1(IMutationsLib.HollowFangsIM) >= 1) {
-				outputText("\nAs your fang disappear so do your vampiric urges. You become disgusted with yourself as you realise how much blood you drank.\n");
+				outputText("\nAs your fang disappear so do your vampiric urges. You become disgusted with yourself as you realize how much blood you drank.\n");
 				player.removeStatusEffect(StatusEffects.VampireThirst);
 				needNext = true;
 			}
@@ -2354,10 +2354,10 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			needNext ||= player.gainOrLosePerk(PerkLib.SmallCaster, player.isAnyRaceCached(Races.IMP, Races.DEVIL, Races.AZAZEL) && player.effectiveTallness <= 60, "Your magic becomes more concentrated in your smaller body.", "Your racial alignment does not meet the conditions and as such, the high concentration of mana in your body disperses.");
 			needNext ||= player.gainOrLosePerk(PerkLib.Immortality, player.isAnyRaceCached(Races.AZAZEL, Races.LICH), "You gain a sense of invulnerability as you are now an Azazel.", "You lose your sense of invulnerability as you are no longer an Azazel.");
 			needNext ||= player.gainOrLosePerk(PerkLib.Purifier, player.isRaceCached(Races.AZAZEL), "You gain a sense of conviction as you are now an Azazel.", "You lose your sense of conviction as you are no longer an Azazel.");
-			needNext ||= player.gainOrLosePerk(PerkLib.QueenOfTheFairies, player.isRaceCached(Races.FAIRY, 2), "You sense a change in yourself, a faint calling from the forrest. "+PerkLib.QueenOfTheFairies.desc());
-			needNext ||= player.gainOrLosePerk(PerkLib.WhatIsReality, player.isRaceCached(Races.CHESHIRE), "You gain a sence of invulnerability as you are now an Cheshire.", "You lose your sense of invulnerability as you are no longer an Cheshire.");
+			needNext ||= player.gainOrLosePerk(PerkLib.QueenOfTheFairies, player.isRaceCached(Races.FAIRY, 2), "You sense a change in yourself, a faint calling from the forest. "+PerkLib.QueenOfTheFairies.desc());
+			needNext ||= player.gainOrLosePerk(PerkLib.WhatIsReality, player.isRaceCached(Races.CHESHIRE), "You gain a sense of invulnerability as you are now an Cheshire.", "You lose your sense of invulnerability as you are no longer an Cheshire.");
 			needNext ||= player.gainOrLosePerk(PerkLib.VorpalClaw, player.isRaceCached(Races.CHESHIRE));
-			//Gain venomancy if utherly toxic
+			//Gain venomancy if utterly toxic
 			needNext ||= player.gainPerk(PerkLib.Venomancy, player.isRaceCached(Races.APOPHIS) && player.cor > 50, "Your inborn toxicity has reached such a peak that even your spells are now charged with venom.");
 			needNext ||= player.losePerk(PerkLib.Venomancy, !player.isRaceCached(Races.APOPHIS) && player.cor < 89, "Your mystical powers over poison and toxins have waned.");
 
@@ -2365,7 +2365,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			if (player.isHarpy() || player.isGoblinoid() || player.isAlraune() || player.isSandWorm() || (player.perkv1(IMutationsLib.FiendishOvariesIM) >= 4 && (player.pregnancyType == PregnancyStore.PREGNANCY_IMP || player.pregnancy2Type == PregnancyStore.PREGNANCY_IMP))) {
 				if(player.isPregnant() && !player.statStore.hasBuff("Pregomania")){
 					player.statStore.removeBuffs("Impregnate me!!!");
-					player.statStore.addBuffObject({"tou.mult":0.20,"lib.mult":0.20}, "Pregomania",{text:"Your motherly instincs gives you increased resilience and resolve."});
+					player.statStore.addBuffObject({"tou.mult":0.20,"lib.mult":0.20}, "Pregomania",{text:"Your motherly instincts gives you increased resilience and resolve."});
 					outputText("\nYou pat your belly in motherly delight instinctively knowing that you have been impregnated. Your body seldom radiates motherly wellbeing making you hardyer in order to protect your beloved children to be.\n");
 				}
 				if(!player.isPregnant() && player.statStore.hasBuff("Pregomania")){
@@ -2492,7 +2492,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			var unicornColorPalette:Array = ["white", "pure white"];
 			var unicornHairPalette:Array = ["platinum blonde","silver", "white", "pure white"];
 			if ((player.horns.type == Horns.BICORN || player.horns.type == Horns.UNICORN) && player.cor < 11 && !player.hasPerk(PerkLib.AvatorOfPurity)) {
-				outputText("\nA sudden wave of serenity pass over you as you realise how pure you have become.");
+				outputText("\nA sudden wave of serenity pass over you as you realize how pure you have become.");
 				if (player.horns.type == Horns.BICORN) {
 					outputText(" Your two horns merges into a single one and you can feel the pure unity of your horn restored.");
 					player.horns.type = Horns.UNICORN;
@@ -2515,10 +2515,10 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					outputText(" Your wings also redeem themselves changing into a pair of angelic wings covered with white feathers.");
 					player.wings.type = Wings.FEATHERED_ALICORN;
 				}
-				outputText("\n\n<b>You laugh heartily at your unblemish pure form as you realise you are an ");
+				outputText("\n\n<b>You laugh heartily at your unblemished pure form as you realize you are an ");
 				if (player.wings.type == Wings.FEATHERED_ALICORN) outputText("alicorn");
 				else outputText("unicorn");
-				outputText(" now. Mighty magical power start to swell in the horn on your forehead, cleansing whats left of any corruption you may have, and you will gladly use them to fight off the corruption that plagues Mareth.</b>\n");
+				outputText(" now. Mighty magical power start to swell in the horn on your forehead, cleansing what's left of any corruption you may have, and you will gladly use them to fight off the corruption that plagues Mareth.</b>\n");
 				if (player.hasPerk(PerkLib.AvatorOfCorruption)) player.removePerk(PerkLib.AvatorOfCorruption);
 				player.createPerk(PerkLib.AvatorOfPurity, 0, 0, 0, 0);
 				player.createPerk(PerkLib.AuraOfPurity, 0, 0, 0, 0);
@@ -2600,7 +2600,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					needNext = true;
 				}
 			}
-			if (player.hasStatusEffect(StatusEffects.Uniball) && player.ballSize > 1 && player.hasBalls()) { //Testicles Normalise:
+			if (player.hasStatusEffect(StatusEffects.Uniball) && player.ballSize > 1 && player.hasBalls()) { //Testicles Normalize:
 				outputText("\nYou feel a deep sensation of release around your genitals.  You sigh with relief and contentment as your testicles drop downwards and bloom outwards, heat throbbing within them as they split and form a proper ballsack.\n");
 				player.removeStatusEffect(StatusEffects.Uniball);
 				needNext = true;
@@ -2939,7 +2939,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					return true;
 				}
 				if (player.hasCock() && player.hasPerk(PerkLib.MantisOvipositor) && (player.eggs() >= 20 && rand(6) == 0)) { //Mantis dreams proc
-					outputText("\nIn a moonlit forest, you sit upon a thick tree branch silently above fresh web after you naturaly 'take care' of it owner.  You watch with rising lust as a hapless traveler strolls along below, utterly unaware of the trap set.  Your breath catches as " + player.mf("he","she") + " finally encounters web, flailing against the sticky strands in a futile attempt to free " + player.mf("him","her") + "self.  Once the traveller's struggles slow in fatigue, you descend easily to the forest floor, with few pecise swings of your scythes wrapping " + player.mf("him","her") + " in an elegant makeshift silk cocoon before pulling " + player.mf("him","her") + " up into the canopy.  Cutting " + player.mf("his","her") + " crotch free of your webbing, you open " + player.mf("his","her") + " [armor] and release the ");
+					outputText("\nIn a moonlit forest, you sit upon a thick tree branch silently above fresh web after you naturally 'take care' of it owner.  You watch with rising lust as a hapless traveler strolls along below, utterly unaware of the trap set.  Your breath catches as " + player.mf("he","she") + " finally encounters web, flailing against the sticky strands in a futile attempt to free " + player.mf("him","her") + "self.  Once the traveler's struggles slow in fatigue, you descend easily to the forest floor, with few precise swings of your scythes wrapping " + player.mf("him","her") + " in an elegant makeshift silk cocoon before pulling " + player.mf("him","her") + " up into the canopy.  Cutting " + player.mf("his","her") + " crotch free of your webbing, you open " + player.mf("his","her") + " [armor] and release the ");
 					if (player.hasVagina()) outputText(Appearance.vaginaDescript(player,0) + " and ");
 					outputText(player.cockDescript(0) + " therein; you lower yourself onto " + player.mf("him","her") + " over and over again, spearing your eager pussy with " + player.mf("him","her") + " prick");
 					if (player.hasVagina()) outputText(" while you bend and force your own into her cunt");
@@ -2957,7 +2957,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					return true;
 				}
 				if (player.hasCock() && player.hasPerk(PerkLib.SpiderOvipositor) && (player.eggs() >= 20 && rand(6) == 0)) { //Drider dreams proc
-					outputText("\nIn a moonlit forest, you hang upside down from a thick tree branch suspended by only a string of webbing.  You watch with rising lust as a hapless traveler strolls along below, utterly unaware of the trap you've set.  Your breath catches as " + player.mf("he","she") + " finally encounters your web, flailing against the sticky strands in a futile attempt to free " + player.mf("him","her") + "self.  Once the traveller's struggles slow in fatigue, you descend easily to the forest floor, wrapping " + player.mf("him","her") + " in an elegant silk cocoon before pulling " + player.mf("him","her") + " up into the canopy.  Positioning your catch against the tree's trunk, you sink your fangs through the web and into flesh, feeling " + player.mf("his","her") + " body heat with every drop of venom.  Cutting " + player.mf("his","her") + " crotch free of your webbing, you open " + player.mf("his","her") + " [armor] and release the ");
+					outputText("\nIn a moonlit forest, you hang upside down from a thick tree branch suspended by only a string of webbing.  You watch with rising lust as a hapless traveler strolls along below, utterly unaware of the trap you've set.  Your breath catches as " + player.mf("he","she") + " finally encounters your web, flailing against the sticky strands in a futile attempt to free " + player.mf("him","her") + "self.  Once the traveler's struggles slow in fatigue, you descend easily to the forest floor, wrapping " + player.mf("him","her") + " in an elegant silk cocoon before pulling " + player.mf("him","her") + " up into the canopy.  Positioning your catch against the tree's trunk, you sink your fangs through the web and into flesh, feeling " + player.mf("his","her") + " body heat with every drop of venom.  Cutting " + player.mf("his","her") + " crotch free of your webbing, you open " + player.mf("his","her") + " [armor] and release the ");
 					if (player.hasVagina()) outputText(Appearance.vaginaDescript(player,0) + " and ");
 					outputText(player.cockDescript(0) + " therein; you lower yourself onto " + player.mf("him","her") + " over and over again, spearing your eager pussy with " + player.mf("him","her") + " prick");
 					if (player.hasVagina()) outputText(" while you bend and force your own into her cunt");

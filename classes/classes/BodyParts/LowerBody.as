@@ -468,7 +468,7 @@ public class LowerBody extends SaveableBodyPart {
 	public static const ELF:int = 40;
 	EnumValue.add(Types, ELF, "ELF", {
 		name: "elf",
-		appearanceDesc: "Your {legCount} perfect lissom legs end in delicate but agile elven feet, allowing you to move gracefully and swiftly."
+		appearanceDesc: "Your {legCount} perfect lissome legs end in delicate but agile elven feet, allowing you to move gracefully and swiftly."
 	});
 
 	public static const RAIJU:int = 41;

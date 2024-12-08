@@ -1119,7 +1119,7 @@ import classes.Scenes.SceneLib;
 		addButton(0, "Poultice", HerbalismCraftItem, 1, "healing herb", "Poultice").hint("Craft a Poultice using healing herb.\n\nHealing herbs currently in Ingredient Bag "+IngrediantBagSlot01+"")
 			.disableIf(IngrediantBagSlot01 == 0, "You lack the ingredients to craft this item.\n\nHealing herbs currently in Ingredient Bag "+IngrediantBagSlot01+"");
 		//Energy drink
-		addButton(1, "Energy drink", HerbalismCraftItem, 2, "moon grass", "Energy drink").hint("Craft a Energy drink using moon grass.\n\nMoon grass currently in Ingredient Bag "+IngrediantBagSlot02+"");
+		addButton(1, "Energy drink", HerbalismCraftItem, 2, "moon grass", "Energy drink").hint("Craft an Energy drink using moon grass.\n\nMoon grass currently in Ingredient Bag "+IngrediantBagSlot02+"");
 		if (player.herbalismLevel < 2) button(1).disable("You lack the skill to craft this item.\n\nRequire Herbalism level 2");
 		if (IngrediantBagSlot02 == 0) button(1).disable("You lack the ingredients to craft this item. \n\nMoon grass currently in Ingredient Bag "+IngrediantBagSlot02+"");
 		//Cure

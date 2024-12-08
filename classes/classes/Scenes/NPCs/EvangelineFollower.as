@@ -244,8 +244,8 @@ private function evangelineAppearance():void {
 	outputText("Oddly, despite living in Mareth she looks like a human aside from her eyes that have uncanny pupils, which after narrowing looks like two cat slits that forms an X shape over her golden eyes. Her ");
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("crimson platinum ");
 	else outputText("red ");
-	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("hair are ass-length along with breats that could easily fill a F-cup bra, expansive ass and fertile hips.\n\n");
-	else if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("hair are ass-length along with breats that could easily fill a E-cup bra, jiggly ass and curvy hips is quite a change that resulted from her drinking bimbo liqueur personaly modified by her.\n\n");
+	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("hair are ass-length along with breasts that could easily fill a F-cup bra, expansive ass and fertile hips.\n\n");
+	else if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("hair are ass-length along with breasts that could easily fill a E-cup bra, jiggly ass and curvy hips is quite a change that resulted from her drinking bimbo liqueur personally modified by her.\n\n");
 	else outputText("hair short along with breasts not bigger than A cup, almost non-existent butt and boyish hips cause her to look quite tomboyish.\n\n");
 	//outputText(".\n\n");
 	outputText("She's wearing ");
@@ -388,7 +388,7 @@ private function evangelineSparMenu():void {
 		outputText("You suggest a sparring session.  Evangeline asks, \"<i>How should we fight?  Would you rather we spar light or fight like the creatures of this world?</i>\"");
 		outputText("\n\n(Do you spar 'light' with no consequences for losing, or would you rather spar 'hard' (with full consequences for loss/win)?)");
 	}
-	else outputText("You suggest a sparring session.  Evangeline after a moment of hesistation nod in agreement.");
+	else outputText("You suggest a sparring session.  Evangeline after a moment of hesitation nod in agreement.");
 	menu();
 	addButton(0, "Light", LightSpar);
 	if (EvangelineAffectionMeter >= 50) addButton(1, "Hard", HardSpar);
@@ -414,7 +414,7 @@ private function HardSpar():void {
 
 private function evangelineAlchemyMenu(page:int = 1):void {
 	clearOutput();
-	outputText("\"<i>So you do want another transformational item made by me?</i>\" She asked after hearing what potion you want to purpose to her this time, at which you simply nod. Without wasting time she walks, with you closely behind, toward a entrance to a small cave right outside the camp's border, in which she keep her equipment.\n\n\"<i>So what you want this time for me to make?</i>\" Stopping at the edge of the entrance to lab Evangeline glance in your direction.");
+	outputText("\"<i>So you do want another transformational item made by me?</i>\" She asked after hearing what potion you want to purpose to her this time, at which you simply nod. Without wasting time she walks, with you closely behind, toward an entrance to a small cave right outside the camp's border, in which she keep her equipment.\n\n\"<i>So what you want this time for me to make?</i>\" Stopping at the edge of the entrance to lab Evangeline glance in your direction.");
 	menu();
 	if (page == 1) {
 		// [Gorgon  ] [Vouivre ] [Couatl  ] [Nocello ] [Unicorn ]
@@ -423,16 +423,16 @@ private function evangelineAlchemyMenu(page:int = 1):void {
 		addButton(0, "Gorgon Oil", MakingGorgonPotion).hint("Ask her to brew a special potion that could aid in becoming a gorgon. \n\nCost: 10 Gems \nNeeds 1 Snake Oil and 1 Reptilum.");
 		addButton(1, "Vouivre Oil", MakingVouivrePotion).hint("Ask her to brew a special potion that could aid in becoming a vouivre. \n\nCost: 15 Gems \nNeeds 1 Snake Oil and 1 Drake Heart.");
 		addButton(2, "Couatl Oil", MakingCouatlPotion).hint("Ask her to brew a special potion that could aid in becoming a couatl. \n\nCost: 10 Gems \nNeeds 1 Snake Oil and 1 Golden Seed.");
-		addButton(3, "Nocello Liq", MakingNocelloLiqueur).hint("Ask her to brew a special potion that could aid in becoming a phoenix. \n\nCost: 10 Gems \nNeeds 1 Golden Seed and 1 Salamander Firewater.");//Hybryd race TF
+		addButton(3, "Nocello Liq", MakingNocelloLiqueur).hint("Ask her to brew a special potion that could aid in becoming a phoenix. \n\nCost: 10 Gems \nNeeds 1 Golden Seed and 1 Salamander Firewater.");//Hybrid race TF
 		addButton(4, "Unicornum", MakingUnicornumPotion).hint("Ask her to brew a special potion that could aid in becoming a unicorn. \n\nCost: 20 Gems \nNeeds 1 Equinum and 4 Low-grade Soulforce Recovery Pills.");//1st stage Soul evolution race TF
-		addButton(5, "RubyCrystal", MakingRubyCrystal).hint("Ask her to brew a special potion that could aid in becoming a kitsumori. \n\nCost: 10 Gems \nNeeds 1 Fox Jewel and 1 Salamander Firewater.");//Hybryd race TF
+		addButton(5, "RubyCrystal", MakingRubyCrystal).hint("Ask her to brew a special potion that could aid in becoming a kitsumori. \n\nCost: 10 Gems \nNeeds 1 Fox Jewel and 1 Salamander Firewater.");//Hybrid race TF
 		//6
-		//addButton(7, "", ).hint(".");siren TF//Hybryd race TF
+		//addButton(7, "", ).hint(".");siren TF//Hybrid race TF
 		//8
 		addButton(9, "Alicornum", MakingAlicornumPotion).hint("Ask her to brew a special potion that could aid in becoming an alicorn. \n\nCost: 50 Gems \nNeeds 1 Unicornum and 20 Low-grade Soulforce Recovery Pills/2 bottles of Low-grade Soulforce Recovery Pills.");//2nd stage Soul evolution race TF
 		addButton(10, "Grey Ink", MakingGreyInkPotion).hint("Grey Ink for Herm Scylla form. \n\nCost: 10 Gems \nNeeds 1 vial of Black Ink and 1 sealed bottle of behemoth cum.");
 		addButton(11, "White Ink", MakingWhiteInkPotion).hint("White Ink for Male Scylla form. \n\nCost: 20 Gems \nNeeds 1 vial of Black Ink and 2 sealed bottles of behemoth cum.");
-		addButton(12, "InferWine", MakingInfernalWinePotion).hint("Ask her to brew a special potion that could aid in becoming a infernal goat/devil. \n\nCost: 480 Gems \nNeeds 1 Satyr Wine, 1 Succubi milk and 1 Incubi draft.");
+		addButton(12, "InferWine", MakingInfernalWinePotion).hint("Ask her to brew a special potion that could aid in becoming an infernal goat/devil. \n\nCost: 480 Gems \nNeeds 1 Satyr Wine, 1 Succubi milk and 1 Incubi draft.");
 		addButton(13, "-2-", evangelineAlchemyMenu, page + 1);
 		addButton(14, "Back", meetEvangeline);
 	}
@@ -441,7 +441,7 @@ private function evangelineAlchemyMenu(page:int = 1):void {
 		// [Leviathn] [        ] [        ] [        ] [        ]
 		// [GreyAInk] [WhiteAIn] [        ] [  -1-   ] [ Back   ]
 		addButton(0, "Centaurinum", MakingCentaurPotion).hint("Ask her to brew a special potion that could aid in becoming a centaur. \n\nCost: 10 Gems \nNeeds 1 Equinum and 1 Minotaur Blood.");
-		addButton(1, "Storm Seed", MakingStormSeed).hint("Ask her to brew a special potion that could aid in becoming a thunderbird. \n\nCost: 10 Gems \nNeeds 1 Magically-enhanced Golden Seed and 1 Voltage topaz.");//Hybryd race TF
+		addButton(1, "Storm Seed", MakingStormSeed).hint("Ask her to brew a special potion that could aid in becoming a thunderbird. \n\nCost: 10 Gems \nNeeds 1 Magically-enhanced Golden Seed and 1 Voltage topaz.");//Hybrid race TF
 		addButton(2, "Enigmanium", MakingEnigmaniumPotion).hint("Ask her to brew a special potion that could aid in becoming a sphinx. \n\nCost: 30 Gems \nNeeds 1 Centarium, 1 Golden Seed and 1 Whisker Fruit.");
 		//3
 		//4

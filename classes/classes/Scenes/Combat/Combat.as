@@ -7665,7 +7665,7 @@ public class Combat extends BaseContent {
         //outputText("CRIT: " + critCounter + " times\n");
         //outputText("TIME: " + (timer - getTimer()) + "\n");
         if (monster.hasStatusEffect(StatusEffects.HypnosisNaga)) {
-            outputText("\nThe pain makes your target snap out of the trance, causing them to realise what is going on.\n");
+            outputText("\nThe pain makes your target snap out of the trance, causing them to realize what is going on.\n");
             player.removeStatusEffect(StatusEffects.HypnosisNaga);
         }
     }
@@ -8078,7 +8078,7 @@ public class Combat extends BaseContent {
         //outputText("CRIT: " + critCounter + " times\n");
         //outputText("TIME: " + (timer - getTimer()) + "\n");
         if (monster.hasStatusEffect(StatusEffects.HypnosisNaga)) {
-            outputText("\nThe pain makes your target snap out of the trance, causing them to realise what is going on.\n");
+            outputText("\nThe pain makes your target snap out of the trance, causing them to realize what is going on.\n");
             player.removeStatusEffect(StatusEffects.HypnosisNaga);
         }
     }
@@ -12548,14 +12548,14 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 			if (player.statusEffectv2(StatusEffects.Flying) == 2) {
 				if (player.soulforce < flyingWithSoulforceCost()) {
 					player.removeStatusEffect(StatusEffects.Flying);
-					outputText("<b>You realise that your SoulForce can't sustain your flight any longer. You land lightly, sighing as the drain on your Soul stops. </b>\n\n");
+					outputText("<b>You realize that your SoulForce can't sustain your flight any longer. You land lightly, sighing as the drain on your Soul stops. </b>\n\n");
 				}
 				else player.soulforce -= flyingWithSoulforceCost();
 			}
 			if (player.statusEffectv2(StatusEffects.Flying) == 3) {
 				if (player.soulforce < (25 * soulskillCost() * soulskillcostmulti()) || player.mana < spellCost(50 * combat.mspecials.kitsuneskill2Cost())) {
 					player.removeStatusEffect(StatusEffects.Flying);
-					outputText("<b>You realise that your can't sustain your flight any longer. You land lightly, sighing as the drain on your soulforce and mana stops. </b>\n\n");
+					outputText("<b>You realize that your can't sustain your flight any longer. You land lightly, sighing as the drain on your soulforce and mana stops. </b>\n\n");
 				}
 				else {
 					player.soulforce -= (25 * soulskillCost() * soulskillcostmulti());
@@ -15463,7 +15463,7 @@ public function randomTeaseMindflayerCriticalOverload(straddleDamage:Number, ran
 
 public function randomTeaseManticoreTailSpike(straddleDamage:Number, randomcrit:Boolean):void {
     outputText("Taking advantage of your opponent's precarious position, you reach back and grab one of your back-spikes. " +
-            "You grin widely as you bring your hand down, stabbing your opponent with your venomous spike. You bat aside their clumsy attempt at a block, stabbing them again and again. With each stab, venom frothes from the spike, and blood spills from the deep injuries." +
+            "You grin widely as you bring your hand down, stabbing your opponent with your venomous spike. You bat aside their clumsy attempt at a block, stabbing them again and again. With each stab, venom froths from the spike, and blood spills from the deep injuries." +
             "Your victim eventually rallies, blocking your wrist, then knocking the spike from your hand. You jump off them before they can strike you, but as they fight their way upright, you can tell that it was worth it");
     if (player.perkv1(IMutationsLib.ManticoreMetabolismIM) >= 3 && player.tail.type == Tail.MANTICORE_PUSSYTAIL) straddleDamage *= 2;
     var multiplier:Number = 1;
