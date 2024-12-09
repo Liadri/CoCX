@@ -445,7 +445,7 @@ public class PerkLib
 				"Everyone's had their turn with you. +10% max lust, +5 to anal/vaginal capacity.",
 				"You've chosen the 'Door Knob' perk. +10% max lust, +5 to anal/vaginal capacity.")
 				.withBuffs({'maxlust_mult':+0.1});
-		public static const EnchancedWarriorsRage:PerkType = mk("Enhanced Warrior's Rage", "Enhanced Warrior's Rage",
+		public static const EnchancedWarriorsRage:PerkType = mk("Enchanced Warrior's Rage", "Enhanced Warrior's Rage",
 				"Warrior's Rage automatically recasts when it ends, as long as you have enough wrath. While active, instead of 10%, it now grants a 20% boost to your core Strength, Toughness, and Speed.",
 				"You've chosen the 'Enhanced Warrior's Rage' perk. Warrior's Rage automatically recasts when it ends, as long as you have enough wrath. While active, instead of 10%, it now grants a 20% boost to your core Strength, Toughness, and Speed.");
 		public static const Fellowship:PerkType = mk("Fellowship", "Fellowship",
@@ -1297,7 +1297,7 @@ public class PerkLib
 		public static const DeathPlunge:PerkType = mk("Death plunge", "Death plunge",
 				"When using Great Dive you may add your weapon damage as part of the attack damage as if using power attack at its current maximum value consuming no wrath in the process.",
 				"You've chosen the 'Death plunge' perk. When using Great Dive you may add your weapon damage as part of the attack damage as if using power attack at its current maximum value consuming no wrath in the process.");
-		public static const DefenceStance:PerkType = mk("Defense Stance", "Defense Stance",
+		public static const DefenceStance:PerkType = mk("Defence Stance", "Defense Stance",
 				"Defend move now reduce incoming damage a little more and allow for very small improvement of fatigue/mana/soulforce recovery.",
 				"You've chosen the 'Defense Stance' perk, training to master your defense pose.");
 		public static const DefensiveStaffChanneling:PerkType = mk("Defensive Staff Channeling", "Defensive Staff Channeling",
@@ -1618,7 +1618,7 @@ public class PerkLib
 		public static const Escort:PerkType = mk("Escort", "Escort",
 				"You've gotten so good you can now charge people money for having sex with you. There's many tricks you learned, increasing your tease damage by 15%.",
 				"You've chosen the 'Escort' perk, gaining +15% tease dmg.");
-		public static const EternalyLastingBuffs:PerkType = mk("(Eternally) Lasting Buffs", "(Eternally) Lasting Buffs",
+		public static const EternalyLastingBuffs:PerkType = mk("(Eternaly) Lasting Buffs", "(Eternally) Lasting Buffs",
 				"Buff spells last another 5 turns longer at another 2x increase of their costs.",
 				"You've chosen the '(Eternally) Lasting Buffs' perk. Your mastery over buffs has reached (eternally) lasting level. (+5 turns duration and increasing cost 2x)");
 		public static const Evade:PerkType = mk("Evade", "Evade",
@@ -3545,7 +3545,7 @@ public class PerkLib
 		public static const Whistles:PerkType = mk("Whistles", "Whistles",
 				"Sample Text Here/+20% fatigue recovery rate",
 				"You've chosen the 'Whistles' perk, gaining +20% fatigue recovery rate.");
-		public static const WisenedHealer:PerkType = mk("Wizened Healer", "Wizened Healer",
+		public static const WisenedHealer:PerkType = mk("Wisened Healer", "Wizened Healer",
 				"Adds wisdom based scaling to healing spells at cost of doubling spells costs.",
 				"You've chosen the 'Wizened Healer' perk. Increasing healing spells effects based on current wisdom.");/*
 		public static const WispBrigadierGeneral:PerkType = mk("Wisp Brigadier General", "Wisp Brigadier General",
