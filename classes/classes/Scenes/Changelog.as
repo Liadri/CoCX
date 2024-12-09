@@ -324,7 +324,7 @@ public class Changelog extends BaseContent
 			outputText("-New tier 9 misc lvl-up perk: Utility Skills: Professional. Req. Utility Skills: Skilled & any non combat skill at lvl 10. Effect: Increasing mastery gains in non-combat skills by 400% of base and decreasing a bit req. exp to level up.\n");
 			outputText("-New tier 12 misc lvl-up perk: Utility Skills: Artisan. Req. Utility Skills: Professional & any non combat skill at lvl 13. Effect: Increasing mastery gains in non-combat skills by 500% of base and decreasing a bit req. exp to level up.\n");
 			outputText("-Utility Skills: Apprentice perk req. for non combat skill lowered from 5+ to 4+ and tier decreased from 4 to 3. Utility Skills: Skilled req. for non combat skill lowered from 10+ to 7+ and tier decreased from 8 to 6.\n");
-			outputText("-\n");
+			outputText("-Typo fixes. (klorpa)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
