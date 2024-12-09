@@ -2310,7 +2310,7 @@ private function marbleCampSexNew():void {
         addButton(0, "Feeding (M)", feedingF, true)
             .disableIf(!player.hasCock(), "Req. a cock.")
             .disableIf(!player.hasPerk(PerkLib.MarblesMilk), "You're not addicted to do that!");
-        addButton(0, "Feeding (F)", feedingF, false)
+        addButton(1, "Feeding (F)", feedingF, false)
             .disableIf(!player.hasVagina(), "Req. a vagina.")
             .disableIf(!player.hasPerk(PerkLib.MarblesMilk), "You're not addicted to do that!");
         addButton(2, "Oral (M)", oralF, true)
