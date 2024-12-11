@@ -767,6 +767,10 @@ public class Creature extends Utils
 			if (hasPerk(PerkLib.CheetahIV)) max += Math.round(spe*4);
 			if (hasPerk(PerkLib.CheetahV)) max += Math.round(spe*4);
 			if (hasPerk(PerkLib.CheetahVI)) max += Math.round(spe*4);
+			if (perkv1(IMutationsLib.StillHeartIM) >= 4) {
+				if (hasPerk(PerkLib.Undeath)) max += Math.round(lib*0.5);
+				else max += Math.round(lib*0.25);
+			}
 			if (hasPerk(PerkLib.ElementalBondFlesh)) {
 				if (hasStatusEffect(StatusEffects.SummonedElementalsAir)) max += maxHP_ElementalBondFleshMulti() * 4 * statusEffectv2(StatusEffects.SummonedElementalsAir);
 				if (hasStatusEffect(StatusEffects.SummonedElementalsEarth)) max += maxHP_ElementalBondFleshMulti() * 4 * statusEffectv2(StatusEffects.SummonedElementalsEarth);

@@ -47,6 +47,7 @@ public class NosferatuSpell extends AbstractBlackSpell {
 		var amountToHeal:Number = 5 * scalingBonusIntelligence(randomize);
 		if (player.hasPerk(PerkLib.WisenedHealer)) amountToHeal += scalingBonusWisdom();
 		if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) amountToHeal *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) amountToHeal += Math.round(player.maxHP() * 0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
 		return amountToHeal * healModBlack();
 	}
 	

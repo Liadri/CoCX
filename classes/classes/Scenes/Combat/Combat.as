@@ -7553,6 +7553,7 @@ public class Combat extends BaseContent {
                     var sippedA:Number = 0.01;
 					if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) sippedA += (0.0025 * player.perkv1(IMutationsLib.StillHeartIM));
                     if (player.hasStatusEffect(StatusEffects.AlterBindScroll2)) sippedA *= 2;
+					if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) sippedA += (0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
                     if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(player.maxHP() * sippedA, false, true);
 					else EngineCore.HPChange(player.maxHP() * sippedA, false, false);
                     EngineCore.ManaChange(player.maxMana() * sippedA);
@@ -9110,6 +9111,7 @@ public class Combat extends BaseContent {
 			if (player.weapon == weapons.LHSCYTH) restoreamount += 1;
 			if (player.weapon == weapons.T_HEART || player.weapon == weapons.DORSOUL || player.weapon == weapons.ARMAGED) restoreamount += 1;
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) restoreamount *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) restoreamount += Math.round(player.maxHP() * 0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) cangoto11 = true;
             if (player.weapon.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false, cangoto11);
             else if (player.weapon.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false, cangoto11);
@@ -9274,6 +9276,7 @@ public class Combat extends BaseContent {
 			if (player.weaponOff == weapons.LHSCYTH) restoreamount += 1;
 			if (player.weaponOff == weapons.T_HEART || player.weaponOff == weapons.DORSOUL || player.weaponOff == weapons.ARMAGED) restoreamount += 1;
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) restoreamount *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) restoreamount += Math.round(player.maxHP() * 0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) cangoto11 = true;
             if (player.weaponOff.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false, cangoto11);
             else if (player.weaponOff.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false, cangoto11);
@@ -16560,6 +16563,7 @@ public function VampiricBite():void {
     damage = Math.round(damage);
     doPhysicalDamage(damage, true, true);
 	if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) damage = Math.round(damage * (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM))));
+	if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) damage += Math.round(player.maxHP() * 0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
     if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(damage, false, true);
 	else EngineCore.HPChange(damage, false, false);
     outputText(" damage. You feel yourself grow stronger with each drop. ");

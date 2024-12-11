@@ -326,8 +326,9 @@ public class Changelog extends BaseContent
 			outputText("-Utility Skills: Apprentice perk req. for non combat skill lowered from 5+ to 4+ and tier decreased from 4 to 3. Utility Skills: Skilled req. for non combat skill lowered from 10+ to 7+ and tier decreased from 8 to 6.\n");
 			outputText("-Typo fixes. (klorpa)\n");
 			outputText("-New mutation perk: Still Heart (Primitive). Req. Still Heart and lvl 30+. Effects: Energy draining effect and spells and ability that drain health are 50% stronger. When stealing health beyond your total hp you may add up to 15% of your total health as temporary hit point stacking over your maximum health.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New mutation perk: Still Heart (Evolved). Req. Still Heart (Primitive) and lvl 30+. Effects: Energy draining effect and spells and ability that drain health are 75% stronger. When stealing health beyond your total hp you may add up to 30% of your total health as temporary hit point stacking over your maximum health. Energy draining attacks heals for 1% of your total health in addition to their initial amount.\n");
+			outputText("-New mutation perk: Still Heart (Final Form). Req. Still Heart (Evolved) and lvl 30+. Effects: Energy draining effect and spells and ability that drain health are 100% stronger. When stealing health beyond your total hp you may add up to 45% of your total health as temporary hit point stacking over your maximum health. Energy draining attacks heals for 2% of your total health in addition to their initial amount. ");
+			outputText("You add 25% of your libido to your total health. If you are undead this amount is doubled to 50%.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

@@ -7532,7 +7532,8 @@ use namespace CoC;
 				outputText(" You feel slightly more alive from the soulforce you vampirised from your sexual partner orgasm.");
 			}
 			var hpc:Number = 25 + (lib / 2);
-			if (perkv1(IMutationsLib.StillHeartIM) >= 1) hpc *= (1 + (0.25 * perkv1(IMutationsLib.StillHeartIM)));
+			if (perkv1(IMutationsLib.StillHeartIM) >= 1) hpc *= (1 + (0.01 * perkv1(IMutationsLib.StillHeartIM)));
+			if (perkv1(IMutationsLib.StillHeartIM) >= 3) hpc += Math.round(maxHP() * 0.01 * (perkv1(IMutationsLib.StillHeartIM) - 2));
 			if (perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(hpc, true, true);
 			else EngineCore.HPChange(hpc, true, false);
 			EngineCore.ManaChange(25 + (inte/2));

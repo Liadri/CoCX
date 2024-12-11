@@ -23,8 +23,8 @@ public class StillHeartMutation extends IMutationPerkType
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1) descS += "Energy draining effect and spells and ability that drain health are "+(pTier*25)+"% stronger";
 			if (pTier >= 2) descS += ". When stealing health beyond your total hp you may add up to "+((pTier-1)*15)+"% of your total health as temporary hit point stacking over your maximum health";
-            if (pTier >= 3) descS += ". You gain regeneration "+(pTier-2)+"%";
-            if (pTier >= 4) descS += ". Bite attacks deals 50% more damage";
+            if (pTier >= 3) descS += ". Energy draining attacks heals for "+(pTier-2)+"% of your total health in addition to their initial amount";
+            if (pTier >= 4) descS += ". You add 25% of your libido to your total health. If you are undead this amount is doubled to 50%";
             if (descS != "")descS += ".";
             return descS;
         }
@@ -60,7 +60,7 @@ public class StillHeartMutation extends IMutationPerkType
 
         public function StillHeartMutation() 
 		{
-			super(mName + " IM", mName, SLOT_ADAPTATIONS, 2);
+			super(mName + " IM", mName, SLOT_ADAPTATIONS, 4);
 		}
         
     }
