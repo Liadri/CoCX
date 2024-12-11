@@ -1544,7 +1544,7 @@ public class MarblePurification extends NPCAwareContent{
 			player.refillHunger(30);
 		 	outputText("\n\nFinally, your tender moment with your mate comes to an end, and the last of her milk flows down your throat.  You separate, and a small burp escapes your lips.  Marble giggles at this and tells you to come and see her again whenever you're feeling thirsty.  She should be ready to nurse you again in about four hours.");
 			//Restore 20% of PC's health
-			HPChange(Math.round(player.maxHP()*.2),false);
+			HPChange(Math.round(player.maxHP()*.2),false,false);
 			//Restore 30 fatigue
 			fatigue(-30);
 			//increase lust by 15

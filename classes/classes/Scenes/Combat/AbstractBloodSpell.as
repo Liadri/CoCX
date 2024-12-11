@@ -26,7 +26,7 @@ public class AbstractBloodSpell extends AbstractSpell {
 	
 	override public function useResources():void {
 		super.useResources();
-		HPChange(-hpCost(), false);
+		HPChange(-hpCost(), false, false);
 	}
 	
 	override protected function usabilityCheck():String {

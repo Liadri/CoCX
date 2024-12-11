@@ -379,7 +379,7 @@ public class MinotaurBlood extends Consumable {
 				outputText("Your balls feel as if they've grown heavier with the weight of more sperm.\n");
 				player.hoursSinceCum += 200;
 			}
-			EngineCore.HPChange(50*player.postConsumptionMlt(), true);
+			EngineCore.HPChange(50*player.postConsumptionMlt(), true, false);
 			dynStats("lus", Math.round(50*player.postConsumptionMlt()), "scale", false);
 		}
 		player.refillHunger(25);

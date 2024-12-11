@@ -60,7 +60,8 @@ public class NosferatuSpell extends AbstractBlackSpell {
 			}
 			damage = critAndRepeatDamage(display, damage, DamageType.DARKNESS);
 			var amountToHeal:Number = Math.round(calcHeal(monster, true));
-			HPChange(amountToHeal, display);
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) HPChange(amountToHeal, display, true);
+			else HPChange(amountToHeal, display, false);
 			checkAchievementDamage(damage);
 			combat.heroBaneProc(damage);
 		}

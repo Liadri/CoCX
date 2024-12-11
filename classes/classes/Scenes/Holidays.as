@@ -1008,7 +1008,7 @@ public class Holidays extends BaseContent {
                 }
                 //HP set to full, fatigue to 0?
                 fatigue(-100);
-                HPChange(3000, false);
+                HPChange(3000, false, false);
                 endEncounter(120);
             }
             else recallWakeUp();
@@ -2543,7 +2543,7 @@ public class Holidays extends BaseContent {
             outputText("You sigh... this really reminds you of back home... you only wish you had someone to share this feeling with... Well, there is no reason you shouldn't enjoy yourself while it snows, so you set about rolling a big ball of snow to make a snowman out of...");
             //Skip to next day...
             flags[kFLAGS.JACK_FROST_PROGRESS] = 0;
-            HPChange(player.maxHP(), false);
+            HPChange(player.maxHP(), false, false);
             fatigue(-100);
             explorer.stopExploring();
             doNext(SceneLib.camp.returnToCampUseEightHours);
@@ -2909,7 +2909,7 @@ public class Holidays extends BaseContent {
                 outputText("You take care of the preparations and cooking, whipping up a delightful meal for you and your companions.  For a moment you look around - this small band you've formed feels enough like a family that you wouldn't mind having more days like this in the future.  You vow to work extra hard to make this a reality."
                     + "\n\nThe feast progresses without a hitch.  You cheer, eat and drink together (though you really don't have any appropriate alcohol for the evening).  As the feast progresses, you notice more than one pair of hungry eyes sizing you up... it seems your day is far from over...");
             }
-            HPChange(player.maxHP(), false);
+            HPChange(player.maxHP(), false, false);
             fatigue(-100);
             flags[kFLAGS.JACK_FROST_PROGRESS] = 0;
             explorer.stopExploring();

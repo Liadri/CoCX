@@ -1364,7 +1364,7 @@ import classes.lists.Gender;
 			var refillAmount:int = (flags[kFLAGS.JOY_BREAST_SIZE] + 6) * 5;
 			player.refillHunger(refillAmount);
 			fatigue(-40);
-			HPChange(50 + player.maxHP() / 5, false);
+			HPChange(50 + player.maxHP() / 5, false, false);
 			dynStats("lus", 20 + (player.lib / 5), "scale", false);
 			//Libido reduction
 			dynStats("lib", -1);

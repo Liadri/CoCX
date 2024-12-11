@@ -1711,7 +1711,7 @@ public class PlayerInfo extends BaseContent {
 		}
 		if (player.level >= CoC.instance.levelCap) return;
 		player.level += 1; 
-		HPChange(player.maxHP(), false);
+		HPChange(player.maxHP(), false, false);
 		//if (player.level % 2 == 0) player.ascensionPerkPoints++;
 		//przerobić aby z asc perk co ?6/3/1? lvl dostawać another perk point?
 		var gainedPerks:Number = 1;
@@ -2196,15 +2196,15 @@ public class PlayerInfo extends BaseContent {
 			player.itemSlot9.unlocked = true;
 		}
 		if (perk.ptype == PerkLib.TankI || perk.ptype == PerkLib.TankII || perk.ptype == PerkLib.TankIII || perk.ptype == PerkLib.TankIV || perk.ptype == PerkLib.TankV || perk.ptype == PerkLib.TankVI) {
-			HPChange(player.tou, false);
+			HPChange(player.tou, false, false);
 			statScreenRefresh();
 		}
 		if (perk.ptype == PerkLib.GoliathI || perk.ptype == PerkLib.GoliathII || perk.ptype == PerkLib.GoliathIII || perk.ptype == PerkLib.GoliathIV || perk.ptype == PerkLib.GoliathV || perk.ptype == PerkLib.GoliathVI) {
-			HPChange(player.str, false);
+			HPChange(player.str, false, false);
 			statScreenRefresh();
 		}
 		if (perk.ptype == PerkLib.CheetahI || perk.ptype == PerkLib.CheetahII || perk.ptype == PerkLib.CheetahIII || perk.ptype == PerkLib.CheetahIV || perk.ptype == PerkLib.CheetahV || perk.ptype == PerkLib.CheetahVI) {
-			HPChange(player.spe, false);
+			HPChange(player.spe, false, false);
 			statScreenRefresh();
 		}
 		if (perk.ptype == PerkLib.RacialParagon) {

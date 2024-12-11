@@ -70,7 +70,7 @@ public class VioletPupilTransformationSkill extends AbstractSoulSkill {
 			var amountToHeal:int = calcHealAmount();
 			if (display) outputText("<b>As your soulforce is drained you can feel Violet Pupil Transformation's regenerative power spreading throughout your body. ([font-heal]+"
 				 + numberFormat(amountToHeal) + "[/font])</b>\n\n");
-			HPChange(amountToHeal, false);
+			HPChange(amountToHeal, false, false);
 		}
 	}
 

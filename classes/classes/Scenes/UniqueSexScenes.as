@@ -803,7 +803,7 @@ public class UniqueSexScenes extends BaseContent
 			outputText("You practically fall on the offered cock, crawling into position and wrapping your needy lips around it in a tight seal as you begin feverishly extracting the white vitalic seed from the fiendish member. The demon caresses you, petting your head while you worship the tool in front of you with a mastery born of your magically ingrained instincts. The demon moans in appreciation as your hungry tongue wraps around the cock, teasing and jerking [monster his] eager erection"+(monster.hasBalls() ? ", [monster his] balls sloshing with accumulating cum":"")+" as [themonster] steadily approaches [monster his] climax.\n\n");
 			outputText("Instinctively sensing the imminent climax you wrap your lips tightly around the throbbing cock, sealing shut as the demon unloads ropes after ropes of corrupted cum directly into your massaging throat.\n\n");
 			outputText("The meal is satisfying, though it does not restore your humanity, lacking the soulforce you require to make you slightly more alive. Finished with the demon, you hop off and take your leave"+(inDungeon ? "":" heading back to camp")+".\n\n");
-			HPChange(Math.round(player.maxHP() * 0.1), true);
+			HPChange(Math.round(player.maxHP() * 0.1), true, false);
 			EngineCore.ManaChange(Math.round(player.maxMana() * 0.1));
 			player.fatigue -= Math.round(player.maxFatigue() * 0.1);
 			if (player.fatigue < 0) player.fatigue = 0;
@@ -841,7 +841,7 @@ public class UniqueSexScenes extends BaseContent
 				outputText("Unable to hold anymore under your constant assault, the demoness breaks, her pussy gushing like a fountain as her eyes cross. Her body spasms as if struck by lightning" + (player.hasCock() ? ", pussy walls all but milking your [cock] dry" : "") + ". Her legs shake, and her arms fall limp. She no longer struggles, her eyes rolling up into her head. Her body is unscathed but to your eyes she is a dried up husk. There's barely enough energy left in her to keep her alive… well if she survives this that is. You stay on top for a few more seconds, but the demoness’s body doesn’t have anything left to give. ");
 				outputText("For a few moments you bask in the high, your flesh bursting with energy. But you’re no longer getting anything from this slut, you’ll need another to get your fix.\n\n");
 				outputText("Unconcerned by the demon's fate you stand up and" + (inDungeon ? " resume exploring the labyrinth" : " hop back to camp") + ".\n\n");
-				HPChange(Math.round(player.maxHP() * 0.1), true);
+				HPChange(Math.round(player.maxHP() * 0.1), true, false);
 				EngineCore.ManaChange(Math.round(player.maxMana() * 0.1));
 				player.fatigue -= Math.round(player.maxFatigue() * 0.1);
 				if (player.fatigue < 0) player.fatigue = 0;

@@ -48,7 +48,7 @@ public class BloodFieldSpell extends AbstractBloodSpell {
 			if (monster.plural) bloodfield *= 5;
 			if (monster.hasPerk(PerkLib.EnemyLargeGroupType)) bloodfield *= 5;
 			bloodfield = combat.doDamage(bloodfield);
-			EngineCore.HPChange(bloodfield, false);
+			EngineCore.HPChange(bloodfield, false, false);
 		}
 	}
 	

@@ -179,7 +179,7 @@ public class Camp extends NPCAwareContent{
 			return;
 		}
 		if (player.hasStatusEffect(StatusEffects.PostAnemoneBeatdown)) {
-			HPChange(Math.round(player.maxHP() / 2), false);
+			HPChange(Math.round(player.maxHP() / 2), false, false);
 			player.removeStatusEffect(StatusEffects.PostAnemoneBeatdown);
 		}
 
@@ -3222,7 +3222,7 @@ public class Camp extends NPCAwareContent{
 		FormCloneText();
 		outputText("You share a grin now that the process is successful. Your quest remains to be completed, but now you have the power of "+NUMBER_WORDS_NORMAL[newClone+2]+".\n\n");
 		EngineCore.SoulforceChange(-player.maxSoulforce()*0.85);
-		HPChange(-(player.maxHP() * 0.85), true);
+		HPChange(-(player.maxHP() * 0.85), true, false);
 		player.negativeLevel += Soulforce.clonelevelcost;
 		doNext(camp.returnToCampUseEightHours);
 	}
@@ -3264,7 +3264,7 @@ public class Camp extends NPCAwareContent{
 				outputText("<b>Your clone is fully formed.</b>\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 				player.addNegativeLevels(30);
 			}
 			else if (player.statusEffectv3(StatusEffects.PCClone) == 2) {
@@ -3274,7 +3274,7 @@ public class Camp extends NPCAwareContent{
 				outputText("Fatigue steadily overwhelms you after expending such intense amounts of your life energy. You lie down and rest for an hour before you decide to resume.\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 			}
 			else {
 				outputText("Having recovered your spent life force and soul energy, you return to the halted ritual. Sitting before you is a slowly rotating basketball-sized sphere of soul and life essences. You start to focus on the next phase of clone formation.\n\n");
@@ -3284,7 +3284,7 @@ public class Camp extends NPCAwareContent{
 				outputText("After a couple of hours, you rise before leaving the half-finished creation in the corner of your [camp].\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 			}
 		}
 		else {
@@ -3293,7 +3293,7 @@ public class Camp extends NPCAwareContent{
 			outputText("The process is slow. While nourishing the core of the clone, you find yourself unable to expend any more of your life essence or risk being completely drained of soul essence.\n\n");
 			player.createStatusEffect(StatusEffects.PCClone, 0, 0, 1, 0);
 			EngineCore.SoulforceChange(-(player.maxSoulforce()));
-			HPChange(-(player.maxHP() * 0.5), true);
+			HPChange(-(player.maxHP() * 0.5), true, false);
 		}
 		doNext(camp.returnToCampUseEightHours);
 	}
@@ -3814,7 +3814,7 @@ public class Camp extends NPCAwareContent{
 			var hpBefore:int = player.HP;
 			timeQ = waitingORresting;
 			//THIS IS THE TEXT AREA FOR NOCTURNAL
-			HPChange(hpTime * hpRecovery * multiplier, false);
+			HPChange(hpTime * hpRecovery * multiplier, false, false);
 			fatigue(timeQ * -fatRecovery * multiplier);
 
 			if (flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && !ingnam.inIngnam) {
@@ -4256,7 +4256,7 @@ public class Camp extends NPCAwareContent{
 					"\"<i>Good night.</i>\"\n\n");
 		}
 		//REGULAR HP/FATIGUE RECOVERY
-		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display);
+		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display, false);
 		//fatigue
 		fatigue(-(timeQ * fatRecovery * multiplier));
 		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 4 && flags[kFLAGS.LUNA_MOON_CYCLE] == 8 && (player.statStore.hasBuff("Weakened") || player.statStore.hasBuff("Drained") || player.statStore.hasBuff("Damaged"))) {
@@ -5414,3 +5414,4 @@ public function rebirthFromBadEnd():void {
 
 }
 }
+

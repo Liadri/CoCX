@@ -103,7 +103,8 @@ public class SoulDrainSkill extends AbstractSoulSkill {
 		doDarknessDamage(damage, true, display);
 		if (crit && display) outputText(" <b>*Critical Hit!*</b>");
 		checkAchievementDamage(damage);
-		HPChange(calcHealAmount(), display);
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) HPChange(calcHealAmount(), display, true);
+		else HPChange(calcHealAmount(), display, false);
 		monster.addSoulforce(-calcSoulforceDrain(monster)); 
 		if (display) outputText("\n\n");
 		anubiHeartLeeching(damage);

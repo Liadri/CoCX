@@ -350,7 +350,7 @@ use namespace CoC;
 				sharedEnd();
 			}
 			function sharedEnd():void {
-				HPChange(1000, false);
+				HPChange(1000, false, false);
 				cleanupAfterCombat();
 				if (!mocking) {
 					dynStats("lib", 1, "sen", 3);
@@ -388,7 +388,7 @@ use namespace CoC;
 			if (flags[kFLAGS.VALERIA_FOUND_IN_GLACIAL_RIFT] == 0) {
 				outputText("You tell her to fuck off -- you don't need armor that might try to kill or rape you at night.");
 				outputText("\n\nShe huffs indignantly and scrambles to her feet.  \"<i>Well fine, and fuck you anyway.  I hope you get raped by harpies, " + player.mf("sir","madam") + ".</i>\"  After a moment, she hesitantly adds, \"<i>But if you change your mind later... Well, we'll see if you live through this place without me!</i>\"  Before you can stop her, she ducks out the front door and off to... Wherever goo-armor-girl-things would go, you guess.  Still, to your surprise, you feel rather invigorated after the battle, and rolling your shoulders, you turn your attention back to the dungeon ahead.");
-				HPChange(1000,false);
+				HPChange(1000,false,false);
 				cleanupAfterCombat();
 				doNext(playerMenu);
 			}
@@ -396,7 +396,7 @@ use namespace CoC;
 			else {
 				outputText("You tell her to fuck off -- you don't need armor that might try to kill or rape you at night.");
 				outputText("\n\nShe huffs indignantly and scrambles to her feet.  \"<i>Well fine, and fuck you anyway.  I hope you get raped by jotuns, " + player.mf("sir","madam") + ".</i>\"  After a moment, she hesitantly adds, \"<i>But if you change your mind later... Well, I guess I’ll be around here!</i>\"  Before you can stop her, she huffs off to... wherever goo-armor-girl-things would go, you guess.  You make your way back to your camp.");
-				HPChange(player.maxHP(),false);
+				HPChange(player.maxHP(),false,false);
 				cleanupAfterCombat();
 				doNext(camp.returnToCampUseOneHour);
 			}
@@ -416,7 +416,7 @@ use namespace CoC;
 				outputText("You tell her that... no thanks, not now -- you don't need armor right now.");
 				outputText("\n\nShe huffs indignantly and scrambles to her feet.  \"<i>Well fine, maybe you can take me later, " + player.mf("sir", "madam") + "?</i>\"  After a moment, she hesitantly adds, \"<i>But if you change your mind later... You know where to find me, right?</i>\"  You give her a nod as you make your way back to your camp.");
 			}
-			HPChange(player.maxHP(),false);
+			HPChange(player.maxHP(),false,false);
 			cleanupAfterCombat();
 			doNext(playerMenu);
 		}
@@ -439,7 +439,7 @@ use namespace CoC;
 				outputText("\nTo your surprise, you feel rather invigorated after the battle, thanks to Valeria's strange healing properties, and with a smirk, you turn your attention back to the " + (SceneLib.dungeons.checkPhoenixTowerClear() ? "adventures" : "dungeon") + " ahead.\n\n");
 				//Set flags
 				flags[kFLAGS.VALERIA_FLUIDS] = 80;
-				HPChange(player.maxHP(),false);
+				HPChange(player.maxHP(),false,false);
 				//(PC regains HP)
 				if (item == null) {
 					if (flags[kFLAGS.VALERIA_FOUND_IN_GLACIAL_RIFT] == 0) doNext(roomGuardHall);

@@ -5218,7 +5218,7 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.SlimeMetabolismIM) >= 1) {
 				var percent:Number = 0.01;
 				percent += (0.01 * perkv1(IMutationsLib.SlimeMetabolismIM));
-				EngineCore.HPChange(Math.round(maxHP() * percent), true);
+				EngineCore.HPChange(Math.round(maxHP() * percent), true, false);
 				EngineCore.ManaChange(Math.round(maxHP() * percent));
 				EngineCore.changeFatigue(-Math.round(maxFatigue() * percent));
 			}
@@ -7312,7 +7312,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .2), true);
+			EngineCore.HPChange(Math.round(maxHP() * .2), true, false);
 			cumOmeter(40);
 			cor += 2;
 			var Ammount:Number = 100;
@@ -7349,7 +7349,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .2), true);
+			EngineCore.HPChange(Math.round(maxHP() * .2), true, false);
 			cumOmeter(40);
 			cor += 2;
 			var Ammount:Number = 100;
@@ -7371,7 +7371,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .2), true);
+			EngineCore.HPChange(Math.round(maxHP() * .2), true, false);
 			cumOmeter(40);
 			cor += 2;
 			var Ammount:Number = 100;
@@ -7394,7 +7394,7 @@ use namespace CoC;
 					var mfFM:Number = 1;
 					if (perkv1(IMutationsLib.FiendishMetabolismIM) >= 4) mfFM *= 2;
 					if (hunger < maxHunger()) refillHunger((10 * mfFM), false, true);
-					EngineCore.HPChange(((100 + (tou*2)) * mfFM), true);
+					EngineCore.HPChange(((100 + (tou*2)) * mfFM), true, false);
 					EngineCore.ManaChange(((100 + (inte*2)) * mfFM));
 					EngineCore.changeFatigue(-((100 + (spe*2)) * mfFM));
 					outputText("You feel energised and empowered by the energy drained out of the fluid of your recent fuck. What a meal!\n\n");
@@ -7533,7 +7533,8 @@ use namespace CoC;
 			}
 			var hpc:Number = 25 + (lib / 2);
 			if (perkv1(IMutationsLib.StillHeartIM) >= 1) hpc *= (1 + (0.25 * perkv1(IMutationsLib.StillHeartIM)));
-			EngineCore.HPChange(hpc, true);
+			if (perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(hpc, true, true);
+			else EngineCore.HPChange(hpc, true, false);
 			EngineCore.ManaChange(25 + (inte/2));
 			EngineCore.changeFatigue(-(25 + (spe/2)));
 			removeCurse("lib", 5, 1);
@@ -7558,7 +7559,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .05), true);
+			EngineCore.HPChange(Math.round(maxHP() * .05), true, false);
 		}
 
 		public function hasUniquePregnancy():Boolean{

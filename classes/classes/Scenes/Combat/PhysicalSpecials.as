@@ -1534,7 +1534,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 	public function charging():void {
 		clearOutput();
 		var costvalue:Number = chargingcoooooost();
-		if (player.statStore.hasBuff("ScarletSpiritCharge")) HPChange(-(costvalue*2), false);
+		if (player.statStore.hasBuff("ScarletSpiritCharge")) HPChange(-(costvalue*2), false, false);
 		else {
 			fatigue(physicalSpecialsCost(costvalue), USEFATG_PHYSICAL);
 			if (player.perkv1(IMutationsLib.TwinHeartIM) >= 1 && (player.isTaur() || player.isDrider())) {
@@ -4198,7 +4198,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 				monster.armorDef -= debuff;
 				monster.createStatusEffect(StatusEffects.DefPDebuff, 3, debuff, 0, 0);
 			}
-			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true);
+			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true, false);
 		}
 		else outputText("[Themonster] moves back just in time to avoid being crushed.");
 		outputText("\n\n");

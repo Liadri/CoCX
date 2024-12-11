@@ -316,7 +316,7 @@ public class Centaurinum extends Consumable {
 		//FAILSAFE CHANGE
 		if (changes == 0 && !sagittariusBow) {
 			outputText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-			EngineCore.HPChange(50, true);
+			EngineCore.HPChange(50, true, false);
 			dynStats("lus", 3, "scale", false);
 		}
 	}

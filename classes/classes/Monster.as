@@ -3988,7 +3988,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					if (hasPerk(PerkLib.EnemyLargeGroupType)) bloodfield *= 5;
 					bloodfield = SceneLib.combat.fixPercentDamage(bloodfield);
 					bloodfield = SceneLib.combat.doDamage(bloodfield);
-					EngineCore.HPChange(bloodfield, false);
+					EngineCore.HPChange(bloodfield, false, false);
 				}
 			}
 			if (hasStatusEffect(StatusEffects.BloodRequiem)) {

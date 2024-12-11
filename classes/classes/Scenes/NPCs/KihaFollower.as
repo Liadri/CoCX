@@ -298,7 +298,7 @@ public class KihaFollower extends NPCAwareContent implements TimeAwareInterface,
         //(Proceed to Spider Horde Combat)
         //Set first round cover
         monster.createStatusEffect(StatusEffects.MissFirstRound, 0, 0, 0, 0);
-        HPChange(100, false);
+        HPChange(100, false, false);
         fatigue(-30);
         dynStats("lus", -40, "scale", false);
     }
@@ -332,7 +332,7 @@ public class KihaFollower extends NPCAwareContent implements TimeAwareInterface,
         //(Proceed to Spider Horde Combat)
         startCombat(new SpiderMorphMob());
         //st - say, 100 hp, -30 fatigue, and -40 lust - then have her cover for you for the first few rounds if you lost to her so you can blitz them or heal. -Z)
-        HPChange(100, false);
+        HPChange(100, false, false);
         fatigue(-30);
         dynStats("lus", -40, "scale", false);
     }

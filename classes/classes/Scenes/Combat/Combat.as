@@ -1432,7 +1432,7 @@ public class Combat extends BaseContent {
 			if (player.statusEffectv1(StatusEffects.CombatWounds) > 0.04) player.addStatusValue(StatusEffects.CombatWounds, 1, -0.04);
 			else player.removeStatusEffect(StatusEffects.CombatWounds);
 		}
-        HPChange(power,false);
+        HPChange(power,false, false);
         outputText("You apply the poultice, your wounds closing at high speed. Healed for ");
         CommasForDigits(power*-1);
     }
@@ -3377,7 +3377,7 @@ public class Combat extends BaseContent {
 					if (player.hasPerk(PerkLib.VerdantLeech)) {
 						if (monster.lustVuln != 0 && !player.enemiesImmuneToLustResistanceDebuff()) monster.lustVuln += 0.01;
 						if (monster.lustVuln > monster.lustVulnCap()) monster.lustVuln = monster.lustVulnCap();
-						HPChange(Math.round(player.maxHP() * 0.05), false);
+						HPChange(Math.round(player.maxHP() * 0.05), false, false);
 					}
 					if (monster.hasStatusEffect(StatusEffects.Rosethorn) && monster.statusEffectv1(StatusEffects.Rosethorn) < 6) monster.addStatusValue(StatusEffects.Rosethorn, 1, 1);
 					else monster.createStatusEffect(StatusEffects.Rosethorn, 6, 0, 0, 0);
@@ -5624,7 +5624,7 @@ public class Combat extends BaseContent {
             if (player.hasPerk(PerkLib.FenrirSpiritstrike) && !monster.hasPerk(PerkLib.EnemyTrueDemon)){
                 biteMultiplier = 10;
                 outputText(" and tearing at your foe's very soul!");
-                HPChange(player.maxHP()*0.25,false);
+                HPChange(player.maxHP()*0.25,false,false);
             }
             // Bite Attacks Check
             switch(player.faceType){
@@ -7553,13 +7553,11 @@ public class Combat extends BaseContent {
                     var sippedA:Number = 0.01;
 					if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) sippedA += (0.0025 * player.perkv1(IMutationsLib.StillHeartIM));
                     if (player.hasStatusEffect(StatusEffects.AlterBindScroll2)) sippedA *= 2;
-                    player.HP += player.maxHP() * sippedA;
-                    player.mana += player.maxMana() * sippedA;
-                    player.fatigue -= player.maxFatigue() * sippedA;
-                    player.soulforce += player.maxSoulforce() * sippedA;
-                    if (player.HP > player.maxOverHP()) player.HP = player.maxOverHP();
-                    if (player.mana > player.maxOverMana()) player.mana = player.maxOverMana();
-                    if (player.soulforce > player.maxOverSoulforce()) player.soulforce = player.maxOverSoulforce();
+                    if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(player.maxHP() * sippedA, false, true);
+					else EngineCore.HPChange(player.maxHP() * sippedA, false, false);
+                    EngineCore.ManaChange(player.maxMana() * sippedA);
+                    EngineCore.SoulforceChange(player.maxSoulforce() * sippedA);
+					player.fatigue -= player.maxFatigue() * sippedA;
                     if (player.fatigue < 0) player.fatigue = 0;
                 }
                 //Damage Unarmed Strike chaining combos. GRABBING STYLE AND JABBING STYLE
@@ -9103,6 +9101,7 @@ public class Combat extends BaseContent {
         }
         if ((player.hasPerk(PerkLib.VampiricBlade) || player.hasStatusEffect(StatusEffects.LifestealEnchantment) || player.weapon == weapons.T_HEART || player.weapon == weapons.DORSOUL || player.weapon == weapons.LHSCYTH || player.weapon == weapons.ARMAGED) && !monster.hasPerk(PerkLib.EnemyConstructType)) {
 			var restoreamount:Number = 0;
+			var cangoto11:Boolean = false;
 			if (player.hasPerk(PerkLib.VampiricBlade)) restoreamount += 1;
 			if (player.hasStatusEffect(StatusEffects.LifestealEnchantment)) {
 				if (player.hasPerk(PerkLib.WayOfTheBlood)) restoreamount += (1 + (0.25 * player.progressBloodDemon()));
@@ -9111,10 +9110,11 @@ public class Combat extends BaseContent {
 			if (player.weapon == weapons.LHSCYTH) restoreamount += 1;
 			if (player.weapon == weapons.T_HEART || player.weapon == weapons.DORSOUL || player.weapon == weapons.ARMAGED) restoreamount += 1;
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) restoreamount *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
-            if (player.weapon.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false);
-            else if (player.weapon.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false);
-            else if (player.weapon.isMassive()) HPChange(Math.round(player.maxHP() * restoreamount * 0.04), false);
-            else HPChange(Math.round(player.maxHP() * restoreamount * 0.01), false);
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) cangoto11 = true;
+            if (player.weapon.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false, cangoto11);
+            else if (player.weapon.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false, cangoto11);
+            else if (player.weapon.isMassive()) HPChange(Math.round(player.maxHP() * restoreamount * 0.04), false, cangoto11);
+            else HPChange(Math.round(player.maxHP() * restoreamount * 0.01), false, cangoto11);
         }
 		if (player.weapon == weapons.VENCLAW && monster.lustVuln > 0) {
             outputText("\n[monster he] seems to be affected by the poison, showing increasing sign of arousal.");
@@ -9265,6 +9265,7 @@ public class Combat extends BaseContent {
         }
         if ((player.hasPerk(PerkLib.VampiricBlade) || player.hasStatusEffect(StatusEffects.LifestealEnchantment) || player.weaponOff == weapons.T_HEART || player.weaponOff == weapons.DORSOUL || player.weaponOff == weapons.LHSCYTH || player.weaponOff == weapons.ARMAGED) && !monster.hasPerk(PerkLib.EnemyConstructType)) {
 			var restoreamount:Number = 0;
+			var cangoto11:Boolean = false;
 			if (player.hasPerk(PerkLib.VampiricBlade)) restoreamount += 1;
 			if (player.hasStatusEffect(StatusEffects.LifestealEnchantment)) {
 				if (player.hasPerk(PerkLib.WayOfTheBlood)) restoreamount += (1 + (0.25 * player.progressBloodDemon()));
@@ -9273,10 +9274,11 @@ public class Combat extends BaseContent {
 			if (player.weaponOff == weapons.LHSCYTH) restoreamount += 1;
 			if (player.weaponOff == weapons.T_HEART || player.weaponOff == weapons.DORSOUL || player.weaponOff == weapons.ARMAGED) restoreamount += 1;
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) restoreamount *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
-            if (player.weaponOff.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false);
-            else if (player.weaponOff.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false);
-            else if (player.weaponOff.isMassive()) HPChange(Math.round(player.maxHP() * restoreamount * 0.04), false);
-            else HPChange(Math.round(player.maxHP() * restoreamount * 0.01), false);
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) cangoto11 = true;
+            if (player.weaponOff.isSmall()) HPChange(Math.round(player.maxHP() * restoreamount * 0.005), false, cangoto11);
+            else if (player.weaponOff.isLarge()) HPChange(Math.round(player.maxHP() * restoreamount * 0.02), false, cangoto11);
+            else if (player.weaponOff.isMassive()) HPChange(Math.round(player.maxHP() * restoreamount * 0.04), false, cangoto11);
+            else HPChange(Math.round(player.maxHP() * restoreamount * 0.01), false, cangoto11);
         }
 		if (player.weaponOff == weapons.CHAOSEA) {
 			var devouredWrath:Number = 0;
@@ -9336,8 +9338,8 @@ public class Combat extends BaseContent {
             }
         }
 		if (player.hasStatusEffect(StatusEffects.LifestealEnchantment) && !monster.hasPerk(PerkLib.EnemyConstructType)) {
-			if (player.hasPerk(PerkLib.WayOfTheBlood)) HPChange(Math.round(player.maxHP() * (0.01+(0.0025 * player.progressBloodDemon()))), false);
-			else HPChange(Math.round(player.maxHP() * 0.01), false);
+			if (player.hasPerk(PerkLib.WayOfTheBlood)) HPChange(Math.round(player.maxHP() * (0.01+(0.0025 * player.progressBloodDemon()))), false, false);
+			else HPChange(Math.round(player.maxHP() * 0.01), false, false);
 		}
 		if (player.weaponRangePerk == "Throwing" && player.hasPerk(PerkLib.ImpactThrow) && rand(10) == 0) {
             outputText("Attack leaves your opponent dazed!\n\n");
@@ -9361,7 +9363,7 @@ public class Combat extends BaseContent {
             if (monster.plural) outputText("\n[Themonster] bleed profusely from the many bloody gashes your "+player.weaponFlyingSwordsName+" leave"+(player.usingSingleFlyingSword()?"":"s")+" behind.");
             else outputText("\n[Themonster] bleeds profusely from the many bloody gashes your "+player.weaponFlyingSwordsName+" leave"+(player.usingSingleFlyingSword()?"":"s")+" behind.");
         }
-		if (player.hasStatusEffect(StatusEffects.LifestealEnchantment) && !monster.hasPerk(PerkLib.EnemyConstructType)) HPChange(Math.round(player.maxHP() * 0.01), false);
+		if (player.hasStatusEffect(StatusEffects.LifestealEnchantment) && !monster.hasPerk(PerkLib.EnemyConstructType)) HPChange(Math.round(player.maxHP() * 0.01), false, false);
     }
 
 	public function ShieldsStatusProcs():void {
@@ -10786,7 +10788,7 @@ public class Combat extends BaseContent {
     }
 
     public function darkRitualCheckDamage():void {
-        if (player.hasStatusEffect(StatusEffects.DarkRitual)) HPChange(-Math.round(player.maxHP() * 0.1), false);
+        if (player.hasStatusEffect(StatusEffects.DarkRitual)) HPChange(-Math.round(player.maxHP() * 0.1), false, false);
     }
 
     //Modify mana (mod>0 - subtract, mod<0 - regen)
@@ -10854,7 +10856,7 @@ public class Combat extends BaseContent {
             return;
         }
         monster.doAI();
-        if (player.statStore.hasBuff("ScarletSpiritCharge")) HPChange(-Math.round(player.maxHP()*0.05), false);
+        if (player.statStore.hasBuff("ScarletSpiritCharge")) HPChange(-Math.round(player.maxHP()*0.05), false, false);
         if (player.statStore.hasBuff("TranceTransformation")) player.soulforce -= 50;
         if (player.statStore.hasBuff("CrinosShape")) player.wrath -= mspecials.crinosshapeCost();
         if (player.statStore.hasBuff("AsuraForm")) player.wrath -= asuraformCost();
@@ -11881,7 +11883,7 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
             outputText("\n\n");
 			var dmg002:Number = damageBS;
 			if (dmg002 > Math.round(player.maxHP() * 0.03)) dmg002 = Math.round(player.maxHP() * 0.03);
-			HPChange(dmg002, true);
+			HPChange(dmg002, true, false);
 			var thirst:VampireThirstEffect = player.statusEffectByType(StatusEffects.VampireThirst) as VampireThirstEffect;
 			var drinked:Number = 1;
 			if (player.perkv1(IMutationsLib.HollowFangsIM) >= 3) drinked += 1;
@@ -12366,7 +12368,7 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
                 if (selfLust < 1) selfLust = 1;
                 selfLust = Math.round(selfLust);
                 player.dynStats("lus", selfLust);
-                HPChange(hpChange3, false);
+                HPChange(hpChange3, false, false);
             }
         }
         //Bone armor
@@ -13232,7 +13234,7 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 		if (player.hasPerk(PerkLib.VerdantLeech)) {
 			if (monster.lustVuln != 0 && !player.enemiesImmuneToLustResistanceDebuff()) monster.lustVuln += 0.025;
 			if (monster.lustVuln > monster.lustVulnCap()) monster.lustVuln = monster.lustVulnCap();
-			HPChange(Math.round(player.maxHP() * 0.01), false);
+			HPChange(Math.round(player.maxHP() * 0.01), false, false);
 		}
 	}
 	
@@ -13249,7 +13251,7 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 		healingPercent += PercentBasedRegeneration();
         if (player.armor == armors.GOOARMR) healingPercent += (SceneLib.valeria.valeriaFluidsEnabled() ? (flags[kFLAGS.VALERIA_FLUIDS] < 50 ? flags[kFLAGS.VALERIA_FLUIDS] / 16 : 3) : 3);
         if (healingPercent > maximumRegeneration()) healingPercent = maximumRegeneration();
-        HPChange(Math.round(((player.maxHP() * healingPercent / 100) + nonPercentBasedRegeneration()) * 0.02), false);
+        HPChange(Math.round(((player.maxHP() * healingPercent / 100) + nonPercentBasedRegeneration()) * 0.02), false, false);
 	}
 	public function regeneration1(combat:Boolean = true):void {
         var healingPercent:Number;
@@ -13286,14 +13288,14 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 				else player.removeStatusEffect(StatusEffects.CombatWounds);
 			}
             if (healingPercent > maximumRegeneration()) healingPercent = maximumRegeneration();
-            HPChange(Math.round((player.maxHP() * healingPercent / 100) + nonPercentBasedRegeneration()), false);
+            HPChange(Math.round((player.maxHP() * healingPercent / 100) + nonPercentBasedRegeneration()), false, false);
         }
 		else {
 			healingPercent = 0;
             healingPercent += PercentBasedRegeneration() * 2;
             if (player.armor == armors.GOOARMR) healingPercent += (SceneLib.valeria.valeriaFluidsEnabled() ? (flags[kFLAGS.VALERIA_FLUIDS] < 50 ? flags[kFLAGS.VALERIA_FLUIDS] / 16 : 3) : 3);
             if (healingPercent > (maximumRegeneration() * 2)) healingPercent = (maximumRegeneration() * 2);
-            HPChange(Math.round(((player.maxHP() * healingPercent / 100) + nonPercentBasedRegeneration()) * 2), false);
+            HPChange(Math.round(((player.maxHP() * healingPercent / 100) + nonPercentBasedRegeneration()) * 2), false, false);
         }
     }
 
@@ -15353,7 +15355,7 @@ private function StraddleTeaseRe():void {
             player.refillHunger(2, false);
         }
         if (player.HP < player.maxOverHP()) {
-            EngineCore.HPChange(25 + (player.tou/2), true);
+            EngineCore.HPChange(25 + (player.tou/2), true, false);
         }
         if (player.mana < player.maxOverMana()) {
             EngineCore.ManaChange(25 + (player.inte/2));
@@ -16409,7 +16411,7 @@ public function ManticoreFeed():void {
             {
                 player.refillHunger(10, false);
             }
-            EngineCore.HPChange(100 + (player.tou*2), true);
+            EngineCore.HPChange(100 + (player.tou*2), true, false);
             EngineCore.changeFatigue(-(100 + (player.spe*2)));
             player.manticoreFeed();
             player.addStatusValue(StatusEffects.ManticorePlug,3,+1);
@@ -16464,7 +16466,7 @@ public function displacerFeedContinue():void {
             {
                 player.refillHunger(10, false);
             }
-            EngineCore.HPChange(100 + (player.tou*2), true);
+            EngineCore.HPChange(100 + (player.tou*2), true, false);
             EngineCore.changeFatigue(-(100 + (player.spe*2)));
             player.displacerFeed();
             player.addStatusValue(StatusEffects.DisplacerPlug,3,+1);
@@ -16519,7 +16521,7 @@ public function SlimeRapeFeed():void {
             {
                 player.refillHunger(10, false);
             }
-            EngineCore.HPChange(100 + (player.tou*2), true);
+            EngineCore.HPChange(100 + (player.tou*2), true, false);
             EngineCore.changeFatigue(-(100 + (player.spe*2)));
             player.slimeFeed();
             player.addStatusValue(StatusEffects.SlimeInsert,3,+1);
@@ -16543,7 +16545,7 @@ public function VampiricBite():void {
             outputText("almost instantly spit it out. What manner of disgusting blood is this? Saps?");
         }
         outputText(" Your opponent makes use of your confusion to free itself.");
-        HPChange((-100 * (1 + player.newGamePlusMod())), false);
+        HPChange((-100 * (1 + player.newGamePlusMod())), false, false);
         monster.removeStatusEffect(StatusEffects.EmbraceVampire);
         enemyAIImpl();
         return;
@@ -16558,7 +16560,8 @@ public function VampiricBite():void {
     damage = Math.round(damage);
     doPhysicalDamage(damage, true, true);
 	if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) damage = Math.round(damage * (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM))));
-    EngineCore.HPChange(damage, false);
+    if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(damage, false, true);
+	else EngineCore.HPChange(damage, false, false);
     outputText(" damage. You feel yourself grow stronger with each drop. ");
     var thirst:VampireThirstEffect = player.statusEffectByType(StatusEffects.VampireThirst) as VampireThirstEffect;
 	var drinked:Number = 1;
@@ -17931,7 +17934,7 @@ public function asurasHowl():void {
     heal = Math.round(heal);
     outputText("Gathering all you wrath you unleash howl while your wounds healing a bit. <b>([font-heal]+" + heal + "[/font])</b>.");
     if (crit) outputText(" <b>*Critical Heal!*</b>");
-    HPChange(heal,false);
+    HPChange(heal,false,false);
     basemeleeattacks();
 }
 

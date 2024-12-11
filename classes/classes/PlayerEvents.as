@@ -1784,7 +1784,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				if (player.hunger < player.maxHunger()) {
 					player.refillHunger(10, false);
 				}
-				EngineCore.HPChange(100 + (player.tou*2), true);
+				EngineCore.HPChange(100 + (player.tou*2), true, false);
 				EngineCore.ManaChange(100 + (player.inte*2));
 				EngineCore.changeFatigue(-(100 + (player.spe*2)));
 				EngineCore.SoulforceChange(500 + (player.wis*2));
