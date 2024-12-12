@@ -127,10 +127,17 @@ public class Combat extends BaseContent {
     }
     public function callbackAfterAbility(ability:CombatAbility):void {
         statScreenRefresh();
-        if(!monsterDefeatCheck() && player.lust >= player.maxOverLust() && !player.statStore.hasBuff("Supercharged") && !tyrantiaTrainingExtension()) {
+        if(!monsterDefeatCheck() && player.lust >= player.maxOverLust() && !player.statStore.hasBuff("Supercharged") && !tyrantiaTrainingExtension() && !mindlessHungerExtension()) {
             doNext(endLustLoss);
         } else {
-            enemyAI();
+            if (mindlessHungerExtension()) {
+				player.lust = player.maxOverLust() - 1;
+				var intBuff:Number = player.buff("Energy Vampire").getValueOfStatBuff("int.mult");
+				if (intBuff > -0.9) {
+					player.buff("Energy Vampire").addStats({ "int.mult": -0.05 }).withText("Energy Vampire");
+				}
+			}
+			enemyAI();
         }
     }
 
@@ -519,6 +526,12 @@ public class Combat extends BaseContent {
 	public function tyrantiaTrainingExtension():Boolean {
 		var extension:Boolean = false;
         if (player.hasStatusEffect(StatusEffects.TyrantState) && TyrantiaFollower.TyrantiaTrainingSessions >= 30 && (!player.hasStatusEffect(StatusEffects.TyrantiaTraining30) || (player.hasStatusEffect(StatusEffects.TyrantiaTraining30) && player.statusEffectv1(StatusEffects.TyrantiaTraining30) < 2))) extension = true;
+		return extension;
+	}
+	
+	public function mindlessHungerExtension():Boolean {
+		var extension:Boolean = false;
+        if (player.hasStatusEffect(StatusEffects.AlterBindScroll10) && player.soulforce <= 0) extension = true;
 		return extension;
 	}
 	
@@ -3746,6 +3759,22 @@ public class Combat extends BaseContent {
 			if (player.statStore.hasBuff("FoxflamePelt")) layerFoxflamePeltOnThis(damage);
 			if (player.perkv1(IMutationsLib.SlimeFluidIM) >= 4 && player.HP < player.maxHP()) monster.teased(combat.teases.teaseBaseLustDamage() * monster.lustVuln);
             doIceDamage(damage, true, true);
+			if (player.statStore.hasBuff("FoxflamePelt")) layerFoxflamePeltOnThis(damage);
+			if (player.perkv1(IMutationsLib.SlimeFluidIM) >= 4 && player.HP < player.maxHP()) monster.teased(combat.teases.teaseBaseLustDamage() * monster.lustVuln);
+			if (player.hasFourArms()) {
+				doIceDamage(damage, true, true);
+				if (player.statStore.hasBuff("FoxflamePelt")) layerFoxflamePeltOnThis(damage);
+				doIceDamage(damage, true, true);
+				if (player.statStore.hasBuff("FoxflamePelt")) layerFoxflamePeltOnThis(damage);
+			}
+			if (player.isFistOrFistWeapon() && player.hasStatusEffect(StatusEffects.HinezumiCoat)) if (player.lust > player.lust100 * 0.5) dynStats("lus", -1, "scale", false);
+		}
+		else if (isUnarmedCombatButDealDarknessDamage()) {
+			damage = Math.round(damage * darknessDamageBoostedByDao());
+            doDarknessDamage(damage, true, true);
+			if (player.statStore.hasBuff("FoxflamePelt")) layerFoxflamePeltOnThis(damage);
+			if (player.perkv1(IMutationsLib.SlimeFluidIM) >= 4 && player.HP < player.maxHP()) monster.teased(combat.teases.teaseBaseLustDamage() * monster.lustVuln);
+            doDarknessDamage(damage, true, true);
 			if (player.statStore.hasBuff("FoxflamePelt")) layerFoxflamePeltOnThis(damage);
 			if (player.perkv1(IMutationsLib.SlimeFluidIM) >= 4 && player.HP < player.maxHP()) monster.teased(combat.teases.teaseBaseLustDamage() * monster.lustVuln);
 			if (player.hasFourArms()) {
@@ -8389,6 +8418,9 @@ public class Combat extends BaseContent {
 	}
 	public function isUnarmedCombatButDealIceDamage():Boolean {
 		return (flags[kFLAGS.FERAL_COMBAT_MODE] == 1 && (player.haveNaturalClaws() || player.haveNaturalClawsTypeWeapon()) && player.hasStatusEffect(StatusEffects.WinterClaw));
+	}
+	public function isUnarmedCombatButDealDarknessDamage():Boolean {
+		return (player.isFistOrFistWeapon() && player.hasStatusEffect(StatusEffects.AlterBindScroll9));
 	}
 
     public function monsterPureDamageBonus(damage:Number):Number {

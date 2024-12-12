@@ -31,14 +31,22 @@ public class Changelog extends BaseContent
 		}
 		private function Changelog56():void {
 			clearOutput();
+			outputText("(Part 4/4) <b>Version 0.9a:</b>\n\n");
 			menu();
 			addButton(0, "Next", Changelog55);
 			addButton(1, "Back", CoC.instance.mainMenu.mainMenu);
 		}
 		private function Changelog55():void {
 			clearOutput();
-			outputText("(Part 3/3) <b>Version 0.9a:</b>\n\n");
+			outputText("(Part 3/4) <b>Version 0.9a:</b>\n\n");
 			//0 of 11 pages
+			outputText("-Centaur race score calculations was slight changed and can have now additionaly 3rd / 4th tier of race bonuses - Elder Centaur / True Centaur: +100 / +140 Strength +80 / +100 Toughness +175 / +185 Speed +80 / +100 Libido +75 Sens +350 / +500 Hp\n");
+			outputText("-New tier for Goblin race bonuses - Goblin Broodmother (20+ pts): -60% to str multi, +120% spe multi, +200% int multi, +80% lib multi, +40 sens).\n");
+			outputText("-New tiers for Demon race score bonuses - Elder Succubus/Incubus & Arch Succubus/Incubus (29+ pts / 38+ pts): +100/+200 spe multi, +110/+250 int multi, +275/+320 lib multi, +50/+200 sens, +150%/+180% max mana multi, -50%/-55% max wrath multi, +150%/+180% max lust multi\n");
+			outputText("-New tier for Frostwyrm race score bonuses - Jormungandr (32+ pts): +230 str multi, +180 tou multi, +90 spe multi, -110 int multi, +90 lib multi, +150% max hp multi, +4 armor/m.res\n");
+			outputText("-Natural Instincts & Tough Hide perks req. of Job: Beast Warrior changed to req. perk Job: Feral Champion. Natural arsenal effect increased from +50% to +100%. Feral Armor req. for tou stat lowered from 60 to 50.\n");
+			outputText("-Venomous Adipose Tissue & Venomous Diet perks have additional req. of having perk Job: Feral Champion.\n");
+			outputText("-Tamani daughters & Minotaur Sons can now level-up (their lvl depends on how many of them are and separate lvl up counter so the max level isn't clearly defines but would be at least around 100/105 lvl). Like Tamani daughters now Minotaur sons would slowly die out when there is too many of them + added their count on children page right below Tamani daughters.\n");
 			outputText("-Tamani could level up (up to lvl 98). After first level up she would gain Elite type which would be upgraded to Champion type and then to Boss type.\n");
 			outputText("-Enabled camp building at night for night races. But would limit possible helpers to those that could be still active at night. Herbalism and Dummy camp options can also be used at night by night races.\n");
 			outputText("-Female mindbreaker been reeducated causing their corruption increase by 40 pts. Re: Convert option was moved to different button in super perks menu to avoid misclicks due to same position as Previous button.\n");
@@ -241,8 +249,6 @@ public class Changelog extends BaseContent
 			outputText("-Added {stuttername} parser tag. (aimozg) So all the npc's that would stutter can do it at any time ;)\n");
 			outputText("-Nekomata Ghostfire fire and darkness dmg parts are now calculated separetely. Hellfire special now is affected also by fire mastery bonus to damage.\n");
 			outputText("-Human Parathyroid Glands IM effects changed: Fatigue recovery increased and reduces the fatigue cost of physical specials by 10%/20%/30%. From tier 2 it have additional effect of: +1 to fatigue/soulforce/mana recovery multiplier when under 40%/50% max HP\n");
-			outputText("-New mutation perk: Human Thyroid Gland (Final Form). Req. Human Thyroid Gland (Evolved) and lvl 90+. Effects: Regenerates 8% of max HP/hour and 4% of max HP/round. Gain soulforce recovery equal to 2% of your total soulforce and mana recovery increased by 1% of max mana. Reduce soulskills soulforce cost by 10%.\n");
-			outputText("-New mutation perk: Human Parathyroid Glands (Final Form). Req. Human Parathyroid Glands (Evolved) and lvl 90+. Effects: Fatigue recovery increased and reduces the fatigue cost of physical specials by 40% and +2 to fatigue/soulforce/mana recovery multiplier when under 60% max HP. Reduce spells mana cost by 10%.\n");
 			outputText("-All enemies corruption now starts at -100 and ends at 100 for any non true angel/demom enemy. They can go either above 100 (to 200) (demon) or below -100 (to -200) (angel). Effect or attacks that scale based on enemy corruption been adjusted too.\n");
 			outputText("-New event perk: Fire Shadow Affinity. Gained by been Nekomata. Effects: You have a natural affinity for both darkness and fire granting you increased damage and resistance to those element as well as gaining a weakness to ice and lightning.\n");
 			outputText("-Wisp Lieutenant and it follow up perks req. would take into account currently tamed monsters (even if pc would release them next hour).\n");
@@ -297,18 +303,13 @@ public class Changelog extends BaseContent
 			outputText("-New option for Liches - Soul burn: You may use your soulforce as fuel to empower your arcane magic. While active consume soulforce (5% per turn) on all cast as if using soul skills but double magic damage.\n");
 			outputText("-New M. special: Paralyzing touch - You can paralyze a living foe with a single touch by temporarily sucking the soul force out of their limbs. This ability does not work against undead and foes who lack soulforce to begin with. Usable by Lich. Deal darkness damage and stun for 2 rounds.\n");// Cost 100 fatigue.
 			outputText("-New event perk: Deathly power. Gained by been Lich. Effects: Add your wisdom score to your intelligence. Black magic and Hex magic cooldowns are reduced by 1. Magic is twice as effective against foe with less than half of their health.\n");
-			outputText("-New mutation perk: Black Blood. Req. having free bloodstream mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Your undead blood gives you a 10% resistance to cold.\n");
 			outputText("-Fix Pregomania buffs not being removed properly. (Stadler)\n");
 			outputText("-Various fixes for issues with the gargoyle-form: Gargoyle final form could not be reached, because the dialogue with the Forgefather never went past 'What's Next' because of a missing check for !avatarsExplained in the conditional. Upon reaching gargoyle final form, the stat boosts, damage buffs and so on weren't applied anymore, ");
 			outputText("because the checks went only as far as checking for refinement == 4. Gargoyle race includes a demonic tongue, but when becoming a gargoyle the tongue was first changed to a demonic tongue and then to a human one. If you refined your body with refinement at at least 1, all refinements till level 4 were applied at once, ");
 			outputText("even if you lacked the mats due to missing return-statements in the function. The 'Refine Body'-button is now disabled, when you can't be refined any further. Fixed a handful typos in two Forgefather scenes. (Stadler)\n");
 			outputText("-When PC have Phylactery perk can access and use Demonic Energy menu. But to not be too... unfair during ascension any perk gained with use of DE would be lost unlike during Dark Ascension of Soulless PC. Also not been fully soulless would decrease max DE possible to store by 50% and they only gain 50% of DE from eating Lethicite.\n");
 			outputText("-Drider fixes: When you had a drider lower body, the spider abdomen wasn't hidden from charview. (Stadler)\n");
-			outputText("-New mutation perk: Black Blood (Primitive). Req. Black Blood and lvl 30+. Effects: Your undead blood gives you a 20% resistance to cold. When hunger is sated above 80% you gain doubled health generation from all sources.\n");
-			outputText("-New mutation perk: Black Blood (Evolved). Req. Black Blood (Primitive) and lvl 60+. Effects: Your undead blood gives you a 30% resistance to cold. When hunger is sated above 60% you gain doubled health generation from all sources. You gain regeneration 1%.\n");
 			outputText("-Fix permanent transformations not updating racial paragon correctly. (Stadler)\n");
-			outputText("-New mutation perk: Still Heart. Req. having free adaptation mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Energy draining effect and spells and ability that drain health are 25% stronger.\n");
-			outputText("-New mutation perk: Black Blood (Final Form). Req. Black Blood (Evolved) and lvl 90+. Effects: Your undead blood gives you a 40% resistance to cold. When hunger is sated above 40% you gain doubled health generation from all sources. You gain regeneration 2%. You recover from all stat damage except intelligence / libido every full moon night.\n");
 			outputText("-Wendigo Lose Scene Check Fix. (NUZ/Shirane)\n");
 			outputText("-Fixing some of PC's rejected on Marae 1st visit still not getting scene to progress main storyline. (DallagenXYZ)\n");
 			outputText("-Fix Genetic Memory not being updated for the lower body aka demonic feet TF. (Stadler)\n");
@@ -329,6 +330,22 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Still Heart (Evolved). Req. Still Heart (Primitive) and lvl 30+. Effects: Energy draining effect and spells and ability that drain health are 75% stronger. When stealing health beyond your total hp you may add up to 30% of your total health as temporary hit point stacking over your maximum health. Energy draining attacks heals for 1% of your total health in addition to their initial amount.\n");
 			outputText("-New mutation perk: Still Heart (Final Form). Req. Still Heart (Evolved) and lvl 30+. Effects: Energy draining effect and spells and ability that drain health are 100% stronger. When stealing health beyond your total hp you may add up to 45% of your total health as temporary hit point stacking over your maximum health. Energy draining attacks heals for 2% of your total health in addition to their initial amount. ");
 			outputText("You add 25% of your libido to your total health. If you are undead this amount is doubled to 50%.\n");
+			outputText("-New option in Alteration of Cursed Tag: Deathly touch -> Claw attack and unarmed strike deals an additional amount of damage as darkness damage.\n");
+			outputText("-New option in Alteration of Cursed Tag: Mindless Hunger -> When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -364,22 +381,6 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
 			outputText("-Fixed bugs: Dracula/lina PC unable to find get ghoul if they not learned this as normal Vampire, unable to buy manual for 1st atk: f. swords, Arigean Princess PC not been fully immune to TF-ing like other perm races, Weresharks not having their stats changing according to moon phase or boosted during use of Crinos Shape, Phoenix TF adding mutagen penatly instead of stat curse, ");
 			outputText("Endless Rage draining 10x too much wrath per turn, Berzerker/Lustzerker still req. to be activated after they been activated as part of Asura Form activation, dormant state of wereraces 'blessings' increasing race score and not lowering it, Hinezumi Buring Blood IM accesable by Bunny race, returning from teleportation circle at 4th floor of river dungeon sending PC to 3rd floor ");
 			outputText("teleportation circle room, perk allowing to always run away from enemy/ies been ignored in dungeons, unarmed/feral giving mastery gains for small weapons, 2 of 4 SF to Elemental Energy conversion options having wrong check for usable SF, using Fiery Band for calling Kiha to help fight... Kiha, Ceraph after update still not able to win using her super cool lust beam attack, ");
@@ -552,9 +553,13 @@ public class Changelog extends BaseContent
 		}
 		private function Changelog54():void {
 			clearOutput();
-			outputText("(Part 2/3) <b>Version 0.9a:</b>\n\n");
+			outputText("(Part 2/4) <b>Version 0.9a:</b>\n\n");
+			outputText("-New mutation perk: Mighty Legs (Evolved). Req. Mighty Legs (Primitive) and lvl 60+. Effects: Make Kick permanent no matter your leg type, Increase unarmed strike damage by 15 and grapple effect by 60%. Kick is 100% stronger. Kick stun lasts 1 round longer.\n");
+			outputText("-New mutation perk: Mighty Lower Half (Evolved). Req. Mighty Lower Half (Primitive) and lvl 60+. Effects: Tentacle and tail attack deals 75% more damage. Increase unarmed strike damage by 15 and grapple effect by 60%. Grapple damage gains 100% more bonus from your strength. Racial physical ability stun lasts 1 round longer.\n");
+			outputText("-New mutation perk: Poison Gland (Evolved). Req. Poison Gland (Primitive) and lvl 60+. Effects: Double the efficiency of poison damage, applied poisons now has a 75% chance of dealing its effect twice per turn. All poison becomes deadlier inflicting 2% toughness damage per round.\n");
 			outputText("-New mutation perk: Scylla Ink Glands (Evolved). Req. Scylla Ink Glands (Primitive) and lvl 60+. Effects: Your Scylla Ink Glands increase rate at which your body produce ink, duration ink spray affect enemies and lust damage by ((current i. mutation tier - 1) * 100)%, boost to your natural strength, speed and toughness, ");
 			outputText("Scylla Squeeze damage during grapple as Kraken would be multiplied by current i.mutation tier, scylla grapple will always succeed, when in an aquatic battle boost from Aquatic Affinity is 2x larger.\n");
+			outputText("-New mutation perk: Black Blood (Final Form). Req. Black Blood (Evolved) and lvl 90+. Effects: Your undead blood gives you a 40% resistance to cold. When hunger is sated above 40% you gain doubled health generation from all sources. You gain regeneration 2%. You recover from all stat damage except intelligence / libido every full moon night.\n");
 			outputText("-New mutation perk: Blazing Heart (Final Form). Req. Blazing Heart (Evolved) and lvl 90+. Effects: Gain permanent weakness to cold and fire resistance. Increase fire damage by 100%. Heat and Rut also grants you a bonus equal to 20% of the libido bonus to strength. ");
 			outputText("Setting an enemy on fire emboldens and arouses you, increasing damage dealt to burn enemies by 100% but also making you take lust damage as a recoil. Fire active and passive abilities have a 20% chance to apply the burning status effect if they do not already.\n");
 			outputText("-New mutation perk: Drake Blood (Final Form). Req. Drake Blood (Evolved) and lvl 90+. Effects: Dragon strong vitality grants mana soulforce and health regeneration 4%. You take 15% less damage from magical attack. Magic Effect from you are 50% more powerful. Magic Ability are 100% Stronger.\n");
@@ -570,7 +575,9 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Human Fat (Final Form). Req. Human Fat (Evolved) and lvl 90+. Effects: Your fat tissue increased again your natural toughness and thickness limit. Increases maximum base/core Tou by 10, +10% to max overfatigue, negate up to 3 points of internal chimera score. ");
 			outputText("Increased damage reduction against physical damage (+40% DR) & increase natural resistance to damage (+40 armor/m.res), increase max Hunger cap by 150 (if PC have Hunger bar active) (+90% of max core Tou as phantom Tou)\n");
 			outputText("-New mutation perk: Human Musculature (Final Form). Req. Human Musculature (Evolved) and lvl 90+. Effects: Your musculature increased again your natural strength and tone limit. Increases maximum base/core Str by 10, +10% to max overfatigue. Boost Warrior's Rage effect (+1 per 4 pts of core stat value) and duration by 5 turns. (+90%/+45% of max core Str/Spe as phantom Str/Spe)\n");
+			outputText("-New mutation perk: Human Parathyroid Glands (Final Form). Req. Human Parathyroid Glands (Evolved) and lvl 90+. Effects: Fatigue recovery increased and reduces the fatigue cost of physical specials by 40% and +2 to fatigue/soulforce/mana recovery multiplier when under 60% max HP. Reduce spells mana cost by 10%.\n");
 			outputText("-New mutation perk: Human Smarts (Final Form). Req. Human Smarts (Evolved) and lvl 90+. Effects: Increases maximum base/core Int/Wis by 20, maximum trainable Int/Wis cap by 30%. Gain soulforce recovery equal to 2% of your total soulforce and mana recovery increased by 1% of max mana, +5% to max overmana/oversoulforce. Increase m.soulskill power by 100%. Allow to use options requiring to have technical knowledge.\n");
+			outputText("-New mutation perk: Human Thyroid Gland (Final Form). Req. Human Thyroid Gland (Evolved) and lvl 90+. Effects: Regenerates 8% of max HP/hour and 4% of max HP/round. Gain soulforce recovery equal to 2% of your total soulforce and mana recovery increased by 1% of max mana. Reduce soulskills soulforce cost by 10%.\n");
 			outputText("-New mutation perk: Human Versatility (Final Form). Req. Human Versatility (Evolved) and lvl 90+. Effects: Mastery gains increased by 4 points or in case of multiplier +4 to multiplier. Decrease needed exp to lvl up weapon/lifeskill masteries and have 40% chance to gain 4x more XP for Mastery. 50% chance to gain 2 levels instead of 1 when leveling weapon/lifeskill mastery.\n");
 			outputText("-New mutation perk: Mighty Legs (Final Form). Req. Mighty Legs (Evolved) and lvl 90+. Effects: Make Kick permanent no matter your leg type, Increase unarmed strike damage by 20 and grapple effect by 80%. Kick is 150% stronger. Kick stun lasts 1 round longer. Straddle and Grapples duration is extended by 1 additional round.\n");
 			outputText("-New mutation perk: Mighty Lower Half (Final Form). Req. Mighty Lower Half (Evolved) and lvl 90+. Effects: Tentacle and tail attack deals 100% more damage. Increase unarmed strike damage by 20 and grapple effect by 80%. Grapple damage gains 150% more bonus from your strength. Racial physical ability stun lasts 1 round longer. Straddle and Grapples duration is extended by 1 additional round.\n");
@@ -643,20 +650,13 @@ public class Changelog extends BaseContent
 			outputText("-When exploring Deepwoods can find new dungeon - Twilight Grove. It's potentialy dangerous place for pure PC's but resort-like place for alraunes and/or corrupt PC's. When explored by pure PC it will be series of fights with enemeis between 35-39 lvl's and boss of lvl 42. In one of rooms there is few storage box with items that will restock each night. Also rendomized elite mobs will appear even after boss death.\n");
 			outputText("-Can explore and clear 5th floor of River Dungeon. It have monsters from lvl 58 to 70 and boss is lvl 73. Floor is divided into three subareas: first is normal, second is hot enough to have weaker effect found in Vulcanic Crag (constant fire dmg) and third is cold enough to have weaker effect found in Glacial Rift (constant ice damage). ");
 			outputText("There are also few rooms where two nearby subareas meets. In rooms where second and third area meets climate is much more harsh and player is affected by both constant fire and ice dmg that are much stronger then in second or third subarea.\n");
-			outputText("-Centaur race score calculations was slight changed and can have now additionaly 3rd / 4th tier of race bonuses - Elder Centaur / True Centaur: +100 / +140 Strength +80 / +100 Toughness +175 / +185 Speed +80 / +100 Libido +75 Sens +350 / +500 Hp\n");
-			outputText("-New tier for Goblin race bonuses - Goblin Broodmother (20+ pts): -60% to str multi, +120% spe multi, +200% int multi, +80% lib multi, +40 sens).\n");
-			outputText("-New tiers for Demon race score bonuses - Elder Succubus/Incubus & Arch Succubus/Incubus (29+ pts / 38+ pts): +100/+200 spe multi, +110/+250 int multi, +275/+320 lib multi, +50/+200 sens, +150%/+180% max mana multi, -50%/-55% max wrath multi, +150%/+180% max lust multi\n");
-			outputText("-New tier for Frostwyrm race score bonuses - Jormungandr (32+ pts): +230 str multi, +180 tou multi, +90 spe multi, -110 int multi, +90 lib multi, +150% max hp multi, +4 armor/m.res\n");
-			outputText("-Natural Instincts & Tough Hide perks req. of Job: Beast Warrior changed to req. perk Job: Feral Champion. Natural arsenal effect increased from +50% to +100%. Feral Armor req. for tou stat lowered from 60 to 50.\n");
-			outputText("-Venomous Adipose Tissue & Venomous Diet perks have additional req. of having perk Job: Feral Champion.\n");
-			outputText("-Tamani daughters & Minotaur Sons can now level-up (their lvl depends on how many of them are and separate lvl up counter so the max level isn't clearly defines but would be at least around 100/105 lvl). Like Tamani daughters now Minotaur sons would slowly die out when there is too many of them + added their count on children page right below Tamani daughters.\n");
 			menu();
 			addButton(0, "Next", Changelog53);
 			addButton(1, "Back", CoC.instance.mainMenu.mainMenu);
 		}
 		private function Changelog53():void {
 			clearOutput();
-			outputText("(Part 1/3) <b>Version 0.9a:</b>\n\n");
+			outputText("(Part 1/4) <b>Version 0.9a:</b>\n\n");
 			outputText("-New tier 0 misc lvl-up perk: Job: Feral Champion. Req. Job: Beast Warrior perk, free advanced job slot, 25+ in tou/spe. Effect: A wild animal in both name and behavior the feral champion focus on mastering natural weapon such as tooth and claws and delivering deadly status effect. A specialization used best when fighting naked.\n");
 			outputText("-New tier 1 misc lvl-up perk: Atavism. Req. Job: Feral Champion perk. Effect: Unlocks the ability to temporarily turn into a feral beast of pure instinct while in battle. Could end it before combat end but will get 6 turn cooldown before been to turn into feral beast again. ");
 			outputText("(Drops intelligence to 1, silence self (no spellcasting), increase critical rate by 35%, increase Strength and Speed modifier by 100% (of core+trained stat value) and raise dodge by 10% while fighting with feral combat. It obviously lock you into feral combat for the duration too.)\n");
@@ -722,6 +722,7 @@ public class Changelog extends BaseContent
 			outputText("-New event perk: Harpy Queen. Gained by giving birth to 20+ harpies. Effects: As a harpy or harpy subtype increase toughness speed and libido based on the ammount of harpy children you gave birth to.\n");
 			outputText("-New event perk: Laquine Might. Gained by been laquine. Effects: Add 75% of your libido to your strength stat.\n");
 			outputText("-New perk for enemies: Champion type enemy. Bonuses for are: Diehard effect of 5% of max HP + 1,500 HP * NG tier, OverMax HP / Lust effect of 10% magnitude.\n");
+			outputText("-New mutation perk: Black Blood. Req. having free bloodstream mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Your undead blood gives you a 10% resistance to cold.\n");
 			outputText("-New mutation perk: Blazing Heart. Req. having free heart mutation slot, Hinezumi, Salamander, Phoenix, Hellcat and Fire Snail race. Effects: Gain permanent weakness to cold and fire resistance. Increase fire damage by 25%.\n");
 			outputText("-New mutation perk: Drake Blood. Req. having free bloodstream mutation slot; Dragon, Frost Wyrm, Sea Dragon and Jabberwocky race. Effects: Dragon strong vitality grants mana, soulforce and health regeneration 1%.\n");
 			outputText("-New mutation perk: Equine Muscle. Req. having free musculature mutation slot, one of races: horse-morph, centuar, unicorn, bicorn, alicorn, nightmare, laquine. Effects: +25% to all Physical Ability damage. Gallop cost 10% less fatigue.\n");
@@ -735,6 +736,8 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Mighty Legs. Req. having free adaptation mutation slot, one of races: Kangaro, Bunny, Easter Bunny, Laquine, Horse Morph, Centaur(The original centaur not the other ones), Cow, Minotaur, Jabberwocky. Effects: Make Kick permanent no matter your leg type, Increase unarmed strike damage by 5 and grapple effect by 20%.\n");
 			outputText("-New mutation perk: Mighty Lower Half. Req. having free adaptation mutation slot, one of races: Scylla, Naga, Gorgon, Couatl, Vouivre, Apophis, Frostwyrm, Mindbreaker. Effects: Tentacle and tail attack deals 25% more damage. Increase unarmed strike damage by 5 and grapple effect by 20%.\n");
 			outputText("-New mutation perk: Poison Gland. Req. having free adrenal glands mutation slot, Bee, Manticore, Sandworm race. Effects: Double the efficiency of poison damage, applied poisons now has a 25% chance of dealing its effect twice per turn.\n");
+			outputText("-New mutation perk: Still Heart. Req. having free adaptation mutation slot, one of races: Jiangshi, Mummy, Lich. Effects: Energy draining effect and spells and ability that drain health are 25% stronger.\n");
+			outputText("-New mutation perk: Black Blood (Primitive). Req. Black Blood and lvl 30+. Effects: Your undead blood gives you a 20% resistance to cold. When hunger is sated above 80% you gain doubled health generation from all sources.\n");
 			outputText("-New mutation perk: Blazing Heart (Primitive). Req. Blazing Heart and lvl 30+. Effects: Gain permanent weakness to cold and fire resistance. Increase fire damage by 50%. Heat and Rut also grants you a bonus equal to 10% of the libido bonus to strength.\n");
 			outputText("-New mutation perk: Equine Muscle (Primitive). Req. Equine Muscle and lvl 30+. Effects: +50% to all Physical Ability damage. Gallop cost 20% less fatigue. Physical ability consumes 5% less fatigue.\n");
 			outputText("-New mutation perk: Fiendish Balls (Primitive). Req. Fiendish Balls and lvl 30+. Effects: Increase Virility by 60%, Increase cum production by 50%.\n");
@@ -748,6 +751,7 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Mighty Legs (Primitive). Req. Mighty Legs and lvl 30+. Effects: Make Kick permanent no matter your leg type, Increase unarmed strike damage by 10 and grapple effect by 40%. Kick is 50% stronger.\n");
 			outputText("-New mutation perk: Mighty Lower Half (Primitive). Req. Mighty Lower Half and lvl 30+. Effects: Tentacle and tail attack deals 50% more damage. Increase unarmed strike damage by 10 and grapple effect by 40%. Grapple damage gains 50% more bonus from your strength.\n");
 			outputText("-New mutation perk: Poison Gland (Primitive). Req. Poison Gland and lvl 30+. Effects: Double the efficiency of poison damage, applied poisons now has a 50% chance of dealing its effect twice per turn. All poison becomes deadlier inflicting 1% toughness damage per round.\n");
+			outputText("-New mutation perk: Black Blood (Evolved). Req. Black Blood (Primitive) and lvl 60+. Effects: Your undead blood gives you a 30% resistance to cold. When hunger is sated above 60% you gain doubled health generation from all sources. You gain regeneration 1%.\n");
 			outputText("-New mutation perk: Blazing Heart (Evolved). Req. Blazing Heart (Primitive) and lvl 60+. Effects: Gain permanent weakness to cold and fire resistance. Increase fire damage by 100%. Heat and Rut also grants you a bonus equal to 20% of the libido bonus to strength. Setting an enemy on fire emboldens and arouses you, increasing damage dealt to burn enemies by 100% but also making you take lust damage as a recoil.\n");
 			outputText("-New mutation perk: Equine Muscle (Evolved). Req. Equine Muscle (Primitive) and lvl 60+. Effects: +75% to all Physical Ability damage. Gallop cost 30% less fatigue. Physical ability consumes 10% less fatigues. Physical ability that stuns do so for one extra round.\n");
 			outputText("-New mutation perk: Drake Blood (Evolved). Req. Drake Blood (Primitive) and lvl 60+. Effects: Dragon strong vitality grants mana soulforce and health regeneration 3%. You take 10% less damage from magical attack. Magic Effect from you are 25% more powerful.\n");
@@ -757,9 +761,6 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Fiendish Ovaries (Evolved). Req. Fiendish Ovaries (Primitive) and lvl 60+. Effects: Increase Fertility by 80%, all born children from your womb will either be born as imps or greatly corrupted, while pregnant with imps tease is 25% stronger.\n");
 			outputText("-New mutation perk: Goblin Ovaries (Evolved). Req. Goblin Ovaries (Primitive) and lvl 60+. Effects: Increase fertility rating by 30, While pregnant increase total libido by 30%. Double the number of kids you birth. Increase physical damage done while pregnant by 40%. Lust damage against male opponents increased by 25%.\n");
 			outputText("-New mutation perk: Hydra Blood (Evolved). Req. Hydra Blood (Primitive) and lvl 60+. Effects: Improve existing Regeneration by 3% negated by fire damage and increase acid and poison effects by 75%. Your blood is ruinous and inflicts your fang venom when damaged.\n");
-			outputText("-New mutation perk: Mighty Legs (Evolved). Req. Mighty Legs (Primitive) and lvl 60+. Effects: Make Kick permanent no matter your leg type, Increase unarmed strike damage by 15 and grapple effect by 60%. Kick is 100% stronger. Kick stun lasts 1 round longer.\n");
-			outputText("-New mutation perk: Mighty Lower Half (Evolved). Req. Mighty Lower Half (Primitive) and lvl 60+. Effects: Tentacle and tail attack deals 75% more damage. Increase unarmed strike damage by 15 and grapple effect by 60%. Grapple damage gains 100% more bonus from your strength. Racial physical ability stun lasts 1 round longer.\n");
-			outputText("-New mutation perk: Poison Gland (Evolved). Req. Poison Gland (Primitive) and lvl 60+. Effects: Double the efficiency of poison damage, applied poisons now has a 75% chance of dealing its effect twice per turn. All poison becomes deadlier inflicting 2% toughness damage per round.\n");
 			menu();
 			addButton(0, "Next", Changelog52);
 			addButton(1, "Back", CoC.instance.mainMenu.mainMenu);

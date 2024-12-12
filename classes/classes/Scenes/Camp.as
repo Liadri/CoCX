@@ -3101,12 +3101,14 @@ public class Camp extends NPCAwareContent{
 			[StatusEffects.AlterBindScroll6, "Greater drain"],
 			[StatusEffects.AlterBindScroll7, "Cursed Touch"],
 			[StatusEffects.AlterBindScroll8, "Paralyzing fear"],
+			[StatusEffects.AlterBindScroll9, "Deathly touch"],
+			[StatusEffects.AlterBindScroll10, "Mindless Hunger"],
 		];
 		var i:int;
 		clearOutput();
 		var limitOnAltering:Number = 1;
 		if (player.hasPerk(PerkLib.ImprovedCursedTag)) limitOnAltering += 1;
-		if (player.hasPerk(PerkLib.GreaterCursedTag)) limitOnAltering += 6;
+		if (player.hasPerk(PerkLib.GreaterCursedTag)) limitOnAltering += 8;
 		var currentAltering:Number = 0;
 		for (i = 0; i < statusNames.length; ++i) {
 			if (player.hasStatusEffect(statusNames[i][0])) ++currentAltering;
@@ -3126,6 +3128,8 @@ public class Camp extends NPCAwareContent{
 		outputText("Greater drain -> <i>Lust damage inflicted on your opponent through physical contact is twice as effective. (Effects straddle and melee attack)</i>\n");
 		outputText("Cursed Touch -> <i>Unarmed strikes inflict 1% toughness damage.</i>\n");
 		outputText("Paralyzing fear -> <i>Unarmed strikes inflict 1% strength damage.</i>\n");
+		outputText("Deathly touch -> <i>Claw attack and unarmed strike deals an additional amount of damage as darkness damage.</i>\n");
+		outputText("Mindless Hunger -> <i>When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).</i>\n");
 		menu();
 		for (i = 0; i < statusNames.length; ++i) {
 			addButton(i, statusNames[i][1], alterBindScrollToggle, statusNames[i][0]);
