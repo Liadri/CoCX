@@ -169,10 +169,10 @@ public class PerkMenu extends BaseContent {
 			}
 			outputText("</b>");
 			if (autoFlyingFlag != 0) addButton(0, "On Ground", autoFlyingType,0);
-			if (player.canFly() && autoFlyingFlag != 1) addButton(1, "By Wings", autoFlyingType,1);
-			if (player.hasPerk(PerkLib.FlyingSwordPath) && autoFlyingFlag != 2) addButton(2, "By FlyingSw", autoFlyingType,2);
-			if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor) && autoFlyingFlag != 3) addButton(3, "By SF", autoFlyingType,3);
-			if (player.statStore.hasBuff("FoxflamePelt") && player.tailCount >= 9 && autoFlyingFlag != 4) addButton(4, "By FFP", autoFlyingType,4);
+			if (player.canFly() && autoFlyingFlag != 1 && autoGallopingFlag == 0) addButton(1, "By Wings", autoFlyingType,1);
+			if (player.hasPerk(PerkLib.FlyingSwordPath) && autoFlyingFlag != 2 && autoGallopingFlag == 0) addButton(2, "By FlyingSw", autoFlyingType,2);
+			if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor) && autoFlyingFlag != 3 && autoGallopingFlag == 0) addButton(3, "By SF", autoFlyingType,3);
+			if (player.statStore.hasBuff("FoxflamePelt") && player.tailCount >= 9 && autoFlyingFlag != 4 && autoGallopingFlag == 0) addButton(4, "By FFP", autoFlyingType,4);
 		}
 		if (player.hasCombatAura()) {
 			outputText("\n\nYou can suppress your auras. This way, they won't damage/arouse enemies.");
@@ -195,7 +195,7 @@ public class PerkMenu extends BaseContent {
 		if (player.hasPerk(PerkLib.SuddenRun) && player.lowerBody == LowerBody.HOOFED) {
 			outputText("You can choose to start galloping or not at the start of each combat.\n");
 			outputText("\nStart: <b>" + (flags[kFLAGS.AUTO_GALLOP] == 0 ? "Standing still" : "Galloping") + "</b>");
-			addButton(9, "Gallop", curry(toggleFlagMisc, kFLAGS.AUTO_GALLOP));
+			if (autoFlyingFlag == 0) addButton(9, "Gallop", curry(toggleFlagMisc, kFLAGS.AUTO_GALLOP));
 		}
 		// tease healing
 		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {
