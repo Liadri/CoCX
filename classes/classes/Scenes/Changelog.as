@@ -332,7 +332,7 @@ public class Changelog extends BaseContent
 			outputText("You add 25% of your libido to your total health. If you are undead this amount is doubled to 50%.\n");
 			outputText("-New option in Alteration of Cursed Tag: Deathly touch -> Claw attack and unarmed strike deals an additional amount of damage as darkness damage.\n");
 			outputText("-New option in Alteration of Cursed Tag: Mindless Hunger -> When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).\n");
-			outputText("-\n");
+			outputText("-Fixes for displaying balls correctly for dragons and other scalies. (Stadler)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
