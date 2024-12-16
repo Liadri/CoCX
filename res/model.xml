@@ -1465,20 +1465,26 @@
 		<cell rect="111,380,49,29" name="balls/Bchitinsillyhuge" dx="79" dy="106"/>
 		<cell rect="balls/Bchitinsillyhuge" name="balls_taur/Bchitinsillyhuge_taur" dx="121" dy="131"/>
 		<cell rect="111,560,49,36" name="balls/Bchitingigahuge" dx="82" dy="114"/>
-		<cell rect="161,290,49,29" name="balls/Bscalesmall" dx="79" dy="104"/>
-		<cell rect="balls/Bscalesmall" name="balls_taur/Bscalesmall_taur" dx="121" dy="128"/>
+		<cell rect="161,290,49,29" name="balls/Bscalessmall" dx="79" dy="104"/>
+		<cell rect="balls/Bscalessmall" name="balls_taur/Bscalessmall_taur" dx="121" dy="128"/>
 		<cell rect="161,320,49,29" name="balls/Bscaleslarge" dx="79" dy="104"/>
 		<cell rect="balls/Bscaleslarge" name="balls_taur/Bscaleslarge_taur" dx="121" dy="128"/>
 		<cell rect="161,350,49,29" name="balls/Bscaleshuge" dx="79" dy="105"/>
 		<cell rect="balls/Bscaleshuge" name="balls_taur/Bscaleshuge_taur" dx="121" dy="128"/>
 		<cell rect="161,380,49,29" name="balls/Bscalessillyhuge" dx="79" dy="106"/>
-		<cell rect="balls/Bscalessillyhuge" name="balls_taur/Bscalessillyhugehuge_taur" dx="121" dy="131"/>
-		<cell rect="161,560,49,36" name="balls/Bscalesgigahuge" dx="82" dy="114"/>
-		<cell rect="balls/Bscalesmall" name="balls/Bdscalessmall" dx="79" dy="104"/>
+		<cell rect="balls/Bscalessillyhuge" name="balls_taur/Bscalessillyhuge_taur" dx="121" dy="131"/>
+		<cell rect="261,560,49,36" name="balls/Bscalesgigahuge" dx="82" dy="114"/>
+		<cell rect="balls/Bscalesgigahuge" name="balls_taur/Bscalesgigahuge_taur" dx="124" dy="137"/>
+		<cell rect="balls/Bscalessmall" name="balls/Bdscalessmall" dx="79" dy="104"/>
+		<cell rect="balls/Bscalessmall" name="balls_taur/Bdscalessmall_taur" dx="121" dy="128"/>
 		<cell rect="balls/Bscaleslarge" name="balls/Bdscaleslarge" dx="79" dy="104"/>
+		<cell rect="balls/Bscaleslarge" name="balls_taur/Bdscaleslarge_taur" dx="121" dy="128"/>
 		<cell rect="balls/Bscaleshuge" name="balls/Bdscaleshuge" dx="79" dy="105"/>
+		<cell rect="balls/Bscaleshuge" name="balls_taur/Bdscaleshuge_taur" dx="121" dy="128"/>
 		<cell rect="balls/Bscalessillyhuge" name="balls/Bdscalessillyhuge" dx="79" dy="106"/>
+		<cell rect="balls/Bscalessillyhuge" name="balls_taur/Bdscalessillyhuge_taur" dx="121" dy="129"/>
 		<cell rect="balls/Bscalesgigahuge" name="balls/Bdscalesgigahuge" dx="82" dy="114"/>
+		<cell rect="balls/Bscalesgigahuge" name="balls_taur/Bdscalesgigahuge_taur" dx="124" dy="137"/>
 		<cell rect="balls/Bpscalessmall" name="balls/Borcasmall" dx="79" dy="104"/>
 		<cell rect="balls/Bpscalessmall" name="balls_taur/Borcasmall_taur" dx="121" dy="128"/>
 		<cell rect="balls/Bpscaleslarge" name="balls/Borcalarge" dx="79" dy="104"/>
