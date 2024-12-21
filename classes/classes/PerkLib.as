@@ -704,6 +704,9 @@ public class PerkLib
 		public static const EarthAndSky:PerkType = mk("Earth and Sky", "Earth and Sky",
 				"Damage is increased (x2) while in motion gallop or flight.",
 				"You've chosen the 'Earth and Sky' perk. Damage is increased (x2) while in motion gallop or flight.");
+		public static const EfficientUsageOfSoulforce:PerkType = mk("Efficient Usage of Soulforce", "Efficient Usage of Soulforce",
+				"You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)",
+				"You've chosen the 'Efficient Usage of Soulforce' perk. You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -717,9 +720,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -6964,6 +6964,9 @@ public class PerkLib
                     .requireInt(75)
                     .requireSpe(70)
                     .requireLevel(30);
+            EfficientUsageOfSoulforce.requireLevel(30)
+                    .requirePerk(ConductionSoulforceCharge)
+                    .requireWis(150);
             //Tier 6 Wisdom perks
             ElementalContractRank7.requirePerk(ElementalContractRank6)
                     .requireWis(175)

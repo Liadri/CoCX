@@ -356,8 +356,11 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					if (player.armor == armors.HBARMOR) {
 						drainAmt += 180;
 						if (player.vehicles == vehicles.HB_MECH) {
-							/*if (upgrade 1) drainAmt += ?40?;
-							else */drainAmt += 60;
+							if (player.hasKeyItem("HB Internal Systems") >= 0) {
+								if (player.keyItemvX("HB Internal Systems", 1) == 2) drainAmt += 40;
+								else drainAmt += 50;
+							}
+							else drainAmt += 60;
 						}
 					}
 					if (player.hasPerk(PerkLib.ConductionSoulforceCharge) && player.soulforce >= drainAmt) EngineCore.SoulforceChange(-drainAmt);

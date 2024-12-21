@@ -333,7 +333,7 @@ public class Changelog extends BaseContent
 			outputText("-New option in Alteration of Cursed Tag: Deathly touch -> Claw attack and unarmed strike deals an additional amount of damage as darkness damage.\n");
 			outputText("-New option in Alteration of Cursed Tag: Mindless Hunger -> When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).\n");
 			outputText("-Fixes for displaying balls correctly for dragons and other scalies. (Stadler)\n");
-			outputText("-\n");
+			outputText("-New tier 5 wisdom lvl-up perk: Efficient Usage of Soulforce. Req. Conduction Soulforce Charge perk and 150+ wisdom. Effect: You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
