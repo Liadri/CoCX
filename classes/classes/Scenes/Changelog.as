@@ -334,8 +334,8 @@ public class Changelog extends BaseContent
 			outputText("-New option in Alteration of Cursed Tag: Mindless Hunger -> When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).\n");
 			outputText("-Fixes for displaying balls correctly for dragons and other scalies. (Stadler)\n");
 			outputText("-New tier 5 wisdom lvl-up perk: Efficient Usage of Soulforce. Req. Conduction Soulforce Charge perk and 150+ wisdom. Effect: You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-Because people found it weird golems and angels would not longer drops some items (Bro Brew, Bimbo Liquer, Eggs during Easter and other super rare drops that can proc after PC reach lvl 7).\n");
+			outputText("-For Wolf/Winter Wolf Animal Tooth would still give +1 to score but Wolf face variant would give +2, since it's req. to keep access to ice breath special.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

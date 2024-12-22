@@ -72,7 +72,8 @@ public class WolfRace extends Race {
 	public override function setup():void {
 		
 		addScores()
-				.faceType(ANY(Face.WOLF, Face.ANIMAL_TOOTHS), +1)
+				.faceType(Face.ANIMAL_TOOTHS, +1)
+				.faceType(Face.WOLF, +2)
 				.eyeType(Eyes.FENRIR, +3)
 				.eyeType(NOT(Eyes.FERAL),0, -11)
 				.eyeColor("glacial blue", +2)
