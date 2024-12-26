@@ -5376,6 +5376,7 @@ public function rebirthFromBadEnd():void {
 		if (player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) pop += LunaFollower.WerewolfPackMember;
 		if (player.isRaceCached(Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && player.hasMutation(IMutationsLib.HellhoundFireBallsIM)) pop += LunaFollower.HellhoundPackMember;
 		if (player.hasPerk(PerkLib.MummyLord)) pop += player.perkv1(PerkLib.MummyLord);
+		if (player.hasPerk(PerkLib.UndeadLord)) pop += player.perkv1(PerkLib.UndeadLord);
 		//------------
 		//Children check!
 		//Followers
@@ -5418,4 +5419,4 @@ public function rebirthFromBadEnd():void {
 
 }
 }
-
+

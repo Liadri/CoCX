@@ -1401,6 +1401,12 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.AlphaHowlIM) >= 1) mCL += (perkv1(IMutationsLib.AlphaHowlIM) * 5);
 			return mCL;
 		}
+		public function zombieControlLimit():Number
+		{
+			var zCL:Number = 5;
+			//if (perkv1(IMutationsLib.AlphaHowlIM) >= 1) zCL += (perkv1(IMutationsLib.AlphaHowlIM) * 5);
+			return zCL;
+		}
 		public function zerkSereneMind():Boolean
 		{
 			return (hasPerk(PerkLib.SereneMind) && (hasStatusEffect(StatusEffects.Berzerking) || hasStatusEffect(StatusEffects.Lustzerking)));
@@ -5180,6 +5186,7 @@ use namespace CoC;
 				minions += perkv2(PerkLib.GreaterHarvest);
 			}
 			if (hasPerk(PerkLib.MummyLord) && perkv1(PerkLib.MummyLord) > 0) minions += perkv1(PerkLib.MummyLord);
+			if (hasPerk(PerkLib.UndeadLord) && perkv1(PerkLib.UndeadLord) > 0) minions += perkv1(PerkLib.UndeadLord);
 			if (hasPerk(PerkLib.JobTamer)) minions += SceneLib.campMakeWinions.currentTamedMonstersCount();
 			return minions;
 		}
@@ -8113,3 +8120,4 @@ use namespace CoC;
 		
 	}
 }
+

@@ -182,6 +182,7 @@ public class UniqueSexScenes extends BaseContent
 				USSLiveDildo(),
 				USSJiangshiDrn(),
 				USSAnubiMummyCurse(),
+				USSLichZombification(),
 				USSTrueDemonSuccubusFeast(),
 				USSTrueDemonIncubusFeast()];
 
@@ -388,16 +389,26 @@ public class UniqueSexScenes extends BaseContent
         }
         private function USSAnubiMummyCurse():Array{
             var btnSet:Array = ["Mummy Curse!!"];
-            if (player.hasPerk(PerkLib.MummyCurse) && AnubiMummyCurseNotWrongEnemyType() && player.hasItem(useables.BANDAGE, 1) && player.perkv1(PerkLib.MummyLord) < player.mummyControlLimit()) btnSet.push(anubisMummyCurse, "");
+            if (player.hasPerk(PerkLib.MummyCurse) && AnubiMummyCurseOrLichZombieNotWrongEnemyType() && player.hasItem(useables.BANDAGE, 1) && player.perkv1(PerkLib.MummyLord) < player.mummyControlLimit()) btnSet.push(anubisMummyCurse, "");
             else {
 				if (!player.hasPerk(PerkLib.MummyCurse)) btnSet.push(false, "Req. to have Mummy Curse perk.");
-				else if (!AnubiMummyCurseNotWrongEnemyType()) btnSet.push(false, "Req. enemy to be bipedal with soul. (No constructs/elementals)");
+				else if (!AnubiMummyCurseOrLichZombieNotWrongEnemyType()) btnSet.push(false, "Req. enemy to be bipedal with soul. (No constructs/elementals)");
 				else if (!player.hasItem(useables.BANDAGE, 1)) btnSet.push(false, "Req. to have at least 1 bandage.");
 				else btnSet.push(false, "Req. to be able to control more mummies.");
 			}
             return btnSet;
         }
-		private function AnubiMummyCurseNotWrongEnemyType():Boolean{
+        private function USSLichZombification():Array{
+            var btnSet:Array = ["Lich Zombification!!"];
+            if (player.hasPerk(PerkLib.UndeadLord) && AnubiMummyCurseOrLichZombieNotWrongEnemyType() && player.perkv1(PerkLib.UndeadLord) < player.zombieControlLimit()) btnSet.push(lichZombification, "");
+            else {
+				if (!player.hasPerk(PerkLib.UndeadLord)) btnSet.push(false, "Req. to have Undead lord perk.");
+				else if (!AnubiMummyCurseOrLichZombieNotWrongEnemyType()) btnSet.push(false, "Req. enemy to be bipedal with soul. (No constructs/elementals)");
+				else btnSet.push(false, "Req. to be able to control more zombies.");
+			}
+            return btnSet;
+        }
+		private function AnubiMummyCurseOrLichZombieNotWrongEnemyType():Boolean{
 			return (!monster.hasPerk(PerkLib.Enemy300Type) && !monster.hasPerk(PerkLib.EnemyConstructType) && !monster.hasPerk(PerkLib.EnemyElementalType) && !monster.hasPerk(PerkLib.EnemyFleshConstructType) && !monster.hasPerk(PerkLib.EnemyGhostType) && !monster.hasPerk(PerkLib.EnemyGooType) &&
 			!monster.hasPerk(PerkLib.EnemyLargeGroupType) && !monster.hasPerk(PerkLib.EnemyPlantType) && !monster.hasPerk(PerkLib.EnemyTrueAngel) && !monster.hasPerk(PerkLib.EnemyTrueDemon) && !monster.hasPerk(PerkLib.EnemyUndeadType) && !monster.hasPerk(PerkLib.UniqueNPC));
 		}
@@ -888,6 +899,22 @@ public class UniqueSexScenes extends BaseContent
 			outputText("With a new slave added to your custody, you head back to camp.\n\n");
 			player.destroyItems(useables.BANDAGE, 1);
 			player.addPerkValue(PerkLib.MummyLord, 1, 1);
+			if (player.hasCock()) player.sexReward("no", "Dick");
+			else player.sexReward("no","Vaginal");
+			cleanupAfterCombat();
+		}
+
+		public function lichZombification():void {
+			clearOutput();
+			outputText("As you stare sternly at [themonster], a wicked idea comes to your mind. You grab the roll of bandage in your backpack and dispose of it to the side as you approach your defeated adversary.\n\n");
+			outputText("Before [monster he] can utter a word of protest " + (monster.hasCock()?"you wrap your [hands] around [monster his] " + monster.cockDescriptShort() + " forcefully masturbating [monster him]":"you force your digits into [monster his] " + monster.vaginaDescript()+" forcefully masturbating [monster him]")+". Surprised by your eager ministrations, your victim relaxes and lays back to enjoy your touch, that here was a grave mistake.\n\n");
+			outputText("A wicked sneer breaks your serene expression as [themonster] reaches [monster his] orgasm, you forcefully grab hold of your victim’s soulforce, now exposed within your reach before you tear it out like a translucent shroud, leaving [monster his] soul maimed beyond natural repair. [monster His] skin grows pale and [monster his] body stiffens to a cadaverous countenance. Your victim’s horrified screams slowly recede to dim-witted hungry moans as the mummification process completes. Partially out of a desire to uphold traditions, you get rid of the zombified victim’s clothes and bandage it using the wrappings you set aside for the job, leaving its naughty bits exposed to the wind for you to enjoy lecherously staring at.\n\n");
+			if (player.hasCock() || player.hasVagina()) {
+				outputText("Testing your new pet loyalty, you order [monster him] to "+(player.hasCock()?"suck you off":"eat you out")+". Your new ghoulish pet crawls to your sitting form and "+(player.hasCock()?"takes your erect [cock] into [monster his] blackened mouth, eager to serve you. Your pet doesn't relent, desperate to suckle upon every single inch of cock you have to offer":"suckles your exposed bitch button, [monster his] black tongue slithering into your snatch")+" desperate to draw out a sliver of soul force to sate its unnatural hunger. ");
+				outputText("You cum hard, delivering your load directly into your pet’s mouth, just enough to keep it addicted and under control but never enough to grant it back independence. Satisfied with your new pet, you firmly order it to stop before you stand up and grab your stuff.\n\n");
+			}
+			outputText("With a new slave added to your custody, you head back to camp.\n\n");
+			player.addPerkValue(PerkLib.UndeadLord, 1, 1);
 			if (player.hasCock()) player.sexReward("no", "Dick");
 			else player.sexReward("no","Vaginal");
 			cleanupAfterCombat();

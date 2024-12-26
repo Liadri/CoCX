@@ -236,9 +236,9 @@ public class PerkMenu extends BaseContent {
 			outputText("\n<b>You can adjust your Will-o'-the-wisp behaviour during combat.</b>");
 			bd.add("Will-o'-the-wisp", wotwBehaviourOptions);
 		}
-		if (player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) {
-			outputText("\n<b>You can adjust the behaviour of your mummies during combat.</b>");
-			bd.add("Mummies", mummyBehaviourOptions);
+		if ((player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) || (player.hasPerk(PerkLib.UndeadLord) && player.perkv1(PerkLib.UndeadLord) > 0)) {
+			outputText("\n<b>You can adjust the behaviour of your mummies/zombies during combat.</b>");
+			bd.add("Mummies/Zombies", mummyBehaviourOptions);
 		}
 
 
@@ -915,10 +915,10 @@ public class PerkMenu extends BaseContent {
 	public function mummyBehaviourOptions():void {
 		clearOutput();
 		menu();
-		outputText("You can choose how your mummies will behave during each fight.\n\n");
-		outputText("\n<b>Mummy behaviour:</b>\n");
-		if (flags[kFLAGS.MUMMY_ATTACK] == 0) outputText("Your mummies will not attack.");
-		if (flags[kFLAGS.MUMMY_ATTACK] == 1) outputText("Your mummies will attack at the beginning of each turn.");
+		outputText("You can choose how your mummies/zombies will behave during each fight.\n\n");
+		outputText("\n<b>Mummy/Zombie behaviour:</b>\n");
+		if (flags[kFLAGS.MUMMY_ATTACK] == 0) outputText("Your mummies/zombies will not attack.");
+		if (flags[kFLAGS.MUMMY_ATTACK] == 1) outputText("Your mummies/zombies will attack at the beginning of each turn.");
 		addButton(10, "Disable", toggleFlag, mummyBehaviourOptions, kFLAGS.MUMMY_ATTACK)
 			.disableIf(flags[kFLAGS.MUMMY_ATTACK] == 0);
 		addButton(11, "Enable", toggleFlag, mummyBehaviourOptions, kFLAGS.MUMMY_ATTACK)

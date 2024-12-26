@@ -296,8 +296,8 @@ public class Changelog extends BaseContent
 			outputText("-New Special names: Arikahs (cow/minotaur). Each of them will start with matching bloodline perk to match their ancestor race.\n");//, Veseshe (elf)
 			outputText("-New P. Special: Mummy Bandage - usable by mummy PC. You can initiate a grapple using your bandages.\n");
 			outputText("-Exploration proofreading + some other typos/adjustments. River dungeon and some playerinfo displays proof read, including updating some forgotten super perk descriptions on the perk picker. (Agentfunfun)\n");
-			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 / 34 pts (Lich / Greater Lich): ");
-			outputText("+150% / +200% to Str multi, -90% to Spe multi, +600% / +730% to Int multi, +200% / +210% to Wis multi, +600% / +730% to Lib multi, +200 / +250 to sensitivity.\n");
+			outputText("-When PC is ready to take Alvina ritual to become Devil if PC was before at least once Jiangshi there would be additional option called 'Try a custom ritual' that would turn PC into Lich. It's pernament TF with bonuses (scalable) at 28 / 34 / 40 pts (Lich / Greater Lich / Arch-Lich): ");
+			outputText("+150% / +200% / +250% to Str multi, -90% to Spe multi, +600% / +730% / +850% to Int multi, +200% / +210% / +240% to Wis multi, +600% / +730% / +850% to Lib multi, +200 / +250 / +300 to sensitivity.\n");
 			outputText("-Minor typo changes. (Agentfunfun)\n");
 			outputText("-Fairy score req. to have fairy eyes to get bonuses for above half-fairy race bonuses.\n");
 			outputText("-New option for Liches - Soul burn: You may use your soulforce as fuel to empower your arcane magic. While active consume soulforce (5% per turn) on all cast as if using soul skills but double magic damage.\n");
@@ -336,8 +336,9 @@ public class Changelog extends BaseContent
 			outputText("-New tier 5 wisdom lvl-up perk: Efficient Usage of Soulforce. Req. Conduction Soulforce Charge perk and 150+ wisdom. Effect: You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)\n");
 			outputText("-Because people found it weird golems and angels would not longer drops some items (Bro Brew, Bimbo Liquer, Eggs during Easter and other super rare drops that can proc after PC reach lvl 7).\n");
 			outputText("-For Wolf/Winter Wolf Animal Tooth would still give +1 to score but Wolf face variant would give +2, since it's req. to keep access to ice breath special.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New event perk: Undead lord. Gained by been Lich. Effects: When defeating certain humanoid enemies you can drain the life out of them and turn them into obedient zombies under your control. Your zombies will periodically inflict damage to your foes when in combat harvesting soul force in the process. ");
+			outputText("You periodically drain any excess soulforce from your pet so that they never achieve true sentience and rebel against your rule remaining ravenous and somewhat mindless.\n");
+			outputText("-New Unique Sexscene: Lich Zombification - req. to be lich. Also can be only used against enemies that are sentient, humanoid and with soul. After scene PC will gain new zombie minion up to cap of 5 zombies.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
