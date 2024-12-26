@@ -1615,7 +1615,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				player.unequipNecklace(false, true);
 				needNext = true;
 			}
-			if (player.necklace == necklaces.SILCNEC && player.blockingBodyTransformations()) {
+			if (player.necklace == necklaces.SILCNEC && (player.blockingBodyTransformations() || flags[kFLAGS.IN_INGNAM])) {
 				outputText("The silver necklace suddenly begins to heat up before turning to dust." + (player.hasStatusEffect(StatusEffects.MeetXuviel)?" It would seem you are free of Xuviel’s cursed necklace, which in itself is a good thing.":"") + "");
 				player.unequipNecklace(false, true);
 				needNext = true;

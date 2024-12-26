@@ -5419,4 +5419,3 @@ public function rebirthFromBadEnd():void {
 
 }
 }
-

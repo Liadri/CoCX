@@ -4924,4 +4924,3 @@ private function leaveScarredBlade():void {
 }
 }
 }
-

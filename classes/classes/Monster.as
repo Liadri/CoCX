@@ -3177,7 +3177,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			}
 			game.inCombat = false;
             game.player.clearStatuses(false);
-			if (!player.hasCock() && !player.hasStatusEffect(StatusEffects.MeetXuviel) && player.necklace != necklaces.SILCNEC) {
+			if (!player.hasCock() && !player.hasStatusEffect(StatusEffects.MeetXuviel) && player.necklace != necklaces.SILCNEC && !flags[kFLAGS.IN_INGNAM] && !player.hasStatusEffect(StatusEffects.SoulArena) && !inDungeon) {
 				outputText("\n\nYou'll probably wake up in six hours or so. Strangely, you discover a necklace you don’t recall putting on before around your neck. It is a simple chain with a silver cross.");
 				player.createStatusEffect(StatusEffects.MeetXuviel, 0, 0, 0, 0);
 				SceneLib.explorationEngine.stopExploring();
