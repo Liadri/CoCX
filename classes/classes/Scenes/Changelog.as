@@ -338,9 +338,9 @@ public class Changelog extends BaseContent
 			outputText("-For Wolf/Winter Wolf Animal Tooth would still give +1 to score but Wolf face variant would give +2, since it's req. to keep access to ice breath special.\n");
 			outputText("-New event perk: Undead lord. Gained by been Lich. Effects: When defeating certain humanoid enemies you can drain the life out of them and turn them into obedient zombies under your control. Your zombies will periodically inflict damage to your foes when in combat harvesting soul force in the process. ");
 			outputText("You periodically drain any excess soulforce from your pet so that they never achieve true sentience and rebel against your rule remaining ravenous and somewhat mindless.\n");
-			outputText("-New Unique Sexscene: Lich Zombification - req. to be lich. Also can be only used against enemies that are sentient, humanoid and with soul. After scene PC will gain new zombie minion up to cap of 5 zombies.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New Unique Sexscene: Lich Zombification - req. to be lich. Can be only used against enemies that are sentient, humanoid and with soul. After scene PC will gain new zombie minion up to cap of 5 zombies.\n");
+			outputText("-New Unique Sexscene: Soul Drain - req. to be lich. Can be only used against enemies that have soulforce. During scene similary to jiangshi scene 'Drain her/him' would gain soulforce from defeated enemy.\n");
+			outputText("-New tier 7 intelligence lvl-up perk: Vampiric Magic. Req. Grand Archmage (3rd Circle) perk and 200+ int. Effect: Nospheratu cooldown is reduced by 1 round and blood magic spells are 50% stronger.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

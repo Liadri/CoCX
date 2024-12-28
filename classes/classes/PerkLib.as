@@ -707,6 +707,9 @@ public class PerkLib
 		public static const EfficientUsageOfSoulforce:PerkType = mk("Efficient Usage of Soulforce", "Efficient Usage of Soulforce",
 				"You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)",
 				"You've chosen the 'Efficient Usage of Soulforce' perk. You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)");
+		public static const VampiricMagic:PerkType = mk("Vampiric Magic", "Vampiric Magic",
+				"Nospheratu cooldown is reduced by 1 round and blood magic spells are 50% stronger.",
+				"You've chosen the 'Vampiric Magic' perk. Nospheratu cooldown is reduced by 1 round and blood magic spells are 50% stronger.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -720,9 +723,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -6545,6 +6545,9 @@ public class PerkLib
                     .requireInt(170)
                     .requireLevel(36);
             //Tier 7 Intelligence perks
+            VampiricMagic.requirePerk(GrandArchmage3rdCircle)
+                    .requireInt(200)
+					.requireLevel(42);
 			HalfStepToPeerlessSpirituality.requireWis(160)
                     .requireInt(240)
                     .requirePerk(SuperiorSpirituality)

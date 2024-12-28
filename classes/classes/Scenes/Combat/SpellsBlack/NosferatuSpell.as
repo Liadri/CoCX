@@ -34,6 +34,7 @@ public class NosferatuSpell extends AbstractBlackSpell {
 	override public function calcCooldown():int {
 		var calcC:int = 4;
 		calcC += spellGenericCooldown();
+		if (player.hasPerk(PerkLib.VampiricMagic)) calcC -= 1;
 		return calcC;
 	}
 	

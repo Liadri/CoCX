@@ -181,8 +181,9 @@ public class UniqueSexScenes extends BaseContent
 				USSTentRape(),
 				USSLiveDildo(),
 				USSJiangshiDrn(),
-				USSAnubiMummyCurse(),
+				USSLichSoulDrn(),
 				USSLichZombification(),
+				USSAnubiMummyCurse(),
 				USSTrueDemonSuccubusFeast(),
 				USSTrueDemonIncubusFeast()];
 
@@ -387,15 +388,13 @@ public class UniqueSexScenes extends BaseContent
             else btnSet.push("Jiangshi", false, "You need to be a Jiangshi.");
             return btnSet;
         }
-        private function USSAnubiMummyCurse():Array{
-            var btnSet:Array = ["Mummy Curse!!"];
-            if (player.hasPerk(PerkLib.MummyCurse) && AnubiMummyCurseOrLichZombieNotWrongEnemyType() && player.hasItem(useables.BANDAGE, 1) && player.perkv1(PerkLib.MummyLord) < player.mummyControlLimit()) btnSet.push(anubisMummyCurse, "");
-            else {
-				if (!player.hasPerk(PerkLib.MummyCurse)) btnSet.push(false, "Req. to have Mummy Curse perk.");
-				else if (!AnubiMummyCurseOrLichZombieNotWrongEnemyType()) btnSet.push(false, "Req. enemy to be bipedal with soul. (No constructs/elementals)");
-				else if (!player.hasItem(useables.BANDAGE, 1)) btnSet.push(false, "Req. to have at least 1 bandage.");
-				else btnSet.push(false, "Req. to be able to control more mummies.");
-			}
+		private function USSLichSoulDrn():Array{
+            var btnSet:Array = [];
+            if (player.isRace(Races.LICH, 1, false)) {
+                if (monster is Minotaur || monster is MinotaurLord) btnSet.push("Drain him", lichDrainHimMinotaurs, "");
+                else btnSet.push("Drain him", false, "Only minotaur enemies.");
+            }
+            else btnSet.push("Lich", false, "You need to be a Lich.");
             return btnSet;
         }
         private function USSLichZombification():Array{
@@ -408,7 +407,18 @@ public class UniqueSexScenes extends BaseContent
 			}
             return btnSet;
         }
-		private function AnubiMummyCurseOrLichZombieNotWrongEnemyType():Boolean{
+		private function USSAnubiMummyCurse():Array{
+            var btnSet:Array = ["Mummy Curse!!"];
+            if (player.hasPerk(PerkLib.MummyCurse) && AnubiMummyCurseOrLichZombieNotWrongEnemyType() && player.hasItem(useables.BANDAGE, 1) && player.perkv1(PerkLib.MummyLord) < player.mummyControlLimit()) btnSet.push(anubisMummyCurse, "");
+            else {
+				if (!player.hasPerk(PerkLib.MummyCurse)) btnSet.push(false, "Req. to have Mummy Curse perk.");
+				else if (!AnubiMummyCurseOrLichZombieNotWrongEnemyType()) btnSet.push(false, "Req. enemy to be bipedal with soul. (No constructs/elementals)");
+				else if (!player.hasItem(useables.BANDAGE, 1)) btnSet.push(false, "Req. to have at least 1 bandage.");
+				else btnSet.push(false, "Req. to be able to control more mummies.");
+			}
+            return btnSet;
+        }
+        private function AnubiMummyCurseOrLichZombieNotWrongEnemyType():Boolean{
 			return (!monster.hasPerk(PerkLib.Enemy300Type) && !monster.hasPerk(PerkLib.EnemyConstructType) && !monster.hasPerk(PerkLib.EnemyElementalType) && !monster.hasPerk(PerkLib.EnemyFleshConstructType) && !monster.hasPerk(PerkLib.EnemyGhostType) && !monster.hasPerk(PerkLib.EnemyGooType) &&
 			!monster.hasPerk(PerkLib.EnemyLargeGroupType) && !monster.hasPerk(PerkLib.EnemyPlantType) && !monster.hasPerk(PerkLib.EnemyTrueAngel) && !monster.hasPerk(PerkLib.EnemyTrueDemon) && !monster.hasPerk(PerkLib.EnemyUndeadType) && !monster.hasPerk(PerkLib.UniqueNPC));
 		}
@@ -887,20 +897,17 @@ public class UniqueSexScenes extends BaseContent
 			cleanupAfterCombat();
 		}
 
-		public function anubisMummyCurse():void {
-			clearOutput();
-			outputText("As you stare sternly at [themonster], a wicked idea comes to your mind. You grab the roll of bandage in your backpack and dispose of it to the side as you approach your defeated adversary.\n\n");
-			outputText("Before [monster he] can utter a word of protest " + (monster.hasCock()?"you wrap your [hands] around [monster his] " + monster.cockDescriptShort() + " forcefully masturbating [monster him]":"you force your digits into [monster his] " + monster.vaginaDescript()+" forcefully masturbating [monster him]")+". Surprised by your eager ministrations, your victim relaxes and lays back to enjoy your touch, that here was a grave mistake.\n\n");
-			outputText("A wicked sneer breaks your serene expression as [themonster] reaches [monster his] orgasm, you forcefully grab hold of your victim’s soulforce, now exposed within your reach before you tear it out like a translucent shroud, leaving [monster his] soul maimed beyond natural repair. [monster His] skin grows pale and [monster his] body stiffens to a cadaverous countenance. Your victim’s horrified screams slowly recede to dim-witted hungry moans as the mummification process completes. Partially out of a desire to uphold traditions, you get rid of the zombified victim’s clothes and bandage it using the wrappings you set aside for the job, leaving its naughty bits exposed to the wind for you to enjoy lecherously staring at.\n\n");
-			if (player.hasCock() || player.hasVagina()) {
-				outputText("Testing your new pet loyalty, you order [monster him] to "+(player.hasCock()?"suck you off":"eat you out")+". Your new ghoulish pet crawls to your sitting form and "+(player.hasCock()?"takes your erect [cock] into [monster his] blackened mouth, eager to serve you. Your pet doesn't relent, desperate to suckle upon every single inch of cock you have to offer":"suckles your exposed bitch button, [monster his] black tongue slithering into your snatch")+" desperate to draw out a sliver of soul force to sate its unnatural hunger. ");
-				outputText("You cum hard, delivering your load directly into your pet’s mouth, just enough to keep it addicted and under control but never enough to grant it back independence. Satisfied with your new pet, you firmly order it to stop before you stand up and grab your stuff.\n\n");
-			}
-			outputText("With a new slave added to your custody, you head back to camp.\n\n");
-			player.destroyItems(useables.BANDAGE, 1);
-			player.addPerkValue(PerkLib.MummyLord, 1, 1);
-			if (player.hasCock()) player.sexReward("no", "Dick");
-			else player.sexReward("no","Vaginal");
+		public function lichDrainHimMinotaurs():void {
+			clearOutput();//
+			outputText("The minotaur falls, unable to fight any longer."+(monster.lust >= monster.maxOverLust()?" His massive erection throbbing, drooling excessive amounts of precum as he moos softly, panting with desperate need.":"")+" His churning balls are full of excessive amounts of his virile energy. A fountain of energy, in more ways than one, and it's a fountain you intend to drink every last possible drop from. Already driven over the edge, the masculine scent of his musk only serves to remind you of the prize you've won. All you can think of now is the alluring sight of lifeforce that fill his balls.\n\n");
+			outputText("Unceremoniously, you drop on the prone minotaur with eager readiness as you begin deepthroating his juicy cock for his soulforce. The bull moos, jumping slightly in shock before he gives in to the pleasure at the sudden but aggressive attention.\n\n");
+			outputText("Lacking a gag reflex or a need for air, you easily slide his massive member down your throat as you blow him. His full balls churn, yet you only receive a steady stream of precum from him. Impatiently, you poke the minotaur's massive balls with your nails, causing them to further swell in size as the venom forces him to produce even more cum.\n\n");
+			outputText("The minotaur moos eagerly, forcefully bucking into your gaping maw. You wring your tongue around his massive shaft, coaxing him closer to orgasm. The massive bull can only handle this torture for so long and begins unloading shot after shot into your throat causing your belly to inflate briefly before you absorb the fluid and deflate back to your normal size. Fitting your maker accounted for a bukake scenario.\n\n");
+			outputText("The bulky bull-man lies down, exhausted and utterly spent as you pull away. You feel his massive, slowly deflating erection fall from your throat before you stand up, energized from the filling meal.\n\n");
+			player.soulforce += player.maxSoulforce() * 0.2;
+			if (player.soulforce > player.maxOverSoulforce()) player.soulforce = player.maxOverSoulforce();
+			outputText(" You feel slightly more alive from the soulforce you vampirised from your sexual partner orgasm.");
+			player.sexReward("cum", "Oral");
 			cleanupAfterCombat();
 		}
 
@@ -915,6 +922,23 @@ public class UniqueSexScenes extends BaseContent
 			}
 			outputText("With a new slave added to your custody, you head back to camp.\n\n");
 			player.addPerkValue(PerkLib.UndeadLord, 1, 1);
+			if (player.hasCock()) player.sexReward("no", "Dick");
+			else player.sexReward("no","Vaginal");
+			cleanupAfterCombat();
+		}
+
+		public function anubisMummyCurse():void {
+			clearOutput();
+			outputText("As you stare sternly at [themonster], a wicked idea comes to your mind. You grab the roll of bandage in your backpack and dispose of it to the side as you approach your defeated adversary.\n\n");
+			outputText("Before [monster he] can utter a word of protest " + (monster.hasCock()?"you wrap your [hands] around [monster his] " + monster.cockDescriptShort() + " forcefully masturbating [monster him]":"you force your digits into [monster his] " + monster.vaginaDescript()+" forcefully masturbating [monster him]")+". Surprised by your eager ministrations, your victim relaxes and lays back to enjoy your touch, that here was a grave mistake.\n\n");
+			outputText("A wicked sneer breaks your serene expression as [themonster] reaches [monster his] orgasm, you forcefully grab hold of your victim’s soulforce, now exposed within your reach before you tear it out like a translucent shroud, leaving [monster his] soul maimed beyond natural repair. [monster His] skin grows pale and [monster his] body stiffens to a cadaverous countenance. Your victim’s horrified screams slowly recede to dim-witted hungry moans as the mummification process completes. Partially out of a desire to uphold traditions, you get rid of the zombified victim’s clothes and bandage it using the wrappings you set aside for the job, leaving its naughty bits exposed to the wind for you to enjoy lecherously staring at.\n\n");
+			if (player.hasCock() || player.hasVagina()) {
+				outputText("Testing your new pet loyalty, you order [monster him] to "+(player.hasCock()?"suck you off":"eat you out")+". Your new ghoulish pet crawls to your sitting form and "+(player.hasCock()?"takes your erect [cock] into [monster his] blackened mouth, eager to serve you. Your pet doesn't relent, desperate to suckle upon every single inch of cock you have to offer":"suckles your exposed bitch button, [monster his] black tongue slithering into your snatch")+" desperate to draw out a sliver of soul force to sate its unnatural hunger. ");
+				outputText("You cum hard, delivering your load directly into your pet’s mouth, just enough to keep it addicted and under control but never enough to grant it back independence. Satisfied with your new pet, you firmly order it to stop before you stand up and grab your stuff.\n\n");
+			}
+			outputText("With a new slave added to your custody, you head back to camp.\n\n");
+			player.destroyItems(useables.BANDAGE, 1);
+			player.addPerkValue(PerkLib.MummyLord, 1, 1);
 			if (player.hasCock()) player.sexReward("no", "Dick");
 			else player.sexReward("no","Vaginal");
 			cleanupAfterCombat();
