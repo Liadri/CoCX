@@ -896,6 +896,61 @@ public class UniqueSexScenes extends BaseContent
 			player.sexReward("cum", "Oral");
 			cleanupAfterCombat();
 		}
+		
+		public function lichDrainHimTrueDemons():void {
+			clearOutput();
+			outputText("You drool in delight as you focus on [themonster] soulforce a lavish meal is laid down before you and you are about to finally get your fill. Your unholy instincts drive you to focus on his [monster cockshort] with a barely contained hunger. You almost begin to wonder why you bothered to fight [monster him] when you were this eager to suck [monster him] off from the start.\n\n");
+			outputText("Your opponent half aroused, half scared by your creepy behavior is already harder and stiffer than the rigor mortis that runs in your limbs; [monster his] face may show fear but [monster his] cock is true to [monster his] instincts. Temptation grows at the sight, snuffing out any lingering doubts. There is no shame. No regret. Only a burning need welling up from your core.\n\n");
+			outputText("You practically fall on the offered cock, crawling into position and wrapping your needy lips around it in a tight seal as you begin feverishly extracting the white, vitalic seed from the [monster cockshort]. Lost in the delicious sensation of your masterful mouth your clueless partner caresses you, petting your head while you worship the tool in front of you with a mastery born of your magically ingrained instincts. [Themonster] moans in appreciation as your hungry tongue wraps around [monster his] cock, teasing and jerking [monster his] eager erection"+(monster.hasBalls() ? ", [monster his] balls sloshing with accumulating cum":"")+" as [themonster] steadily approaches [monster his] climax.\n\n");
+			outputText("Instinctively sensing the imminent climax, you wrap your lips tightly around the throbbing cock, sealing shut as [themonster] unloads rope after rope of soul force loaded cum directly into your massaging throat.\n\n");
+			outputText("The meal is satisfying, though it does not restore your humanity fully, no amount of soulforce will ever be enough to fully sate your craving for life. Finished with [monster him], you hop off and take your leave"+(inDungeon ? "":" heading back to camp")+".\n\n");
+			HPChange(Math.round(player.maxHP() * 0.1), true, false);
+			EngineCore.ManaChange(Math.round(player.maxMana() * 0.1));
+			player.fatigue -= Math.round(player.maxFatigue() * 0.1);
+			if (player.fatigue < 0) player.fatigue = 0;
+			player.trainStat("lib", 1, player.trainStatCap("lib",50));
+			dynStats("cor", 1);
+			player.sexReward("cum", "Oral");
+			cleanupAfterCombat();
+		}
+		public function lichDrainHerTrueDemons():void {
+			clearOutput();
+			var intBuff:Number = player.buff("Energy Vampire").getValueOfStatBuff("int.mult");
+			outputText("You sense a food source nearby. Your dead stomach twitches, your mind filling with need. Like a fountain of life energy only your dead eyes can see, the demoness’s pussy glows neon blue in the dead, greyish world. You are drawn like a moth to the flame, your mind dead set on with this single intent, to make her cum all this juicy energy out.\n\n");
+			outputText("You ponder, lost in thought over how you're going to take advantage of the demon in front of you when a wicked idea comes to your mind.\n\n");
+			outputText("You drop down on the demoness, crawling over to her exposed cunt before pushing her on her back and firmly but lovingly grabbing her hands with your icy grasp.\n\n");
+			outputText("\"<i>Wait... W-What is this?!... HANDHOLDING?! NOOOO! Get off me, stay away from my face, you degenerate!...</i>\" Muffled screams are all that remains of her protest as you forcefully kiss her, sealing her mouth with the embrace as you drink in her sweet saliva.\n\n");
+			sceneHunter.selectGender(dickF, vagF);
+
+			//==================================
+			function dickF():void {
+				outputText("You grind your erect [cock] against the demon’s vagina, smearing her lips with your abundant pre as you prepare for penetration. The demon is fully aware that you plan on taking energy rather than giving it, so she tries to fight back. Her struggles are futile, seeing as you not only already hold her hands but also possess inhuman strength, far more than enough to keep the demon slut restrained. With your erection aligned, you drive yourself to penetrate the demoness.\n\n");
+				outputText("You moan in delight as you begin to rape the "+(monster.hasCock()?"omnibus":"succubus")+"’ cunt, viciously harvesting her energy with each thrust. Realizing what you’re doing, she wails in terror, your [cock] bloating up as her life force begins to flow. She struggles, trying to wrench her hands from yours, but the unfortunate demoness is already being drained. You clamp down, keeping her hands pinned to the ground under your grip, your weight firmly keeping the weakened slut down. Her walls clamp down as she tries to get her legs underneath her to push you off, but she’s too late. ");
+				outputText("Her legs fall limp, tears begin to form on the defeated demoness’s face as you piston in and out of her hole. Unable to endure the draining sex for long, the demoness cries out weakly, drenching the ground underneath you with her pussy juices. Your energy sensitive eyes can see her blue life force fading, the force flowing to her pussy, then into your [cock].\n\n");
+				sharedEnd();
+			}
+			function vagF():void {
+				outputText("With your victim properly pinned, you begin to grind your puffed pussy lips against her own drawing extra energy and pleasure from the labial contact. The demon panics as you begin to drain the life force from her, she cries out, trying to wrench her soaked lips away from yours. Despite her desperation, your cold, dead grip is far too strong, and you bear down, pressing your pussy lips into hers, grinding your clit on her cunt.\n\n");
+				outputText("As your drain goes on, her desperate flailing starts to slow, the sexual predator finally running out of stamina. She falls limp, breathing heavily as your cunts spill your mixed juices onto the ground. Her vibrant blue life force begins to fade, and you feel yourself grow stronger with every second.\n\n");
+				sharedEnd();
+			}
+			function sharedEnd():void {
+				if (player.biggestTitSize() > 0) outputText("You moan delighted as you rub your [breasts] against the demon prodigious chest savoring the electrifying feeling of smaller input of energies circulating directly from her nipples to yours.\n\n");
+				outputText("Your eyes glow a spectral blue, infused with her stolen vitality as you extract drop by drop from your bound opponent. She cries for help, pleading for her life, her lips slowly turning blue. Her pitiful cries would have swayed most people back home in Ignam. Unfortunately for the slut, you currently lack the ability to reason coherently, your mind having fully embraced this feeding frenzy you are caught in" + (intBuff < 0 ? ", her cries are utterly futile. Your thoughts are lost in a mindless state. Nothing else matters except for getting your food, she might as well be wailing to a hollow, mindless corpse. Fitting for what you’ve devolved to in your frenzy" : "") + ". ");
+				outputText("In your current state, such cries are mere seasoning to your lovely, slutty meal. Offers of gems, power, even to become your slave fall on deaf ears, all you can pay attention to is the flow, that beautiful life force entering you. This whore is but an energy source, and you intend to tap it until it runs dry.\n\n");
+				outputText("The demons might be insatiable but there is a limit to their stamina, a limit your dead flesh no longer has to obey. She takes your punishment well, better than most other living races, but there’s no way she can hold out forever.\n\n");
+				outputText("Unable to hold anymore under your constant assault, the demoness breaks, her pussy gushing like a fountain as her eyes cross. Her body spasms as if struck by lightning" + (player.hasCock() ? ", pussy walls all but milking your [cock] dry" : "") + ". Her legs shake, and her arms fall limp. She no longer struggles, her eyes rolling up into her head. Her body is unscathed but to your eyes she is a dried up husk. There's barely enough energy left in her to keep her alive… well if she survives this that is. You stay on top for a few more seconds, but the demoness’s body doesn’t have anything left to give. ");
+				outputText("For a few moments you bask in the high, your flesh bursting with energy. But you’re no longer getting anything from this slut, you’ll need another to get your fix.\n\n");
+				outputText("Unconcerned by the demon's fate you stand up and" + (inDungeon ? " resume exploring the labyrinth" : " hop back to camp") + ".\n\n");
+				HPChange(Math.round(player.maxHP() * 0.1), true, false);
+				EngineCore.ManaChange(Math.round(player.maxMana() * 0.1));
+				player.fatigue -= Math.round(player.maxFatigue() * 0.1);
+				if (player.fatigue < 0) player.fatigue = 0;
+				dynStats("cor", 1);
+				player.sexReward("vaginalFluids", "Oral");
+				cleanupAfterCombat();
+			}
+		}
 
 		public function lichDrainHimMinotaurs():void {
 			clearOutput();//

@@ -1169,13 +1169,19 @@ package classes.Scenes {
 			for each (var genMem: * in pageMems) {
 				const buttonStr: String = genMem.title || "";
 				const unlocked: Boolean = GeneticMemoryStorage[genMem.id];
-				const enoughSF: Boolean = player.soulforce >= genMem.cost;
+				//const enoughSF: Boolean = player.soulforce >= genMem.cost;
+				const cost:Number=(genMem.cost is Function? genMem.cost() : genMem.cost);
+				var enoughSF: Boolean = player.soulforce >= cost;
+				var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 
 				if (!genMem.transformationCoverage) {
 					const partsInUse: Boolean = genMem.transformation().isPresent();
-					if (unlocked && !partsInUse && enoughSF) addButton(currentButton, buttonStr, doMetamorph, title, genMem).hint("Cost: " + genMem.cost + " SF" + (genMem.info ? "\n\n" + genMem.info : ""));
-					else if (unlocked && partsInUse) addButtonDisabled(currentButton, buttonStr, "You already have this, the metamorphosis would have no effect!");
-					else if (unlocked && !partsInUse && !enoughSF) addButtonDisabled(currentButton, buttonStr, "Cost: " + genMem.cost + " SF (You don't have enough Soulforce for this metamorphosis!)");
+					//if (unlocked && !partsInUse && enoughSF) addButton(currentButton, buttonStr, doMetamorph, title, genMem).hint("Cost: " + genMem.cost + " SF" + (genMem.info ? "\n\n" + genMem.info : ""));
+					//else if (unlocked && partsInUse) addButtonDisabled(currentButton, buttonStr, "You already have this, the metamorphosis would have no effect!");
+					//else if (unlocked && !partsInUse && !enoughSF) addButtonDisabled(currentButton, buttonStr, "Cost: " + genMem.cost + " SF (You don't have enough Soulforce for this metamorphosis!)");
+					if (unlocked && !partsInUse && (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless)))) addButton(currentButton++, buttonStr, doMetamorph, title, genMem).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
+					else if (unlocked && partsInUse) addButtonDisabled(currentButton++, buttonStr, (!genMem.hint? "You already have this, the metamorphosis would have no effect!":genMem.hint));
+					else if (unlocked && !partsInUse && !enoughSF && !enoughMana) addButtonDisabled(currentButton++, buttonStr, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
 					else if (!unlocked) addButtonDisabled(currentButton, buttonStr, "You haven't unlocked this metamorphosis yet!" + (genMem.lockedInfo ? "\n\n" + genMem.lockedInfo : ""));
 					currentButton++;
 				} else {
@@ -1225,12 +1231,15 @@ package classes.Scenes {
 			for each (var coverage: Object in coverages) {
 				if (InCollection(coverage.value, genMem.availableCoverages)) {
 					const cost: int = genMem.cost * (coverages.indexOf(coverage) + 1);
-					const enoughSF: Boolean = player.soulforce >= cost;
+					//const enoughSF: Boolean = player.soulforce >= cost;
+					var enoughSF: Boolean = player.soulforce >= cost;
+					var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 					const inEffect: Boolean = genMem.transformationCoverage(coverage.value).isPresent();
 
-					if (enoughSF && !inEffect) addButton(currentButton, coverage.name, doMetamorphSkin, genMem, coverage.value, cost).hint("Cost: " + cost + " SF");
+					if (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless))) addButton(currentButton, coverage.name, doMetamorphSkin, genMem, coverage.value, cost).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
 					else if (inEffect) addButtonDisabled(currentButton, coverage.name, "You already have this much coverage, the metamorphosis would have no effect!");
-					else addButtonDisabled(currentButton, coverage.name, "Cost: " + cost + " SF (You don't have enough Soulforce for this coverage!)");
+					else if (!enoughSF && !enoughMana) addButtonDisabled(currentButton, coverage.name, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
+					//else addButtonDisabled(currentButton, coverage.name, "Cost: " + cost + " SF (You don't have enough Soulforce for this coverage!)");
 					currentButton++;
 				}
 			}
