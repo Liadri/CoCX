@@ -914,14 +914,20 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.EnemyEliteType)) temp += 1;
 			if (hasPerk(PerkLib.EnemyChampionType)) temp += 2;
 			if (hasPerk(PerkLib.EnemyBossType)) temp += 3;
-			if (this.level >= 25) temp *= 2;
-			if (this.level >= 50) temp *= 3;
-			if (this.level >= 75) temp *= 4;
-			if (this.level >= 100) temp *= 5;
-			if (this.level >= 125) temp *= 6;
-			if (this.level >= 150) temp *= 7;
-			if (this.level >= 175) temp *= 8;
-			if (this.level >= 200) temp *= 9;
+			if (this.level >= 25 && this.level < 50) temp *= 2;
+			if (this.level >= 50 && this.level < 75) temp *= 3;
+			if (this.level >= 75 && this.level < 100) temp *= 4;
+			if (this.level >= 100 && this.level < 125) temp *= 5;
+			if (this.level >= 125 && this.level < 150) temp *= 6;
+			if (this.level >= 150 && this.level < 175) temp *= 7;
+			if (this.level >= 175 && this.level < 200) temp *= 8;
+			if (this.level >= 200 && this.level < 225) temp *= 9;
+			if (this.level >= 225 && this.level < 250) temp *= 10;
+			if (this.level >= 250 && this.level < 275) temp *= 11;
+			if (this.level >= 275 && this.level < 300) temp *= 12;
+			if (this.level >= 300 && this.level < 325) temp *= 13;
+			if (this.level >= 325 && this.level < 350) temp *= 14;
+			if (this.level >= 350) temp *= 15;
 			if (hasPerk(PerkLib.EnemyForBeginnersType)) {
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 1) temp *= 1.5;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp *= 2;
@@ -1164,7 +1170,15 @@ import classes.Scenes.Combat.CombatAbilities;
 				damage *= 2;
 			}
 			if ((hasPerk(PerkLib.JobWarrior) || hasPerk(PerkLib.JobBeastWarrior) || hasPerk(PerkLib.EnemyFeralType)) && wrath >= 50) {
-				if (this.level >= 36 && wrath >= 600 && rand(2) == 0) {
+				if (this.level >= 48 && wrath >= 800 && rand(2) == 0) {
+					wrath -= 800;
+					damage *= 10;
+				}
+				else if (this.level >= 42 && wrath >= 700 && rand(2) == 0) {
+					wrath -= 700;
+					damage *= 9;
+				}
+				else if (this.level >= 36 && wrath >= 600 && rand(2) == 0) {
 					wrath -= 600;
 					damage *= 8;
 				}
@@ -3541,7 +3555,13 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 3) temp3 += 0.3;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 4) temp3 += 0.4;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 5) temp3 += 0.5;
-				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 6) temp3 += 0.6;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 6) temp3 += 0.6;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 7) temp3 += 0.7;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 8) temp3 += 0.8;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 9) temp3 += 0.9;
+				//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 10) temp3 += 1;
+				//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 11) temp3 += 1.1;
+				//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 12) temp3 += 1.2;
 				if (temp3 > 0) healingPercent *= temp3;
 				if (hasPerk(PerkLib.EnemyTrueDemon)) healingPercent *= 2;
 				temp2 = Math.round(maxHP() * healingPercent / 100);

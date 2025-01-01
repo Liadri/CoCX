@@ -2058,10 +2058,15 @@ import classes.Scenes.Combat.CombatAbility;
 			chooseGameModesDesc();
 			menu();
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 0) addButton(0, "PrimaryDiff(0)", toggleForPrimaryDiffultyModifier, 0);
+			else addButtonDisabled(0, "PrimaryDiff(0)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 1) addButton(1, "PrimaryDiff(1)", toggleForPrimaryDiffultyModifier, 1);
+			else addButtonDisabled(1, "PrimaryDiff(1)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 2) addButton(2, "PrimaryDiff(2)", toggleForPrimaryDiffultyModifier, 2);
+			else addButtonDisabled(2, "PrimaryDiff(2)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 3) addButton(3, "PrimaryDiff(3)", toggleForPrimaryDiffultyModifier, 3);
+			else addButtonDisabled(3, "PrimaryDiff(3)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 4) addButton(4, "PrimaryDiff(4)", toggleForPrimaryDiffultyModifier, 4);
+			else addButtonDisabled(4, "PrimaryDiff(4)", "Currently choosen option.");
 			addButton(14, "Back", chooseGameModes);
 		}
 		private function chooseGameModes2():void {
@@ -2069,12 +2074,19 @@ import classes.Scenes.Combat.CombatAbility;
 			chooseGameModesDesc();
 			menu();
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 0) addButton(0, "SecondaryStat(0)", toggleForSecondaryStatsModifier, 0);
+			else addButtonDisabled(0, "SecondaryStat(0)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 1) addButton(1, "SecondaryStat(1)", toggleForSecondaryStatsModifier, 1);
+			else addButtonDisabled(1, "SecondaryStat(1)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 2) addButton(2, "SecondaryStat(2)", toggleForSecondaryStatsModifier, 2);
+			else addButtonDisabled(2, "SecondaryStat(2)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 3) addButton(3, "SecondaryStat(3)", toggleForSecondaryStatsModifier, 3);
+			else addButtonDisabled(3, "SecondaryStat(3)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 4) addButton(4, "SecondaryStat(4)", toggleForSecondaryStatsModifier, 4);
+			else addButtonDisabled(4, "SecondaryStat(4)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 5) addButton(5, "SecondaryStat(5)", toggleForSecondaryStatsModifier, 5);
+			else addButtonDisabled(5, "SecondaryStat(5)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 6) addButton(6, "SecondaryStat(6)", toggleForSecondaryStatsModifier, 6);
+			else addButtonDisabled(6, "SecondaryStat(6)", "Currently choosen option.");
 			addButton(14, "Back", chooseGameModes);
 		}
 		private function chooseGameModes3():void {
@@ -2082,10 +2094,15 @@ import classes.Scenes.Combat.CombatAbility;
 			chooseGameModesDesc();
 			menu();
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 0) addButton(0, "Normal", toggleForBossesModifier, 0);
+			else addButtonDisabled(0, "Normal", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 1) addButton(1, "Fantasy", toggleForBossesModifier, 1);
+			else addButtonDisabled(1, "Fantasy", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 2) addButton(2, "Torment", toggleForBossesModifier, 2);
+			else addButtonDisabled(2, "Torment", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 3) addButton(3, "Infernium", toggleForBossesModifier, 3);
+			else addButtonDisabled(3, "Infernium", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 4) addButton(4, "Hell", toggleForBossesModifier, 4);
+			else addButtonDisabled(4, "Hell", "Currently choosen option.");
 			addButton(14, "Back", chooseGameModes);
 		}
 
