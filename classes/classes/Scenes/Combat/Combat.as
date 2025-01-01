@@ -10115,15 +10115,23 @@ public class Combat extends BaseContent {
 	
 	public function doDamageAscensionModifer():Number {
 		var dDAM:Number = 1;
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 1) dDAM *= (1 / 2);
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 2) dDAM *= (1 / 5);
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 3) dDAM *= (1 / 9);
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 4) dDAM *= (1 / 14);
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 5) dDAM *= (1 / 20);
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 6) dDAM *= (1 / 27);//dla gier powyżej obecnego ostatniego NG+ posiadającego nowe perki dla graczy
-		//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 7) dDAM *= (1 / 35);
-		//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 8) dDAM *= (1 / 44);
-		//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 9) dDAM *= (1 / 54);
+		if (monster.hasPerk(PerkLib.EnemyForBeginnersType)) {
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 9) dDAM *= (1 / 10);
+			else dDAM *= (1 / (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] + 1));
+		} else {
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 1) dDAM *= (1 / 2);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 2) dDAM *= (1 / 4);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 3) dDAM *= (1 / 8);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 4) dDAM *= (1 / 16);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 5) dDAM *= (1 / 32);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 6) dDAM *= (1 / 64);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 7) dDAM *= (1 / 128);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 8) dDAM *= (1 / 256);
+			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 9) dDAM *= (1 / 512);//dla gier powyżej obecnego ostatniego NG+ posiadającego nowe perki dla graczy
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 10) dDAM *= (1 / 1024);
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 11) dDAM *= (1 / 2048);
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 12) dDAM *= (1 / 4096);
+		}
 		return dDAM;
 	}
 
