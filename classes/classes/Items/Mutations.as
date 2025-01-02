@@ -4927,7 +4927,7 @@ public final class Mutations extends MutationsHelper {
                     outputText("[pg]A tingling sensation runs across your skin in waves, growing stronger as <b>your skin's tone slowly shifts, darkening to become " + color + " in color.</b>");
                     outputText("It feels oddly rough too, comparable to that of a marine mammal. You smile and run your hands across your new shark skin.");
                     changes++;
-                } else {
+                } else if (!transformations.SkinPatternTigerSharkStripes.isPresent()) {
                     transformations.SkinPatternTigerSharkStripes.applyEffect();
                     changes++;
                 }
