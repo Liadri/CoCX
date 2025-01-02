@@ -341,8 +341,8 @@ public class Changelog extends BaseContent
 			outputText("-New Unique Sexscene: Lich Zombification - req. to be lich. Can be only used against enemies that are sentient, humanoid and with soul. After scene PC will gain new zombie minion up to cap of 5 zombies.\n");
 			outputText("-New Unique Sexscene: Soul Drain - req. to be lich. Can be only used against enemies that have soulforce. During scene similary to jiangshi scene 'Drain her/him' would gain soulforce from defeated enemy.\n");
 			outputText("-New tier 7 intelligence lvl-up perk: Vampiric Magic. Req. Grand Archmage (3rd Circle) perk and 200+ int. Effect: Nospheratu cooldown is reduced by 1 round and blood magic spells are 50% stronger.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-More fixes for displaying balls correctly on charview (mostly for shark-taur). (Stadler)\n");
+			outputText("-Tigershark TF didn't check properly, if the tiger shark stripes skin TF is already present, so it repeated, wasting tigershark tooths. (Stadler)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
