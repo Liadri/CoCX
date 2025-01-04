@@ -12,8 +12,11 @@ public class TrainingStat extends RawStat {
 		var train:Number = 100;
 		//train += 2 * host.perkv1(PerkLib.AscensionTranshumanism);
 		if (host.hasPerk(PerkLib.MunchkinAtBioLab)) train += 10;
+		if (host.hasPerk(PerkLib.BasicAllRounderTraining)) train += 5;
+		if (host.hasPerk(PerkLib.IntermediateAllRounderTraining)) train += 5;
 		switch (statName) {
 			case 'str.train':
+				if (host.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 				var str:Number = 1;
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 3) str += 0.2;
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 4) str += 0.1;
@@ -21,6 +24,7 @@ public class TrainingStat extends RawStat {
 				train = Math.round(train);
 				break;
 			case 'tou.train':
+				if (host.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 				var tou:Number = 1;
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 3) tou += 0.2;
 				if (host.perkv1(IMutationsLib.HumanBonesIM) >= 4) tou += 0.1;
@@ -28,6 +32,7 @@ public class TrainingStat extends RawStat {
 				train = Math.round(train);
 				break;
 			case 'spe.train':
+				if (host.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 				var spe:Number = 1;
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 3) spe += 0.2;
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) spe += 0.1;
@@ -35,6 +40,7 @@ public class TrainingStat extends RawStat {
 				train = Math.round(train);
 				break;
 			case 'int.train':
+				if (host.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 				var inte:Number = 1;
 				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 3) inte += 0.2;
 				if (host.perkv1(IMutationsLib.HumanSmartsIM) >= 4) inte += 0.1;
@@ -42,6 +48,7 @@ public class TrainingStat extends RawStat {
 				train = Math.round(train);
 				break;
 			case 'wis.train':
+				if (host.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 				//train += 16 * host.perkv1(PerkLib.AscensionTranshumanismWis);
 				//train += host.perkv1(PerkLib.SoulTempering);
 				var wis:Number = 1;
@@ -51,6 +58,7 @@ public class TrainingStat extends RawStat {
 				train = Math.round(train);
 				break;
 			case 'lib.train':
+				if (host.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 				var lib:Number = 1;
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 3) lib += 0.2;
 				if (host.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) lib += 0.1;

@@ -4804,6 +4804,8 @@ use namespace CoC;
 				advancedJobs2 += 3;
 			if (hasPerk(PerkLib.MasterAllRounderEducation))
 				advancedJobs2 += 3;
+			if (hasPerk(PerkLib.GrandMasterAllRounderEducation))
+				advancedJobs2 += 3;
 			return advancedJobs2;
 		}
 		public function freeAdvancedJobsSlots():Number {

@@ -344,11 +344,11 @@ public class Changelog extends BaseContent
 			outputText("-More fixes for displaying balls correctly on charview (mostly for shark-taur). (Stadler)\n");
 			outputText("-Tigershark TF didn't check properly, if the tiger shark stripes skin TF is already present, so it repeated, wasting tigershark tooths. (Stadler)\n");
 			outputText("-Restrained Black/White/Grey Tome initial spellpower is 400% and initial cooldown is -4 turns. It mean also that their effect would be presesnt until lvl 24 not 18.\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New tier 9 misc lvl-up perk: All-Rounder Education ( Grand Master ). Req. All-Rounder Education ( Master ) perk. Effect: Limit of advanced job you can learn is increased by 3.\n");
+			outputText("-New tier 4 misc lvl-up perk: All-Rounder Training ( Basic ). Req. Job: All-Rounder perk. Effect: Limit of train caps for stats is increased by 5.\n");
+			outputText("-New tier 5 misc lvl-up perk: All-Rounder Training ( Intermediate ). Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
+			outputText("-New tier 5 misc lvl-up perk: All-Rounder Mental Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for int/wis/lib stats is increased by 10.\n");
+			outputText("-New tier 5 misc lvl-up perk: All-Rounder Physical Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for str/tou/spe stats is increased by 10.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -382,6 +382,24 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-Fixed bugs: Dracula/lina PC unable to find get ghoul if they not learned this as normal Vampire, unable to buy manual for 1st atk: f. swords, Arigean Princess PC not been fully immune to TF-ing like other perm races, Weresharks not having their stats changing according to moon phase or boosted during use of Crinos Shape, Phoenix TF adding mutagen penatly instead of stat curse, ");
 			outputText("Endless Rage draining 10x too much wrath per turn, Berzerker/Lustzerker still req. to be activated after they been activated as part of Asura Form activation, dormant state of wereraces 'blessings' increasing race score and not lowering it, Hinezumi Buring Blood IM accesable by Bunny race, returning from teleportation circle at 4th floor of river dungeon sending PC to 3rd floor ");
 			outputText("teleportation circle room, perk allowing to always run away from enemy/ies been ignored in dungeons, unarmed/feral giving mastery gains for small weapons, 2 of 4 SF to Elemental Energy conversion options having wrong check for usable SF, using Fiery Band for calling Kiha to help fight... Kiha, Ceraph after update still not able to win using her super cool lust beam attack, ");
@@ -468,20 +486,8 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -524,12 +530,6 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
