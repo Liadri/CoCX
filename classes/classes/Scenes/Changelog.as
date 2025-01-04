@@ -343,7 +343,7 @@ public class Changelog extends BaseContent
 			outputText("-New tier 7 intelligence lvl-up perk: Vampiric Magic. Req. Grand Archmage (3rd Circle) perk and 200+ int. Effect: Nospheratu cooldown is reduced by 1 round and blood magic spells are 50% stronger.\n");
 			outputText("-More fixes for displaying balls correctly on charview (mostly for shark-taur). (Stadler)\n");
 			outputText("-Tigershark TF didn't check properly, if the tiger shark stripes skin TF is already present, so it repeated, wasting tigershark tooths. (Stadler)\n");
-			outputText("-\n");
+			outputText("-Restrained Black/White/Grey Tome initial spellpower is 400% and initial cooldown is -4 turns. It mean also that their effect would be presesnt until lvl 24 not 18.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

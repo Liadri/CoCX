@@ -40,9 +40,10 @@ public class WaterSphereSpell extends AbstractGreySpell {
 	override public function calcCooldown():int {
 		var calcC:int = 0;
 		calcC += spellGreyCooldown();
-		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 24) {
 			if (player.level < 6) calcC -= 1;
 			if (player.level < 12) calcC -= 1;
+			if (player.level < 18) calcC -= 1;
 			calcC -= 1;
 			if (calcC < 0) calcC = 0;
 		}

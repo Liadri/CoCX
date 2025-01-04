@@ -374,9 +374,10 @@ public class CombatMagic extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.GreyArchmage) && player.inte >= 175) mod += .3;
 		if (player.hasPerk(PerkLib.GrandGreyArchmage) && player.inte >= 225) mod += .4;
 		if (player.hasPerk(PerkLib.GrandGreyArchmage2ndCircle) && player.inte >= 275) mod += .5;
-		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 24) {
 			if (player.level < 6) mod += 1;
 			if (player.level < 12) mod += 1;
+			if (player.level < 18) mod += 1;
 			mod += 1;
 		}
 		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
@@ -400,9 +401,10 @@ public class CombatMagic extends BaseCombatContent {
 			if (player.isElf()) mod += .2;
 			else mod += .1;
 		}
-		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 24) {
 			if (player.level < 6) mod += 1;
 			if (player.level < 12) mod += 1;
+			if (player.level < 18) mod += 1;
 			mod += 1;
 		}
 		if (player.weapon == weapons.PURITAS) mod *= 2.5;
@@ -422,9 +424,10 @@ public class CombatMagic extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.PrestigeJobWarlock)) mod += .2;
 		if (player.countMiscJewelry(miscjewelries.DMAGETO) > 0) mod += 0.25;
 		if (player.headJewelry == headjewelries.GHORNAM && player.horns.type == Horns.DEMON) mod += 0.25;
-		if (player.weaponRange == weaponsrange.RB_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RB_TOME && player.level < 24) {
 			if (player.level < 6) mod += 1;
 			if (player.level < 12) mod += 1;
+			if (player.level < 18) mod += 1;
 			mod += 1;
 		}
 		if (player.weapon == weapons.DEPRAVA) mod *= 2.5;
