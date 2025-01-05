@@ -480,53 +480,60 @@ public class Creature extends Utils
 			return false;
 		}
 		public function trainStatCap(statName: String, limit: Number):Number {
-			var cap:Number = limit;
-			var cap2:Number = 1;
-			//cap += 2 * host.perkv1(PerkLib.AscensionTranshumanism);
-			if (game.player.hasPerk(PerkLib.MunchkinAtBioLab)) cap2 += 0.1;
-			cap *= cap2;
+			var train:Number = 100;
+			var train2:Number = limit;
+			//train += 2 * host.perkv1(PerkLib.AscensionTranshumanism);
+			if (game.player.hasPerk(PerkLib.MunchkinAtBioLab)) train += 10;
+			if (game.player.hasPerk(PerkLib.BasicAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.IntermediateAllRounderTraining)) train += 5;
 			switch (statName) {
 				case "str":
+					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 					var str:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 3) str += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 4) str += 0.1;
-					cap *= str;
+					train *= str;
 					break;
 				case "tou":
+					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 					var tou:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 3) tou += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 4) tou += 0.1;
-					cap *= tou;
+					train *= tou;
 					break;
 				case "spe":
+					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 					var spe:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 3) spe += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) spe += 0.1;
-					cap *= spe;
+					train *= spe;
 					break;
 				case "int":
+					if (game.player.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 					var inte:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 3) inte += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 4) inte += 0.1;
-					cap *= inte;
+					train *= inte;
 					break;
 				case "wis":
-					//cap += 16 * host.perkv1(PerkLib.AscensionTranshumanismWis);
-					//cap += host.perkv1(PerkLib.SoulTempering);
+					if (game.player.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
+					//train += 16 * host.perkv1(PerkLib.AscensionTranshumanismWis);
+					//train += host.perkv1(PerkLib.SoulTempering);
 					var wis:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 3) wis += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 4) wis += 0.1;
-					cap *= wis;
+					train *= wis;
 					break;
 				case "lib":
+					if (game.player.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 					var lib:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 3) lib += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) lib += 0.1;
-					cap *= lib;
+					train *= lib;
 					break;
 			}
-			cap = Math.round(cap);
-			return cap;
+			train = Math.round(train*train2*0.01);
+			return train;
 		}
 
 		/**
