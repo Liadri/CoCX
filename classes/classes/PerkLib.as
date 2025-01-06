@@ -774,6 +774,9 @@ public class PerkLib
 		public static const AdvancedAllRounderEducation:PerkType = mk("Advanced All-Rounder Education", "All-Rounder Education ( Advanced )",
 				"Limit of advanced job you can learn is increased by 3.",
 				"You've chosen the 'All-Rounder Education ( Advanced )' perk, expanding the amount of advanced jobs you can learn. (+3)");
+		public static const AdvancedAllRounderTraining:PerkType = mk("Advanced All-Rounder Training", "All-Rounder Training ( Advanced )",
+				"Limit of train caps for stats is increased by 5.",
+				"You've chosen the 'All-Rounder Training ( Advanced )' perk. Limit of train caps for stats is increased by 5.");
 		public static const AdvancedEndurance:PerkType = mk("Advanced Endurance", "Advanced Endurance",
 				"Increases maximum fatigue by 200.",
 				"You've chosen the 'Advanced Endurance' perk. Thanks to your advanced physical conditioning, your maximum fatigue has been increased by 200!")
@@ -1639,6 +1642,9 @@ public class PerkLib
 		public static const ExpertAllRounderEducation:PerkType = mk("Expert All-Rounder Education", "All-Rounder Education ( Expert )",
 				"Limit of advanced job you can learn is increased by 3.",
 				"You've chosen the 'All-Rounder Education ( Expert )' perk, expanding the amount of advanced jobs you can learn. (+3)");
+		public static const ExpertAllRounderTraining:PerkType = mk("Expert All-Rounder Training", "All-Rounder Training ( Expert )",
+				"Limit of train caps for stats is increased by 5.",
+				"You've chosen the 'All-Rounder Training ( Expert )' perk. Limit of train caps for stats is increased by 5.");
 		public static const ExpertGolemMaker:PerkType = mk("Expert Golem Maker", "Expert Golem Maker",
 				"Your proficiency in making golems allows them to attack even flying enemies, lower by 5% chance of core shattering, storing more golems/golem cores and increase dmg scaling up on current int/wis.",
 				"You've chosen the 'Expert Golem Maker' perk, increasing your proficiency in making golems.");
@@ -1866,6 +1872,9 @@ public class PerkLib
 		public static const GrandMasterAllRounderEducation:PerkType = mk("Grand Master All-Rounder Education", "All-Rounder Education ( Grand Master )",
 				"Limit of advanced job you can learn is increased by 3.",
 				"You've chosen the 'All-Rounder Education ( Grand Master )' perk, expanding the amount of advanced jobs you can learn. (+3)");
+		public static const GrandMasterAllRounderTraining:PerkType = mk("Grand Master All-Rounder Training", "All-Rounder Training ( Grand Master )",
+				"Limit of train caps for stats is increased by 10.",
+				"You've chosen the 'All-Rounder Training ( Grand Master )' perk. Limit of train caps for stats is increased by 10.");
 		public static const GrandMasterGolemMaker:PerkType = mk("Grand-Master Golem Maker", "Grand-Master Golem Maker",
 				"Your proficiency in making golems allows to make golems that can attack flying enemies at small cost in mana drawn from it owner (aka PC).",
 				"You've chosen the 'Grand-Master Golem Maker' perk, increasing your proficiency in making golems.");
@@ -2553,6 +2562,9 @@ public class PerkLib
 		public static const MasterAllRounderEducation:PerkType = mk("Master All-Rounder Education", "All-Rounder Education ( Master )",
 				"Limit of advanced job you can learn is increased by 3.",
 				"You've chosen the 'All-Rounder Education ( Master )' perk, expanding the amount of advanced jobs you can learn. (+3)");
+		public static const MasterAllRounderTraining:PerkType = mk("Master All-Rounder Training", "All-Rounder Training ( Master )",
+				"Limit of train caps for stats is increased by 10.",
+				"You've chosen the 'All-Rounder Training ( Master )' perk. Limit of train caps for stats is increased by 10.");
 		public static const MasterCrinosShape:PerkType = mk("Master Crinos Shape", "Master Crinos Shape",
 				"Crinos Shape increase to physical might raise to 160% of core str/tou/spe.",
 				"You've chosen the 'Master Crinos Shape' perk, once again increasing the boost gained in Crinos Shape (+160%).")
@@ -5027,7 +5039,9 @@ public class PerkLib
 			[ArchersStaminaI, ArchersStaminaII, ArchersStaminaIII, ArchersStaminaIV, ArchersStaminaV, ArchersStaminaVI],
 			[BasicAllRounderEducation, IntermediateAllRounderEducation, AdvancedAllRounderEducation,
 				ExpertAllRounderEducation, MasterAllRounderEducation, GrandMasterAllRounderEducation],
-			[BasicAllRounderTraining, IntermediateAllRounderTraining],
+			[BasicAllRounderTraining, IntermediateAllRounderTraining, AdvancedAllRounderTraining,
+				ExpertAllRounderTraining, MasterAllRounderTraining,
+				GrandMasterAllRounderTraining],
 			[BiggerGolemBagI, BiggerGolemBagII, BiggerGolemBagIII, BiggerGolemBagIV, BiggerGolemBagV, BiggerGolemBagVI],
 			[Blademaster, GrandBlademaster],
 			[BonesOfSteel, MusclesOfSteel, HeartOfSteel, BodyOfSteel, MindOfSteel, SoulOfSteel],
@@ -8297,8 +8311,6 @@ public class PerkLib
                     .requirePerk(ImprovedDiehard);
             IntermediateAllRounderEducation.requireLevel(30)
                     .requirePerk(BasicAllRounderEducation);
-            IntermediateAllRounderTraining.requireLevel(30)
-                    .requirePerk(BasicAllRounderTraining);
             AllRounderMentalTraining.requireLevel(30)
                     .requirePerk(BasicAllRounderTraining);
             AllRounderPhysicalTraining.requireLevel(30)
@@ -8327,6 +8339,8 @@ public class PerkLib
                     .requirePerk(MotivationEx);//.requirePerk(AdvancedLeadership)
             AdvancedAllRounderEducation.requireLevel(36)
                     .requirePerk(IntermediateAllRounderEducation);
+            IntermediateAllRounderTraining.requireLevel(36)
+                    .requirePerk(BasicAllRounderTraining);
 			VerdantLeech.requireLevel(36)
 					.requirePerk(GreenMagic)
 					.requireInt(140)
@@ -8411,6 +8425,8 @@ public class PerkLib
 					.requirePerk(LimitBreakerBody1stStage);
             MasterAllRounderEducation.requireLevel(48)
                     .requirePerk(ExpertAllRounderEducation);
+            AdvancedAllRounderTraining.requireLevel(48)
+                    .requirePerk(IntermediateAllRounderTraining);
             //Tier 9
             ChimericalBodySuperiorStage.requireAnyPerk(ChimericalBodySemiSuperiorStage, ChimericalBodySemiSuperiorStageEx)
                     .requireLevel(54)
@@ -8472,6 +8488,8 @@ public class PerkLib
                     .requirePerk(EpicGolemMaker);
 			LimitBreakerPsyche1stStage.requireLevel(60)
 					.requirePerk(LimitBreakerFlesh1stStage);
+            ExpertAllRounderTraining.requireLevel(60)
+                    .requirePerk(AdvancedAllRounderTraining);
 			ThirdRing.requireLevel(60)
                     .requirePerk(SecondRing);
             //Tier 11
@@ -8544,7 +8562,7 @@ public class PerkLib
                     .requireInt(210)
                     .requireWis(210)
                     .requirePerks(GolemArmyMajor, EpicGolemMaker3rdCircle);
-            WispColonel.requireLevel(72)
+            WispColonel.requireLevel(78)
                     .requirePerk(WispMajor)
 					.requireInt(210)
 					.requireWis(210)
@@ -8553,6 +8571,11 @@ public class PerkLib
 					}, "15+ pets/minions/tamed monsters");
 			LimitBreakerHeart2ndStage.requireLevel(78)
 					.requirePerk(LimitBreakerBody2ndStage);
+            MasterAllRounderTraining.requireLevel(78)
+                    .requirePerk(ExpertAllRounderTraining)
+					.requireCustomFunction(function (player:Player):Boolean {
+					return player.currentAdvancedJobs() >= 5;
+					}, "5+ advanced jobs");
             //Tier 14
             LegendaryGolemMaker.requireLevel(84)
                     .requireInt(225)
@@ -8576,6 +8599,11 @@ public class PerkLib
                     .requirePerk(LegendaryGolemMaker);
 			LimitBreakerSoul2ndStage.requireLevel(96)
 					.requirePerk(LimitBreakerPsyche2ndStage);
+            GrandMasterAllRounderTraining.requireLevel(96)
+                    .requirePerk(MasterAllRounderTraining)
+					.requireCustomFunction(function (player:Player):Boolean {
+					return player.currentAdvancedJobs() >= 7;
+					}, "7+ advanced jobs");
             //Tier 17
             GolemArmyGeneral.requireLevel(102)
                     .requireInt(260)

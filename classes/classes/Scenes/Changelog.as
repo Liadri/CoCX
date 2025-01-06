@@ -346,13 +346,13 @@ public class Changelog extends BaseContent
 			outputText("-Restrained Black/White/Grey Tome initial spellpower is 400% and initial cooldown is -4 turns. It mean also that their effect would be presesnt until lvl 24 not 18.\n");
 			outputText("-New tier 9 misc lvl-up perk: All-Rounder Education ( Grand Master ). Req. All-Rounder Education ( Master ) perk. Effect: Limit of advanced job you can learn is increased by 3.\n");
 			outputText("-New tier 4 misc lvl-up perk: All-Rounder Training ( Basic ). Req. Job: All-Rounder perk. Effect: Limit of train caps for stats is increased by 5.\n");
-			outputText("-New tier 5 misc lvl-up perk: All-Rounder Training ( Intermediate ). Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
 			outputText("-New tier 5 misc lvl-up perk: All-Rounder Mental Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for int/wis/lib stats is increased by 10.\n");
 			outputText("-New tier 5 misc lvl-up perk: All-Rounder Physical Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for str/tou/spe stats is increased by 10.\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New tier 6 misc lvl-up perk: All-Rounder Training ( Intermediate ). Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
+			outputText("-New tier 8 misc lvl-up perk: All-Rounder Training ( Advanced ). Req. All-Rounder Training ( Intermediate ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
+			outputText("-New tier 10 misc lvl-up perk: All-Rounder Training ( Expert ). Req. All-Rounder Training ( Advanced ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
+			outputText("-New tier 13 misc lvl-up perk: All-Rounder Training ( Master ). Req. All-Rounder Training ( Expert ) perk and 5+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
+			outputText("-New tier 16 misc lvl-up perk: All-Rounder Training ( Grand Master ). Req. All-Rounder Training ( Master ) perk and 7+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

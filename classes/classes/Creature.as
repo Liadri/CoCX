@@ -486,6 +486,10 @@ public class Creature extends Utils
 			if (game.player.hasPerk(PerkLib.MunchkinAtBioLab)) train += 10;
 			if (game.player.hasPerk(PerkLib.BasicAllRounderTraining)) train += 5;
 			if (game.player.hasPerk(PerkLib.IntermediateAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.AdvancedAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.ExpertAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.MasterAllRounderTraining)) train += 10;
+			if (game.player.hasPerk(PerkLib.GrandMasterAllRounderTraining)) train += 10;
 			switch (statName) {
 				case "str":
 					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
