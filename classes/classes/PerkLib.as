@@ -2474,21 +2474,21 @@ public class PerkLib
 		public static const LimitBreakerBody3rdStage:PerkType = mk("Limit Breaker: Body (3rd stage)", "Limit Breaker: Body (3rd stage)",
 				"Breaking your limits for 'body' for the third time grants you +15% max HP and Wrath.",
 				"You've chosen the 'Limit Breaker: Body (3rd stage)' perk, breaking your limits for 'body' for the third time. (+15% max HP and Wrath)")
-				.withBuffs({'maxwrath_mult':+0.15});/*
-		public static const LimitBreakerFlesh1stStage:PerkType = mk("Limit Breaker: Flesh (1st stage)", "Limit Breaker: Flesh (1st stage)",
-				"Breaking your limits for 'flesh' for the first time.",
-				"You've chosen the 'Limit Breaker: Flesh (1st stage)' perk, breaking your limits for 'flesh' for the first time.").withBuffs({'str.mult':0.10,'tou.mult':0.10,'spe.mult':0.10});*/
+				.withBuffs({'maxwrath_mult':+0.15});
+		public static const LimitBreakerFlesh3rdStage:PerkType = mk("Limit Breaker: Flesh (3rd stage)", "Limit Breaker: Flesh (3rd stage)",
+				"Breaking your limits for 'flesh' for the third time.",
+				"You've chosen the 'Limit Breaker: Flesh (3rd stage)' perk, breaking your limits for 'flesh' for the third time.").withBuffs({'str.mult':0.30,'tou.mult':0.30,'spe.mult':0.30});
 		public static const LimitBreakerHeart3rdStage:PerkType = mk("Limit Breaker: Heart (3rd stage)", "Limit Breaker: Heart (3rd stage)",
-				"Breaking your limits for 'heart' for the third time grants you +5% max Lust and Fatigue.",
-				"You've chosen the 'Limit Breaker: Heart (3rd stage)' perk, breaking your limits for 'heart' for the third time. (+5% max Lust and Fatigue)")
-				.withBuffs({'maxfatigue_mult':+0.05,'maxlust_mult':+0.05});/*
-		public static const LimitBreakerPsyche1stStage:PerkType = mk("Limit Breaker: Psyche (1st stage)", "Limit Breaker: Psyche (1st stage)",
-				"Breaking your limits for 'psyche' for the first time.",
-				"You've chosen the 'Limit Breaker: Psyche (1st stage)' perk, breaking your limits for 'psyche' for the first time.").withBuffs({'int.mult':0.10,'wis.mult':0.10,'lib.mult':0.10,'sens':10});
+				"Breaking your limits for 'heart' for the third time grants you +15% max Lust and Fatigue.",
+				"You've chosen the 'Limit Breaker: Heart (3rd stage)' perk, breaking your limits for 'heart' for the third time. (+15% max Lust and Fatigue)")
+				.withBuffs({'maxfatigue_mult':+0.15,'maxlust_mult':+0.15});
+		public static const LimitBreakerPsyche3rdStage:PerkType = mk("Limit Breaker: Psyche (3rd stage)", "Limit Breaker: Psyche (3rd stage)",
+				"Breaking your limits for 'psyche' for the third time.",
+				"You've chosen the 'Limit Breaker: Psyche (3rd stage)' perk, breaking your limits for 'psyche' for the third time.").withBuffs({'int.mult':0.30,'wis.mult':0.30,'lib.mult':0.30,'sens':30});
 		public static const LimitBreakerSoul3rdStage:PerkType = mk("Limit Breaker: Soul (3rd stage)", "Limit Breaker: Soul (3rd stage)",
 				"Breaking your limits for 'soul' for the third time grants you +15% max Mana and Soulforce.",
 				"You've chosen the 'Limit Breaker: Soul (3rd stage)' perk, breaking your limits for 'soul' for the third time. (+15% max Mana and Soulforce)")
-				.withBuffs({'maxmana_mult':+0.15,'maxsf_mult':+0.15});*/
+				.withBuffs({'maxmana_mult':+0.15,'maxsf_mult':+0.15});
 		public static const LockAndLoad:PerkType = mk("Lock and load", "Lock and load",
 				"You gained decreased accuracy penalty (-5%) for multi-attacks and a slightly increased firerate (+1 attack per 2 attacks).",
 				"You've chosen the 'Lock and load' perk, gaining decreased accuracy penalty (-5%) for multi-attacks and a slightly increased firerate (+1 attack per 2 attacks).");
@@ -8666,15 +8666,19 @@ public class PerkLib
 			LimitBreakerHeart3rdStage.requireLevel(108)
 					.requirePerk(LimitBreakerBody3rdStage);
             //Tier 19
+			LimitBreakerFlesh3rdStage.requireLevel(114)
+					.requirePerk(LimitBreakerHeart3rdStage);
             SemiEpicAllRounderTraining.requireLevel(114)
                     .requirePerk(GrandMasterAllRounderTraining)
 					.requireCustomFunction(function (player:Player):Boolean {
 					return player.currentAdvancedJobs() >= 10;
 					}, "10+ advanced jobs");
             //Tier 20
-
+			LimitBreakerPsyche3rdStage.requireLevel(120)
+					.requirePerk(LimitBreakerFlesh3rdStage);
             //Tier 21
-
+			LimitBreakerSoul3rdStage.requireLevel(126)
+					.requirePerk(LimitBreakerPsyche3rdStage);
             //Tier 22
 			EpicAllRounderTraining.requireLevel(132)
                     .requirePerk(SemiEpicAllRounderTraining)
