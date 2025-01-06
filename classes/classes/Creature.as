@@ -490,6 +490,8 @@ public class Creature extends Utils
 			if (game.player.hasPerk(PerkLib.ExpertAllRounderTraining)) train += 5;
 			if (game.player.hasPerk(PerkLib.MasterAllRounderTraining)) train += 10;
 			if (game.player.hasPerk(PerkLib.GrandMasterAllRounderTraining)) train += 10;
+			if (game.player.hasPerk(PerkLib.SemiEpicAllRounderTraining)) train += 15;
+			if (game.player.hasPerk(PerkLib.EpicAllRounderTraining)) train += 15;
 			switch (statName) {
 				case "str":
 					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
@@ -852,6 +854,7 @@ public class Creature extends Utils
 			if (hasPerk(PerkLib.RefinedBodyVI)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerBody1stStage)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerBody2ndStage)) multimax += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerBody3rdStage)) multimax += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) multimax += 0.2;
 			max *= multimax;
 			max = Math.round(max);

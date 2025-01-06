@@ -18,6 +18,8 @@ public class TrainingStat extends RawStat {
 		if (host.hasPerk(PerkLib.ExpertAllRounderTraining)) train += 5;
 		if (host.hasPerk(PerkLib.MasterAllRounderTraining)) train += 10;
 		if (host.hasPerk(PerkLib.GrandMasterAllRounderTraining)) train += 10;
+		if (host.hasPerk(PerkLib.SemiEpicAllRounderTraining)) train += 15;
+		if (host.hasPerk(PerkLib.EpicAllRounderTraining)) train += 15;
 		switch (statName) {
 			case 'str.train':
 				if (host.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;

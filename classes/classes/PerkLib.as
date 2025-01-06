@@ -716,6 +716,12 @@ public class PerkLib
 		public static const AllRounderPhysicalTraining:PerkType = mk("All-Rounder Physical Training", "All-Rounder Physical Training",
 				"Limit of train caps for str/tou/spe stats is increased by 10.",
 				"You've chosen the 'All-Rounder Physical Training' perk. Limit of train caps for str/tou/spe stats is increased by 10.");
+		public static const SemiEpicAllRounderTraining:PerkType = mk("Semi-Epic All-Rounder Training", "All-Rounder Training ( Semi-Epic )",
+				"Limit of train caps for stats is increased by 15.",
+				"You've chosen the 'All-Rounder Training ( Semi-Epic )' perk. Limit of train caps for stats is increased by 15.");
+		public static const EpicAllRounderTraining:PerkType = mk("Epic All-Rounder Training", "All-Rounder Training ( Epic )",
+				"Limit of train caps for stats is increased by 15.",
+				"You've chosen the 'All-Rounder Training ( Epic )' perk. Limit of train caps for stats is increased by 15.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -2465,6 +2471,24 @@ public class PerkLib
 				"Breaking your limits for 'soul' for the second time grants you +10% max Mana and Soulforce.",
 				"You've chosen the 'Limit Breaker: Soul (2nd stage)' perk, breaking your limits for 'soul' for the second time. (+10% max Mana and Soulforce)")
 				.withBuffs({'maxmana_mult':+0.1});
+		public static const LimitBreakerBody3rdStage:PerkType = mk("Limit Breaker: Body (3rd stage)", "Limit Breaker: Body (3rd stage)",
+				"Breaking your limits for 'body' for the third time grants you +15% max HP and Wrath.",
+				"You've chosen the 'Limit Breaker: Body (3rd stage)' perk, breaking your limits for 'body' for the third time. (+15% max HP and Wrath)")
+				.withBuffs({'maxwrath_mult':+0.15});/*
+		public static const LimitBreakerFlesh1stStage:PerkType = mk("Limit Breaker: Flesh (1st stage)", "Limit Breaker: Flesh (1st stage)",
+				"Breaking your limits for 'flesh' for the first time.",
+				"You've chosen the 'Limit Breaker: Flesh (1st stage)' perk, breaking your limits for 'flesh' for the first time.").withBuffs({'str.mult':0.10,'tou.mult':0.10,'spe.mult':0.10});*/
+		public static const LimitBreakerHeart3rdStage:PerkType = mk("Limit Breaker: Heart (3rd stage)", "Limit Breaker: Heart (3rd stage)",
+				"Breaking your limits for 'heart' for the third time grants you +5% max Lust and Fatigue.",
+				"You've chosen the 'Limit Breaker: Heart (3rd stage)' perk, breaking your limits for 'heart' for the third time. (+5% max Lust and Fatigue)")
+				.withBuffs({'maxfatigue_mult':+0.05,'maxlust_mult':+0.05});/*
+		public static const LimitBreakerPsyche1stStage:PerkType = mk("Limit Breaker: Psyche (1st stage)", "Limit Breaker: Psyche (1st stage)",
+				"Breaking your limits for 'psyche' for the first time.",
+				"You've chosen the 'Limit Breaker: Psyche (1st stage)' perk, breaking your limits for 'psyche' for the first time.").withBuffs({'int.mult':0.10,'wis.mult':0.10,'lib.mult':0.10,'sens':10});
+		public static const LimitBreakerSoul3rdStage:PerkType = mk("Limit Breaker: Soul (3rd stage)", "Limit Breaker: Soul (3rd stage)",
+				"Breaking your limits for 'soul' for the third time grants you +15% max Mana and Soulforce.",
+				"You've chosen the 'Limit Breaker: Soul (3rd stage)' perk, breaking your limits for 'soul' for the third time. (+15% max Mana and Soulforce)")
+				.withBuffs({'maxmana_mult':+0.15,'maxsf_mult':+0.15});*/
 		public static const LockAndLoad:PerkType = mk("Lock and load", "Lock and load",
 				"You gained decreased accuracy penalty (-5%) for multi-attacks and a slightly increased firerate (+1 attack per 2 attacks).",
 				"You've chosen the 'Lock and load' perk, gaining decreased accuracy penalty (-5%) for multi-attacks and a slightly increased firerate (+1 attack per 2 attacks).");
@@ -5039,9 +5063,10 @@ public class PerkLib
 			[ArchersStaminaI, ArchersStaminaII, ArchersStaminaIII, ArchersStaminaIV, ArchersStaminaV, ArchersStaminaVI],
 			[BasicAllRounderEducation, IntermediateAllRounderEducation, AdvancedAllRounderEducation,
 				ExpertAllRounderEducation, MasterAllRounderEducation, GrandMasterAllRounderEducation],
-			[BasicAllRounderTraining, IntermediateAllRounderTraining, AdvancedAllRounderTraining,
-				ExpertAllRounderTraining, MasterAllRounderTraining,
-				GrandMasterAllRounderTraining],
+			[BasicAllRounderTraining, IntermediateAllRounderTraining,
+				AdvancedAllRounderTraining, ExpertAllRounderTraining,
+				MasterAllRounderTraining, GrandMasterAllRounderTraining,
+				SemiEpicAllRounderTraining, EpicAllRounderTraining],
 			[BiggerGolemBagI, BiggerGolemBagII, BiggerGolemBagIII, BiggerGolemBagIV, BiggerGolemBagV, BiggerGolemBagVI],
 			[Blademaster, GrandBlademaster],
 			[BonesOfSteel, MusclesOfSteel, HeartOfSteel, BodyOfSteel, MindOfSteel, SoulOfSteel],
@@ -8635,16 +8660,27 @@ public class PerkLib
 					.requirePerk(General);
 			Pornstar.requireLevel(102)
 					.requirePerk(BrothelOwner);
+			LimitBreakerBody3rdStage.requireLevel(102)
+					.requirePerk(LimitBreakerSoul2ndStage);
             //Tier 18
-
+			LimitBreakerHeart3rdStage.requireLevel(108)
+					.requirePerk(LimitBreakerBody3rdStage);
             //Tier 19
-
+            SemiEpicAllRounderTraining.requireLevel(114)
+                    .requirePerk(GrandMasterAllRounderTraining)
+					.requireCustomFunction(function (player:Player):Boolean {
+					return player.currentAdvancedJobs() >= 10;
+					}, "10+ advanced jobs");
             //Tier 20
 
             //Tier 21
 
             //Tier 22
-
+			EpicAllRounderTraining.requireLevel(132)
+                    .requirePerk(SemiEpicAllRounderTraining)
+					.requireCustomFunction(function (player:Player):Boolean {
+					return player.currentAdvancedJobs() >= 13;
+					}, "13+ advanced jobs");
             //Tier 23
 
             //Tier 24
