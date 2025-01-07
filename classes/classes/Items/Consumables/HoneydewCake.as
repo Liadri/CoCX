@@ -150,7 +150,7 @@ public class HoneydewCake extends Consumable {
 		//FAILSAFE CHANGE
 		if (changes == 0) {
 			outputText("[pg]Inhuman vitality spreads through your body, invigorating you!\n");
-			EngineCore.HPChange(50, true);
+			EngineCore.HPChange(50, true, false);
 		}
 		player.refillHunger(20);
         flags[kFLAGS.TIMES_TRANSFORMED] += changes;

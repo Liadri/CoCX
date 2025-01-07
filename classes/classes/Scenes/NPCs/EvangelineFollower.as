@@ -1202,6 +1202,8 @@ private function curingJiangshi():void {
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll6)) player.removeStatusEffect(StatusEffects.AlterBindScroll6);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll7)) player.removeStatusEffect(StatusEffects.AlterBindScroll7);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll8)) player.removeStatusEffect(StatusEffects.AlterBindScroll8);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll9)) player.removeStatusEffect(StatusEffects.AlterBindScroll9);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll10)) player.removeStatusEffect(StatusEffects.AlterBindScroll10);
 		}
 		if (player.hasPerk(PerkLib.ImprovedCursedTag)) {
 			player.removePerk(PerkLib.ImprovedCursedTag);

@@ -14,7 +14,7 @@ public class AkbalSaliva extends Consumable
 		override public function useItem():Boolean
 		{
 			outputText("You uncork the vial and chug down the saliva.  ");
-			EngineCore.HPChange((player.maxHP() / 4), true);
+			EngineCore.HPChange((player.maxHP() / 4), true, false);
 			player.refillHunger(5);
 			
 			return false;

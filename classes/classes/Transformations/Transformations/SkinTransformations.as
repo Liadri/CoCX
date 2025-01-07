@@ -775,7 +775,7 @@ public class SkinTransformations extends MutationsHelper {
 			},
 			// is present
 			function ():Boolean {
-				return transformations.SkinAquaScales(Skin.COVERAGE_HIGH).isPresent() && player.skin.pattern === Skin.PATTERN_TIGER_STRIPES;
+				return transformations.SkinAquaScales(Skin.COVERAGE_HIGH, {colors: ["orange and black"]}).isPresent() && player.skin.pattern === Skin.PATTERN_TIGER_STRIPES;
 			}
 	);
 

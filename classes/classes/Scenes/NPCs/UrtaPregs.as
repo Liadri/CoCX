@@ -376,7 +376,7 @@ private function wakeUpWithUrtaAfterStaying():void {
 	statScreenRefresh();
 	player.sexReward("vaginalFluids");
 	camp.sleepRecovery(false);
-	HPChange(player.maxHP(), true);
+	HPChange(player.maxHP(), true, false);
 	//PC Wakes with Urta
 	awardAchievement("Getaway", kACHIEVEMENTS.GENERAL_GETAWAY);
 	outputText("As the morning sun shines on the blinds, you open your eyes.  Then you remember the events of the last day.  You spent the whole day with Urta, not having sex, just walking together and buying stuff for your newborn ");

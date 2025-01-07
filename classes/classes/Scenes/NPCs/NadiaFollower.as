@@ -860,7 +860,7 @@ public function HealingScene():void {
 	outputText("The sparks of magic intensify, becoming almost painful. You grimace, but she hushes you, soft touch on your body countering the pain. Soon enough, it's all over. Nadia lets go, stepping back. All your wounds and injuries have closed up, as if they never existed. You're healed, but now you feel rather aroused.\n\n");
 	dynStats("lus", 33, "scale", false);
 	if (player.hasStatusEffect(StatusEffects.CombatWounds)) player.removeStatusEffect(StatusEffects.CombatWounds);
-	HPChange(player.maxOverHP(), true);
+	HPChange(player.maxOverHP(), true, false);
 	EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.5)));
 	doNext(mainCampMenu);
 	advanceMinutes(45);

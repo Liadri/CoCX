@@ -194,7 +194,7 @@ public class CharybdisFollower extends NPCAwareContent implements SaveableState
 		if (CharySpar) {
 			CharySpar = false;
 			outputText("You kneel, your [legs] shaking with exhaustion. You black out, and when you come to, your body itches. You sit up, but your head pounds. <i>\"Black Algae;\"</i> he explains apologetically. <i>\"Sticks to your injuries, and staunches the bleeding.\"</i> He offers you an unarmored hand, and helps you to your feet. <i>\"Sorry about that. I…\"</i> He waves his hand. <i>\"You were out for a while.\"</i>\n\n");
-			HPChange(Math.round(player.maxHP() * 0.5), false);
+			HPChange(Math.round(player.maxHP() * 0.5), false, false);
 			cleanupAfterCombat();
 		}
 		else {

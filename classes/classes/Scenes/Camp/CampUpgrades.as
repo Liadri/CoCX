@@ -730,7 +730,7 @@ public class CampUpgrades extends BaseContent {
         flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] = newTier;
         CampStatsAndResources.StonesResc -= 4 * newTier;
         useFatigue(50);
-        HPChange(-75 * newTier, true);
+        HPChange(-75 * newTier, true, false);
         useMana(100 * newTier);
         doNext(camp.returnToCampUseFourHours);
     }

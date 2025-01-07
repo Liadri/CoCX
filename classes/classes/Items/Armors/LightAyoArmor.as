@@ -7,6 +7,7 @@ package classes.Items.Armors
 	import classes.GlobalFlags.kFLAGS;
 	import classes.ItemType;
 	import classes.Items.Armor;
+	import classes.PerkLib;
 	import classes.Player;
 	import classes.EngineCore;
 
@@ -17,13 +18,23 @@ package classes.Items.Armors
 		}
 		
 		override public function get def():Number {
-			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) return 60;
-			else return 36;
+			var baseP:Number = 36;
+			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) baseP += 24;
+			if (game.player.hasPerk(PerkLib.EfficientUsageOfSoulforce)) {
+				if (game.player.touStat.core.value > 300) baseP *= 3;
+				else baseP *= (1 + (game.player.touStat.core.value * 0.01));
+			}
+			return baseP;
 		}
 		
 		override public function get mdef():Number {
-			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) return 10;
-			else return 6;
+			var baseM:Number = 6;
+			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) baseM += 4;
+			if (game.player.hasPerk(PerkLib.EfficientUsageOfSoulforce)) {
+				if (game.player.touStat.core.value > 300) baseM *= 3;
+				else baseM *= (1 + (game.player.touStat.core.value * 0.01));
+			}
+			return baseM;
 		}
 
 		override public function afterEquip(doOutput:Boolean, slot:int):void {

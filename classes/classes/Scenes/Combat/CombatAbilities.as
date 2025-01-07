@@ -16,12 +16,14 @@ public class CombatAbilities {
 	public static const FlyingSwordAttack:FlyingSwordSkill		= new FlyingSwordSkill();
 	public static const WillOfTheWisp:WillOfTheWispSkill		= new WillOfTheWispSkill();
 	public static const MummyAttack:MummyAttackSkill			= new MummyAttackSkill();
+	public static const ZombieAttack:ZombieAttackSkill			= new ZombieAttackSkill();
 	public static const Tease:TeaseSkill						= new TeaseSkill();
 	public static const GoblinLustBomb:GoblinLustBombSkill		= new GoblinLustBombSkill();
 	public static const ALL_GENERAL_SKILLS:/*CombatAbility*/Array = [
 		FlyingSwordAttack,
 		WillOfTheWisp,
 		MummyAttack,
+		ZombieAttack,
 		Tease,
 		GoblinLustBomb
 	];

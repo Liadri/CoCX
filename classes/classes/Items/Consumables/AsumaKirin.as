@@ -272,7 +272,7 @@ public class AsumaKirin extends Consumable {
 		//FAILSAFE CHANGE
 		if (changes == 0) {
 			outputText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-			EngineCore.HPChange(50, true);
+			EngineCore.HPChange(50, true, false);
 			dynStats("lus", 3, "scale", false);
 		}
 		if (!player.skin.hasLightningShapedTattoo() && rand(3) == 0 && changes < changeLimit) {

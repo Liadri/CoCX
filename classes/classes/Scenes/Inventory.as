@@ -401,7 +401,7 @@ use namespace CoC;
 			outputText("Soulforce reserves in armor: "+flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR]+" / "+maxSFCapacity+"\n\n");
 			menu();
 			var btn:int = 0;
-			for each (var amnt:int in [50, 100, 200, 500])
+			for each (var amnt:int in [50, 100, 200, 500, 1000])
 				addButton(btn++, "Charge " + amnt, AyoArmorRecharge, amnt)
 					.disableIf(player.soulforce < amnt, "Your current soulforce is too low.");
 			addButton(btn++, "Full Charge", AyoArmorRecharge, -1)

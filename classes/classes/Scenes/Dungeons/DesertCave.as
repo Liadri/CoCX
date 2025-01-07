@@ -3976,7 +3976,7 @@ public class DesertCave extends DungeonAbstractContent
 			clearOutput();
 			outputText("You allow the girl to continue for a long, long while until your entire body feels deeply refreshed, her milk having soaked into your body and making you feel fresh and revitalized. You start to thank the milk girl for the pleasurable company, but when you open your mouth, she slips into your arms and presses her lips to yours.  Chuckling to yourself, you hold the girl as tight against yourself as her udders will allow, turning her to the side to let her nuzzle her cheek into your [chest], kissing the top of her head before the two of you climb from the pool.  You have to help her out, her massive extra weight nearly dragging her back in except for your quick reflexes.  You gather your [armor] and ruffle the milk slave's hair before turning back to the task at hand.");
 			//[+Lust, +HP, -Fatigue]
-			HPChange(player.maxHP()*.33,false);
+			HPChange(player.maxHP()*.33,false,false);
 			fatigue(-20);
 			doNext(playerMenu);
 		}

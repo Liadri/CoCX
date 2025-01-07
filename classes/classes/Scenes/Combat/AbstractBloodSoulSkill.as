@@ -72,7 +72,7 @@ public class AbstractBloodSoulSkill extends AbstractSoulSkill {
         if (lastAttackType != 0)
 			flags[kFLAGS.LAST_ATTACK_TYPE] = lastAttackType;
             
-        HPChange(-sfCost(), false);
+        HPChange(-sfCost(), false, false);
 
         if (sfInfusion) {
             player.soulforce -= super.sfCost();

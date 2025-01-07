@@ -1236,7 +1236,7 @@ private function urtaSecondWind():void {
 		return;
 	}
 	monster.createStatusEffect(StatusEffects.UrtaSecondWinded,3,0,0,0);
-	HPChange(Math.round(player.maxHP()*0.75),false);
+	HPChange(Math.round(player.maxHP()*0.75),false,false);
 	fatigue(-200);
 	dynStats("lus", -200, "scale", false);
 	outputText("Closing your eyes for a moment, you focus all of your willpower on pushing yourself to your absolute limits, forcing your lusts down and drawing on reserves of energy you didn't know you had!\n\n");
@@ -1921,7 +1921,7 @@ private function urtaSleepsArmored():void {
 	outputText("\n\nIt takes a while to get back to sleep, but when you do, you sleep comfortably, knowing your armor will protect you.");
 	outputText("\n\nA quick and messy fap in the morning takes care of the tension that built up overnight.  The ground happily drinks away the evidence of your lust.");
 	//{Recover less HP/fatigue or something}
-	HPChange(.5 * player.maxHP(),false);
+	HPChange(.5 * player.maxHP(),false,false);
 	fatigue(-50);
 	player.orgasm();
 	menu();
@@ -1932,7 +1932,7 @@ private function urtaSleepsNaked():void {
 	//NOT PLANNED AS A FIGHT
 	clearOutput();
 	outputText("You bed down for the night, languidly removing your armor and stretching in the pale moonlight.  The cool air feels wonderful on your skin, particularly after being bound up in that restricting armor all day.  You yawn and wrap yourself up in a blanket, swifly falling asleep in the soft grasses at the edges of the plains, comforted by the gentle hooting of the owls in the woods to the west.");
-	HPChange(player.maxHP(),false);
+	HPChange(player.maxHP(),false,false);
 	fatigue(-100);
 	dynStats("lus", 10, "scale", false);
 	menu();

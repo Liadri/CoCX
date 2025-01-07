@@ -91,6 +91,18 @@ public class LichRace extends Race {
 					"sens": +250
 				})
 				.end();
+		
+		buildTier(40, "Arch-Lich")
+				.requirePreviousTier()
+				.buffs({
+					"str.mult": +2.50,
+					"spe.mult": -0.90,
+					"int.mult": +8.50,
+					"wis.mult": +2.40,
+					"lib.mult": +8.50,
+					"sens": +300
+				})
+				.end();
 	}
 }
 }

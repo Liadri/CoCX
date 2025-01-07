@@ -179,7 +179,7 @@ public class Camp extends NPCAwareContent{
 			return;
 		}
 		if (player.hasStatusEffect(StatusEffects.PostAnemoneBeatdown)) {
-			HPChange(Math.round(player.maxHP() / 2), false);
+			HPChange(Math.round(player.maxHP() / 2), false, false);
 			player.removeStatusEffect(StatusEffects.PostAnemoneBeatdown);
 		}
 
@@ -3101,12 +3101,14 @@ public class Camp extends NPCAwareContent{
 			[StatusEffects.AlterBindScroll6, "Greater drain"],
 			[StatusEffects.AlterBindScroll7, "Cursed Touch"],
 			[StatusEffects.AlterBindScroll8, "Paralyzing fear"],
+			[StatusEffects.AlterBindScroll9, "Deathly touch"],
+			[StatusEffects.AlterBindScroll10, "Mindless Hunger"],
 		];
 		var i:int;
 		clearOutput();
 		var limitOnAltering:Number = 1;
 		if (player.hasPerk(PerkLib.ImprovedCursedTag)) limitOnAltering += 1;
-		if (player.hasPerk(PerkLib.GreaterCursedTag)) limitOnAltering += 6;
+		if (player.hasPerk(PerkLib.GreaterCursedTag)) limitOnAltering += 8;
 		var currentAltering:Number = 0;
 		for (i = 0; i < statusNames.length; ++i) {
 			if (player.hasStatusEffect(statusNames[i][0])) ++currentAltering;
@@ -3126,6 +3128,8 @@ public class Camp extends NPCAwareContent{
 		outputText("Greater drain -> <i>Lust damage inflicted on your opponent through physical contact is twice as effective. (Effects straddle and melee attack)</i>\n");
 		outputText("Cursed Touch -> <i>Unarmed strikes inflict 1% toughness damage.</i>\n");
 		outputText("Paralyzing fear -> <i>Unarmed strikes inflict 1% strength damage.</i>\n");
+		outputText("Deathly touch -> <i>Claw attack and unarmed strike deals an additional amount of damage as darkness damage.</i>\n");
+		outputText("Mindless Hunger -> <i>When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).</i>\n");
 		menu();
 		for (i = 0; i < statusNames.length; ++i) {
 			addButton(i, statusNames[i][1], alterBindScrollToggle, statusNames[i][0]);
@@ -3222,7 +3226,7 @@ public class Camp extends NPCAwareContent{
 		FormCloneText();
 		outputText("You share a grin now that the process is successful. Your quest remains to be completed, but now you have the power of "+NUMBER_WORDS_NORMAL[newClone+2]+".\n\n");
 		EngineCore.SoulforceChange(-player.maxSoulforce()*0.85);
-		HPChange(-(player.maxHP() * 0.85), true);
+		HPChange(-(player.maxHP() * 0.85), true, false);
 		player.negativeLevel += Soulforce.clonelevelcost;
 		doNext(camp.returnToCampUseEightHours);
 	}
@@ -3264,7 +3268,7 @@ public class Camp extends NPCAwareContent{
 				outputText("<b>Your clone is fully formed.</b>\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 				player.addNegativeLevels(30);
 			}
 			else if (player.statusEffectv3(StatusEffects.PCClone) == 2) {
@@ -3274,7 +3278,7 @@ public class Camp extends NPCAwareContent{
 				outputText("Fatigue steadily overwhelms you after expending such intense amounts of your life energy. You lie down and rest for an hour before you decide to resume.\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 			}
 			else {
 				outputText("Having recovered your spent life force and soul energy, you return to the halted ritual. Sitting before you is a slowly rotating basketball-sized sphere of soul and life essences. You start to focus on the next phase of clone formation.\n\n");
@@ -3284,7 +3288,7 @@ public class Camp extends NPCAwareContent{
 				outputText("After a couple of hours, you rise before leaving the half-finished creation in the corner of your [camp].\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 			}
 		}
 		else {
@@ -3293,7 +3297,7 @@ public class Camp extends NPCAwareContent{
 			outputText("The process is slow. While nourishing the core of the clone, you find yourself unable to expend any more of your life essence or risk being completely drained of soul essence.\n\n");
 			player.createStatusEffect(StatusEffects.PCClone, 0, 0, 1, 0);
 			EngineCore.SoulforceChange(-(player.maxSoulforce()));
-			HPChange(-(player.maxHP() * 0.5), true);
+			HPChange(-(player.maxHP() * 0.5), true, false);
 		}
 		doNext(camp.returnToCampUseEightHours);
 	}
@@ -3814,7 +3818,7 @@ public class Camp extends NPCAwareContent{
 			var hpBefore:int = player.HP;
 			timeQ = waitingORresting;
 			//THIS IS THE TEXT AREA FOR NOCTURNAL
-			HPChange(hpTime * hpRecovery * multiplier, false);
+			HPChange(hpTime * hpRecovery * multiplier, false, false);
 			fatigue(timeQ * -fatRecovery * multiplier);
 
 			if (flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && !ingnam.inIngnam) {
@@ -4256,7 +4260,7 @@ public class Camp extends NPCAwareContent{
 					"\"<i>Good night.</i>\"\n\n");
 		}
 		//REGULAR HP/FATIGUE RECOVERY
-		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display);
+		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display, false);
 		//fatigue
 		fatigue(-(timeQ * fatRecovery * multiplier));
 		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 4 && flags[kFLAGS.LUNA_MOON_CYCLE] == 8 && (player.statStore.hasBuff("Weakened") || player.statStore.hasBuff("Drained") || player.statStore.hasBuff("Damaged"))) {
@@ -5372,6 +5376,7 @@ public function rebirthFromBadEnd():void {
 		if (player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) pop += LunaFollower.WerewolfPackMember;
 		if (player.isRaceCached(Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && player.hasMutation(IMutationsLib.HellhoundFireBallsIM)) pop += LunaFollower.HellhoundPackMember;
 		if (player.hasPerk(PerkLib.MummyLord)) pop += player.perkv1(PerkLib.MummyLord);
+		if (player.hasPerk(PerkLib.UndeadLord)) pop += player.perkv1(PerkLib.UndeadLord);
 		//------------
 		//Children check!
 		//Followers

@@ -356,8 +356,11 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					if (player.armor == armors.HBARMOR) {
 						drainAmt += 180;
 						if (player.vehicles == vehicles.HB_MECH) {
-							/*if (upgrade 1) drainAmt += ?40?;
-							else */drainAmt += 60;
+							if (player.hasKeyItem("HB Internal Systems") >= 0) {
+								if (player.keyItemvX("HB Internal Systems", 1) == 2) drainAmt += 40;
+								else drainAmt += 50;
+							}
+							else drainAmt += 60;
 						}
 					}
 					if (player.hasPerk(PerkLib.ConductionSoulforceCharge) && player.soulforce >= drainAmt) EngineCore.SoulforceChange(-drainAmt);
@@ -1612,7 +1615,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				player.unequipNecklace(false, true);
 				needNext = true;
 			}
-			if (player.necklace == necklaces.SILCNEC && player.blockingBodyTransformations()) {
+			if (player.necklace == necklaces.SILCNEC && (player.blockingBodyTransformations() || flags[kFLAGS.IN_INGNAM])) {
 				outputText("The silver necklace suddenly begins to heat up before turning to dust." + (player.hasStatusEffect(StatusEffects.MeetXuviel)?" It would seem you are free of Xuviel’s cursed necklace, which in itself is a good thing.":"") + "");
 				player.unequipNecklace(false, true);
 				needNext = true;
@@ -1784,7 +1787,7 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				if (player.hunger < player.maxHunger()) {
 					player.refillHunger(10, false);
 				}
-				EngineCore.HPChange(100 + (player.tou*2), true);
+				EngineCore.HPChange(100 + (player.tou*2), true, false);
 				EngineCore.ManaChange(100 + (player.inte*2));
 				EngineCore.changeFatigue(-(100 + (player.spe*2)));
 				EngineCore.SoulforceChange(500 + (player.wis*2));

@@ -584,9 +584,9 @@ import coc.xxc.StoryContext;
 			return EngineCore.silly();
 		}
 
-		protected function HPChange(changeNum:Number,display:Boolean):void
+		protected function HPChange(changeNum:Number,display:Boolean, stillness:Boolean):void
 		{
-			EngineCore.HPChange(changeNum,display);
+			EngineCore.HPChange(changeNum,display,stillness);
 		}
 
 		// For fatigue(mod,type) calls

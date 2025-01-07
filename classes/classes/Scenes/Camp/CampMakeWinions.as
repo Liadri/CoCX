@@ -2541,7 +2541,7 @@ public class CampMakeWinions extends BaseContent
 			outputText("\"<i>Someday you will attempt this ritual again, and when you do, I will-...</i>\"");
 			outputText("Its final curse is silenced as its power is sealed once more, reducing it back to its former size. \"<b>Well, this ritual is a failure. You'll have to try again once you've gained better control.</b>\"");
 			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeSu) && elecostr) player.addStatusValue(StatusEffects.ElementalEnergyConduits,1,+(elecost*0.5));
-			HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true);
+			HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true, false);
 		}
 		private function failToRankUpHPCost():Number {
 			var failure:Number = 0.5;
@@ -2575,7 +2575,7 @@ public class CampMakeWinions extends BaseContent
 				outputText("You hit a rock back-first, and as you sit there, dazed, the figure of your epic air elemental lowers itself in front of you.\n\n");
 				outputText("\"<i>The storm seems to have failed to claim you. Good. Call upon the winds once more, once you have recovered.</i>\" Your epic air elemental fades from view, a light warm breeze blowing past your face.\n\n");
 				if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeSu)) player.addStatusValue(StatusEffects.ElementalEnergyConduits,1,+(player.statusEffectv2(StatusEffects.SummonedElementalsAirE) * 0.5 * rankUpElementalElementalEnergyCost()));
-				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true);
+				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true, false);
 			}
 			doNext(elementaLvlUpEpic);
 			advanceMinutes(45);
@@ -2606,7 +2606,7 @@ public class CampMakeWinions extends BaseContent
 				outputText("\"<i>Some sooner than most.</i>\" Your mountain caves inward, spikes of stone forming on the inside. You charge one side of your magic circle, and the thin spire of stone explodes outwards. Finally disrupted, the gemstones shatter, pelting you in painful shards. ");
 				outputText("As the dust settles, cuts on your [skin] gushing blood, your elemental frowns, shaking its head. \"<i>A disappointment, to be sure.</i>\"\n\n");
 				if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeSu)) player.addStatusValue(StatusEffects.ElementalEnergyConduits,1,+(player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) * 0.5 * rankUpElementalElementalEnergyCost()));
-				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true);
+				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true, false);
 			}
 			doNext(elementaLvlUpEpic);
 			advanceMinutes(45);
@@ -2638,7 +2638,7 @@ public class CampMakeWinions extends BaseContent
 				outputText("The flames roar, and your elemental winces, vanishing from the circle. You watch in horror as the flames roar out of control, consuming your runes, turning them black before they vanish. The lines of your magic circle whine, barely containing the raging inferno. You wince, enduring the flames as best you can, but before it dies down, you’ve taken a lot of damage.\n\n");
 				outputText("\"<i>...And it will consume those who underestimate its power. Perhaps another time, [master].</i>\"\n\n");
 				if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeSu)) player.addStatusValue(StatusEffects.ElementalEnergyConduits,1,+(player.statusEffectv2(StatusEffects.SummonedElementalsFireE) * 0.5 * rankUpElementalElementalEnergyCost()));
-				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true);
+				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true, false);
 			}
 			doNext(elementaLvlUpEpic);
 			advanceMinutes(45);
@@ -2668,7 +2668,7 @@ public class CampMakeWinions extends BaseContent
 				outputText("For what feels like hours, you sit in your circle, enduring the waves you unleashed until your power runes are spent.\n\n");
 				outputText("\"<i>...and wash away those foolish enough to think they can weather the storm.</i>\" Your epic water elemental stands. \"<i>A pity, that more of my power cannot be unleashed in this realm.</i>\"\n\n");
 				if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeSu)) player.addStatusValue(StatusEffects.ElementalEnergyConduits,1,+(player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) * 0.5 * rankUpElementalElementalEnergyCost()));
-				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true);
+				HPChange(-(Math.round(player.HP * failToRankUpHPCost())), true, false);
 			}
 			doNext(elementaLvlUpEpic);
 			advanceMinutes(45);

@@ -91,10 +91,11 @@ public class EngineCore {
      * @param    display Show the damage or heal taken.
      * @return  effective delta
      */
-    public static function HPChange(changeNum:Number, display:Boolean):Number {
+    public static function HPChange(changeNum:Number, display:Boolean, stillness:Boolean):Number {
         var before:Number = CoC.instance.player.HP;
 		var healingFromHealer:Number = 1;
         if (changeNum == 0) return 0;
+		if (changeNum > 0 && CoC.instance.player.HP >= maxOverHPCW() && !stillness) changeNum = 0; 
         if (changeNum > 0) {
 			//Increase by 20%!
             if (CoC.instance.player.hasPerk(PerkLib.HistoryHealer) || CoC.instance.player.hasPerk(PerkLib.PastLifeHealer)) {
@@ -109,13 +110,15 @@ public class EngineCore {
 				changeNum *= healingFromHealer;
                 changeNum = Math.min(changeNum, int.MAX_VALUE)
 			}
-            if (Math.min(CoC.instance.player.HP + changeNum, int.MAX_VALUE) > maxOverHPCW()) {
-                if (CoC.instance.player.HP >= maxOverHPCW()) {
-                    if (display) HPChangeNotify(changeNum);
-                    return CoC.instance.player.HP - before;
-                }
-                if (display) HPChangeNotify(changeNum);
-                CoC.instance.player.HP = maxOverHPCW();
+			var maximus:Number = maxOverHPCW();
+			if (stillness) maximus = Math.round(maximus * (1 + (0.15 * (CoC.instance.player.perkv1(IMutationsLib.StillHeartIM) - 1))));
+            if (Math.min(CoC.instance.player.HP + changeNum, int.MAX_VALUE) > maximus) {
+                if (CoC.instance.player.HP >= maximus) {
+					if (display) HPChangeNotify(changeNum);
+					return CoC.instance.player.HP - before;
+				}
+				if (display) HPChangeNotify(changeNum);
+				CoC.instance.player.HP = maximus;
             }
             else {
                 if (display) HPChangeNotify(changeNum);
@@ -186,7 +189,7 @@ public class EngineCore {
         } else {
             if (CoC.instance.player.mana + changeNum <= 0) CoC.instance.player.mana = 0;
             else CoC.instance.player.mana += changeNum;
-            if (CoC.instance.player.perkv1(IMutationsLib.ElvishPeripheralNervSysIM) >= 3) HPChange(-changeNum, false);
+            if (CoC.instance.player.perkv1(IMutationsLib.ElvishPeripheralNervSysIM) >= 3) HPChange(-changeNum, false, false);
         }
         CoC.instance.player.dynStats("lust", 0, "scale", false) //Workaround to showing the arrow.
         statScreenRefresh();

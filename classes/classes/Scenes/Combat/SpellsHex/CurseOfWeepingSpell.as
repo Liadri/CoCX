@@ -104,7 +104,7 @@ public class CurseOfWeepingSpell extends AbstractHexSpell {
 			if (display) {
 				outputText("You cut deep into your arm, drawing plenty of your blood and letting it flow in a large pattern on the ground as you hex your target with a powerful malediction, causing it to bleed from every orifice. [Themonster] screams in pain, unable to stop the blood flow. ");
 			}
-			HPChange(-hpCost(), false);
+			HPChange(-hpCost(), false, false);
 			var CurseOfWeepingMod:Number = calcDamage(monster, true, true);
 			monster.createStatusEffect(StatusEffects.CurseOfWeeping, calcDuration(), CurseOfWeepingMod, 0, 0);
 			doDamage(CurseOfWeepingMod, true, true);
