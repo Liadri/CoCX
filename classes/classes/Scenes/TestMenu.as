@@ -42,6 +42,7 @@ import classes.Scenes.Dungeons.Factory.OmnibusOverseer;
 import classes.Scenes.Dungeons.DemonLab.Incels;
 import classes.Scenes.Dungeons.EbonLabyrinth.Draculina;
 import classes.Stats.Buff;
+import classes.Scenes.Places.RuinedTownRebuilt;
 
 import coc.view.ButtonDataList;
 
@@ -170,6 +171,7 @@ public class TestMenu extends BaseContent
 		flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] = 0;
 		flags[kFLAGS.AMILY_FOLLOWER] = 1;
 		flags[kFLAGS.AMILY_WARNING] = 0;
+		RuinedTownRebuilt.RebuildState = 0;
 		flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] = 1;
 		doNext(SoulforceCheats);
 	}

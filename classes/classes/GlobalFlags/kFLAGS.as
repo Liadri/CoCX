@@ -2233,7 +2233,7 @@ public static const ERLKING_CANE_ATTACK_COUNTER:int                             
 public static const KIHA_DESTROYING_CORRUPTED_GLADES:int                            = 2225; //1 if Kiha is currently destroying corrupted glades.
 public static const AMILY_DESTROYING_CORRUPTED_GLADES:int                           = 2226; //1 if Amily is currently destroying corrupted glades.
 public static const BIMBO_LIQUEUR_STASH_COUNTER_FOR_JOJO:int                        = 2227; //How long Bimbo Liqueur has been in stash since Jojo joined.
-public static const JOJO_BIMBO_STATE:int                                            = 2228; //Here comes the choice. 1 means Jojo warned about thief. 2 means prompt to catch thief is chosen, leads to bimbofication. 3 means Jojo is bimbo.
+public static const JOJO_BIMBO_STATE:int                                            = 2228; //Here comes the choice. 1 means Jojo warned about thief. 2 means prompt to catch thief is chosen, leads to bimbofication. 3 means Jojo is bimbo, 4 means he's been turned back. 5 means he's Debimboed Joy (NYI)
 public static const JOY_COCK_SIZE:int                                               = 2229; //Jojo is bimbofied, turns into Joy.
 public static const JOY_BREAST_SIZE:int                                             = 2230; //Joy's cock size. 0 means no cock and that means you're a bastard for removing her cock.
 public static const JOY_VAGINAL_WETNESS:int                                         = 2231; //Joy's breast size.

@@ -38,6 +38,7 @@ import classes.Stats.StatStore;
 import classes.internals.Utils;
 import classes.lists.BreastCup;
 import classes.lists.Gender;
+import classes.Scenes.Places.DomsDomain;
 
 import flash.errors.IllegalOperationError;
 import classes.Scenes.Combat.CombatAbilities;
@@ -2781,6 +2782,9 @@ public class Creature extends Utils
 				percent += (jewelryEffectMagnitude / 100);
 			if (hasPerk(PerkLib.AscensionVirility))
 				percent += perkv1(PerkLib.AscensionVirility) * 0.05;
+			if (DomsDomain.SteakEaten > 0) {
+				percent += (0.5 * (DomsDomain.SteakEaten));
+			}
 			if (percent > 1)
 				percent = 1;
 			if (percent < 0)
@@ -3656,6 +3660,9 @@ public class Creature extends Utils
 				counter += 30;
 			if (hasPerk(PerkLib.MagicalFertility))
 				counter += 10 + (perkv1(PerkLib.MagicalFertility) * 5);
+			if (DomsDomain.FishEaten > 0) {
+				counter += ((DomsDomain.FishEaten) * 2);
+			}
 			if (perkv1(IMutationsLib.GoblinOvariesIM) >= 1)
 				counter += (10 * perkv1(IMutationsLib.GoblinOvariesIM));
 			if (perkv1(IMutationsLib.FiendishOvariesIM) >= 1)
