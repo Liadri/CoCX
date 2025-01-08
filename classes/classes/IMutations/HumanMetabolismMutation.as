@@ -26,14 +26,17 @@ public class HumanMetabolismMutation extends IMutationPerkType
             if (pTier >= 1){
                 descS += "("+pTier+"0% chance to instantly remove some toxic substances from your body, -"+pTier+"% of lust";
             }
-			if (pTier >= 3) descS += " / -1% of fatigue";
+			if (pTier >= 3) descS += " / -"+(pTier-2)+"% of fatigue";
             if (pTier >= 1){
                 descS += " per turn";
             }
-			if (pTier == 1) descS += ")";
-            if (pTier >= 2){
-                descS += ", 2x shorter elemental dot effects duration)";
+			if (pTier >= 2){
+                descS += ", 2x shorter elemental dot effects duration";
             }
+            if (pTier >= 4){
+                descS += ", +20% to max overfatigue, when above 50% of max Fatigue recovery provided by Human Metabolism is 2x";
+            }
+            if (pTier >= 1) descS += ")";
             if (descS != "")descS += ".";
             return descS;
         }
@@ -71,7 +74,7 @@ public class HumanMetabolismMutation extends IMutationPerkType
 
         public function HumanMetabolismMutation() 
 		{
-			super(mName + " IM", mName, SLOT_METABOLISM, 3);
+			super(mName + " IM", mName, SLOT_METABOLISM, 4);
 		}
 		
 	}

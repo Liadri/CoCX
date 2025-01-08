@@ -851,7 +851,10 @@ public class Combat extends BaseContent {
 			if (player.hasPerk(PerkLib.ImprovedGrapple)) flags[kFLAGS.IN_COMBAT_BETTER_GRAPPLE] = 0;
 			if (player.armor == armors.BMARMOR) dynStats("lus", -(Math.round(player.maxLust() * 0.05)));
 			if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 1) dynStats("lus", -(Math.round(player.maxLust() * 0.01 * player.perkv1(IMutationsLib.HumanMetabolismIM))));
-			if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 3) EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.01)));
+			if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 3) {
+				if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 4 && player.fatigue100 >= 50) EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.02 * (player.perkv1(IMutationsLib.HumanMetabolismIM) - 2))));
+				else EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.01 * (player.perkv1(IMutationsLib.HumanMetabolismIM) - 2))));
+			}
 			if (player.perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) dynStats("lus", -(Math.round(player.maxLust() * 0.01)));
 			if (player.hasStatusEffect(StatusEffects.TyrantState)) dynStats("lus", (Math.round(player.maxLust() * 0.05)));
 			if (player.hasStatusEffect(StatusEffects.VampThirstStacksHPMana)) player.removeStatusEffect(StatusEffects.VampThirstStacksHPMana);
@@ -18850,4 +18853,4 @@ private function touSpeStrScale(stat:int):Number {
         return player.hasStatusEffect(StatusEffects.UnderwaterCombatBoost) || player.hasStatusEffect(StatusEffects.NearWater) || explorer.areaTags.water;
     }
 }
-}
+}

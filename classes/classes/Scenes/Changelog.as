@@ -240,6 +240,8 @@ public class Changelog extends BaseContent
 			outputText("-New tier 19 misc lvl-up perk: Limit Breaker: Flesh (3rd stage). Req. Limit Breaker: Heart (3rd stage) perk. Effect: +30% Str, Tou, Spe multi.\n");
 			outputText("-New tier 20 misc lvl-up perk: Limit Breaker: Psyche (3rd stage). Req. Limit Breaker: Flesh (3rd stage) perk. Effect: +30% Int, Wis, Lib multi.\n");
 			outputText("-New tier 21 misc lvl-up perk: Limit Breaker: Soul (3rd stage). Req. Limit Breaker: Psyche (3rd stage) perk. Effect: +15% max Mana and Soulforce.\n");
+			outputText("-New mutation perk: Human Metabolism (Final Form). Req. Human Metabolism (Evolved) and lvl 90+. Effects: Your metabolism changes allowing to slowly detoxification of poisons or slight faster fatigue recovery (40% chance to instantly remove some of toxic substance from body, -4% of lust / -2% of fatigue per turn, 2x shorter elemental dot effects duration,");
+			outputText(" +20% to max overfatigue, when above 50% of max Fatigue recovery provided by Human Metabolism is 2x)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -254,9 +256,7 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");//New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: 
-			outputText("-\n");//New mutation perk: Human Metabolism (Final Form). Req. Human Metabolism (Evolved) and lvl 90+. Effects: 
+			outputText("-\n");//New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+60%). Increase limit when PC gain weight from eating too much by 45. Can slowly remove harmfull substances (-1% of lust per turn)
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -264,9 +264,10 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
-			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
 			outputText("-\n");//Motivation (Su) now req. additionally Advanced Leadership perk
@@ -280,6 +281,9 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
 			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
 			outputText("-\n");
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
+			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -372,10 +376,8 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -416,7 +418,6 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
-			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
