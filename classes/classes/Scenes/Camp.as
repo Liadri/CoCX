@@ -8,6 +8,7 @@ import classes.IMutations.IMutationsLib;
 import classes.Items.*;
 import classes.Scenes.Camp.*;
 import classes.Scenes.NPCs.*;
+import classes.Scenes.Places.DomsDomain;
 import classes.Scenes.Places.HeXinDao.AdventurerGuild;
 import classes.Scenes.Places.Mindbreaker;
 import classes.Scenes.Places.RuinedTownRebuilt;
@@ -4433,9 +4434,16 @@ public class Camp extends NPCAwareContent{
 		bd.add("Lumi's Lab", SceneLib.lumi.lumiEncounter)
 				.hint("Visit Lumi's laboratory.")
 				.disableIf(flags[kFLAGS.LUMI_MET] <= 0, "Explore the realm.", null, "???");
-		bd.add("Town Ruins", SceneLib.amilyScene.exploreVillageRuin)
-				.hint("Visit the village ruins. \n\nRecommended level: 17")
-				.disableIf(!flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE], "Search the lake.", null, "???");
+		if (RuinedTownRebuilt.RebuildState !=3) {
+			bd.add("Town Ruins", SceneLib.amilyScene.exploreVillageRuin)
+					.hint("Visit the village ruins. \n\nRecommended level: 17")
+					.disableIf(!flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE], "Search the lake.", null, "???");
+		}
+		if (RuinedTownRebuilt.RebuildState ==3) {
+			bd.add("Mouse Town", SceneLib.ruinedTown.enterVillage)
+					.hint("Visit the town your mousey children built")
+					.disableIf(!flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE], "Search the lake.", null, "???");
+		}
 		bd.add("Farm", SceneLib.farm.farmExploreEncounter)
 				.hint("Visit Whitney's farm.")
 				.disableIf(!farmFound(), "Search the lake.", null, "???");
@@ -4517,10 +4525,17 @@ public class Camp extends NPCAwareContent{
 						+ (flags[kFLAGS.DEFEATED_ZETAZ] > 0 ? "\n\nYou've defeated Zetaz, your old rival." : "")
 						+ (SceneLib.dungeons.checkDeepCaveClear() ? "\n\nCLEARED!" : ""))
 				.disableIf(flags[kFLAGS.DISCOVERED_DUNGEON_2_ZETAZ] <= 0, "???", null, "???");
-		bd.add("Demon Laboratory", SceneLib.dungeons.demonLab.EnteringDungeon)
-				.hint("Visit the demon laboratory in the mountains."
-						+ (SceneLib.dungeons.checkDemonLaboratoryClear() ? "\n\nYou have destroyed that laboratory and put an end to the demonic experiments. You're one step closer to defeating Lethice!\n\nCLEARED!" : ""))
-				.disableIf(flags[kFLAGS.DEMON_LABORATORY_DISCOVERED] <= 0, "???", null, "???");
+		if (!DomsDomain.domenabled) {
+			bd.add("Demon Laboratory", SceneLib.dungeons.demonLab.EnteringDungeon)
+					.hint("Visit the demon laboratory in the mountains."
+							+ (SceneLib.dungeons.checkDemonLaboratoryClear() ? "\n\nYou have destroyed that laboratory and put an end to the demonic experiments. You're one step closer to defeating Lethice!\n\nCLEARED!" : ""))
+					.disableIf(flags[kFLAGS.DEMON_LABORATORY_DISCOVERED] <= 0, "???", null, "???");
+		}
+		if (DomsDomain.domenabled) {
+			bd.add("Dom's Domain", SceneLib.domsdomain.EnterTheDomain)
+					.hint("Visit the Dom's Domain"
+							+ (SceneLib.dungeons.checkDemonLaboratoryClear() ? "\n\nFollowing the pleas of your slave, Ceraph, you've allowed her to convert the old demonic labs into a pleasure den. What level of debauchery are you in the mood for? \n\n" : ""))
+		}
 		bd.add("Stronghold", SceneLib.d3.enterD3)
 				.hint("Visit the stronghold in the high mountains that belongs to Lethice, the demon queen."
 						+ ((flags[kFLAGS.LETHICE_DEFEATED] > 0) ? "\n\nYou have slain Lethice and put an end to the demonic threats. Congratulations, you've beaten the main story!" : "")
