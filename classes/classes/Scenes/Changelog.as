@@ -33,6 +33,18 @@ public class Changelog extends BaseContent
 			clearOutput();
 			outputText("(Part 4/4) <b>Version 0.9a:</b>\n\n");
 			//0 of 11 pages
+			outputText("-Minor adjustion of soulskill damage calculations.\n");
+			outputText("-Default firearms dmg calculation from weapon atk increased (2x > 10x) and scaling off wis/int/spe (instead of core values to use scaling functions).\n");
+			outputText("-Changed order of discovered areas with Lake been first founded then Forest (O).\n");
+			outputText("-Equine Strength perk can be gained by Laquine PC.\n");
+			outputText("-Ayo Armor Proficiency perk req. of Heavy Armor Proficiency was changed to Job: Artificer perk and it desc was slight changed to account for damage reduction depending on whenever armor is powered up or not (10% when unpowered and 20% when powered).\n");
+			outputText("-Job: All-Rounder req. for sensitivity was increased from 50 to 75 like other stats.\n");
+			outputText("-Sceptre of Command and Yogi Uh Panel items effect will affect tamed monsters too.\n");
+			outputText("-Rathazul would now be giving offer to recruit him to camp each day in case of rejecting on previous day.\n");
+			outputText("-'Go Demon' option in Factory changed to be no longer bad end. As the scene describe PC turns into True Dmeon. But we all know now that is not game over... right? So along other existing methods it will be ANOTHER way to go true demon PC mode. Naturaly if PC is already soulless when meeting succubus he can't take her 'Go Demon' offer.\n");
+			outputText("-Arigean arms and tails would count as natural weapons. Tails would do bite and slam attack(s).\n");
+			outputText("-Remove Balls option in metamorph would remove trap/uniball effect too.\n");
+			outputText("-Fantasize command was scaling too well from base tease damage so now it would be scaling off PC max lust bar (base lust taken will be now 5% of max lust bar). Would make loosing from lust by using that option less likely when using lust/tease focused build.\n");
 			outputText("-Drider-Weave Sheer Robe was given Revealing tag. Chicke Harpy tooltip/hint was updated to point to correct mountains part.\n");
 			outputText("-Added option to disable Ceraph and Tamani like few other npc's.\n");
 			outputText("-Lower body for wereshark race been made mandatory for them (aka giving -1000 penatly if pc not have it).\n");
@@ -159,8 +171,6 @@ public class Changelog extends BaseContent
 			outputText("-New tier 9 misc lvl-up perk: Utility Skills: Professional. Req. Utility Skills: Skilled & any non combat skill at lvl 10. Effect: Increasing mastery gains in non-combat skills by 400% of base and decreasing a bit req. exp to level up.\n");
 			outputText("-New tier 9 misc lvl-up perk: All-Rounder Education ( Grand Master ). Req. All-Rounder Education ( Master ) perk. Effect: Limit of advanced job you can learn is increased by 3.\n");
 			outputText("-New tier 12 misc lvl-up perk: Utility Skills: Artisan. Req. Utility Skills: Professional & any non combat skill at lvl 13. Effect: Increasing mastery gains in non-combat skills by 500% of base and decreasing a bit req. exp to level up.\n");
-			outputText("-New mutation perk: Human Digestive Tract (Evolved). Req. Human Digestive Tract (Primitive) and lvl 60+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+60%). Increase limit when PC gain weight from eating too much by 45. Can slowly remove harmfull substances (-1% of lust per turn)\n");
-			outputText("-New mutation perk: Human Metabolism (Evolved). Req. Human Metabolism (Primitive) and lvl 60+. Effects: Your metabolism changes allowing to slowly detoxification of poisons or slight faster fatigue recovery (30% chance to instantly remove some of toxic substance from body, -3% of lust / -1% of fatigue per turn, 2x shorter elemental dot effects duration)\n");
 			outputText("-Areas and Places with enemies to fight have their general levels and stats increased. Areas/Places adjusted (new lvl range of enemies): Lake (3-10), Boat (15-29), Forest (O)(8-16), Forest (I)(19-27), Deepwoods (32-52), Desert (O)(13-20), Desert (I)(25-39), Battlefield (B)(18-41), Battlefield (O)(36-65), Hills (23-30), Low Mountains (35-49), Mountains (54-74), High Mountains (79-104), ");
 			outputText("Plains (28-37), Swamp (33-43), Bog (48-64)\n");
 			outputText("-14 new achievments. (12 shadow ones)\n");
@@ -240,18 +250,14 @@ public class Changelog extends BaseContent
 			outputText("-New tier 19 misc lvl-up perk: Limit Breaker: Flesh (3rd stage). Req. Limit Breaker: Heart (3rd stage) perk. Effect: +30% Str, Tou, Spe multi.\n");
 			outputText("-New tier 20 misc lvl-up perk: Limit Breaker: Psyche (3rd stage). Req. Limit Breaker: Flesh (3rd stage) perk. Effect: +30% Int, Wis, Lib multi.\n");
 			outputText("-New tier 21 misc lvl-up perk: Limit Breaker: Soul (3rd stage). Req. Limit Breaker: Psyche (3rd stage) perk. Effect: +15% max Mana and Soulforce.\n");
-			outputText("-New mutation perk: Human Metabolism (Final Form). Req. Human Metabolism (Evolved) and lvl 90+. Effects: Your metabolism changes allowing to slowly detoxification of poisons or slight faster fatigue recovery (40% chance to instantly remove some of toxic substance from body, -4% of lust / -2% of fatigue per turn, 2x shorter elemental dot effects duration,");
-			outputText(" +20% to max overfatigue, when above 50% of max Fatigue recovery provided by Human Metabolism is 2x)\n");
-			outputText("-New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+100%). Increase limit when PC gain weight from eating too much by 70+10% of max hunger. ");
-			outputText("Can slowly remove harmfull substances (-2% of lust per turn) and provide minor resistance to poisonous food (+20% poison resistance)\n");
 			outputText("-Thief enemy in Ignam was renamed (totaly not degraded) into Thief Associate. Also he no longer play with dagger and just use knife as it was intended. Exploration in Ignam if not founded any enemy would only take 5 min instead of 15. ");
 			outputText("And chance to find enemy would change from default 25% to instead increase with PC level from 50% below lvl 3 to 100% at lvl 9+ (been famous and strong would easier attract all the shady people).\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-Passive ability: Manaforce - req. to be Lich. Effect: Effects that restores mana also restores soulforce.\n");
+			outputText("-New option in camp actions menu: Phylactery Enchantment - req. to be Lich. You can weave a minor enchantment on your phylactery to gain a minor power. You start with two runes. Every 50 level you may add one extra rune to your phylactery.\n");
+			outputText("-New option in Phylactery Enchantment: Arcane rune Imbuement -> Recover mana 100% faster.\n");//5
+			outputText("-New option in Phylactery Enchantment: Mind rune Imbuement -> Add half your intelligence to your libido score.\n");//8
+			outputText("-New option in Phylactery Enchantment: Soul rune Imbuement -> Add half your wisdom to your libido score.\n");//9
+			outputText("-New option in Phylactery Enchantment: Body rune Imbuement -> Add half your libido to your strength and speed score.\n");//10
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -470,6 +476,13 @@ public class Changelog extends BaseContent
 		private function Changelog55():void {
 			clearOutput();
 			outputText("(Part 3/4) <b>Version 0.9a:</b>\n\n");
+			outputText("-New necklace (by Ormael): Skull Necklace - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(undead / others), +5% diehard for undead\n");
+			outputText("-New necklace (by Ormael): Tree of Life Necklace - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(others / undead), +5% diehard for living beings\n");
+			outputText("-New necklace (by Liadri): Silver cross necklace - obtained radomly after any defeat as herm / female OR bought from Giacomo. Cost 400 gems. Effect: +50% to tease and magical damage when used by PC with soulless perk.\n");
+			outputText("-New head jewelery/accesory/misc (by Ormael): Skull Crown - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(undead / others), +5% diehard for undead\n");
+			outputText("-New head jewelery/accesory/misc (by Ormael): Tree of Life Crown - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(others / undead), +5% diehard for living beings\n");
+			outputText("-New head jewelery/accesory/misc (by Liadri): Golden horn ornament - buyable at Kaiba shop in Tel'Adre or dropped from true demon enemies. Cost 400 gems. +25% to tease/black magic damage while worn. (req. to have demon horns)\n");
+			outputText("-New head jewelery/accesory/misc (by Liadri): Dragon Blood Helmet - buyable at Kaiba shop in Tel'Adre. Cost 400 gems. Reinforce all breath weapon Effect by 50%. Deals 20% more damage against dragons.\n");
 			outputText("-New flying sword: Moonlight Duo - combined from two Moonlight swords. Cost 160 spirit stones. Base atk is 16. It's classified as Small flying sword (set of 2). Increase chance of bleed effect by 15%. \n");
 			outputText("-New flying sword: Moonlight Quartet - combined from two Moonlight Duo sword sets. Cost 320 spirit stones. Base atk is 32. It's classified as Small flying sword (set of 4). Increase chance of bleed effect by 15%.\n");
 			outputText("-New TF item (by Pyromania): Troll Fig. Dropped by Corrupted Troll enemies. Using this item will turn PC into troll. Troll bonuses at 10 pts in racial score (scalable): +30% to Str multi, +30% to Tou multi, +20% to Spr multi, +20% to Int multi, +60% to Wis multi, +20 to max tone cap, +50 to max satiety.\n");
@@ -514,7 +527,7 @@ public class Changelog extends BaseContent
 			outputText("-Tamani daughters & Minotaur Sons can now level-up (their lvl depends on how many of them are and separate lvl up counter so the max level isn't clearly defines but would be at least around 100/105 lvl). Like Tamani daughters now Minotaur sons would slowly die out when there is too many of them + added their count on children page right below Tamani daughters.\n");
 			outputText("-Tamani could level up (up to lvl 98). After first level up she would gain Elite type which would be upgraded to Champion type and then to Boss type.\n");
 			//HB mech upgrades
-			//new npc's lines: chary, minx
+			//new npc's lines: chary, minx 0/0 - 6/9
 			outputText("-Tyrantia training cap now is increased (30 > 40).\n");
 			outputText("-Constant Buildup - If you are in Rut or Heat, halve the lust DoT you take from it, and deal an additional 20% physical damage while under the effects. (35 training sessions)\n");
 			outputText("-Ascension: Trancendental Genetic Memory perk can attain 2 more ranks for even more slots to perm metamorph options.\n");
@@ -578,18 +591,6 @@ public class Changelog extends BaseContent
 			outputText("-Added option to back from boss room in Ebon Labyrinth if it contain Draculina boss. That choice will only appear if the PC does not meet all requirements to avoid an instant bad end and therefore not have any way to deal with her most annoying (by majority consensus) ability.\n");
 			outputText("-During Draculina boss fight been able to use Sunrise soulskill or use foxflame pelt would help to counter her Darkness move (like spell Blind can do already).\n");
 			outputText("-Foxflame Pelt special effect minor change when having 9 cinder tails: cost of use or maintain is halved, speed boost is doubled, can fly (similar to using only SF and would cost SF and Mana per turn needed to sustain foxflame pelt).\n");
-			outputText("-Minor adjustion of soulskill damage calculations.\n");
-			outputText("-Default firearms dmg calculation from weapon atk increased (2x > 10x) and scaling off wis/int/spe (instead of core values to use scaling functions).\n");
-			outputText("-Changed order of discovered areas with Lake been first founded then Forest (O).\n");
-			outputText("-Equine Strength perk can be gained by Laquine PC.\n");
-			outputText("-Ayo Armor Proficiency perk req. of Heavy Armor Proficiency was changed to Job: Artificer perk and it desc was slight changed to account for damage reduction depending on whenever armor is powered up or not (10% when unpowered and 20% when powered).\n");
-			outputText("-Job: All-Rounder req. for sensitivity was increased from 50 to 75 like other stats.\n");
-			outputText("-Sceptre of Command and Yogi Uh Panel items effect will affect tamed monsters too.\n");
-			outputText("-Rathazul would now be giving offer to recruit him to camp each day in case of rejecting on previous day.\n");
-			outputText("-'Go Demon' option in Factory changed to be no longer bad end. As the scene describe PC turns into True Dmeon. But we all know now that is not game over... right? So along other existing methods it will be ANOTHER way to go true demon PC mode. Naturaly if PC is already soulless when meeting succubus he can't take her 'Go Demon' offer.\n");
-			outputText("-Arigean arms and tails would count as natural weapons. Tails would do bite and slam attack(s).\n");
-			outputText("-Remove Balls option in metamorph would remove trap/uniball effect too.\n");
-			outputText("-Fantasize command was scaling too well from base tease damage so now it would be scaling off PC max lust bar (base lust taken will be now 5% of max lust bar). Would make loosing from lust by using that option less likely when using lust/tease focused build.\n");
 			menu();
 			addButton(0, "Next", Changelog54);
 			addButton(1, "Back", CoC.instance.mainMenu.mainMenu);
@@ -606,6 +607,8 @@ public class Changelog extends BaseContent
 			outputText("Gain immunity to all fluid negative effects and allow you to feed from sexual fluids. Satisfying your crave for sex also raises your spell power for an amount equivalent to the tease damage bonus granted by this mutation.\n");
 			outputText("-New mutation perk: Fiendish Ovaries (Evolved). Req. Fiendish Ovaries (Primitive) and lvl 60+. Effects: Increase Fertility by 80%, all born children from your womb will either be born as imps or greatly corrupted, while pregnant with imps tease is 25% stronger.\n");
 			outputText("-New mutation perk: Goblin Ovaries (Evolved). Req. Goblin Ovaries (Primitive) and lvl 60+. Effects: Increase fertility rating by 30, While pregnant increase total libido by 30%. Double the number of kids you birth. Increase physical damage done while pregnant by 40%. Lust damage against male opponents increased by 25%.\n");
+			outputText("-New mutation perk: Human Digestive Tract (Evolved). Req. Human Digestive Tract (Primitive) and lvl 60+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+60%). Increase limit when PC gain weight from eating too much by 45. Can slowly remove harmfull substances (-1% of lust per turn)\n");
+			outputText("-New mutation perk: Human Metabolism (Evolved). Req. Human Metabolism (Primitive) and lvl 60+. Effects: Your metabolism changes allowing to slowly detoxification of poisons or slight faster fatigue recovery (30% chance to instantly remove some of toxic substance from body, -3% of lust / -1% of fatigue per turn, 2x shorter elemental dot effects duration)\n");
 			outputText("-New mutation perk: Hydra Blood (Evolved). Req. Hydra Blood (Primitive) and lvl 60+. Effects: Improve existing Regeneration by 3% negated by fire damage and increase acid and poison effects by 75%. Your blood is ruinous and inflicts your fang venom when damaged.\n");
 			outputText("-New mutation perk: Mighty Legs (Evolved). Req. Mighty Legs (Primitive) and lvl 60+. Effects: Make Kick permanent no matter your leg type, Increase unarmed strike damage by 15 and grapple effect by 60%. Kick is 100% stronger. Kick stun lasts 1 round longer.\n");
 			outputText("-New mutation perk: Mighty Lower Half (Evolved). Req. Mighty Lower Half (Primitive) and lvl 60+. Effects: Tentacle and tail attack deals 75% more damage. Increase unarmed strike damage by 15 and grapple effect by 60%. Grapple damage gains 100% more bonus from your strength. Racial physical ability stun lasts 1 round longer.\n");
@@ -626,8 +629,12 @@ public class Changelog extends BaseContent
 			outputText("-New mutation perk: Hydra Blood (Final Form). Req. Hydra Blood (Evolved) and lvl 90+. Effects: Improve existing Regeneration by 4% negated by fire damage and increase acid and poison effects by 100%. Your blood is ruinous and inflicts your fang venom when damaged. Bite attacks deals 50% more damage.\n");
 			outputText("-New mutation perk: Human Bloodstream (Final Form). Req. Human Bloodstream (Evolved) and lvl 90+. Effects: Increases maximum base/core Spe/Lib by 20, maximum trainable Spe/Lib by 30%. Increase fatigue recovery (+15), wrath generation (+6) and +2 to fatigue recovery/wrath gains multiplier. +5% to max overfatigue/overwrath.\n");
 			outputText("-New mutation perk: Human Bones (Final Form). Req. Human Bones (Evolved) and lvl 90+. Effects: Increases maximum base/core Str/Tou by 20, maximum trainable Str/Tou by 30%. Increase effects of body cultivation by 150%. Increase p.soulskill power by 100% and +10% to max overhp.\n");
+			outputText("-New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+100%). Increase limit when PC gain weight from eating too much by 70+10% of max hunger. ");
+			outputText("Can slowly remove harmfull substances (-2% of lust per turn) and provide minor resistance to poisonous food (+20% poison resistance)\n");
 			outputText("-New mutation perk: Human Fat (Final Form). Req. Human Fat (Evolved) and lvl 90+. Effects: Your fat tissue increased again your natural toughness and thickness limit. Increases maximum base/core Tou by 10, +10% to max overfatigue, negate up to 3 points of internal chimera score. ");
 			outputText("Increased damage reduction against physical damage (+40% DR) & increase natural resistance to damage (+40 armor/m.res), increase max Hunger cap by 150 (if PC have Hunger bar active) (+90% of max core Tou as phantom Tou)\n");
+			outputText("-New mutation perk: Human Metabolism (Final Form). Req. Human Metabolism (Evolved) and lvl 90+. Effects: Your metabolism changes allowing to slowly detoxification of poisons or slight faster fatigue recovery (40% chance to instantly remove some of toxic substance from body, -4% of lust / -2% of fatigue per turn, 2x shorter elemental dot effects duration,");
+			outputText(" +20% to max overfatigue, when above 50% of max Fatigue recovery provided by Human Metabolism is 2x)\n");
 			outputText("-New mutation perk: Human Musculature (Final Form). Req. Human Musculature (Evolved) and lvl 90+. Effects: Your musculature increased again your natural strength and tone limit. Increases maximum base/core Str by 10, +10% to max overfatigue. Boost Warrior's Rage effect (+1 per 4 pts of core stat value) and duration by 5 turns. (+90%/+45% of max core Str/Spe as phantom Str/Spe)\n");
 			outputText("-New mutation perk: Human Parathyroid Glands (Final Form). Req. Human Parathyroid Glands (Evolved) and lvl 90+. Effects: Fatigue recovery increased and reduces the fatigue cost of physical specials by 40% and +2 to fatigue/soulforce/mana recovery multiplier when under 60% max HP. Reduce spells mana cost by 10%.\n");
 			outputText("-New mutation perk: Human Smarts (Final Form). Req. Human Smarts (Evolved) and lvl 90+. Effects: Increases maximum base/core Int/Wis by 20, maximum trainable Int/Wis cap by 30%. Gain soulforce recovery equal to 2% of your total soulforce and mana recovery increased by 1% of max mana, +5% to max overmana/oversoulforce. Increase m.soulskill power by 100%. Allow to use options requiring to have technical knowledge.\n");
@@ -681,13 +688,6 @@ public class Changelog extends BaseContent
 			outputText("-New range weapon (by Ormael): Nail Gun - buyable at Minx shop. Cost 150 spirit stones. Base atk is 15 and ammo clip size 10. It use Nails so without any of them can't be used. It have 25% chance to cause bleeding. Attacking flying enemies have 33% chance to force them to land for 3-4 turns, following up attacks have 33% chance to extend this duration by 2-3 turns.\n");
 			outputText("-New range weapon (by Ormael): Twin Nail Gun - can be gained by combining 2x Nail Gun weapon. Cost 300 spirit stones. Base atk is 15 and ammo clip size 20. It's Dual Firearm type range weapon that have all other properties of Nail Gun.\n");
 			outputText("-New legendary pure armor (Liadri): Spirit Flare Qipao - made from Blue/Green/Purple/Red Qipao. Increase fire damage from abilities by 200%. Increase unarmed strikes damage by 20%. When worn by a species with fire affinity stoke the inner fire granting 3% Regeneration. Misdirection.\n");
-			outputText("-New necklace (by Ormael): Skull Necklace - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(undead / others), +5% diehard for undead\n");
-			outputText("-New necklace (by Ormael): Tree of Life Necklace - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(others / undead), +5% diehard for living beings\n");
-			outputText("-New necklace (by Liadri): Silver cross necklace - obtained radomly after any defeat as herm / female OR bought from Giacomo. Cost 400 gems. Effect: +50% to tease and magical damage when used by PC with soulless perk.\n");
-			outputText("-New head jewelery/accesory/misc (by Ormael): Skull Crown - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(undead / others), +5% diehard for undead\n");
-			outputText("-New head jewelery/accesory/misc (by Ormael): Tree of Life Crown - buyable at Felix in Journey to the East inn. Cost 800 spirit stones. +2%(+4%)/-2%(-4%) HP regeneration (below 0 HP)(others / undead), +5% diehard for living beings\n");
-			outputText("-New head jewelery/accesory/misc (by Liadri): Golden horn ornament - buyable at Kaiba shop in Tel'Adre or dropped from true demon enemies. Cost 400 gems. +25% to tease/black magic damage while worn. (req. to have demon horns)\n");
-			outputText("-New head jewelery/accesory/misc (by Liadri): Dragon Blood Helmet - buyable at Kaiba shop in Tel'Adre. Cost 400 gems. Reinforce all breath weapon Effect by 50%. Deals 20% more damage against dragons.\n");
 			menu();
 			addButton(0, "Next", Changelog53);
 			addButton(1, "Back", CoC.instance.mainMenu.mainMenu);

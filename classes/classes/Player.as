@@ -6022,6 +6022,12 @@ use namespace CoC;
 				statStore.replaceBuffObject({'int.mult':(0.05 * smp),'wis.mult':(0.05 * smp),'lib.mult':(0.05 * smp)}, 'Strengthen magic', { text: 'Strengthen magic' });
 			}
 			if (statStore.hasBuff('Sagittarius Focus')) statStore.replaceBuffObject({"wis.mult":(0.01 * Math.round(lib/2)),"int.mult":(0.01 * Math.round(lib/2))}, 'Sagittarius Focus', { text: 'Sagittarius Focus' });
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment8)) statStore.replaceBuffObject({'lib.mult':Math.round(intStat.mult.value/2)}, 'Mind rune Imbuement', { text: 'Mind rune Imbuement' });
+			if (!hasStatusEffect(StatusEffects.PhylacteryEnchantment8) && statStore.hasBuff('Mind rune Imbuement')) statStore.removeBuffs('Mind rune Imbuement');
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment9)) statStore.replaceBuffObject({'lib.mult':Math.round(wisStat.mult.value/2)}, 'Soul rune Imbuement', { text: 'Soul rune Imbuement' });
+			if (!hasStatusEffect(StatusEffects.PhylacteryEnchantment9) && statStore.hasBuff('Soul rune Imbuement')) statStore.removeBuffs('Soul rune Imbuement');
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment10)) statStore.replaceBuffObject({'str.mult':Math.round(libStat.mult.value/2),'spe.mult':Math.round(libStat.mult.value/2)}, 'Body rune Imbuement', { text: 'Body rune Imbuement' });
+			if (!hasStatusEffect(StatusEffects.PhylacteryEnchantment10) && statStore.hasBuff('Body rune Imbuement')) statStore.removeBuffs('Body rune Imbuement');
 			var buffs:Object = calcRacialBuffs(true);
 			statStore.removeBuffs("Racials");
 			statStore.replaceBuffObject(buffs, "Racials", {text:"Racials"});

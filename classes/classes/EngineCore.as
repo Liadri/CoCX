@@ -186,6 +186,7 @@ public class EngineCore {
         if (changeNum > 0) {
             if (CoC.instance.player.mana + int(changeNum) > maxOverMana()) CoC.instance.player.mana = maxOverMana();
             else CoC.instance.player.mana += changeNum;
+			if (CoC.instance.player.racialScore(Races.LICH) >= 28) SoulforceChange(changeNum);
         } else {
             if (CoC.instance.player.mana + changeNum <= 0) CoC.instance.player.mana = 0;
             else CoC.instance.player.mana += changeNum;

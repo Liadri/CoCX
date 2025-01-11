@@ -1681,7 +1681,7 @@ public class Combat extends BaseContent {
 				flags[kFLAGS.MULTIPLE_ATTACKS_STYLE_OFF_HAND] = Math.min(maxCurrentAttacksOff(), (flags[kFLAGS.MULTIATTACK_STYLE_OFF] || 0) + 1);
 				if (player.statusEffectv1(StatusEffects.CounterAction) > 0)
 					flags[kFLAGS.MULTIPLE_ATTACKS_STYLE_OFF_HAND] += player.statusEffectv1(StatusEffects.CounterAction);
-				if (player.weapon.isLarge() || player.weapon.isMassive()) {
+				if (player.weaponOff.isLarge() || player.weaponOff.isMassive()) {
 					if( player.hasStatusEffect(StatusEffects.Berzerking) || player.hasStatusEffect(StatusEffects.Lustzerking) ){
 						if (player.hasPerk(PerkLib.FuelForTheFire)) flags[kFLAGS.MULTIPLE_ATTACKS_STYLE_OFF_HAND] += 1;
 						if (player.hasPerk(PerkLib.Anger) && (player.statusEffectv2(StatusEffects.Berzerking) >= 1 || player.statusEffectv2(StatusEffects.Lustzerking) >= 1)) {
@@ -13784,6 +13784,7 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
 		if (player.hasPerk(PerkLib.WellOfMana)) manaregen += Math.round(player.maxMana() * player.intStat.core.value * 0.001);
 		if (player.hasPerk(PerkLib.GreySageWisdom)) manaregen += Math.round(player.maxMana() * 0.005);
         if (player.countMiscJewelry(miscjewelries.DMAGETO) > 0) manaregen += Math.round(player.maxMana() * 0.02);
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment5)) manaregen *= 2;
         return manaregen;
     }
 

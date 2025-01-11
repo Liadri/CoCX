@@ -2278,6 +2278,8 @@ public class Camp extends NPCAwareContent{
 				.disableIf(!player.hasItem(bottles[i][0], 10) || !player.hasItem(useables.E_P_BOT, 1),
 					"You need an empty pill bottle and ten "+bottles[i][2]+"-grade soulforce recovery pills.");
 		}
+		if (player.racialScore(Races.LICH) >= 28) addButton(9, "Phylactery Enchantment", PhylacteryEnchantment).hint("You can weave a minor enchantment on your phylactery to gain a minor power.").disableIf(isNightTime, "It's too dark to modify your scroll.");
+		else addButtonDisabled(9, "Phylactery Enchantment", "Req. you to be a Lich.");
 		if (player.hasPerk(PerkLib.FclassHeavenTribulationSurvivor)) addButton(10, "Clone", CloneMenu).hint("Check on your clone(s).");
 		else addButtonDisabled(10, "Clone", "Would you kindly go face the F class Heaven Tribulation first?");
 		addButtonIfTrue(11, "Pocket Watch", mainPagePocketWatch, "Req. you to have the Pocket Watch key item.", player.hasKeyItem("Pocket Watch") >= 0);
@@ -3147,6 +3149,57 @@ public class Camp extends NPCAwareContent{
 		if (player.hasStatusEffect(status)) player.removeStatusEffect(status);
 		else player.createStatusEffect(status,0,0,0,0);
 		AlterBindScroll();
+	}
+	
+	private function PhylacteryEnchantment():void {
+		var statusNames:Array = [
+			[StatusEffects.PhylacteryEnchantment5, "Arcane rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment8, "Mind rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment9, "Soul rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment10, "Body rune Imbuement"],
+		];
+		var i:int;
+		clearOutput();
+		var limitOnAltering:Number = 2;
+		if (player.level >= 50) limitOnAltering += 1;
+		var currentAltering:Number = 0;
+		for (i = 0; i < statusNames.length; ++i) {
+			if (player.hasStatusEffect(statusNames[i][0])) ++currentAltering;
+		}
+		outputText("With enchantment you want to weave on your phylactery?\n\n");
+		outputText("Current active runes / Limit of active runes: "+currentAltering+" / "+limitOnAltering+"\n\n");
+		outputText("<u><b>Active runes:</b></u>\n");
+		for (i = 0; i < statusNames.length; ++i) {
+			if (player.hasStatusEffect(statusNames[i][0])) outputText("<b>- " + statusNames[i][1] + "</b>\n")
+		}
+		outputText("\n<u><b>Effects of each enchantment:</b></u>\n");
+		//1
+		//2
+		//3
+		//4
+		outputText("Arcane rune Imbuement -> <i>Recover mana 100% faster.</i>\n");
+		//6
+		//7
+		outputText("Mind rune Imbuement -> <i>Add half your intelligence to your libido score.</i>\n");
+		outputText("Soul rune Imbuement -> <i>Add half your wisdom to your libido score.</i>\n");
+		outputText("Body rune Imbuement -> <i>Add half your libido to your strength and speed score.</i>\n");
+		menu();
+		for (i = 0; i < statusNames.length; ++i) {
+			addButton(i, statusNames[i][1], phylacteryEnchantmentToggle, statusNames[i][0]);
+			if (player.hasStatusEffect(statusNames[i][0])) {
+				button(i).hint("You already have this rune active. Do you want to deactivate it?");
+			} else {
+				if (currentAltering < limitOnAltering) button(i).hint("You don't have this rune active. Do you want to weave it on the phylactery?");
+				else button(i).disable("You already have the maximum amount of runes active as you can maintain without breaking your phylactery.");
+			}
+		}
+		addButton(14, "Back", campMiscActions);
+	}
+
+	private function phylacteryEnchantmentToggle(status:StatusEffectType):void {
+		if (player.hasStatusEffect(status)) player.removeStatusEffect(status);
+		else player.createStatusEffect(status,0,0,0,0);
+		PhylacteryEnchantment();
 	}
 
 	private function fillUpPillBottle(pills:ItemType, result:ItemType, grade:String):void {
