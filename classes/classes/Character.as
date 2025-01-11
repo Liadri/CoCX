@@ -599,6 +599,7 @@ import classes.Scenes.NPCs.Forgefather;
 			if (hasPerk(PerkLib.MunchkinAtWork)) max2 += 0.1;
 			if (perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) max2 += 0.05;
 			if (perkv1(IMutationsLib.HumanFatIM) >= 4) max2 += 0.1;
+			if (perkv1(IMutationsLib.HumanMetabolismIM) >= 4) max2 += 0.2;
 			if (perkv1(IMutationsLib.HumanMusculatureIM) >= 4) max2 += 0.1;
 			max1 *= max2;//~140%
 			max1 = Math.round(max1);
