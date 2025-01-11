@@ -241,10 +241,10 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 			}
 			if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 1) dynStats("lus", -(Math.round(player.maxLust() * 0.01 * player.perkv1(IMutationsLib.HumanMetabolismIM))));
 			if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 3) {
-				if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 4 && player.fatigue100 >= 50) EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.02 * (player.perkv1(IMutationsLib.HumanMetabolismIM) - 2))));
-				else EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.01 * (player.perkv1(IMutationsLib.HumanMetabolismIM) - 2))));
+				if (player.perkv1(IMutationsLib.HumanMetabolismIM) >= 4 && player.fatigue100 >= 50) EngineCore.changeFatigue(-(Math.round(player.maxFatigue() * 0.02 * (player.perkv1(IMutationsLib.HumanMetabolismIM) - 2))));
+				else EngineCore.changeFatigue(-(Math.round(player.maxFatigue() * 0.01 * (player.perkv1(IMutationsLib.HumanMetabolismIM) - 2))));
 			}
-			if (player.perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) dynStats("lus", -(Math.round(player.maxLust() * 0.01)));
+			if (player.perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) dynStats("lus", -(Math.round(player.maxLust() * 0.01 * (player.perkv1(IMutationsLib.HumanDigestiveTractIM) - 2))));
 			//Jewelry effect
 			if (player.jewelryEffectId == JewelryLib.CORRUPTION) {
 				if (player.cor < 80) dynStats("cor", (player.jewelryEffectMagnitude/10));
@@ -3063,4 +3063,4 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 		//End of Interface Implementation
 	}
 }
-
+

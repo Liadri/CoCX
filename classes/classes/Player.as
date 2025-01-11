@@ -3778,6 +3778,7 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.VenomGlandsIM) >= 2) mult -= 5;
 			if (perkv1(IMutationsLib.VenomGlandsIM) >= 3) mult -= 10;
 			if (perkv1(IMutationsLib.VenomGlandsIM) >= 4) mult -= 15;
+			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 4) mult -= 20;
 			if (buff("LightBronzeBarMagicDefenseAndPoisonResistanceBuff").isPresent()) mult -= 40;
 			if (headjewelryEffectId == HeadJewelryLib.MODIFIER_POIS_R) mult -= headjewelryEffectMagnitude;
 			if (necklaceEffectId == NecklaceLib.MODIFIER_POIS_R) mult -= necklaceEffectMagnitude;
@@ -4614,10 +4615,10 @@ use namespace CoC;
 			if (hasMutation(IMutationsLib.HumanAdrenalGlandsIM)) internalHumanCounter += perkv1(IMutationsLib.HumanAdrenalGlandsIM);//4
 			if (hasMutation(IMutationsLib.HumanBloodstreamIM)) internalHumanCounter += perkv1(IMutationsLib.HumanBloodstreamIM);//4
 			if (hasMutation(IMutationsLib.HumanBonesIM)) internalHumanCounter += perkv1(IMutationsLib.HumanBonesIM);//4
-			if (hasMutation(IMutationsLib.HumanDigestiveTractIM)) internalHumanCounter += perkv1(IMutationsLib.HumanDigestiveTractIM);//3
+			if (hasMutation(IMutationsLib.HumanDigestiveTractIM)) internalHumanCounter += perkv1(IMutationsLib.HumanDigestiveTractIM);//4
 			if (hasMutation(IMutationsLib.HumanEyesIM)) internalHumanCounter += perkv1(IMutationsLib.HumanEyesIM);//4
 			if (hasMutation(IMutationsLib.HumanFatIM)) internalHumanCounter += perkv1(IMutationsLib.HumanFatIM);//4
-			if (hasMutation(IMutationsLib.HumanMetabolismIM)) internalHumanCounter += perkv1(IMutationsLib.HumanMetabolismIM);//3
+			if (hasMutation(IMutationsLib.HumanMetabolismIM)) internalHumanCounter += perkv1(IMutationsLib.HumanMetabolismIM);//4
 			if (hasMutation(IMutationsLib.HumanMusculatureIM)) internalHumanCounter += perkv1(IMutationsLib.HumanMusculatureIM);//4
 			if (hasMutation(IMutationsLib.HumanOvariesIM)) internalHumanCounter += perkv1(IMutationsLib.HumanOvariesIM);//4
 			if (hasMutation(IMutationsLib.HumanParathyroidGlandIM)) internalHumanCounter += perkv1(IMutationsLib.HumanParathyroidGlandIM);//4
@@ -4626,7 +4627,7 @@ use namespace CoC;
 			if (hasMutation(IMutationsLib.HumanThyroidGlandIM)) internalHumanCounter += perkv1(IMutationsLib.HumanThyroidGlandIM);//4
 			if (hasMutation(IMutationsLib.HumanVersatilityIM)) internalHumanCounter += perkv1(IMutationsLib.HumanVersatilityIM);//4
 			End("Player","racialScore");
-			return internalHumanCounter;//54
+			return internalHumanCounter;//56
 		}
 		public function howManyDifferentHumanIMYouGot():Number {
 			var hMDHIMYG:Number = 0;
@@ -5095,6 +5096,7 @@ use namespace CoC;
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 1) overeatingLimit += 10;
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 2) overeatingLimit += 15;
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) overeatingLimit += 20;
+				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 4) overeatingLimit += (25 + Math.round(maxHunger()*0.1));
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 1) amnt = Math.round(amnt * postConsumptionMlt());
 				hunger += amnt;
 				if (hunger > maxHunger() + overeatingLimit) {
@@ -5156,7 +5158,8 @@ use namespace CoC;
 			var pCM:Number = 1;
 			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 1) pCM += 0.1;
 			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 2) pCM += 0.2;
-			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 2) pCM += 0.3;
+			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) pCM += 0.3;
+			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 4) pCM += 0.4;
 			return pCM;
 		}
 

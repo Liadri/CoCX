@@ -242,6 +242,8 @@ public class Changelog extends BaseContent
 			outputText("-New tier 21 misc lvl-up perk: Limit Breaker: Soul (3rd stage). Req. Limit Breaker: Psyche (3rd stage) perk. Effect: +15% max Mana and Soulforce.\n");
 			outputText("-New mutation perk: Human Metabolism (Final Form). Req. Human Metabolism (Evolved) and lvl 90+. Effects: Your metabolism changes allowing to slowly detoxification of poisons or slight faster fatigue recovery (40% chance to instantly remove some of toxic substance from body, -4% of lust / -2% of fatigue per turn, 2x shorter elemental dot effects duration,");
 			outputText(" +20% to max overfatigue, when above 50% of max Fatigue recovery provided by Human Metabolism is 2x)\n");
+			outputText("-New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+100%). Increase limit when PC gain weight from eating too much by 70+10% of max hunger. ");
+			outputText("Can slowly remove harmfull substances (-2% of lust per turn) and provide minor resistance to poisonous food (+20% poison resistance)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -256,7 +258,6 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+60%). Increase limit when PC gain weight from eating too much by 45. Can slowly remove harmfull substances (-1% of lust per turn)
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
