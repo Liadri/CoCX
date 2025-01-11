@@ -116,12 +116,19 @@ public class Ingnam extends BaseContent
 		public function exploreIngnam():void {
 			hideMenus();
 			clearOutput();
-			if (rand(4) == 0) {
+			if (cantFindEnemies()) {
 				outputText("You explore the village of Ingnam for a while but you don't find anything interesting.");
-				advanceMinutes(15);
+				advanceMinutes(5);
 				doNext(camp.doCamp);
 			}
 			else thiefScene.encounterThief();
+		}
+		private function cantFindEnemies():Boolean {
+			var canOrNot:Boolean = true;
+			if (player.level < 9 && rand(10) == 0) canOrNot = false;
+			else if (player.level < 6 && rand(5) == 0) canOrNot = false;
+			else if (player.level < 3 && rand(2) == 0) canOrNot = false;
+			return canOrNot;
 		}
 
 		//Shopping time!

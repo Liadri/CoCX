@@ -41,7 +41,7 @@ public class Changelog extends BaseContent
 			outputText("-Red Qipao armor been added to Victoria's Secre... ekhm Tailor Shop.\n");
 			outputText("-Hellhounds Balls bonus to fire damage changed from 0.5% of cum production to 1% per 1% of current lust for Primitive stage and doubled for Evolved.\n");
 			outputText("-When gaining new achievement text color been slight changed to be visible on white or black backgorund.\n");
-			outputText("-Training Dummy is so OP that can beat the same lvl PC on higher diff settings so his str was reduced to min possible values and for lvl 0 dummy it would have also begginer enemy tag. May the Xuviel no more sneak into pC camp to put his silver necklace on beaten by dummy PC ;)\n");
+			outputText("-Training Dummy is so OP that can beat the same lvl PC on higher diff settings so his str was reduced to min possible values and for lvl 0 dummy it would have also beginner enemy tag. May the Xuviel no more sneak into pC camp to put his silver necklace on beaten by dummy PC ;)\n");
 			outputText("-Skull and Tree of Life accesories now would give set bonus when applied both at the same time: +1% HP (+2% below 0 HP) regeneration for undead/others and -1% HP (-2% below 0 HP) regeneration for others / undead, +2% diehard for others / undead.\n");
 			outputText("-Because too much regeneration will kill you... wait maybe it was too much love? Anyway almost all item related effects that would increase maximum regeneration cap was removed.\n");
 			outputText("-Supercharged state can be entered for Raiju when racial score would reach 2 tier (greater raiju).\n");
@@ -124,7 +124,7 @@ public class Changelog extends BaseContent
 			//outputText("-New TF item (by Shigure): Moth's Dust. Buyable in Moga Hen shop. Using this item will turn PC into moth. Moth bonuses at 10 pts in racial score (scalable): -30% to Tou multi, +150% to Spe multi, +70% to Wis multi, +30% to Lib multi, +70 to sensitivity.\n");//Dropped by Corrupted Troll enemies.
 			outputText("-New enemies: Mid rank Angel of Mist - lvl 58, Mist Bee Huntress - lvl 60, Mist Wasp Huntress - lvl 62, Mist Hornet Huntress - lvl 64, Mist Alraune Maiden - lvl 66, Mist Cinderbloom - lvl 68, Mist Snow Lily - lvl 70. Encounterable on 5th strata of River Dungeon. Proto Golem - lvl 6. Encounterable in general explore from lvl 6+. Kirin (added by NUZ/Shirane) - lvl 50. Encounterable in Plains. ");
 			outputText("Werefox (M) - lvl 33. Encounterable in Inner Desert at night. Elder Werefox (M) - lvl 61. Encounterable in Inner Desert at night (he temporaly came from deeper desert regions and req. lvl 43+ to encounter). Zombie (M & F) - lvl 36/53. Encounterable in Outer Plains / Inner Plains (lvl 53 zombies temporaly hopped from deeper plains regions) at night as long PC isn't Jiangshi. They have Undead enemy type perk. ");
-			outputText("Mummy (M & F) - lvl 18/36. Encounterable in Outer Desert / Inner Desert at night. They have Undead enemy type and Low-tier Magic Immunity perk.\n");
+			outputText("Mummy (M & F) - lvl 18/36. Encounterable in Outer Desert / Inner Desert at night. They have Undead enemy type and Low-tier Magic Immunity perk. Thief - lvl 5, Thief Captain - lvl 9. Encounterable in Ignam after PC reach lvl 2/6.\n");
 			outputText("-New bodyparts: Troll Arms, Troll lower body, Troll Tusks, Troll Ears, Troll Tail (from Troll Fig); Glacial Troll Arms, Glacial Troll lower body, Glacial Troll Tusks, Glacial Troll Ears, Glacial Troll Tail (from Icy Fig), Bandaged Head(horn), Mummy Arms, Mummy Legs (from mumification event)\n");
 			outputText("-Dinah upgrade options for HB mech now have 3 more tiers of Armor Plating, Leather Insulation & Dragon's Breath Flamer upgrades.\n");
 			//outputText("-New HB Mech upgrade options: Armor Plating (+armor), Leather Insulation (+magic resistance), Agility (+base melee atk dmg), Dragon's Breath Flamer (fire dmg special), Scatter Laser (lightning dmg special), Rapid Reload (+base ranged atk dmg), Internal Systems (increase mech SF capacity and lower it consumption during high activity)\n");
@@ -244,6 +244,8 @@ public class Changelog extends BaseContent
 			outputText(" +20% to max overfatigue, when above 50% of max Fatigue recovery provided by Human Metabolism is 2x)\n");
 			outputText("-New mutation perk: Human Digestive Tract (Final Form). Req. Human Digestive Tract (Evolved) and lvl 90+. Effects: Your digestive tract improved allowing to get better nurishment from all the ingested substances (+100%). Increase limit when PC gain weight from eating too much by 70+10% of max hunger. ");
 			outputText("Can slowly remove harmfull substances (-2% of lust per turn) and provide minor resistance to poisonous food (+20% poison resistance)\n");
+			outputText("-Thief enemy in Ignam was renamed (totaly not degraded) into Thief Associate. Also he no longer play with dagger and just use knife as it was intended. Exploration in Ignam if not founded any enemy would only take 5 min instead of 15. ");
+			outputText("And chance to find enemy would change from default 25% to instead increase with PC level from 50% below lvl 3 to 100% at lvl 9+ (been famous and strong would easier attract all the shady people).\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -270,11 +272,10 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
-			outputText("-\n");//Motivation (Su) now req. additionally Advanced Leadership perk
-			outputText("-\n");//New range weapon (by Liadri):  - buyable at Tripxi shop in Tel'Adre after PC find and bring back it parts from  area. Cost xx0 gems. Base atk is xx and ammo clip size x.
-			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash) (Agentfunfun)
-			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Stadler) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz)
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
 			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
@@ -286,11 +287,11 @@ public class Changelog extends BaseContent
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: Domain Kineses. Req.  perk and ???+ sensitivity. Effect: ??? aura effects like psychic aura dealing specific elemetal damage ^^ ???
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
+			outputText("-\n");//Motivation (Su) now req. additionally Advanced Leadership perk
+			outputText("-\n");//New range weapon (by Liadri):  - buyable at Tripxi shop in Tel'Adre after PC find and bring back it parts from  area. Cost xx0 gems. Base atk is xx and ammo clip size x.
+			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash) (Agentfunfun)
+			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Stadler) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz)
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-Fixed bugs: Dracula/lina PC unable to find get ghoul if they not learned this as normal Vampire, unable to buy manual for 1st atk: f. swords, Arigean Princess PC not been fully immune to TF-ing like other perm races, Weresharks not having their stats changing according to moon phase or boosted during use of Crinos Shape, Phoenix TF adding mutagen penatly instead of stat curse, ");

@@ -2136,7 +2136,7 @@ public static const INGNAM_RUMORS:int                                           
 public static const INGNAM_FARMER_MET:int                                           = 2128;
 public static const INGNAM_BLACKMARKET_TALKED:int                                   = 2129;
 public static const INGNAM_ALCHEMIST_TALKED:int                                     = 2130;
-public static const UNKNOWN_FLAG_NUMBER_02131:int                                   = 2131; //Not used for now.
+public static const INGNAM_ENEMIES:int                                   			= 2131;
 public static const INGNAM_EARS_FREAKOUT:int                                        = 2132; //Ears freakout
 public static const INGNAM_EARS_LAST_TYPE:int                                       = 2133;
 public static const INGNAM_TAIL_FREAKOUT:int                                        = 2134; //Tail freakout
