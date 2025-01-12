@@ -255,13 +255,13 @@ public class Changelog extends BaseContent
 			outputText("-Passive ability: Manaforce - req. to be Lich. Effect: Effects that restores mana also restores soulforce.\n");
 			outputText("-New option in camp actions menu: Phylactery Enchantment - req. to be Lich. You can weave a minor enchantment on your phylactery to gain a minor power. You start with two runes. Every 50 level you may add one extra rune to your phylactery.\n");
 			outputText("-New option in Phylactery Enchantment: Arcane rune Imbuement -> Recover mana 100% faster.\n");//5
+			outputText("-New option in Phylactery Enchantment: Bone rune Imbuement -> Gain natural armor based on your intelligence up to a maximum equal to half your level.\n");//6
+			outputText("-New option in Phylactery Enchantment: Blade rune Imbuement -> Add your intelligence to your strength modifier when fighting with weapons.\n");//7
 			outputText("-New option in Phylactery Enchantment: Mind rune Imbuement -> Add half your intelligence to your libido score.\n");//8
 			outputText("-New option in Phylactery Enchantment: Soul rune Imbuement -> Add half your wisdom to your libido score.\n");//9
 			outputText("-New option in Phylactery Enchantment: Body rune Imbuement -> Add half your libido to your strength and speed score.\n");//10
-			outputText("-New option in Phylactery Enchantment: Blade rune Imbuement -> Add your intelligence to your strength modifier when fighting with weapons.\n");//7
-			outputText("-New option in Phylactery Enchantment: Bone rune Imbuement -> Gain natural armor based on your intelligence up to a maximum equal to half your level.\n");//6
 			outputText("-New option in Phylactery Enchantment: Death rune Imbuement -> You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.\n");//1
-			outputText("-\n");
+			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

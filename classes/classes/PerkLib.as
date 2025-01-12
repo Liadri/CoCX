@@ -722,6 +722,9 @@ public class PerkLib
 		public static const EpicAllRounderTraining:PerkType = mk("Epic All-Rounder Training", "All-Rounder Training ( Epic )",
 				"Limit of train caps for stats is increased by 15.",
 				"You've chosen the 'All-Rounder Training ( Epic )' perk. Limit of train caps for stats is increased by 15.");
+		public static const UltimateMagic:PerkType = mk("Ultimate Magic", "Ultimate Magic",
+				"You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.",
+				"You've chosen the 'Ultimate Magic' perk. You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -735,9 +738,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -6635,15 +6635,15 @@ public class PerkLib
                     .requireInt(200)
                     .requireLevel(54)
 					.requireCustomFunction(function (player:Player):Boolean {
-                        return player.statusEffectv1(StatusEffects.AlvinaTraining2) > 2;
-                    }, "Finished a certain black mage quest line up to the third part of the training");//Alvina
+                        return player.statusEffectv1(StatusEffects.AlvinaTraining2) > 2 || player.hasPerk(PerkLib.UltimateMagic);
+                    }, "Finished a certain black mage quest line up to the third part of the training OR having Ultimate Magic perk");//Alvina
         	PrestigeJobArchpriest.requirePrestigeJobSlot()
                     .requirePerks(JobEnchanter, JobGuardian)
                     .requireInt(200)
                     .requireLevel(54)
 					.requireCustomFunction(function (player:Player):Boolean {
-                        return player.statusEffectv1(StatusEffects.SiegweirdTraining2) > 1;
-                    }, "Finished a certain paladin quest line up to the second part of the training");//Siegweird
+                        return player.statusEffectv1(StatusEffects.SiegweirdTraining2) > 1 || player.hasPerk(PerkLib.UltimateMagic);
+                    }, "Finished a certain paladin quest line up to the second part of the training OR having Ultimate Magic perk");//Siegweird
             HalfStepToInhumanSpirituality.requireWis(200)
                     .requireInt(300)
                     .requirePerk(PeerlessSpirituality)
@@ -6743,6 +6743,13 @@ public class PerkLib
             MythicalIntelligence.requireInt(20)
                     .requirePerk(LegendaryIntelligence)
                     .requireLevel(96);
+			//Tier 17 Intelligence perks
+			//Tier 18 Intelligence perks
+			//Tier 19 Intelligence perks
+			//Tier 20 Intelligence perks
+			UltimateMagic.requireAnyPerk(PrestigeJobWarlock, PrestigeJobArchpriest)
+					.requireInt(475)
+					.requireLevel(120);
             //------------
             // WISDOM
             //------------

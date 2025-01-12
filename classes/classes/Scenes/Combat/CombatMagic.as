@@ -395,7 +395,7 @@ public class CombatMagic extends BaseCombatContent {
 		if (Forgefather.purePearlEaten) mod +=.25;
 		if (player.hasPerk(PerkLib.UnicornBlessing) && player.cor <= 20) mod += .2;
 		if (player.hasPerk(PerkLib.PrestigeJobArchpriest)) mod += .2;
-		if (player.hasPerk(PerkLib.PrestigeJobWarlock)) mod -= .4;
+		if (player.hasPerk(PerkLib.PrestigeJobWarlock) && !player.hasPerk(PerkLib.UltimateMagic)) mod -= .4;
 		if (player.hasKeyItem("Holy Symbol") >= 0) mod += .2;
 		if (player.necklace == necklaces.LEAFAMU) {
 			if (player.isElf()) mod += .2;
@@ -420,7 +420,7 @@ public class CombatMagic extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.AvatorOfCorruption)) mod += .3;
 		if (Forgefather.lethiciteEaten) mod +=.25;
 		if (player.hasPerk(PerkLib.BicornBlessing) && player.cor >= 80) mod += .2;
-		if (player.hasPerk(PerkLib.PrestigeJobArchpriest)) mod -= .4;
+		if (player.hasPerk(PerkLib.PrestigeJobArchpriest) && !player.hasPerk(PerkLib.UltimateMagic)) mod -= .4;
 		if (player.hasPerk(PerkLib.PrestigeJobWarlock)) mod += .2;
 		if (player.countMiscJewelry(miscjewelries.DMAGETO) > 0) mod += 0.25;
 		if (player.headJewelry == headjewelries.GHORNAM && player.horns.type == Horns.DEMON) mod += 0.25;
