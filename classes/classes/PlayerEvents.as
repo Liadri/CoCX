@@ -500,6 +500,10 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				player.removePerk(PerkLib.Familiar);
 				needNext = true;
 			}
+			if (player.perkv1(PerkLib.UndeadLord) > player.zombieControlLimit()) {
+				var over:Number = (player.zombieControlLimit() - player.perkv1(PerkLib.UndeadLord));
+				player.addPerkValue(PerkLib.UndeadLord, 1, -over);
+			}
 			if (player.hasStatusEffect(StatusEffects.Feeder)) { //Feeder checks
 				if (player.cor <= (20-player.corruptionTolerance)) { //Go away if pure
 					outputText("\nThe desire to breastfeed fades into the background.  It must have been associated with the corruption inside you.\n\n(<b>You have lost the 'Feeder' perk.</b>)\n");

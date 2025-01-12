@@ -804,6 +804,11 @@ use namespace CoC;
 			if (hasPerk(PerkLib.ArmorMaster)) {
 				if (isInHeavyArmor()) speedBonus += Math.round(spe / 50);
 			}
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment6)) {
+				var PE6:Number = Math.round(inte / 20);
+				if (PE6 > Math.round(level / 2)) PE6 = Math.round(level / 2);
+				speedBonus += PE6;
+			}
 			armorDef += speedBonus;
 			//Feral armor boosts armor ratings!
 			var toughnessBonus:int = 0;
@@ -1024,9 +1029,9 @@ use namespace CoC;
 			if (hasPerk(PerkLib.GclassHeavenTribulationSurvivor)) armorMDef += 6 * newGamePlusMod;
 			if (hasPerk(PerkLib.FclassHeavenTribulationSurvivor)) armorMDef += 8 * newGamePlusMod;
 			if (hasPerk(PerkLib.FFclassHeavenTribulationSurvivor)) armorMDef += 10 * newGamePlusMod;
-			if (hasPerk(PerkLib.EclassHeavenTribulationSurvivor)) armorMDef += 12 * newGamePlusMod;/*
+			if (hasPerk(PerkLib.EclassHeavenTribulationSurvivor)) armorMDef += 12 * newGamePlusMod;
 			//Agility boosts armor ratings!
-			var speedBonus:int = 0;
+			var speedBonus:int = 0;/*
 			if (hasPerk(PerkLib.Agility)) {
 				if (armor.name == "some taur paladin armor" || armor.name == "some taur blackguard armor") {
 					speedBonus += Math.round(spe / 5);
@@ -1040,8 +1045,13 @@ use namespace CoC;
 			}
 			if (hasPerk(PerkLib.ArmorMaster)) {
 				if (isInHeavyArmor()) speedBonus += Math.round(spe / 50);
+			}*/
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment6)) {
+				var PE6:Number = Math.round(inte / 20);
+				if (PE6 > Math.round(level / 2)) PE6 = Math.round(level / 2);
+				speedBonus += PE6;
 			}
-			armorDef += speedBonus;
+			armorMDef += speedBonus;/*
 			//Feral armor boosts armor ratings!
 			var toughnessBonus:int = 0;
 			if (hasPerk(PerkLib.FeralArmor) && haveNaturalArmor() && meetUnhinderedReq()) {
@@ -1404,7 +1414,7 @@ use namespace CoC;
 		public function zombieControlLimit():Number
 		{
 			var zCL:Number = 5;
-			//if (perkv1(IMutationsLib.AlphaHowlIM) >= 1) zCL += (perkv1(IMutationsLib.AlphaHowlIM) * 5);
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment1)) zCL *= 2;
 			return zCL;
 		}
 		public function zerkSereneMind():Boolean

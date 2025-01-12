@@ -3153,7 +3153,10 @@ public class Camp extends NPCAwareContent{
 	
 	private function PhylacteryEnchantment():void {
 		var statusNames:Array = [
+			[StatusEffects.PhylacteryEnchantment1, "Death rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment5, "Arcane rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment6, "Bone rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment7, "Blade rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment8, "Mind rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment9, "Soul rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment10, "Body rune Imbuement"],
@@ -3162,6 +3165,9 @@ public class Camp extends NPCAwareContent{
 		clearOutput();
 		var limitOnAltering:Number = 2;
 		if (player.level >= 50) limitOnAltering += 1;
+		if (player.level >= 100) limitOnAltering += 1;
+		if (player.level >= 150) limitOnAltering += 1;
+		if (player.level >= 200) limitOnAltering += 1;
 		var currentAltering:Number = 0;
 		for (i = 0; i < statusNames.length; ++i) {
 			if (player.hasStatusEffect(statusNames[i][0])) ++currentAltering;
@@ -3173,16 +3179,17 @@ public class Camp extends NPCAwareContent{
 			if (player.hasStatusEffect(statusNames[i][0])) outputText("<b>- " + statusNames[i][1] + "</b>\n")
 		}
 		outputText("\n<u><b>Effects of each enchantment:</b></u>\n");
-		//1
+		outputText("Death rune Imbuement -> <i>You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.</i>\n");
 		//2
 		//3
 		//4
 		outputText("Arcane rune Imbuement -> <i>Recover mana 100% faster.</i>\n");
-		//6
-		//7
+		outputText("Bone rune Imbuement -> <i>Gain natural armor based on your intelligence up to a maximum equal to half your level.</i>\n");
+		outputText("Blade rune Imbuement -> <i>Add your intelligence to your strength modifier when fighting with weapons.</i>\n");
 		outputText("Mind rune Imbuement -> <i>Add half your intelligence to your libido score.</i>\n");
 		outputText("Soul rune Imbuement -> <i>Add half your wisdom to your libido score.</i>\n");
 		outputText("Body rune Imbuement -> <i>Add half your libido to your strength and speed score.</i>\n");
+		//11
 		menu();
 		for (i = 0; i < statusNames.length; ++i) {
 			addButton(i, statusNames[i][1], phylacteryEnchantmentToggle, statusNames[i][0]);

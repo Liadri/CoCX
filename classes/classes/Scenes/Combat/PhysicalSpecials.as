@@ -971,6 +971,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 			}
 		}
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (player.calculateMultiAttacks() > 1) damage *= player.calculateMultiAttacks();
 		if (player.hasPerk(PerkLib.PowerAttackEx)) {
 			PAMulti += Math.round(PAMulti*0.3);
@@ -1135,6 +1139,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		else outputText("foe. ");
 		var damage:Number = 0;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
 		if (player.hasStatusEffect(StatusEffects.Gallop)) {
@@ -1223,6 +1231,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		if (combat.flyingSwordForRangeSneakAttack()) SAMulti += 1;
 		if (monster.hasStatusEffect(StatusEffects.InvisibleOrStealth)) SAMulti *= 2;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
 		//if (player.hasStatusEffect(StatusEffects.Gallop)) damage *= 1.5;
@@ -1554,6 +1566,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		var PAM2:Number = 1;
 		PAM2 += combat.PASPAS(1);
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		damage *= 3;
 		if (player.haveWeaponForJouster()) {
@@ -1688,6 +1704,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		}
 		var damage:Number = 0;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		if (player.hasPerk(PerkLib.Whirlwind)) damage *= 1.2;
 		//other bonuses
@@ -1774,6 +1794,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		}
 		var damage:Number = 0;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (player.hasPerk(PerkLib.Whipping)) damage *= 1.2;
 		//other bonuses
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;

@@ -58,6 +58,10 @@ public class MultiThrustSkill extends AbstractSoulSkill {
 	private function multiThrustDSingle(monster: Monster, casting:Boolean = true):Number {
 		var damage:Number = scalingBonusWisdom() * 2;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		damage *= 1.75;
 		if (casting) {
 			//All special weapon effects like...fire/ice

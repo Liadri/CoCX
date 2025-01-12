@@ -1,6 +1,7 @@
 package classes.Scenes.Combat.General {
 import classes.PerkLib;
 import classes.Monster;
+import classes.StatusEffects;
 import classes.Scenes.Combat.Combat;
 import classes.Scenes.Combat.AbstractGeneral;
 import classes.GlobalFlags.kFLAGS;
@@ -24,7 +25,11 @@ public class ZombieAttackSkill extends AbstractGeneral {
     }
 
 	override public function describeEffectVs(target:Monster):String {
-		return "Deals ~" + numberFormat(calcDamage(target)) + " physical damage.";
+		var text:String = "";
+		text += "Deals ~" + numberFormat(calcDamage(target)) + " physical damage";
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment1)) text += " and ~" + numberFormat(calcDamage1(target)) + " darkness damage";
+		text += ".";
+		return text;
 	}
 
 	public function calcDamage(monster:Monster):Number {
@@ -50,6 +55,14 @@ public class ZombieAttackSkill extends AbstractGeneral {
 
 		return Math.round(zummyDamage);
 	}
+	
+	public function calcDamage1(monster:Monster):Number {
+		var zummyDamage1:Number = calcDamage(monster);
+		zummyDamage1 = combat.darknessTypeDamageBonus(zummyDamage1);
+		zummyDamage1 *= combat.darknessDamageBoostedByDao();
+
+		return Math.round(zummyDamage1);
+	}
 
     override public function doEffect(display:Boolean = true):void {
     	var damage:Number = calcDamage(monster);
@@ -71,7 +84,12 @@ public class ZombieAttackSkill extends AbstractGeneral {
 		doPhysicalDamage(damage, true, display);
 		if (display) {
 			if (crit) outputText(" <b>Critical! </b>");
-			outputText("\n\n");
+			if (!player.hasStatusEffect(StatusEffects.PhylacteryEnchantment1)) outputText("\n\n");
+		}
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment1)) {
+			outputText(" ");
+			doDarknessDamage(calcDamage1(monster), true, display);
+			if (display) outputText("\n\n");
 		}
     }
 }

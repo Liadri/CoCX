@@ -7141,6 +7141,10 @@ public class Combat extends BaseContent {
                 if (meleeDamageNoLagMain != 0) damage += meleeDamageNoLagMain;
                 else {
                     var temp:Number = meleeDamageNoLagSingle(IsFeralCombat);
+					if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+						temp += player.inte;
+						temp += scalingBonusIntelligence() * 0.2;
+					}
                     meleeDamageNoLagMain += temp;
                     damage += temp;
                 }
@@ -7721,6 +7725,10 @@ public class Combat extends BaseContent {
                 if (meleeDamageNoLagOff != 0) damage += meleeDamageNoLagOff;
                 else {
                     var temp:Number = meleeDamageNoLagSingleOffhand();
+					if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+						temp += player.inte;
+						temp += scalingBonusIntelligence() * 0.2;
+					}
                     meleeDamageNoLagOff += temp;
                     damage += temp;
                 }
