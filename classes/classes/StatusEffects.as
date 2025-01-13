@@ -596,6 +596,8 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const PCDaughtersWorkshop:StatusEffectType            = mk("PC Daughters Workshop");
 		public static const PCDaughtersWorkshopSpareParts:StatusEffectType  = mk("PC Daughters Workshop Spare parts");
 		public static const PhylacteryEnchantment1:StatusEffectType         = mk("Phylactery Enchantment 1");
+		public static const PhylacteryEnchantment3:StatusEffectType         = mk("Phylactery Enchantment 3");
+		public static const PhylacteryEnchantment4:StatusEffectType         = mk("Phylactery Enchantment 4");
 		public static const PhylacteryEnchantment5:StatusEffectType         = mk("Phylactery Enchantment 5");
 		public static const PhylacteryEnchantment6:StatusEffectType         = mk("Phylactery Enchantment 6");
 		public static const PhylacteryEnchantment7:StatusEffectType         = mk("Phylactery Enchantment 7");

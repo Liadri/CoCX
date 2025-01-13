@@ -3154,6 +3154,8 @@ public class Camp extends NPCAwareContent{
 	private function PhylacteryEnchantment():void {
 		var statusNames:Array = [
 			[StatusEffects.PhylacteryEnchantment1, "Death rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment3, "Darkness rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment4, "Cold rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment5, "Arcane rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment6, "Bone rune Imbuement"],
 			[StatusEffects.PhylacteryEnchantment7, "Blade rune Imbuement"],
@@ -3181,8 +3183,8 @@ public class Camp extends NPCAwareContent{
 		outputText("\n<u><b>Effects of each enchantment:</b></u>\n");
 		outputText("Death rune Imbuement -> <i>You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.</i>\n");
 		//2
-		//3
-		//4
+		outputText("Darkness rune Imbuement -> <i>All offensive magic now counts as Dark spells when determining its effect and damage. Effects that already dealt dark damage are 50% stronger.</i>\n");
+		outputText("Cold rune Imbuement -> <i>All offensive magic now counts as Ice spells when determining its effect and damage. Effects that already dealt cold damage are 50% stronger.</i>\n");
 		outputText("Arcane rune Imbuement -> <i>Recover mana 100% faster.</i>\n");
 		outputText("Bone rune Imbuement -> <i>Gain natural armor based on your intelligence up to a maximum equal to half your level.</i>\n");
 		outputText("Blade rune Imbuement -> <i>Add your intelligence to your strength modifier when fighting with weapons.</i>\n");
