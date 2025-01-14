@@ -2239,7 +2239,6 @@ public class Combat extends BaseContent {
 				if (player.hasKeyItem("Hydraulics MK4") >= 0) hydraulicsMulti += 0.75;
 				if (player.hasKeyItem("Hydraulics MK5") >= 0) hydraulicsMulti += 1;
 				if (player.hasKeyItem("Hydraulics MK6") >= 0) hydraulicsMulti += 1.25;
-				if (player.isInHeavyArmor() || player.isInAyoArmor()) hydraulicsMulti *= 0.5;
 				damage += scalingBonusIntelligence() * hydraulicsMulti;
 			}
 			damage *= 1.3;
@@ -6469,6 +6468,15 @@ public class Combat extends BaseContent {
 			damage += (player.spe / 2);
 			damage += scalingBonusSpeed() * 0.10;
 		}
+		if (!IsFeralCombat && (player.isInHeavyArmor() || player.isInAyoArmor()) && (player.hasKeyItem("Hydraulics") >= 0 || player.hasKeyItem("Hydraulics MK2") >= 0 || player.hasKeyItem("Hydraulics MK3") >= 0 || player.hasKeyItem("Hydraulics MK4") >= 0 || player.hasKeyItem("Hydraulics MK5") >= 0 || player.hasKeyItem("Hydraulics MK6") >= 0)) {
+			var hydraulicsMulti:Number = 0.125;
+			if (player.hasKeyItem("Hydraulics MK2") >= 0) hydraulicsMulti += 0.125;
+			if (player.hasKeyItem("Hydraulics MK3") >= 0) hydraulicsMulti += 0.25;
+			if (player.hasKeyItem("Hydraulics MK4") >= 0) hydraulicsMulti += 0.375;
+			if (player.hasKeyItem("Hydraulics MK5") >= 0) hydraulicsMulti += 0.5;
+			if (player.hasKeyItem("Hydraulics MK6") >= 0) hydraulicsMulti += 0.625;
+			damage += scalingBonusIntelligence() * hydraulicsMulti;
+		}
 		if (player.hasPerk(PerkLib.PowerAttack)) {
 			if (player.hasPerk(PerkLib.PowerAttackEx)) damage *= 1.5;
 			else damage *= 1.2;
@@ -6584,6 +6592,15 @@ public class Combat extends BaseContent {
 		if (player.hasPerk(PerkLib.QuickStrike) && player.weaponOff.isSmall()) {
 			damage += (player.spe / 2);
 			damage += scalingBonusSpeed() * 0.10;
+		}
+		if ((player.isInHeavyArmor() || player.isInAyoArmor()) && (player.hasKeyItem("Hydraulics") >= 0 || player.hasKeyItem("Hydraulics MK2") >= 0 || player.hasKeyItem("Hydraulics MK3") >= 0 || player.hasKeyItem("Hydraulics MK4") >= 0 || player.hasKeyItem("Hydraulics MK5") >= 0 || player.hasKeyItem("Hydraulics MK6") >= 0)) {
+			var hydraulicsMulti:Number = 0.125;
+			if (player.hasKeyItem("Hydraulics MK2") >= 0) hydraulicsMulti += 0.125;
+			if (player.hasKeyItem("Hydraulics MK3") >= 0) hydraulicsMulti += 0.25;
+			if (player.hasKeyItem("Hydraulics MK4") >= 0) hydraulicsMulti += 0.375;
+			if (player.hasKeyItem("Hydraulics MK5") >= 0) hydraulicsMulti += 0.5;
+			if (player.hasKeyItem("Hydraulics MK6") >= 0) hydraulicsMulti += 0.625;
+			damage += scalingBonusIntelligence() * hydraulicsMulti;
 		}
 		if (player.hasPerk(PerkLib.PowerAttack)) {
 			if (player.hasPerk(PerkLib.PowerAttackEx)) damage *= 1.5;
