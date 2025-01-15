@@ -198,6 +198,7 @@ public final class ArmorLib extends ItemConstants
 		public const LEATHRA:Armor = new Armor("LeathrA","LeathrA","leather armor segments","a set of leather armor",5,0,100,"This is a suit of well-made leather armor.  It looks fairly rugged.","Light");
 		public const URTALTA:LeatherArmorSegments = new LeatherArmorSegments();
 		public const LMARMOR:LustyMaidensArmor = new LustyMaidensArmor();
+		public const SHURATO:MouseTownArmor = new MouseTownArmor();
 		public const LAYOARM:LightAyoArmor = new LightAyoArmor();
 		public const LTHCARM:LethiciteArmor = new LethiciteArmor();
 		public const LTHRPNT:Armor = new Armor("LthrPnt","T.Lthr Pants","white silk shirt and tight leather pants","a pair of leather pants and a white silk shirt",0,0,20,"A flowing silk shirt and tight black leather pants.  Suave!","Light");

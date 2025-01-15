@@ -176,6 +176,7 @@ public final class WeaponLib extends ItemConstants
 				.withEffect(IELib.AttackBonus_Cor, 1/10)
 				.withEffect(IELib.ScaleAttack_Spe, 100) as Weapon;
 		public const BCLAWS:BlizzardClaws = new BlizzardClaws();
+		public const REPRCHEEP:ReaperCheep = new ReaperCheep();
 		public const BFGAUNT:BigFuckingGauntlets = new BigFuckingGauntlets();
 		public const BFTHSWORD:Weapon = new Weapon("BFTHSword", "BFTHSword", "big fucking two-handed sword", "a big fucking two-handed sword", "slash", 100, 4000, "Big Fucking Two-Handed Sword - if the best solution for a tiny e-pen complex at this side of the Mareth not work take this one! This 4-meter long sword requires 250 strength to fully unleash its power.", WT_SWORD, WSZ_MASSIVE)
 				.withTag(W_LGWRATH)
@@ -615,7 +616,6 @@ public final class WeaponLib extends ItemConstants
 		public const PARACEL:Weapon = new Paracelsus();
 		public const PHALLUS:Weapon = new ThePhalluspear();
 		public const PHALUSS:Weapon = new ThePhalluspears();
-		//public const RCHEEP:Weapon = new ReaperCheep(); TODO: finish!
 		public const PILEBUN:Weapon = new Weapon(
 				"PileBun","PileBunker","Pile Bunker","a Pile Bunker","pierce",74,5920,
 				"This weapon blasts the target by ejecting piles at incredible velocities through the use of gunpowder.",

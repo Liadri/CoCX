@@ -136,7 +136,7 @@ public function trainingArcheryWithKindra():void {
 			if (player.isArtifactBow()) {
 				outputText("You ready your magical bow and shoot putting both your dexterity and will at the task and pushing them to the limit. Your arrows all impale one another the last striking the target with such impossible power the target fissure by the center in a cross shape and falls ground in rubble.\n\n");
 				outputText("Kindra applaud you.\n\n");
-				outputText("\"<i>Well wow I didn’t expect you to not only manage this feat but also actually destroy the target in the process pup. I can hereby and without doubt call you one of the Mareth's best archers! Your training is complete.</i>\"\n\n");
+				outputText("\"<i>Well wow I didn’t expect you to not only manage this feat but also actually destroy the target in the process pup. I can hereby and without doubt call you one of Mareth's best archers! Your training is complete.</i>\"\n\n");
 				outputText("\"<b>Learned Sidewinder ability!</b>\"\n\n");
 				if (!player.hasStatusEffect(StatusEffects.KnowsSidewinder)) player.createStatusEffect(StatusEffects.KnowsSidewinder, 0, 0, 0, 0);
 				bowSkill(10);
