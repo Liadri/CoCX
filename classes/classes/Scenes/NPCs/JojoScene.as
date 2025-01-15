@@ -3246,6 +3246,7 @@ public function afterDebimboTalk():void {
 	//------------------Jojo post Debimbo Stuff---------------------
 	public function joJoyCampMenu():void {
 		clearOutput();
+		var jojoDefense:String = "N.Watch:";
 		switch (rand(3)) {
 			case 0:
 				if (BelisaFollower.BelisaInCamp) {
@@ -3260,7 +3261,6 @@ public function afterDebimboTalk():void {
 				} else if (!(BelisaFollower.BelisaInCamp)) {
 							outputText("You walk toward the boulder where Joy usually sits, and see her cross-legged with her eyes closed.  At first, she seems to be deep in meditation, but when you approach, her mouth curls into a smile; she gets up and opens her eyes, regarding you with a warm smile.  \"<i>Hello there, [name], is there anything I can help you with?</i>\"\n\n");
 					}
-				var jojoDefense:String = "N.Watch:";
 				if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) {
 					outputText("(Joy is currently watching for enemies at night.)\n\n");
 					jojoDefense += "On";
@@ -3285,7 +3285,6 @@ public function afterDebimboTalk():void {
 				} else if (flags[kFLAGS.LUNA_AFFECTION] != 100) {
 							outputText("You walk up to the boulder where Joy usually sits and find her a few paces behind it. She is standing and practicing her form, gracefully moving from one pose to the next. Occasionally, her prodigous breasts get in the way, but she seems to have adapted to her new form well. As you approach her, you see her ears visibly perk up. She turns her head towards you without breaking her stance, breathing evenly as she balances on her toes. \"<i>Hello [name], is there anything I can assist you with?</i>\"\n\n");
 				}
-				var jojoDefense:String = "N.Watch:";
 				if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) {
 					outputText("(Joy is currently watching for enemies at night.)\n\n");
 					jojoDefense += "On";
@@ -3309,7 +3308,6 @@ public function afterDebimboTalk():void {
 				} else if (flags[kFLAGS.NADIA_FOLLOWER] != 5) {
 							outputText("You find Joy sitting cross-legged on a flat rock, her staff leaning against her shoulder. She appears deep in thought, chewing idly on a fingernail. As you approach, she flinches, seemingly taken by surprise. She looks to you and chuckles a little, putting one hand on her hip. \"<i>Greetings, [name].  Is there something I can do for you?</i>\"\n\n");
 					}
-				var jojoDefense:String = "N.Watch:";
 				if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) {
 					outputText("(Joy is currently watching for enemies at night.)\n\n");
 					jojoDefense += "On";
@@ -3629,7 +3627,7 @@ public function afterDebimboTalk():void {
 			outputText("Jojo looks away from you for a second, before exhaling through his nose. \n" +
 					"\"<i>Honestly, I…kind of like looking back on it.</i>\" He blushes, but doesn’t seem too nervous. \"<i>If I could go back without losing myself…I think I’d enjoy it.</i>\" He chuckles. \"<i>Honestly, I was never really that attached to…You know…</i>\" He motions between his legs. \n\n");
 			outputText("\"<i>And…We have mouselets together. I mean…Some real good came out of that.</i>\"  \n\n");
-			outputText("You mention that there are safe ways to turn him back. The effects of Bimbo Liqueur on his body might have been potent, but there are other ways to transform himself." + (!player.isPureHuman? " You note that you would know, since you’ve clearly done some of that yourself.":""));
+			outputText("You mention that there are safe ways to turn him back. The effects of Bimbo Liqueur on his body might have been potent, but there are other ways to transform himself." + (!player.isPureHuman()? " You note that you would know, since you’ve clearly done some of that yourself.":""));
 			outputText("\"<i>In that case…I have a question for you.</i>\" Jojo looks you dead in the eyes. \"<i>Would you…Prefer me to go back to being Joy?</i>\" He waves his hands in front of him. \"<i>Not the bimbo part! I can’t go back to that!</i>\" He blushes. \"<i>B-but I enjoyed being Joy…since I finally could be with you…for real. I felt confident…and you turned me back, so…no harm done, right?</i>\"\n\n");
 			outputText(" \n\n");
 			menu();
@@ -3702,4 +3700,4 @@ public function afterDebimboTalk():void {
 		addButton(14, "Back", talkMenu);
 	}
 }
-}
+}

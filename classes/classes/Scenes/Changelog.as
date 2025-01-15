@@ -264,8 +264,8 @@ public class Changelog extends BaseContent
 			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
 			outputText("-New option in Phylactery Enchantment: Darkness rune Imbuement -> All offensive magic now counts as Dark spells when determining its effect and damage. Effects that already dealt dark damage are 50% stronger.\n");//3
 			outputText("-New option in Phylactery Enchantment: Cold rune Imbuement -> All offensive magic now counts as Ice spells when determining its effect and damage. Effects that already dealt cold damage are 50% stronger.\n");//4
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-MouseTown Armor and Weapon added. (Canadian Snas)\n");
+			outputText("-Path to open up the Dom's Domain added. (Canadian Snas)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

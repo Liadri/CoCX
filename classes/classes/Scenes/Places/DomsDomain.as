@@ -3308,7 +3308,7 @@ if (player.gender == 3) {
         outputText("You decide you’re in the mood for something more valuable than a meal…And the Emerald right in front of you will do nicely.  \n\n");
         outputText("You grab Emerald’s hand, pulling her into you. She offers no resistance, melting into your arms. She brings her lips to yours, sighing slightly. You kiss her, and she pulls back after a few seconds, biting her lip and rubbing her thigh against your groin.\n\n");
         outputText("“Oh, [master], I was hoping you’d want some…service.” She brings her lips to your ear. “Most customers aren’t allowed to fuck me…And it gets so…Frustrating.” She drops a hand between your legs. \n\n");
-        if (player.hasCock) {
+        if (player.hasCock()) {
             outputText("Your [cock] begins to harden, and as she brushes her soft hand into it, rubbing gently, you stand erect. \n\n");
         }
         if (player.hasVagina()) {
