@@ -725,6 +725,12 @@ public class PerkLib
 		public static const UltimateMagic:PerkType = mk("Ultimate Magic", "Ultimate Magic",
 				"You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.",
 				"You've chosen the 'Ultimate Magic' perk. You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.");
+		public static const ChallengingShoutEx:PerkType = mk("Challenging shout (Ex)", "Challenging shout (Ex)",
+				"Allow to automaticaly use weakened Warrior Shout special at the combat round end if wrath is below 500.",
+				"You've chosen the 'Challenging shout (Ex)' perk. Allow to automaticaly use weakened Warrior Shout special at the combat round end if wrath is below 500.");
+		public static const ChallengingShoutSu:PerkType = mk("Challenging shout (Su)", "Challenging shout (Su)",
+				"Warrior Shout special can be used any turn but amount of gained wrath would depend how long it was used last time in combat. (4% per turn up to 40% after 10 turns)",
+				"You've chosen the 'Challenging shout (Su)' perk. Warrior Shout special can be used any turn but amount of gained wrath would depend how long it was used last time in combat. (4% per turn up to 40% after 10 turns)");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -5236,13 +5242,13 @@ public class PerkLib
             StrongBack3.requireLevel(4)
 					.requirePerk(StrongBack2)
                     .requireStr(60);
-            BasicTranquilness.requireStr(30)
-                    .requireTou(10)
-                    .requireSpe(10);
             UnlockId.requireStr(20);
             ChallengingShout.requireStr(25)
                     .requirePerk(JobWarrior);
             PowerAttack.requirePerk(JobWarrior);
+            BasicTranquilness.requireStr(30)
+                    .requireTou(10)
+                    .requireSpe(10);
             //Tier 1 Strength Perks
             ThunderousStrikes.requireLevel(6)
                     .requireStr(80)
@@ -5281,6 +5287,9 @@ public class PerkLib
             Brute.requireLevel(6)
                     .requireStr(60)
                     .requirePerk(JobBrawler);
+            ChallengingShoutEx.requireLevel(6)
+                    .requireStr(50)
+                    .requirePerk(ChallengingShout);
             HalfStepToImprovedTranquilness.requireStr(60)
                     .requireTou(20)
                     .requireSpe(20)
@@ -5329,6 +5338,9 @@ public class PerkLib
             PhantomStrike.requireLevel(12)
                     .requireStr(80)
                     .requirePerk(IronFistsI);
+            ChallengingShoutSu.requireLevel(12)
+                    .requireStr(75)
+                    .requirePerk(ChallengingShoutEx);
             ImprovedTranquilness.requireStr(90)
                     .requireTou(30)
                     .requireSpe(30)
