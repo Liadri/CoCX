@@ -293,7 +293,7 @@ public class MinotaurBlood extends Consumable {
 						changes++;
 					}
 					//Males horns get 'uge.
-					else {
+					else if (player.horns.count < 40) {
 						temp = 1 + rand(3);
 						player.horns.count += temp;
 						if (temp == 0) changes--;
@@ -311,6 +311,7 @@ public class MinotaurBlood extends Consumable {
 							player.hoursSinceCum += 200;
 							dynStats("lus", 20, "scale", false);
 						}
+						if (player.horns.count > 40) player.horns.count = 40;
 						changes++;
 					}
 				}
