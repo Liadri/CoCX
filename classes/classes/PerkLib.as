@@ -731,6 +731,13 @@ public class PerkLib
 		public static const ChallengingShoutSu:PerkType = mk("Challenging shout (Su)", "Challenging shout (Su)",
 				"Warrior Shout special can be used any turn but amount of gained wrath would depend how long it was used last time in combat. (4% per turn up to 40% after 10 turns)",
 				"You've chosen the 'Challenging shout (Su)' perk. Warrior Shout special can be used any turn but amount of gained wrath would depend how long it was used last time in combat. (4% per turn up to 40% after 10 turns)");
+		public static const BardEndurance:PerkType = mk("Bard endurance", "Bard endurance",
+				"Increase your maximum lust. (+3 extra LP per point of libido)",
+				"You've chosen the 'Bard endurance' perk. Increase your maximum lust. (+3 extra LP per point of libido)")
+				.withBuffs({'maxlust_perlib':+3});
+		public static const MagicalCharm:PerkType = mk("Magical Charm", "Magical Charm",
+				"You may start combat galloping.",
+				"You've chosen the 'Magical Charm' perk. You may start combat galloping.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -7492,6 +7499,8 @@ public class PerkLib
             CorruptTheMind.requirePerk(CorruptTheHeart)
 					.requireLevel(60);
             //Tier 11 Libido Perks
+			BardEndurance.requirePerk(EmpoweredAria)
+					.requireLevel(66);
             Sadomasochism.requirePerk(UnbreakableBind)
                     .requireLevel(66);
             HalfStepToEpicSelfControl.requireLib(360)

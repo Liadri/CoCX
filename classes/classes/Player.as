@@ -5957,7 +5957,7 @@ use namespace CoC;
 			//if (!hasPerk(PerkLib.TitanicStrength) && statStore.hasBuff('Titanic Strength')) statStore.removeBuffs('Titanic Strength');
 			if (hasPerk(PerkLib.Dracoforce)) {
 				if (statStore.hasBuff('Dracoforce')) statStore.removeBuffs('Dracoforce');
-				var strD:Number = Math.round(str / 2);
+				var strD:Number = Math.round(str/2);
 				var touD:Number = Math.round(tou/2)
 				statStore.replaceBuffObject({'str': strD, 'tou': touD}, 'Dracoforce', { text: 'Dracoforce' });
 			}

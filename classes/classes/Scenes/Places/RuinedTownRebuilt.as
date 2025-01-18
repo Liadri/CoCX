@@ -220,7 +220,7 @@ public class RuinedTownRebuilt extends BaseContent implements SaveableState, Tim
 	}
 
 	public function timeChangeLarge():Boolean {
-		if (time.hours <= 7 && !MouseUpdatedToday) {
+		if (time.hours <= 7 && !MouseUpdatedToday && Intown) {
 			MouseTownUpdate();
 			return true;
 			} else {

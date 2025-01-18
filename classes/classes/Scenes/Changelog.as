@@ -269,6 +269,7 @@ public class Changelog extends BaseContent
 			outputText("-New tier 1 strength lvl-up perk: Challenging shout (Ex). Req. Challenging shout perk and 50+ str. Effect: Allow to automaticaly use weakened Warrior Shout special at the combat round end if wrath is below 500.\n");
 			outputText("-New tier 2 strength lvl-up perk: Challenging shout (Su). Req. Challenging shout (Ex) perk and 75+ str. Effect: Warrior Shout special can be used any turn but amount of gained wrath would depend how long it was used last time in combat. (4% per turn up to 40% after 10 turns)\n");
 			outputText("-Cap for Kirin and Minotaur horns length tf effect. (Stadler)\n");
+			outputText("-New tier 11 libido lvl-up perk: Bard endurance. Req. Empowered Aria perk. Effect: Increase your maximum lust. (+3 extra LP per point of libido)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -281,7 +282,6 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
 			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
 			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
