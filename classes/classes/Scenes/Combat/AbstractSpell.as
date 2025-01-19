@@ -432,6 +432,13 @@ public class AbstractSpell extends CombatAbility {
 		return dTIA;
 	}
 	
+	public function daaamageaddons(dmg:Number):Number {
+		var daaamageaddon:Number = dmg;
+		if (player.hasPerk(PerkLib.Spellsong) && player.lust > player.lust100 * 0.35) daaamageaddon += combat.scalingBonusLibido();
+		if (player.weaponRangeName == "Artemis") daaamageaddon *= 1.5;
+		return daaamageaddon;
+	}
+	
 	public static function corruptMagicPerkFactor(monster:Monster):Number {
 		if (monster == null) return 1.0;
 		if (!player.hasPerk(PerkLib.CorruptMagic)) return 1.0;

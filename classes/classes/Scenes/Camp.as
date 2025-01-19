@@ -2358,7 +2358,7 @@ public class Camp extends NPCAwareContent{
 			addButton(1, "EC: M&B", mainPagePocketWatch, 3).hint("View Merged Perks related to Elemental Conjurer: Mind and Body perk line", "Elemental Conjurer: Mind and Body");
 			addButton(2, "Chimera", mainPagePocketWatch, 4).hint("View Merged Perks related to Chimerical Body perk line", "Chimerical Body");
 			addButton(3, "Mage", mainPagePocketWatch, 5).hint("View Merged Perks related to the Mage perk line", "Mage");
-			addButton(4, "Diehard", mainPagePocketWatch, 6).hint("View Merged Perks related to the Diehard perk line", "Diehard");
+			addButton(4, "Diehard/Ch.S.", mainPagePocketWatch, 6).hint("View Merged Perks related to the Diehard / Challenging Shout perk line", "Diehard, Challenging Shout");
 		}
 
 		if (page == 2) {
@@ -2494,6 +2494,10 @@ public class Camp extends NPCAwareContent{
 			addButton(0, "G.Diehard (Ex)", mainPagePocketWatchGreaterDiehardEx)
 			.disableIf(!player.hasPerk(PerkLib.GreaterDiehard), "Req. Greater Diehard perk")
 			.disableIf(player.hasPerk(PerkLib.GreaterDiehardEx), "You've already merged this perk");
+
+			addButton(0, "Challenging Shout (Mst)", mainPagePocketWatchChallengingShoutMastered)
+			.disableIf(!player.hasPerk(PerkLib.ChallengingShoutSu), "Req. Challenging Shout (Su) perk")
+			.disableIf(player.hasPerk(PerkLib.ChallengingShoutMastered), "You've already merged this perk");
 
 			addButton(12, "Previous", mainPagePocketWatch, page - 1);
 		}
@@ -2779,7 +2783,27 @@ public class Camp extends NPCAwareContent{
 		player.addStatusValue(StatusEffects.MergedPerksCount, 1, 2);
 		player.perkPoints += 2;
 		doNext(mainPagePocketWatch, 6);
+	}
+	private function mainPagePocketWatchChallengingShoutMastered():void {
+		clearOutput();
+		outputText("Perks combined: 'Challenging Shout (Mastered' perk attained.");
+		player.removePerk(PerkLib.ChallengingShout);
+		player.removePerk(PerkLib.ChallengingShoutEx);
+		player.removePerk(PerkLib.ChallengingShoutSu);
+		player.createPerk(PerkLib.ChallengingShoutMastered, 0, 0, 0, 0);
+		player.addStatusValue(StatusEffects.MergedPerksCount, 1, 2);
+		player.perkPoints += 2;
+		doNext(mainPagePocketWatch, 6);
 	}/*
+	private function mainPagePocketWatch():void {
+		clearOutput();
+		outputText("Perks combined: '' perk attained.");
+		player.removePerk(PerkLib.);
+		player.createPerk(PerkLib.);
+		player.addStatusValue(StatusEffects.MergedPerksCount, 1, );
+		player.perkPoints++;
+		doNext(mainPagePocketWatch, 1);
+	}
 	private function mainPagePocketWatch():void {
 		clearOutput();
 		outputText("Perks combined: '' perk attained.");

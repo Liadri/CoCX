@@ -449,7 +449,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 				bd = buttons.add("Feint", feint).hint("Attempt to feint an opponent into dropping its guard.");
 				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 			}
-			if (player.hasPerk(PerkLib.ChallengingShout)) {
+			if (player.hasPerk(PerkLib.ChallengingShout) || player.hasPerk(PerkLib.ChallengingShoutMastered)) {
 				var challengingShout:String = "20% of max/overmax wrath on use as a free action.\nWould go into cooldown after use for: 10 rounds";
 				if (player.hasPerk(PerkLib.ChallengingShoutSu)) {
 					var no1:Number = 40;
@@ -457,8 +457,11 @@ public class PhysicalSpecials extends BaseCombatContent {
 					challengingShout = ""+no1+"";
 					challengingShout += "% of max/overmax wrath on use as a free action.";
 				}
-				bd = buttons.add("Warrior Shout", warriorShout).hint("Embolden yourself with a mighty shout. Generate "+challengingShout+"");//"+(player.hasPerk(PerkLib.NaturalInstincts) ? "1":"2")+"
-				if (player.hasStatusEffect(StatusEffects.CooldownWarriorShout) && !player.hasPerk(PerkLib.ChallengingShoutSu)) {
+				if (player.hasPerk(PerkLib.ChallengingShoutMastered)) {
+					
+				}
+				bd = buttons.add("Warrior Shout", warriorShout).hint("Embolden yourself with a mighty shout. Generate "+challengingShout+"");
+				if (player.hasStatusEffect(StatusEffects.CooldownWarriorShout) && !player.hasPerk(PerkLib.ChallengingShoutSu) && !player.hasPerk(PerkLib.ChallengingShoutMastered)) {
 					bd.disable("<b>You need more time before you can perform Warrior Shout again.</b>\n\n");
 				}
 			}
@@ -1544,8 +1547,12 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("You let out a primal shout that lets your enemies know you won’t be easily defeated.\n\n");
 		var wsr:Number = 0.2;
 		if (player.hasPerk(PerkLib.ChallengingShoutSu)) wsr += 0.2;
-		if (player.hasPerk(PerkLib.ChallengingShoutSu)) wsr -= (player.statusEffectv1(StatusEffects.CooldownWarriorShout) * 0.04);
-		if (!player.hasStatusEffect(StatusEffects.CooldownWarriorShout)) player.createStatusEffect(StatusEffects.CooldownWarriorShout, 10, 0, 0, 0);
+		if (player.hasPerk(PerkLib.ChallengingShoutMastered)) wsr += 0.4;
+		if (player.hasPerk(PerkLib.ChallengingShoutSu) || player.hasPerk(PerkLib.ChallengingShoutMastered)) wsr -= (player.statusEffectv1(StatusEffects.CooldownWarriorShout) * 0.04);
+		if (!player.hasStatusEffect(StatusEffects.CooldownWarriorShout)) {
+			if (player.hasPerk(PerkLib.ChallengingShoutMastered)) player.createStatusEffect(StatusEffects.CooldownWarriorShout, 15, 0, 0, 0);
+			else player.createStatusEffect(StatusEffects.CooldownWarriorShout, 10, 0, 0, 0);
+		}
 		wsr *= player.maxOverWrath();
 		EngineCore.WrathChange(wsr);
 		menu();

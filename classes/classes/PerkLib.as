@@ -742,6 +742,9 @@ public class PerkLib
 				"Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)",
 				"You've chosen the 'Seducer Resilience' perk. Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)")
 				.withBuffs({'maxlust_perlib':+3});
+		public static const Spellsong:PerkType = mk("Spellsong", "Spellsong",
+				"You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)",
+				"You've chosen the 'Spellsong' perk. You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -755,9 +758,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -4449,6 +4449,8 @@ public class PerkLib
 				"As a centaur, you can use ranged weapons while galloping.");
 		public static const CentaurHunterStyleWindReader:PerkType = mk("Centaur hunter style: Wind Reader", "Centaur hunter style: Wind Reader",
 				"As a centaur, your Archery gains a half wisdom modifier to damage.");
+		public static const ChallengingShoutMastered:PerkType = mk("Challenging Shout (Mastered)", "Challenging Shout (Mastered)",
+				"You can now use the ability Warrior Shout! Can be used at any turn but amount of gained wrath would depend how long it was used since last time during combat. (4% per turn up to 60% after 15 turns - first use in combat giving 60%) Also allow to automaticaly use weakened version at the combat round end if wrath is below 750.");
 		public static const ConvictionOfPurpose:PerkType = mk("Conviction of purpose", "Conviction of purpose",
 				"Corruption meter now increase lust resistance based on purity.");
 		public static const Cornucopia:PerkType = mk("Cornucopia", "Cornucopia",
@@ -5255,6 +5257,7 @@ public class PerkLib
                     .requireStr(60);
             UnlockId.requireStr(20);
             ChallengingShout.requireStr(25)
+					.requireNotThosePerks(ChallengingShoutMastered)
                     .requirePerk(JobWarrior);
             PowerAttack.requirePerk(JobWarrior);
             BasicTranquilness.requireStr(30)
@@ -7533,6 +7536,8 @@ public class PerkLib
             CorruptTheSoul.requirePerk(CorruptTheMind)
 					.requireLevel(78);
             //Tier 14 Libido Perks
+			Spellsong.requirePerk(SeducerResilience)
+					.requireLevel(84);
             LegendarySelfControl.requireLib(450)
                     .requireInt(300)
                     .requirePerk(HalfStepToLegendarySelfControl)

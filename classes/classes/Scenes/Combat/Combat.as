@@ -14697,9 +14697,10 @@ public function combatRoundOver():void {
 		}
         else EngineCore.outputText("\nYour warriors rage has ended.\n");
     }
-	if (player.hasPerk(PerkLib.ChallengingShoutEx) && player.wrath < 500) {
+	if ((player.hasPerk(PerkLib.ChallengingShoutEx) && player.wrath < 500) || (player.hasPerk(PerkLib.ChallengingShoutMastered) && player.wrath < 750)) {
 		EngineCore.outputText("\nYou let out a weak primal shout that lets your enemies know you won’t be easily defeated.\n");
-		EngineCore.WrathChange(500);
+		if (player.hasPerk(PerkLib.ChallengingShoutMastered)) EngineCore.WrathChange(750);
+		else EngineCore.WrathChange(500);
 	}
     if (player.statStore.recentlyRemovedTags["Might"]){
         if (player.hasPerk(PerkLib.SelfbuffsProficiencyEx) && player.mana >= CombatAbilities.Might.manaCost()) CombatAbilities.Might.autocast();

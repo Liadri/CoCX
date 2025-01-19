@@ -256,16 +256,16 @@ public class Changelog extends BaseContent
 			outputText("-New option in camp actions menu: Phylactery Enchantment - req. to be Lich. You can weave a minor enchantment on your phylactery to gain a minor power. You start with two runes. Every 50 level you may add one extra rune to your phylactery.\n");
 			outputText("-New option in Phylactery Enchantment: Death rune Imbuement -> You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.\n");
 			//2
-			outputText("-New option in Phylactery Enchantment: Arcane rune Imbuement -> Recover mana 100% faster.\n");//5
-			outputText("-New option in Phylactery Enchantment: Bone rune Imbuement -> Gain natural armor based on your intelligence up to a maximum equal to half your level.\n");//6
-			outputText("-New option in Phylactery Enchantment: Blade rune Imbuement -> Add your intelligence to your strength modifier when fighting with weapons.\n");//7
-			outputText("-New option in Phylactery Enchantment: Mind rune Imbuement -> Add half your intelligence to your libido score.\n");//8
-			outputText("-New option in Phylactery Enchantment: Soul rune Imbuement -> Add half your wisdom to your libido score.\n");//9
+			outputText("-New option in Phylactery Enchantment: Darkness rune Imbuement -> All offensive magic now counts as Dark spells when determining its effect and damage. Effects that already dealt dark damage are 50% stronger.\n");
+			outputText("-New option in Phylactery Enchantment: Cold rune Imbuement -> All offensive magic now counts as Ice spells when determining its effect and damage. Effects that already dealt cold damage are 50% stronger.\n");
+			outputText("-New option in Phylactery Enchantment: Arcane rune Imbuement -> Recover mana 100% faster.\n");
+			outputText("-New option in Phylactery Enchantment: Bone rune Imbuement -> Gain natural armor based on your intelligence up to a maximum equal to half your level.\n");
+			outputText("-New option in Phylactery Enchantment: Blade rune Imbuement -> Add your intelligence to your strength modifier when fighting with weapons.\n");
+			outputText("-New option in Phylactery Enchantment: Mind rune Imbuement -> Add half your intelligence to your libido score.\n");
+			outputText("-New option in Phylactery Enchantment: Soul rune Imbuement -> Add half your wisdom to your libido score.\n");
 			outputText("-New option in Phylactery Enchantment: Body rune Imbuement -> Add half your libido to your strength and speed score.\n");
 			//11
 			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
-			outputText("-New option in Phylactery Enchantment: Darkness rune Imbuement -> All offensive magic now counts as Dark spells when determining its effect and damage. Effects that already dealt dark damage are 50% stronger.\n");//3
-			outputText("-New option in Phylactery Enchantment: Cold rune Imbuement -> All offensive magic now counts as Ice spells when determining its effect and damage. Effects that already dealt cold damage are 50% stronger.\n");//4
 			outputText("-MouseTown Armor and Weapon added. (Canadian Snas)\n");
 			outputText("-Path to open up the Dom's Domain added. (Canadian Snas)\n");
 			outputText("-New tier 1 strength lvl-up perk: Challenging shout (Ex). Req. Challenging shout perk and 50+ str. Effect: Allow to automaticaly use weakened Warrior Shout special at the combat round end if wrath is below 500.\n");
@@ -274,6 +274,9 @@ public class Changelog extends BaseContent
 			outputText("-New tier 11 libido lvl-up perk: Bard endurance. Req. Empowered Aria perk. Effect: Increase your maximum lust. (+3 extra LP per point of libido)\n");
 			outputText("-New tier 12 libido lvl-up perk: Magical Charm. Req. Bard endurance perk. Effect: You learned how to naturally weave your tease with hypnotic magic, melding your magical talent in your seduction attempt.\n");
 			outputText("-New tier 13 libido lvl-up perk: Seducer Resilience. Req. Magical Charm perk. Effect: Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)\n");
+			outputText("-New tier 14 libido lvl-up perk: Spellsong. Req. Seducer Resilience perk. Effect: You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)\n");
+			outputText("-New event perk: Challenging shout (Mastered). Gained by use of the Pocket Watch when req. are meet. Effects: You can now use the ability Warrior Shout! Can be used at any turn but amount of gained wrath would depend how long it was used since last time during combat. ");
+			outputText("(4% per turn up to 60% after 15 turns - first use in combat giving 60%) Also allow to automaticaly use weakened version at the combat round end if wrath is below 750.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -281,15 +284,13 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
-			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
-			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
-			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
-			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add wis to sens
 			outputText("-\n");//New tier ? sensitivity lvl-up perk: ???. Req. ?Quasi Domain Kineses? perk and 175+ sensitivity. Effect: add int to sens
@@ -301,11 +302,11 @@ public class Changelog extends BaseContent
 			outputText("-\n");// (Liadri) (aimozg) (Canadian Snas) (Jtecx) (Lord Shadeogorath) (Furrin Gok) (khovel) (Chibizs) (Svalkash) (Agentfunfun)
 			outputText("-\n");// (jfmherokiller) (NUZ/Shirane) (EragonX) (Xetaxheb) (Demojay) (GatoGrande) (Stadler) (Imperfect Spell) (PhillipDaisySeventh) (Edward Darksong) (Cangsz)
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier ? wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and ???+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
+			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
+			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
+			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
+			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-Fixed bugs: Dracula/lina PC unable to find get ghoul if they not learned this as normal Vampire, unable to buy manual for 1st atk: f. swords, Arigean Princess PC not been fully immune to TF-ing like other perm races, Weresharks not having their stats changing according to moon phase or boosted during use of Crinos Shape, Phoenix TF adding mutagen penatly instead of stat curse, ");
@@ -390,8 +391,12 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
+			outputText("-\n");
+			outputText("-\n");
 			outputText("-Added in current version race effects to Metamorph perk: \n");Goo, Siren, Avian-morph, Bear/(Red?) Panda, Fire Snail, Melkie, Centipede(what about Centaur race? need rework still or nah? or just adding to Metamorph menu but how i mean with what bodyparts?)
 			outputText("-New tier 7 speed lvl-up perk: Prestige Job: Soul Archer Req. Soul Overlord, Job: Hunter perks and 200+ spe Effect: +40 to max spe and wis (scalable with NG tiers), +150 to max Fatigue, +1000 to max Soulforce\n");
+			outputText("\n");
+			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");
@@ -430,6 +435,8 @@ public class Changelog extends BaseContent
 			outputText("\n");cel na 0.8(/9): może jakas lokacja w places umieszczona takie mini miasto zanim sie odkryje wlasciwa lokacje lub miasto ale dostepne tylko czesciowo zanim sie nie znajdzie wlasciwej lokacji i z niej eksploracji odkryje miasta we właściwy sposob ^^
 			outputText("\n");cel na 0.8(/9): pododawać 1-3 grey spells
 			outputText("\n");cel na 0.8(/9): dodać Grey spells: ?were-beast spell?
+			outputText("\n");
+			outputText("\n");
 			outputText("\n");
 			outputText("\n");
 			outputText("\n");

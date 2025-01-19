@@ -52,6 +52,7 @@ public class WaterSphereSpell extends AbstractGreySpell {
 	
 	public function calcDamage(monster:Monster, randomize:Boolean = true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)
 		var baseDamage:Number = 2 * scalingBonusIntelligence(randomize);
+		daaamageaddons(baseDamage);
 		if (player.hasPerk(PerkLib.Convergence) && monster != null && (monster.hasPerk(PerkLib.EnemyGroupType) || monster.hasPerk(PerkLib.EnemyLargeGroupType) || monster.hasPerk(PerkLib.Enemy300Type))) {
 			if (player.hasPerk(PerkLib.SuperConvergence)) {
 				if (monster.hasPerk(PerkLib.EnemyGroupType)) baseDamage *= 3.5;
@@ -63,7 +64,6 @@ public class WaterSphereSpell extends AbstractGreySpell {
 				else baseDamage *= 1.5;
 			}
 		}
-		if (player.weaponRangeName == "Artemis") baseDamage *= 1.5;
 		if (ex) baseDamage *= 2;
 		return adjustSpellDamage(baseDamage, DamageType.WATER, CAT_SPELL_GREY, monster, true, casting);
 	}
