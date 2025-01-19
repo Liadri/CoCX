@@ -2208,6 +2208,11 @@ public class PlayerInfo extends BaseContent {
 			HPChange(player.spe, false, false);
 			statScreenRefresh();
 		}
+		if (perk.ptype == PerkLib.SeducerResilience) {
+			HPChange(player.lib, false, false);
+			HPChange(player.sens, false, false);
+			statScreenRefresh();
+		}
 		if (perk.ptype == PerkLib.RacialParagon) {
 			var list:Array = Races.AllRacesByName;
 			list = sortedBy(list, function (a:Race):int {

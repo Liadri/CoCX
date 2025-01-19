@@ -197,19 +197,26 @@ public class PerkMenu extends BaseContent {
 			outputText("\nStart: <b>" + (flags[kFLAGS.AUTO_GALLOP] == 0 ? "Standing still" : "Galloping") + "</b>");
 			if (autoFlyingFlag == 0) addButton(9, "Gallop", curry(toggleFlagMisc, kFLAGS.AUTO_GALLOP));
 		}
-		// tease healing
-		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {
-			outputText("\n\nCombat Tease can cause lust reduction: " + (
-					flags[kFLAGS.COMBAT_TEASE_HEALING] == 0 ? "Enabled" : "Disabled"
-			));
-			addButton(10, "C. Tease Heal", curry(toggleFlagMisc, kFLAGS.COMBAT_TEASE_HEALING));
-		}
 		// your pain, my power wrath generation
 		if (player.hasPerk(PerkLib.YourPainMyPower)) {
 			outputText("\n\nYou can choose whether wrath is generated while healing from blood: " + (
 				flags[kFLAGS.YPMP_WRATH_GEN] == 0 ? "Enabled" : "Disabled"
 			));
-			addButton(11, "YPMP Wrath", curry(toggleFlagMisc, kFLAGS.YPMP_WRATH_GEN));
+			addButton(10, "YPMP Wrath", curry(toggleFlagMisc, kFLAGS.YPMP_WRATH_GEN));
+		}
+		// tease healing
+		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {
+			outputText("\n\nCombat Tease can cause lust reduction: " + (
+					flags[kFLAGS.COMBAT_TEASE_HEALING] == 0 ? "Enabled" : "Disabled"
+			));
+			addButton(11, "C. Tease Heal", curry(toggleFlagMisc, kFLAGS.COMBAT_TEASE_HEALING));
+		}
+		// magica charm
+		if (player.hasPerk(PerkLib.MagicalCharm)) {
+			outputText("\n\nTease gain an intelligence scaling so long as you keep spending mana: " + (
+				flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0 ? "Enabled" : "Disabled"
+			));
+			addButton(12, "Magical Charm", curry(toggleFlagMisc, kFLAGS.COMBAT_MAGICAL_CHARM));
 		}
 		addButton(14, "Back", displayPerks);
 	}

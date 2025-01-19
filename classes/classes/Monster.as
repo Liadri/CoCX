@@ -301,6 +301,16 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (this is TrainingDummy) temp += ((this.spe*2000) * (1 + newGamePlusMod()));
 				else temp += ((this.spe*4) * (1 + newGamePlusMod()));
 			}
+			if (hasPerk(PerkLib.SeducerResilience)) {
+				if (this is TrainingDummy) {
+					temp += ((this.lib*6000) * (1 + newGamePlusMod()));
+					temp += ((this.sens*6000) * (1 + newGamePlusMod()));
+				}
+				else {
+					temp += ((this.lib*12) * (1 + newGamePlusMod()));
+					temp += ((this.sens*12) * (1 + newGamePlusMod()));
+				}
+			}
 			if (hasPerk(PerkLib.JobGuardian)) temp += 120;
 			if (hasPerk(PerkLib.FleshBodyApprenticeStage)) {
 				if (hasPerk(PerkLib.SoulApprentice)) temp += (400 * (1 + newGamePlusMod()));

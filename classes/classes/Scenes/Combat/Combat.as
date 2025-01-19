@@ -14709,6 +14709,10 @@ public function combatRoundOver():void {
         if (player.hasPerk(PerkLib.SelfbuffsProficiencyEx) && player.mana >= CombatAbilities.Blink.manaCost()) CombatAbilities.Blink.autocast();
         else EngineCore.outputText("\nYour speeds wanes as your Blink spell ends.\n");
     }
+	if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) {
+		if (player.mana >= Math.round(player.maxMana() * 0.01)) EngineCore.ManaChange(-Math.round(player.maxMana() * 0.01));
+		else flags[kFLAGS.COMBAT_MAGICAL_CHARM] = 1;
+	}
     player.restoreHPRatio();
     recoveryOfResourcesImpl();
     statScreenRefresh();
@@ -15367,6 +15371,7 @@ public function StraddleTease():void {
 }
 private function StraddleTeaseRe():void {
 	var straddleDamage:Number = combat.teases.teaseBaseLustDamage();
+	if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) straddleDamage += combat.scalingBonusIntelligence();
     if (player.perkv1(IMutationsLib.ManticoreMetabolismIM) >= 3 && player.tail.type == Tail.MANTICORE_PUSSYTAIL) straddleDamage *= 2;
 	if (player.hasPerk(PerkLib.ImprovedGrapple)) {
 		if (player.hasPerk(PerkLib.GreaterGrapple)) straddleDamage *= 1.4;
@@ -15949,6 +15954,7 @@ public function ScyllaTease():void {
         //Determine basic damage.
         //==============================
         damage = combat.teases.teaseBaseLustDamage();
+		if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) damage += combat.scalingBonusIntelligence();
         chance += 2;
         //Specific cases for slimes and demons, as the normal ones would make no sense
         if (monster.short == "demons") {
@@ -16104,6 +16110,7 @@ public function SwallowTease():void {
         //Determine basic damage.
         //==============================
         damage = combat.teases.teaseBaseLustDamage();
+		if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) damage += combat.scalingBonusIntelligence();
         chance += 2;
         //Specific cases for slimes and demons, as the normal ones would make no sense
         if (monster is GreenSlime) {
@@ -16257,6 +16264,7 @@ public function WebTease():void {
         //Determine basic damage.
         //==============================
         damage = combat.teases.teaseBaseLustDamage();
+		if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) damage += combat.scalingBonusIntelligence();
         chance += 2;
 
         //Land the hit!
@@ -16337,6 +16345,7 @@ public function GooTease():void {
         //Determine basic damage.
         //==============================
         damage = combat.teases.teaseBaseLustDamage();
+		if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) damage += combat.scalingBonusIntelligence();
         chance += 2;
 
         //Land the hit!

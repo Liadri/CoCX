@@ -254,13 +254,15 @@ public class Changelog extends BaseContent
 			outputText("And chance to find enemy would change from default 25% to instead increase with PC level from 50% below lvl 3 to 100% at lvl 9+ (been famous and strong would easier attract all the shady people).\n");
 			outputText("-Passive ability: Manaforce - req. to be Lich. Effect: Effects that restores mana also restores soulforce.\n");
 			outputText("-New option in camp actions menu: Phylactery Enchantment - req. to be Lich. You can weave a minor enchantment on your phylactery to gain a minor power. You start with two runes. Every 50 level you may add one extra rune to your phylactery.\n");
-			outputText("-New option in Phylactery Enchantment: Death rune Imbuement -> You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.\n");//1
+			outputText("-New option in Phylactery Enchantment: Death rune Imbuement -> You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.\n");
+			//2
 			outputText("-New option in Phylactery Enchantment: Arcane rune Imbuement -> Recover mana 100% faster.\n");//5
 			outputText("-New option in Phylactery Enchantment: Bone rune Imbuement -> Gain natural armor based on your intelligence up to a maximum equal to half your level.\n");//6
 			outputText("-New option in Phylactery Enchantment: Blade rune Imbuement -> Add your intelligence to your strength modifier when fighting with weapons.\n");//7
 			outputText("-New option in Phylactery Enchantment: Mind rune Imbuement -> Add half your intelligence to your libido score.\n");//8
 			outputText("-New option in Phylactery Enchantment: Soul rune Imbuement -> Add half your wisdom to your libido score.\n");//9
-			outputText("-New option in Phylactery Enchantment: Body rune Imbuement -> Add half your libido to your strength and speed score.\n");//10
+			outputText("-New option in Phylactery Enchantment: Body rune Imbuement -> Add half your libido to your strength and speed score.\n");
+			//11
 			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
 			outputText("-New option in Phylactery Enchantment: Darkness rune Imbuement -> All offensive magic now counts as Dark spells when determining its effect and damage. Effects that already dealt dark damage are 50% stronger.\n");//3
 			outputText("-New option in Phylactery Enchantment: Cold rune Imbuement -> All offensive magic now counts as Ice spells when determining its effect and damage. Effects that already dealt cold damage are 50% stronger.\n");//4
@@ -270,6 +272,8 @@ public class Changelog extends BaseContent
 			outputText("-New tier 2 strength lvl-up perk: Challenging shout (Su). Req. Challenging shout (Ex) perk and 75+ str. Effect: Warrior Shout special can be used any turn but amount of gained wrath would depend how long it was used last time in combat. (4% per turn up to 40% after 10 turns)\n");
 			outputText("-Cap for Kirin and Minotaur horns length tf effect. (Stadler)\n");
 			outputText("-New tier 11 libido lvl-up perk: Bard endurance. Req. Empowered Aria perk. Effect: Increase your maximum lust. (+3 extra LP per point of libido)\n");
+			outputText("-New tier 12 libido lvl-up perk: Magical Charm. Req. Bard endurance perk. Effect: You learned how to naturally weave your tease with hypnotic magic, melding your magical talent in your seduction attempt.\n");
+			outputText("-New tier 13 libido lvl-up perk: Seducer Resilience. Req. Magical Charm perk. Effect: Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -277,9 +281,7 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

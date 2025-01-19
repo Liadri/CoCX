@@ -780,7 +780,11 @@ public class Creature extends Utils
 			if (hasPerk(PerkLib.CheetahIII)) max += Math.round(spe*4);
 			if (hasPerk(PerkLib.CheetahIV)) max += Math.round(spe*4);
 			if (hasPerk(PerkLib.CheetahV)) max += Math.round(spe*4);
-			if (hasPerk(PerkLib.CheetahVI)) max += Math.round(spe*4);
+			if (hasPerk(PerkLib.CheetahVI)) max += Math.round(spe * 4);
+			if (hasPerk(PerkLib.SeducerResilience)) {
+				max += Math.round(lib*12);
+				max += Math.round(sens*12);
+			}
 			if (perkv1(IMutationsLib.StillHeartIM) >= 4) {
 				if (hasPerk(PerkLib.Undeath)) max += Math.round(lib*0.5);
 				else max += Math.round(lib*0.25);

@@ -736,8 +736,12 @@ public class PerkLib
 				"You've chosen the 'Bard endurance' perk. Increase your maximum lust. (+3 extra LP per point of libido)")
 				.withBuffs({'maxlust_perlib':+3});
 		public static const MagicalCharm:PerkType = mk("Magical Charm", "Magical Charm",
-				"You may start combat galloping.",
-				"You've chosen the 'Magical Charm' perk. You may start combat galloping.");
+				"You learned how to naturally weave your tease with hypnotic magic, melding your magical talent in your seduction attempt.",
+				"You've chosen the 'Magical Charm' perk. You learned how to naturally weave your tease with hypnotic magic, melding your magical talent in your seduction attempt.");
+		public static const SeducerResilience:PerkType = mk("Seducer Resilience", "Seducer Resilience",
+				"Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)",
+				"You've chosen the 'Seducer Resilience' perk. Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)")
+				.withBuffs({'maxlust_perlib':+3});
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -7511,6 +7515,8 @@ public class PerkLib
                     .requirePerk(EpicLibido)
                     .requireLevel(66);
             //Tier 12 Libido Perks
+			MagicalCharm.requirePerk(BardEndurance)
+					.requireLevel(72);
             ControlFreak.requirePerk(Sadomasochism)
                     .requireLevel(72);
             EpicSelfControl.requireLib(390)
@@ -7518,6 +7524,8 @@ public class PerkLib
                     .requirePerk(HalfStepToEpicSelfControl)
                     .requireLevel(72);
             //Tier 13 Libido Perks
+			SeducerResilience.requirePerk(MagicalCharm)
+					.requireLevel(78);
             HalfStepToLegendarySelfControl.requireLib(420)
                     .requireInt(280)
                     .requirePerk(EpicSelfControl)

@@ -72,6 +72,7 @@ public class TeaseSkill extends AbstractGeneral {
 
 	public function calcLustDamage(monster:Monster):Number {
 		var lustDmg:Number = combat.teases.teaseBaseLustDamage();
+		if (player.hasPerk(PerkLib.MagicalCharm) && flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0) lustDmg += combat.scalingBonusIntelligence();
         if (player.hasPerk(PerkLib.BroadSelection) && player.differentTypesOfCocks() > 1) lustDmg *= (1 + (0.25 * player.differentTypesOfCocks()));
 		lustDmg = combat.teases.fueledByDesireDamageBonus(lustDmg);
 		if (SceneLib.urtaQuest.isUrta()) lustDmg *= 2;
