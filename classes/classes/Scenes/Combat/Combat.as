@@ -7384,6 +7384,7 @@ public class Combat extends BaseContent {
                                 if (player.armor == armors.ELFDRES && player.isElf()) damageBa *= 2;
                                 if (player.armor == armors.FMDRESS && player.isWoodElf()) damageBa *= 2;
                                 if (player.hasPerk(PerkLib.TransformationImmunityBeeHandmaiden)) damageB += scalingBonusToughness() * 0.5;
+								if (player.hasPerk(PerkLib.LewdPoisoning)) damageB += combat.teases.teaseBaseLustDamage() * 0.5;
                                 if (player.level < 10) damageB += 20 + (player.level * 3);
                                 else if (player.level < 20) damageB += 50 + (player.level - 10) * 2;
                                 else if (player.level < 30) damageB += 70 + (player.level - 20) * 1;
@@ -7448,6 +7449,7 @@ public class Combat extends BaseContent {
                                 else if (player.level < 20) lustdamage += 50 + (player.level - 10) * 2;
                                 else if (player.level < 30) lustdamage += 70 + (player.level - 20) * 1;
                                 else lustdamage += 80;
+								if (player.hasPerk(PerkLib.LewdPoisoning)) lustdamage += combat.teases.teaseBaseLustDamage() * 0.5;
                                 if (player.hasPerk(PerkLib.RacialParagon)) lustdamage *= RacialParagonAbilityBoost();
                                 if (player.armor == armors.ELFDRES && player.isElf()) lustdamage *= 2;
                                 if (player.armor == armors.FMDRESS && player.isWoodElf()) lustdamage *= 2;
@@ -7506,6 +7508,7 @@ public class Combat extends BaseContent {
                                     var damage4Ba:Number = 1;
                                     if (player.armor == armors.ELFDRES && player.isElf()) damage4Ba *= 2;
                                     if (player.armor == armors.FMDRESS && player.isWoodElf()) damage4Ba *= 2;
+									if (player.hasPerk(PerkLib.LewdPoisoning)) damage4B += combat.teases.teaseBaseLustDamage() * 0.5;
                                     if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) damage4B *= 2;
                                     poisonScaling += player.lib/100;
                                     poisonScaling += player.tou/100;
@@ -7531,6 +7534,7 @@ public class Combat extends BaseContent {
                                 } else {
                                     outputText("  [monster he] seems to be affected by the poison, showing increasing sign of arousal.");
                                     var lustDmg:int = 6 * monster.lustVuln;
+									if (player.hasPerk(PerkLib.LewdPoisoning)) lustDmg += combat.teases.teaseBaseLustDamage() * 0.5;
                                     if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) lustDmg *= 2;
                                     if (player.armor == armors.ELFDRES && player.isElf()) lustdamage *= 2;
                                     if (player.armor == armors.FMDRESS && player.isWoodElf()) lustdamage *= 2;
@@ -7896,6 +7900,7 @@ public class Combat extends BaseContent {
                                 if (player.armor == armors.ELFDRES && player.isElf()) damageBa *= 2;
                                 if (player.armor == armors.FMDRESS && player.isWoodElf()) damageBa *= 2;
                                 if (player.hasPerk(PerkLib.TransformationImmunityBeeHandmaiden)) damageB += scalingBonusToughness() * 0.5;
+								if (player.hasPerk(PerkLib.LewdPoisoning)) damageB += combat.teases.teaseBaseLustDamage() * 0.5;
                                 if (player.level < 10) damageB += 20 + (player.level * 3);
                                 else if (player.level < 20) damageB += 50 + (player.level - 10) * 2;
                                 else if (player.level < 30) damageB += 70 + (player.level - 20) * 1;
@@ -7955,6 +7960,7 @@ public class Combat extends BaseContent {
                                 outputText("  [monster he] seems to be affected by the poison, showing increasing sign of arousal.");
                                 var lustdamage:Number = 35 + rand(player.lib / 10);
                                 var DBPaaa:Number = 1;
+								if (player.hasPerk(PerkLib.LewdPoisoning)) lustdamage += combat.teases.teaseBaseLustDamage() * 0.5;
                                 if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) DBPaaa *= 2;
                                 if (player.level < 10) lustdamage += 20 + (player.level * 3);
                                 else if (player.level < 20) lustdamage += 50 + (player.level - 10) * 2;
@@ -8018,6 +8024,7 @@ public class Combat extends BaseContent {
                                     var damage4Ba:Number = 1;
                                     if (player.armor == armors.ELFDRES && player.isElf()) damage4Ba *= 2;
                                     if (player.armor == armors.FMDRESS && player.isWoodElf()) damage4Ba *= 2;
+									if (player.hasPerk(PerkLib.LewdPoisoning)) damage4B += combat.teases.teaseBaseLustDamage() * 0.5;
                                     if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) damage4B *= 2;
                                     poisonScaling += player.lib/100;
                                     poisonScaling += player.tou/100;
@@ -8043,6 +8050,7 @@ public class Combat extends BaseContent {
                                 } else {
                                     outputText("  [monster he] seems to be affected by the poison, showing increasing sign of arousal.");
                                     var lustDmg:int = 6 * monster.lustVuln;
+									if (player.hasPerk(PerkLib.LewdPoisoning)) lustDmg += combat.teases.teaseBaseLustDamage() * 0.5;
                                     if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) lustDmg *= 2;
                                     if (player.armor == armors.ELFDRES && player.isElf()) lustdamage *= 2;
                                     if (player.armor == armors.FMDRESS && player.isWoodElf()) lustdamage *= 2;
@@ -9181,6 +9189,7 @@ public class Combat extends BaseContent {
 		if (player.weapon == weapons.VENCLAW && monster.lustVuln > 0) {
             outputText("\n[monster he] seems to be affected by the poison, showing increasing sign of arousal.");
             var Ldamage:Number = 8 + rand(3);
+			if (player.hasPerk(PerkLib.LewdPoisoning)) Ldamage += combat.teases.teaseBaseLustDamage() * 0.5;
             if (player.armor == armors.ELFDRES && player.isElf()) Ldamage *= 2;
             if (player.armor == armors.FMDRESS && player.isWoodElf()) Ldamage *= 2;
             monster.teased(Math.round(monster.lustVuln * Ldamage));
@@ -9248,6 +9257,7 @@ public class Combat extends BaseContent {
         if (player.hasPerk(PerkLib.PoisonNails) && player.isFistOrFistWeapon()) {
             var lust0damage:Number = 35 + rand(player.lib / 10);
 			var touDebuff:Number = 2;
+			if (player.hasPerk(PerkLib.LewdPoisoning)) lust0damage += combat.teases.teaseBaseLustDamage() * 0.5;
             lust0damage *= 0.14;
             if (player.armor == armors.ELFDRES && player.isElf()) lust0damage *= 2;
             if (player.armor == armors.FMDRESS && player.isWoodElf()) lust0damage *= 2;

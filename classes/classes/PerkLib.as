@@ -745,6 +745,9 @@ public class PerkLib
 		public static const Spellsong:PerkType = mk("Spellsong", "Spellsong",
 				"You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)",
 				"You've chosen the 'Spellsong' perk. You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)");
+		public static const LewdPoisoning:PerkType = mk("Lewd Poisoning", "Lewd Poisoning",
+				"Weapon poison that deals lust damage now inflicts half of your tease damage.",
+				"You've chosen the 'Lewd Poisoning' perk. Weapon poison that deals lust damage now inflicts half of your tease damage.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -758,6 +761,9 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -6107,6 +6113,8 @@ public class PerkLib
             /*Multishot.requireAnyPerk(WildQuiver, LockAndLoad)
                     .requireSpe(150)
                     .requireLevel(30);*/
+			LewdPoisoning.requireLevel(30)
+					.requirePerk(WoundPoison);
             PenetratingThrow.requirePerk(ImpactThrow)
                     .requireSpe(100)
                     .requireLevel(24);
