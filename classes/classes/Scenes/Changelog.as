@@ -278,18 +278,18 @@ public class Changelog extends BaseContent
 			outputText("-New event perk: Challenging shout (Mastered). Gained by use of the Pocket Watch when req. are meet. Effects: You can now use the ability Warrior Shout! Can be used at any turn but amount of gained wrath would depend how long it was used since last time during combat. ");
 			outputText("(4% per turn up to 60% after 15 turns - first use in combat giving 60%) Also allow to automaticaly use weakened version at the combat round end if wrath is below 750.\n");
 			outputText("-New tier 5 speed lvl-up perk: Lewd Poisoning. Req. Wound Poison. Effect: Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.\n");
+			outputText("-In character creation if Herm option is unlocked can choose now between: Man, Woman, Herm (without balls), Herm (with balls)\n");
+			outputText("-New tier 0 misc lvl-up perk: Stored Momentum. Req. Job: Tinker perk, 15+ wisdom and 15+ intelligence. Effect: After using a gadget you store the latent kinetic energy increasing your speed and strength by 25% for 5 rounds. This effect stacks upon itself.\n");
+			outputText("-New tier 1 misc lvl-up perk: Master Gadgeteer. Req. Stored Momentum perk, 30+ wisdom and 30+ intelligence. Effect: Gadgets now gain an added intelligence scaling.\n");
+			outputText("-New tier 3 misc lvl-up perk: Law of perpetual motion. Req. Stored Momentum perk, 60+ wisdom and 60+ intelligence. Effect: Stored Momentum duration increases to 10 rounds.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier 0 misc lvl-up perk: . Req. Job: Tinker perk, 15+ wisdom and 15+ intelligence. Effect: .
 			outputText("-\n");
 			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
+			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

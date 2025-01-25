@@ -748,6 +748,15 @@ public class PerkLib
 		public static const LewdPoisoning:PerkType = mk("Lewd Poisoning", "Lewd Poisoning",
 				"Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.",
 				"You've chosen the 'Lewd Poisoning' perk. Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.");
+		public static const StoredMomentum:PerkType = mk("Stored Momentum", "Stored Momentum",
+				"After using a gadget you store the latent kinetic energy increasing your speed and strength by 25% for 5 rounds. This effect stacks upon itself.",
+				"You've chosen the 'Stored Momentum' perk. After using a gadget you store the latent kinetic energy increasing your speed and strength by 25% for 5 rounds. This effect stacks upon itself.");
+		public static const MasterGadgeteer:PerkType = mk("Master Gadgeteer", "Master Gadgeteer",
+				"Gadgets now gain an added intelligence scaling.",
+				"You've chosen the 'Master Gadgeteer' perk. Gadgets now gain an added intelligence scaling.");
+		public static const LawOfPerpetualMotion:PerkType = mk("Law of perpetual motion", "Law of perpetual motion",
+				"Stored Momentum duration increases to 10 rounds.",
+				"You've chosen the 'Law of perpetual motion' perk. Stored Momentum duration increases to 10 rounds.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -761,15 +770,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -7865,6 +7865,9 @@ public class PerkLib
                     }, "Slime, Manticore, Displacer beast, Vampire, Dracula race or hunger enabled.");
             JobTinker.requireInt(10)
 					.requireWis(10);
+            StoredMomentum.requirePerk(JobTinker)
+                    .requireInt(15)
+					.requireWis(15);
             //Tier 1
 			ChimericalBodyInitialStage.requireLevel(6)
 					.requireNotThosePerks(ChimericalBodySemiImprovedStageEx, ChimericalBodySemiSuperiorStageEx, ChimericalBodySemiEpicStageEx)
@@ -7992,6 +7995,10 @@ public class PerkLib
 					.requireStr(30)
 					.requireTou(30)
 					.requireSpe(30);
+            MasterGadgeteer.requireLevel(6)
+                    .requirePerk(StoredMomentum)
+                    .requireInt(30)
+					.requireWis(30);
 			Enhancement.requireLevel(6)
 					.requireAnyPerk(HistoryAlchemist, PastLifeAlchemist);
 			Wizened.requireLevel(6)
@@ -8229,6 +8236,10 @@ public class PerkLib
 					.requireStr(40)
 					.requireTou(40)
 					.requireSpe(40);
+            LawOfPerpetualMotion.requireLevel(18)
+                    .requirePerk(StoredMomentum)
+                    .requireInt(60)
+					.requireWis(60);
 			ImprovedMetabolization.requirePerk(Metabolization)
 					.requireLevel(18)
 					.requireCustomFunction(function (player:Player):Boolean {

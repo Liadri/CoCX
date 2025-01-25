@@ -3202,6 +3202,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("You propel yourself up and kick [themonster] in the face leaving burns in the process. ");
 		var damage:Number = 0;
 		damage += (combat.meleeUnarmedDamageNoLagSingle() * 2);
+		if (player.hasPerk(PerkLib.MasterGadgeteer)) damage += combat.scalingBonusIntelligence();
 		damage *= (spellMod() * 2);
 		if (player.hasStatusEffect(StatusEffects.Gallop)) {
 			if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 4) damage *= 2;
@@ -3220,6 +3221,15 @@ public class PhysicalSpecials extends BaseCombatContent {
 		}
 		checkAchievementDamage(damage);
 		outputText("\n\n");
+		if (player.hasPerk(PerkLib.StoredMomentum)) {
+			var limit:Number = 5;
+			if (player.hasPerk(PerkLib.StoredMomentum)) limit += 5;
+			if (player.hasStatusEffect(StatusEffects.StoredMomentum)) {
+				if (player.statusEffectv2(StatusEffects.StoredMomentum) < limit) player.addStatusValue(StatusEffects.StoredMomentum, 2, 1);
+				player.addStatusValue(StatusEffects.StoredMomentum, 1, 0.25);
+			}
+			else player.createStatusEffect(StatusEffects.StoredMomentum, 0.25, limit, 0, 0);
+		}
 		combat.WrathGenerationPerHit2(5);
 		combat.heroBaneProc(damage);
 		combat.EruptingRiposte();

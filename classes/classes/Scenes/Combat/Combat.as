@@ -11213,6 +11213,11 @@ public class Combat extends BaseContent {
                 player.addStatusValue(StatusEffects.GooArmorSilence, 1, 1);
             }
         }
+		if (player.hasStatusEffect(StatusEffects.StoredMomentum)) {
+            player.addStatusValue(StatusEffects.StoredMomentum, 1, -0.25);
+			player.addStatusValue(StatusEffects.StoredMomentum, 2, -1);
+            if (player.statusEffectv2(StatusEffects.StoredMomentum) < 0) player.removeStatusEffect(StatusEffects.StoredMomentum);
+        }
 		if (player.hasStatusEffect(StatusEffects.PiercingBlow)) {
             player.addStatusValue(StatusEffects.PiercingBlow, 1, -1);
             if (player.statusEffectv1(StatusEffects.PiercingBlow) < 0) player.removeStatusEffect(StatusEffects.PiercingBlow);

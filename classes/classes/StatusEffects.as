@@ -1163,6 +1163,7 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const SparingTyrantia:StatusEffectType           = mkCombat("SparingTyrantia");
 		public static const StoneLust:StatusEffectType                 = mkCombat("Stone Lust");
 		public static const StoneSkin:StatusEffectType                 = mkCombat("Stone Skin");
+		public static const StoredMomentum:StatusEffectType            = mkCombat("Stored Momentum");
 		public static const Strangulate:StatusEffectType               = mkCombat("Strangulate");
 		public static const Stunned:StatusEffectType                   = mkCombat("Stunned");
 		public static const StunnedTornado:StatusEffectType            = mkCombat("Stunned (Tornado)");

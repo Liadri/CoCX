@@ -563,7 +563,8 @@ import classes.Scenes.Combat.CombatAbility;
 			addButton(1, "Woman", isAWoman);
 			if (flags[kFLAGS.NEW_GAME_PLUS_BONUS_UNLOCKED_HERM] > 0) {
 				outputText("\n\nOr a hermaphrodite? (Hermaphrodite gender unlocked!)");
-				addButton(2, "Herm", isAHerm);
+				addButton(2, "Herm", isAHerm).hint("Herm without balls");
+				addButton(3, "Herm", isAHerm, false).hint("Herm with balls");
 			}
 		}
 
@@ -589,7 +590,8 @@ import classes.Scenes.Combat.CombatAbility;
 			addButton(0, "Man", isAMan);
 			addButton(1, "Woman", isAWoman);
 			if (flags[kFLAGS.NEW_GAME_PLUS_BONUS_UNLOCKED_HERM] > 0) {
-				addButton(2, "Herm", isAHerm);
+				addButton(2, "Herm", isAHerm).hint("Herm without balls");
+				addButton(3, "Herm", isAHerm, false).hint("Herm with balls");
 			}
 		}
 
@@ -679,7 +681,7 @@ import classes.Scenes.Combat.CombatAbility;
 			simpleChoices("Slender", buildSlenderFemale, "Average", buildAverageFemale, "Curvy", buildCurvyFemale, "Tomboyish", buildTomboyishFemale, "", null);
 		}
 
-		private function isAHerm():void {
+		private function isAHerm(noBalls:Boolean = true):void {
 			//Attributes
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.strStat.train.value += 1;
@@ -696,6 +698,10 @@ import classes.Scenes.Combat.CombatAbility;
 			//Genetalia
 			player.createVagina();
 			player.clitLength = .5;
+			if (!noBalls) {
+				player.balls = 2;
+				player.ballSize = 1;
+			}
 			player.createCock();
 			player.cocks[0].knotMultiplier = 1;
 
