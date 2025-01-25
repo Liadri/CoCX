@@ -5719,6 +5719,7 @@ public class Combat extends BaseContent {
                             else if (player.level < 20) damage3B += 50 + (player.level - 10) * 2;
                             else if (player.level < 30) damage3B += 70 + (player.level - 20) * 1;
                             else damage3B += 80;
+							if (player.hasPerk(PerkLib.LewdPoisoning)) damage3B += combat.teases.teaseBaseLustDamage() * 0.5;
                             damage3B *= 0.2;
                             damage3Ba *= sharedVenomMulti;
                             damage3B *= damage3Ba;
@@ -6086,6 +6087,7 @@ public class Combat extends BaseContent {
                                 else if (player.level < 20) lustdamage += 50 + (player.level - 10) * 2;
                                 else if (player.level < 30) lustdamage += 70 + (player.level - 20) * 1;
                                 else lustdamage += 80;
+								if (player.hasPerk(PerkLib.LewdPoisoning)) lustdamage += combat.teases.teaseBaseLustDamage() * 0.5;
                                 lustdamage *= 0.14;
                                 if (pLibImprovedVenomGlandSu) lustDmg2 *= 2;
 								if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 1) {
@@ -6159,6 +6161,7 @@ public class Combat extends BaseContent {
                             else if (player.level < 20) lustdamage2 += 50 + (player.level - 10) * 2;
                             else if (player.level < 30) lustdamage2 += 70 + (player.level - 20) * 1;
                             else lustdamage2 += 80;
+							if (player.hasPerk(PerkLib.LewdPoisoning)) lustdamage2 += combat.teases.teaseBaseLustDamage() * 0.5;
                             lustdamage2 *= 0.14;
                             if (player.hasPerk(PerkLib.ImprovedVenomGlandSu)) lustDmg3 *= 2;
 							if (player.perkv1(IMutationsLib.PoisonGlandIM) >= 1) {
@@ -9033,6 +9036,7 @@ public class Combat extends BaseContent {
         if (player.hasPerk(PerkLib.BimboBody) || player.hasPerk(PerkLib.BroBody) || player.hasPerk(PerkLib.FutaForm)) lustDmgF += 5;
         if (player.hasPerk(PerkLib.FlawlessBody)) lustDmgF += 10;
         lustDmgF += scalingBonusLibido() * 0.1;
+		if (player.hasPerk(PerkLib.LewdPoisoning)) lustDmgF += combat.teases.teaseBaseLustDamage() * 0.5;
         if (player.hasPerk(PerkLib.EromancyExpert)) lustDmgF *= 1.5;
         if (player.hasPerk(PerkLib.JobSeducer)) lustDmgF += player.teaseLevel * 3;
         else lustDmgF += player.teaseLevel * 2;

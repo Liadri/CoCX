@@ -746,8 +746,8 @@ public class PerkLib
 				"You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)",
 				"You've chosen the 'Spellsong' perk. You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)");
 		public static const LewdPoisoning:PerkType = mk("Lewd Poisoning", "Lewd Poisoning",
-				"Weapon poison that deals lust damage now inflicts half of your tease damage.",
-				"You've chosen the 'Lewd Poisoning' perk. Weapon poison that deals lust damage now inflicts half of your tease damage.");
+				"Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.",
+				"You've chosen the 'Lewd Poisoning' perk. Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
