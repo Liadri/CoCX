@@ -68,7 +68,8 @@ public class AlicornRace extends Race {
 							if (body.hornType == Horns.UNICORN) return body.wingType == Wings.FEATHERED_ALICORN;
 							if (body.hornType == Horns.BICORN) return body.wingType == Wings.NIGHTMARE;
 							return false;
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, 0, -1000);
 		
 		addConditionedScores(
 				function(body:BodyData):Boolean {

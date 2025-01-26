@@ -580,7 +580,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 				}
 			}
 			if (player.hasKeyItem("Flasherbang") >= 0) {
-				bd = buttons.add("Flasherbang", gadgetFlasherbang).hint("Liadri must write something for this.");
+				bd = buttons.add("Flasherbang", gadgetFlasherbang).hint("Throw a flasherbang to blind and arouse your opponents.");
 				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 			}
 			if (player.hasKeyItem("Goblin Bomber") >= 0) {
@@ -3249,7 +3249,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 	
 	public function gadgetFlasherbang():void {
 		clearOutput();
-		outputText("Smth [themonster] Smth (go bugs Liadri for actual text). ");
+		outputText("You pull the metal plug and throw the flasherbang forward looking away as it explodes with a bang a "+(silly()?"dude with a trench coat materialising outside of the pokeball. He walks to your opponents forcing his coat open":"bright set of horny imagery flooding into your opponent's minds and blinding them for a while")+". ");
 		if (!monster.hasStatusEffect(StatusEffects.Blind)) monster.createStatusEffect(StatusEffects.Blind,3,0,0,0);
 		var lustDmgF:Number = 20 + rand(6);
 		var lustBoostToLustDmg:Number = 0;
@@ -3321,8 +3321,8 @@ public class PhysicalSpecials extends BaseCombatContent {
 		player.createStatusEffect(StatusEffects.GoblinBomber,0,0,0,0);
 		outputText("You shout in a walkie talkie for back up and suddenly a rickety metal plane strafe across the battlefield as one of your kids begins to drop a line of bombs on [themonster] KABOOM! ");
 		var damage:Number = combat.firearmsDamageNoLagSingle() * 10;
+		if (player.hasPerk(PerkLib.MasterGadgeteer)) damage += combat.scalingBonusIntelligence();
 		var ignoreDR:Boolean = player.hasPerk(PerkLib.Penetrator);
-		if (!ignoreDR) damage *= (monster.damageRangePercent() / 100);
 		damage = combat.tinkerDamageBonus(damage);
 		damage = combat.goblinDamageBonus(damage);
 		//Determine if critical hit!

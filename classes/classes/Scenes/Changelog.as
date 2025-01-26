@@ -176,7 +176,7 @@ public class Changelog extends BaseContent
 			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
 			outputText("-Areas and Places with enemies to fight have their general levels and stats increased. Areas/Places adjusted (new lvl range of enemies): Lake (3-10), Boat (15-29), Forest (O)(8-16), Forest (I)(19-27), Deepwoods (32-52), Desert (O)(13-20), Desert (I)(25-39), Battlefield (B)(18-41), Battlefield (O)(36-65), Hills (23-30), Low Mountains (35-49), Mountains (54-74), High Mountains (79-104), ");
 			outputText("Plains (28-37), Swamp (33-43), Bog (48-64)\n");
-			outputText("-14 new achievments. (12 shadow ones)\n");
+			outputText("-15 new achievments. (13 shadow ones)\n");
 			outputText("-Minerva and Izumi base level was increased and accordly their max lvl they can gain by leveling increased too to each reaching within 120-130 lvl range.\n");
 			outputText("-Off hand Equipment slot added. It's mutal exclusive with shield slot and can't have item in both offhand and shield slots. Dual Wield perk desc changed to account for adding this slot.\n");
 			outputText("-Dungeon enemies have their general levels and stats adjusted/increased. Dungeons adjusted (new lvl range of enemies): River Dungeon (floor 1-4) (only stats adjustments), Desert Cave (14-24)\n");
@@ -285,8 +285,8 @@ public class Changelog extends BaseContent
 			outputText("-New key Item (by Liadri): Flasherbang - req. Toolbelt - Toss a grenade that overloads the brain with lewd images and light rendering one blind, aroused and increasingly susceptible to lust chemicals.\n");
 			outputText("-New key Item (by Liadri): Goblin Bomber - req. Toolbelt - Unlock the goblin bomber P.Attack during battle summoning one of your many daughters to the field in order to carpet bomb the area. Can be used once per Hour. (Deals massive tech damage and stun for two round)\n");
 			outputText("-New tier 0 misc lvl-up perk: Deconstruct. Req. Job: Tinker perk, 15+ wisdom and 15+ intelligence. Effect: You are an expert at building and dismantling things. This also applies to golems and other constructed creatures made of materials. Your attacks ignore construct armors and deal 50% more damage to them. When harvesting construct you scavenge more materials.\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New key Item (by Liadri): GOBX Chemical - req. Potent Drug injectors and Goblinoid Race - Raises your libido by 100%, sensitivity by 15% and Intelligence by 100% but locks your race permanently to goblinoid. (set all other races to 0 and triple racial bonus for goblins or gremlins).\n");
+			outputText("-New event perk: GOBX Chemical. Gained by use of GOBX Chemical key item. Effects: Raises your libido, sensitivity and Intelligence but locks your race permanently to goblinoid.\n");
 			outputText("-\n");
 			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
@@ -308,9 +308,9 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
+			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
+			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
 			outputText("-\n");//New monster perk: Darkness Vulnerability - decrease darkness dmg done to monster by 50% and increase lightning dmg by 100%. Currently given to Anubis enemy.
 			outputText("-\n");//Motivation (Su) now req. additionally Advanced Leadership perk

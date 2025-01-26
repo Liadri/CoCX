@@ -102,6 +102,16 @@ public class GoblinRace extends Race {
 				})
 				.end();
 		
+		buildTier(10, "goblin")
+				.requirePerk(PerkLib.GOBXChemical)
+				.buffs({
+					"str.mult": -1.50,
+					"spe.mult": +1.80,
+					"int.mult": +3.00,
+					"lib.mult": +1.20
+				})
+				.end();
+		
 		buildTier(20, "broodmother goblin")
 				.buffs({
 					"str.mult": -0.60,
@@ -110,26 +120,18 @@ public class GoblinRace extends Race {
 					"lib.mult": +0.80,
 					"sens": +40
 				})
-				.end();/*
-		
-		buildTier(10, "goblin (GOBX)")
-				.buffs({
-					"str.mult": -0.50,
-					"spe.mult": +1.50,
-					"int.mult": +1.80,
-					"lib.mult": +1.20
-				})
 				.end();
 		
-		buildTier(20, "broodmother goblin (GOBX)")
+		buildTier(20, "broodmother goblin")
+				.requirePerk(PerkLib.GOBXChemical)
 				.buffs({
-					"str.mult": -0.60,
-					"spe.mult": +2.00,
-					"int.mult": +3.20,
-					"lib.mult": +1.60,
-					"sens": +80
+					"str.mult": -1.80,
+					"spe.mult": +3.60,
+					"int.mult": +6.00,
+					"lib.mult": +2.40,
+					"sens": +120
 				})
-				.end();*/
+				.end();
 	}
 }
 }
