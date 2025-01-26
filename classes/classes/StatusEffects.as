@@ -1053,6 +1053,7 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const Gallop:StatusEffectType		               = mkCombat("Gallop");
 		public static const GiantBoulder:StatusEffectType              = mkCombat("Giant Boulder");
 		public static const GiantGrabbed:StatusEffectType              = mkCombat("Giant Grabbed");
+		public static const GoblinBomber:StatusEffectType              = mkCombat("Goblin Bomber");
 		public static const GoblinMechStimpack:StatusEffectType        = mkCombat("Goblin Mech Stimpack");
 		public static const GooArmorBind:StatusEffectType              = mkCombat("GooArmorBind");
 		public static const GooArmorSilence:StatusEffectType           = mkCombat("GooArmorSilence");

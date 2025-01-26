@@ -904,12 +904,14 @@ public class CampMakeWinions extends BaseContent
 			outputText("You sit down by the golem and begin extracting the core from the big chunk that remains of its chest. ");
 			if (rand(4) == 0 || player.hasPerk(PerkLib.JobGolemancer) || player.isTechSavvyPC()) {
 				outputText("At first the core resist, but after a few tries you successfully manage to harvest the golem core. Not one to waste spare materials, you gather the remaining stone. (+2 stones)");
-				CampStatsAndResources.StonesResc += 2;
+				if (player.hasPerk(PerkLib.Deconstruct)) CampStatsAndResources.StonesResc += 4;
+				else CampStatsAndResources.StonesResc += 2;
 				doNext(takeCore);
 			}
 			else {
 				outputText("Sadly, despite your best efforts, the core is damaged during the extraction and rendered useless. Not one to waste spare materials, you gather the remaining stone. (+5 stones)");
-				CampStatsAndResources.StonesResc += 5;
+				if (player.hasPerk(PerkLib.Deconstruct)) CampStatsAndResources.StonesResc += 10;
+				else CampStatsAndResources.StonesResc += 5;
 				doNext(cleanupAfterCombat);
 			}
 		}
@@ -919,12 +921,14 @@ public class CampMakeWinions extends BaseContent
 			player.addStatusValue(StatusEffects.GolemScavenge, 1, -1);
 			if (rand(4) == 0 || player.statusEffectv1(StatusEffects.GolemScavenge) == 0 || player.hasPerk(PerkLib.JobGolemancer) || player.isTechSavvyPC()) {
 				outputText("At first the core resist, but after a few tries, you successfully manage to harvest the golem core. Not one to waste spare materials, you gather the remaining stone. (+2 stones)");
-				CampStatsAndResources.StonesResc += 2;
+				if (player.hasPerk(PerkLib.Deconstruct)) CampStatsAndResources.StonesResc += 4;
+				else CampStatsAndResources.StonesResc += 2;
 				doNext(takeCore);
 			}
 			else {
 				outputText("Sadly, despite your best efforts, the core is damaged during the extraction and rendered useless. Not one to waste spare materials, you gather the remaining stone. (+5 stones)");
-				CampStatsAndResources.StonesResc += 5;
+				if (player.hasPerk(PerkLib.Deconstruct)) CampStatsAndResources.StonesResc += 10;
+				else CampStatsAndResources.StonesResc += 5;
 				if (player.hasStatusEffect(StatusEffects.GolemScavenge)) doNext(golemScavenge4);
 				else doNext(cleanupAfterCombat);
 			}

@@ -757,6 +757,9 @@ public class PerkLib
 		public static const LawOfPerpetualMotion:PerkType = mk("Law of perpetual motion", "Law of perpetual motion",
 				"Stored Momentum duration increases to 10 rounds.",
 				"You've chosen the 'Law of perpetual motion' perk. Stored Momentum duration increases to 10 rounds.");
+		public static const Deconstruct:PerkType = mk("Deconstruct", "Deconstruct",
+				"You are an expert at building and dismantling things. This also applies to golems and other constructed creatures made of materials. Your attacks ignore construct armors and deal 50% more damage to them. When harvesting construct you scavenge more materials.",
+				"You've chosen the 'Deconstruct' perk. You are an expert at building and dismantling things. This also applies to golems and other constructed creatures made of materials. Your attacks ignore construct armors and deal 50% more damage to them. When harvesting construct you scavenge more materials.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -770,9 +773,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -7865,6 +7865,9 @@ public class PerkLib
                     }, "Slime, Manticore, Displacer beast, Vampire, Dracula race or hunger enabled.");
             JobTinker.requireInt(10)
 					.requireWis(10);
+            Deconstruct.requirePerk(JobTinker)
+                    .requireInt(15)
+					.requireWis(15);
             StoredMomentum.requirePerk(JobTinker)
                     .requireInt(15)
 					.requireWis(15);
@@ -8825,3 +8828,4 @@ public class PerkLib
 	}
 }
 }
+

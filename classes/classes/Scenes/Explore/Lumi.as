@@ -391,29 +391,36 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Blueprint - S.A Tech Goggle") < 0 && player.hasKeyItem("Blueprint - Scanner goggle") >= 0) addButton(6, "S.A Tech Goggles", lumiEngineeringBuyBlueprintSATechGoggle).hint("S.A Tech Goggles BP - 1000 gems");
 		if (player.hasKeyItem("Blueprint - Scanner goggle") < 0 && player.hasKeyItem("Blueprint - Machinist Goggles") >= 0) addButton(6, "Scanner goggles", lumiEngineeringBuyBlueprintScannerGoggle).hint("Scanner goggles BP - 500 gems");
 		if (player.hasKeyItem("Blueprint - Machinist Goggles") < 0) addButton(6, "Machinist Goggles", lumiEngineeringBuyBlueprintMachinistGoggles).hint("Machinist Goggles BP - 100 gems");
-		if (player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Nitro Boots") < 0) addButton(7, "Nitro Boots", lumiEngineeringBuyBlueprintNitroBoots).hint("Nitro Boots BP - 1000 gems");
-		if (player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Rocket Boots") < 0) addButton(7, "Rocket Boots", lumiEngineeringBuyBlueprintRocketBoots).hint("Rocket Boots BP - 500 gems");
-		if (player.hasKeyItem("Spring Boots") < 0 && player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Spring Boots") < 0) addButton(7, "Spring Boots", lumiEngineeringBuyBlueprintSpringBoots).hint("Spring Boots BP - 100 gems");
-		if (player.hasKeyItem("M.G.S. bracer") < 0 && player.hasKeyItem("Blueprint - M.G.S. bracer") < 0) addButton(8, "M.G.S. bracer", lumiEngineeringBuyBlueprintMGSBracer).hint("M.G.S. bracer BP - 1000 gems");
-		if (player.hasKeyItem("Powboy") < 0 && player.hasKeyItem("M.G.S. bracer") < 0 && player.hasKeyItem("Blueprint - Powboy") < 0) addButton(8, "Powboy", lumiEngineeringBuyBlueprintPowboy).hint("Powboy BP - 500 gems");
-		if (player.hasKeyItem("Power bracer") < 0 && player.hasKeyItem("Powboy") < 0 && player.hasKeyItem("M.G.S. bracer") < 0 && player.hasKeyItem("Blueprint - Power bracer") < 0) addButton(8, "Power bracer", lumiEngineeringBuyBlueprintPowerBracer).hint("Power bracer BP - 100 gems");
-		if (player.hasKeyItem("Blueprint - Ripper 2.0") < 0 && player.hasKeyItem("Blueprint - Ripper 1.0") >= 0) addButton(9, "Ripper 2.0", lumiEngineeringBuyBlueprintRipper2).hint("Ripper 2.0 BP - 1000 gems");
-		if (player.hasKeyItem("Blueprint - Ripper 1.0") < 0 && player.hasKeyItem("Blueprint - Machined greatsword") >= 0) addButton(9, "Ripper 1.0", lumiEngineeringBuyBlueprintRipper1).hint("Ripper 1.0 BP - 500 gems");
-		if (player.hasKeyItem("Blueprint - Machined greatsword") < 0) addButton(9, "Mach. greatsword", lumiEngineeringBuyBlueprintMachinedGreatsword).hint("Machined greatsword BP - 100 gems");
-		if (player.hasKeyItem("Blueprint - Machined spear") < 0) addButton(10, "Mach. spear", lumiEngineeringBuyBlueprintMachinedSpear).hint("Machined spear BP - 100 gems");
-		if (player.hasKeyItem("Toolbelt") >= 0) addButton(11, "Mech UPGR", lumiEngineeringMechUpgrades);
-		else addButtonDisabled(11, "Mech UPGR", "You need to have Toolbelt to access this section of blueprints.");
+		if (player.hasKeyItem("M.G.S. bracer") < 0 && player.hasKeyItem("Blueprint - M.G.S. bracer") < 0) addButton(7, "M.G.S. bracer", lumiEngineeringBuyBlueprintMGSBracer).hint("M.G.S. bracer BP - 1000 gems");
+		if (player.hasKeyItem("Powboy") < 0 && player.hasKeyItem("M.G.S. bracer") < 0 && player.hasKeyItem("Blueprint - Powboy") < 0) addButton(7, "Powboy", lumiEngineeringBuyBlueprintPowboy).hint("Powboy BP - 500 gems");
+		if (player.hasKeyItem("Power bracer") < 0 && player.hasKeyItem("Powboy") < 0 && player.hasKeyItem("M.G.S. bracer") < 0 && player.hasKeyItem("Blueprint - Power bracer") < 0) addButton(7, "Power bracer", lumiEngineeringBuyBlueprintPowerBracer).hint("Power bracer BP - 100 gems");
+		if (player.hasKeyItem("Toolbelt") >= 0) addButton(10, "Mech UPGR", lumiEngineeringMechUpgrades);
+		else addButtonDisabled(10, "Mech UPGR", "You need to have Toolbelt to access this section of blueprints.");
 		if (player.hasKeyItem("Mechanic's Wrench") < 0) {
-			if (player.gems >= 50) addButton(12, "MechanicWrench", lumiEngineeringBuySet1).hint("50 gems");
-			else addButtonDisabled(12, "MechanicWrench", "Not enough gems.");
+			if (player.gems >= 50) addButton(11, "MechanicWrench", lumiEngineeringBuySet1).hint("50 gems");
+			else addButtonDisabled(11, "MechanicWrench", "Not enough gems.");
 		}
-		else addButtonDisabled(12, "MechanicWrench", "Already having this.");
+		else addButtonDisabled(11, "MechanicWrench", "Already having this.");
 		if (player.hasKeyItem("Engineer's Toolbox") < 0) {
-			if (player.gems >= 100) addButton(13, "EngineersToolbox", lumiEngineeringBuySet2).hint("100 gems");
-			else addButtonDisabled(13, "EngineersToolbox", "Not enough gems.");
+			if (player.gems >= 100) addButton(12, "EngineersToolbox", lumiEngineeringBuySet2).hint("100 gems");
+			else addButtonDisabled(12, "EngineersToolbox", "Not enough gems.");
 		}
-		else addButtonDisabled(13, "Engineer'sToolbox", "Already having this.");
+		else addButtonDisabled(12, "Engineer'sToolbox", "Already having this.");
+		addButton(13, "-2-", lumiEngineering2);
 		addButton(14, "Back", lumiLabChoices);
+	}
+	public function lumiEngineering2():void {
+		menu();
+		if (player.hasKeyItem("Blueprint - Ripper 2.0") < 0 && player.hasKeyItem("Blueprint - Ripper 1.0") >= 0) addButton(0, "Ripper 2.0", lumiEngineeringBuyBlueprintRipper2).hint("Ripper 2.0 BP - 1000 gems");
+		if (player.hasKeyItem("Blueprint - Ripper 1.0") < 0 && player.hasKeyItem("Blueprint - Machined greatsword") >= 0) addButton(0, "Ripper 1.0", lumiEngineeringBuyBlueprintRipper1).hint("Ripper 1.0 BP - 500 gems");
+		if (player.hasKeyItem("Blueprint - Machined greatsword") < 0) addButton(0, "Mach. greatsword", lumiEngineeringBuyBlueprintMachinedGreatsword).hint("Machined greatsword BP - 100 gems");
+		if (player.hasKeyItem("Blueprint - Machined spear") < 0) addButton(1, "Mach. spear", lumiEngineeringBuyBlueprintMachinedSpear).hint("Machined spear BP - 100 gems");
+		if (player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Nitro Boots") < 0) addButton(5, "Nitro Boots", lumiEngineeringBuyBlueprintNitroBoots).hint("Nitro Boots BP - 1000 gems");
+		if (player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Rocket Boots") < 0) addButton(5, "Rocket Boots", lumiEngineeringBuyBlueprintRocketBoots).hint("Rocket Boots BP - 500 gems");
+		if (player.hasKeyItem("Spring Boots") < 0 && player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Spring Boots") < 0) addButton(5, "Spring Boots", lumiEngineeringBuyBlueprintSpringBoots).hint("Spring Boots BP - 100 gems");
+		if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(6, "Flasherbang", lumiEngineeringBuyBlueprintFlasherbang).hint("Flasherbang BP - 1000 gems");
+		if (player.hasKeyItem("Goblin Bomber") < 0 && player.hasKeyItem("Blueprint - Goblin Bomber") < 0) addButton(7, "Goblin Bomber", lumiEngineeringBuyBlueprintGoblinBomber).hint("Goblin Bomber BP - 1500 gems");
+		addButton(14, "Back", lumiEngineering);
 	}
 	public function lumiEngineeringMechUpgrades():void {
 		menu();
@@ -618,7 +625,7 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Nitro Boots!</b>");
 			player.createKeyItem("Blueprint - Nitro Boots", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -631,7 +638,7 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Rocket Boots!</b>");
 			player.createKeyItem("Blueprint - Rocket Boots", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -644,7 +651,33 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Spring Boots!</b>");
 			player.createKeyItem("Blueprint - Spring Boots", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
+		}
+		else lumiEngineeringBuyBlueprintNotEnoughGems();
+	}
+	public function lumiEngineeringBuyBlueprintFlasherbang():void {
+		clearOutput();
+		if (player.gems >= 1000) {
+			player.gems -= 1000;
+			outputText("Lumi seals the blueprint in a tube and displays it on the counter.\n\n");
+			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
+			outputText("<b>Gained Key Item: Blueprint - Flasherbang!</b>");
+			player.createKeyItem("Blueprint - Flasherbang", 0, 0, 0, 0);
+			statScreenRefresh();
+			doNext(lumiEngineering2);
+		}
+		else lumiEngineeringBuyBlueprintNotEnoughGems();
+	}
+	public function lumiEngineeringBuyBlueprintGoblinBomber():void {
+		clearOutput();
+		if (player.gems >= 1500) {
+			player.gems -= 1500;
+			outputText("Lumi seals the blueprint in a tube and displays it on the counter.\n\n");
+			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
+			outputText("<b>Gained Key Item: Blueprint - Goblin Bomber!</b>");
+			player.createKeyItem("Blueprint - Goblin Bomber", 0, 0, 0, 0);
+			statScreenRefresh();
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -696,7 +729,7 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Ripper 2.0!</b>");
 			player.createKeyItem("Blueprint - Ripper 2.0", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -709,7 +742,7 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Ripper 1.0!</b>");
 			player.createKeyItem("Blueprint - Ripper 1.0", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -722,7 +755,7 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Machined greatsword!</b>");
 			player.createKeyItem("Blueprint - Machined greatsword", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -735,7 +768,7 @@ public class Lumi extends BaseContent {
 			outputText("<b>Gained Key Item: Blueprint - Machined spear!</b>");
 			player.createKeyItem("Blueprint - Machined spear", 0, 0, 0, 0);
 			statScreenRefresh();
-			doNext(lumiEngineering);
+			doNext(lumiEngineering2);
 		}
 		else lumiEngineeringBuyBlueprintNotEnoughGems();
 	}
@@ -1068,9 +1101,6 @@ public class Lumi extends BaseContent {
 			if (player.hasKeyItem("Blueprint - Gun Scope with Aimbot") >= 0) outputText("Gun Scope with Aimbot - Req. 100+ int, Toolbelt, 10 metal pieces, 500 nails, 1 energy core.\n");
 			if (player.hasKeyItem("Blueprint - Gun Scope with Aim tech") >= 0) outputText("Gun Scope with Aim tech - Req. 75+ int, Gun Scope, 5 metal pieces, 300 nails.\n");
 			if (player.hasKeyItem("Blueprint - Gun Scope") >= 0) outputText("Gun Scope - Req. 50+ int, Toolbelt, 1 metal piece, 100 nails.\n");
-			if (player.hasKeyItem("Blueprint - Nitro Boots") >= 0) outputText("Nitro Boots - Req. 100+ int, Rocket Boots, 15 metal pieces, 300 nails, 3 mechanism, 5 firemander whiskey.\n");
-			if (player.hasKeyItem("Blueprint - Rocket Boots") >= 0) outputText("Rocket Boots - Req. 75+ int, Spring Boots, 10 metal pieces, 200 nails, 1 firemander whiskey, 2 mechanism.\n");
-			if (player.hasKeyItem("Blueprint - Spring Boots") >= 0) outputText("Spring Boots - Req. 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism.\n");
 			if (player.hasKeyItem("Blueprint - M.G.S. bracer") >= 0) outputText("M.G.S. bracer - Req. 100+ int, Powboy, 10 metal pieces, 500 nails, 4 energy core.\n");
 			if (player.hasKeyItem("Blueprint - Powboy") >= 0) outputText("Powboy - Req. 75+ int, Power bracer, 5 metal pieces, 200 nails, 1 energy core.\n");
 			if (player.hasKeyItem("Blueprint - Power bracer") >= 0) outputText("Power bracer - Req. 50+ int, any Drug injector, 3 metal pieces, 100 nails, 1 energy core.\n");
@@ -1099,13 +1129,10 @@ public class Lumi extends BaseContent {
 			else addButtonDisabled(6, "Scan.goggles", "Req. 75+ int, Machinist Goggles, 5 metal pieces, 200 nails, 2 energy core.");
 			if (player.hasKeyItem("Blueprint - S.A Tech Goggle") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 300 && CampStatsAndResources.EnergyCoreResc >= 5 && player.hasItem(headjewelries.SCANGOG, 1)) addButton(7, "S.A.T.Goggles", lumiWorkshopSATechGoggle).hint("S.A Tech Goggles - Better than its previous iteration the Scanner goggles, the tech goggles actually also reveal opponent's flaws and weaknesses highlighting their vulnerability in red within the goggles' glass. The fact it also has a complete logbook and access to previous encounter information also helps catalogise foes weaknesses - 100+ int, Scanner goggles, 10 metal pieces, 300 nails, 5 energy core, 12 hours of work");
 			else addButtonDisabled(7, "S.A.T.Goggles", "Req. 100+ int, Scanner goggles, 10 metal pieces, 300 nails, 5 energy core.");
-			if (player.hasKeyItem("Blueprint - Nitro Boots") >= 0 && player.inte >= 100 && player.hasKeyItem("Rocket Boots") >= 0 && CampStatsAndResources.MetalPieces >= 15 && CampStatsAndResources.NailsResc >= 300 && CampStatsAndResources.MechanismResc >= 3 && player.hasItem(consumables.SALAMFW, 5)) addButton(8, "Nitro Boots", lumiWorkshopNitroBoots).hint("Nitro Boots - This device allows you to increase your movement speed with nitro rockets. Also can be used to kick people in the face leaving some serious burns and even setting people on fire - 100+ int, Rocket Boots, 15 metal pieces, 300 nails, 3 mechanism, 5 salamander firewaters, 12 hours of work");
-			if (player.hasKeyItem("Blueprint - Rocket Boots") >= 0 && player.inte >= 75 && player.hasKeyItem("Spring Boots") >= 0 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.MechanismResc >= 2 && player.hasItem(consumables.SALAMFW, 1)) addButton(8, "Rocket Boots", lumiWorkshopRocketBoots).hint("Rocket Boots - This device allows you to increase your movement speed with rockets. Also can be used to kick people in the face - 75+ int, Spring Boots, 10 metal pieces, 200 nails, 1 salamander firewater, 2 mechanism, 8 hours of work");
-			if (player.hasKeyItem("Blueprint - Spring Boots") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 5 && CampStatsAndResources.NailsResc >= 100 && CampStatsAndResources.MechanismResc >= 1) addButton(8, "Spring Boots", lumiWorkshopSpringBoots).hint("Spring Boots - This device allows you to increase your movement speed with springs - 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism, 4 hours of work");
 			if (player.hasKeyItem("Blueprint - M.G.S. bracer") >= 0 && player.inte >= 100 && player.hasKeyItem("Powboy") >= 0 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 300 && CampStatsAndResources.EnergyCoreResc >= 4) addButton(9, "M.G.S. bracer", lumiWorkshopMGSBracer).hint("M.G.S. bracer - The Mega Goblin Super bracer increases your physical strength by injecting " + (silly() ? "nanomachine" : "drugs") + " whenever needed, which reacts in your goblin blood and may even repair damaged tissue. Furthermore it is equipped with a mighty energy shield that works as long as you are not using any armor. And lastly, it actually tells the hour of the day - 100+ int, Powboy, 10 metal pieces, 500 nails, 4 energy core, 12 hours of work");
 			if (player.hasKeyItem("Blueprint - Powboy") >= 0 && player.inte >= 75 && player.hasKeyItem("Power bracer") >= 0 && CampStatsAndResources.MetalPieces >= 5 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(9, "Powboy", lumiWorkshopPowboy).hint("Powboy - This bracer increases your physical strength by injecting drugs which reacts in your goblin blood. Furthermore it is equipped with an energy shield that works as long as you are not using any armor. And lastly, it actually tells the hour of the day. Like all drugs, also increases sensitivity - 75+ int, Power bracer, 5 metal pieces, 200 nails, 1 energy core, 8 hours of work");
 			if (player.hasKeyItem("Blueprint - Power bracer") >= 0 && (player.hasKeyItem("Drug injectors") >= 0 || player.hasKeyItem("Improved Drug injectors") >= 0 || player.hasKeyItem("Potent Drug injectors") >= 0) && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 3 && CampStatsAndResources.NailsResc >= 100 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(9, "Power bracer", lumiWorkshopPowerBracer).hint("Power bracer - This bracer increase your physical strength by injecting drugs which reacts with your blood. A physical strength version of the drug injector to cope with your natural handicaps. Like all drugs also increase sensitivity - 50+ int, any Drug injector, 3 metal pieces, 100 nails, 1 energy core, 4 hours of work");
-			addButton(12, "Weapons", lumiWorkshopWeapons);
+			addButton(12, "Weapons/Gadgets", lumiWorkshopWeaponsAndGadgets);
 			if (player.vehiclesName == "Goblin Mech Alpha" || player.vehiclesName == "Goblin Mech Prime" || player.vehiclesName == "Giant Slayer Mech") addButton(13, "Mech UPGR", lumiWorkshopMechUpgrades);
 			else addButtonDisabled(13, "Mech UPGR", "You need to have goblin mech currently used to craft upgrades for it.");
 			if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) addButton(14, "Back", playerMenu);
@@ -1119,18 +1146,28 @@ public class Lumi extends BaseContent {
 			endEncounter();
 		}
 	}
-	public function lumiWorkshopWeapons():void {
+	public function lumiWorkshopWeaponsAndGadgets():void {
 		clearOutput();
 		SceneLib.camp.campUpgrades.checkMaterials();
 		outputText("Metal Pieces: " + CampStatsAndResources.MetalPieces + "/200" + "\n");
 		outputText("Mechanisms: " + CampStatsAndResources.MechanismResc + "/200" + "\n");
 		outputText("Energy Cores: " + CampStatsAndResources.EnergyCoreResc + "/200" + "\n");
 		outputText("\nWhich blueprints will you work on today?\n\n");
+		if (player.hasKeyItem("Blueprint - Nitro Boots") >= 0) outputText("Nitro Boots - Req. 100+ int, Rocket Boots, 15 metal pieces, 300 nails, 3 mechanism, 5 firemander whiskey.\n");
+		if (player.hasKeyItem("Blueprint - Rocket Boots") >= 0) outputText("Rocket Boots - Req. 75+ int, Spring Boots, 10 metal pieces, 200 nails, 1 firemander whiskey, 2 mechanism.\n");
+		if (player.hasKeyItem("Blueprint - Spring Boots") >= 0) outputText("Spring Boots - Req. 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism.\n");
+		if (player.hasKeyItem("Blueprint - Flasherbang") >= 0) outputText("Flasherbang - Req. 100+ int, Toolbelt, 10 metal pieces, 1 energy core.\n");
+		if (player.hasKeyItem("Blueprint - Goblin Bomber") >= 0) outputText("Goblin Bomber - Req. 250+ int, Toolbelt, 100 metal pieces, 200 nails, 1 energy core, 10+ goblin daughters.\n");
 		menu();
 		if (player.hasKeyItem("Blueprint - Machined greatsword") >= 0 && (player.hasKeyItem("Power bracer") >= 0 || player.hasKeyItem("Powboy") >= 0 || player.hasKeyItem("M.G.S. bracer") >= 0) && player.hasPerk(PerkLib.JobWarrior) && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 3 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1 && CampStatsAndResources.MechanismResc >= 2) addButton(0, "Mach. greatsword", lumiWorkshopMachineGreatsword).hint("Machine greatsword - This greatsword is half invention half weapon. Instead of a sharp straight blade the weapon's sides is a set of metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. Very good for cutting down trees too - 50+ int, Job: Warrior, any Power bracer, 3 metal pieces, 200 nails, 1 energy core, 2 mechanism, 12 hours of work");
 		else addButtonDisabled(0, "Mach. greatsword", "Req. 50+ int, Job: Warrior, any Power bracer, 3 metal pieces, 200 nails, 1 energy core, 2 mechanism.");
 		if (player.hasKeyItem("Blueprint - Machined spear") >= 0 && (player.hasKeyItem("Power bracer") >= 0 || player.hasKeyItem("Powboy") >= 0 || player.hasKeyItem("M.G.S. bracer") >= 0) && player.hasPerk(PerkLib.JobWarrior) && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 3 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1 && CampStatsAndResources.MechanismResc >= 2) addButton(1, "Mach. spear", lumiWorkshopMachineSpear).hint("Machine spear - This spear is half invention and half weapon. Instead of a standard run of the mill spearhead, the weapon tip is a massive screw that spins on itself continually to burrow into the opponent’s flesh. Any decisive hit you will land with this thing will possibly be fatal - 50+ int, Job: Warrior, any Power bracer, 3 metal pieces, 200 nails, 1 energy core, 2 mechanism, 12 hours of work");
 		else addButtonDisabled(1, "Mach. spear", "Req. 50+ int, Job: Warrior, any Power bracer, 3 metal pieces, 200 nails, 1 energy core, 2 mechanism.");
+		if (player.hasKeyItem("Blueprint - Nitro Boots") >= 0 && player.inte >= 100 && player.hasKeyItem("Rocket Boots") >= 0 && CampStatsAndResources.MetalPieces >= 15 && CampStatsAndResources.NailsResc >= 300 && CampStatsAndResources.MechanismResc >= 3 && player.hasItem(consumables.SALAMFW, 5)) addButton(2, "Nitro Boots", lumiWorkshopNitroBoots).hint("Nitro Boots - This device allows you to increase your movement speed with nitro rockets. Also can be used to kick people in the face leaving some serious burns and even setting people on fire - 100+ int, Rocket Boots, 15 metal pieces, 300 nails, 3 mechanism, 5 salamander firewaters, 12 hours of work");
+		if (player.hasKeyItem("Blueprint - Rocket Boots") >= 0 && player.inte >= 75 && player.hasKeyItem("Spring Boots") >= 0 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.MechanismResc >= 2 && player.hasItem(consumables.SALAMFW, 1)) addButton(2, "Rocket Boots", lumiWorkshopRocketBoots).hint("Rocket Boots - This device allows you to increase your movement speed with rockets. Also can be used to kick people in the face - 75+ int, Spring Boots, 10 metal pieces, 200 nails, 1 salamander firewater, 2 mechanism, 8 hours of work");
+		if (player.hasKeyItem("Blueprint - Spring Boots") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 5 && CampStatsAndResources.NailsResc >= 100 && CampStatsAndResources.MechanismResc >= 1) addButton(2, "Spring Boots", lumiWorkshopSpringBoots).hint("Spring Boots - This device allows you to increase your movement speed with springs - 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism, 4 hours of work");
+		if (player.hasKeyItem("Blueprint - Flasherbang") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(3, "Flasherbang", lumiWorkshopFlasherbang).hint("Flasherbang - Toss a grenade that overloads the brain with lewd images and light rendering one blind, aroused and increasingly susceptible to lust chemicals - 100+ int, 10 metal pieces, 1 energy core, 4 hours of work");
+		if (player.hasKeyItem("Blueprint - Goblin Bomber") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 250 && CampStatsAndResources.MetalPieces >= 100 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1 && flags[kFLAGS.PC_GOBLIN_DAUGHTERS] >= 10) addButton(4, "Goblin Bomber", lumiWorkshopGoblinBomber).hint("Goblin Bomber - Unlock the goblin bomber P.Attack during battle summoning one of your many daughters to the field in order to carpet bomb the area. Can be used once per Hour. (Deals massive tech damage and stun for two round) - 100+ int, 10 metal pieces, 1 energy core, 10+ goblin daughters, 8 hours of work");
 		if (player.hasKeyItem("Blueprint - Ripper 1.0") >= 0 && player.inte >= 75 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 500 && CampStatsAndResources.EnergyCoreResc >= 2 && CampStatsAndResources.MechanismResc >= 5 && player.hasItem(weapons.MACGRSW, 1)) addButton(5, "Ripper 1.0", lumiWorkshopRipper1).hint("Ripper 1.0 - Similar to the machined great sword this weapon is highly mechanical. Instead of a sharp straight blade the weapon's sides is a set of sharp metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. Very good for cutting down trees to - 75+ int, Machined greatsword, 10 metal pieces, 500 nails, 2 energy core, 5 mechanism, 12 hours of work");
 		else addButtonDisabled(5, "Ripper 1.0", "Req. 75+ int, Machined greatsword, 10 metal pieces, 500 nails, 2 energy core, 5 mechanism.");
 		if (player.hasKeyItem("Blueprint - Ripper 2.0") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 30 && CampStatsAndResources.NailsResc >= 500 && CampStatsAndResources.EnergyCoreResc >= 5 && CampStatsAndResources.MechanismResc >= 10 && player.hasItem(weapons.RIPPER1, 1)) addButton(10, "Ripper 2.0", lumiWorkshopRipper2).hint("Ripper 2.0 - Similar to the machined great sword this weapon is highly mechanical. Instead of a sharp straight blade the weapon's sides is a set of sharp metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. The blades movement is so fast it creates heat along the length and thanks to a small system set the saw constantly aflame. Aside of cutting fleshy things in half it is very good for taking down trees - 100+ int, Ripper 1.0, 30 metal pieces, 500 nails, 5 energy core, 10 mechanism, 12 hours of work");
@@ -1430,6 +1467,29 @@ public class Lumi extends BaseContent {
 		statScreenRefresh();
 		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) endEncounter();
 		else doNext(camp.returnToCampUseFourHours);
+	}
+	public function lumiWorkshopFlasherbang():void {
+		clearOutput();
+		CampStatsAndResources.MetalPieces -= 10;
+		CampStatsAndResources.EnergyCoreResc -= 1;
+		outputText("You get to work spending the necessary time to craft your newest toy. After "+(player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop) ? "an hour":"four hours")+" your brand new Flasherbang is ready.\n\n");
+		player.createKeyItem("Flasherbang", 0, 0, 0, 0);
+		player.removeKeyItem("Blueprint - Flasherbang");
+		statScreenRefresh();
+		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) endEncounter();
+		else doNext(camp.returnToCampUseFourHours);
+	}
+	public function lumiWorkshopGoblinBomber():void {
+		clearOutput();
+		CampStatsAndResources.MetalPieces -= 100;
+		CampStatsAndResources.NailsResc -= 200;
+		CampStatsAndResources.EnergyCoreResc -= 1;
+		outputText("You get to work spending the necessary time to craft your newest toy. After "+(player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop) ? "an hour":"four hours")+" your brand new Goblin Bomber is ready.\n\n");
+		player.createKeyItem("Goblin Bomber", 0, 0, 0, 0);
+		player.removeKeyItem("Blueprint - Goblin Bomber");
+		statScreenRefresh();
+		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) doNext(camp.returnToCampUseEightHours);
+		else doNext(camp.returnToCampUseTwelveHours);
 	}
 	public function lumiWorkshopMGSBracer():void {
 		clearOutput();
