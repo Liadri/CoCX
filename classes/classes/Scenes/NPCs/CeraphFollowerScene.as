@@ -9,6 +9,8 @@ import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
+import classes.Scenes.Dungeons.DemonLab;
+import classes.Scenes.Places.DomsDomain;
 
 public class CeraphFollowerScene extends NPCAwareContent
 	{
@@ -69,6 +71,7 @@ public class CeraphFollowerScene extends NPCAwareContent
 			menu();
 			addButton(0, "Sex", ceraphSexMenu).disableIf(player.lust < 33, "You aren't turned on enough for sex.");
 			addButton(1, "Roleplay", followerCeraphRoleplay).disableIf(player.lust < 33, "You aren't turned on enough for sex.");
+			addButton(2, "DemonLab", CeraphTakesLab).disableIf(DemonLab.MainAreaComplete !=4, "Maybe once a certain demon infested area is cleared?");
 			addButton(5, "Partswap", giveFollowerBodyBits);
 			if (flags[kFLAGS.PC_FETISH] < 3) addButton(6, "GetFetish", CeraphHandsOutNewFetishesLikePervCandy);
 			if (flags[kFLAGS.PC_FETISH] > 0) addButton(7, "RemoveFetish", unfetishifyYourselfWithFollowerCeraph);
@@ -2080,7 +2083,7 @@ public class CeraphFollowerScene extends NPCAwareContent
 			dynStats("sen", 4, "lus=", 100, "scale", false);
 			endEncounter();
 		}
-		/*Ceraph Initiating the Dom's Domain
+
 public function CeraphTakesLab():void {
 		clearOutput();
 		outputText("You feel the fetish binding your demonic slave to you vibrate. Apparently, Ceraph is coming to your camp of her own volition. You take a few steps away from your camp, and you see your demonic slave flying towards you. Apparently, she’s been flying for some time, and as she lands, she staggers over to you, prostrating herself. \n\n"); 
@@ -2101,7 +2104,8 @@ public function DomInitYes():void {
 		clearOutput();
 		outputText("You tell Ceraph that she’s welcome to the place…But that she’d better destroy the biolabs, and make sure that no other demons can use the place. Ceraph gives you a lascivious grin, slowly rising from her prone position. \n\n"); 
 		outputText("“Of course, [master], I won’t let anyone take what is rightfully mine.” She turns around, presenting you with her dripping pussy, her cerulean skin smooth. “Or yours.” She adds with a wink. “Before I leave…Can this obedient slut have a reward for her…hard…work?”  \n\n");
-menu();
+	DomsDomain.domenabled = true;
+	menu();
 			addButton(0, "Sex", ceraphSexMenu).disableIf(player.lust < 33, "You aren't turned on enough for sex.");
 			addButton(1, "Roleplay", followerCeraphRoleplay).disableIf(player.lust < 33, "You aren't turned on enough for sex.");
 			addButton(5, "Partswap", giveFollowerBodyBits);
@@ -2121,11 +2125,8 @@ public function FuckOffCeraph():void {
 		clearOutput();
 		outputText("You give Ceraph a deadly glare. You tell her that you’d sooner destroy the place with your bare hands, than let anyone use it again. You remind Ceraph that you killed the demons running that lab…and that one more dead Omnibus really doesn’t mean much, at this point. \n\n"); 
 		outputText("Ceraph audibly gulps, no trace of arousal in her eyes. “Understood, [master]”. She slowly returns to her feet, keeping her head bowed. “Then I shall be off, unless you require something else from me.” You nod, and she beats a hasty retreat. \n\n");
-		
+	endEncounter(15);
 endEncounter(15);
 }
-
-
-		*/ 
 	}
 }

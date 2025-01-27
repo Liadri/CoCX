@@ -541,7 +541,7 @@ import classes.Scenes.Combat.CombatAbility;
 			if (flags[kFLAGS.LETHICE_DEFEATED] > 0) { //Dirty checking as the NG+ flag is incremented after reincarnating.
 				clearOutput();
 				outputText("You shall be known as [name] now.");
-				ascensionMenu();
+				ascensionMenuFunc();
 				return;
 			}
 			customPlayerProfile = customName(mainView.nameBox.text);
@@ -563,7 +563,8 @@ import classes.Scenes.Combat.CombatAbility;
 			addButton(1, "Woman", isAWoman);
 			if (flags[kFLAGS.NEW_GAME_PLUS_BONUS_UNLOCKED_HERM] > 0) {
 				outputText("\n\nOr a hermaphrodite? (Hermaphrodite gender unlocked!)");
-				addButton(2, "Herm", isAHerm);
+				addButton(2, "Herm", isAHerm).hint("Herm without balls");
+				addButton(3, "Herm", isAHerm, false).hint("Herm with balls");
 			}
 		}
 
@@ -589,7 +590,8 @@ import classes.Scenes.Combat.CombatAbility;
 			addButton(0, "Man", isAMan);
 			addButton(1, "Woman", isAWoman);
 			if (flags[kFLAGS.NEW_GAME_PLUS_BONUS_UNLOCKED_HERM] > 0) {
-				addButton(2, "Herm", isAHerm);
+				addButton(2, "Herm", isAHerm).hint("Herm without balls");
+				addButton(3, "Herm", isAHerm, false).hint("Herm with balls");
 			}
 		}
 
@@ -679,7 +681,7 @@ import classes.Scenes.Combat.CombatAbility;
 			simpleChoices("Slender", buildSlenderFemale, "Average", buildAverageFemale, "Curvy", buildCurvyFemale, "Tomboyish", buildTomboyishFemale, "", null);
 		}
 
-		private function isAHerm():void {
+		private function isAHerm(noBalls:Boolean = true):void {
 			//Attributes
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.strStat.train.value += 1;
@@ -696,6 +698,10 @@ import classes.Scenes.Combat.CombatAbility;
 			//Genetalia
 			player.createVagina();
 			player.clitLength = .5;
+			if (!noBalls) {
+				player.balls = 2;
+				player.ballSize = 1;
+			}
 			player.createCock();
 			player.cocks[0].knotMultiplier = 1;
 
@@ -2058,10 +2064,15 @@ import classes.Scenes.Combat.CombatAbility;
 			chooseGameModesDesc();
 			menu();
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 0) addButton(0, "PrimaryDiff(0)", toggleForPrimaryDiffultyModifier, 0);
+			else addButtonDisabled(0, "PrimaryDiff(0)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 1) addButton(1, "PrimaryDiff(1)", toggleForPrimaryDiffultyModifier, 1);
+			else addButtonDisabled(1, "PrimaryDiff(1)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 2) addButton(2, "PrimaryDiff(2)", toggleForPrimaryDiffultyModifier, 2);
+			else addButtonDisabled(2, "PrimaryDiff(2)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 3) addButton(3, "PrimaryDiff(3)", toggleForPrimaryDiffultyModifier, 3);
+			else addButtonDisabled(3, "PrimaryDiff(3)", "Currently choosen option.");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 4) addButton(4, "PrimaryDiff(4)", toggleForPrimaryDiffultyModifier, 4);
+			else addButtonDisabled(4, "PrimaryDiff(4)", "Currently choosen option.");
 			addButton(14, "Back", chooseGameModes);
 		}
 		private function chooseGameModes2():void {
@@ -2069,12 +2080,19 @@ import classes.Scenes.Combat.CombatAbility;
 			chooseGameModesDesc();
 			menu();
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 0) addButton(0, "SecondaryStat(0)", toggleForSecondaryStatsModifier, 0);
+			else addButtonDisabled(0, "SecondaryStat(0)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 1) addButton(1, "SecondaryStat(1)", toggleForSecondaryStatsModifier, 1);
+			else addButtonDisabled(1, "SecondaryStat(1)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 2) addButton(2, "SecondaryStat(2)", toggleForSecondaryStatsModifier, 2);
+			else addButtonDisabled(2, "SecondaryStat(2)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 3) addButton(3, "SecondaryStat(3)", toggleForSecondaryStatsModifier, 3);
+			else addButtonDisabled(3, "SecondaryStat(3)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 4) addButton(4, "SecondaryStat(4)", toggleForSecondaryStatsModifier, 4);
+			else addButtonDisabled(4, "SecondaryStat(4)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 5) addButton(5, "SecondaryStat(5)", toggleForSecondaryStatsModifier, 5);
+			else addButtonDisabled(5, "SecondaryStat(5)", "Currently choosen option.");
 			if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 6) addButton(6, "SecondaryStat(6)", toggleForSecondaryStatsModifier, 6);
+			else addButtonDisabled(6, "SecondaryStat(6)", "Currently choosen option.");
 			addButton(14, "Back", chooseGameModes);
 		}
 		private function chooseGameModes3():void {
@@ -2082,10 +2100,15 @@ import classes.Scenes.Combat.CombatAbility;
 			chooseGameModesDesc();
 			menu();
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 0) addButton(0, "Normal", toggleForBossesModifier, 0);
+			else addButtonDisabled(0, "Normal", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 1) addButton(1, "Fantasy", toggleForBossesModifier, 1);
+			else addButtonDisabled(1, "Fantasy", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 2) addButton(2, "Torment", toggleForBossesModifier, 2);
+			else addButtonDisabled(2, "Torment", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 3) addButton(3, "Infernium", toggleForBossesModifier, 3);
+			else addButtonDisabled(3, "Infernium", "Currently choosen option.");
 			if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 4) addButton(4, "Hell", toggleForBossesModifier, 4);
+			else addButtonDisabled(4, "Hell", "Currently choosen option.");
 			addButton(14, "Back", chooseGameModes);
 		}
 
@@ -2248,7 +2271,7 @@ import classes.Scenes.Combat.CombatAbility;
 		public function updateAscension(msg: String = ""): void {
 			migration = true;
 			migrationMsg = msg;
-			ascensionMenu();
+			ascensionMenuFunc();
 		}
 
 		public function returnFromUpdateAscension(): void {
@@ -2276,8 +2299,10 @@ import classes.Scenes.Combat.CombatAbility;
 		public function ascensionMenuChoiceMaybe():void {
 			player.ascensionPerkPoints -= 50;
 			player.createPerk(PerkLib.AscensionMenuChoiceMaybe, 0, 0, 0, 0);
-			if (player.hasPerk(PerkLib.Soulless)) darkAscensionMenu();
-			else ascensionMenu();
+			ascensionMenuFunc();
+		}
+		public function get ascensionMenuFunc():Function {
+			return player.hasPerk(PerkLib.Soulless) ? darkAscensionMenu : ascensionMenu;
 		}
 		public function ascensionMenu():void {
 			hideStats();
@@ -2396,8 +2421,7 @@ import classes.Scenes.Combat.CombatAbility;
 				.disableIf(player.perkv1(PerkLib.AscensionFortune) >= maxRank, limitReached);
 			addButton(11, "Moral Shifter", ascensionPerkSelection, PerkLib.AscensionMoralShifter, MAX_MORALSHIFTER_LEVEL, null, PerkLib.AscensionMoralShifter.longDesc + "\n\nCurrent level: " + player.perkv1(PerkLib.AscensionMoralShifter) + " / " + MAX_MORALSHIFTER_LEVEL)
 				.disableIf(player.perkv1(PerkLib.AscensionMoralShifter) >= MAX_MORALSHIFTER_LEVEL, limitReached);
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 		private function ascensionPerkMenu2():void {
 			clearOutput();
@@ -2436,8 +2460,7 @@ import classes.Scenes.Combat.CombatAbility;
 				.disableIf(player.perkv1(PerkLib.AscensionTranshumanismLib) >= MAX_TRANSHUMANISM_LIB_LEVEL, limitReached);
 			addButton(13, "T-Human.SE", ascensionPerkSelection2, PerkLib.AscensionTranshumanismSen, MAX_TRANSHUMANISM_SEN_LEVEL, null, PerkLib.AscensionTranshumanismSen.longDesc + "\n\nCurrent level: " + player.perkv1(PerkLib.AscensionTranshumanismSen) + " / " + MAX_TRANSHUMANISM_SEN_LEVEL)
 				.disableIf(player.perkv1(PerkLib.AscensionTranshumanismSen) >= MAX_TRANSHUMANISM_SEN_LEVEL, limitReached);
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 		private function maxRankValue():Number {
 			var maxV:Number = 0;
@@ -2558,7 +2581,7 @@ import classes.Scenes.Combat.CombatAbility;
 				addButton(2, "Eff.SoulCons", darkAscensionPerkSelection, PerkLib.DarkAscensionEfficientSoulConsumption, MAX_EFFICIENT_SOUL_CONSUMPTION_LEVEL, null, PerkLib.DarkAscensionEfficientSoulConsumption.longDesc + "\n\nCurrent level: " + player.perkv1(PerkLib.DarkAscensionEfficientSoulConsumption) + " / " + MAX_EFFICIENT_SOUL_CONSUMPTION_LEVEL)
 						.disableIf(player.perkv1(PerkLib.DarkAscensionEfficientSoulConsumption) >= MAX_EFFICIENT_SOUL_CONSUMPTION_LEVEL, limitReached);
 			}
-			addButton(14, "Back", darkAscensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 		private function darkAscensionPerkSelection(perk:* = null, maxRank:int = 10):void {
 			clearOutput();
@@ -2717,7 +2740,7 @@ import classes.Scenes.Combat.CombatAbility;
 			else if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 2 && !player.hasPerk(PerkLib.AscensionHerosLineage)) addButtonDisabled(btn, "HeroLegacy", "You need to buy Hero's Lineage perk first.");
 			else addButtonDisabled(btn, "HeroLegacy", "You need ascend more times to buy this perk.");
 			btn++;
-			addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function whichNewGameAreYouOn():Number {
@@ -2962,8 +2985,7 @@ import classes.Scenes.Combat.CombatAbility;
 		//	else if (player.ascensionPerkPoints < 10) addButtonDisabled(btn, "HybridTheory", "You do not have enough ascension perk points!");
 		//	else addButtonDisabled(btn, "HybridTheory", "You already bought this perk.");
 		//	btn++;
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function perkMetamorphAscCheck(btn:int):void{
@@ -3202,7 +3224,7 @@ import classes.Scenes.Combat.CombatAbility;
 				clearOutput();
 				outputText("You don't have any History perk to change into Past Life perk.");
 			}
-			doNext(ascensionMenu);
+			doNext(ascensionMenuFunc);
 		}
 		private function historyTopastlife2():void {
 			player.ascensionPerkPoints -= 5;
@@ -3435,7 +3457,7 @@ import classes.Scenes.Combat.CombatAbility;
 				clearOutput();
 				outputText("You don't have any Descendant perks to change into Bloodline perks.");
 			}
-			doNext(ascensionMenu);
+			doNext(ascensionMenuFunc);
 		}
 		private function bloodlineACQ2():void {
 			player.ascensionPerkPoints -= 10;
@@ -3456,8 +3478,7 @@ import classes.Scenes.Combat.CombatAbility;
 				else if (player.hasStatusEffect(StatusEffects.KnowsMeteorShower) && player.statusEffectv4(StatusEffects.KnowsMeteorShower) == 9000) addButtonDisabled(1, "Meteor Shower", "Meteor Shower spell is already permanent.");
 				else addButtonDisabled(1, "???", "You haven't learnt this spell yet!");
 			}
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function ascensionPermeryMenu(page:int = 1):void {
@@ -3605,8 +3626,7 @@ import classes.Scenes.Combat.CombatAbility;
 				//8
 				addButton(9, "Previous", ascensionPermeryMenu, page - 1);
 			}
-			if (player.hasPerk(PerkLib.Soulless)) addButton(14, "Back", darkAscensionMenu);
-			else addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function permanentizeSpell(statusEffect:StatusEffectType, returnPage:int = 1):void {
@@ -3819,7 +3839,7 @@ import classes.Scenes.Combat.CombatAbility;
 				else addButtonDisabled (13, "Next Page");
 			}
 
-			addButton(14, "Back", ascensionMenu);
+			addButton(14, "Back", ascensionMenuFunc);
 		}
 
 		private function accessCompleteMenu(currentPage: int = 0): void {
@@ -3990,7 +4010,7 @@ import classes.Scenes.Combat.CombatAbility;
 				outputText("<font size=\"36\" face=\"Georgia\"><u>Permanentize Metamorphs</u></font>\n");
 				outputText("<b>You've permanentized the maximum amount of metamorphs available for your current stage of Transcedental Genetic Memory!</b>");
 				menu();
-				doNext(ascensionMenu);
+				doNext(ascensionMenuFunc);
 			}
 
 		}
@@ -4005,7 +4025,7 @@ import classes.Scenes.Combat.CombatAbility;
 			mainView.nameBox.restrict = null;
 			menu();
 			addButton(0, "OK", chooseName);
-			addButton(4, "Back", ascensionMenu);
+			addButton(4, "Back", ascensionMenuFunc);
 			//Workaround
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
@@ -4017,7 +4037,7 @@ import classes.Scenes.Combat.CombatAbility;
 			menu();
 			if (player.hasPerk(PerkLib.AscensionMenuChoiceMaybe)) addButton(1, "Yes", reincarnate002).hint("Reincarnate");
 			else addButton(1, "Yes", reincarnate001).hint("Reincarnate");
-			addButton(3, "No", ascensionMenu).hint("Go Back");
+			addButton(3, "No", ascensionMenuFunc).hint("Go Back");
 		}
 		private function timeTravelPrompt():void {
 			clearOutput();
@@ -4025,7 +4045,7 @@ import classes.Scenes.Combat.CombatAbility;
 			menu();
 			if (player.hasPerk(PerkLib.AscensionMenuChoiceMaybe)) addButton(1, "Yes", reincarnate002).hint("Reincarnate");
 			else addButton(1, "Yes", reincarnate001).hint("Reincarnate");
-			addButton(3, "No", ascensionMenu).hint("Go Back");
+			addButton(3, "No", ascensionMenuFunc).hint("Go Back");
 		}
 		private function reincarnate001():void {
 			flags[kFLAGS.NEW_GAME_PLUS_LEVEL]++;
@@ -4185,4 +4205,3 @@ import classes.Scenes.Combat.CombatAbility;
 		}
 	} // what the fuck are those weird comments here? ^
 }
-

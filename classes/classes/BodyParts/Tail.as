@@ -18,7 +18,7 @@ public class Tail extends SaveableBodyPart {
 	 * Entry properties:
 	 * - value: numerical id (0, 1)
 	 * - id: name of the constant ("NONE", "HORSE")
-	 * - name: human-readable default name, ("non-existant", "horse")
+	 * - name: human-readable default name, ("non-existent", "horse")
 	 *
 	 * - hairy: has hair material
 	 * - fur: has fur material
@@ -33,14 +33,14 @@ public class Tail extends SaveableBodyPart {
 	 *
 	 * - stinger: whether part has a stringer
 	 * - tailSlam: whether part enables tail slam
-	 * - isLong: Wwhether the tail is long
+	 * - isLong: Whether the tail is long
 	 * - bite: whether the part allows attacking with teeth
 	 */
 	public static var Types:/*EnumValue*/Array = [];
 
 	public static const NONE: int = 0;
 	EnumValue.add(Types, NONE, "NONE", {
-		name:"non-existant",
+		name:"non-existent",
 		appearanceDesc: ""
 	});
 	public static const HORSE: int = 1;

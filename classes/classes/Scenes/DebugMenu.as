@@ -1337,9 +1337,9 @@ public class DebugMenu extends BaseContent
 			10,16
 		];
 		private static const WING_DESC_CONSTANTS:Array = [
-			"(none)","non-existant","tiny hidden","huge","small",
-			"giant gragonfly","large bee-like","small bee-like",
-			"large, feathered","fluffy featherly","large white feathered","large crimson feathered",
+			"(none)","non-existent","tiny hidden","huge","small",
+			"giant dragonfly","large bee-like","small bee-like",
+			"large, feathered","fluffy feathery","large white feathered","large crimson feathered",
 			"large, bat-like","two large pairs of bat-like",
 			"imp","small black faerie wings",
 			"large, draconic","large, majestic draconic","small, draconic",

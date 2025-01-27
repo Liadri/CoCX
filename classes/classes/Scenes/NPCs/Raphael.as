@@ -851,7 +851,7 @@ private function fenceRaphaelSexilyPtII():void {
 	if(flags[kFLAGS.RAPHAEL_INTELLIGENCE_TRAINING] == 4) {
 		outputText("By now, you've grown wise enough to know of his ways.  You spent enough time sitting with him around the picnic blanket to resist his wiles... when you want to.  You hold your breath as the rogue closes in on you, putting his face close to yours.  He growls softly at you and you moan back at him, but only after allowing yourself to do so.\n\n");
 
-		outputText("When he moves his lips forward, you place your hands on his shoulders and guide him away from your lips and into your neck instead.  He nibbles on it softly, while you have the opportunity to admire the rest of him: his soft fur, his skilful, patient touches and his fine wardrobe.  The sash falls in over your body while the supple brown and purple leather gives the graceful body moving in over you, a sturdy quality.  Spending time with him has rubbed off on you.  Only now do you appreciate the value of certain baubles that cling to his leathered threads, thinking like a pickpocket.  A brooch that can only be priceless decorates the soft silk sash. You reach and fondle the magnificent ornament hanging off his hips. With a few nimble flicks of your fingers, you manage to get it off.\n\n");
+		outputText("When he moves his lips forward, you place your hands on his shoulders and guide him away from your lips and into your neck instead.  He nibbles on it softly, while you have the opportunity to admire the rest of him: his soft fur, his skillful, patient touches and his fine wardrobe.  The sash falls in over your body while the supple brown and purple leather gives the graceful body moving in over you, a sturdy quality.  Spending time with him has rubbed off on you.  Only now do you appreciate the value of certain baubles that cling to his leathered threads, thinking like a pickpocket.  A brooch that can only be priceless decorates the soft silk sash. You reach and fondle the magnificent ornament hanging off his hips. With a few nimble flicks of your fingers, you manage to get it off.\n\n");
 	}
 	//({Female characters who have also raised Intelligence to 49+}
 	if(player.inte > 49) {
@@ -1254,9 +1254,9 @@ private function coverForRaphaelII():void {
 
 	outputText("You're upset with him for asking you to lie to law enforcement, but Raphael's current state keeps you from being too furious.  He's not so bushy anymore.  His soaked hair falls flat against his body and causes him to lose quite a bit of his imposing physique. Strands of it run across his face. You spend a little time yelling at him, though.\n\n");
 
-	outputText("<i>\"No.  It is nothing like that,\"</i> he splutters, in response to one of your rants.  <i>\"We go way back.  The wolves and Urta, they carry out a personal vendatta against me that has no bearing on the law.\"</i>\n\n");
+	outputText("<i>\"No.  It is nothing like that,\"</i> he splutters, in response to one of your rants.  <i>\"We go way back.  The wolves and Urta, they carry out a personal vendetta against me that has no bearing on the law.\"</i>\n\n");
 
-	outputText("You spend some time considering the dubiosity of this revelation.\n\n");
+	outputText("You spend some time considering the dubiousness of this revelation.\n\n");
 
 	outputText("<i>\"Please, señorita.\"</i>  He manages to rise to one knee.  <i>\"Is this the face of a hardened criminal?\"</i>  He looks up and into your eyes with his own brilliant green ones.  He's still a mess, hair disheveled and his features weather-beaten, but he'll dry up again eventually, to be dashing once again.  <i>\"Since when have I treated you anything less than courteously?  A handful of gems, certainly, yes, but do I deserve such police brutality because of that?  Do I deserve to be hunted down in the forests and carried through the streets in chains?  Just because my antics leave the world with a smile?\"</i>\n\n");
 

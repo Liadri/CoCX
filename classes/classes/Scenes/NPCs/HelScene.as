@@ -1052,7 +1052,7 @@ private function helChatMenu():void {
 	if (!flags[kFLAGS.HEL_TALKED_ABOUT_HER]) addButton(0, "About Her", askHelAboutHer);
 	if (!minoTalkBerserk) addButton(1, "Berserking?", berserkMode);
 	if (!flags[kFLAGS.HEL_FUCKBUDDY] && !minoTalkAttack) addButton(2, "YouAttackMe", askHelAboutAttackingYou);
-	addButton(2, "SecondTime", askMommaHelForSecondsAfterDinner);
+	else addButton(2, "SecondTime", askMommaHelForSecondsAfterDinner);
 	addButton(3, "MinosAreBad", telHelToGetOffTheMInoCock); //disables this talk forever
 	if (flags[kFLAGS.HEL_TALKED_ABOUT_HER]) addButton(4, "Leave", leaveHelAfterMinoThreeSomeChat);
 	else addButton(4, "Bug Out", bugOutAfterHelMinoThreesome);

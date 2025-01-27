@@ -33,6 +33,10 @@ public class DracoSweepSkill extends AbstractSoulSkill {
 	public function calcDamage(monster:Monster):Number {
 		var damage:Number = scalingBonusWisdom() * 2;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		damage *= 1.75;
 		//All special weapon effects like...fire/ice
 		if (player.haveWeaponForJouster()) {

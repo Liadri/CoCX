@@ -37,9 +37,10 @@ public class PyreBurstSpell extends AbstractWhiteSpell {
 	override public function calcCooldown():int {
 		var calcC:int = 0;
 		calcC += spellWhiteCooldown();
-		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 24) {
 			if (player.level < 6) calcC -= 1;
 			if (player.level < 12) calcC -= 1;
+			if (player.level < 18) calcC -= 1;
 			calcC -= 1;
 			if (calcC < 0) calcC = 0;
 		}
@@ -54,7 +55,7 @@ public class PyreBurstSpell extends AbstractWhiteSpell {
 	 */
 	public function calcDamage(monster:Monster, randomize:Boolean=true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)
 		var baseDamage:Number = 2*scalingBonusIntelligence(randomize);
-		if (player.weaponRangeName == "Artemis") baseDamage *= 1.5;
+		daaamageaddons(baseDamage);
 		if (ex) baseDamage *= 2;
 		return adjustSpellDamage(baseDamage, DamageType.FIRE, CAT_SPELL_WHITE, monster, true, casting);
 	}

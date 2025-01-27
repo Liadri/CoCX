@@ -1343,33 +1343,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					outputText("Without further acknowledgement, you take up your on your demonic wings to find your first \"meal\". The Succubus left behind simply giggles as she sees another of her kind take up the night in search for more meals and pleasure.");
 					outputText("At first you scour the land looking for a plaything to suck the fluids out of but to your disappointment discover that it’s all imp or goblin in the region. Thirsty for sex you sate yourself on the closest greenskin but it's about the cheapest meal you can get. Even as you retrieve and eat the skank pathetic soul you yearn for more. It dawns on you that the portal to your homeworld still exists and that inevitably new champions will be thrown in, pure humans you can enslave and use for your own gains. You could always hook up with an incubus but what could ever replace the sweet taste of a harem trained for your own needs and tastes?"+(flags[kFLAGS.LETHICE_DEFEATED] <= 0?" Heck that bitch demon queen hoards all the Lethicite in the realm to herself. You could probably claim it as your own by taking her down.":"")+"\n\n");
 					outputText("With new resolve you resume your unholy quest to take this world by storm and make it your playground!\n\n");
-					if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-					else {
-						if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-						else {
-							if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-							else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
-						}
-					}
-					player.legCount = 2;
-					player.skin.setBaseOnly({type:Skin.PLAIN, color1:"blue", pattern: Skin.PATTERN_DEMONIC_PLEASURE_RUNE});
-					transformations.TailDemonic.applyEffect(false);
-					transformations.HairHuman.applyEffect(false);
-					transformations.FaceDemon.applyEffect(false);
-					transformations.EyesDemon.applyEffect(false);
-					transformations.ArmsDemon.applyEffect(false);
-					transformations.TongueDemonic.applyEffect(false);
-					transformations.EarsElfin.applyEffect(false);
-					transformations.HornsDemonic.applyEffect(false);
-					transformations.AntennaeNone.applyEffect(false);
-					transformations.GillsNone.applyEffect(false);
-					transformations.WingsDemonicLarge.applyEffect(false);
-					transformations.RearBodyNone.applyEffect(false);
-					if (player.hasCock()) transformations.CockDemon().applyEffect(false);
-					if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
-					outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
-					player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
-					player.npcsThatLeaveSoullessPC();
+					consumables.DEMONME.demonizePlayer();
 					sharedEnd();
 				}
 				else {

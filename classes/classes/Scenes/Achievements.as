@@ -320,6 +320,7 @@ public class Achievements extends BaseContent
 			addAchievement("Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, "Became Yuki Onna.", "", true);
 			addAchievement("Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, "Became Mummy.", "", true);
 			addAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, "Became Lich.", "", true);
+			addAchievement("Goblin Degraduation", kACHIEVEMENTS.EPIC_GOBLIN_DEGRADUATION, "Using GOBX.", "", true);
 			//odblokowanie pierwszego animal ancestory starting bonus at chara creation
 			addAchievement("My own Demon Weapon", kACHIEVEMENTS.EPIC_MY_OWN_DEMON_WEAPON, "Find an evolving weapon.", "", true);
 			//znalezienie ewolującą zbroje

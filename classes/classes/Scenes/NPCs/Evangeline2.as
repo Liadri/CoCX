@@ -374,7 +374,7 @@ public class Evangeline2 extends Monster
 				this.createPerk(PerkLib.JobEnchanter, 0, 0, 0, 0);
 			}//nie gotowy etap
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 10) {
-				this.long = "You are currently fighting Evangeline, which is a eight feet tall cow-morph bimbo. She's wearing lusty maiden's armor and using inscribed spellblade to attack.";
+				this.long = "You are currently fighting Evangeline, which is an eight feet tall cow-morph bimbo. She's wearing lusty maiden's armor and using inscribed spellblade to attack.";
 				createBreastRow(Appearance.breastCupInverse("F"));
 				this.tallness = 96;
 				this.hairColor = "crimson platinum";
@@ -401,7 +401,7 @@ public class Evangeline2 extends Monster
 				//this.createPerk(PerkLib., 0, 0, 0, 0);//tu powinien być dodany perk Battlemage dający autorzucanie might ale, że to npc to sie załatwi w kodzie to zamiast dodawać perk ;)
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 11) {
-				this.long = "You are currently fighting Evangeline, which is a eight feet tall cow-morph bimbo. She's wearing lusty maiden's armor and using inscribed spellblade to attack.";
+				this.long = "You are currently fighting Evangeline, which is an eight feet tall cow-morph bimbo. She's wearing lusty maiden's armor and using inscribed spellblade to attack.";
 				createBreastRow(Appearance.breastCupInverse("F"));//succubus milk może teoretycznie w nieskończoność zwiekszać rozmiar biustu
 				this.tallness = 96;
 				this.hairColor = "crimson platinum";

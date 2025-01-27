@@ -609,10 +609,10 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
         outputText("The lab is dark, but there’s periodic red lamps scattered throughout the place. Once your eyes get used to the dark, it’s not too bad, but the shadows are deep, and the sounds of skittering chitin scratching the stone lend the place an air of menace. The room is about half the size of the ballroom above, but much longer, and thinner, with thick pillars embedded into the wall periodically. Black webbing hangs from the ceiling and the walls, making crackling sounds as air flows through the sticky strands.\n\n");
         if (TyrantLabState == 1) {
             outputText("There’s a large, steel door on the far side of the hallway. Light shines through a crack. It’s clearly open, but as you near it, you can hear several voices arguing and yelling. You know instinctively it’s some of the demons who escaped the battle earlier.\n\n");
-            outputText("As you get further into the room, you realise that in between the pillars are smaller rooms... no, cages.\n\n");
+            outputText("As you get further into the room, you realize that in between the pillars are smaller rooms... no, cages.\n\n");
         }
         if (DridersState == 0) {
-            outputText("Whimpers and whispers fill the corridor as some of them catch sight of you. Most shy away, averting their gaze, while others look at you with fear in their eyes. Unlike the Driders in the swamps, these only have one pair of breasts, if female, and they have less demonic proportions. Their chitin is stained, splattered with... well, you know what. This is a demon’s lab, after all. The scent of stale urine, old sex, and barely noticable, cinamon. Most of the Driders here are female, but a few smaller males are among their number.\n\n");
+            outputText("Whimpers and whispers fill the corridor as some of them catch sight of you. Most shy away, averting their gaze, while others look at you with fear in their eyes. Unlike the Driders in the swamps, these only have one pair of breasts, if female, and they have less demonic proportions. Their chitin is stained, splattered with... well, you know what. This is a demon’s lab, after all. The scent of stale urine, old sex, and barely noticeable, cinnamon. Most of the Driders here are female, but a few smaller males are among their number.\n\n");
             outputText("Without exception, these people are malnourished, bound to the wall, arms held up above their heads, spider-legs splayed out and thoraxes chained to the hard stone floor. Red and purple eyes stare back at you from within the dark cages... but you can’t feel the slightest bit creeped out by them. They’re of no threat to you... or anyone.\n\n");
         }
         if (TyrantFollower && DridersState == 0) {
@@ -708,7 +708,7 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
         clearOutput();
         outputText("You look through the desk, and find a large stack of paper. Looking through, you find a map that seems to mark off several locations that the demons find important. You recognize He-Din Xiao, marked in red, and a few other locations. \n"
             + "\n"
-            + "To your surprise, further up the mountain is a marking labeled “My Queen’s Domain”, with an anatomically accurate heart drawn before and after the label. There seems to be lines on the map noting roads, or paths. This place would appear to be a demon queen’s fortress. Your heart leaps as you realise what you hold.\n"
+            + "To your surprise, further up the mountain is a marking labeled “My Queen’s Domain”, with an anatomically accurate heart drawn before and after the label. There seems to be lines on the map noting roads, or paths. This place would appear to be a demon queen’s fortress. Your heart leaps as you realize what you hold.\n"
             + "\n"
             + "<b>You’ve found a map to the Lethice’s Fortress!</b>");
         outputText("\n\n<b>(Key Item Acquired: Map to the Lethice’s Fortress!)</b>");
@@ -725,14 +725,14 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
     public function CntrlAltDenied():void {
         clearOutput();
         outputText("You open the \"settings\" folder, quickly flicking through the options. Some, like \"Brightness\" confuse you, but upon investigation, it just makes the device glow brighter or softer. Another, \"Sound\" would seem useful, but nothing happens when you adjust it. And what on Mareth is this \"BlueTooth\"? What are these demons into?\n\n");
-        outputText("Quickly frustrated, you realise you're getting nowhere with this infernal device!\n\n");
+        outputText("Quickly frustrated, you realize you're getting nowhere with this infernal device!\n\n");
         doNext(panicRoom);
     }
 	
 	public function videoLog():void {
 		clearOutput();
 		outputText("You open the file, and a video begins to play…Dated just a week or so after you entered this realm.\n\n");
-		outputText("A single demon, a grin on his face, fills the screen. “<i>Doctor Hemos’ Log…SHE’s coming here! Finally, I’ll be able to showcase my work!</i>” The camera moves, and is left on a table. As the demon walks backwards, you realise that this room is the white, sterile room at the front of the lab. You watch as the scientists file into view on the other side of the room, and wait. Most are still, sterile, but the demon who’d started the video is bursting with excitement. A moment or so later, the distant flapping of leathery wings sounds.\n\n");
+		outputText("A single demon, a grin on his face, fills the screen. “<i>Doctor Hemos’ Log…SHE’s coming here! Finally, I’ll be able to showcase my work!</i>” The camera moves, and is left on a table. As the demon walks backwards, you realize that this room is the white, sterile room at the front of the lab. You watch as the scientists file into view on the other side of the room, and wait. Most are still, sterile, but the demon who’d started the video is bursting with excitement. A moment or so later, the distant flapping of leathery wings sounds.\n\n");
 		outputText("“<i>My queen.</i>” A gruff, bullish voice sounds. The door opens, and a massive minotaur enters, facing the line of scientists. “<i>Bow.</i>” The line of demons drop to one knee, and he moves forward, brandishing his axe. The minotaur steps out of frame, and two women enter.\n\n");
 		outputText("One is a succubus…Her purple hair is woven with black roses, oversized dragon wings folded against her back. Goat horns curl delicately from her head, and she walks slowly, sensually, on heels of bone. Her breasts, shockingly, are slim. She wears black cloth, cut down to nearly nothing…But her black-rimmed eyes are cold, odd, slitted pupils giving an air of dark intellect.\n\n");
 		outputText("“<i>Your Majesty, is there anything in particular you wish to see?</i>” The second woman asks. This one is odd, even by demon standards. She has long, sharp bull horns, a horselike face and a red mane running down her body…A body covered in black and white striped scales. Her hair is red…and appears to be made from thin tendrils. Almost like the anemones from the lake. She turns her head towards the camera, and sticks her forked tongue out. Despite the horse-like shape of her face, she has snake-fangs, but the rest of her teeth are sharp. The back of her throat glows red, and she lets out a puff of smoke.\n\n");
@@ -813,7 +813,7 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
         clearOutput();
         outputText("As the last of the disfigured demons hit the ground, you look at their fallen forms. These things that had once been people... They’d fought like a horde of mindless things, not even beasts.\n\n");
         //if Marcus (the guy in the desert) has gone demon
-        if (player.hasStatusEffect(StatusEffects.WandererDemon)) outputText("Something about one of their faces gives you pause. Upon closer inspection, you recognize the face of this now dead pseudo demon. He kind of looks like the man you’d met in the desert! His build and face are almost identical... You realise what had become of him, and it almost makes you retch.\n\n");
+        if (player.hasStatusEffect(StatusEffects.WandererDemon)) outputText("Something about one of their faces gives you pause. Upon closer inspection, you recognize the face of this now dead pseudo demon. He kind of looks like the man you’d met in the desert! His build and face are almost identical... You realize what had become of him, and it almost makes you retch.\n\n");
         if (MainAreaComplete == 1) MainAreaComplete = 2;
         cleanupAfterCombat();
 
@@ -821,7 +821,7 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
 
     public function TyrantLabComfort():void {
         clearOutput();
-        outputText("You wordlessly put a hand on one of Tyrantia’s spider-legs. She flinches, but once she realises it’s you, she nods, her arms shaking. You ask her if she’s alright, and she shakes her head. “<i>No time to worry about me, [name].</i>” She strides over, picking up her Dick. “<i>We’ve got other things to deal with here, before we leave.</i>”\n\n");
+        outputText("You wordlessly put a hand on one of Tyrantia’s spider-legs. She flinches, but once she realizes it’s you, she nods, her arms shaking. You ask her if she’s alright, and she shakes her head. “<i>No time to worry about me, [name].</i>” She strides over, picking up her Dick. “<i>We’ve got other things to deal with here, before we leave.</i>”\n\n");
         doNext(TyrantLab1);
     }
 
@@ -833,14 +833,14 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
 
     public function TyrantLabCarryOn():void {
         clearOutput();
-        outputText("You give your giantess a few moments, but can’t keep still for long. You lightly slap her leg, just to get the giantess’s attention, and tell her that you need to keep going. You’ve got to focus, and you tell Tyrantia that you need her to have her head in the fight. This seems to strike a cord in her, and she straightens, her five eyes glowing brighter. “<i>Of course. Sorry.</i>” You wave her off, telling her that she didn’t need to apologise. She nods. “<i>Where to now, then?</i>”\n\n");
+        outputText("You give your giantess a few moments, but can’t keep still for long. You lightly slap her leg, just to get the giantess’s attention, and tell her that you need to keep going. You’ve got to focus, and you tell Tyrantia that you need her to have her head in the fight. This seems to strike a cord in her, and she straightens, her five eyes glowing brighter. “<i>Of course. Sorry.</i>” You wave her off, telling her that she didn’t need to apologize. She nods. “<i>Where to now, then?</i>”\n\n");
         doNext(TyrantLab1);
     }
 
     public function PrTyrantVictory():void {
         clearOutput();
         outputText("The injured creature that was once a Drider collapses, its legs folding. On its back, the Incubus begins to panic, but the injured Drider-beast grunts, grabbing the demon as he tries to flee. Sinking its massive thumbs deep into the demon’s eyes, the creature blinds the incubus, before throwing him to the ground. The demon’s neck breaks, and you brace yourself as the creature turns towards you, blood dripping from its injuries.\n\n");
-        outputText("Its eyes focus, and it rushes past you, eight legs skittering. Before you realise what’s going on, the creature’s running towards the cages, where the Driders were kept. You kick yourself into high gear, but as the hulking beast sees the first cage, ripping the bars off without any discernible effort, it stops, tilting its head, leaning into the cage.\n\n");
+        outputText("Its eyes focus, and it rushes past you, eight legs skittering. Before you realize what’s going on, the creature’s running towards the cages, where the Driders were kept. You kick yourself into high gear, but as the hulking beast sees the first cage, ripping the bars off without any discernible effort, it stops, tilting its head, leaning into the cage.\n\n");
         outputText("The captive inside, an old female, pushes herself back against the wall, six eyes wide with fear. The creature that had been a drider sees the fear, letting out a groaning, confused sound. Tossing the door aside, sending the screech of steel on stone echoing up the corridor, it moves to the next cage, repeating the process. Without exception, the captives avoid its gaze, recoiling in fear.\n\n");
         outputText("As you watch, astounded, the mutated beast rips the doors off one cage after another. After the first few, it makes no move towards the captives. You go back to the lab, and pick up a keycard and ring of keys from the fallen demon.\n\n");
         if (TyrantFollower) outputText(" She watches the creature with wide eyes. She drops her Dick, arms shaking. She makes no moves to save her fellow Driders, but instead watches the creature.\n\n");
@@ -866,8 +866,8 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
         clearOutput();
         outputText("You tell the creature that it's free. That there’s a way to heal it. It slowly shakes its head. It stalks back to the lab, and you see it staring into a full-length mirror, its entire body shaking. You realise... There’s nothing you can do for it. You take the key, walking over to the cell with a heavy heart.\n\n");
         outputText("The elderly woman in the first cell raises her head, her wrinkled arms shaking as you slip the key in. “<i>Who are you?</i>” Her voice is dry, a bare whisper, but you notice her thorax shaking, her mouth opening to bare brittle old fangs.\n\n");
-        outputText("You tell the elderly Drider that you’re the cause for the alarm, and that the demons on this level have fled. “<i>Truly?</i>” Her arm falls limp as you unclasp the irons, and she struggles to stand. “<i>Then... Help me stand, traveller.</i>” You help the woman to her feet, and she leans her spider carapace against the wall, chest heaving as she inhales to speak.\n\n");
-        outputText("“<i>Free. We are freed. Fear not. Trust the traveller with the key.</i>” She whispers into the wall. The Driders’ whisper travels up the cells, and from that moment on, the looks in the Driders’ eyes are less fearful. A few get their feet, and ask for a key from the ring, to free more of their kin.\n\n");
+        outputText("You tell the elderly Drider that you’re the cause for the alarm, and that the demons on this level have fled. “<i>Truly?</i>” Her arm falls limp as you unclasp the irons, and she struggles to stand. “<i>Then... Help me stand, traveler.</i>” You help the woman to her feet, and she leans her spider carapace against the wall, chest heaving as she inhales to speak.\n\n");
+        outputText("“<i>Free. We are freed. Fear not. Trust the traveler with the key.</i>” She whispers into the wall. The Driders’ whisper travels up the cells, and from that moment on, the looks in the Driders’ eyes are less fearful. A few get their feet, and ask for a key from the ring, to free more of their kin.\n\n");
         doNext(PrTyrantVictoryNext);
     }
 
@@ -877,10 +877,10 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
         outputText("Motioning at the Drider captives, you tell her that you’ve got work to do. There’s a lot of locks to undo, after all. Tyrantia nods, forcing a smile onto her face. It looks pretty scary, but you keep your mouth shut, not wanting to hurt your Giantess lover.\n\n");
         outputText("“<i>You’re right... I’ll get on the locks.</i>” She tosses you one of the keys. “<i>You too, alright?</i>”  You nod, joining your giantess. You enter the cages first, undoing the first shackle before Tyrantia joins you. The elderly woman in the first cell raises her head, her wrinkled arms shaking as you slip the key in.\n\n");
         outputText("“<i>Who are you?</i>” Her voice is dry, a bare whisper, but you notice her thorax shaking, her mouth opening to bare brittle old fangs. You tell the elderly Drider that you’re the cause for the alarm, and that the demons on this level have fled.\n\n");
-        outputText("“<i>Then who is this, traveller? I can feel the corruption on her.</i>” Tyrantia flinches, turning her head, and you grit your teeth. You tell the old woman that this is a brave warrior, and your companion. You tell her you won’t have her disrespect or hurt your giantess.“<i>... Such fire... There is truth in your words... and yet, her corruption is... deep.</i>”\n\n");
+        outputText("“<i>Then who is this, traveler? I can feel the corruption on her.</i>” Tyrantia flinches, turning her head, and you grit your teeth. You tell the old woman that this is a brave warrior, and your companion. You tell her you won’t have her disrespect or hurt your giantess.“<i>... Such fire... There is truth in your words... and yet, her corruption is... deep.</i>”\n\n");
         outputText("Tyrantia glares at the old woman. “<i>Those fuckers did a lot to me. Do you want freedom, or not?</i>”\n\n");
-        outputText("“<i>... I apologise for my... rudeness... Why don’t we let actions speak?</i>” Her arm falls limp as you unclasp the irons, and she struggles to stand. “<i>... Help me stand, traveller.</i>” You help the woman to her feet, and she leans her spider carapace against the wall, chest heaving as she inhales to speak.\n\n");
-        outputText("“<i>Free. We are freed. Fear not. Trust the travellers with the key.</i>” She whispers into the wall. The Driders’ whisper travels up the cells, and from that moment on, the looks in the Driders’ eyes are less fearful. A few get their feet, and ask for a key from the ring, to free more of their kin.\n\n");
+        outputText("“<i>... I apologize for my... rudeness... Why don’t we let actions speak?</i>” Her arm falls limp as you unclasp the irons, and she struggles to stand. “<i>... Help me stand, traveler.</i>” You help the woman to her feet, and she leans her spider carapace against the wall, chest heaving as she inhales to speak.\n\n");
+        outputText("“<i>Free. We are freed. Fear not. Trust the travelers with the key.</i>” She whispers into the wall. The Driders’ whisper travels up the cells, and from that moment on, the looks in the Driders’ eyes are less fearful. A few get their feet, and ask for a key from the ring, to free more of their kin.\n\n");
         doNext(PrTyrantVictoryNext);
     }
 
@@ -889,7 +889,7 @@ public class DemonLab extends DungeonAbstractContent implements SaveableState {
         DridersState = 2;
 		clearOutput();
         outputText("As the last of the shackles are thrown off, the remaining Driders begin to take stock of themselves. Gathering around the elder you’d released first, they speak in small, hissing voices. As you approach them, the elder woman steps from between her kin, bowing her head respectfully. You note that the other Driders have covered her with a crude blanket, and she shivers, though whether from age or cold, you can’t tell.\n\n");
-        outputText("“<i>I cannot thank you enough, traveller. I thought we would all perish in this terrible place.</i>” She draws her hands in, and two of the stronger Driders offer their shoulders to support the frail elder. “<i>But I must ask you... Where are our males? The ones you see here are less than half of our tribe.</i>” You remain silent, but the look on your face is enough. Sobs begin to sound from within the Driders. The cries are weak, but full of emotion.\n\n");
+        outputText("“<i>I cannot thank you enough, traveler. I thought we would all perish in this terrible place.</i>” She draws her hands in, and two of the stronger Driders offer their shoulders to support the frail elder. “<i>But I must ask you... Where are our males? The ones you see here are less than half of our tribe.</i>” You remain silent, but the look on your face is enough. Sobs begin to sound from within the Driders. The cries are weak, but full of emotion.\n\n");
         outputText("One of the few males remaining raises his voice, walking to the front of the line. “<i>Mother Oaklee</i>”, he says nervously. “<i>Our numbers are few, and we have no warriors. What shall we do? Where shall we go?</i>”\n\n");
         if (TyrantFollower) {
             outputText("As your Giantess hears this, she whips around, prompting a series of startled gasps from the tribe of Driders. She advances, looming over them. “<i>Did I hear you correctly? Is your elder Mother Oaklee of the Manaweavers?</i>”\n\n");

@@ -67,7 +67,7 @@ public class RegenerateSpell extends AbstractBlackSpell {
 			if (display) {
 				outputText("<b>Regenerate healing power spreading in your body. ([font-heal]+" + hpChange2 + "[/font])</b>\n\n");
 			}
-			HPChange(hpChange2, false);
+			HPChange(hpChange2, false, false);
 		}
 	}
 	

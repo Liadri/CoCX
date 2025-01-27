@@ -344,7 +344,7 @@ public class JourneyToTheEast extends HeXinDaoAbstractContent implements Saveabl
 				if (player.statusEffectv1(StatusEffects.CombatWounds) > 0.2) player.addStatusValue(StatusEffects.CombatWounds, 1, -0.2);
 				else player.removeStatusEffect(StatusEffects.CombatWounds);
 			}
-			HPChange(player.maxOverHP() * 0.25, true);
+			HPChange(player.maxOverHP() * 0.25, true, false);
 			EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.125)));
 			doNext(dianaAtJttEMain);
 			advanceMinutes(15);

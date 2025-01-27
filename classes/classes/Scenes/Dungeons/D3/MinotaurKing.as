@@ -18,7 +18,7 @@ public class MinotaurKing extends Monster
 		public function MinotaurKing()
 		{
 			if (player.hasStatusEffect(StatusEffects.SoulArena)) {
-				this.short = "minotaur challanger";
+				this.short = "minotaur challenger";
 				initStrTouSpeInte(140, 140, 100, 45);
 				initWisLibSensCor(35, 160, 20, 100);
 				this.weaponAttack = 90;
@@ -75,11 +75,11 @@ public class MinotaurKing extends Monster
 		{
 			if (!_orgasms == 0)
 			{
-				return "Positioned "+(player.hasStatusEffect(StatusEffects.SoulArena)?"before you":"between you and the Demon Queen")+" is an opponent of singular size and stature - the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+". He is a beast beyond measure, covered in shaggy fur and a few scraps of leather that do nothing to hide the pillar of flared cuntplow between his legs. In his hands is a gigantic axe, though he seems loathe to use it, preferring to rely on the erotic scent emanating from between his legs. He smells virile, strong, and more alluring than you’d expect. You’d best be careful not to dwell on it.";
+				return "Positioned "+(player.hasStatusEffect(StatusEffects.SoulArena)?"before you":"between you and the Demon Queen")+" is an opponent of singular size and stature - the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+". He is a beast beyond measure, covered in shaggy fur and a few scraps of leather that do nothing to hide the pillar of flared cuntplow between his legs. In his hands is a gigantic axe, though he seems loathe to use it, preferring to rely on the erotic scent emanating from between his legs. He smells virile, strong, and more alluring than you’d expect. You’d best be careful not to dwell on it.";
 			}
 			else
 			{
-				var str:String = "Still standing "+(player.hasStatusEffect(StatusEffects.SoulArena)?"before you":"between you and the Demon Queen")+", the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" is breathing heavily. His cock is slathered with the residue of his own potent orgasm. His immense, 14 foot tall form hunches slightly as he stares at you, one hand still clutching to his axe. Driving him back to his peak would undoubtedly push him even beyond his considerable endurance. The only problem is that alluring <i>aroma</i> that surrounds him, suffusing the air with the scent of sweaty bedroom romps and sizzling pleasure. You better finish him quick.";
+				var str:String = "Still standing "+(player.hasStatusEffect(StatusEffects.SoulArena)?"before you":"between you and the Demon Queen")+", the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" is breathing heavily. His cock is slathered with the residue of his own potent orgasm. His immense, 14 foot tall form hunches slightly as he stares at you, one hand still clutching to his axe. Driving him back to his peak would undoubtedly push him even beyond his considerable endurance. The only problem is that alluring <i>aroma</i> that surrounds him, suffusing the air with the scent of sweaty bedroom romps and sizzling pleasure. You better finish him quick.";
 				//Excellia description
                 if (!player.hasStatusEffect(StatusEffects.MinoKing)) { 
                     if (lust < 40)
@@ -90,8 +90,8 @@ public class MinotaurKing extends Monster
                         str += "\n\nBeneath his legs is the creampied form of his "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Lacta Bovina slutty wife":"favored slut, Excellia")+". Milk-white cum puddles between her spread legs, matched only by the sheen of leaking lactose on her lewdly-jutting nipples. Her lord never lets her fallen form out of arm’s reach, just in case he needs a drink.";
                 }
 				// milkdrinks
-				if (_milkDrinks == 1) str += "\n\n<b>The "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" has been glancing appreciatively in your direction ever since he took a drink from his slave-slut’s nipples. Perhaps he’s more vulnerable to baser needs...</b>";
-				else if (_milkDrinks > 1) str += "\n\n<b>The "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+"’s nostrils flare as he stares at you. It’s clear that with every drink he takes from his slave-slut’s nipples, he becomes more receptive to your advances.</b>";
+				if (_milkDrinks == 1) str += "\n\n<b>The "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" has been glancing appreciatively in your direction ever since he took a drink from his slave-slut’s nipples. Perhaps he’s more vulnerable to baser needs...</b>";
+				else if (_milkDrinks > 1) str += "\n\n<b>The "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+"’s nostrils flare as he stares at you. It’s clear that with every drink he takes from his slave-slut’s nipples, he becomes more receptive to your advances.</b>";
 				return str;
 			}
 		}
@@ -138,7 +138,7 @@ public class MinotaurKing extends Monster
 			// Attempt dickslap if the player was stunned in the last round
 			if (_lastRoundStun) {
 				_lastRoundStun = false;
-				// If the player is still stunned, use dickslap ohterwise fall through to regular AI.
+				// If the player is still stunned, use dickslap otherwise fall through to regular AI.
 				if (player.hasStatusEffect(StatusEffects.Stunned)) {
 					dickslap();
 					return;
@@ -157,7 +157,7 @@ public class MinotaurKing extends Monster
 
 		private function backhand():void
 		{
-			outputText("Feinting with his axe, the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" flings a powerful backhand in your direction.");
+			outputText("Feinting with his axe, the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" flings a powerful backhand in your direction.");
 			var damage:Number = (str + weaponAttack) - rand(player.tou);
 			if (damage <= 0 || player.getEvasionRoll())
 			{
@@ -206,7 +206,7 @@ public class MinotaurKing extends Monster
 
 		private function battleaxe():void
 		{
-			outputText("The Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" carries his axe as if it weighed no more than a feather, brandishing it back and forth with such casual movements that you barely register his swing");
+			outputText("The Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" carries his axe as if it weighed no more than a feather, brandishing it back and forth with such casual movements that you barely register his swing");
 			var damage:Number = (str + weaponAttack) - rand(player.tou);
 			if (damage <= 0 || player.getEvasionRoll())
 				outputText(" in time to avoid it.");
@@ -222,9 +222,9 @@ public class MinotaurKing extends Monster
 			lustVuln += 0.15;
 			_milkDrinks++;
 			//Full HP restore.
-			outputText("Staggering back, the "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" wastes no time in appropriating his willing slave, lifting her up to his face as easily as one might heft a stein of fresh-brewed beer. One of her huge tits easily fits against the oversized minotaur’s lips, and you see him noisily gulping down a quick, milky pick-me-up. By the time he finishes, his wounds are closing, but his cock is twitching and leaking pre-cum like water from a sieve.");
+			outputText("Staggering back, the "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" wastes no time in appropriating his willing slave, lifting her up to his face as easily as one might heft a stein of fresh-brewed beer. One of her huge tits easily fits against the oversized minotaur’s lips, and you see him noisily gulping down a quick, milky pick-me-up. By the time he finishes, his wounds are closing, but his cock is twitching and leaking pre-cum like water from a sieve.");
 			outputText("\n\n<b>He looks like he’d be easier to arouse. Whatever’s in her milk may restore his wounds, but leave him vulnerable to his animalistic needs.</b>");
-			outputText("\n\n<i>Dealing with the "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" would be much easier if someone distracted his slut.</i>");
+			outputText("\n\n<i>Dealing with the "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" would be much easier if someone distracted his slut.</i>");
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 0) player.addStatusValue(StatusEffects.MinotaurKingMusk, 1, 1);
 		}
 		
@@ -258,11 +258,11 @@ public class MinotaurKing extends Monster
 		{
 			_orgasms++;
 			outputText("The incredibly-aroused minotaur staggers, then looks down at the log of tumescence between his legs. It’s twitching, bouncing in the air with every beat of his heart. It must ache to be that hard, to be so full of lust it looks ready to erupt. One of his hands reaches toward it, and he drops to one knee. Have you done it? Have you defeated the brute once and for all?");
-			outputText("\n\nA monstrous hand closes around "+(player.hasStatusEffect(StatusEffects.SoulArena)?"cow’s maid":"Excellia’s")+" torso, lifting her into the air. The curvy cow-slut does the only thing she can in such a situation - she moos and spreads her legs, a gleeful smile plastered across her excited visage. The Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" doesn’t wait a second, impaling her on the spot, sliding what looks like three feet of virile cock deep into his favorite slut. His balls slap against her bulging belly once he’s fully inside, getting a coating of pussy-juice for their trouble.");
+			outputText("\n\nA monstrous hand closes around "+(player.hasStatusEffect(StatusEffects.SoulArena)?"cow’s maid":"Excellia’s")+" torso, lifting her into the air. The curvy cow-slut does the only thing she can in such a situation - she moos and spreads her legs, a gleeful smile plastered across her excited visage. The Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" doesn’t wait a second, impaling her on the spot, sliding what looks like three feet of virile cock deep into his favorite slut. His balls slap against her bulging belly once he’s fully inside, getting a coating of pussy-juice for their trouble.");
 			outputText("\n\nThe brute fucks her casually, using her like little more than a super-sized sex-toy. Every sheath-hilting clap of hips to ass sends jiggles through the nubile slave. Flecks of pussy-juice and pre-cum froth around the entrance to her gaped cunt while stray droplets slick the floor below. It’s a bestial mating, the kind that leaves no room for words on either partner’s face. The kind that has the cow-girl quivering and shaking in the throes of indescribable ecstasy, rendered incapable of something as simple as moaning.");
 			outputText("\n\n"+(player.hasStatusEffect(StatusEffects.SoulArena)?"cow’s maid":"Excellia’s")+" master joins her a second later. There’s little change in the sound of his grunts. You wouldn’t even know if it wasn’t for the sudden ballooning of her belly and the cascade of cum between her legs, coating her lord’s legs in a veneer of lusty white. The amount of spunk is absolutely gobsmacking. You watch in awe as "+(player.hasStatusEffect(StatusEffects.SoulArena)?"cow’s maid":"Excellia’s")+" formerly taut belly stretches into a gravid dome. She looks like she could give birth any moment now, yet there’s nothing in her womb but gallon upon gallon of tainted minotaur spunk.");
 			if (player.hasPerk(PerkLib.MinotaurCumAddict)) outputText(" You’re jealous. All that cum must feel exquisite!");
-			outputText("\n\nWhatever spell this forceful mating cast, it breaks the moment "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Lacta Bovina":"Excellia")+" slides off her lord’s still-hard phallus. You close your mouth and ready your grip on your [weapon] as the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challanger":"King")+" straightens, breathing heavily. He looks a little woozy for the effort, but still good to fight. Maybe if you can bring him back to the peak, he’ll fall for good?");
+			outputText("\n\nWhatever spell this forceful mating cast, it breaks the moment "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Lacta Bovina":"Excellia")+" slides off her lord’s still-hard phallus. You close your mouth and ready your grip on your [weapon] as the Minotaur "+(player.hasStatusEffect(StatusEffects.SoulArena)?"Challenger":"King")+" straightens, breathing heavily. He looks a little woozy for the effort, but still good to fight. Maybe if you can bring him back to the peak, he’ll fall for good?");
 			lust = 0;
 			if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 0) player.addStatusValue(StatusEffects.MinotaurKingMusk, 1, 1);
 		}

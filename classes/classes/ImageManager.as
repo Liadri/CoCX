@@ -260,7 +260,7 @@ import flash.display.Loader;
 			mStage.addEventListener(Event.ADDED, fixupListener);
 		}
 
-		// Event listener hooks into the stage to find objects added to the display list at any point in the heirarchy
+		// Event listener hooks into the stage to find objects added to the display list at any point in the hierarchy
 		private function fixupListener(e:Event):void
 		{
 			// We're looking for Loader objects -- there /could/ be other types of loaders in future, but right now,
@@ -271,7 +271,7 @@ import flash.display.Loader;
 				var loader:Loader = e.target as Loader;
 
 				// Hook the loader to notify us when the image has finished loading
-				// this gaurantees that anything we do to the content of mainText will ONLY happen after a scene's calls
+				// this guarantees that anything we do to the content of mainText will ONLY happen after a scene's calls
 				// to outputText has finished
 				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, doFixup);
 			}
@@ -289,7 +289,7 @@ import flash.display.Loader;
 		 * Handwavey Bullshit Internals:
 		 * TextField.htmlText doesn't continually "parse" content added to it, it's done at the end of a frame when the property has changed.
 		 * 		(TextField has two internal properties to check its current displayed content after parsing, and what other code has told it to have there,
-		 * 	     the difference is only resolved on EVENT.EXIT_FRAME or EVENT.ENTER_FRAME, I'm not sure which but thats basically the mechanic in play)
+		 * 	     the difference is only resolved on EVENT.EXIT_FRAME or EVENT.ENTER_FRAME, I'm not sure which but that's basically the mechanic in play)
 		 * TextField never directly updates the UIScrollBar, it's kinda the other way around but not really; the UIScrollBar targets a specific DisplayObject
 		 * and targets specific properties thereof. It's probably (internally) adding a listener to EVENT.CHANGE which, I believe, will only be fired when
 		 * the textfields internal text property is updated (ie not htmlText but the comparison with it). Anything that changes the actual content layout

@@ -89,7 +89,7 @@ public function HaveABoysBath():void {
 		    outputText(", your [cock biggest] makes it clear that you have the right to be amongst them.\n");
         else
             outputText(", they allow you to stay.\n")
-		outputText("\n\nThe bath hasn't started yet, but the boys are giving you odd looks. Some look slightly ucomfortable, others steal glances at your curves.");
+		outputText("\n\nThe bath hasn't started yet, but the boys are giving you odd looks. Some look slightly uncomfortable, others steal glances at your curves.");
 		if (player.cor < 33)
 			outputText("  You feel slightly nervous under their hungry gazes, but try not to show it.\n\n");
 		else
@@ -427,7 +427,7 @@ public function FFclassHTintro():void {
 }
 public function FFclassHTbeaten():void {
 	clearOutput();
-	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel a silent 'pop' inside your body as your cultivation base makes a breakthrough.\n\n");
+	outputText("After your attack clouds starts to disperse. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel a silent 'pop' inside your body as your cultivation base makes a breakthrough.\n\n");
 	outputText("<b>You're now an Early Soul King.\nYou can now create three additional clones.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTBa:Number = 1;
@@ -486,7 +486,7 @@ public function EclassHTintro():void {
 }
 public function EclassHTbeaten():void {
 	clearOutput();
-	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel a silent 'pop' inside your body as your cultivation base makes a breakthrough.\n\n");
+	outputText("After your attack clouds starts to disperse. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel a silent 'pop' inside your body as your cultivation base makes a breakthrough.\n\n");
 	//outputText("<b>You're now an Early Soul Ancestor.\nYou can now create three additional clones.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTBa:Number = 1;
@@ -557,6 +557,7 @@ public function goblinsBirthScene(womb:int = 0):void {
 	}
 	else goblinsBirthScene2(womb);
 }
+
 private function nameEldestGobo(womb:int = 0):void {
 	if (mainView.nameBox.text == "") {
 		clearOutput();
@@ -576,6 +577,7 @@ private function nameEldestGobo(womb:int = 0):void {
 	outputText("" + flags[kFLAGS.ELDEST_GOBLIN_DAUGHTER] + " now that's a name worthy of a future genius! ");
 	goblinsBirthScene2(womb);
 }
+
 private function goblinsBirthScene2(womb:int = 0):void {
 	outputText("That solved, you doze off with your daughter against you, supremely happy.");
 	player.cuntChange(60, true, true, false);

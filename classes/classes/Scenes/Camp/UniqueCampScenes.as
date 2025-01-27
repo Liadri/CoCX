@@ -221,7 +221,7 @@ private function impTomeGiveIn():void {
 	if (player.hasVagina())outputText(" fucking your fertile imp cunt to birth the new legion of servants obediant to your royal will");
 	outputText(" comes to your mind and makes you smirk wickedly.[pg]");
 	outputText("Yea the idea of taking over the world by storm as the strongest imp gives you chills of pleasure,");
-	outputText("[if (hasock) your cock hardening][if (hascock && hasvagina) and][if (hasvagina) your snatch drooling] at the prospect, the thought nearly bringing you to a spontaneous orgasm.[pg]");
+	outputText("[if (hascock) your cock hardening][if (hascock == true && hasvagina == true) and][if (hasvagina) your snatch drooling] at the prospect, the thought nearly bringing you to a spontaneous orgasm.[pg]");
 	outputText("Done examining your new personal abode, you exit by the way you came parting the vaginal gate and leaving the book more or less the same way you got in.[pg]");
 	outputText("Back in your camp you prepare your battle plans for world domination. First, you will need more imps.[pg]");
 	CoC.instance.mutations.archImpTFforce(player);

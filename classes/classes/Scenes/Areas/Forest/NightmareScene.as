@@ -18,7 +18,7 @@ public class NightmareScene extends BaseContent
 			clearOutput();
 			outputText("As you explore the deepwoods, you come upon a particularly corrupted grove. At the center of it you see many demons busy fucking each other, some of them wearing armors and weapons. The demons could’ve been a concern if not for an even bigger threat looming at the epicenter of this scene of utter decadence. At the middle of a grove a centauress is busy fucking what seems to be a dog morph. ");
 			if (sceneHunter.other) {
-				outputText("\n\nSeems like it's the creature the unicorn told you about...\n\n<b>The events can take a sharp turn if you don't run away right now... do you still want to aproach?</b>\n\n");
+				outputText("\n\nSeems like it's the creature the unicorn told you about...\n\n<b>The events can take a sharp turn if you don't run away right now... do you still want to approach?</b>\n\n");
 				doYesNo(intro2, explorer.done);
 			} else intro2();
 		}
@@ -107,13 +107,13 @@ public class NightmareScene extends BaseContent
 				if (player.isTaur()) {
 					outputText("The nightmare licks her lip in anticipation as she examines your prone form.\n\n");
 					outputText("\"<i>Mmmm it has been so long since last I had a mare. Tell me girl... do you yearn for me? Do you desire my tool?</i>\"\n\n");
-					outputText("The more she speaks the more you realise she’s right.");
+					outputText("The more she speaks the more you realize she’s right.");
 					if (player.statusEffectv2(StatusEffects.Kelt) > 0) outputText(" You have felt this attraction before while around Kelt, however her aura is infinitely stronger than that of the misogynic macho centaur.");
-					outputText(" Her cock is spreading for you a scent that hypnotises and lures you like a moth to a flame.");
+					outputText(" Her cock is spreading for you a scent that hypnotizes and lures you like a moth to a flame.");
 					if (!player.inHeat) outputText(" The more you focus on her, the more your mind clouds as your vagina begins to abundantly drool. You realize her presence alone was enough to send you into deep heat.");
 					outputText(" There is no denial to your instincts anymore. Every fiber of your body desire this stallion, breaking any form of resistance you had, and so you submissively fawn to her desperate for her attentions. She nods at your attitude and gently pulls your head up by the chin so your gazes can meet.\n\n");
 					outputText("\"<i>Don’t worry... I will treat you like the top breed mare you are and mark you as my own.</i>\"\n\n");
-					outputText("She moves in position behind you and gets to work climbing on your back. You weiny in pleasure as her cock seamlessly slides in your [pussy] filling you in just the perfect way. Gosh, why have you been fighting against this? This cock, its like it was made for you to begin with! Its perfect flare and just about right size fills you like a key fits its specific keyhole.");
+					outputText("She moves in position behind you and gets to work climbing on your back. You whiny in pleasure as her cock seamlessly slides in your [pussy] filling you in just the perfect way. Gosh, why have you been fighting against this? This cock, its like it was made for you to begin with! Its perfect flare and just about right size fills you like a key fits its specific keyhole.");
 					outputText(" You fully sink into your breeding instincts and do your darndest best to respond to your lovers trust, milking her horsecock with your thirsty cunt.\n\n");
 					outputText("\"<i>Wow, girl, you're taking charge now, are you? At this rate I won’t be able to hold any much longer.</i>\"\n\n");
 					outputText("You moan in delight as the fiend corruption spreads from her cock to you, staining your body and soul as black as her own.");
@@ -160,7 +160,7 @@ public class NightmareScene extends BaseContent
 						}
 					}
 					outputText("\n\nYou try to meekly crawl away, but the centauress is too fast for you. She has you easily pinned to the ground by her hoof as she lowers herself on your prone body aligning her meat with your hole. You try to scream for help, but she cuts the air out with a swift blow now squeezing you between her horse body and the grass. You can only beg her as you feel her flare prod for the entrance of your cunt, smearing pre on your slit, she's clearly going to break you. ");
-					outputText("You ready a scream as her cock forces your lips apart but to your complete surprise her massive monster seamlessly slide in without further resistance. She begins to buck in and out, filling you way past the cervix and, to your dismay, you actually realise you’re enjoying this.\n\n");
+					outputText("You ready a scream as her cock forces your lips apart but to your complete surprise her massive monster seamlessly slide in without further resistance. She begins to buck in and out, filling you way past the cervix and, to your dismay, you actually realize you’re enjoying this.\n\n");
 					outputText("\"<i>My horn can penetrate anything, from the tightest pussy to the loosest hole. Leave it to me, and I will turn you into a mess of pleasure.</i>\"\n\n");
 					outputText("Your mind indeed reels as corruption floods your body with each thrust. Your cunt pulses in tandem with the nightmare’s ramming as your body gives in to her. You moan in pleasure as your spine extends into a long sinuous tail, ending with a heart shaped tip. Your lust-addled mind finds no better use for it other than wrapping the appendage around the nightmare's cock in an attempt to assist her thrusts. ");
 					outputText("This is no longer rape you’re enjoying it too much. You arch your back to scream in pleasure as");
@@ -195,12 +195,12 @@ public class NightmareScene extends BaseContent
 					outputText("The centauress trots around you then humph in frustration." +
 					"\n\n\"<i>Doesn't matter if you have a cunt, with a body like that there's no way I could properly impregnate you!</i>\"\n\n" +
 					"Can't impregnate a stone slab eh? though luck." +
-					"\n\nAs if reading your thought the centaur ram a hoof into your stomach brutaly pinning you on the ground. \"<i>You think your womb is the only thing that matter here? I said I can't impregnate you, I never said I couldn't FUCK you silly, and fuck you silly I will!</i>\"\n\n");
+					"\n\nAs if reading your thought the centaur ram a hoof into your stomach brutally pinning you on the ground. \"<i>You think your womb is the only thing that matter here? I said I can't impregnate you, I never said I couldn't FUCK you silly, and fuck you silly I will!</i>\"\n\n");
 				else
 					outputText("The centauress trots around you then shrugs." +
-					"\n\n\"<i>Immune to transformation are you? Doesn't matter to me, your body won't change from it but any contact with my cum will make you just right. Just because you can't be changed doesn't mean you can't be properly corrupted, and I need a corrupted vessel for bearing my offsprings. About that... you got a pussy already wich is very conveniant seeing as I wouldn't be able to grow you a new one if you didn't.</i>\"\n\n");
+					"\n\n\"<i>Immune to transformation are you? Doesn't matter to me, your body won't change from it but any contact with my cum will make you just right. Just because you can't be changed doesn't mean you can't be properly corrupted, and I need a corrupted vessel for bearing my offspring. About that... you got a pussy already which is very convenient seeing as I wouldn't be able to grow you a new one if you didn't.</i>\"\n\n");
 				outputText(" You try to meekly crawl away, but the centauress is too fast for you. She has you easily pinned to the ground by her hoof as she lowers herself on your prone body aligning her meat with your hole. You try to scream for help, but she cuts the air out with a swift blow now squeezing you between her horse body and the grass. You can only beg her as you feel her flare prod for the entrance of your cunt, smearing pre on your slit, she's clearly going to break you. ");
-				outputText("You ready a scream as her cock forces your lips apart but to your complete surprise her massive monster seamlessly slide in without further resistance. She begins to buck in and out filling you way past the cervix and, to your dismay, you actually realise you’re enjoying this.\n\n");
+				outputText("You ready a scream as her cock forces your lips apart but to your complete surprise her massive monster seamlessly slide in without further resistance. She begins to buck in and out filling you way past the cervix and, to your dismay, you actually realize you’re enjoying this.\n\n");
 				outputText("\"<i>My horn can penetrate anything, from the tightest pussy to the loosest hole. Leave it to me, and I will turn you into a mess of pleasure.</i>\"\n\n");
 				outputText("Your mind indeed reels as corruption floods your body with each thrust. Your cunt pulses in tandem with the nightmare’s ramming as your body gives in to her. Your lust addled mind finds no better use for it other than wrapping the appendage around the nightmare's cock in an attempt to assist her thrusts. ");
 				outputText("This is no longer rape you’re enjoying it too much. You arch your back to scream in pleasure as the centaur violate your stone cunt with all her might");
@@ -231,9 +231,9 @@ public class NightmareScene extends BaseContent
 			}
 			else {
 				outputText("The centauress trots around you then humph in frustration." +
-						"\n\n\"<i>Tsk just what the flying hell is that I can't fuck or corrupt this body its litteraly immune to transformations! In order to breed I need a pussy... and you have NO PUSSY!</i>\"\n\n" +
+						"\n\n\"<i>Tsk just what the flying hell is that I can't fuck or corrupt this body its literally immune to transformations! In order to breed I need a pussy... and you have NO PUSSY!</i>\"\n\n" +
 						"You chuckle to yourself, you knew locking your form to that of a standard male would save you someday." +
-						"\n\nAs if reading your impertinent mind the centauress kicks you in the face out of frustration sending you to the safety of uncounciousness. Welp guess you gunna have to hunt down that fiend again now." +
+						"\n\nAs if reading your impertinent mind the centauress kicks you in the face out of frustration sending you to the safety of unconsciousness. Welp guess you gunna have to hunt down that fiend again now." +
 						"\n\nYou wake up later with a headache and traces of fluid down your ass and mouth, while the taur didn't bother to use you the demons she created sure did. With a taste of salt to the mouth, and a need for vengeance you head back to camp ready to hunt down back that equine fiend!");
 				if (!recalling) {
 					player.sexReward("cum", "Oral");

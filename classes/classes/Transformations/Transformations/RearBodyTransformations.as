@@ -413,7 +413,7 @@ public class RearBodyTransformations extends MutationsHelper {
 
 				TransformationUtils.applyTFIfNotPresent(transformations.WingsNone, doOutput);
 
-				desc += "Pain lances through your neck as your [skin.type] flesh begins to ondulate and change. It hurts but thankfully the pain is short lived and as soon as you are relieved from it you press a hand behind your neck to check for the changes. It would appear the behind of your head all the way to the middle of your back is covered with one large fleshy hood not unlike that of a cobra. You will likely be able to intimidate your foes into submission with your brand new <b>Cobra hood!</b>";
+				desc += "Pain lances through your neck as your [skin.type] flesh begins to undulate and change. It hurts but thankfully the pain is short lived and as soon as you are relieved from it you press a hand behind your neck to check for the changes. It would appear the behind of your head all the way to the middle of your back is covered with one large fleshy hood not unlike that of a cobra. You will likely be able to intimidate your foes into submission with your brand new <b>Cobra hood!</b>";
 				player.rearBody.type = RearBody.COBRA_HOOD;
 
 				if (doOutput) outputText(desc);

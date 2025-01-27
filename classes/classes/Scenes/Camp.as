@@ -8,6 +8,7 @@ import classes.IMutations.IMutationsLib;
 import classes.Items.*;
 import classes.Scenes.Camp.*;
 import classes.Scenes.NPCs.*;
+import classes.Scenes.Places.DomsDomain;
 import classes.Scenes.Places.HeXinDao.AdventurerGuild;
 import classes.Scenes.Places.Mindbreaker;
 import classes.Scenes.Places.RuinedTownRebuilt;
@@ -179,7 +180,7 @@ public class Camp extends NPCAwareContent{
 			return;
 		}
 		if (player.hasStatusEffect(StatusEffects.PostAnemoneBeatdown)) {
-			HPChange(Math.round(player.maxHP() / 2), false);
+			HPChange(Math.round(player.maxHP() / 2), false, false);
 			player.removeStatusEffect(StatusEffects.PostAnemoneBeatdown);
 		}
 
@@ -609,8 +610,8 @@ public class Camp extends NPCAwareContent{
 			SceneLib.excelliaFollower.ExcelliaAndJojoCampScene();
 			return;
 		}
-		/*Rathazul april fool:
-            - aprel fools, no effect, OR max stage and a year passed since the beginning, BUT limited at 5 elixirs
+		/*Rathazul April fool:
+            - April fools, no effect, OR max stage and a year passed since the beginning, BUT limited at 5 elixirs
             - second stage. No checking for fools.
         */
         if (player.hasStatusEffect(StatusEffects.CampRathazul) && isAprilFools() && (!player.hasStatusEffect(StatusEffects.RathazulAprilFool) ||
@@ -628,7 +629,7 @@ public class Camp extends NPCAwareContent{
 			hideMenus();
 			return;
 		}
-		//Bimbo Sophie finds ovi elixer in chest!
+		//Bimbo Sophie finds ovi elixir in chest!
 		if (bimboSophie() && hasItemInStorage(consumables.OVIELIX) && rand(5) == 0 && flags[kFLAGS.TIMES_SOPHIE_HAS_DRUNK_OVI_ELIXIR] == 0 && player.gender > 0) {
 			sophieBimbo.sophieEggApocalypse();
 			hideMenus();
@@ -2278,24 +2279,26 @@ public class Camp extends NPCAwareContent{
 				.disableIf(!player.hasItem(bottles[i][0], 10) || !player.hasItem(useables.E_P_BOT, 1),
 					"You need an empty pill bottle and ten "+bottles[i][2]+"-grade soulforce recovery pills.");
 		}
+		if (player.racialScore(Races.LICH) >= 28) addButton(9, "Phylactery Enchantment", PhylacteryEnchantment).hint("You can weave a minor enchantment on your phylactery to gain a minor power.").disableIf(isNightTime, "It's too dark to modify your scroll.");
+		else addButtonDisabled(9, "Phylactery Enchantment", "Req. you to be a Lich.");
 		if (player.hasPerk(PerkLib.FclassHeavenTribulationSurvivor)) addButton(10, "Clone", CloneMenu).hint("Check on your clone(s).");
 		else addButtonDisabled(10, "Clone", "Would you kindly go face the F class Heaven Tribulation first?");
 		addButtonIfTrue(11, "Pocket Watch", mainPagePocketWatch, "Req. you to have the Pocket Watch key item.", player.hasKeyItem("Pocket Watch") >= 0);
 		if (player.hasItem(useables.ENECORE, 1) && CampStatsAndResources.EnergyCoreResc < 200) addButton(12, "E.Core", convertingEnergyCoreIntoFlagValue).hint("Convert Energy Core item into flag value.");
 		if (player.hasItem(useables.MECHANI, 1) && CampStatsAndResources.MechanismResc < 200) addButton(12, "C.Mechan", convertingMechanismIntoFlagValue).hint("Convert Mechanism item into flag value.");
-		addButton(13, "C & S", menuForCombiningAndSeperating).hint("Combining & Seperating");
+		addButton(13, "C & S", menuForCombiningAndSeperating).hint("Combining & Separating");
 		addButton(14, "Back", campActions);
 	}
 	private function convertingEnergyCoreIntoFlagValue():void {
 		clearOutput();
-		outputText("1 Energy Core converted succesfully.");
+		outputText("1 Energy Core converted successfully.");
 		player.destroyItems(useables.ENECORE, 1);
 		CampStatsAndResources.EnergyCoreResc += 1;
 		doNext(campMiscActions);
 	}
 	private function convertingMechanismIntoFlagValue():void {
 		clearOutput();
-		outputText("1 Mechanism converted succesfully.");
+		outputText("1 Mechanism converted successfully.");
 		player.destroyItems(useables.MECHANI, 1);
 		CampStatsAndResources.MechanismResc += 1;
 		doNext(campMiscActions);
@@ -2355,7 +2358,7 @@ public class Camp extends NPCAwareContent{
 			addButton(1, "EC: M&B", mainPagePocketWatch, 3).hint("View Merged Perks related to Elemental Conjurer: Mind and Body perk line", "Elemental Conjurer: Mind and Body");
 			addButton(2, "Chimera", mainPagePocketWatch, 4).hint("View Merged Perks related to Chimerical Body perk line", "Chimerical Body");
 			addButton(3, "Mage", mainPagePocketWatch, 5).hint("View Merged Perks related to the Mage perk line", "Mage");
-			addButton(4, "Diehard", mainPagePocketWatch, 6).hint("View Merged Perks related to the Diehard perk line", "Diehard");
+			addButton(4, "Diehard/Ch.S.", mainPagePocketWatch, 6).hint("View Merged Perks related to the Diehard / Challenging Shout perk line", "Diehard, Challenging Shout");
 		}
 
 		if (page == 2) {
@@ -2491,6 +2494,10 @@ public class Camp extends NPCAwareContent{
 			addButton(0, "G.Diehard (Ex)", mainPagePocketWatchGreaterDiehardEx)
 			.disableIf(!player.hasPerk(PerkLib.GreaterDiehard), "Req. Greater Diehard perk")
 			.disableIf(player.hasPerk(PerkLib.GreaterDiehardEx), "You've already merged this perk");
+
+			addButton(0, "Challenging Shout (Mst)", mainPagePocketWatchChallengingShoutMastered)
+			.disableIf(!player.hasPerk(PerkLib.ChallengingShoutSu), "Req. Challenging Shout (Su) perk")
+			.disableIf(player.hasPerk(PerkLib.ChallengingShoutMastered), "You've already merged this perk");
 
 			addButton(12, "Previous", mainPagePocketWatch, page - 1);
 		}
@@ -2776,7 +2783,27 @@ public class Camp extends NPCAwareContent{
 		player.addStatusValue(StatusEffects.MergedPerksCount, 1, 2);
 		player.perkPoints += 2;
 		doNext(mainPagePocketWatch, 6);
+	}
+	private function mainPagePocketWatchChallengingShoutMastered():void {
+		clearOutput();
+		outputText("Perks combined: 'Challenging Shout (Mastered' perk attained.");
+		player.removePerk(PerkLib.ChallengingShout);
+		player.removePerk(PerkLib.ChallengingShoutEx);
+		player.removePerk(PerkLib.ChallengingShoutSu);
+		player.createPerk(PerkLib.ChallengingShoutMastered, 0, 0, 0, 0);
+		player.addStatusValue(StatusEffects.MergedPerksCount, 1, 2);
+		player.perkPoints += 2;
+		doNext(mainPagePocketWatch, 6);
 	}/*
+	private function mainPagePocketWatch():void {
+		clearOutput();
+		outputText("Perks combined: '' perk attained.");
+		player.removePerk(PerkLib.);
+		player.createPerk(PerkLib.);
+		player.addStatusValue(StatusEffects.MergedPerksCount, 1, );
+		player.perkPoints++;
+		doNext(mainPagePocketWatch, 1);
+	}
 	private function mainPagePocketWatch():void {
 		clearOutput();
 		outputText("Perks combined: '' perk attained.");
@@ -3101,12 +3128,14 @@ public class Camp extends NPCAwareContent{
 			[StatusEffects.AlterBindScroll6, "Greater drain"],
 			[StatusEffects.AlterBindScroll7, "Cursed Touch"],
 			[StatusEffects.AlterBindScroll8, "Paralyzing fear"],
+			[StatusEffects.AlterBindScroll9, "Deathly touch"],
+			[StatusEffects.AlterBindScroll10, "Mindless Hunger"],
 		];
 		var i:int;
 		clearOutput();
 		var limitOnAltering:Number = 1;
 		if (player.hasPerk(PerkLib.ImprovedCursedTag)) limitOnAltering += 1;
-		if (player.hasPerk(PerkLib.GreaterCursedTag)) limitOnAltering += 6;
+		if (player.hasPerk(PerkLib.GreaterCursedTag)) limitOnAltering += 8;
 		var currentAltering:Number = 0;
 		for (i = 0; i < statusNames.length; ++i) {
 			if (player.hasStatusEffect(statusNames[i][0])) ++currentAltering;
@@ -3126,6 +3155,8 @@ public class Camp extends NPCAwareContent{
 		outputText("Greater drain -> <i>Lust damage inflicted on your opponent through physical contact is twice as effective. (Effects straddle and melee attack)</i>\n");
 		outputText("Cursed Touch -> <i>Unarmed strikes inflict 1% toughness damage.</i>\n");
 		outputText("Paralyzing fear -> <i>Unarmed strikes inflict 1% strength damage.</i>\n");
+		outputText("Deathly touch -> <i>Claw attack and unarmed strike deals an additional amount of damage as darkness damage.</i>\n");
+		outputText("Mindless Hunger -> <i>When fully starved of soulforce cannot be defeated by lust. Taking lust damage beyond your maximum lust inflict you with intelligence damage (5% per individual hit that would defeat you).</i>\n");
 		menu();
 		for (i = 0; i < statusNames.length; ++i) {
 			addButton(i, statusNames[i][1], alterBindScrollToggle, statusNames[i][0]);
@@ -3143,6 +3174,66 @@ public class Camp extends NPCAwareContent{
 		if (player.hasStatusEffect(status)) player.removeStatusEffect(status);
 		else player.createStatusEffect(status,0,0,0,0);
 		AlterBindScroll();
+	}
+	
+	private function PhylacteryEnchantment():void {
+		var statusNames:Array = [
+			[StatusEffects.PhylacteryEnchantment1, "Death rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment3, "Darkness rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment4, "Cold rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment5, "Arcane rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment6, "Bone rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment7, "Blade rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment8, "Mind rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment9, "Soul rune Imbuement"],
+			[StatusEffects.PhylacteryEnchantment10, "Body rune Imbuement"],
+		];
+		var i:int;
+		clearOutput();
+		var limitOnAltering:Number = 2;
+		if (player.level >= 50) limitOnAltering += 1;
+		if (player.level >= 100) limitOnAltering += 1;
+		if (player.level >= 150) limitOnAltering += 1;
+		if (player.level >= 200) limitOnAltering += 1;
+		var currentAltering:Number = 0;
+		for (i = 0; i < statusNames.length; ++i) {
+			if (player.hasStatusEffect(statusNames[i][0])) ++currentAltering;
+		}
+		outputText("With enchantment you want to weave on your phylactery?\n\n");
+		outputText("Current active runes / Limit of active runes: "+currentAltering+" / "+limitOnAltering+"\n\n");
+		outputText("<u><b>Active runes:</b></u>\n");
+		for (i = 0; i < statusNames.length; ++i) {
+			if (player.hasStatusEffect(statusNames[i][0])) outputText("<b>- " + statusNames[i][1] + "</b>\n")
+		}
+		outputText("\n<u><b>Effects of each enchantment:</b></u>\n");
+		outputText("Death rune Imbuement -> <i>You may control twice as many servants as normal. Your undead servants inflict a bonus amount of Darkness damage equal to their physical damage scaling up of your darkness modifier.</i>\n");
+		//2
+		outputText("Darkness rune Imbuement -> <i>All offensive magic now counts as Dark spells when determining its effect and damage. Effects that already dealt dark damage are 50% stronger.</i>\n");
+		outputText("Cold rune Imbuement -> <i>All offensive magic now counts as Ice spells when determining its effect and damage. Effects that already dealt cold damage are 50% stronger.</i>\n");
+		outputText("Arcane rune Imbuement -> <i>Recover mana 100% faster.</i>\n");
+		outputText("Bone rune Imbuement -> <i>Gain natural armor based on your intelligence up to a maximum equal to half your level.</i>\n");
+		outputText("Blade rune Imbuement -> <i>Add your intelligence to your strength modifier when fighting with weapons.</i>\n");
+		outputText("Mind rune Imbuement -> <i>Add half your intelligence to your libido score.</i>\n");
+		outputText("Soul rune Imbuement -> <i>Add half your wisdom to your libido score.</i>\n");
+		outputText("Body rune Imbuement -> <i>Add half your libido to your strength and speed score.</i>\n");
+		//11
+		menu();
+		for (i = 0; i < statusNames.length; ++i) {
+			addButton(i, statusNames[i][1], phylacteryEnchantmentToggle, statusNames[i][0]);
+			if (player.hasStatusEffect(statusNames[i][0])) {
+				button(i).hint("You already have this rune active. Do you want to deactivate it?");
+			} else {
+				if (currentAltering < limitOnAltering) button(i).hint("You don't have this rune active. Do you want to weave it on the phylactery?");
+				else button(i).disable("You already have the maximum amount of runes active as you can maintain without breaking your phylactery.");
+			}
+		}
+		addButton(14, "Back", campMiscActions);
+	}
+
+	private function phylacteryEnchantmentToggle(status:StatusEffectType):void {
+		if (player.hasStatusEffect(status)) player.removeStatusEffect(status);
+		else player.createStatusEffect(status,0,0,0,0);
+		PhylacteryEnchantment();
 	}
 
 	private function fillUpPillBottle(pills:ItemType, result:ItemType, grade:String):void {
@@ -3222,7 +3313,7 @@ public class Camp extends NPCAwareContent{
 		FormCloneText();
 		outputText("You share a grin now that the process is successful. Your quest remains to be completed, but now you have the power of "+NUMBER_WORDS_NORMAL[newClone+2]+".\n\n");
 		EngineCore.SoulforceChange(-player.maxSoulforce()*0.85);
-		HPChange(-(player.maxHP() * 0.85), true);
+		HPChange(-(player.maxHP() * 0.85), true, false);
 		player.negativeLevel += Soulforce.clonelevelcost;
 		doNext(camp.returnToCampUseEightHours);
 	}
@@ -3264,7 +3355,7 @@ public class Camp extends NPCAwareContent{
 				outputText("<b>Your clone is fully formed.</b>\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 				player.addNegativeLevels(30);
 			}
 			else if (player.statusEffectv3(StatusEffects.PCClone) == 2) {
@@ -3274,7 +3365,7 @@ public class Camp extends NPCAwareContent{
 				outputText("Fatigue steadily overwhelms you after expending such intense amounts of your life energy. You lie down and rest for an hour before you decide to resume.\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 			}
 			else {
 				outputText("Having recovered your spent life force and soul energy, you return to the halted ritual. Sitting before you is a slowly rotating basketball-sized sphere of soul and life essences. You start to focus on the next phase of clone formation.\n\n");
@@ -3284,7 +3375,7 @@ public class Camp extends NPCAwareContent{
 				outputText("After a couple of hours, you rise before leaving the half-finished creation in the corner of your [camp].\n\n");
 				player.addStatusValue(StatusEffects.PCClone, 3, 1);
 				EngineCore.SoulforceChange(-player.maxSoulforce());
-				HPChange(-(player.maxHP() * 0.5), true);
+				HPChange(-(player.maxHP() * 0.5), true, false);
 			}
 		}
 		else {
@@ -3293,7 +3384,7 @@ public class Camp extends NPCAwareContent{
 			outputText("The process is slow. While nourishing the core of the clone, you find yourself unable to expend any more of your life essence or risk being completely drained of soul essence.\n\n");
 			player.createStatusEffect(StatusEffects.PCClone, 0, 0, 1, 0);
 			EngineCore.SoulforceChange(-(player.maxSoulforce()));
-			HPChange(-(player.maxHP() * 0.5), true);
+			HPChange(-(player.maxHP() * 0.5), true, false);
 		}
 		doNext(camp.returnToCampUseEightHours);
 	}
@@ -3814,7 +3905,7 @@ public class Camp extends NPCAwareContent{
 			var hpBefore:int = player.HP;
 			timeQ = waitingORresting;
 			//THIS IS THE TEXT AREA FOR NOCTURNAL
-			HPChange(hpTime * hpRecovery * multiplier, false);
+			HPChange(hpTime * hpRecovery * multiplier, false, false);
 			fatigue(timeQ * -fatRecovery * multiplier);
 
 			if (flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && !ingnam.inIngnam) {
@@ -4085,7 +4176,7 @@ public class Camp extends NPCAwareContent{
 				} else outputText("Luna hugs you tightly, almost possessively so as you both doze off to sleep.");
 			} else if (flags[kFLAGS.SLEEP_WITH] == "Samirah" && flags[kFLAGS.SAMIRAH_FOLLOWER] > 9) {
 				outputText("As you both head to sleep, Samirah slithers to you and coils her tail around " + ((player.lowerBody == 3)? "yours" : "your lower half") + ", wrapping her arms around your torso as she rests her head on your shoulder. Her body is cold and she looks at you as if in a daze.");
-				if (player.isNaga()) outputText(" She’s not alone either. It indeed took you a while to realise that you are also cold-blooded now. The cold night air sure puts you in a similar state as of late.");
+				if (player.isNaga()) outputText(" She’s not alone either. It indeed took you a while to realize that you are also cold-blooded now. The cold night air sure puts you in a similar state as of late.");
 				outputText("\n\n\"<i>Sweet dreams [name], till morning and sunshine come.</i>\"\n");
 			} else if (flags[kFLAGS.SLEEP_WITH] == "Belisa" && BelisaFollower.BelisaInCamp) {
 				outputText("You decide to sleep with Belisa tonight. You help her close up her shop, packing the bands away, and climb into her hammock/bed, putting a hand on her cheek. Belisa pulls you towards her, resting one of her pillows under each of your heads. She hugs your arm, head on your shoulder, and you can’t help but feel safe as she expertly pulls a light blanket over the two of you. ");
@@ -4256,7 +4347,7 @@ public class Camp extends NPCAwareContent{
 					"\"<i>Good night.</i>\"\n\n");
 		}
 		//REGULAR HP/FATIGUE RECOVERY
-		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display);
+		HPChange(acceleratingRecoveryFactor(timeQ, true) * hpRecovery * multiplier, display, false);
 		//fatigue
 		fatigue(-(timeQ * fatRecovery * multiplier));
 		if (player.perkv1(IMutationsLib.BlackBloodIM) >= 4 && flags[kFLAGS.LUNA_MOON_CYCLE] == 8 && (player.statStore.hasBuff("Weakened") || player.statStore.hasBuff("Drained") || player.statStore.hasBuff("Damaged"))) {
@@ -4429,9 +4520,16 @@ public class Camp extends NPCAwareContent{
 		bd.add("Lumi's Lab", SceneLib.lumi.lumiEncounter)
 				.hint("Visit Lumi's laboratory.")
 				.disableIf(flags[kFLAGS.LUMI_MET] <= 0, "Explore the realm.", null, "???");
-		bd.add("Town Ruins", SceneLib.amilyScene.exploreVillageRuin)
-				.hint("Visit the village ruins. \n\nRecommended level: 17")
-				.disableIf(!flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE], "Search the lake.", null, "???");
+		if (RuinedTownRebuilt.RebuildState !=3) {
+			bd.add("Town Ruins", SceneLib.amilyScene.exploreVillageRuin)
+					.hint("Visit the village ruins. \n\nRecommended level: 17")
+					.disableIf(!flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE], "Search the lake.", null, "???");
+		}
+		if (RuinedTownRebuilt.RebuildState ==3) {
+			bd.add("Mouse Town", SceneLib.ruinedTown.enterVillage)
+					.hint("Visit the town your mousey children built")
+					.disableIf(!flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE], "Search the lake.", null, "???");
+		}
 		bd.add("Farm", SceneLib.farm.farmExploreEncounter)
 				.hint("Visit Whitney's farm.")
 				.disableIf(!farmFound(), "Search the lake.", null, "???");
@@ -4513,10 +4611,17 @@ public class Camp extends NPCAwareContent{
 						+ (flags[kFLAGS.DEFEATED_ZETAZ] > 0 ? "\n\nYou've defeated Zetaz, your old rival." : "")
 						+ (SceneLib.dungeons.checkDeepCaveClear() ? "\n\nCLEARED!" : ""))
 				.disableIf(flags[kFLAGS.DISCOVERED_DUNGEON_2_ZETAZ] <= 0, "???", null, "???");
-		bd.add("Demon Laboratory", SceneLib.dungeons.demonLab.EnteringDungeon)
-				.hint("Visit the demon laboratory in the mountains."
-						+ (SceneLib.dungeons.checkDemonLaboratoryClear() ? "\n\nYou have destroyed that laboratory and put an end to the demonic experiments. You're one step closer to defeating Lethice!\n\nCLEARED!" : ""))
-				.disableIf(flags[kFLAGS.DEMON_LABORATORY_DISCOVERED] <= 0, "???", null, "???");
+		if (!DomsDomain.domenabled) {
+			bd.add("Demon Laboratory", SceneLib.dungeons.demonLab.EnteringDungeon)
+					.hint("Visit the demon laboratory in the mountains."
+							+ (SceneLib.dungeons.checkDemonLaboratoryClear() ? "\n\nYou have destroyed that laboratory and put an end to the demonic experiments. You're one step closer to defeating Lethice!\n\nCLEARED!" : ""))
+					.disableIf(flags[kFLAGS.DEMON_LABORATORY_DISCOVERED] <= 0, "???", null, "???");
+		}
+		if (DomsDomain.domenabled) {
+			bd.add("Dom's Domain", SceneLib.domsdomain.EnterTheDomain)
+					.hint("Visit the Dom's Domain"
+							+ (SceneLib.dungeons.checkDemonLaboratoryClear() ? "\n\nFollowing the pleas of your slave, Ceraph, you've allowed her to convert the old demonic labs into a pleasure den. What level of debauchery are you in the mood for? \n\n" : ""))
+		}
 		bd.add("Stronghold", SceneLib.d3.enterD3)
 				.hint("Visit the stronghold in the high mountains that belongs to Lethice, the demon queen."
 						+ ((flags[kFLAGS.LETHICE_DEFEATED] > 0) ? "\n\nYou have slain Lethice and put an end to the demonic threats. Congratulations, you've beaten the main story!" : "")
@@ -5372,6 +5477,7 @@ public function rebirthFromBadEnd():void {
 		if (player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) pop += LunaFollower.WerewolfPackMember;
 		if (player.isRaceCached(Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && player.hasMutation(IMutationsLib.HellhoundFireBallsIM)) pop += LunaFollower.HellhoundPackMember;
 		if (player.hasPerk(PerkLib.MummyLord)) pop += player.perkv1(PerkLib.MummyLord);
+		if (player.hasPerk(PerkLib.UndeadLord)) pop += player.perkv1(PerkLib.UndeadLord);
 		//------------
 		//Children check!
 		//Followers

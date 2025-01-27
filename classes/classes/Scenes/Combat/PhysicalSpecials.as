@@ -95,7 +95,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 						if (player.hasStatusEffect(StatusEffects.Gallop)) bd = buttons.add("Gallop(Stop)", gallopingStop).hint("Stop galloping.");
 						else {
 							bd = buttons.add("Gallop", gallopingStart).hint("Start galloping. Deals 50% more damage with physical specials but disable melee and range base attacks.");
-							bd.requireFatigue(gallopingcoooooost());
+							bd.requireFatigue(combat.gallopingcoooooost());
 						}
 					}
 					if (player.hairType == 4) {
@@ -449,9 +449,19 @@ public class PhysicalSpecials extends BaseCombatContent {
 				bd = buttons.add("Feint", feint).hint("Attempt to feint an opponent into dropping its guard.");
 				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 			}
-			if (player.hasPerk(PerkLib.ChallengingShout)) {
-				bd = buttons.add("Warrior Shout", warriorShout).hint("Embolden yourself with a mighty shout. Generate 20% of max/overmax wrath on use as a free action.\nWould go into cooldown after use for: 10 rounds");//"+(player.hasPerk(PerkLib.NaturalInstincts) ? "1":"2")+"
-				if (player.hasStatusEffect(StatusEffects.CooldownWarriorShout)) {
+			if (player.hasPerk(PerkLib.ChallengingShout) || player.hasPerk(PerkLib.ChallengingShoutMastered)) {
+				var challengingShout:String = "20% of max/overmax wrath on use as a free action.\nWould go into cooldown after use for: 10 rounds";
+				if (player.hasPerk(PerkLib.ChallengingShoutSu)) {
+					var no1:Number = 40;
+					if (player.hasStatusEffect(StatusEffects.CooldownWarriorShout)) no1 -= (player.statusEffectv1(StatusEffects.CooldownWarriorShout) * 4);
+					challengingShout = ""+no1+"";
+					challengingShout += "% of max/overmax wrath on use as a free action.";
+				}
+				if (player.hasPerk(PerkLib.ChallengingShoutMastered)) {
+					
+				}
+				bd = buttons.add("Warrior Shout", warriorShout).hint("Embolden yourself with a mighty shout. Generate "+challengingShout+"");
+				if (player.hasStatusEffect(StatusEffects.CooldownWarriorShout) && !player.hasPerk(PerkLib.ChallengingShoutSu) && !player.hasPerk(PerkLib.ChallengingShoutMastered)) {
 					bd.disable("<b>You need more time before you can perform Warrior Shout again.</b>\n\n");
 				}
 			}
@@ -568,6 +578,15 @@ public class PhysicalSpecials extends BaseCombatContent {
 					bd = buttons.add("Rocket kick", blazingRocketKick).hint("Deal fire damage using your boots.");
 					if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 				}
+			}
+			if (player.hasKeyItem("Flasherbang") >= 0) {
+				bd = buttons.add("Flasherbang", gadgetFlasherbang).hint("Throw a flasherbang to blind and arouse your opponents.");
+				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
+			}
+			if (player.hasKeyItem("Goblin Bomber") >= 0) {
+				bd = buttons.add("Goblin Bomber", optionGoblinBomber).hint("Call for an airstrike.");
+				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
+				else if (player.hasStatusEffect(StatusEffects.GoblinBomber)) bd.disable("<b>You need wait one hour before you can use Goblin Bomber again.</b>\n\n");
 			}
 			if (player.hasPerk(PerkLib.EasterBunnyBalls) && !player.hasPerk(PerkLib.ElementalBody)) {
 				if (!player.perkv1(IMutationsLib.EasterBunnyEggBagIM) >= 1 || (player.perkv1(IMutationsLib.EasterBunnyEggBagIM) >= 1 && flags[kFLAGS.EASTER_BUNNY_EGGS_STORED] == 1)) {
@@ -971,6 +990,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 			}
 		}
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (player.calculateMultiAttacks() > 1) damage *= player.calculateMultiAttacks();
 		if (player.hasPerk(PerkLib.PowerAttackEx)) {
 			PAMulti += Math.round(PAMulti*0.3);
@@ -1052,7 +1075,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
 		if (player.weaponRangeName == "Wild Hunt" && player.level > monster.level) damage *= 1.2;
 		if (player.weaponRangeName == "Hodr's bow" && monster.hasStatusEffect(StatusEffects.Blind)) damage *= 1.1;
-		//if (player.hasStatusEffect(StatusEffects.Gallop)) damage *= 1.5;
+		if (player.hasStatusEffect(StatusEffects.Gallop)) {
+			if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 4) damage *= 2;
+			else damage *= 1.5;
+		}
 		if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 1) damage *= (1 + (0.25 * player.perkv1(IMutationsLib.EquineMuscleIM)));
 		if (player.isRaceCached(Races.CENTAUR) && player.hasPerk(PerkLib.CentaurHunterStyleMeteorShower)) damage *= 0.6;
 		damage *= PSMulti;
@@ -1132,6 +1158,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		else outputText("foe. ");
 		var damage:Number = 0;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
 		if (player.hasStatusEffect(StatusEffects.Gallop)) {
@@ -1220,6 +1250,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		if (combat.flyingSwordForRangeSneakAttack()) SAMulti += 1;
 		if (monster.hasStatusEffect(StatusEffects.InvisibleOrStealth)) SAMulti *= 2;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
 		//if (player.hasStatusEffect(StatusEffects.Gallop)) damage *= 1.5;
@@ -1519,9 +1553,15 @@ public class PhysicalSpecials extends BaseCombatContent {
 
 	public function warriorShout():void {
 		clearOutput();
-		player.createStatusEffect(StatusEffects.CooldownWarriorShout, 10, 0, 0, 0);
 		outputText("You let out a primal shout that lets your enemies know you won’t be easily defeated.\n\n");
 		var wsr:Number = 0.2;
+		if (player.hasPerk(PerkLib.ChallengingShoutSu)) wsr += 0.2;
+		if (player.hasPerk(PerkLib.ChallengingShoutMastered)) wsr += 0.4;
+		if (player.hasPerk(PerkLib.ChallengingShoutSu) || player.hasPerk(PerkLib.ChallengingShoutMastered)) wsr -= (player.statusEffectv1(StatusEffects.CooldownWarriorShout) * 0.04);
+		if (!player.hasStatusEffect(StatusEffects.CooldownWarriorShout)) {
+			if (player.hasPerk(PerkLib.ChallengingShoutMastered)) player.createStatusEffect(StatusEffects.CooldownWarriorShout, 15, 0, 0, 0);
+			else player.createStatusEffect(StatusEffects.CooldownWarriorShout, 10, 0, 0, 0);
+		}
 		wsr *= player.maxOverWrath();
 		EngineCore.WrathChange(wsr);
 		menu();
@@ -1531,7 +1571,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 	public function charging():void {
 		clearOutput();
 		var costvalue:Number = chargingcoooooost();
-		if (player.statStore.hasBuff("ScarletSpiritCharge")) HPChange(-(costvalue*2), false);
+		if (player.statStore.hasBuff("ScarletSpiritCharge")) HPChange(-(costvalue*2), false, false);
 		else {
 			fatigue(physicalSpecialsCost(costvalue), USEFATG_PHYSICAL);
 			if (player.perkv1(IMutationsLib.TwinHeartIM) >= 1 && (player.isTaur() || player.isDrider())) {
@@ -1551,6 +1591,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		var PAM2:Number = 1;
 		PAM2 += combat.PASPAS(1);
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		damage *= 3;
 		if (player.haveWeaponForJouster()) {
@@ -1651,27 +1695,19 @@ public class PhysicalSpecials extends BaseCombatContent {
 	
 	public function gallopingStart():void {
 		clearOutput();
-		var costvalue:Number = gallopingcoooooost();
+		var costvalue:Number = combat.gallopingcoooooost();
 		fatigue(physicalSpecialsCost(costvalue), USEFATG_PHYSICAL);
-		outputText("You take some distance before making a U-turn and start galloping. (no not Lia text as she not provide any for this. want to know more? ask her about that) ");
+		outputText("You suddenly take off and start galloping around, circling your opponent as you build up speed and momentum, poised to strike. ");
 		monster.createStatusEffect(StatusEffects.MonsterAttacksDisabled, 0, 0, 0, 0);
 		player.createStatusEffect(StatusEffects.Gallop, 0, 0, 0, 0);
 		enemyAI();
 	}
 	public function gallopingStop():void {
 		clearOutput();
-		outputText("You stop galloping. (no not Lia text as she not provide any for this. want to know more? ask her about that) ");
+		outputText("You slow your run to a stand still finally stopping in front of your opponent. ");
 		monster.removeStatusEffect(StatusEffects.MonsterAttacksDisabled);
 		player.removeStatusEffect(StatusEffects.Gallop);
 		enemyAI();
-	}
-	public function gallopingcoooooost():Number {
-		var percent:Number = 40;
-		if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 1) percent -= (10 * player.perkv1(IMutationsLib.EquineMuscleIM));
-		if (player.perkv1(IMutationsLib.TwinHeartIM) >= 1) percent -= (4 * player.perkv1(IMutationsLib.TwinHeartIM));
-		if (player.hasPerk(PerkLib.IronMan)) percent *= 0.5;
-		var gallopingcostvalue:Number = Math.round(player.maxFatigue() * 0.01 * percent);
-		return gallopingcostvalue;
 	}
 
 	public function whirlwind():void {
@@ -1693,6 +1729,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		}
 		var damage:Number = 0;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (damage < 10) damage = 10;
 		if (player.hasPerk(PerkLib.Whirlwind)) damage *= 1.2;
 		//other bonuses
@@ -1779,6 +1819,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		}
 		var damage:Number = 0;
 		damage += combat.meleeDamageNoLagSingle();
+		if (player.hasStatusEffect(StatusEffects.PhylacteryEnchantment7)) {
+			damage += player.inte;
+			damage += scalingBonusIntelligence() * 0.2;
+		}
 		if (player.hasPerk(PerkLib.Whipping)) damage *= 1.2;
 		//other bonuses
 		if (player.hasPerk(PerkLib.ZenjisInfluence3)) damage *= 1.5;
@@ -3167,6 +3211,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("You propel yourself up and kick [themonster] in the face leaving burns in the process. ");
 		var damage:Number = 0;
 		damage += (combat.meleeUnarmedDamageNoLagSingle() * 2);
+		if (player.hasPerk(PerkLib.MasterGadgeteer)) damage += combat.scalingBonusIntelligence();
 		damage *= (spellMod() * 2);
 		if (player.hasStatusEffect(StatusEffects.Gallop)) {
 			if (player.perkv1(IMutationsLib.EquineMuscleIM) >= 4) damage *= 2;
@@ -3185,10 +3230,122 @@ public class PhysicalSpecials extends BaseCombatContent {
 		}
 		checkAchievementDamage(damage);
 		outputText("\n\n");
+		if (player.hasPerk(PerkLib.StoredMomentum)) {
+			var limit:Number = 5;
+			if (player.hasPerk(PerkLib.StoredMomentum)) limit += 5;
+			if (player.hasStatusEffect(StatusEffects.StoredMomentum)) {
+				if (player.statusEffectv2(StatusEffects.StoredMomentum) < limit) player.addStatusValue(StatusEffects.StoredMomentum, 2, 1);
+				player.addStatusValue(StatusEffects.StoredMomentum, 1, 0.25);
+			}
+			else player.createStatusEffect(StatusEffects.StoredMomentum, 0.25, limit, 0, 0);
+		}
 		combat.WrathGenerationPerHit2(5);
 		combat.heroBaneProc(damage);
 		combat.EruptingRiposte();
 		doNext(playerMenu);
+		if (monster.HP <= monster.minHP()) doNext(endHpVictory);
+		else enemyAI();
+	}
+	
+	public function gadgetFlasherbang():void {
+		clearOutput();
+		outputText("You pull the metal plug and throw the flasherbang forward looking away as it explodes with a bang a "+(silly()?"dude with a trench coat materialising outside of the pokeball. He walks to your opponents forcing his coat open":"bright set of horny imagery flooding into your opponent's minds and blinding them for a while")+". ");
+		if (!monster.hasStatusEffect(StatusEffects.Blind)) monster.createStatusEffect(StatusEffects.Blind,3,0,0,0);
+		var lustDmgF:Number = 20 + rand(6);
+		var lustBoostToLustDmg:Number = 0;
+		if (player.hasPerk(PerkLib.DeadlyThrow)) lustDmgF += (player.spe/100);
+		if (player.hasPerk(PerkLib.SensualLover)) lustDmgF += 2;
+		if (player.hasPerk(PerkLib.Seduction)) lustDmgF += 5;
+		lustDmgF += player.teaseDmgStat.value;
+		if (player.hasPerk(PerkLib.BimboBody) || player.hasPerk(PerkLib.BroBody) || player.hasPerk(PerkLib.FutaForm)) lustDmgF += 5;
+		if (player.hasPerk(PerkLib.FlawlessBody)) lustDmgF += 10;
+		lustDmgF += scalingBonusLibido() * 0.1;
+		if (player.hasPerk(PerkLib.EromancyExpert)) lustDmgF *= 1.5;
+		if (player.hasPerk(PerkLib.JobSeducer)) lustDmgF += player.teaseLevel * 3;
+		else lustDmgF += player.teaseLevel * 2;
+		if (player.hasPerk(PerkLib.JobCourtesan) && monster.hasPerk(PerkLib.EnemyBossType)) lustDmgF *= 1.2;
+		switch (player.coatType()) {
+			case Skin.FUR:
+				lustDmgF += (1 + player.newGamePlusMod());
+				break;
+			case Skin.SCALES:
+				lustDmgF += (2 * (1 + player.newGamePlusMod()));
+				break;
+			case Skin.CHITIN:
+				lustDmgF += (3 * (1 + player.newGamePlusMod()));
+				break;
+			case Skin.BARK:
+				lustDmgF += (4 * (1 + player.newGamePlusMod()));
+				break;
+		}
+		if (player.hasPerk(PerkLib.SluttySimplicity) && player.armor.hasTag(ItemConstants.A_REVEALING)) lustDmgF *= (1 + ((10 + rand(11)) / 100));
+		if (player.hasPerk(PerkLib.ElectrifiedDesire)) lustDmgF *= (1 + (player.lust100 * 0.01));
+		if (player.hasPerk(PerkLib.HistoryWhore) || player.hasPerk(PerkLib.PastLifeWhore)) lustDmgF *= (1 + combat.historyWhoreBonus());
+		if (player.hasPerk(PerkLib.RacialParagon)) lustDmgF *= combat.RacialParagonAbilityBoost();
+		if (player.hasPerk(PerkLib.NaturalArsenal)) lustDmgF *= 2;
+		lustBoostToLustDmg += lustDmgF * 0.01;
+		lustDmgF *= 0.2;
+		if (player.lust100 * 0.01 >= 0.9) lustDmgF += (lustBoostToLustDmg * 140);
+		else if (player.lust100 * 0.01 < 0.2) lustDmgF += (lustBoostToLustDmg * 140);
+		else lustDmgF += (lustBoostToLustDmg * 2 * (20 - (player.lust100 * 0.01)));
+		//Determine if critical tease!
+		var crit:Boolean = false;
+		var critChance:int = 5;
+		critChance += combat.teases.combatTeaseCritical();
+		if (player.hasPerk(PerkLib.AnatomyExpert)) critChance += 10;
+		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+		if (rand(100) < critChance) {
+		crit = true;
+			if (!player.hasPerk(PerkLib.AnatomyExpert)) lustDmgF *= 1.75;
+			if (player.hasPerk(PerkLib.AnatomyExpert)) lustDmgF *= 2.50;
+		}
+		if (player.hasPerk(PerkLib.ChiReflowLust)) lustDmgF *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
+		if (player.hasPerk(PerkLib.ArouseTheAudience) && (monster.hasPerk(PerkLib.EnemyGroupType) || monster.hasPerk(PerkLib.EnemyLargeGroupType))) lustDmgF *= 1.5;
+		if (player.armor == armors.ELFDRES && player.isElf()) lustDmgF*= 2;
+		if (player.armor == armors.FMDRESS && player.isWoodElf()) lustDmgF *= 2;
+		lustDmgF = lustDmgF * monster.lustVuln;
+		lustDmgF = Math.round(lustDmgF);
+		monster.teased(lustDmgF,false);
+		if (crit) outputText(" <b>Critical!</b>");
+		combat.teaseXP(1 + combat.bonusExpAfterSuccesfullTease());
+		if (monster.lustVuln > 0 && !player.enemiesImmuneToLustResistanceDebuff()) {
+			monster.lustVuln += 0.05;
+			if (monster.lustVuln > monster.lustVulnCap()) monster.lustVuln = monster.lustVulnCap();
+		}
+		combat.bonusExpAfterSuccesfullTease();
+		enemyAI();
+	}
+	
+	public function optionGoblinBomber():void {
+		clearOutput();
+		player.createStatusEffect(StatusEffects.GoblinBomber,0,0,0,0);
+		outputText("You shout in a walkie talkie for back up and suddenly a rickety metal plane strafe across the battlefield as one of your kids begins to drop a line of bombs on [themonster] KABOOM! ");
+		var damage:Number = combat.firearmsDamageNoLagSingle() * 10;
+		if (player.hasPerk(PerkLib.MasterGadgeteer)) damage += combat.scalingBonusIntelligence();
+		var ignoreDR:Boolean = player.hasPerk(PerkLib.Penetrator);
+		damage = combat.tinkerDamageBonus(damage);
+		damage = combat.goblinDamageBonus(damage);
+		//Determine if critical hit!
+		var crit:Boolean = false;
+		var critChance:int = 25;
+		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+		if (rand(100) < critChance) {
+			crit = true;
+			damage *= 1.75;
+		}
+		damage = Math.round(damage);
+		doDamage(damage, true, true, ignoreDR);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		doDamage(damage, true, true, ignoreDR);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		doDamage(damage, true, true, ignoreDR);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		doDamage(damage, true, true, ignoreDR);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		doDamage(damage, true, true, ignoreDR);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		outputText("\n\n");
+		if (!monster.hasPerk(PerkLib.Resolute)) monster.createStatusEffect(StatusEffects.Stunned,2,0,0,0);
 		if (monster.HP <= monster.minHP()) doNext(endHpVictory);
 		else enemyAI();
 	}
@@ -4203,7 +4360,7 @@ public class PhysicalSpecials extends BaseCombatContent {
 				monster.armorDef -= debuff;
 				monster.createStatusEffect(StatusEffects.DefPDebuff, 3, debuff, 0, 0);
 			}
-			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true);
+			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true, false);
 		}
 		else outputText("[Themonster] moves back just in time to avoid being crushed.");
 		outputText("\n\n");

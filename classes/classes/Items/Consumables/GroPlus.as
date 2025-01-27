@@ -115,7 +115,7 @@ public final class GroPlus extends Consumable {
             EngineCore.addButton(0, "Tip(+Len)", pickDoses, curry(inject, dick1 - 1, "tip"));
             EngineCore.addButton(1, "Side(+Thick)", pickDoses, curry(inject, dick1 - 1, "side"));
             EngineCore.addButton(2, "Base(+Both)", pickDoses, curry(inject, dick1 - 1, "base"));
-            EngineCore.addButton(2, "Knot", pickDoses, curry(inject, dick1 - 1, "knot"))
+            EngineCore.addButton(3, "Knot", pickDoses, curry(inject, dick1 - 1, "knot"))
                     .disableIf(!player.hasKnot(dick1 - 1), "No knot present!");
             EngineCore.addButton(4, "Back", useItem);
         }

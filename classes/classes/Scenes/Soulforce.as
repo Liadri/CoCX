@@ -69,7 +69,7 @@ public class Soulforce extends BaseContent
 		else addButtonDisabled(1, "???", "Req.  successfully surviving your 1st Tribulation.");
 		//button 2 - ?
 		if (flags[kFLAGS.DAILY_SOULFORCE_USE_LIMIT] < dailySoulforceUsesLimit) {
-			addButton(3, "Self-sustain", SelfSustain).hint("Spend some soulforce on suppresing hunger for a while."); //zamiana soulforce na satiety w stosunku 1:5
+			addButton(3, "Self-sustain", SelfSustain).hint("Spend some soulforce on suppressing hunger for a while."); //zamiana soulforce na satiety w stosunku 1:5
 			addButton(4, "Repres. Lust", RepresLust).hint("Spend some soulforce on calming your sexual urges."); //używanie soulforce do zmniejszania lust w stosunku 1:2
 			addButton(8, "Adj. Corr.", CorruptionAndSoulforce).hint("Spend some soulforce on affecting your current corruption."); //używanie soulforce do zmniejszania corruption w stosunku 1:100 a zdobywanie corruption w stosunku 1:50
 			addButton(9, "Mana", ManaAndSoulforce).hint("Convert some soulforce into mana or vice versa."); //używanie soulforce do zamiany na mane w stosunku 1:1 a many do soulforce 1:2, używalne nawet w walce też ale z wiekszym kosztem przeliczania czyli 1:2 i 1:4
@@ -83,7 +83,7 @@ public class Soulforce extends BaseContent
 		//addButton(5, "Upgrade", UpgradeItems).hint("."); //ulepszanie itemów
 		if (player.hasPerk(PerkLib.FlyingSwordPath)) addButton(6, "Imprinting", ImprintingSF).hint("Imprint your SF to combine or separate sets of flying swords.");
 		else addButtonDisabled(6, "???", "Req. Flying Sword Path perk.");
-		if (player.hasPerk(PerkLib.SoulSense)) addButton(7, "Soul Sense", SoulSense).hint("Use your soul sense to trigger specific encounters."); //używanie divine sense aby znaleść określone event encounters: Tamani (lvl 6+), Tamani daugthers (lvl 6+), Kitsune mansion (lvl 12+), Izumi (lvl 18/24+), itp.
+		if (player.hasPerk(PerkLib.SoulSense)) addButton(7, "Soul Sense", SoulSense).hint("Use your soul sense to trigger specific encounters."); //używanie divine sense aby znaleść określone event encounters: Tamani (lvl 6+), Tamani daughters (lvl 6+), Kitsune mansion (lvl 12+), Izumi (lvl 18/24+), itp.
 		else addButtonDisabled(7, "???", "Req. Soul Sense perk.");
 		if (player.hasPerk(PerkLib.Metamorph)) {
 			if (player.blockingBodyTransformations()) addButtonDisabled(10, "Metamorph", "Your current body state prevents you from using Metamorph. (Either cure it or ascend to gain access to the metamorph menu again)");
@@ -588,8 +588,11 @@ public class Soulforce extends BaseContent
 		if (itemCnt > 10) itemCnt *= (1.0 + itemCnt * 0.1);
 		else if (itemCnt > 5) itemCnt *= (1.0 + itemCnt * 0.05);
 		var limit:int = cultivationBonusMaxSF_limit();
-		if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] < limit)
-			flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] += Math.min(int(itemCnt * hours), limit - flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]);
+		if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] < limit) flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] += Math.min(int(itemCnt * hours), limit - flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]);
+		if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] >= 100) {
+			if (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING] >= 200 && player.hasPerk(PerkLib.DaoOfTraning)) player.addPerkValue(PerkLib.DaoOfTraning, 1, 1);
+			else player.createPerk(PerkLib.DaoOfTraning,1,0,0,0);
+		}
 	}
 
 	public function SelfSustain():void {
@@ -836,9 +839,9 @@ public class Soulforce extends BaseContent
 			menu();
 			statScreenRefresh();
 			if (page == 1) {
-				if (BelisaFollower.BelisaInGame && BelisaFollower.BelisaFollowerStage < 3 && BelisaFollower.BelisaEncounternum >= 1 && !player.hasStatusEffect(StatusEffects.SpoodersOff)) addButton(0, "???", belisatest).hint("Shy Spooder");
-				if (!LilyFollower.LilyFollowerState && flags[kFLAGS.LILY_LVL_UP] > 0 && !player.hasStatusEffect(StatusEffects.SpoodersOff)) addButton(1, "???", lilytest).hint("Lewd Spooder");
-				if (TyrantiaFollower.TyrantiaFollowerStage > 0 && TyrantiaFollower.TyrantiaFollowerStage < 4 && !TyrantiaFollower.TyraniaIsRemovedFromThewGame && !player.hasStatusEffect(StatusEffects.SpoodersOff)) addButton(2, "???", FightTyrantia).hint("Scary Spooder");
+				if (BelisaFollower.BelisaInGame && BelisaFollower.BelisaFollowerStage < 3 && BelisaFollower.BelisaEncounternum >= 1 && !player.hasStatusEffect(StatusEffects.SpoodersOff)) addButton(0, "???", belisatest).hint("Shy Drooder");
+				if (!LilyFollower.LilyFollowerState && flags[kFLAGS.LILY_LVL_UP] > 0 && !player.hasStatusEffect(StatusEffects.SpoodersOff)) addButton(1, "???", lilytest).hint("Lewd Drooder");
+				if (TyrantiaFollower.TyrantiaFollowerStage > 0 && TyrantiaFollower.TyrantiaFollowerStage < 4 && !TyrantiaFollower.TyraniaIsRemovedFromThewGame && !player.hasStatusEffect(StatusEffects.SpoodersOff)) addButton(2, "???", FightTyrantia).hint("Scary Drooder");
 				if (flags[kFLAGS.IZMA_ENCOUNTER_COUNTER] > 0 && (flags[kFLAGS.IZMA_WORMS_SCARED] == 0 || !player.hasStatusEffect(StatusEffects.Infested)) && flags[kFLAGS.IZMA_FOLLOWER_STATUS] <= 0) addButton(3, "???", tigerSharkGal).hint("Tigershark Gal?");
 				if (flags[kFLAGS.NADIA_LVL_UP] > 0 && flags[kFLAGS.NADIA_FOLLOWER] < 6 && player.statusEffectv4(StatusEffects.CampSparingNpcsTimers2) < 1 && !player.hasStatusEffect(StatusEffects.NadiaOff)) addButton(4, "???", shyHealer).hint("Shy Healer");
 				if (flags[kFLAGS.ISABELLA_AFFECTION] > 0 && flags[kFLAGS.ISABELLA_PLAINS_DISABLED] == 0) addButton(5, "???", germanCow).hint("German Cow");

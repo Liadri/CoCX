@@ -272,7 +272,7 @@ public class AsumaKirin extends Consumable {
 		//FAILSAFE CHANGE
 		if (changes == 0) {
 			outputText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-			EngineCore.HPChange(50, true);
+			EngineCore.HPChange(50, true, false);
 			dynStats("lus", 3, "scale", false);
 		}
 		if (!player.skin.hasLightningShapedTattoo() && rand(3) == 0 && changes < changeLimit) {
@@ -284,7 +284,7 @@ public class AsumaKirin extends Consumable {
 		if (player.horns.type == Horns.KIRIN || player.horns.type == Horns.NONE) {
 			//Get bigger if player has horns
 			if (player.horns.type == Horns.KIRIN) {
-				{
+				if (player.horns.count < 40) {
 					temp = 1 + rand(3);
 					player.horns.count += temp;
 					if (temp == 0) changes--;
@@ -296,6 +296,8 @@ public class AsumaKirin extends Consumable {
 					if (player.horns.count >= 6 && player.horns.count < 12) outputText("It look like the horn on a grown kirin, big enough and dangerous enough to do some damage.");
 					if (player.horns.count >= 12 && player.horns.count < 20) outputText("It is large and wicked looking.");
 					if (player.horns.count >= 20) outputText("It is a large, pointed and spiraling horn.");
+					// cap the horns length at 40
+					if (player.horns.count > 40) player.horns.count = 40;
 					changes++;
 				}
 			}

@@ -8,11 +8,11 @@ import classes.internals.EnumValue;
  * * character has two layer of skin: base and ~~cover~~ coat
  * each layer has: `type`, `tone`, `adj` (optional adjective), and `desc` (overrides default noun for type)
  * a **coverage** parameter with the rance:
- * `(0) COVERAGE_NONE` : coat layer is non-existant
+ * `(0) COVERAGE_NONE` : coat layer is non-existent
  * `(1) COVERAGE_LOW` : coat layer exists, but its descriptions appear only when explicitly called
  * `(2) COVERAGE_MEDIUM` : coat layer exists, descriptions use mixed "[base] and [skin coat]", can explicitly check either
  * `(3) COVERAGE_HIGH` : coat layer exists and is used as a default layer when describing skin; base description appear only when explicitly called
- * `(4) COVERAGE_COMPLETE` : same as COVERAGE_HIGH; intended to be used when even face is fully coverred
+ * `(4) COVERAGE_COMPLETE` : same as COVERAGE_HIGH; intended to be used when even face is fully covered
  * tattoos should be moved to body part-level as patterns
  *
  * @since December 27, 2016

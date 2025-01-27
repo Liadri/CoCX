@@ -81,7 +81,7 @@ import classes.internals.Utils;
 		override public function useItem():Boolean {
 			if (game.player.skinAdj == _adj || player.blockingBodyTransformations()) {
 				outputText("You " + game.player.clothedOrNaked("take a second to disrobe before uncorking the flask of lotion and rubbing", "uncork the flask of lotion and rub") + " the " + liquidDesc() + " across your body. Once you’ve finished you feel reinvigorated. ");
-				EngineCore.HPChange(10, true);
+				EngineCore.HPChange(10, true, false);
 			}
             else if (game.player.isGooSkin()) { //If skin is goo, don't change
                 outputText("You take the lotion and pour the " + liquidDesc() + " into yourself. The concoction dissolves, leaving your gooey epidermis unchanged. As a matter of fact nothing happens at all.");

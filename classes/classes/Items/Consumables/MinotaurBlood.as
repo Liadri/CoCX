@@ -293,7 +293,7 @@ public class MinotaurBlood extends Consumable {
 						changes++;
 					}
 					//Males horns get 'uge.
-					else {
+					else if (player.horns.count < 40) {
 						temp = 1 + rand(3);
 						player.horns.count += temp;
 						if (temp == 0) changes--;
@@ -311,6 +311,7 @@ public class MinotaurBlood extends Consumable {
 							player.hoursSinceCum += 200;
 							dynStats("lus", 20, "scale", false);
 						}
+						if (player.horns.count > 40) player.horns.count = 40;
 						changes++;
 					}
 				}
@@ -379,7 +380,7 @@ public class MinotaurBlood extends Consumable {
 				outputText("Your balls feel as if they've grown heavier with the weight of more sperm.\n");
 				player.hoursSinceCum += 200;
 			}
-			EngineCore.HPChange(50*player.postConsumptionMlt(), true);
+			EngineCore.HPChange(50*player.postConsumptionMlt(), true, false);
 			dynStats("lus", Math.round(50*player.postConsumptionMlt()), "scale", false);
 		}
 		player.refillHunger(25);

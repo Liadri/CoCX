@@ -1351,7 +1351,7 @@ public function femoitInitialTalk():void
 	}
 	else
 	{
-		outputText("\n\nYou rack your brain but can't think of anything that could help [benoit name], so end up simply sympathising with [benoit em].  \"<i>Do not beat yourself up over it,</i>\" says the basilisk, with a smile.  \"<i>It is a foolish dream.  And anyway, I told you: we are a race of bastards.  We are ze last guys who deserve someone sinking after us.</i>\"");
+		outputText("\n\nYou rack your brain but can't think of anything that could help [benoit name], so end up simply sympathizing with [benoit em].  \"<i>Do not beat yourself up over it,</i>\" says the basilisk, with a smile.  \"<i>It is a foolish dream.  And anyway, I told you: we are a race of bastards.  We are ze last guys who deserve someone sinking after us.</i>\"");
 	}
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1366,7 +1366,7 @@ public function benoitFeminise():void
 	if (!player.hasItem(consumables.P_S_MLK, 2) || !player.hasItem(consumables.L_PNKEG) || !player.hasItem(consumables.OVIELIX) || !player.hasItem(consumables.REPTLUM))
 	{
 		outputText("You don't have the necessary ingredients to attempt this yet.");
-		outputText("\n\n<b>(Requires 2x Purified Succubus Milk, 1x Large Pink Egg, 1x Ovi Elixir, 1x Reptilium.)</b>");
+		outputText("\n\n<b>(Requires 2x Purified Succubus Milk, 1x Large Pink Egg, 1x Ovi Elixir, 1x Reptilum.)</b>");
         CoC.instance.flushOutputTextToGUI();
     }
 	else
@@ -1714,7 +1714,7 @@ public function femoitSexIntro():void
 		if (!player.hasItem(consumables.P_DRAFT, 2) || !player.hasItem(consumables.PSDELIT) || !player.hasItem(consumables.REPTLUM))
 		{
 			outputText("You don't have the necessary ingredients to attempt this yet.");
-			outputText("\n\n<b>(Requires 2x Purified Incubi Draft, 1x Purified Succubi's Delight, 1x Reptilium.)</b>");
+			outputText("\n\n<b>(Requires 2x Purified Incubi Draft, 1x Purified Succubi's Delight, 1x Reptilum.)</b>");
             CoC.instance.flushOutputTextToGUI();
         }
 		else

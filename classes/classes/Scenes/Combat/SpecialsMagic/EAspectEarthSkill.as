@@ -57,7 +57,7 @@ public class EAspectEarthSkill extends AbstractMagicSpecial {
     }
 
     override public function doEffect(display:Boolean = true):void {
-		if (display) outputText("Your elemental lifts stone and dirt from the ground, encasing you in a earthen shell stronger than any armor.\n\n");
+		if (display) outputText("Your elemental lifts stone and dirt from the ground, encasing you in an earthen shell stronger than any armor.\n\n");
         setDuration();
     }
 

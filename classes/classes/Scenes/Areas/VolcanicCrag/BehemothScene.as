@@ -330,10 +330,10 @@ public class BehemothScene extends BaseContent
 			outputText("\n\nHe lays on top of you, and the two of you rest for a while. You wake up some time later, and you give the behemoth a kiss on one of his cheeks and let him know that you'll be going. \"<i>See you later,</i>\" the behemoth says with a smile on his face. You " + player.clothedOrNaked("redress and ") + "walk back to your camp, oddly feeling a bit better.");
 			player.orgasm();
 			player.slimeFeed();
-			HPChange(player.maxHP() / 4, false);
+			HPChange(player.maxHP() / 4, false, false);
 			flags[kFLAGS.BEHEMOTH_ANAL_CATCH]++;
 			dynStats("str", 0.5, "tou", 0.5);
-			HPChange(50 + (player.maxHP() / 5), false);
+			HPChange(50 + (player.maxHP() / 5), false, false);
 			if (CoC.instance.inCombat) cleanupAfterCombat();
 			else endEncounter();
 		}
@@ -365,7 +365,7 @@ public class BehemothScene extends BaseContent
 			}
 			flags[kFLAGS.BEHEMOTH_VAGINAL_CATCH]++;
 			dynStats("str", 0.5, "tou", 0.5);
-			HPChange(50 + (player.maxHP() / 5), false);
+			HPChange(50 + (player.maxHP() / 5), false, false);
 			if (CoC.instance.inCombat) cleanupAfterCombat();
 			else endEncounter();
 		}
@@ -422,7 +422,7 @@ public class BehemothScene extends BaseContent
 			outputText("\n\n<b>One hour later...</b>");
 			outputText("\n\nYou get out of the cum-filled basin and " + (player.isGoo() ? "absorb the cum into your gooey body": "shake the excessive cum off") + " before " + player.clothedOrNaked("getting yourself re-dressed into your [armor] and") + " rustle the behemoth's hair.  \"<i>See you later. Come back anytime for more fun,</i>\" the behemoth says. You give him a final kiss before you make your way back to camp, already feeling a lot better.");
 			flags[kFLAGS.BEHEMOTH_CUM_BATH]++;
-			HPChange(player.maxHP() / 2, false);
+			HPChange(player.maxHP() / 2, false, false);
 			fatigue(-50);
 			if (player.armor == armors.GOOARMR) SceneLib.valeria.feedValeria(100);
 			dynStats("str", 0.5, "tou", 0.5, "lus", 30);

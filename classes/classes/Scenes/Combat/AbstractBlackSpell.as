@@ -28,7 +28,7 @@ public class AbstractBlackSpell extends AbstractSpell {
 		if (player.lust < combat.magic.getBlackMagicMinLust()) {
 			return "You aren't turned on enough to use any black magics.";
 		}
-		if (player.hasPerk(PerkLib.DivineKnowledge) && !player.hasPerk(PerkLib.Equilibrium)) {
+		if (player.hasPerk(PerkLib.DivineKnowledge) && !player.hasPerk(PerkLib.Equilibrium) && !player.hasPerk(PerkLib.UltimateMagic)) {
 			return "Your chosen path of magic locked out this spell.";
 		}
 		if (player.statusEffectv2(StatusEffects.Sealed) == 10) {

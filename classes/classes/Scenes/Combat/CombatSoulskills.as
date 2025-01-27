@@ -76,6 +76,7 @@ public class CombatSoulskills extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.InariBlessedKimono)) modss += ((100 - player.cor) * .01);
 		if (player.hasPerk(PerkLib.TamamoNoMaeCursedKimono)) modss += (player.cor * .01);
 		if (player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) modss += (player.perkv1(PerkLib.MummyLord) * 0.05);
+		if (player.hasPerk(PerkLib.DaoOfTraning) && player.perkv1(PerkLib.DaoOfTraning) > 1) modss += (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]) * 0.001;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 1) modss += .2;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 2) modss += .1;
 		if (player.perkv1(IMutationsLib.AnubiHeartIM) >= 3) modss += .1;
@@ -165,6 +166,7 @@ public class CombatSoulskills extends BaseCombatContent {
 			if (player.tailCount >= 3) wfb *= 2;
 			modssm += wfb;
 		}
+		if (player.hasPerk(PerkLib.DaoOfTraning)) modssm += (flags[kFLAGS.SOULFORCE_GAINED_FROM_CULTIVATING]) * 0.01;
 		if (player.perkv1(IMutationsLib.HumanSmartsIM) >= 4 && player.racialScore(Races.HUMAN) > 17) modssm += 1;
 		if (player.shieldName == "spirit focus") modssm += .25;
 		if (player.armor == armors.DEATHPO) modssm += .5;

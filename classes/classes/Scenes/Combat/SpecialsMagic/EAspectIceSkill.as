@@ -10,7 +10,7 @@ public class EAspectIceSkill extends AbstractMagicSpecial {
     public function EAspectIceSkill() {
         super (
             "Elemental Aspect: Ice",
-            "Attack with a stronger version of a ice-attributed basic elemental attack.",
+            "Attack with a stronger version of an ice-attributed basic elemental attack.",
             TARGET_ENEMY,
             TIMING_INSTANT,
             [TAG_DAMAGING, TAG_ICE, TAG_MAGICAL, TAG_TIER2],

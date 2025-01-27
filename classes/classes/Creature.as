@@ -38,6 +38,7 @@ import classes.Stats.StatStore;
 import classes.internals.Utils;
 import classes.lists.BreastCup;
 import classes.lists.Gender;
+import classes.Scenes.Places.DomsDomain;
 
 import flash.errors.IllegalOperationError;
 import classes.Scenes.Combat.CombatAbilities;
@@ -480,53 +481,66 @@ public class Creature extends Utils
 			return false;
 		}
 		public function trainStatCap(statName: String, limit: Number):Number {
-			var cap:Number = limit;
-			var cap2:Number = 1;
-			//cap += 2 * host.perkv1(PerkLib.AscensionTranshumanism);
-			if (game.player.hasPerk(PerkLib.MunchkinAtBioLab)) cap2 += 0.1;
-			cap *= cap2;
+			var train:Number = 100;
+			var train2:Number = limit;
+			//train += 2 * host.perkv1(PerkLib.AscensionTranshumanism);
+			if (game.player.hasPerk(PerkLib.MunchkinAtBioLab)) train += 10;
+			if (game.player.hasPerk(PerkLib.BasicAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.IntermediateAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.AdvancedAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.ExpertAllRounderTraining)) train += 5;
+			if (game.player.hasPerk(PerkLib.MasterAllRounderTraining)) train += 10;
+			if (game.player.hasPerk(PerkLib.GrandMasterAllRounderTraining)) train += 10;
+			if (game.player.hasPerk(PerkLib.SemiEpicAllRounderTraining)) train += 15;
+			if (game.player.hasPerk(PerkLib.EpicAllRounderTraining)) train += 15;
 			switch (statName) {
 				case "str":
+					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 					var str:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 3) str += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 4) str += 0.1;
-					cap *= str;
+					train *= str;
 					break;
 				case "tou":
+					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 					var tou:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 3) tou += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBonesIM) >= 4) tou += 0.1;
-					cap *= tou;
+					train *= tou;
 					break;
 				case "spe":
+					if (game.player.hasPerk(PerkLib.AllRounderPhysicalTraining)) train += 10;
 					var spe:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 3) spe += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) spe += 0.1;
-					cap *= spe;
+					train *= spe;
 					break;
 				case "int":
+					if (game.player.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 					var inte:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 3) inte += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 4) inte += 0.1;
-					cap *= inte;
+					train *= inte;
 					break;
 				case "wis":
-					//cap += 16 * host.perkv1(PerkLib.AscensionTranshumanismWis);
-					//cap += host.perkv1(PerkLib.SoulTempering);
+					if (game.player.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
+					//train += 16 * host.perkv1(PerkLib.AscensionTranshumanismWis);
+					//train += host.perkv1(PerkLib.SoulTempering);
 					var wis:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 3) wis += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanSmartsIM) >= 4) wis += 0.1;
-					cap *= wis;
+					train *= wis;
 					break;
 				case "lib":
+					if (game.player.hasPerk(PerkLib.AllRounderMentalTraining)) train += 10;
 					var lib:Number = 1;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 3) lib += 0.2;
 					if (game.player.perkv1(IMutationsLib.HumanBloodstreamIM) >= 4) lib += 0.1;
-					cap *= lib;
+					train *= lib;
 					break;
 			}
-			cap = Math.round(cap);
-			return cap;
+			train = Math.round(train*train2*0.01);
+			return train;
 		}
 
 		/**
@@ -766,7 +780,15 @@ public class Creature extends Utils
 			if (hasPerk(PerkLib.CheetahIII)) max += Math.round(spe*4);
 			if (hasPerk(PerkLib.CheetahIV)) max += Math.round(spe*4);
 			if (hasPerk(PerkLib.CheetahV)) max += Math.round(spe*4);
-			if (hasPerk(PerkLib.CheetahVI)) max += Math.round(spe*4);
+			if (hasPerk(PerkLib.CheetahVI)) max += Math.round(spe * 4);
+			if (hasPerk(PerkLib.SeducerResilience)) {
+				max += Math.round(lib*12);
+				max += Math.round(sens*12);
+			}
+			if (perkv1(IMutationsLib.StillHeartIM) >= 4) {
+				if (hasPerk(PerkLib.Undeath)) max += Math.round(lib*0.5);
+				else max += Math.round(lib*0.25);
+			}
 			if (hasPerk(PerkLib.ElementalBondFlesh)) {
 				if (hasStatusEffect(StatusEffects.SummonedElementalsAir)) max += maxHP_ElementalBondFleshMulti() * 4 * statusEffectv2(StatusEffects.SummonedElementalsAir);
 				if (hasStatusEffect(StatusEffects.SummonedElementalsEarth)) max += maxHP_ElementalBondFleshMulti() * 4 * statusEffectv2(StatusEffects.SummonedElementalsEarth);
@@ -837,6 +859,7 @@ public class Creature extends Utils
 			if (hasPerk(PerkLib.RefinedBodyVI)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerBody1stStage)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerBody2ndStage)) multimax += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerBody3rdStage)) multimax += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) multimax += 0.2;
 			max *= multimax;
 			max = Math.round(max);
@@ -2781,6 +2804,9 @@ public class Creature extends Utils
 				percent += (jewelryEffectMagnitude / 100);
 			if (hasPerk(PerkLib.AscensionVirility))
 				percent += perkv1(PerkLib.AscensionVirility) * 0.05;
+			if (DomsDomain.SteakEaten > 0) {
+				percent += (0.5 * (DomsDomain.SteakEaten));
+			}
 			if (percent > 1)
 				percent = 1;
 			if (percent < 0)
@@ -3656,6 +3682,9 @@ public class Creature extends Utils
 				counter += 30;
 			if (hasPerk(PerkLib.MagicalFertility))
 				counter += 10 + (perkv1(PerkLib.MagicalFertility) * 5);
+			if (DomsDomain.FishEaten > 0) {
+				counter += ((DomsDomain.FishEaten) * 2);
+			}
 			if (perkv1(IMutationsLib.GoblinOvariesIM) >= 1)
 				counter += (10 * perkv1(IMutationsLib.GoblinOvariesIM));
 			if (perkv1(IMutationsLib.FiendishOvariesIM) >= 1)
@@ -4290,7 +4319,7 @@ public class Creature extends Utils
 		 * Echidna 1 ft long (i'd consider it barely qualifying), demonic 2 ft long, draconic 4 ft long
 		 */
 		public function hasLongTongue():Boolean {
-			return tongue.type == Tongue.DEMONIC || tongue.type == Tongue.DRACONIC || tongue.type == Tongue.ECHIDNA;
+			return tongue.type == Tongue.DEMONIC || tongue.type == Tongue.DRACONIC || tongue.type == Tongue.ECHIDNA || tongue.type == Tongue.SNAKE;
 		}
 
 		public function hairOrFur():String

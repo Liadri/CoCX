@@ -1657,7 +1657,7 @@ public class Masturbation extends BaseContent {
 					else outputText("girl-lube spurts out of your tortured nipples with each thrust of your hips, spattering your arms and face with your secretions. ");
 				}
 			}
-			//if your dog cocks wouldnt fit, or you had enough holes for all your dicks (potentailly doubled up) then there are no dicks left for you to suck. Return false
+			//if your dog cocks wouldn't fit, or you had enough holes for all your dicks (potentially doubled up) then there are no dicks left for you to suck. Return false
 			return !((!doubleUp && fittableCocks <= holeTotal) || (doubleUp && fittableCocks <= holeTotal * 2));
 		}
 
@@ -2356,7 +2356,7 @@ public class Masturbation extends BaseContent {
 			outputText("You find a flat, comfortable " + description + " to sit down on and meditate.  As always, meditation brings a sense of peace and calm to you, but it eats up one hour of the day.");
 			dynStats("lus", -Math.round(player.maxLust()*0.2), "scale", false);
 			dynStats("cor", -.3 - 0.3 * player.countCockSocks("alabaster"));
-			if (player.hasPerk(PerkLib.Enlightened) && player.cor < 10) HPChange(50, true);
+			if (player.hasPerk(PerkLib.Enlightened) && player.cor < 10) HPChange(50, true, false);
 			fatigue( -10);
 			endEncounter();
 		}

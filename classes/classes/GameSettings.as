@@ -868,10 +868,15 @@ public class GameSettings extends BaseContent {
 		else if (flags[kFLAGS.PRIMARY_DIFFICULTY] == 4) outputText("\n Opponent(s) take 25x less HP/Lust dmg, deal more 250% damage and gives ~150% more EXP. If you want to spellcast or use magic specials, you have to pay attention to your accumulated wrath. Additionally, the negative effects of internal mutations begin immediately. (+1 diff modifier)");
 		menu();
 		if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 0) addButton(0, "-0-", chooseDifficulty1, 0);
+		else addButtonDisabled(0, "-0-", "Currently choosen option.");
 		if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 1) addButton(1, "-1-", chooseDifficulty1, 1);
+		else addButtonDisabled(1, "-1-", "Currently choosen option.");
 		if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 2) addButton(2, "-2-", chooseDifficulty1, 2);
+		else addButtonDisabled(2, "-2-", "Currently choosen option.");
 		if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 3) addButton(3, "-3-", chooseDifficulty1, 3);
+		else addButtonDisabled(3, "-3-", "Currently choosen option.");
 		if (flags[kFLAGS.PRIMARY_DIFFICULTY] != 4) addButton(4, "-4-", chooseDifficulty1, 4);
+		else addButtonDisabled(4, "-4-", "Currently choosen option.");
 		addButton(14, "Back", settingsScreenGameSettings);
 	}
 	public function chooseDifficulty1(difficulty:int = 0):void {
@@ -891,12 +896,19 @@ public class GameSettings extends BaseContent {
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] >= 6) outputText("\n 21000x (bosses) and 3000x (rest) multi for secondary stats for monsters. (+1 diff modifier)");
 		menu();
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 0) addButton(0, "1x", chooseDifficulty2, 0);
+		else addButtonDisabled(0, "1x", "Currently choosen option.");
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 1) addButton(1, "5x", chooseDifficulty2, 1);
+		else addButtonDisabled(1, "5x", "Currently choosen option.");
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 2) addButton(2, "10x", chooseDifficulty2, 2);
+		else addButtonDisabled(2, "10x", "Currently choosen option.");
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 3) addButton(3, "25x", chooseDifficulty2, 3);
+		else addButtonDisabled(3, "25x", "Currently choosen option.");
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 4) addButton(4, "100x", chooseDifficulty2, 4);
+		else addButtonDisabled(4, "100x", "Currently choosen option.");
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 5) addButton(5, "500x", chooseDifficulty2, 5);
+		else addButtonDisabled(5, "500x", "Currently choosen option.");
 		if (flags[kFLAGS.SECONDARY_STATS_SCALING] != 6) addButton(5, "3000x", chooseDifficulty2, 6);
+		else addButtonDisabled(6, "3000x", "Currently choosen option.");
 		addButton(14, "Back", settingsScreenGameSettings);
 	}
 	public function chooseDifficulty2(difficulty:int = 0):void {
@@ -914,10 +926,15 @@ public class GameSettings extends BaseContent {
 		outputText("\n<b>Hell:</b> 5x/10x/20x HP for elite/champion/boss monsters. (+1 diff modifier)");
 		menu();
 		if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 0) addButton(0, "Normal", chooseDifficulty3, 0);
+		else addButtonDisabled(0, "Normal", "Currently choosen option.");
 		if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 1) addButton(1, "Fantasy", chooseDifficulty3, 1);
+		else addButtonDisabled(1, "Fantasy", "Currently choosen option.");
 		if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 2) addButton(2, "Torment", chooseDifficulty3, 2);
+		else addButtonDisabled(2, "Torment", "Currently choosen option.");
 		if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 3) addButton(3, "Infernium", chooseDifficulty3, 3);
+		else addButtonDisabled(3, "Infernium", "Currently choosen option.");
 		if (flags[kFLAGS.BOSS_CHAMPION_ELITE_SCALING] != 4) addButton(4, "Hell", chooseDifficulty3, 4);
+		else addButtonDisabled(4, "Hell", "Currently choosen option.");
 		addButton(14, "Back", settingsScreenGameSettings);
 	}
 	public function chooseDifficulty3(difficulty:int = 0):void {

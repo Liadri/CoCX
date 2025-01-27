@@ -957,6 +957,9 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 			saveFile.data.breastRows[i].fullness = player.breastRows[i].fullness;
 		}
 
+		//Set true IMutations Array
+		saveFile.data.trueMutations = player.trueMutations;
+
 		//Set Perk Array
 		//Populate Perk Array
 		player.perks.forEach(function (perk:PerkClass, ...args):void {
@@ -2138,6 +2141,9 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		mutationsShift.push(IMutationsLib.MutationsTemplateIM.id);
 		//Possibly ID updating.
 
+		//Set true IMutations Array
+		player.trueMutations = saveFile.data.trueMutations || [];
+		
 		//Populate Perk Array
 		for (i = 0; i < saveFile.data.perks.length; i++)
 		{
@@ -2763,7 +2769,7 @@ public function unFuckSave():void
 		player.changeStatusValue(StatusEffects.SlimeCraving, 4, 1); //Value four indicates this tracks strength and speed separately
 	}
 
-	// Fix issues with corrupt cockTypes caused by a error in the serialization code.
+	// Fix issues with corrupt cockTypes caused by an error in the serialization code.
 
 	//trace("CockInfo = ", flags[kFLAGS.RUBI_COCK_TYPE]);
 	//trace("getQualifiedClassName = ", getQualifiedClassName(flags[kFLAGS.RUBI_COCK_TYPE]));

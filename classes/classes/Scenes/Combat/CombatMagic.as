@@ -358,6 +358,7 @@ public class CombatMagic extends BaseCombatContent {
 		//
 		if (player.hasPerk(PerkLib.BloodDemonWisdom)) mod += .5;
 		//
+		if (player.hasPerk(PerkLib.VampiricMagic)) mod += .5;
 		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
 		if (player.hasPerk(PerkLib.DeathlyPower) && monster.HP <= Math.round(monster.maxHP() * 0.5)) mod *= 2;
 		mod = Math.round(mod * 100) / 100;
@@ -373,9 +374,10 @@ public class CombatMagic extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.GreyArchmage) && player.inte >= 175) mod += .3;
 		if (player.hasPerk(PerkLib.GrandGreyArchmage) && player.inte >= 225) mod += .4;
 		if (player.hasPerk(PerkLib.GrandGreyArchmage2ndCircle) && player.inte >= 275) mod += .5;
-		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 24) {
 			if (player.level < 6) mod += 1;
 			if (player.level < 12) mod += 1;
+			if (player.level < 18) mod += 1;
 			mod += 1;
 		}
 		if (player.hasStatusEffect(StatusEffects.SoulBurn)) mod *= 2;
@@ -393,15 +395,16 @@ public class CombatMagic extends BaseCombatContent {
 		if (Forgefather.purePearlEaten) mod +=.25;
 		if (player.hasPerk(PerkLib.UnicornBlessing) && player.cor <= 20) mod += .2;
 		if (player.hasPerk(PerkLib.PrestigeJobArchpriest)) mod += .2;
-		if (player.hasPerk(PerkLib.PrestigeJobWarlock)) mod -= .4;
+		if (player.hasPerk(PerkLib.PrestigeJobWarlock) && !player.hasPerk(PerkLib.UltimateMagic)) mod -= .4;
 		if (player.hasKeyItem("Holy Symbol") >= 0) mod += .2;
 		if (player.necklace == necklaces.LEAFAMU) {
 			if (player.isElf()) mod += .2;
 			else mod += .1;
 		}
-		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 24) {
 			if (player.level < 6) mod += 1;
 			if (player.level < 12) mod += 1;
+			if (player.level < 18) mod += 1;
 			mod += 1;
 		}
 		if (player.weapon == weapons.PURITAS) mod *= 2.5;
@@ -417,13 +420,14 @@ public class CombatMagic extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.AvatorOfCorruption)) mod += .3;
 		if (Forgefather.lethiciteEaten) mod +=.25;
 		if (player.hasPerk(PerkLib.BicornBlessing) && player.cor >= 80) mod += .2;
-		if (player.hasPerk(PerkLib.PrestigeJobArchpriest)) mod -= .4;
+		if (player.hasPerk(PerkLib.PrestigeJobArchpriest) && !player.hasPerk(PerkLib.UltimateMagic)) mod -= .4;
 		if (player.hasPerk(PerkLib.PrestigeJobWarlock)) mod += .2;
 		if (player.countMiscJewelry(miscjewelries.DMAGETO) > 0) mod += 0.25;
 		if (player.headJewelry == headjewelries.GHORNAM && player.horns.type == Horns.DEMON) mod += 0.25;
-		if (player.weaponRange == weaponsrange.RB_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RB_TOME && player.level < 24) {
 			if (player.level < 6) mod += 1;
 			if (player.level < 12) mod += 1;
+			if (player.level < 18) mod += 1;
 			mod += 1;
 		}
 		if (player.weapon == weapons.DEPRAVA) mod *= 2.5;
@@ -938,8 +942,11 @@ public class CombatMagic extends BaseCombatContent {
 			}
 		}
 		if (player.hasStatusEffect(StatusEffects.BalanceOfLife)) {
+			var five:Number = 0.05;
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) five += (0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
 			if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) numberOfProcs = Math.round(numberOfProcs * (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM))));
-			HPChange((player.maxHP() * numberOfProcs * 0.05), false);
+			if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) HPChange((player.maxHP() * numberOfProcs * five), false, true);
+			else HPChange((player.maxHP() * numberOfProcs * five), false, false);
 		}
 	}
 	

@@ -1982,7 +1982,7 @@ public static const IN_COMBAT_PLAYER_COMPANION_0_ACTION:int                     
 public static const TRUE_DEMONS_KILLED:int                                   		= 1974;
 public static const WRATH_GIANT_SLAYER_GOBLIN_MECH:int                              = 1975;
 public static const AUTO_FLIGHT:int                                   				= 1976;
-public static const UNKNOWN_FLAG_NUMBER_01977:int                                   = 1977;
+public static const AUTO_GALLOP:int                                   				= 1977;
 public static const UNKNOWN_FLAG_NUMBER_01978:int                                   = 1978;
 public static const AKALI_FOLLOWER:int                                   			= 1979;
 public static const KAI_SA_FOLLOWER:int                                   			= 1980;
@@ -2136,7 +2136,7 @@ public static const INGNAM_RUMORS:int                                           
 public static const INGNAM_FARMER_MET:int                                           = 2128;
 public static const INGNAM_BLACKMARKET_TALKED:int                                   = 2129;
 public static const INGNAM_ALCHEMIST_TALKED:int                                     = 2130;
-public static const UNKNOWN_FLAG_NUMBER_02131:int                                   = 2131; //Not used for now.
+public static const INGNAM_ENEMIES:int                                   			= 2131;
 public static const INGNAM_EARS_FREAKOUT:int                                        = 2132; //Ears freakout
 public static const INGNAM_EARS_LAST_TYPE:int                                       = 2133;
 public static const INGNAM_TAIL_FREAKOUT:int                                        = 2134; //Tail freakout
@@ -2233,7 +2233,7 @@ public static const ERLKING_CANE_ATTACK_COUNTER:int                             
 public static const KIHA_DESTROYING_CORRUPTED_GLADES:int                            = 2225; //1 if Kiha is currently destroying corrupted glades.
 public static const AMILY_DESTROYING_CORRUPTED_GLADES:int                           = 2226; //1 if Amily is currently destroying corrupted glades.
 public static const BIMBO_LIQUEUR_STASH_COUNTER_FOR_JOJO:int                        = 2227; //How long Bimbo Liqueur has been in stash since Jojo joined.
-public static const JOJO_BIMBO_STATE:int                                            = 2228; //Here comes the choice. 1 means Jojo warned about thief. 2 means prompt to catch thief is chosen, leads to bimbofication. 3 means Jojo is bimbo.
+public static const JOJO_BIMBO_STATE:int                                            = 2228; //Here comes the choice. 1 means Jojo warned about thief. 2 means prompt to catch thief is chosen, leads to bimbofication. 3 means Jojo is bimbo, 4 means he's been turned back. 5 means he's Debimboed Joy (NYI)
 public static const JOY_COCK_SIZE:int                                               = 2229; //Jojo is bimbofied, turns into Joy.
 public static const JOY_BREAST_SIZE:int                                             = 2230; //Joy's cock size. 0 means no cock and that means you're a bastard for removing her cock.
 public static const JOY_VAGINAL_WETNESS:int                                         = 2231; //Joy's breast size.
@@ -2674,7 +2674,7 @@ public static const IN_COMBAT_PLAYER_BLOOD_PUPPIES_ATTACKED:int                 
 public static const DISPLACER_BEAST_WINS:int                                   		= 2665;
 public static const HERM_CAVE_WYRM:int                                   			= 2666;
 public static const ATTACKS_ACCURACY_OFF:int                                   		= 2667;
-public static const DISCOVERED_ASHLANDS:int                                   		= 2668; // No longer used
+public static const COMBAT_MAGICAL_CHARM:int                                   		= 2668;
 public static const DISCOVERED_TUNDRA:int                                   		= 2669; // No longer used
 public static const DISCOVERED_HILLS:int                                   			= 2670; // No longer used
 public static const DISCOVERED_LOW_MOUNTAIN:int                                   	= 2671; // No longer used

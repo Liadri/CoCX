@@ -503,7 +503,7 @@ private function apologizetoWalkingTitsIMEANMARBLE():void {
         flags[kFLAGS.MARBLE_WARNING] = 0;
         applyMarblesMilk();
         dynStats("lib", .2, "lus", (5 + player.lib / 10));
-        HPChange(100, false);
+        HPChange(100, false, false);
         fatigue(-50);
         doNext(camp.returnToCampUseOneHour);
     } else doNext(recallWakeUp);
@@ -716,7 +716,7 @@ private function drinkMarbleMilk():void {
 	//(apply Marble's Milk status effect)
 	applyMarblesMilk();
     player.slimeFeed();
-	HPChange(10, false);
+	HPChange(10, false, false);
 	player.refillHunger(20);
 	fatigue(-20);
 	//(increase player lust by a 20 and libido, if player lust is over a threshold like 60, trigger milk sex scene)
@@ -2310,7 +2310,7 @@ private function marbleCampSexNew():void {
         addButton(0, "Feeding (M)", feedingF, true)
             .disableIf(!player.hasCock(), "Req. a cock.")
             .disableIf(!player.hasPerk(PerkLib.MarblesMilk), "You're not addicted to do that!");
-        addButton(0, "Feeding (F)", feedingF, false)
+        addButton(1, "Feeding (F)", feedingF, false)
             .disableIf(!player.hasVagina(), "Req. a vagina.")
             .disableIf(!player.hasPerk(PerkLib.MarblesMilk), "You're not addicted to do that!");
         addButton(2, "Oral (M)", oralF, true)

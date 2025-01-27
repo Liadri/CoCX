@@ -62,7 +62,8 @@ public class LichRace extends Race {
 				.skinBasePattern(Skin.PATTERN_NONE, +1)
 				.corruption(AT_LEAST(100), +2)
 				.hasPerk(PerkLib.Phylactery, +4)
-				.hasPerk(PerkLib.TransformationImmunity2, +3);
+				.hasPerk(PerkLib.TransformationImmunity2, +3)
+				.hasPerk(PerkLib.GOBXChemical, 0, -1000);
 		
 		addMutation(IMutationsLib.BlackBloodIM, +3);
 		addMutation(IMutationsLib.StillHeartIM, +3);
@@ -89,6 +90,18 @@ public class LichRace extends Race {
 					"wis.mult": +2.10,
 					"lib.mult": +7.30,
 					"sens": +250
+				})
+				.end();
+		
+		buildTier(40, "Arch-Lich")
+				.requirePreviousTier()
+				.buffs({
+					"str.mult": +2.50,
+					"spe.mult": -0.90,
+					"int.mult": +8.50,
+					"wis.mult": +2.40,
+					"lib.mult": +8.50,
+					"sens": +300
 				})
 				.end();
 	}

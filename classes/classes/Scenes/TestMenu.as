@@ -42,6 +42,7 @@ import classes.Scenes.Dungeons.Factory.OmnibusOverseer;
 import classes.Scenes.Dungeons.DemonLab.Incels;
 import classes.Scenes.Dungeons.EbonLabyrinth.Draculina;
 import classes.Stats.Buff;
+import classes.Scenes.Places.RuinedTownRebuilt;
 
 import coc.view.ButtonDataList;
 
@@ -170,6 +171,7 @@ public class TestMenu extends BaseContent
 		flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] = 0;
 		flags[kFLAGS.AMILY_FOLLOWER] = 1;
 		flags[kFLAGS.AMILY_WARNING] = 0;
+		RuinedTownRebuilt.RebuildState = 0;
 		flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] = 1;
 		doNext(SoulforceCheats);
 	}
@@ -262,6 +264,8 @@ public class TestMenu extends BaseContent
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll6)) player.removeStatusEffect(StatusEffects.AlterBindScroll6);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll7)) player.removeStatusEffect(StatusEffects.AlterBindScroll7);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll8)) player.removeStatusEffect(StatusEffects.AlterBindScroll8);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll9)) player.removeStatusEffect(StatusEffects.AlterBindScroll9);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll10)) player.removeStatusEffect(StatusEffects.AlterBindScroll10);
 		}
 		doNext(SoulforceCheats);
 	}
@@ -2783,4 +2787,4 @@ public class TestMenu extends BaseContent
 		SceneLib.lily.lilyEncounter();
 	}
 	}
-}
+}

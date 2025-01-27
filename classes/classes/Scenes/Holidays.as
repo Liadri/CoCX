@@ -1008,7 +1008,7 @@ public class Holidays extends BaseContent {
                 }
                 //HP set to full, fatigue to 0?
                 fatigue(-100);
-                HPChange(3000, false);
+                HPChange(3000, false, false);
                 endEncounter(120);
             }
             else recallWakeUp();
@@ -2474,7 +2474,7 @@ public class Holidays extends BaseContent {
                 + "\n\n\"<i>It's Carol.</i>\""
                 + "\n\nAfter a long pause, you pocket the key, square yourself with Carol and North, returning her hand gesture before giving them a goofy grin that positively sparks in the snow-cushioned landscape.  As you turn to depart once more, you wave over your shoulder, escorted out with the continued giggles and lovey-dovey conversation of the unlikely couple."
                 + "\n\nMerry Christmas indeed!");
-            //[if you haven't been introduced to christmas via elf or otherwise]
+            //[if you haven't been introduced to Christmas via elf or otherwise]
             if (flags[kFLAGS.PC_ENCOUNTERED_CHRISTMAS_ELF_BEFORE] == 0) outputText("\n\nYou have no idea what that is.");
             awardAchievement("A Christmas Carol", kACHIEVEMENTS.HOLIDAY_CHRISTMAS_II);
             flags[kFLAGS.GATS_ANGEL_GOOD_ENDED] = 1;
@@ -2486,9 +2486,9 @@ public class Holidays extends BaseContent {
     public function meetJackFrostInTheMountains():void {
         //Takes place when exploring the mountain.
         clearOutput();
-        outputText("As you explore the mountainous heights, you come across something strange - a great spray of cold, wet, soft, creamy substance.  You realise with a start that it's snow!  You haven't even seen rain since you came to this world.  What's more, looking around shows you other strange drifts of snow; it almost looks like a path of some sort.  Curious, you decide to follow them, see if you can track down what's causing it."
+        outputText("As you explore the mountainous heights, you come across something strange - a great spray of cold, wet, soft, creamy substance.  You realize with a start that it's snow!  You haven't even seen rain since you came to this world.  What's more, looking around shows you other strange drifts of snow; it almost looks like a path of some sort.  Curious, you decide to follow them, see if you can track down what's causing it."
             + "\n\nWhile hiking up the mountain you hear a strange masculine voice.  \"<i>Yeah, that should be enough... but this part needs some more!</i>\"  Shortly after you hear the faint, but distinct sound of someone masturbating furiously."
-            + "\n\nCurious, you slink closer; that doesn't sound like any imp you've encountered so far... as you creep through the rocks, the target of your investigation suddenly lets out an ecstatic howl.  A great wooshing, roaring noise fills the air... which is the last thing you notice before something cold, wet and sticking lands on you in a massive flurry, knocking you to the ground and completely burying you."
+            + "\n\nCurious, you slink closer; that doesn't sound like any imp you've encountered so far... as you creep through the rocks, the target of your investigation suddenly lets out an ecstatic howl.  A great whooshing, roaring noise fills the air... which is the last thing you notice before something cold, wet and sticking lands on you in a massive flurry, knocking you to the ground and completely burying you."
             + "\n\nIn a panic, you claw your way free of the stuff - more snow, an absent part of you notices - and you find yourself face to face with the person you were investigating... and who you realize is responsible for your predicament."
             + "\n\nBefore you, hand around his gigantic cock, sits a man... judging by his size, you'd estimate him to be at least 12 feet tall, his surprisingly human-looking prick seems to be at least 4 feet long and 1 foot thick; a heavy pair of massive balls hang low, under his shaft.  He is completely naked, save for a loincloth that looks barely able to conceal his throbbing length, and atop his head you notice a series of icicles that seem to make up his hair, along with a pointy beard also made of ice."
             + "\n\nHe ignores you, too busy stroking himself off to care, when suddenly he lets out another moan and his cock bulges before disgorging another huge flurry of white - you narrowly avoid being struck in the face as it roars past to splatter down the mountain.  It looks like the snow you've been tracking is actually this strange fellow's ejaculate!"
@@ -2543,7 +2543,7 @@ public class Holidays extends BaseContent {
             outputText("You sigh... this really reminds you of back home... you only wish you had someone to share this feeling with... Well, there is no reason you shouldn't enjoy yourself while it snows, so you set about rolling a big ball of snow to make a snowman out of...");
             //Skip to next day...
             flags[kFLAGS.JACK_FROST_PROGRESS] = 0;
-            HPChange(player.maxHP(), false);
+            HPChange(player.maxHP(), false, false);
             fatigue(-100);
             explorer.stopExploring();
             doNext(SceneLib.camp.returnToCampUseEightHours);
@@ -2909,7 +2909,7 @@ public class Holidays extends BaseContent {
                 outputText("You take care of the preparations and cooking, whipping up a delightful meal for you and your companions.  For a moment you look around - this small band you've formed feels enough like a family that you wouldn't mind having more days like this in the future.  You vow to work extra hard to make this a reality."
                     + "\n\nThe feast progresses without a hitch.  You cheer, eat and drink together (though you really don't have any appropriate alcohol for the evening).  As the feast progresses, you notice more than one pair of hungry eyes sizing you up... it seems your day is far from over...");
             }
-            HPChange(player.maxHP(), false);
+            HPChange(player.maxHP(), false, false);
             fatigue(-100);
             flags[kFLAGS.JACK_FROST_PROGRESS] = 0;
             explorer.stopExploring();

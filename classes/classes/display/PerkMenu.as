@@ -4,6 +4,7 @@
 package classes.display {
 import classes.BaseContent;
 import classes.BodyParts.Face;
+import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.CoC;
 import classes.GlobalFlags.kFLAGS;
@@ -151,9 +152,11 @@ public class PerkMenu extends BaseContent {
 		clearOutput();
 		menu();
 		var autoFlyingFlag:int = flags[kFLAGS.AUTO_FLIGHT];
+		var autoGallopingFlag:int = flags[kFLAGS.AUTO_GALLOP];
         var setflag:Function = curry(setFlag,MiscOption);
 		var toggleFlagMisc:Function = curry(toggleFlag,MiscOption);
 		var autoFlyingType:Function = curry(setflag,kFLAGS.AUTO_FLIGHT);
+		var toggleGallopingType:Function = curry(setflag,kFLAGS.AUTO_GALLOP);
         if (player.hasPerk(PerkLib.LiftOff)) {
 			outputText("You can choose to start flying or not at the start of each combat.\n");
 			outputText("Start: <b>");
@@ -166,10 +169,10 @@ public class PerkMenu extends BaseContent {
 			}
 			outputText("</b>");
 			if (autoFlyingFlag != 0) addButton(0, "On Ground", autoFlyingType,0);
-			if (player.canFly() && autoFlyingFlag != 1) addButton(1, "By Wings", autoFlyingType,1);
-			if (player.hasPerk(PerkLib.FlyingSwordPath) && autoFlyingFlag != 2) addButton(2, "By FlyingSw", autoFlyingType,2);
-			if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor) && autoFlyingFlag != 3) addButton(3, "By SF", autoFlyingType,3);
-			if (player.statStore.hasBuff("FoxflamePelt") && player.tailCount >= 9 && autoFlyingFlag != 4) addButton(4, "By FFP", autoFlyingType,4);
+			if (player.canFly() && autoFlyingFlag != 1 && autoGallopingFlag == 0) addButton(1, "By Wings", autoFlyingType,1);
+			if (player.hasPerk(PerkLib.FlyingSwordPath) && autoFlyingFlag != 2 && autoGallopingFlag == 0) addButton(2, "By FlyingSw", autoFlyingType,2);
+			if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor) && autoFlyingFlag != 3 && autoGallopingFlag == 0) addButton(3, "By SF", autoFlyingType,3);
+			if (player.statStore.hasBuff("FoxflamePelt") && player.tailCount >= 9 && autoFlyingFlag != 4 && autoGallopingFlag == 0) addButton(4, "By FFP", autoFlyingType,4);
 		}
 		if (player.hasCombatAura()) {
 			outputText("\n\nYou can suppress your auras. This way, they won't damage/arouse enemies.");
@@ -189,19 +192,31 @@ public class PerkMenu extends BaseContent {
 					flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] == 1 ? "Disabled (0)" : "CHEAT (100)") + "</b>");
 			addButton(7, "CorTolerance", toggleCorruptionTolerance);
 		}
-		// tease healing
-		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {
-			outputText("\n\nCombat Tease can cause lust reduction: " + (
-					flags[kFLAGS.COMBAT_TEASE_HEALING] == 0 ? "Enabled" : "Disabled"
-			));
-			addButton(10, "C. Tease Heal", curry(toggleFlagMisc, kFLAGS.COMBAT_TEASE_HEALING));
+		if (player.hasPerk(PerkLib.SuddenRun) && player.lowerBody == LowerBody.HOOFED) {
+			outputText("You can choose to start galloping or not at the start of each combat.\n");
+			outputText("\nStart: <b>" + (flags[kFLAGS.AUTO_GALLOP] == 0 ? "Standing still" : "Galloping") + "</b>");
+			if (autoFlyingFlag == 0) addButton(9, "Gallop", curry(toggleFlagMisc, kFLAGS.AUTO_GALLOP));
 		}
 		// your pain, my power wrath generation
 		if (player.hasPerk(PerkLib.YourPainMyPower)) {
 			outputText("\n\nYou can choose whether wrath is generated while healing from blood: " + (
 				flags[kFLAGS.YPMP_WRATH_GEN] == 0 ? "Enabled" : "Disabled"
 			));
-			addButton(11, "YPMP Wrath", curry(toggleFlagMisc, kFLAGS.YPMP_WRATH_GEN));
+			addButton(10, "YPMP Wrath", curry(toggleFlagMisc, kFLAGS.YPMP_WRATH_GEN));
+		}
+		// tease healing
+		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {
+			outputText("\n\nCombat Tease can cause lust reduction: " + (
+					flags[kFLAGS.COMBAT_TEASE_HEALING] == 0 ? "Enabled" : "Disabled"
+			));
+			addButton(11, "C. Tease Heal", curry(toggleFlagMisc, kFLAGS.COMBAT_TEASE_HEALING));
+		}
+		// magica charm
+		if (player.hasPerk(PerkLib.MagicalCharm)) {
+			outputText("\n\nTease gain an intelligence scaling so long as you keep spending mana: " + (
+				flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0 ? "Enabled" : "Disabled"
+			));
+			addButton(12, "Magical Charm", curry(toggleFlagMisc, kFLAGS.COMBAT_MAGICAL_CHARM));
 		}
 		addButton(14, "Back", displayPerks);
 	}
@@ -228,9 +243,9 @@ public class PerkMenu extends BaseContent {
 			outputText("\n<b>You can adjust your Will-o'-the-wisp behaviour during combat.</b>");
 			bd.add("Will-o'-the-wisp", wotwBehaviourOptions);
 		}
-		if (player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) {
-			outputText("\n<b>You can adjust the behaviour of your mummies during combat.</b>");
-			bd.add("Mummies", mummyBehaviourOptions);
+		if ((player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) || (player.hasPerk(PerkLib.UndeadLord) && player.perkv1(PerkLib.UndeadLord) > 0)) {
+			outputText("\n<b>You can adjust the behaviour of your mummies/zombies during combat.</b>");
+			bd.add("Mummies/Zombies", mummyBehaviourOptions);
 		}
 
 
@@ -907,10 +922,10 @@ public class PerkMenu extends BaseContent {
 	public function mummyBehaviourOptions():void {
 		clearOutput();
 		menu();
-		outputText("You can choose how your mummies will behave during each fight.\n\n");
-		outputText("\n<b>Mummy behaviour:</b>\n");
-		if (flags[kFLAGS.MUMMY_ATTACK] == 0) outputText("Your mummies will not attack.");
-		if (flags[kFLAGS.MUMMY_ATTACK] == 1) outputText("Your mummies will attack at the beginning of each turn.");
+		outputText("You can choose how your mummies/zombies will behave during each fight.\n\n");
+		outputText("\n<b>Mummy/Zombie behaviour:</b>\n");
+		if (flags[kFLAGS.MUMMY_ATTACK] == 0) outputText("Your mummies/zombies will not attack.");
+		if (flags[kFLAGS.MUMMY_ATTACK] == 1) outputText("Your mummies/zombies will attack at the beginning of each turn.");
 		addButton(10, "Disable", toggleFlag, mummyBehaviourOptions, kFLAGS.MUMMY_ATTACK)
 			.disableIf(flags[kFLAGS.MUMMY_ATTACK] == 0);
 		addButton(11, "Enable", toggleFlag, mummyBehaviourOptions, kFLAGS.MUMMY_ATTACK)
