@@ -64,7 +64,8 @@ public class AnubisRace extends Race {
 				.cockOrVaginaOfType(CockTypesEnum.DOG,VaginaClass.HUMAN, +1)
 				.skinColor1(ANY(AnubisSkinColors), +1)
 				.corruption(AT_LEAST(50), +1)
-				.hasPerk(PerkLib.MummyLord, +1);
+				.hasPerk(PerkLib.MummyLord, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.CaninesDescendant, PerkLib.BloodlineCanine);
 		addMutation(IMutationsLib.AnubiHeartIM);

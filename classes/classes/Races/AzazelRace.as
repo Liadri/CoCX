@@ -67,7 +67,8 @@ public class AzazelRace extends Race {
 				.height(LESS_THAN(48), +1)
 				.corruption(0, +3)
 				.hasPerk(PerkLib.InnerPhylactery, +5)
-				.hasPerk(PerkLib.TransformationImmunity2, +3);
+				.hasPerk(PerkLib.TransformationImmunity2, +3)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 
 		addMutation(IMutationsLib.DiamondHeartIM);
 		

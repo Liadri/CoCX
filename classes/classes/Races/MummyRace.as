@@ -62,7 +62,7 @@ public class MummyRace extends Race {
 				.noRearBody(+1)
 				.skinBasePattern(Skin.PATTERN_NONE, +1)
 				.hasPerk(PerkLib.Undeath, +2)
-				.hasPerk(PerkLib.GOBXChemical, 0, -1000);
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.BlackBloodIM);
 		addMutation(IMutationsLib.StillHeartIM);

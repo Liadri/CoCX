@@ -72,7 +72,7 @@ public class AbyssalSharkRace extends Race {
 							return body.biggestTitSize > 18 || body.biggestCockSize > 17
 						}, +1)
 				.hasPerk(PerkLib.DantianPhylactery, +1, -10)
-				.hasPerk(PerkLib.GOBXChemical, 0, -1000);//23+1
+				.hasPerk(PerkLib.GOBXChemical, -1000);//23+1
 		
 		addMutation(IMutationsLib.SharkOlfactorySystemIM);
 		

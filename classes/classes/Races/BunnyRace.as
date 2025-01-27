@@ -61,7 +61,8 @@ public class BunnyRace extends Race {
 				.customRequirement("","No easter bunny balls",
 						function (body:BodyData): Boolean {
 							return !body.player.hasPerk(PerkLib.EasterBunnyBalls)
-						}, 0, -10);
+						}, 0, -10)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.BunnysDescendant, PerkLib.BloodlineBunny);
 		addMutation(IMutationsLib.MightyLegsIM);

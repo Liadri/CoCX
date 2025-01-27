@@ -41,7 +41,7 @@ public class BansheeRace extends Race {
 	public override function setup():void {
 		addScores()
 				.hairType(Hair.GHOST, +1)
-				.hasPerk(PerkLib.GOBXChemical, 0, -1000);
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(1000, "tierName")
 				.buffs({

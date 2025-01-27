@@ -69,7 +69,8 @@ public class ApophisRace extends Race {
 									|| HydraRace.isHydraLike(body)
 									|| VouivreRace.isVouivreLike(body));
 						}, 0, -1000)
-				.hasPerk(PerkLib.Venomancy, +1);
+				.hasPerk(PerkLib.Venomancy, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.VenomGlandsIM);
 		addMutation(IMutationsLib.MightyLowerHalfIM);

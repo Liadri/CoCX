@@ -63,7 +63,7 @@ public class LichRace extends Race {
 				.corruption(AT_LEAST(100), +2)
 				.hasPerk(PerkLib.Phylactery, +4)
 				.hasPerk(PerkLib.TransformationImmunity2, +3)
-				.hasPerk(PerkLib.GOBXChemical, 0, -1000);
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.BlackBloodIM, +3);
 		addMutation(IMutationsLib.StillHeartIM, +3);

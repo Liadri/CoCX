@@ -62,7 +62,8 @@ public class AtlachNachaRace extends Race{
 				.corruption(AT_LEAST(50), +1)
 				.hasPerk(PerkLib.Insanity, +1)
 				.hasPerk(PerkLib.SpiderOvipositor, +1)
-				.hasPerk(PerkLib.TransformationImmunity2, +3);
+				.hasPerk(PerkLib.TransformationImmunity2, +3)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.ArachnidBookLungIM)
 		addMutation(IMutationsLib.TrachealSystemIM);

@@ -71,7 +71,7 @@ public class CerberusRace extends Race {
 				.corruption(AT_LEAST(50), +1)
 				.hasPerk(PerkLib.Hellfire, +1)
 				.hasPerk(PerkLib.TransformationImmunity2, +3)
-				.hasPerk(PerkLib.GOBXChemical, 0, -1000);
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 
 		addMutation(IMutationsLib.AlphaHowlIM);
 		addMutation(IMutationsLib.HellhoundFireBallsIM);
