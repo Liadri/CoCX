@@ -5,11 +5,11 @@
     <property name="FLEX_HOME" location="${env.FLEX_HOME}"/>
 
     <property name="main.src.dir" value="${basedir}/classes"/>
-    <property name="test.src.dir" value="${basedir}/test"/>
+<!--    <property name="test.src.dir" value="${basedir}/test"/>-->
     <property name="lib.dir" value="${basedir}/lib/bin"/>
     <property name="build.dir" value="${basedir}/target"/>
-    <property name="report.dir" value="${build.dir}/report"/>
-    <property name="test.file" value="${build.dir}/CoC-test.swf"/>
+<!--    <property name="report.dir" value="${build.dir}/report"/>-->
+<!--    <property name="test.file" value="${build.dir}/CoC-test.swf"/>-->
 
     <!-- Setup Flex and FlexUnit ant tasks -->
     <!-- You can set this directly so mxmlc will work correctly, or set FLEX_HOME as an environment variable and use as below -->
@@ -19,7 +19,7 @@
     <target name="init">
         <delete dir="${build.dir}"/>
         <mkdir dir="${build.dir}"/>
-        <mkdir dir="${report.dir}"/>
+<!--        <mkdir dir="${report.dir}"/>-->
     </target>
 
     <macrodef name="build-game-binary">
@@ -44,7 +44,7 @@
                 <define name="CONFIG::debug" value="@{debug-flag}"/>
                 <define name="CONFIG::AIR" value="@{air-flag}"/>
                 <define name="CONFIG::STANDALONE" value="@{standalone-flag}"/>
-                <swf-version>41</swf-version>
+                <swf-version>44</swf-version>
                 <use-network>false</use-network>
             </mxmlc>
         </sequential>
@@ -79,6 +79,7 @@
             <createAirApk platform="@{platform}" architecture="armv8" swf-name-postfix="Release" special-postfix="Release-64bit"/>
         </sequential>
     </macrodef>
+
     <macrodef name="airApkDebug">
         <attribute name="platform"/>
         <sequential>
@@ -111,11 +112,11 @@
 
     <echo>building standalone swfs</echo>
     <target name="release" depends="init" description="Build with release flags">
-        <build-game-binary debug-flag="false" release-flag="true" air-flag="false" standalone-flag="true" should-optimize="true" binary-name="CoC-release.swf"/>
+        <build-game-binary debug-flag="false" release-flag="true" air-flag="true" standalone-flag="true" should-optimize="true" binary-name="CoC-release.swf"/>
     </target>
 
     <target name="debug" depends="init" description="Build with debug flags">
-        <build-game-binary debug-flag="true" release-flag="false" air-flag="false" standalone-flag="true" should-optimize="false" binary-name="CoC-debug.swf"/>
+        <build-game-binary debug-flag="true" release-flag="false" air-flag="true" standalone-flag="true" should-optimize="true" binary-name="CoC-debug.swf"/>
     </target>
 
     <echo> building mobile/air swfs</echo>
