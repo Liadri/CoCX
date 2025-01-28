@@ -3239,6 +3239,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 			}
 			else player.createStatusEffect(StatusEffects.StoredMomentum, 0.25, limit, 0, 0);
 		}
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		combat.WrathGenerationPerHit2(5);
 		combat.heroBaneProc(damage);
 		combat.EruptingRiposte();
@@ -3311,6 +3315,19 @@ public class PhysicalSpecials extends BaseCombatContent {
 		if (monster.lustVuln > 0 && !player.enemiesImmuneToLustResistanceDebuff()) {
 			monster.lustVuln += 0.05;
 			if (monster.lustVuln > monster.lustVulnCap()) monster.lustVuln = monster.lustVulnCap();
+		}
+		if (player.hasPerk(PerkLib.StoredMomentum)) {
+			var limit:Number = 5;
+			if (player.hasPerk(PerkLib.StoredMomentum)) limit += 5;
+			if (player.hasStatusEffect(StatusEffects.StoredMomentum)) {
+				if (player.statusEffectv2(StatusEffects.StoredMomentum) < limit) player.addStatusValue(StatusEffects.StoredMomentum, 2, 1);
+				player.addStatusValue(StatusEffects.StoredMomentum, 1, 0.25);
+			}
+			else player.createStatusEffect(StatusEffects.StoredMomentum, 0.25, limit, 0, 0);
+		}
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
 		}
 		combat.bonusExpAfterSuccesfullTease();
 		enemyAI();
@@ -6836,6 +6853,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		enemyAI();
 	}
 /*
@@ -6865,6 +6886,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		enemyAI();
 	}
 */
@@ -6904,6 +6929,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 			monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
 		}
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);
@@ -6947,6 +6976,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);
@@ -6981,6 +7014,19 @@ public class PhysicalSpecials extends BaseCombatContent {
 		heal = Math.round(heal);
 		player.createStatusEffect(StatusEffects.GoblinMechStimpack, 10, heal, 0, 0);
 		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		if (player.hasPerk(PerkLib.StoredMomentum)) {
+			var limit:Number = 5;
+			if (player.hasPerk(PerkLib.StoredMomentum)) limit += 5;
+			if (player.hasStatusEffect(StatusEffects.StoredMomentum)) {
+				if (player.statusEffectv2(StatusEffects.StoredMomentum) < limit) player.addStatusValue(StatusEffects.StoredMomentum, 2, 1);
+				player.addStatusValue(StatusEffects.StoredMomentum, 1, 0.25);
+			}
+			else player.createStatusEffect(StatusEffects.StoredMomentum, 0.25, limit, 0, 0);
+		}
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		enemyAI();
 	}
 
@@ -7015,6 +7061,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);
@@ -7065,6 +7115,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);
@@ -7099,6 +7153,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);
@@ -7149,6 +7207,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);
@@ -7204,6 +7266,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		combat.heroBaneProc(damage);
 		statScreenRefresh();
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
 		if (!mechAI) enemyAI();
 		else {
 			if (monster.HP <= monster.minHP()) doNext(endHpVictory);

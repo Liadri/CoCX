@@ -50,7 +50,8 @@ public class DogRace extends Race {
 				.customRequirement("","not Cerberus",
 						function (body:BodyData):Boolean {
 							return !(CerberusRace.isCerberus(body));
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.CaninesDescendant, PerkLib.BloodlineCanine);
 		

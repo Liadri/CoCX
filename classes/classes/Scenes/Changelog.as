@@ -166,13 +166,19 @@ public class Changelog extends BaseContent
 			outputText("-New tier 4 misc lvl-up perk: All-Rounder Training ( Basic ). Req. Job: All-Rounder perk. Effect: Limit of train caps for stats is increased by 5.\n");
 			outputText("-New tier 5 wisdom lvl-up perk: Efficient Usage of Soulforce. Req. Conduction Soulforce Charge perk and 150+ wisdom. Effect: You learned how to more efficient use soulforce powering your Ayo Armor to further fortify your basic physical and magic resitances. (+core tou % up to 300%)\n");
 			outputText("-New tier 5 sensitivity lvl-up perk: Advanced Kineses. Req. Wide Area Kineses perk and 125+ sensitivity. Effect: All of your kinesis type specials damage have improved scaling from sensitivity, wisdom and intelligence.\n");
+			outputText("-New tier 5 misc lvl-up perk: All-Rounder Mental Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for int/wis/lib stats is increased by 10.\n");
+			outputText("-New tier 5 misc lvl-up perk: All-Rounder Physical Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for str/tou/spe stats is increased by 10.\n");
+			outputText("-New tier 5 speed lvl-up perk: Lewd Poisoning. Req. Wound Poison. Effect: Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.\n");
 			outputText("-New tier 6 sensitivity lvl-up perk: Quasi Domain Kineses. Req. Advanced Kineses perk and 150+ sensitivity. Effect: All of your kinesis type specials would deal higher damage against single and group enemies. The larger group the higher bonus damage. (2x/10x/50x)\n");
 			outputText("-New tier 6 misc lvl-up perk: All-Rounder Training ( Intermediate ). Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
 			outputText("-New tier 7 intelligence lvl-up perk: Vampiric Magic. Req. Grand Archmage (3rd Circle) perk and 200+ int. Effect: Nospheratu cooldown is reduced by 1 round and blood magic spells are 50% stronger.\n");
 			outputText("-New tier 8 misc lvl-up perk: All-Rounder Training ( Advanced ). Req. All-Rounder Training ( Intermediate ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
 			outputText("-New tier 9 misc lvl-up perk: Utility Skills: Professional. Req. Utility Skills: Skilled & any non combat skill at lvl 10. Effect: Increasing mastery gains in non-combat skills by 400% of base and decreasing a bit req. exp to level up.\n");
 			outputText("-New tier 9 misc lvl-up perk: All-Rounder Education ( Grand Master ). Req. All-Rounder Education ( Master ) perk. Effect: Limit of advanced job you can learn is increased by 3.\n");
+			outputText("-New tier 10 misc lvl-up perk: All-Rounder Training ( Expert ). Req. All-Rounder Training ( Advanced ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
 			outputText("-New tier 12 misc lvl-up perk: Utility Skills: Artisan. Req. Utility Skills: Professional & any non combat skill at lvl 13. Effect: Increasing mastery gains in non-combat skills by 500% of base and decreasing a bit req. exp to level up.\n");
+			outputText("-New tier 13 misc lvl-up perk: All-Rounder Training ( Master ). Req. All-Rounder Training ( Expert ) perk and 5+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
+			outputText("-New tier 16 misc lvl-up perk: All-Rounder Training ( Grand Master ). Req. All-Rounder Training ( Master ) perk and 7+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
 			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
 			outputText("-Areas and Places with enemies to fight have their general levels and stats increased. Areas/Places adjusted (new lvl range of enemies): Lake (3-10), Boat (15-29), Forest (O)(8-16), Forest (I)(19-27), Deepwoods (32-52), Desert (O)(13-20), Desert (I)(25-39), Battlefield (B)(18-41), Battlefield (O)(36-65), Hills (23-30), Low Mountains (35-49), Mountains (54-74), High Mountains (79-104), ");
 			outputText("Plains (28-37), Swamp (33-43), Bog (48-64)\n");
@@ -241,11 +247,6 @@ public class Changelog extends BaseContent
 			outputText("-More fixes for displaying balls correctly on charview (mostly for shark-taur). (Stadler)\n");
 			outputText("-Tigershark TF didn't check properly, if the tiger shark stripes skin TF is already present, so it repeated, wasting tigershark tooths. (Stadler)\n");
 			outputText("-Restrained Black/White/Grey Tome initial spellpower is 400% and initial cooldown is -4 turns. It mean also that their effect would be presesnt until lvl 24 not 18.\n");
-			outputText("-New tier 5 misc lvl-up perk: All-Rounder Mental Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for int/wis/lib stats is increased by 10.\n");
-			outputText("-New tier 5 misc lvl-up perk: All-Rounder Physical Training. Req. All-Rounder Training ( Basic ) perk. Effect: Limit of train caps for str/tou/spe stats is increased by 10.\n");
-			outputText("-New tier 10 misc lvl-up perk: All-Rounder Training ( Expert ). Req. All-Rounder Training ( Advanced ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
-			outputText("-New tier 13 misc lvl-up perk: All-Rounder Training ( Master ). Req. All-Rounder Training ( Expert ) perk and 5+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
-			outputText("-New tier 16 misc lvl-up perk: All-Rounder Training ( Grand Master ). Req. All-Rounder Training ( Master ) perk and 7+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
 			outputText("-New tier 19 misc lvl-up perk: All-Rounder Training ( Semi-Epic ). Req. All-Rounder Training ( Grand Master ) perk and 10+ advanced jobs. Effect: Limit of train caps for stats is increased by 15.\n");
 			outputText("-New tier 22 misc lvl-up perk: All-Rounder Training ( Epic ). Req. All-Rounder Training ( Semi-Epic ) perk and 13+ advanced jobs. Effect: Limit of train caps for stats is increased by 15.\n");
 			outputText("-New tier 17 misc lvl-up perk: Limit Breaker: Body (3rd stage). Req. Limit Breaker: Soul (2nd stage) perk. Effect: +15% max HP and Wrath.\n");
@@ -277,7 +278,6 @@ public class Changelog extends BaseContent
 			outputText("-New tier 14 libido lvl-up perk: Spellsong. Req. Seducer Resilience perk. Effect: You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)\n");
 			outputText("-New event perk: Challenging shout (Mastered). Gained by use of the Pocket Watch when req. are meet. Effects: You can now use the ability Warrior Shout! Can be used at any turn but amount of gained wrath would depend how long it was used since last time during combat. ");
 			outputText("(4% per turn up to 60% after 15 turns - first use in combat giving 60%) Also allow to automaticaly use weakened version at the combat round end if wrath is below 750.\n");
-			outputText("-New tier 5 speed lvl-up perk: Lewd Poisoning. Req. Wound Poison. Effect: Attacks that are imbued with poison dealing lust damage now inflicts half of your tease damage.\n");
 			outputText("-In character creation if Herm option is unlocked can choose now between: Man, Woman, Herm (without balls), Herm (with balls)\n");
 			outputText("-New tier 0 misc lvl-up perk: Stored Momentum. Req. Job: Tinker perk, 15+ wisdom and 15+ intelligence. Effect: After using a gadget you store the latent kinetic energy increasing your speed and strength by 25% for 5 rounds. This effect stacks upon itself.\n");
 			outputText("-New tier 1 misc lvl-up perk: Master Gadgeteer. Req. Stored Momentum perk, 30+ wisdom and 30+ intelligence. Effect: Gadgets now gain an added intelligence scaling.\n");
@@ -287,8 +287,8 @@ public class Changelog extends BaseContent
 			outputText("-New tier 0 misc lvl-up perk: Deconstruct. Req. Job: Tinker perk, 15+ wisdom and 15+ intelligence. Effect: You are an expert at building and dismantling things. This also applies to golems and other constructed creatures made of materials. Your attacks ignore construct armors and deal 50% more damage to them. When harvesting construct you scavenge more materials.\n");
 			outputText("-New key Item (by Liadri): GOBX Chemical - req. Potent Drug injectors and Goblinoid Race - Raises your libido by 100%, sensitivity by 15% and Intelligence by 100% but locks your race permanently to goblinoid. (set all other races to 0 and triple racial bonus for goblins or gremlins).\n");
 			outputText("-New event perk: GOBX Chemical. Gained by use of GOBX Chemical key item. Effects: Raises your libido, sensitivity and Intelligence but locks your race permanently to goblinoid.\n");
+			outputText("-New tier 1 misc lvl-up perk: Greased lightning. Req. Job: Tinker perk, 30+ wisdom and 30+ intelligence. Effect: After activating a gadget or mechanical ability overcharge yourself with electric current. The next set of attacks deals extra electricity damage equal to the damage dealt, expending the charge. Multiple charges can be stacked which increase the damage multiplier.\n");
 			outputText("-\n");
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

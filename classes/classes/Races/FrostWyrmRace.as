@@ -52,7 +52,8 @@ public class FrostWyrmRace extends Race {
 				.legType(LowerBody.FROSTWYRM, +3, -3)
 				.rearType(RearBody.FROSTWYRM, +1)
 				.skinCoatType(Skin.DRAGON_SCALES, +1)
-				.hornType(Horns.FROSTWYRM, +2, -1);
+				.hornType(Horns.FROSTWYRM, +2, -1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(5)
 				.noWings(+4)
 				.hornType(NONE(Horns.DRACONIC_X4_12_INCH_LONG, Horns.DRACONIC_X2), 0, -2)

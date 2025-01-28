@@ -60,7 +60,8 @@ public class EasterBunnyRace extends Race {
 						function (body:BodyData): Boolean {
 							return !body.player.vaginaType() != VaginaClass.EQUINE
 						}, 0, -10)
-				.hasPerk(PerkLib.EasterBunnyBalls, +1);
+				.hasPerk(PerkLib.EasterBunnyBalls, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.EasterBunnyEggBagIM);
 		addMutation(IMutationsLib.MightyLegsIM);

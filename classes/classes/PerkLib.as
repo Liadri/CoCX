@@ -760,6 +760,9 @@ public class PerkLib
 		public static const Deconstruct:PerkType = mk("Deconstruct", "Deconstruct",
 				"You are an expert at building and dismantling things. This also applies to golems and other constructed creatures made of materials. Your attacks ignore construct armors and deal 50% more damage to them. When harvesting construct you scavenge more materials.",
 				"You've chosen the 'Deconstruct' perk. You are an expert at building and dismantling things. This also applies to golems and other constructed creatures made of materials. Your attacks ignore construct armors and deal 50% more damage to them. When harvesting construct you scavenge more materials.");
+		public static const GreasedLightning:PerkType = mk("Greased lightning", "Greased lightning",
+				"After activating a gadget or mechanical ability overcharge yourself with electric current. The next set of attacks deals extra electricity damage equal to the damage dealt, expending the charge. Multiple charges can be stacked which increase the damage multiplier.",
+				"You've chosen the 'Greased lightning' perk. After activating a gadget or mechanical ability overcharge yourself with electric current. The next set of attacks deals extra electricity damage equal to the damage dealt, expending the charge. Multiple charges can be stacked which increase the damage multiplier.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -773,6 +776,15 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -8000,6 +8012,10 @@ public class PerkLib
 					.requireStr(30)
 					.requireTou(30)
 					.requireSpe(30);
+            GreasedLightning.requireLevel(6)
+                    .requirePerk(JobTinker)
+                    .requireInt(30)
+					.requireWis(30);
             MasterGadgeteer.requireLevel(6)
                     .requirePerk(StoredMomentum)
                     .requireInt(30)

@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
+import classes.PerkLib;
 import classes.Race;
 
 public class FoxRace extends Race {
@@ -69,7 +70,8 @@ public class FoxRace extends Race {
 				.breastRowCount(GREATER_THAN(1), +1)
 				.breastRowCount(3, +1)
 				.breastRowCount(4, +2)
-				.skinCoatType(Skin.FUR, +1);
+				.skinCoatType(Skin.FUR, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(9, "fox-morph")
 				.namesTauric("fox-morph", "fox-taur")

@@ -1059,6 +1059,7 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const GooArmorSilence:StatusEffectType           = mkCombat("GooArmorSilence");
 		public static const GooBind:StatusEffectType                   = mkCombat("GooBind");
 		public static const GoreBleed:StatusEffectType                 = mkCombat("Gore Bleed");
+		public static const GreasedLightning:StatusEffectType          = mkCombat("Greased lightning");
 		public static const GreenCovenant:StatusEffectType       	   = mkCombat("Green Covenant");
 		public static const HarpyBind:StatusEffectType                 = mkCombat("HarpyBind");
 		public static const HeavenTribulationCR:StatusEffectType   	   = mkCombat("Heaven Tribulation Combat Rounds");
