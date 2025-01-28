@@ -384,6 +384,8 @@ import classes.Scenes.SceneLib;
 
 			if (y < 0) y = player.smallestCockIndex();
 
+			y++; // It's used only for parser, and it uses pascal enumeration (i.e. starts from 1)
+
 			outputText("Dropping down, you");
 			if (hpVictory)
 			{
@@ -448,7 +450,7 @@ import classes.Scenes.SceneLib;
 			else outputText(" head");
 			outputText(" and sidles forward, ramming her glans into your mouth and down the back of your throat.  You can feel her glans pulsing deep inside you, and as soon as the herm starts moaning, the centaur starts trotting forward again.  Amazingly, having her holding you up makes it easy to maintain your position and keep your dick bouncing in that hot twat. Fuck it! You're too horny to care anymore.");
 
-			outputText("\n\nSlurping hard, you lick and suck the dick in your throat, so busy tending to the omnibus that you barely the notice the throbbing ache in your loins.  You cast lusty, inviting eyes around at every feminine form you see during journey to the stables, located in some backwater, seemingly forgotten part of the fortress.  You quiver with need and explode in passion, moaning into the Omnibus's cock as your " + cockDescript(y) + " spends its lust into the oozing horse-pussy, wasting your champion-seed to father nothing more than a batch of shiftless imps.");
+			outputText("\n\nSlurping hard, you lick and suck the dick in your throat, so busy tending to the omnibus that you barely the notice the throbbing ache in your loins.  You cast lusty, inviting eyes around at every feminine form you see during journey to the stables, located in some backwater, seemingly forgotten part of the fortress.  You quiver with need and explode in passion, moaning into the Omnibus's cock as your [cock " + y + "] spends its lust into the oozing horse-pussy, wasting your champion-seed to father nothing more than a batch of shiftless imps.");
 
 			outputText("\n\nThe vibrations of your moans of pleasure set the omnibus alight with delight, and her dick surges deeper down your throat, releasing a thick batch of creamy seed to fill your belly.  Shuddering in bliss, you swallow and cum over and over, spunking up the equine cunt happily while swallowing an equal measure orally.  Locked in cunt and on cock and finally allowed orgasm after an endlessly long tease, you feel as if you're atop an orgasmic wave, riding the spooge all the way into shore.  The hot vice around your dick quivers and squirts thanks to your donation.");
 
