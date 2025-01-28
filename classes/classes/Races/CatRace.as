@@ -88,7 +88,8 @@ public class CatRace extends Race {
 									!isSphinxSubrace(body);
 						}, 0, -1000
 				)
-				.hasPerk(PerkLib.Flexibility, +1);
+				.hasPerk(PerkLib.Flexibility, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.FelinesDescendant, PerkLib.BloodlineFeline);
 		addMutation(IMutationsLib.CatLikeNimblenessIM);

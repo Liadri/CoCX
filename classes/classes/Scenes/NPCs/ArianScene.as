@@ -2828,6 +2828,7 @@ private function giveArianAnItem():void {
 //Remove this option once Arian's health hits 100.
 private function arianVitalityTincture():void {
 	clearOutput();
+	arianHealth(4);
 	outputText("Fishing around amongst your pockets, you withdraw a vial of that strange potion Giacomo peddles and offer it to the sickly lizan, explaining it will bolster [arian eir] constitution and fill [arian em] with permanent vitality.");
 
 	outputText("\n\nArian smiles gratefully at you.  \"<i>Thanks for doing this for me, [name].</i>\"");
@@ -2843,7 +2844,7 @@ private function arianVitalityTincture():void {
 	outputText("\n\nYou apologize, but, hey, medicine just tends to taste nasty anyway.  Still, it's doing [arian em] the world of good, now isn't it?");
 
 	outputText("\n\n\"<i>I guess I do feel better.  Thank you [name].</i>\" Arian smiles at you, already looking a bit better.");
-    if (arianHealth(10) == 100)
+    if (arianHealth() == 100)
         outputText(" \"<i>In fact... I don't think I need those potions anymore. I'll probably keep a couple of them just in case, but since I don't use my magic too often these days, I'm completely fine.</i>\"");
 
 	outputText("\n\nYou smile and stroke the lizan gently on [arian eir] head, telling [arian em] that [arian ey]'s welcome.  Now, you think it's time [arian ey] laid [arian em]self back down and got some rest; give the medicine time to work.  You promise you'll try and come back to see [arian em] later, but right now, [arian ey] needs to get some more rest.  Arian nods and settles [arian em]self on [arian eir] bed.");

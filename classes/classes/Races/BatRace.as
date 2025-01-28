@@ -44,7 +44,8 @@ public class BatRace extends Race {
 				.eyeType(Eyes.VAMPIRE, +1)
 				.rearType(RearBody.BAT_COLLAR, +1)
 				.armType(Arms.HUMAN, +1)
-				.legType(LowerBody.HUMAN, +1);
+				.legType(LowerBody.HUMAN, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.BatsDescendant, PerkLib.BloodlineBat);
 		

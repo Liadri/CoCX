@@ -48,7 +48,8 @@ public class CyclopRace extends Race {
 				.customRequirement("","not a gazer",
 						function(body:BodyData):Boolean {
 							return !(body.rearType == RearBody.TENTACLE_EYESTALKS && body.player.statusEffectv1(StatusEffects.GazerEyeStalksPlayer) >= 2);
-						}, 0, -10);
+						}, 0, -10)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(
 				RaceUtils.checkSlotFn(BodyData.SLOT_EYE_TYPE, Eyes.MONOEYE),
 				"monoeye;")

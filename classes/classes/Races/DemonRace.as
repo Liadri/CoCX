@@ -72,7 +72,8 @@ public class DemonRace extends Race {
 				.corruption(AT_LEAST(75), +1)
 				.corruption(AT_LEAST(100), +1)
 				.hasPerk(PerkLib.DemonicLethicite, +1)
-				.hasPerk(PerkLib.Soulless, +4);
+				.hasPerk(PerkLib.Soulless, +4)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.DemonsDescendant, PerkLib.BloodlineDemon);
 		addMutation(IMutationsLib.BlackHeartIM);

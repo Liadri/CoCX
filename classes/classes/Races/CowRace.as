@@ -43,7 +43,8 @@ public class CowRace extends Race {
 				.customRequirement("","milk production > 500",
 						function (body:BodyData):Boolean {
 							return body.player.lactationQ() > 500
-						}, +1);
+						}, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(3)
 				.customRequirement("","milk production > 1000",
 						function (body:BodyData):Boolean {

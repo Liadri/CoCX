@@ -58,7 +58,8 @@ public class CentaurRace extends Race {
 						function (body:BodyData):Boolean {
 							return body.hasVagina && body.biggestTitSize >= 3 || body.biggestCockSize > 14
 						}, +1)
-				.cockOrVaginaOfType(CockTypesEnum.HORSE, VaginaClass.EQUINE, +1);
+				.cockOrVaginaOfType(CockTypesEnum.HORSE, VaginaClass.EQUINE, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.TwinHeartIM, +2);
 		addMutation(IMutationsLib.EquineMuscleIM);

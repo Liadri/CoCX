@@ -371,9 +371,9 @@ public class Achievements extends BaseContent
 			addAchievement("Killing the bull by the horns", kACHIEVEMENTS.GENERAL_KILLING_THE_BULL_BY_THE_HORNS, "Kill 10 minotaurs during your time in Mareth.");
 			addAchievement("Killing the bull by the horns 2: Kill Harder", kACHIEVEMENTS.GENERAL_KILLING_THE_BULL_BY_THE_HORNS_2_KILL_HARDER, "Kill 50 minotaurs during your time in Mareth.");
 			addAchievement("Killing the bull by the horns 3: I'm back", kACHIEVEMENTS.GENERAL_KILLING_THE_BULL_BY_THE_HORNS_3_IM_BACK, "Kill 250 minotaurs during your time in Mareth.");
-			addAchievement("Vigilante", kACHIEVEMENTS.GENERAL_VIGILANTE, "Kill 10 thiefs during your time in Ignam.");
-			addAchievement("Vigilante 2: Kill Harder", kACHIEVEMENTS.GENERAL_VIGILANTE_2_KILL_HARDER, "Kill 50 thiefs during your time in Ignam.");
-			addAchievement("Vigilante 3: I'm back", kACHIEVEMENTS.GENERAL_VIGILANTE_3_IM_BACK, "Kill 250 thiefs during your time in Ignam.");
+			addAchievement("Vigilante", kACHIEVEMENTS.GENERAL_VIGILANTE, "Kill 10 thieves during your time in Ignam.");
+			addAchievement("Vigilante 2: Kill Harder", kACHIEVEMENTS.GENERAL_VIGILANTE_2_KILL_HARDER, "Kill 50 thieves during your time in Ignam.");
+			addAchievement("Vigilante 3: I'm back", kACHIEVEMENTS.GENERAL_VIGILANTE_3_IM_BACK, "Kill 250 thieves during your time in Ignam.");
 			addAchievement("Body Count: Monty Python and the Holy Grail", kACHIEVEMENTS.GENERAL_BODY_COUNT_MPATHG, "Kill 47 enemies.");
 			addAchievement("Body Count: Deadpool", kACHIEVEMENTS.GENERAL_BODY_COUNT_DEADPOOL, "Kill 80 enemies.");
 			addAchievement("Body Count: Robocop", kACHIEVEMENTS.GENERAL_BODY_COUNT_ROBOCOP, "Kill 144 enemies.");

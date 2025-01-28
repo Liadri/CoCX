@@ -57,7 +57,8 @@ public class DevilRace extends Race {
 				.customRequirement("","not Azazel",
 						function (body:BodyData):Boolean {
 							return !(AzazelRace.isAzazelLike(body));
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.DevilsDescendant, PerkLib.BloodlineDevil);
 		addMutation(IMutationsLib.ObsidianHeartIM);

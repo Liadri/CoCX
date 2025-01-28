@@ -58,7 +58,8 @@ public class CaveWyrmRace extends Race {
 						}, +1)
 				.cockOrVaginaOfType(CockTypesEnum.CAVE_WYRM, VaginaClass.CAVE_WYRM, +1)
 				.hasPerk(PerkLib.AcidSpit, +1)
-				.hasPerk(PerkLib.AzureflameBreath, +1);
+				.hasPerk(PerkLib.AzureflameBreath, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.CaveWyrmLungsIM);
 		
