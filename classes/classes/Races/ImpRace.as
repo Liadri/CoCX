@@ -97,7 +97,8 @@ public class ImpRace extends Race {
 				.hairColor1(ANY(ImpHairColors), +1)
 				.cockOrVaginaOfType(CockTypesEnum.DEMON, VaginaClass.DEMONIC, +1)
 				.noAntennae(+1)
-				.noRearBody(+1);
+				.noRearBody(+1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(function (body:BodyData):Boolean {
 					return body.player.cor >= 50;
 				}, "cor 50+;", 5);

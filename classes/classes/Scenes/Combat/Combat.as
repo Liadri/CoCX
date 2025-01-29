@@ -8456,6 +8456,7 @@ public class Combat extends BaseContent {
 	public function tinkerDamageBonus(damage:Number):Number {
 		var tinkering:Number = 1;
 		if (player.hasPerk(PerkLib.JobTinker)) tinkering += 0.05;
+		if (player.hasPerk(PerkLib.GreasedLightning)) tinkering += 0.1;
 		if (player.hasPerk(PerkLib.JobArtificier)) tinkering += 0.15;
 		damage *= tinkering;
 		return damage;

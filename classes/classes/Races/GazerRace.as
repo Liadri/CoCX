@@ -66,7 +66,8 @@ public class GazerRace extends Race {
 							if (x >= 2) return 2;
 							return 0;
 						}
-				);
+				)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.GazersDescendant, PerkLib.BloodlineGazer);
 		addMutation(IMutationsLib.GazerEyesIM);

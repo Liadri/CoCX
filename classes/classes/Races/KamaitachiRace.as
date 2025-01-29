@@ -1,6 +1,7 @@
 package classes.Races {
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 
 public class KamaitachiRace extends Race {
@@ -50,7 +51,8 @@ public class KamaitachiRace extends Race {
 				.skinBasePattern(Skin.PATTERN_SCAR_WINDSWEPT, +1)
 				.hairType(Hair.WINDSWEPT, +1)
 				.hairColor1(ANY(KamaitachiHairColors), +1)
-				.furColor1(ANY(KamaitachiHairColors), +1);
+				.furColor1(ANY(KamaitachiHairColors), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.HeartOfTheStormIM);
 		

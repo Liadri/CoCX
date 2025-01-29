@@ -63,6 +63,7 @@ public class JabberwockyRace extends Race {
 				.armType(NONE(Arms.DRACONIC, Arms.FEY_DRACONIC, Arms.LION), 0, -10)
 				.hasCockOfType(CockTypesEnum.DRAGON, +1)
 				.gender(Gender.GENDER_FEMALE, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(5)
 				.hasPerk(PerkLib.DragonLustPoisonBreath, +1)
 				.hasPerk(PerkLib.Insanity, +1);

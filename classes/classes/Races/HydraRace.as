@@ -70,7 +70,8 @@ public class HydraRace extends Race {
 									|| VouivreRace.isVouivreLike(body)
 									|| CouatlRace.isCouatlLike(body)
 									|| ApophisRace.isApophisLike(body));
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.HydrasDescendant, PerkLib.BloodlineHydra);
 		addMutation(IMutationsLib.VenomGlandsIM);

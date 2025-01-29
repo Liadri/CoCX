@@ -57,7 +57,8 @@ public class FairyRace extends Race {
 						}, +1)
 				.hasPerk(PerkLib.TransformationImmunity2, +5)
 				.skinPlainOnly(+1)
-				.noCock(+1);
+				.noCock(+1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.FeyArcaneBloodstreamIM, +3);
 		

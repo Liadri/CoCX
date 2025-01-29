@@ -4,6 +4,7 @@ import classes.BodyParts.*;
 import classes.CockTypesEnum;
 import classes.GeneticMemories.RaceMem;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 import classes.Races;
 import classes.VaginaClass;
@@ -57,7 +58,8 @@ public class GorgonRace extends Race {
 									|| VouivreRace.isVouivreLike(body)
 									|| HydraRace.isHydraLike(body)
 									|| ApophisRace.isApophisLike(body));
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.VenomGlandsIM);
 		addMutation(IMutationsLib.GorgonEyesIM);

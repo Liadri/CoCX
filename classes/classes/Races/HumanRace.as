@@ -94,7 +94,8 @@ public class HumanRace extends Race {
 									|| body.player.hasPerk(PerkLib.PrimarchsDescendant))
 						}, +10)
 				.hasPerk(PerkLib.AlteredAnima, -10)
-				.hasPerk(PerkLib.Soulless, -20);
+				.hasPerk(PerkLib.Soulless, -20)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.HumanAdrenalGlandsIM);
 		addMutation(IMutationsLib.HumanBloodstreamIM);
