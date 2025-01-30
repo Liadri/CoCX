@@ -52,7 +52,8 @@ public class MouseRace extends Race {
 				.eyeTypeAndColor(Eyes.HINEZUMI, "blazing red", +1)
 				.hairType(Hair.BURNING, +1)
 				.hairColor1(ANY(MouseHairColors), +1)
-				.skinCoatType(Skin.FUR, +1);
+				.skinCoatType(Skin.FUR, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(function (body:BodyData): Boolean {
 			return body.skinCoatType == Skin.FUR;
 		}, "fur;")

@@ -70,7 +70,8 @@ public class LizardRace extends Race {
 				.hornType(ANY(Horns.DRACONIC_X2,Horns.DRACONIC_X4_12_INCH_LONG), +1)
 				.skinCoatType(ANY(Skin.SCALES, Skin.AQUA_SCALES, Skin.DRAGON_SCALES), +1)
 				.hasCockOfType(CockTypesEnum.LIZARD, +1)
-				.hasPerk(PerkLib.LizanRegeneration, +1);
+				.hasPerk(PerkLib.LizanRegeneration, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.LizardsDescendant, PerkLib.BloodlineLizard);
 		addMutation(IMutationsLib.LizanMarrowIM);

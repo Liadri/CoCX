@@ -53,7 +53,8 @@ public class NekomataRace extends Race{
 				.hasPerk(PerkLib.Necromancy, +1)
 				.customRequirement("","more nekomata features than other magical feline",
 						CatRace.isNekomataSubrace,0,-1000
-				);
+				)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.FelinesDescendant, PerkLib.BloodlineFeline);
 		addMutation(IMutationsLib.CatLikeNimblenessIM);

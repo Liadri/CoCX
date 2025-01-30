@@ -49,7 +49,8 @@ public class OniRace extends Race {
 						function (body:BodyData):Boolean {
 							return body.hasVagina && body.biggestTitSize >= 19 || body.biggestCockSize > 18
 						}, +1)
-				.height(AT_LEAST(108), +1);
+				.height(AT_LEAST(108), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(4)
 				.noRearBody(+1)
 				.noTail(+1)

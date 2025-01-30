@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 import classes.VaginaClass;
 
@@ -57,7 +58,8 @@ public class ManticoreRace extends Race {
 				.corruption(AT_LEAST(20), +1)
 				.customRequirement("","more manticore features than other magical feline",
 						CatRace.isManticoreSubrace,0,-1000
-				);
+				)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.CatLikeNimblenessIM);
 		addMutation(IMutationsLib.ManticoreMetabolismIM);

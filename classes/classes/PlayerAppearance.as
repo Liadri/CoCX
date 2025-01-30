@@ -1034,14 +1034,17 @@ public class PlayerAppearance extends BaseContent {
 	 */
 	
 	public var new_ui:Boolean = true;
-	public function set_ui_version(bool:Boolean, auto_run:Boolean = false):void{
+	public function set_ui_version(bool:Boolean, bool2:Boolean, auto_run:Boolean = false):void{
 		new_ui=bool
+		if (flags[kFLAGS.RACE_UI_SETTING] == 1 && !bool2) new_ui = false;
 		if (auto_run){RacialScores()}
 	}
 	public function RacialScores(clickedRace:Race = null, sortBy:int=0):void {
 		if (new_ui){
+			flags[kFLAGS.RACE_UI_SETTING] = 0;
 			RacialScores_new(clickedRace,sortBy)
 		}else{
+			flags[kFLAGS.RACE_UI_SETTING] = 1;
 			RacialScores_old(clickedRace,sortBy)
 		}
 	}
@@ -1366,7 +1369,7 @@ public class PlayerAppearance extends BaseContent {
 		
 		if (scrollPos) mainView.scrollBar.value = scrollPos;
 		addButton(1, "Exit", playerMenu);
-		addButton(14, "Old UI",curry(set_ui_version,false,true))
+		addButton(14, "Old UI",curry(set_ui_version,false,false,true))
 	}
 
 	private function RacialScores_old(clickedRace:Race = null, sortBy:int=0):void {
@@ -1560,7 +1563,7 @@ public class PlayerAppearance extends BaseContent {
 		menu();
 		if (scrollPos) mainView.mainText.scrollV = scrollPos;
 		addButton(0, "Next", playerMenu);
-		addButton(14, "New UI",curry(set_ui_version,true,true))
+		addButton(14, "New UI",curry(set_ui_version,true,true,true))
 	}
 	
 	public function GenderForcedSetting():void {
