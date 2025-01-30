@@ -37,7 +37,8 @@ public class JojoScene extends NPCAwareContent implements TimeAwareInterface, Sa
 			resetState();
 		}
 	}
-public var JojoTalkedBimbo:Boolean;
+
+	public var JojoTalkedBimbo:Boolean;
 	public var pregnancy:PregnancyStore;
 	public static const JOJO_NOT_MET:int      = 0;
 	public static const JOJO_MET:int          = 1;
@@ -54,6 +55,12 @@ public var JojoTalkedBimbo:Boolean;
 	public var JojoRapeRoleplay:Boolean;
 
     public static var monk:Number = JOJO_NOT_MET;
+	// This class inherits monk _getter_ from NPCAwareContent
+	// But there is no setter, so any good linter would cry blood.
+	// at any writing to `monk`. So lo and behold, a (useless) setter!
+	protected function set monk(value:Number):void {
+		JojoScene.monk = value;
+	}
 
     public function JojoScene()
 		{
@@ -3700,4 +3707,4 @@ public function afterDebimboTalk():void {
 		addButton(14, "Back", talkMenu);
 	}
 }
-}
+}

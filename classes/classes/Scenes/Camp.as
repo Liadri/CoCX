@@ -25,7 +25,7 @@ use namespace CoC;
 
 public class Camp extends NPCAwareContent{
 
-	protected function set timeQ(value:Number):void {
+	protected static function set timeQ(value:Number):void {
 		CoC.instance.timeQ = value;
 	}
 
