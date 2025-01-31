@@ -41,7 +41,8 @@ public class ScorpionRace extends Race {
 		addScores()
 				.earType(Ears.INSECT, +1)
 				.tailType(Tail.SCORPION, +1)
-				.skinCoatType(Skin.CHITIN, +1);
+				.skinCoatType(Skin.CHITIN, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.TrachealSystemIM);
 		

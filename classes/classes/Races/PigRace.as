@@ -3,6 +3,7 @@ import classes.BodyData;
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 
 public class PigRace extends Race{
@@ -50,6 +51,7 @@ public class PigRace extends Race{
 				.skinColor1(ANY(PigSkinColors), +1)
 				.thickness(AT_LEAST(75), +1)
 				.hasCockOfType(CockTypesEnum.PIG, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(
 				function(body:BodyData):Boolean {
 					return body.faceType === Face.BOAR || body.armType === Arms.BOAR

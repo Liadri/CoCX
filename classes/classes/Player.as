@@ -5921,6 +5921,11 @@ use namespace CoC;
 				buffLib += 100;
 				currentSen = Math.round(currentSen*1.15);
 			}
+			if (hasKeyItem("GOBX Chemical Improved formula") >= 0) {
+				buffInt += 200;
+				buffLib += 200;
+				currentSen = Math.round(currentSen*1.3);
+			}
 			StatUtils.mergeBuffObjects(buffs, {
 				"str.mult": (buffStr+buffAll)/100,
 				"tou.mult": (buffTou+buffAll)/100,

@@ -42,8 +42,8 @@ public class AngelRace extends Race {
 	public override function setup():void {
 		
 		addScores()
-				//start ctrl-spacing here
-		;
+				.corruption(0, +3)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(15, "angel-kin")
 				.buffs({

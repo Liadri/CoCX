@@ -289,7 +289,7 @@ public class Changelog extends BaseContent
 			outputText("-New event perk: GOBX Chemical. Gained by use of GOBX Chemical key item. Effects: Raises your libido, sensitivity and Intelligence but locks your race permanently to goblinoid.\n");
 			outputText("-New tier 1 misc lvl-up perk: Greased lightning. Req. Job: Tinker perk, 30+ wisdom and 30+ intelligence. Effect: After activating a gadget or mechanical ability overcharge yourself with electric current. The next set of attacks deals extra electricity damage equal to the damage dealt, expending the charge. Multiple charges can be stacked which increase the damage multiplier.\n");
 			outputText("-Fixed cockdescript in Herm Centaur 'Stud' Loss scene. (DigitalKitsune)\n");
-			outputText("-\n");
+			outputText("-New key Item (by Liadri): GOBX Chemical Improved formula - req. GOBX Chemical - Raises your libido by 200%, sensitivity by 30% and Intelligence by 200% while increasing the potency of firearms and technological weapons by 50% but locks your race permanently to goblinoid. (set all other races to 0 and triple racial bonus for goblins or gremlins).\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

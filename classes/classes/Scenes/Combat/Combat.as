@@ -8458,6 +8458,7 @@ public class Combat extends BaseContent {
 		if (player.hasPerk(PerkLib.JobTinker)) tinkering += 0.05;
 		if (player.hasPerk(PerkLib.GreasedLightning)) tinkering += 0.1;
 		if (player.hasPerk(PerkLib.JobArtificier)) tinkering += 0.15;
+		if (player.hasKeyItem("GOBX Chemical Improved formula") >= 0) tinkering += 0.5;
 		damage *= tinkering;
 		return damage;
 	}

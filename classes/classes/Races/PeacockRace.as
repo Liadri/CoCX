@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
 import classes.CockTypesEnum;
+import classes.PerkLib;
 import classes.Race;
 
 public class PeacockRace extends Race{
@@ -51,7 +52,8 @@ public class PeacockRace extends Race{
 				.wingType(Wings.FEATHERED_AVIAN, +2)//bit smaller wings but still capabgle of flight with more colorfull look - using feather color 1 & 2 probably
 				//.tailType(NOT(Tail.FEATHERED_AVIAN), 0, -6)
 				.skinCoatType(Skin.FEATHER, +1)
-				.hasCockOfType(CockTypesEnum.AVIAN, +1);
+				.hasCockOfType(CockTypesEnum.AVIAN, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.HarpyHollowBonesIM);
 		

@@ -61,7 +61,8 @@ public class RaijuRace extends Race {
 						function (body:BodyData):Boolean {
 							return body.player.hasStatusEffect(StatusEffects.GlowingNipples) || body.player.hasStatusEffect(StatusEffects.GlowingAsshole);
 						}, +1)
-				.cockOrVaginaOfType(CockTypesEnum.RAIJU, VaginaClass.RAIJU, +1);
+				.cockOrVaginaOfType(CockTypesEnum.RAIJU, VaginaClass.RAIJU, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 				
 		addBloodline(PerkLib.RaijusDescendant, PerkLib.BloodlineRaiju);
 		addMutation(IMutationsLib.HeartOfTheStormIM);

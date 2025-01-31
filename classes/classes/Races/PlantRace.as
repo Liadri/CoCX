@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
+import classes.PerkLib;
 import classes.Race;
 import classes.Races;
 
@@ -62,7 +63,8 @@ public class PlantRace extends Race {
 				.customRequirement("","not yggdrasil",
 						function (body:BodyData):Boolean {
 							return !body.player.isRace(Races.YGGDRASIL);
-						}, 0, -4);
+						}, 0, -4)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(7, "plant-morph")
 				.buffs({

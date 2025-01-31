@@ -422,7 +422,8 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Spring Boots") < 0 && player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Spring Boots") < 0) addButton(5, "Spring Boots", lumiEngineeringBuyBlueprintSpringBoots).hint("Spring Boots BP - 100 gems");
 		if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(6, "Flasherbang", lumiEngineeringBuyBlueprintFlasherbang).hint("Flasherbang BP - 1000 gems");
 		if (player.hasKeyItem("Goblin Bomber") < 0 && player.hasKeyItem("Blueprint - Goblin Bomber") < 0) addButton(7, "Goblin Bomber", lumiEngineeringBuyBlueprintGoblinBomber).hint("Goblin Bomber BP - 1500 gems");
-		if (player.hasKeyItem("GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical") < 0) addButton(8, "GOBX Chemical", lumiEngineeringBuyBlueprintGOBXChemical).hint("GOBX Chemical BP - 1000 gems");
+		if (player.hasKeyItem("GOBX Chemical Improved formula") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical") < 0) addButton(8, "GOBX Chemical IF", lumiEngineeringBuyBlueprintGOBXChemicalImprovedFormula).hint("GOBX Chemical Improved formula BP - 1000 gems");
+		if (player.hasKeyItem("GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(8, "GOBX Chemical", lumiEngineeringBuyBlueprintGOBXChemical).hint("GOBX Chemical BP - 1000 gems");
 		addButton(14, "Back", lumiEngineering);
 	}
 	public function lumiEngineeringMechUpgrades():void {
@@ -679,6 +680,19 @@ public class Lumi extends BaseContent {
 			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
 			outputText("<b>Gained Key Item: Blueprint - Goblin Bomber!</b>");
 			player.createKeyItem("Blueprint - Goblin Bomber", 0, 0, 0, 0);
+			statScreenRefresh();
+			doNext(lumiEngineering2);
+		}
+		else lumiEngineeringBuyBlueprintNotEnoughGems();
+	}
+	public function lumiEngineeringBuyBlueprintGOBXChemicalImprovedFormula():void {
+		clearOutput();
+		if (player.gems >= 1000) {
+			player.gems -= 1000;
+			outputText("Lumi seals the blueprint in a tube and displays it on the counter.\n\n");
+			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
+			outputText("<b>Gained Key Item: Blueprint - GOBX Chemical Improved formula!</b>");
+			player.createKeyItem("Blueprint - GOBX Chemical Improved formula", 0, 0, 0, 0);
 			statScreenRefresh();
 			doNext(lumiEngineering2);
 		}
@@ -1174,6 +1188,7 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Blueprint - Spring Boots") >= 0) outputText("Spring Boots - Req. 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism.\n");
 		if (player.hasKeyItem("Blueprint - Flasherbang") >= 0) outputText("Flasherbang - Req. 100+ int, Toolbelt, 10 metal pieces, 1 energy core.\n");
 		if (player.hasKeyItem("Blueprint - Goblin Bomber") >= 0) outputText("Goblin Bomber - Req. 250+ int, Toolbelt, 100 metal pieces, 200 nails, 1 energy core, 10+ goblin daughters.\n");
+		if (player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") >= 0) outputText("GOBX Chemical Improved formula - Req. 100+ int, Potent Drug injectors, 3 metal pieces, 30 nails, 5 lust drafts, 5 Goblin Ale, GOBX Chemical.\n");
 		if (player.hasKeyItem("Blueprint - GOBX Chemical") >= 0) outputText("GOBX Chemical - Req. 100+ int, Potent Drug injectors, 3 metal pieces, 30 nails, 5 lust drafts, 5 Goblin Ale, Goblinoid race.\n");
 		menu();
 		if (player.hasKeyItem("Blueprint - Machined greatsword") >= 0 && (player.hasKeyItem("Power bracer") >= 0 || player.hasKeyItem("Powboy") >= 0 || player.hasKeyItem("M.G.S. bracer") >= 0) && player.hasPerk(PerkLib.JobWarrior) && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 3 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1 && CampStatsAndResources.MechanismResc >= 2) addButton(0, "Mach. greatsword", lumiWorkshopMachineGreatsword).hint("Machine greatsword - This greatsword is half invention half weapon. Instead of a sharp straight blade the weapon's sides is a set of metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. Very good for cutting down trees too - 50+ int, Job: Warrior, any Power bracer, 3 metal pieces, 200 nails, 1 energy core, 2 mechanism, 12 hours of work");
@@ -1191,6 +1206,7 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Blueprint - Ripper 2.0") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 30 && CampStatsAndResources.NailsResc >= 500 && CampStatsAndResources.EnergyCoreResc >= 5 && CampStatsAndResources.MechanismResc >= 10 && player.hasItem(weapons.RIPPER1, 1)) addButton(10, "Ripper 2.0", lumiWorkshopRipper2).hint("Ripper 2.0 - Similar to the machined great sword this weapon is highly mechanical. Instead of a sharp straight blade the weapon's sides is a set of sharp metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. The blades movement is so fast it creates heat along the length and thanks to a small system set the saw constantly aflame. Aside of cutting fleshy things in half it is very good for taking down trees - 100+ int, Ripper 1.0, 30 metal pieces, 500 nails, 5 energy core, 10 mechanism, 12 hours of work");
 		else addButtonDisabled(10, "Ripper 2.0", "Req. 100+ int, Ripper 1.0, 30 metal pieces, 500 nails, 5 energy core, 10 mechanism.");
 		//11-12
+		if (player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") >= 0 && player.hasKeyItem("GOBX Chemical") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 3 && CampStatsAndResources.NailsResc >= 30 && player.hasItem(consumables.L_DRAFT, 5) && player.hasItem(consumables.GOB_ALE, 5)) addButton(13, "GOBX Chemical IF", lumiWorkshopGOBXChemicalImprovedFormula).hint("GOBX Chemical Improved formula - Raises your libido by 200%, sensitivity by 30% and Intelligence by 200% while increasing the potency of firearms and technological weapons by 50% but locks your race permanently to goblinoid. (set all other races to 0 and triple racial bonus for goblins or gremlins). - 100+ int, GOBX Chemical, 3 metal pieces, 30 nails, 5 lust drafts, 5 Goblin Ale and 12 hours of work");
 		if (player.hasKeyItem("Blueprint - GOBX Chemical") >= 0 && player.hasKeyItem("Potent Drug injectors") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 3 && CampStatsAndResources.NailsResc >= 30 && player.hasItem(consumables.L_DRAFT, 5) && player.hasItem(consumables.GOB_ALE, 5) && player.isGoblinoid()) addButton(13, "GOBX Chemical", lumiWorkshopGOBXChemical).hint("GOBX Chemical - Raises your libido by 100%, sensitivity by 15% and Intelligence by 100% but locks your race permanently to goblinoid. (set all other races to 0 and triple racial bonus for goblins or gremlins). - 100+ int, Potent Drug injectors, 3 metal pieces, 30 nails, 5 lust drafts, 5 Goblin Ale and 12 hours of work");
 		addButton(14, "Back", lumiWorkshop);
 	}
@@ -1597,6 +1613,20 @@ public class Lumi extends BaseContent {
 		statScreenRefresh();
 		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) inventory.takeItem(weapons.MACSPEA, explorer.done);
 		else inventory.takeItem(weapons.MACSPEA, camp.returnToCampUseFourHours);
+	}
+	public function lumiWorkshopGOBXChemicalImprovedFormula():void {
+		clearOutput();
+		CampStatsAndResources.MetalPieces -= 3;
+		CampStatsAndResources.NailsResc -= 30;
+		player.destroyItems(consumables.L_DRAFT, 5);
+		player.destroyItems(consumables.GOB_ALE, 5);
+		outputText("");
+		player.createKeyItem("GOBX Chemical Improved formula", 0, 0, 0, 0);
+		player.removeKeyItem("Blueprint - GOBX Chemical Improved formula");
+		player.removeKeyItem("GOBX Chemical");
+		statScreenRefresh();
+		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) doNext(camp.returnToCampUseEightHours);
+		else doNext(camp.returnToCampUseTwelveHours);
 	}
 	public function lumiWorkshopGOBXChemical():void {
 		clearOutput();
