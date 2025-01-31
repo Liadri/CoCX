@@ -36,6 +36,7 @@ public final class ShieldLib extends ItemConstants
 		public const BSHIELD:BeautifulShield = new BeautifulShield();
 		public const BLASPHE:Shield = new Shield("Blasphe", "Blasphemy", "Blasphemy", "a Blasphemy", 1, 200, "Metal prayer beads, engraved with holy symbols of dead gods.", "Obsession").withPerk(PerkLib.Obsession, 0.2, 0.15, 0, 0) as Shield;
 		public const BUCKLER:Shield = new Shield("Buckler", "Buckler", "buckler", "a buckler", 5, 250, "A simple wooden rounded shield.");
+		public const CHISHLD:Shield = new Shield("ChiShld", "ChitinShield", "chitin shield", "a chitin shield", 18, 300, "A shield made of hardened chitin.")
 		public const DRGNSHL:DragonShellShield = new DragonShellShield();
 		public const GREATSH:GreatShield = new GreatShield();
 		public const IMPTOME:DynamicShield = ItemTemplateLib.instance.createShield("tome", ItemConstants.RARITY_MAGICAL, 0, ItemConstants.CS_HIDDEN_CURSED, [EnchantmentLib.RaceSpellPowerDoubled.spawn2(true, 1, Races.IMP)]);

@@ -7,6 +7,8 @@ package classes.Scenes.NPCs
 import classes.*;
 import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.SceneLib;
+ 
 
 public class TifaFollower extends NPCAwareContent
 	{
@@ -25,7 +27,7 @@ public function tifaMainMenu():void {
 	addButton(0, "Appearance", tifaMainMenuAppearance);
 	addButton(1, "Talk", tifaMainMenuTalk);
 	addButton(3, "Sex", tifaMainMenuSex);
-	addButton(4, "Back", camp.campFollowers);
+	addButton(4, "Back", SceneLib.tifaHive.HiveComplete ? SceneLib.tifaHive.enterTheHive : (flags[kFLAGS.TIFA_FOLLOWER] > 9) ? camp.campLoversMenu : camp.campFollowers);
 }
 
 public function tifaMainMenuAppearance():void {
@@ -134,7 +136,7 @@ public function tifaMainMenuTalkBecomeHerHandmaidenYes():void {
 	outputText("You do too and you know what you must do next. It's time to head out and find someone to carry these eggs, your abdomen is just this full.\n\n");
 	player.antennae.type = Antennae.BEE;
 	player.eyes.type = Eyes.BLACK_EYES_SAND_TRAP;
-	player.ears.type = Ears.HUMAN;
+	player.ears.type = Ears.INSECT;
 	player.faceType = Face.HUMAN;
 	player.tailType = Tail.BEE_ABDOMEN;
 	player.arms.type = Arms.BEE;

@@ -27,10 +27,10 @@ public class SimpleGuildQuest extends AbstractQuest {
 	public function SimpleGuildQuest(
 			id:String,
 			title:String,
-			/** 1: copper, 2: iron, ... */
+			/* 1: copper, 2: iron, ... */
 			guildLevel:int,
 			item:ItemType,
-			/** [ t1number, t2number, t3number ] */
+			/* [ t1number, t2number, t3number ] */
 			numberByTier:/*int*/Array,
 			statusEffectType:StatusEffectType,
 			valueIndex:int

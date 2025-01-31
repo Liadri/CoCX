@@ -235,17 +235,17 @@ public class GameSettings extends BaseContent {
 		var gamedata:Object    = {
 			version: CoC.instance.ver,
 			versionNumber: CoC.instance.modSaveVersion,
-			/** key: flag_id, value: IGDFlag */
+			/* key: flag_id, value: IGDFlag */
 			flags: {},
-			/** key: perk_id, value: IGDPerk */
+			/* key: perk_id, value: IGDPerk */
 			perks: {},
-			/** key: perk_id, value: IGDMutation */
+			/* key: perk_id, value: IGDMutation */
 			mutations: {},
-			/** key: slot_id, value: IGDMutationSlot */
+			/* key: slot_id, value: IGDMutationSlot */
 			mutation_slots: {
 				"": {name: "Other"}
 			},
-			/** key: item_category, subkey: item_id, value: IGDItem */
+			/* key: item_category, subkey: item_id, value: IGDItem */
 			items: {
 				armor: {},
 				consumable: {},
@@ -255,7 +255,7 @@ public class GameSettings extends BaseContent {
 				miscjewelry: {},
 				necklace: {},
 				shield: {},
-				/** value: IGDItemUndergarment */
+				/* value: IGDItemUndergarment */
 				undergarment: {},
 				useable: {},
 				vehicle: {},

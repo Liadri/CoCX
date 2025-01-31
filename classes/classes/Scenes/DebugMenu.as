@@ -400,8 +400,8 @@ public class DebugMenu extends BaseContent
 			});
 			
 			var typesAndSubtypes:Array = [];
-			for each (var k:String in values(DynamicWeapon.Subtypes).sort()) typesAndSubtypes.push("weapon/"+k);
-			for each (k in values(DynamicArmor.Subtypes).sort()) typesAndSubtypes.push("armor/"+k);
+			for each (var k:String in keys(DynamicWeapon.Subtypes).sort()) typesAndSubtypes.push("weapon/"+k);
+			for each (k in keys(DynamicArmor.Subtypes).sort()) typesAndSubtypes.push("armor/"+k);
 			paramGrid.addTextField("Type/Subtype");
 			paramGrid.addComboBox({
 				bindValue: [params, "typeSubtype"],

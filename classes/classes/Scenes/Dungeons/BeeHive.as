@@ -10,6 +10,7 @@ import classes.GlobalFlags.kFLAGS;
 import classes.CoC;
 import classes.EngineCore;
 import classes.Races;
+import classes.Scenes.API.MerchantMenu;
 import classes.Scenes.Dungeons.BeeHive.BeeGuards;
 import classes.Scenes.Dungeons.BeeHive.CorruptBeeQueen;
 import classes.Scenes.Dungeons.BeeHive.DemonicBee;
@@ -96,25 +97,21 @@ import classes.Scenes.Dungeons.BeeHive.TheCorruptedHandmaidens;
 		
 		private function room2HoneyMerchant():void {
 			clearOutput();
-			outputText("You approach a counter where a bee girl stocks bottles of purified honey.\n\n");
+			outputText("You approach a counter where a bee girl stocks various bottles of honey.\n\n");
 			outputText("\"<i>Oh itzzz you! Welcome back to the Hive. Are you here to purchazzze honey? It's only 10 gems and it can help cure afflictions and recover from woundzzz, the best medicine really.</i>\"\n\n");
 			menu();
-			addButton(0, "Buy Honey", room2HoneyMerchantBuyHoney);
+			addButton(0, "Buy Honey", room2HoneyMerchantBuyMenu);
 			addButton(4, "Leave", room2Center);
 		}
-		public function room2HoneyMerchantBuyHoney():void {
+		private function room2HoneyMerchantBuyMenu():void {
 			clearOutput();
-			if (player.gems < 10) {
-				outputText("\n<b>You don't have enough gems...</b>");
-				doNext(room2HoneyMerchant);
-			}
-			else room2HoneyMerchantTransact();
-		}
-
-		public function room2HoneyMerchantTransact():void {
-			player.gems -= 10
-			statScreenRefresh();
-			inventory.takeItem(consumables.PURHONY, room2HoneyMerchant);
+			menu();
+			var merchantMenu:MerchantMenu = new MerchantMenu();
+			merchantMenu.playerCanSell = false;
+			merchantMenu.addItem(consumables.BEEHONY, 3);
+			merchantMenu.addItem(consumables.PURHONY, 10);
+			merchantMenu.addItem(consumables.SPHONEY, 15);
+			merchantMenu.show(room2HoneyMerchant);
 		}
 		
 		private function room3():void {

@@ -615,7 +615,7 @@ import coc.xxc.StoryContext;
 			return CoC.instance.player;
 		}
 
-		protected function set player(val:Player):void
+		protected static function set player(val:Player):void
 		{
 			CoC.instance.player = val;
 		}
@@ -752,7 +752,7 @@ import coc.xxc.StoryContext;
 			return CoC.instance.model;
 		}
 
-		protected function set model(val:GameModel):void
+		protected static function set model(val:GameModel):void
 		{
 			CoC.instance.model = val;
 		}

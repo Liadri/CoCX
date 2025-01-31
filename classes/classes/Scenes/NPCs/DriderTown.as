@@ -292,7 +292,7 @@ public function LilyEggLayingPC():void {
 		LilyKidsPCEggs2 = eggsL;
 		LilyKidsPCEggsHatching2 = 120;
 	}
-	else if (BelisaKidsEggsHatching > 0) {
+	else if (LilyKidsPCEggsHatching > 0) {
 		LilyKidsPCEggs1 = eggsL;
 		LilyKidsPCEggsHatching1 = 120;
 	}

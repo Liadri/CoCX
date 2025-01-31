@@ -723,7 +723,7 @@ public class Mountain extends BaseContent
 				/* [INTERMOD:8chan]
 				&& kGAMECLASS.fetishManager.compare(FetishManager.FETISH_EXHIBITION)
 				else */
-				&& flags[kFLAGS.PC_FETISH] > 0 /**/
+				&& flags[kFLAGS.PC_FETISH] > 0
 			) SceneLib.ceraphScene.friendlyNeighborhoodSpiderManCeraph();
 			else SceneLib.ceraphScene.encounterCeraph();
 		}
