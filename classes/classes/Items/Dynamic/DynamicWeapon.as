@@ -205,6 +205,38 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 	 * qeffects searches for effect with same ItemEffectType and v1-v4
 	 */
 	public static const Subtypes:Object = {
+		"beestaff":   {
+			chance:    0,
+			name:      "amber staff",
+			shortName: "AmberStaff",
+			longName:  "a bee amber staff",
+			verb:      "smack",
+			desc:      "A chitin staff with a gem made of magically hardened resin from a bee. More effective when used to cast white magic as well as spell and magic ability effects that inflict status. If a honeymade item or jar of bee honey was consumed recently, triple the spell power. ",
+			type:      WT_STAFF,
+			size:      WSZ_LARGE,
+			effects:   [
+				[IELib.ScaleAttack_Str, 60]
+			],
+			attack:    8,
+			qattack:   0.25,
+			value:     1000
+		},
+		"beewand":   {
+			chance:    0,
+			name:      "amber wand",
+			shortName: "AmberWand",
+			longName:  "a bee amber wand",
+			verb:      "smack",
+			desc:      "A chitin staff with a gem made of magically hardened resin from a bee. More effective when used to cast white magic as well as spell and magic ability effects that inflict status. If a honeymade item or jar of bee honey was consumed recently, triple the spell power. ",
+			type:      WT_WAND,
+			size:      WSZ_MEDIUM,
+			effects:   [
+				[IELib.ScaleAttack_Str, 60]
+			],
+			attack:    8,
+			qattack:   0.25,
+			value:     1000
+		},
 		"claymore":   {
 			chance:    0.5,
 			name:      "large claymore",

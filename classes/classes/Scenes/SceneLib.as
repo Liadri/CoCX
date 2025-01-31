@@ -362,5 +362,7 @@ public class SceneLib {
     public static var werewolfFemaleScene:WerewolfFemaleScene = new WerewolfFemaleScene();
 
     public static var zombiesmummies:ZombieMummyScenes = new ZombieMummyScenes();
+
+    public static var tifaHive:TifaHive = new TifaHive();
 }
 }

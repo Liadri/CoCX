@@ -578,11 +578,21 @@ public class Camp extends NPCAwareContent{
 			hideMenus();
 			return;
 		}
+
+		if(SceneLib.tifaHive.HiveTimeout == 0 && !SceneLib.tifaHive.HiveComplete){
+			hideMenus();
+			SceneLib.tifaHive.seeFirstTime();
+			return;
+		}
+
+		/* TODO: DigitalKitsune promises to rewrite that shit. Eventually. */
 		for each (var npc:XXCNPC in _campFollowers) {
 			if (npc.checkCampEvent()) {
 				return;
 			}
 		}
+
+
 		//Izzys tits asplode
 		if (isabellaFollower() && flags[kFLAGS.ISABELLA_MILKED_YET] >= 10 && player.hasKeyItem("Breast Milker - Installed At Whitney's Farm") >= 0) {
 			isabellaFollowerScene.milktasticLacticLactation();
@@ -1177,7 +1187,7 @@ public class Camp extends NPCAwareContent{
 		if (flags[kFLAGS.THE_TRENCH_ENTERED] > 14) counter++;
 		if (flags[kFLAGS.LUNA_FOLLOWER] >= 4 && !player.hasStatusEffect(StatusEffects.LunaOff)) counter++;
 		if (flags[kFLAGS.PC_GOBLIN_DAUGHTERS] > 0) counter++;
-		if (flags[kFLAGS.TIFA_FOLLOWER] > 5) counter++;
+		if (flags[kFLAGS.TIFA_FOLLOWER] > 5 && flags[kFLAGS.TIFA_FOLLOWER] < 10) counter++;
 		if (etnaScene().etnaTotalKids() > 0) counter++;
 		for each (var npc:XXCNPC in _campFollowers) {
 			if (npc.isCompanion(XXCNPC.FOLLOWER)) {
@@ -1240,6 +1250,7 @@ public class Camp extends NPCAwareContent{
 		if (flags[kFLAGS.ANT_WAIFU] > 0) counter++;
 		if (flags[kFLAGS.SAMIRAH_FOLLOWER] > 9) counter++;
 		if (ZenjiScenes.isLover()) counter++;
+		if (flags[kFLAGS.TIFA_FOLLOWER] == 10) counter++;
 		for each (var npc:XXCNPC in _campFollowers) {
 			if (npc.isCompanion(XXCNPC.LOVER)) {
 				counter++;
@@ -1776,6 +1787,14 @@ public class Camp extends NPCAwareContent{
 				outputText("\n\n");
 				buttons.add("Nieve", SceneLib.holidays.approachNieve);
 			}
+			//Tifa
+			if (flags[kFLAGS.TIFA_FOLLOWER] == 10){
+				if(SceneLib.tifaHive.HiveComplete){
+					buttons.add("Hive", SceneLib.tifaHive.enterTheHive).hint("Check up on your Hive.");
+				} else {
+					buttons.add("Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Check up on your Queen, Tifa.");
+				}
+			}
 		}
 		for each(var npc:XXCNPC in _campFollowers) {
 			npc.campDescription(buttons, XXCNPC.LOVER);
@@ -2134,7 +2153,7 @@ public class Camp extends NPCAwareContent{
 			//PC Goblin daughters
 			if (flags[kFLAGS.PC_GOBLIN_DAUGHTERS] > 0) buttons.add("Goblin kids", campScenes.PCGoblinDaughters).hint("Check up on your goblin daughters.");
 			//Tifa
-			if (flags[kFLAGS.TIFA_FOLLOWER] > 5) buttons.add("Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Check up on Tifa.");
+			if (flags[kFLAGS.TIFA_FOLLOWER] > 5 && flags[kFLAGS.TIFA_FOLLOWER] < 10) buttons.add("Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Check up on Tifa.");
 		}
 		//Shouldra
 		if (followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff)) {

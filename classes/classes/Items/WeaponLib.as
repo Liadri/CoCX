@@ -202,6 +202,10 @@ public final class WeaponLib extends ItemConstants
 				.withTags(W_MGWRATH, I_LEGENDARY, W_CORRUPT_TYPE)
 				.withEffect(IELib.AttackBonus_Cor, 1/2)
 				.withEffect(IELib.ScaleAttack_StrXL, 500) as Weapon;
+		public const CHITSPR:Weapon = new Weapon(
+				"ChitSpr","ChitSpr", "chitin spear", "a chitin spear", "stab", 14, 350,
+				"This spear, carved from insectile chitin, is tipped with a dart. As lethal as it is venomous.",
+				WT_SPEAR, WSZ_LARGE)
 		public const CLAWS  :GauntletWithClaws = new GauntletWithClaws();
 		public const CLAYMOR:Weapon = findCommonDynamicWeapon("claymore");
 		//przerobić na high grade wrath weapon?

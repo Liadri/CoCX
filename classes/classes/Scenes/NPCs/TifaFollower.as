@@ -7,6 +7,8 @@ package classes.Scenes.NPCs
 import classes.*;
 import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.SceneLib;
+ 
 
 public class TifaFollower extends NPCAwareContent
 	{
@@ -25,7 +27,7 @@ public function tifaMainMenu():void {
 	addButton(0, "Appearance", tifaMainMenuAppearance);
 	addButton(1, "Talk", tifaMainMenuTalk);
 	addButton(3, "Sex", tifaMainMenuSex);
-	addButton(4, "Back", camp.campFollowers);
+	addButton(4, "Back", SceneLib.tifaHive.HiveComplete ? SceneLib.tifaHive.enterTheHive : (flags[kFLAGS.TIFA_FOLLOWER] > 9) ? camp.campLoversMenu : camp.campFollowers);
 }
 
 public function tifaMainMenuAppearance():void {

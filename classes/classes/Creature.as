@@ -3830,6 +3830,7 @@ public class Creature extends Utils
 				if (getPerkValue(PerkLib.BeeOvipositor, 1) > 0) EngineCore.outputText("\n\nWith no further space left to unload within your current incubator you sigh and stand up to be on your way. You will need more incubators in which to deliver your remaining eggs.");
 				else EngineCore.outputText("\n\nYou will need to go see Tifa for a reload but you have a nice idea of where you could store the eggs from now on.");
 				buff("Oviposition").addStats({"spe.mult": 0.1}).withText("Relief after the oviposition").forDays(1); //give that speed buff
+				SceneLib.tifaHive.ovipositClutch();
 			} else setEggs(0);
 			fertilizeEggs(); //Sets fertile eggs = regular eggs
 		}
