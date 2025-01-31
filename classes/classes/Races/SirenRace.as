@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 import classes.VaginaClass;
 
@@ -50,7 +51,8 @@ public class SirenRace extends Race {
 				.skinCoatTypeAndColor1(Skin.AQUA_SCALES, ANY(SirenScaleColors), +2)
 				.gillType(Gills.FISH, +1)
 				.eyeType(Eyes.HUMAN, +1)
-				.vaginaType(VaginaClass.SHARK, +1);
+				.vaginaType(VaginaClass.SHARK, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.HarpyHollowBonesIM);
 		addMutation(IMutationsLib.SharkOlfactorySystemIM);

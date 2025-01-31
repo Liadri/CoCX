@@ -1,6 +1,7 @@
 package classes.Races {
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
+import classes.PerkLib;
 import classes.Race;
 
 public class RhinoRace extends Race {
@@ -44,7 +45,8 @@ public class RhinoRace extends Race {
 				.faceType(Face.RHINO, +1)
 				.hornType(Horns.RHINO, +1)
 				.skinColor1("gray", +1)//thic skin perk also form numb rocks
-				.hasCockOfType(CockTypesEnum.RHINO, +1);
+				.hasCockOfType(CockTypesEnum.RHINO, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(4, "rhino")
 				.namesMaleFemaleMorphTaur("rhino-man","rhino-girl","rhino-morph","rhino-morph")

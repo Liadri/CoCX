@@ -68,7 +68,8 @@ public class SeaDragonRace extends Race{
 						},
 						+1)
 				.hasPerk(PerkLib.DragonWaterBreath, +1)
-				.hasPerk(PerkLib.Dracoforce, +1);
+				.hasPerk(PerkLib.Dracoforce, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.DrakeBloodIM);
 		addMutation(IMutationsLib.DrakeBonesIM);

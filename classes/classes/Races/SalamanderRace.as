@@ -56,7 +56,8 @@ public class SalamanderRace extends Race {
 				.tailType(NOT(Tail.KITSHOO), 0, -1000)
 				.hasCockOfType(CockTypesEnum.LIZARD,+1)
 				.hasPerk(PerkLib.Lustzerker, +1)
-				.wingType(NOT(Wings.FEATHERED_PHOENIX), 0, -1000);
+				.wingType(NOT(Wings.FEATHERED_PHOENIX), 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(function (body:BodyData):Boolean {
 			return body.skinCoatType == Skin.SCALES
 		},"scales;")

@@ -46,7 +46,8 @@ public class SandTrapRace extends Race {
 				.wingType(Wings.GIANT_DRAGONFLY, +1)
 				.vaginaType(VaginaClass.BLACK_SAND_TRAP, +1)
 				.hasStatusEffect(StatusEffects.BlackNipples, "Black nipples", +1)
-				.hasStatusEffect(StatusEffects.Uniball, "Uniball", +2);
+				.hasStatusEffect(StatusEffects.Uniball, "Uniball", +2)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(5, "sand trap")
 				.end();
