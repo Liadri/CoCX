@@ -1790,8 +1790,10 @@ public class Camp extends NPCAwareContent{
 			//Tifa
 			if (flags[kFLAGS.TIFA_FOLLOWER] == 10){
 				if(SceneLib.tifaHive.HiveComplete){
+					outputText("A towering beehive has been built next to your camp. Handmaidens come and go through the entrance" + ((companionsCount() > 1) ? " waving at the camp occupants as they pass by. " : ". ") + "Tifa and her brood live within.\n\n");
 					buttons.add("Hive", SceneLib.tifaHive.enterTheHive).hint("Check up on your Hive.");
 				} else {
+					outputText("Tifa is currently fluttering around picking flowers. Seeing as she used to be cooped up inside the hive under high supervision she's now taking the time to see the outside world for herself.\n\n");
 					buttons.add("Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Check up on your Queen, Tifa.");
 				}
 			}
@@ -2153,7 +2155,10 @@ public class Camp extends NPCAwareContent{
 			//PC Goblin daughters
 			if (flags[kFLAGS.PC_GOBLIN_DAUGHTERS] > 0) buttons.add("Goblin kids", campScenes.PCGoblinDaughters).hint("Check up on your goblin daughters.");
 			//Tifa
-			if (flags[kFLAGS.TIFA_FOLLOWER] > 5 && flags[kFLAGS.TIFA_FOLLOWER] < 10) buttons.add("Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Check up on Tifa.");
+			if (flags[kFLAGS.TIFA_FOLLOWER] > 5 && flags[kFLAGS.TIFA_FOLLOWER] < 10){
+				outputText("Tifa is currently fluttering around picking flowers. Seeing as she used to be cooped up inside the hive under high supervision she's now taking the time to see the outside world for herself.\n\n")
+				buttons.add("Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Check up on Tifa.");
+			}
 		}
 		//Shouldra
 		if (followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff)) {

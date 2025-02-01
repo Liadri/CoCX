@@ -950,9 +950,6 @@ public class PlayerInfo extends BaseContent {
 			else interpersonStats += getNPCLevel("Ted", 15, 1, 2, 6, flags[kFLAGS.TED_LVL_UP]);
 		}
 
-		if (flags[kFLAGS.TIFA_FOLLOWER] > 5)
-			interpersonStats += "<b>Tifa Affection:</b> " + Math.round(flags[kFLAGS.TIFA_AFFECTION]) + "%\n";
-
 		if (SceneLib.valeria.valeriaFluidsEnabled()) {
             interpersonStats += "<b>Valeria's Fluid:</b> " + flags[kFLAGS.VALERIA_FLUIDS] + "%\n"
 		}
@@ -1030,6 +1027,13 @@ public class PlayerInfo extends BaseContent {
 			outputText("\n<b><u>Evangeline Stats</u></b>\n" + evangelineStats);
 		// End Evangeline Stats
 
+		var tifaStats:String = "";
+		if (flags[kFLAGS.TIFA_FOLLOWER] > 5)
+			tifaStats += "<b>Tifa Affection:</b> " + Math.round(flags[kFLAGS.TIFA_AFFECTION]) + "%\n";
+		if (SceneLib.tifaHive.HiveComplete)
+			tifaStats += "<b>Tifa's hive population':</b> " + SceneLib.tifaHive.BeesHatched + "\n";
+		if (tifaStats != "")
+			outputText("\n<b><u>Tifa Stats</u></b>\n" + tifaStats);
 		// Begin RyuBi Stats
 		var ryubiStats:String = "";
 		if (ryubiStats != "")

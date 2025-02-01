@@ -2,7 +2,7 @@
   <id>classes.CoC</id>
   <filename>Corruption of Champion X</filename>
   <name>Corruption of Champion X</name>
-  <versionNumber>0.0.0</versionNumber>
+  <versionNumber>1.0.0</versionNumber>
   <initialWindow>
     <content>CoC-Mobile-Release.swf</content>
     <visible>true</visible>

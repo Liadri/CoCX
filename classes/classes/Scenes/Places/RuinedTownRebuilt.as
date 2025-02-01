@@ -301,7 +301,7 @@ public function MouseTownUpdate():void {
 		outputText(" With that said, he scampers off, heading back towards the village. \n\n");
 		MouseUpdatedToday = true;
 		Intown = false;
-		doNext(camp.returnToCamp);
+		doNext(camp.returnToCampUseOneHour);
 	}
 
 
