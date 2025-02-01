@@ -291,8 +291,8 @@ public class Changelog extends BaseContent
 			outputText("-Fixed cockdescript in Herm Centaur 'Stud' Loss scene. (DigitalKitsune)\n");
 			outputText("-New key Item (by Liadri): GOBX Chemical Improved formula - req. GOBX Chemical - Raises your libido by 200%, sensitivity by 30% and Intelligence by 200% while increasing the potency of firearms and technological weapons by 50% but locks your race permanently to goblinoid. (set all other races to 0 and triple racial bonus for goblins or gremlins).\n");
 			outputText("-A bunch of fixes and Tifa's Hive. (DigitalKitsune)\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-New melee weapon (by Ormael): Old Lute. Currently dropped by Satyr enemies. Cost 960 gems. Is medium mace/hammer type weapon with atk 6. Effects: +75% spellpower, +75% performance power.\n");
+			outputText("-New melee weapon (by Ormael): Acoustic Guitar. Currently dropped by Satyr enemies. Cost 3360 gems. Is large mace/hammer type weapon with atk 21. Effects: +100% spellpower, +100% performance power.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

@@ -101,7 +101,9 @@ public class ThePansLabyrinthSatyr extends Monster
 			this.gems = rand(30) + 30;
 			this.drop = new ChainedDrop()
 					.add(consumables.INCUBID,1/2)
-					.add(weapons.SFLUTTE,1/4);
+					.add(weapons.SFLUTTE,1/4)
+					.add(weapons.O_LUTE,1/7)
+					.add(weapons.AGUITAR,1/10);
 			this.tailType = Tail.GOAT;
 			this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			createStatusEffect(StatusEffects.MaddeningTune,6,0,0,0);

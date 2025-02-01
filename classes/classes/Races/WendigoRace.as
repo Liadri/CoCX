@@ -61,7 +61,8 @@ public class WendigoRace extends Race {
 						function (body:BodyData):Boolean {
 							return body.hasVagina && body.biggestTitSize >= 8 || !body.hasVagina && body.biggestTitSize == 0
 						}, +1)
-				.hasPerk(PerkLib.EndlessHunger, +1);
+				.hasPerk(PerkLib.EndlessHunger, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(10, "wendigo")
 				.buffs({

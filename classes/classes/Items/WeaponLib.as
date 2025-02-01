@@ -995,6 +995,16 @@ public final class WeaponLib extends ItemConstants
 				.withBuff('spellpower', +1.50)
 				.withPerk(PerkLib.PerformancePower, 1.5, 0, 0, 0)
 				.withTags(W_MUSICINSTR, I_LEGENDARY, W_PURE_TYPE) as Weapon;
+		public const O_LUTE:Weapon = new Weapon(
+				"O.Lute","O.Lute","Old lute","an Old lute","smack",6,960,"A musical instrument favored by bard. This lute can draw beautiful desire inspiring notes and even magic in the hands of someone with an affinity for music.", WT_MACE_HAMMER, WSZ_MEDIUM)
+				.withBuff('spellpower', +0.75)
+				.withPerk(PerkLib.PerformancePower, 0.75, 0, 0, 0)
+				.withTags(W_MUSICINSTR) as Weapon;
+		public const AGUITAR:Weapon = new Weapon(
+				"AGuitar","AGuitar","Acoustic Guitar","an Acoustic Guitar","smack",21,3360,"A musical instrument from a foreign realm. Apparently used when performing the original world's Rock 'n' Roll activity... whatever that could mean.", WT_MACE_HAMMER, WSZ_LARGE)
+				.withBuff('spellpower', +1)
+				.withPerk(PerkLib.PerformancePower, 1, 0, 0, 0)
+				.withTags(W_MUSICINSTR) as Weapon;
 		public const OCCULUS:Weapon = new Occulus();
 		public const ECLIPSE:Weapon = new Eclipse();
 		public const NEXUS:Weapon = new Nexus(); //We may need to add a special event or forge for this item

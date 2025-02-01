@@ -87,7 +87,8 @@ public class WolfRace extends Race {
 				.wingType(Wings.NONE, +1)
 				.rearType(RearBody.FENRIR_ICE_SPIKES, +6)
 				.hasPerk(PerkLib.FreezingBreath, +3)
-				.hasCockOfType(CockTypesEnum.WOLF, +1);
+				.hasCockOfType(CockTypesEnum.WOLF, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.CaninesDescendant, PerkLib.BloodlineCanine);
 		addMutation(IMutationsLib.AlphaHowlIM);

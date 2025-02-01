@@ -64,7 +64,8 @@ public class WoodElfRace extends Race{
 				.hasPerk(PerkLib.FlawlessBody, +1)
 				.hasPerk(PerkLib.ElvenSense, +1)
 				.hasPerk(PerkLib.NaturalSpellcasting, +1)
-				.hasPerk(PerkLib.BlessingOfTheAncestorTree, +4, -1000);
+				.hasPerk(PerkLib.BlessingOfTheAncestorTree, +4, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.ElfsDescendant,PerkLib.BloodlineElf);
 		addMutation(IMutationsLib.ElvishPeripheralNervSysIM, +3);

@@ -52,7 +52,8 @@ public class VampireRace extends Race {
 				.skinColor1("pale", +1)
 				.noTail(+1)
 				.noHorns(+1)
-				.noAntennae(+1);
+				.noAntennae(+1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.VampiresDescendant,PerkLib.BloodlineVampire);
 		addMutation(IMutationsLib.VampiricBloodstreamIM);
