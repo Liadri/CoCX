@@ -205,7 +205,20 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 	 * qeffects searches for effect with same ItemEffectType and v1-v4
 	 */
 	public static const Subtypes:Object = {
-		"beestaff":   {
+		"dartrapier":      {
+			chance:    1,
+			name:      "darting rapier",
+			shortName: "D.Rapier",
+			longName:  "a darting rapier",
+			verb:      "stab",
+			desc:      "This rapier is essentially a dart mounted over a carved chitin hilt. The tip of the blade seethes poison. Particularly deadly when used by a bee.",
+			type:      WT_DUELING,
+			size:      WSZ_MEDIUM,
+			attack:    18,
+			qattack:   1.0/3.0,
+			value:     200
+		},
+		"amberstaff":   {
 			chance:    0,
 			name:      "amber staff",
 			shortName: "AmberStaff",
@@ -215,13 +228,16 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			type:      WT_STAFF,
 			size:      WSZ_LARGE,
 			effects:   [
-				[IELib.ScaleAttack_Str, 60]
+				[IELib.Buff, .8, 'spellpower']
+			],
+			qeffects:   [
+				[IELib.Buff, .8, 'spellpower']
 			],
 			attack:    8,
-			qattack:   0.25,
+			qattack:   0,
 			value:     1000
 		},
-		"beewand":   {
+		"amberwand":   {
 			chance:    0,
 			name:      "amber wand",
 			shortName: "AmberWand",
@@ -231,10 +247,13 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			type:      WT_WAND,
 			size:      WSZ_MEDIUM,
 			effects:   [
-				[IELib.ScaleAttack_Str, 60]
+				[IELib.Buff, .6, 'spellpower']
+			],
+			qeffects:   [
+				[IELib.Buff, .6, 'spellpower']
 			],
 			attack:    8,
-			qattack:   0.25,
+			qattack:   0,
 			value:     1000
 		},
 		"claymore":   {

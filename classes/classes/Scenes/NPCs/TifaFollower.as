@@ -21,8 +21,17 @@ public function tifaAffection(changes:Number = 0):Number {
 
 public function tifaMainMenu():void {
 	clearOutput();
-	outputText("You walk over and wave to Tifa who is as her usual, busy collecting flowers.\n\n");
-	outputText("\"<i>Hey [name] how are you doing? Izzz something on your mind?</i>\"\n\n");
+	if(SceneLib.tifaHive.HiveComplete) {
+		outputText("The royal chamber is as busy as can be. Queen Tifa is laid back into her bed her massive bloated abdomen being relentlessly fucked by the many drones within the room. Occasionally an handmaiden will report for duty from the field making the queue to receive her next load of eggs. ");
+		if(player.perkv1(PerkLib.BeeOvipositor) > 0){
+			outputText("Come to think of it, why are you still hanging in here, don’t you have eggs to lay? You should get on it asap, even if Tifa won’t mind you neglecting your duty to do your champion job you are still a handmaiden yourself.");
+		} else {
+			outputText("With your abdomen fully discharged you are overdue for a new egg load. Work never ends.")
+		}
+	} else {
+		outputText("You walk over and wave to Tifa who is as her usual, busy collecting flowers.\n\n");
+		outputText("\"<i>Hey [name] how are you doing? Izzz something on your mind?</i>\"\n\n");
+	}
 	menu();
 	addButton(0, "Appearance", tifaMainMenuAppearance);
 	addButton(1, "Talk", tifaMainMenuTalk);

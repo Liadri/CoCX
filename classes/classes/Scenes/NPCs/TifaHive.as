@@ -148,7 +148,7 @@ public function enterTheHive():void {
 	menu();
 	addButton(0, "Honeybrewers", honeybrewers).hint("The hive honey brewers are constantly producing vast amounts of bee honey, which is then refined into potions or nutrition.").disableIf(BrewersTimeout != 0,"This area is under construction by the hive, come back later after performing your duty to the queen a few more times." + (BeesHatched < BEES_FOR_BREWERS ? "(Not enough sizzterz born yet)" : "(Not enough time passed yet)"));
 	addButton(1, "Armory", amberforgeMain).hint("The hive workers use various materials such as Chitin and amber to produce weapons and armors of high quality.").disableIf(ForgeTimeout != 0,"This area is under construction by the hive, come back later after performing your duty to the queen a few more times." + (BeesHatched < BEES_FOR_FORGE ? "(Not enough sizzterz born yet)" : "(Not enough time passed yet)"));
-	addButton(2, "Tifa", SceneLib.tifaFollower.tifaMainMenu);
+	addButton(2, "Tifa", SceneLib.tifaFollower.tifaMainMenu).hint("Your queen, Tifa, is in her chamber.");
 	addButton(3, "Back", camp.campLoversMenu);
 }
 
