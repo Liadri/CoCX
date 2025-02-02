@@ -144,7 +144,7 @@ Corruption Path (Arian's body is drastically altered, but [Arian eir] personalit
 			//1% chance per 100mLs of cum, max 15%
 			var score:Number = Math.min(player.cumQ()/100,5);
 			score += player.virilityQ() * 200;
-			outputText("Electra checking virility score " + score);
+			outputText("Arian checking virility score " + score);
 			if((player.cumQ() > (score >= rand(100)) || player.hasPerk(PerkLib.PilgrimsBounty))) {
 				preg = true;
 			}

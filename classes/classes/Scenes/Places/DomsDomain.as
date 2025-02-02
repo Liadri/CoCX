@@ -8,19 +8,139 @@ import classes.Scenes.SceneLib;
 import classes.internals.SaveableState;
 import classes.Scenes.Camp.CampStatsAndResources;
 import classes.Scenes.Dungeons.DemonLab;
-import classes.internals.Utils;
 import coc.view.MainView;
 import classes.EventParser;
 import classes.GlobalFlags.kFLAGS;
 import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
-import classes.Races;
 import classes.Saves;
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
 import classes.Items.MutationsHelper;
 import classes.Transformations.Transformations.*;
 import classes.Transformations.TransformationLib;
+import classes.Appearance;
+import classes.BodyParts.Antennae;
+import classes.BodyParts.Arms;
+import classes.BodyParts.Eyes;
+import classes.BodyParts.LowerBody;
+import classes.BodyParts.Skin;
+import classes.BodyParts.Tail;
+import classes.BodyParts.Wings;
+import classes.Races;
+import classes.Races.BeeRace;
+import classes.Races.GoblinRace;
+import classes.Races.AlicornRace;
+import classes.Races.AbyssalSharkRace;
+import classes.Races.AngelRace;
+import classes.Races.AntRace;
+import classes.Races.AnubisRace;
+import classes.Races.ApophisRace;
+import classes.Races.ArigeanRace;
+import classes.Races.AtlachNachaRace;
+import classes.Races.AvianRace;
+import classes.Races.AzazelRace;
+import classes.Scenes.SceneLib;
+import classes.Races.BansheeRace;
+import classes.Races.BatRace;
+import classes.Races.BearRace;
+import classes.Races.BunnyRace;
+import classes.Races.CancerRace;
+import classes.Races.CatRace;
+import classes.Races.CaveWyrmRace;
+import classes.Races.CentaurRace;
+import classes.Races.CentipedeRace;
+import classes.Races.CerberusRace;
+import classes.Races.CheshireRace;
+import classes.Races.CouatlRace;
+import classes.Races.CowRace;
+import classes.Races.CyclopRace;
+import classes.Races.DarkSlimeRace;
+import classes.Races.DeerRace;
+import classes.Races.DemonRace;
+import classes.Races.DevilRace;
+import classes.Races.DisplacerBeastRace;
+import classes.Races.DogRace;
+import classes.Races.DraculaRace;
+import classes.Races.DragonneRace;
+import classes.Races.DragonRace;
+import classes.Races.EasterBunnyRace;
+import classes.Races.EchidnaRace;
+import classes.Races.ElfRace;
+import classes.Races.FaerieDragonRace;
+import classes.Races.FairyRace;
+import classes.Races.FemaleMindbreakerRace;
+import classes.Races.FerretRace;
+import classes.Races.FireSnailRace;
+import classes.Races.FoxRace;
+import classes.Races.FrostWyrmRace;
+import classes.Races.GazerRace;
+import classes.Races.GlacialTrollRace;
+import classes.Races.GorgonRace;
+import classes.Races.GremlinRace;
+import classes.Races.GryphonRace;
+import classes.Races.HarpyRace;
+import classes.Races.HellcatRace;
+import classes.Races.HorseRace;
+import classes.Races.HumanRace;
+import classes.Races.HydraRace;
+import classes.Races.ImpRace;
+import classes.Races.JabberwockyRace;
+import classes.Races.KamaitachiRace;
+import classes.Races.KangarooRace;
+import classes.Races.KirinRace;
+import classes.Races.KitshooRace;
+import classes.Races.KitsuneRace;
+import classes.Races.LaquineRace;
+import classes.Races.LizardRace;
+import classes.Races.MagmaSlimeRace;
+import classes.Races.MaleMindbreakerRace;
+import classes.Races.ManticoreRace;
+import classes.Races.MantisRace;
+import classes.Races.MelkieRace;
+import classes.Races.MinotaurRace;
+import classes.Races.MothRace;
+import classes.Races.MouseRace;
+import classes.Races.MummyRace;
+import classes.Races.NagaRace;
+import classes.Races.NekomataRace;
+import classes.Races.OniRace;
+import classes.Races.OomukadeRace;
+import classes.Races.OrcaRace;
+import classes.Races.OrcRace;
+import classes.Races.PeacockRace;
+import classes.Races.PhoenixRace;
+import classes.Races.PigRace;
+import classes.Races.PlantRace;
+import classes.Races.PoltergeistRace;
+import classes.Races.RaccoonRace;
+import classes.Races.RaijuRace;
+import classes.Races.RaisuneRace;
+import classes.Races.RatatoskrRace;
+import classes.Races.RedPandaRace;
+import classes.Races.RhinoRace;
+import classes.Races.SalamanderRace;
+import classes.Races.SandTrapRace;
+import classes.Races.SandWormRace;
+import classes.Races.SatyrRace;
+import classes.Races.ScorpionRace;
+import classes.Races.SeaDragonRace;
+import classes.Races.ScyllaRace;
+import classes.Races.SharkRace;
+import classes.Races.SirenRace;
+import classes.Races.SlimeRace;
+import classes.Races.SphinxRace;
+import classes.Races.SpiderRace;
+import classes.Races.ThunderbirdRace;
+import classes.Races.TrollRace;
+import classes.Races.UnicornRace;
+import classes.Races.UshiOniRace;
+import classes.Races.VampireRace;
+import classes.Races.VouivreRace;
+import classes.Races.WolfRace;
+import classes.Races.WoodElfRace;
+import classes.Races.YetiRace;
+import classes.internals.Utils;
 use namespace CoC;
 
 public class DomsDomain extends BaseContent implements SaveableState, TimeAwareInterface {
@@ -703,6 +823,11 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        addButton(0, "Centaur", CumtoiletsHeads);
+        addButton(1, "Slime", CumtoiletsTails);
+        addButton(2, "Twins", CumtoiletsTails);
+        addButton(3, "Zetzuko", CumtoiletsTails);
+        addButton(14, "Leave", StripClub);
     }
 
 
@@ -765,6 +890,8 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     private function CumtoiletRooTail():void {
@@ -773,6 +900,8 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     private function CumtoiletDElfTail():void {
@@ -781,6 +910,8 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     private function CumtoiletElfTail():void {
@@ -789,6 +920,8 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     private function CumtoiletsHeads():void {
@@ -832,6 +965,28 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(0, "BJ", RooHeadHead);
+        addButton(1, "EatMe", RooHeadlick);
+        addButton(14, "Back", CumtoiletsHeads);
+    }
+
+    private function RooHeadlick():void {
+        clearOutput();
+        outputText(" \n\n");
+        outputText(" \n\n");
+        outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
+    }
+
+    private function RooHeadHead():void {
+        clearOutput();
+        outputText(" \n\n");
+        outputText(" \n\n");
+        outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     private function CumtoiletDElfHead():void {
@@ -840,6 +995,28 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(0, "BJ", DElfHead);
+        addButton(1, "Lick", DElfLick);
+        addButton(14, "Back", CumtoiletsHeads);
+    }
+
+    private function DElfLick():void {
+        clearOutput();
+        outputText(" \n\n");
+        outputText(" \n\n");
+        outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
+    }
+
+    private function DElfHead():void {
+        clearOutput();
+        outputText(" \n\n");
+        outputText(" \n\n");
+        outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     private function CumtoiletElfHead():void {
@@ -848,6 +1025,28 @@ public class DomsDomain extends BaseContent implements SaveableState, TimeAwareI
         outputText(" \n\n");
         outputText(" \n\n");
         outputText(" \n\n");
+        menu();
+        addButton(0, "BJ", ElfHead);
+        addButton(1, "Lick", ElfLick);
+        addButton(14, "Back", CumtoiletsHeads);
+    }
+
+    private function ElfLick():void {
+        clearOutput();
+        outputText(" \n\n");
+        outputText(" \n\n");
+        outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
+    }
+
+    private function ElfHead():void {
+        clearOutput();
+        outputText(" \n\n");
+        outputText(" \n\n");
+        outputText(" \n\n");
+        menu();
+        addButton(14, "Back", CumtoiletsHeads);
     }
 
     //------------------Meila Scenes and Functions-----------------
@@ -904,6 +1103,8 @@ if (MeilaState == 0) {
             outputText("Meila looks down slightly. “I’d rather keep things professional, if you don’t mind. Mistress Ceraph doesn’t take too kindly to…Wasted time.”\n\n");
             outputText("Maybe she’d open up a little once she trusts you more?\n\n");
             outputText("");
+            menu();
+            addButton(14,"Back", DaintyDullahan);
         }
         if (MeilaTrust > 30 && MeilaTrust < 50) {
             outputText("Meila looks a little bit confused, but also a little flattered. “You just came down here to talk?” She seems a little wary, but looks at you, a small smile forming on her face. “What do you want to talk about, [Master]?” \n\n");
@@ -944,6 +1145,7 @@ if (MeilaState == 0) {
     private function MeilaTalkOthers():void {
         clearOutput();
         outputText("“You wish to know more about the others in Ceraph’s Harem?” She shudders slightly. “Okay, who do you want to know about?” \n\n");
+        menu();
         addButton(1, "Ceraph", MeilaTalkCeraph);
         addButton(2, "Jabba", MeilaTalkJabba);
         addButton(3, "Ceraph", MeilaTalkNolan);
@@ -994,19 +1196,30 @@ if (MeilaState == 0) {
     private function MeilaTalkCeraph():void {
         clearOutput();
        //low trust
-        outputText("“Ceraph is…A very capable demon. She’s adept at magic, particularly seduction, and is no slouch in combat, either. You seem to have her well in hand though.” \n\n");
+        if (MeilaTrust < 30) {
+            outputText("“Ceraph is…A very capable demon. She’s adept at magic, particularly seduction, and is no slouch in combat, either. You seem to have her well in hand though.” \n\n");
+        }
         //medium trust
-        outputText("“Ceraph is the conniving, cunning queen of this domain. Don’t let your guard down around her, even with the totem you have keeping her in check.” \n\n");
+        if ((MeilaTrust > 30) && (MeilaTrust < 60)) {
+            outputText("“Ceraph is the conniving, cunning queen of this domain. Don’t let your guard down around her, even with the totem you have keeping her in check.” \n\n");
+        }
        //high trust, pierced token
-        outputText("Meila leans in, looking around. “There is something you should know. You may have some measure of control over Ceraph…But that token you wear is cursed. Ceraph can’t overtly control you through it, but she can manipulate your emotional state.” She whispers this, looking around fearfully. “She submits to you because she enjoys it. It’s a novel experience for her…But she’s stronger than you think, especially since you have that thing attached to you.” \n\n");
-        //high trust
-        outputText("Meila leans in, slightly worried. “Ceraph is still a threat to you, champion. Please, believe me when I say…She’s not a submissive by nature. She lets you think you’re in charge, it makes her wet…But please, don’t make the same mistake that…That I did. Don’t count her as yours forever.” \n\n");
-        //Ceraph Ousted, Meila in Charge
-        outputText("Meila gives you a wicked little grin, tapping the side of her head. “Oh, Ceraph’s still in anguish…or at least, she would be, if she could think straight. Poor dear hasn’t had a rest break in a few days. She’s quite the popular attraction.”\n\n");
-        outputText("Meila sighs contentedly. “I can feel her losing her grip, you know. Part of me’s been tempted to grow myself a cock, just so I can have the pleasure of taking her…But no. I don’t want to sully myself with that bitch.” \n\n");
-        //Ceraph Ousted, Nolan in charge
-        outputText("Meila gives you a smirk. “She’s gotten quite popular. Her mind’s degraded, but she can still feel and understand what’s happening to her. Jabba has her waiting on that imp-like demon she hates, Derail, for most of the day when he’s here. When he’s not, she’s whored out, but she’s unable to cum. I got to watch the last time her collar needed maintenance, and the look of horror on her face was exquisite.” Meila gives you a smoldering look. “I have you to thank for that.” \n\n");
-        doNext(MeilaTalk);
+        if ((MeilaTrust > 59) && (flags[kFLAGS.CERAPH_FOLLOWER_PIERCING] ==1 )) {
+            outputText("Meila leans in, looking around. “There is something you should know. You may have some measure of control over Ceraph…But that token you wear is cursed. Ceraph can’t overtly control you through it, but she can manipulate your emotional state.” She whispers this, looking around fearfully. “She submits to you because she enjoys it. It’s a novel experience for her…But she’s stronger than you think, especially since you have that thing attached to you.” \n\n");
+        } else if ((MeilaTrust > 59) && (whosincharge == 0) ) {
+            //high trust
+            outputText("Meila leans in, slightly worried. “Ceraph is still a threat to you, champion. Please, believe me when I say…She’s not a submissive by nature. She lets you think you’re in charge, it makes her wet…But please, don’t make the same mistake that…That I did. Don’t count her as yours forever.” \n\n");
+            //Ceraph Ousted, Meila in Charge
+        }
+if (whosincharge == 1) {
+    outputText("Meila gives you a wicked little grin, tapping the side of her head. “Oh, Ceraph’s still in anguish…or at least, she would be, if she could think straight. Poor dear hasn’t had a rest break in a few days. She’s quite the popular attraction.”\n\n");
+    outputText("Meila sighs contentedly. “I can feel her losing her grip, you know. Part of me’s been tempted to grow myself a cock, just so I can have the pleasure of taking her…But no. I don’t want to sully myself with that bitch.” \n\n");
+}
+    //Ceraph Ousted, Nolan in charge
+        if (whosincharge == 2) {
+            outputText("Meila gives you a smirk. “She’s gotten quite popular. Her mind’s degraded, but she can still feel and understand what’s happening to her. Jabba has her waiting on that imp-like demon she hates, Derail, for most of the day when he’s here. When he’s not, she’s whored out, but she’s unable to cum. I got to watch the last time her collar needed maintenance, and the look of horror on her face was exquisite.” Meila gives you a smoldering look. “I have you to thank for that.” \n\n");
+            doNext(MeilaTalk);
+        }
     }
 
     private function MeilaTalkHistory():void {
@@ -1113,6 +1326,7 @@ if (MeilaState == 0) {
 
     private function DDullahanTFMenu():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1124,12 +1338,10 @@ if (MeilaState == 0) {
         addButton (5, "Minotaur", MeilaTFMinotaurMenu);
         addButton (6, "A.Shark", MeilaTFAsharkMenu);
         addButton (7, "Alicorn", MeilaTFAlicornMenu);
-
-
-        addButton (10, "Ant", MeilaTFAngelMenu);
+        addButton (10, "Ant", MeilaTFAntMenu);
         addButton (11, "Anubis", MeilaTFAnubisMenu);
         addButton (12, "Apophis", MeilaTFApophisMenu);
-        addButton (13, "Arigean", MeilaTFArigeanMenu);
+        //addButton (13, "Arigean", MeilaTFArigeanMenu);
         addButton (14, "NextPage", DDullahanTFMenu2);
 
     }
@@ -1141,67 +1353,238 @@ if (MeilaState == 0) {
 
     private function MeilaTFGoblinMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void { CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor = randomChoice(GoblinRace.GoblinSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(5, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect();});
+        addButton(6, "Hair",  function():void {  player.hairColor1 = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(7, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function MeilaTFMouseMenu():void {
         menu();
+        addButton(0, "Face",  function():void {  CoC.instance.transformations.FaceMouse.applyEffect(); });
+        addButton(1, "Ears",  function():void {  CoC.instance.transformations.EarsMouse.applyEffect();});
+        addButton(2, "Legs",  function():void {  CoC.instance.transformations.LowerBodyMouse.applyEffect(); });
+        addButton(3, "L.Fur",  function():void {  CoC.instance.transformations.SkinFur(1).applyEffect(); });
+        addButton(4, "LM.Fur",  function():void {  CoC.instance.transformations.SkinFur(2).applyEffect(); });
+        addButton(5, "MH. Fur",  function():void {  CoC.instance.transformations.SkinFur(3).applyEffect(); });
+        addButton(6, "H.Fur",  function():void {  CoC.instance.transformations.SkinFur(4).applyEffect(); });
+        addButton(7, "Tail",  function():void {  CoC.instance.transformations.TailMouse.applyEffect(); });
+        addButton(12, "Hinezumi", HinezumiMenu);
+
+        addButton (14, "Back", DDullahanTFMenu);
+    }
+
+    private function HinezumiMenu():void {
+        menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHinezumi.applyEffect(); });
+        addButton(1, "Eyes",  function():void {  CoC.instance.transformations.EyesHinezumi.applyEffect(); player.eyes.colour = "blazing red";});
+        addButton(2, "Legs",  function():void {  CoC.instance.transformations.LowerBodyHinezumi.applyEffect(); });
+        addButton(3, "Hair",  function():void { CoC.instance.transformations.HairBurning.applyEffect(); player.hairColor = randomChoice(MouseRace.MouseHairColors); });
+        addButton(4, "BurningTail",  function():void {  CoC.instance.transformations.TailHinezumi.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function MeilaTFImpMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor = randomChoice(GoblinRace.GoblinSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function MeilaTFFoxMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsFox.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceFox.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesFox.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsFox.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyFoxBipedal.applyEffect(); });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairHuman.applyEffect(); player.hairColor1 = randomChoice(FoxRace.FoxHairColors); });
+        addButton(8, "Fur",  function():void {  CoC.instance.transformations.SkinFur(4).applyEffect(); player.furColor1 = randomChoice(FoxRace.FoxFurColors);});
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailFox(1).applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function MeilaTFMinotaurMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCowMinotaur.applyEffect(); });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsCow.applyEffect();});
+        addButton(3, "Legs",  function():void {  CoC.instance.transformations.LowerBodyClovenHoofedBipedal.applyEffect(); });
+        addButton(4, "Fur",  function():void { CoC.instance.transformations.SkinFur(3).applyEffect();});
+        addButton(5, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(6, "Horns",  function():void {  CoC.instance.transformations.HornsCowMinotaur.applyEffect(); });
+        addButton(7, "Tail",  function():void {  CoC.instance.transformations.TailCow.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function MeilaTFAsharkMenu():void {
         menu();
+        addButton(0, "ScaleColor",  function():void {  player.skinColor = randomChoice(AbyssalSharkRace.AbyssalSharkScaleColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAbyssalShark.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesDevil.applyEffect();  });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsShark.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyAbyssalShark.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyAbyssalSharkFin.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Scales", AbyssalSharkTFScalechoice);
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "Gills",  function():void {  CoC.instance.transformations.GillsFish.applyEffect();  });
+        addButton(12, "SkinPattern",  function():void {  CoC.instance.transformations.SkinPatternBioluminescence.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailAbyssalShark.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
+    }
+
+    private function AbyssalSharkTFScalechoice():void {
+        menu();
+        addButton (0, "Scales", function():void {  CoC.instance.transformations.SkinScales(2).applyEffect();});
+        addButton (1, "AquaScales", function():void {  CoC.instance.transformations.SkinAquaScales(2).applyEffect();});
+        addButton (2, "DragonScales", function():void {  CoC.instance.transformations.SkinDragonScalesToFull.applyEffect();});
+        addButton (14, "Back", MeilaTFAsharkMenu);
     }
 
     private function MeilaTFAlicornMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHorse.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsHorse.applyEffect();});
+        addButton(5, "Hooves",  function():void {  CoC.instance.transformations.LowerBodyHoofedBipedal.applyEffect(); });
+        addButton(6, "C.Hooves",  function():void {  CoC.instance.transformations.LowerBodyClovenHoofedBipedal.applyEffect(); });
+        addButton(7, "N.Hair",  function():void {  player.hairColor = randomChoice(AlicornRace.NightmareHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "Horns", MeilaTFAlicornHornMenu );
+        addButton(11, "U.Hair",  function():void {  player.hairColor = randomChoice(AlicornRace.AlicornHairColors); });
+        addButton(12, "Wings", MeilaTFAlicornWingsMenu );
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailHorse.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
-    private function MeilaTFAngelMenu():void {
+    private function MeilaTFAlicornWingsMenu():void {
         menu();
+        addButton(0, "Alicorn",  function():void {  CoC.instance.transformations.WingsFeatheredAlicorn.applyEffect();  });
+        addButton(1, "Nightmare",  function():void {  CoC.instance.transformations.WingsNightmare.applyEffect();  });
+        addButton (14, "Back", MeilaTFAlicornMenu);
+    }
+
+    private function MeilaTFAlicornHornMenu():void {
+        menu();
+        addButton(0, "Bicorn",  function():void {  CoC.instance.transformations.HornsBicorn.applyEffect();  });
+        addButton(1, "Unicorn",  function():void {  CoC.instance.transformations.HornsUnicorn.applyEffect();  });
+        addButton (14, "Back", MeilaTFAlicornMenu);
+    }
+
+    private function MeilaTFAntMenu():void {
+        menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnt.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsInsect.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyAnt.applyEffect(); });
+        addButton(6, "AntArms",  function():void {  CoC.instance.transformations.ArmsAnt.applyEffect(); });
+        addButton(7, "Chitin",  function():void {  CoC.instance.transformations.SkinChitinToFull.applyEffect(); });
+        addButton(8, "Antenna",  function():void {  CoC.instance.transformations.AntennaeAnt.applyEffect(); });
+        addButton(9, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(10, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(11, "Wings", MeilaTFAntWingMenu);
+        addButton(12, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
+    private function MeilaTFAntWingMenu():void {
+        menu();
+        addButton(0, "BeeSmall",  function():void {  CoC.instance.transformations.WingsBeeSmall.applyEffect();  });
+        addButton(1, "Beelarge",  function():void {  CoC.instance.transformations.WingsBeeLarge.applyEffect();  });
+        addButton(2, "Antsmall",  function():void {  CoC.instance.transformations.WingsAntSmall.applyEffect();  });
+        addButton(1, "AntLarge",  function():void {  CoC.instance.transformations.WingsAntLarge.applyEffect() });
+        addButton (14, "Back", MeilaTFAntMenu);
+    }
     private function MeilaTFAnubisMenu():void {
         menu();
+        addButton(0, "Tongue",  function():void {  CoC.instance.transformations.TongueDog.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceDog.applyEffect(); });
+        addButton(2, "Eyes",  function():void {   CoC.instance.transformations.FaceDog.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsJackal.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyDogBipedal.applyEffect(); });
+        addButton(6, "Arms",  function():void {  CoC.instance.transformations.ArmsCanine.applyEffect(); });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairHuman.applyEffect(); });
+        addButton(8, "GlyphPattern",  function():void {  CoC.instance.transformations.SkinPatternAnubis.applyEffect(); });
+        addButton(9, "Coloration", MeilaTFAnubisColors );
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailDog.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
+    }
+
+    private function MeilaTFAnubisColors():void {
+        menu();
+        addButton(0, "EyeColor",  function():void {  player.hairColor = randomChoice(AnubisRace.AnubisHairColors);  });
+        addButton(1, "Haircolor",  function():void {  player.hairColor = randomChoice(AnubisRace.AnubisHairColors);  });
+        addButton(2, "Furcolor",  function():void {  player.hairColor = randomChoice(AnubisRace.AnubisHairColors);  });
+        addButton(3, "Skincolor",  function():void {  player.hairColor = randomChoice(AnubisRace.AnubisHairColors); });
+        addButton (14, "Back", MeilaTFAnubisMenu);
     }
 
     private function MeilaTFApophisMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor1 = "light purple" });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSnakeFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSnakeFiendish.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsSnake.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodySnake.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyCobraHood.applyEffect(); });
+        addButton(7, "Arms",  function():void { CoC.instance.transformations.ArmsHuman.applyEffect();  });
+        addButton(8, "Scales",  function():void {  CoC.instance.transformations.SkinScales(2).applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  player.hairColor = randomChoice(ApophisRace.ApophisHairColors);  });
+        addButton(10, "Tongue",  function():void {  CoC.instance.transformations.TongueSnake.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function MeilaTFArigeanMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesArigean.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElven.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu);
     }
 
     private function DDullahanTFMenu2():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
         addButton (0, "Previous", DDullahanTFMenu);
         addButton (1, "Avian", MeilaTFAvianMenu);
-        addButton (2, "Azazel", MeilaTFAzazelMenu);
+        //addButton (2, "Azazel", MeilaTFAzazelMenu);
         addButton (3, "Banshee", MeilaTFBansheeMenu);
         addButton (4, "Bat", MeilaTFBatMenu);
         addButton (5, "Bear", MeilaTFBearMenu);
@@ -1218,71 +1601,266 @@ if (MeilaState == 0) {
 
     private function MeilaTFAvianMenu():void {
         menu();
+        addButton(0, "HairType",  function():void {  CoC.instance.transformations.HairFeather.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAvian.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesGryphon.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsAvian.applyEffect();});
+        addButton(5, "Arms",  function():void {  CoC.instance.transformations.ArmsAvian.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        //addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(11, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredAvian.applyEffect(); });
+        addButton(12, "Tail",  function():void {  CoC.instance.transformations.TailAvian.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFAzazelMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFBansheeMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFBatMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsBatWing.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceVampire.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyBatCollar.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFBearMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsBear.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceBear.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesBear.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsBear.applyEffect();});
+        addButton(4, "Furcolor",  function():void {  player.furColor1 = randomChoice(BearRace.BearFurColors); });
+        addButton(5, "Fur",  function():void {  CoC.instance.transformations.SkinFur(2).applyEffect(); });
+        addButton(6, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyBearBipedal.applyEffect(); });
+        addButton(7, "Tail",  function():void {  CoC.instance.transformations.TailBear.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFBeeMenu():void {
         menu();
+        addButton(0, "Hair",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(1, "Oviposition",  function():void {  CoC.instance.transformations.OvipositorBee.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSandTrap.applyEffect(); });
+        addButton(5, "Arms",  function():void {  CoC.instance.transformations.ArmsBee.applyEffect();});
+        addButton(6, "Legs",  function():void {  CoC.instance.transformations.LowerBodyBee.applyEffect(); });
+        addButton(7, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(8, "Skin",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(9, "Chitin",  function():void {  CoC.instance.transformations.SkinPatternBeeStripes.applyEffect(); });
+        addButton(10, "Antennae",  function():void {  CoC.instance.transformations.AntennaeBee.applyEffect(); });
+        addButton(13, "Wings", MeilaBeeWings);
+        addButton(14, "BeeButt",  function():void {  CoC.instance.transformations.TailBee.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
+    }
+
+    private function MeilaBeeWings():void {
+        menu();
+        addButton(0, "SmallWings", function():void {  CoC.instance.transformations.WingsBeeSmall.applyEffect(); });
+        addButton(1, "LargeWings", function():void {  CoC.instance.transformations.WingsBeeLarge.applyEffect(); });
+        addButton (14, "Back", MeilaTFBeeMenu);
     }
 
     private function MeilaTFBunnyMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceBunny.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsBunny.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyBunny.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Fur",  function():void {  CoC.instance.transformations.SkinFur(2).applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(6, "Tail",  function():void {  CoC.instance.transformations.TailRabbit.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFCancerMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceKudere.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCancer.applyEffect(); player.eyes.colour = "orange"; });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsHuman.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyCancer.applyEffect(); });
+        addButton(7, "Hair",  function():void {  CoC.instance.transformations.HairHuman.applyEffect(); });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        //add Cancer Vagina/Cocks here
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function MeilaTFCatMenu():void {
         menu();
+        addButton(0, "Arms",  function():void { CoC.instance.transformations.ArmsCat.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCat.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCat.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsCat.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyCatBipedal.applyEffect(); });
+        addButton(6, "Tongue",  function():void {  CoC.instance.transformations.TongueCat.applyEffect(); });
+        addButton(8, "Fur", MeilaTFCatFur);
+        addButton(9, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailCat.applyEffect(); });
+        //Add Breast Reqs and Cock Reqs in submenu
         addButton (14, "Back", DDullahanTFMenu2);
+    }
+
+    private function MeilaTFCatFur():void {
+        menu();
+        addButton(0, "Low", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "Medium", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "High", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "Full", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(14, "Back", MeilaTFCatMenu);
     }
 
     private function MeilaTFCWyrmMenu():void {
         menu();
+        addButton(0, "Scales", MeilaTFCWyrmSkin);
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSalamanderFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCaveWyrm.applyEffect(); player.eyes.colour = "orange"; });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsCaveWyrm.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyCaveWyrm.applyEffect(); });
+        addButton(6, "Arms",  function():void { CoC.instance.transformations.ArmsCaveWyrm.applyEffect(); });
+        addButton(8, "Tongue",  function():void {  CoC.instance.transformations.TongueCaveWyrm.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "GlowNips",  function():void {  CoC.instance.transformations.NipplesGlowing.applyEffect(); });
+        addButton(11, "GlowAss",  function():void {  CoC.instance.transformations.AssholeGlowing.applyEffect();  });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailCaveWyrm.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
+    }
+    private function MeilaTFCWyrmSkin():void {
+        menu();
+        addButton(0, "Low", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(1, "Medium", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(2, "High", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(4, "Full", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+        addButton(14, "Back", MeilaTFCatMenu);
     }
 
     private function MeilaTFCentaurMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor = randomChoice(CentaurRace.CentaurSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsHuman.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  CoC.instance.transformations.HairHuman.applyEffect(); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "Legs",  function():void {  CoC.instance.transformations.LowerBodyClovenHoofedToggle(true).applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailHorse.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
+    }
+
+
+
+    private function MeilaTFCheshireMenu():void {
+        menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsCat.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCheshireSmile.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsCat.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyCatBipedal.applyEffect(); });
+        addButton(6, "Eyecolor",  function():void {  player.eyes.colour = "yellow"; });
+        addButton(7, "Tongue",  function():void {  CoC.instance.transformations.TongueCat.applyEffect(); });
+        addButton(8, "Fur", MeilaTFCheshireFurAndColor);
+        addButton(9, "Tail",  function():void {  CoC.instance.transformations.TailCat.applyEffect(); });
+        addButton (14, "Back", DDullahanTFMenu2);
+    }
+    private function MeilaTFCheshireFurAndColor():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(6, "Eyecolor",  function():void {  player.eyes.colour = "yellow"; });
+
+        addButton(7, "Furcolor",  function():void {  player.furColor2 = "light purple"; });
+        addButton(8, "Haircolor",  function():void {  player.hairColor2 = "light purple"; });
+
+        addButton(14, "Back", MeilaTFCheshireMenu);
     }
 
     private function MeilaTFCentipedeMenu():void {
         menu();
-        addButton (14, "Back", DDullahanTFMenu2);
-    }
-
-    private function MeilaTFCheshireMenu():void {
-        menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Skin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyCentipede.applyEffect(); });
+        addButton(5, "Rear",  function():void {  CoC.instance.transformations.RearBodyCentipede.applyEffect(); });
+        addButton(6, "Antenna",  function():void {  CoC.instance.transformations.AntennaeCentipede.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu2);
     }
 
     private function DDullahanTFMenu3():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1303,61 +1881,314 @@ if (MeilaState == 0) {
 
     private function MeilaTFCouatlMenu():void {
         menu();
+        addButton(0, "Colors", CouatlColorMenu);
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSnakeFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSnake.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsSnake.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodySnake.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyCobraHood.applyEffect(); });
+        addButton(7, "Arms",  function():void { CoC.instance.transformations.ArmsHarpy.applyEffect();  });
+        addButton(8, "Scales",  function():void {  CoC.instance.transformations.SkinScales(4).applyEffect(); });
+        addButton(10, "Tongue",  function():void {  CoC.instance.transformations.TongueSnake.applyEffect(); });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsCouatl.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
     }
 
+    private function CouatlColorMenu():void {
+        menu();
+        addButton(0, "HairCrimson", function():void {  player.hairColor1 = "crimson"; });
+        addButton(1, "ScaleColorGreen",  function():void {  player.scaleColor1 = "green"; });
+        addButton(2, "ScalecolorYellow",  function():void {  player.scaleColor2 = "yellow"; });
+        addButton(3, "FeatherColorBlue",  function():void {  player.featherColor1 = "blue"; });
+        addButton (14, "Back", DDullahanTFMenu3);
+    }
     private function MeilaTFCowMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCowMinotaur.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsCow.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyClovenHoofedBipedal.applyEffect(); });
+        addButton(5, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(6, "Horns",  function():void {  CoC.instance.transformations.HornsCowMinotaur.applyEffect(); });
+        addButton(7, "Tail",  function():void {  CoC.instance.transformations.TailCow.applyEffect(); });
+        //add Vag, tits and lactation
         addButton (14, "Back", DDullahanTFMenu3);
     }
 
     private function MeilaTFCyclopMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eye",  function():void {  CoC.instance.transformations.EyesMonoeye.applyEffect();  });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsHuman.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "No_Rearbody",  function():void {  CoC.instance.transformations.RearBodyNone.applyEffect(); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
     }
 
     private function MeilaTFDSlimeMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor1 = randomChoice(DarkSlimeRace.DarkSlimeSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void { CoC.instance.transformations.RearBodyMetamorphicGoo.applyEffect(); });
+        addButton(7, "Hair",  function():void {  CoC.instance.transformations.HairGoo.applyEffect(); });
+        addButton(8, "GooSkin",  function():void {  CoC.instance.transformations.SkinGooToFull.applyEffect(); player.isGooSkin(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
     }
 
     private function MeilaTFDeerMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsReindeer.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceDeer.applyEffect(); });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsDeer.applyEffect();});
+        addButton(3, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyClovenHoofedBipedal.applyEffect(); });
+        addButton(4, "Fur",  function():void {  CoC.instance.transformations.SkinFur(4).applyEffect(); });
+        addButton(5, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(6, "Horns", DeerHornMenu);
+        addButton(7, "Tail",  function():void {  CoC.instance.transformations.TailDeer.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function DeerHornMenu():void {
+        addButton(0, "Small",  function():void {  CoC.instance.transformations.HornsAntlers.applyEffect(); });
+        addButton(1, "Medium",  function():void {  CoC.instance.transformations.HornsAntlers.applyEffect(); });
+        addButton(2, "Large",  function():void {  CoC.instance.transformations.HornsAntlers.applyEffect();});
+        addButton (14, "Back", MeilaTFDeerMenu);
     }
 
     private function MeilaTFDemonMenu():void {
         menu();
+        addButton(0, "Tongue",  function():void {  CoC.instance.transformations.TongueDemonic.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceDemon.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesDemon.applyEffect(); });
+        addButton(3, "Arms",  function():void {  CoC.instance.transformations.ArmsDemon.applyEffect();});
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(6, "Eyecolor",  function():void {  player.eyes.colour = "red";});
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Skin/Wings", DemonExtraMenu1 );
+        addButton(9, "Horns",  function():void {  CoC.instance.transformations.HornsDemonic.applyEffect(); });
+        addButton(10, "Tail",  function():void {  CoC.instance.transformations.TailDemonic.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function DemonExtraMenu1():void {
+        menu();
+        addButton(0, "SmallWings",  function():void {  CoC.instance.transformations.WingsDemonicTiny.applyEffect();  });
+        addButton(1, "LargeWings",  function():void {  CoC.instance.transformations.WingsDemonicTiny.applyEffect(); });
+        addButton(2, "Skin1",  function():void {  player.skinColor1 = randomChoice(DemonRace.DemonSkinColors); });
+        addButton(3, "Skin2",  function():void {  player.skinColor2 = randomChoice(DemonRace.DemonSkin2Colors); });
+        addButton(4, "Heels",  function():void {  CoC.instance.transformations.LowerBodyDemonHighHeels.applyEffect(); });
+        addButton(5, "G.Feet",  function():void {  CoC.instance.transformations.LowerBodyDemonGracefulFeet.applyEffect(); });
+        addButton(6, "ClawFeet",  function():void {  CoC.instance.transformations.LowerBodyDemonClawed.applyEffect(); });
+        addButton(7, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
     }
 
     private function MeilaTFDisplacerMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsDisplacer.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCatCanines.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  player.eyes.colour = "yellow"; CoC.instance.transformations.EyesDisplacer.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsDisplacer.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyLionBipedal.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyDisplacerTentacles.applyEffect(); });
+        addButton(7, "Fur/Skin", DisplacerFurMenu);
+        addButton(9, "Tongue",  function():void {  CoC.instance.transformations.TongueCat.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailCat.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function DisplacerFurMenu():void {
+            menu();
+            addButton(0, "LowFur", function ():void {
+                CoC.instance.transformations.SkinFur(1).applyEffect();
+            });
+            addButton(1, "MediumFur", function ():void {
+                CoC.instance.transformations.SkinFur(2).applyEffect();
+            });
+            addButton(2, "HighFur", function ():void {
+                CoC.instance.transformations.SkinFur(3).applyEffect();
+            });
+            addButton(4, "FullFur", function ():void {
+                CoC.instance.transformations.SkinFur(4).applyEffect();
+            });
+            addButton(5, "Furcolor",  function():void {  player.furColor1 = randomChoice(DisplacerBeastRace.DisplacerFurColors); });
+            addButton(6, "Haircolor",  function():void {  player.skinColor1 = "dark gray"; });
+
+            addButton(14, "Back", MeilaTFDisplacerMenu);
     }
 
     private function MeilaTFDogMenu():void {
         menu();
+        addButton(0, "Face",  function():void {  CoC.instance.transformations.FaceDog.applyEffect(); });
+        addButton(1, "Eyes",  function():void {  player.eyes.colour = "yellow"; CoC.instance.transformations.EyesDisplacer.applyEffect();});
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsDog.applyEffect();});
+        addButton(3, "Legs",  function():void {  CoC.instance.transformations.LowerBodyDogBipedal.applyEffect(); });
+        addButton(4, "RearBody",  function():void {  CoC.instance.transformations.RearBodyDisplacerTentacles.applyEffect(); });
+        addButton(5, "Fur", DogFurMenu);
+        addButton(6, "Tail",  function():void {  CoC.instance.transformations.TailDog.applyEffect(); });
+       // addButton(7, "Nipples", function():void {player.breastRows = 3;});
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function DogFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+
+        addButton(14, "Back", MeilaTFDogMenu);
     }
 
     private function MeilaTFDragonneMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsLion.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCatCanines.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCat.applyEffect(); player.eyes.colour = "red"; });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsCat.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyLionBipedal.applyEffect(); });
+        addButton(6, "Mane",  function():void {  CoC.instance.transformations.RearBodyLionMane.applyEffect(); });
+        addButton(7, "Fur/Scales",  Dragonneoptions);
+        addButton(8, "2Horns",  function():void {  CoC.instance.transformations.HornsDraconicDual.applyEffect(); });
+        addButton(9, "4Horns",  function():void {  CoC.instance.transformations.HornsDraconicQuadruple.applyEffect(); });
+        addButton(10, "SmallWings",  function():void {  CoC.instance.transformations.WingsDraconicSmall.applyEffect(); });
+        addButton(11, "MedWings",  function():void {  CoC.instance.transformations.WingsDraconicLarge.applyEffect();  });
+        addButton(12, "LargeWings",  function():void {  CoC.instance.transformations.WingsDraconicHuge.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailCat.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function Dragonneoptions():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(5, "ScaleColor",  function():void {  player.scaleColor1 = randomChoice(DragonneRace.DragonneScaleColors); });
+        addButton(6, "FurColor",  function():void {  player.furColor1 = randomChoice(DragonneRace.DragonneFurColors); });
+        addButton(7, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(8, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(9, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(10, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+
+        addButton(14, "Back", MeilaTFDragonneMenu);
     }
 
     private function MeilaTFDragonMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsDraconic.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceDragonFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesDraconic.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsDraconic.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyDraconicBipedal.applyEffect(); });
+        addButton(6, "Horn/Scale", Dragonoptions );
+        addButton(7, "Tail",  function():void {  CoC.instance.transformations.TailDraconic.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function Dragonoptions():void {
+        menu();
+        addButton(0, "Hornx2", function ():void {
+            CoC.instance.transformations.HornsDraconicDual.applyEffect();
+        });
+        addButton(1, "Hornx4", function ():void {
+            CoC.instance.transformations.HornsDraconicQuadruple.applyEffect();
+        });
+        addButton(2, "SmallWings", function ():void {
+            CoC.instance.transformations.WingsDraconicSmall.applyEffect();
+        });
+        addButton(3, "MedWings", function ():void {
+            CoC.instance.transformations.WingsDraconicLarge.applyEffect();
+        });
+        addButton(4, "MedWings", function ():void {
+            CoC.instance.transformations.WingsDraconicHuge.applyEffect();
+        });
+        addButton(5, "ScaleColor",  function():void {  player.scaleColor1 = randomChoice(DragonRace.DragonScaleColors); });
+        addButton(7, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(8, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(9, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(14, "Back", MeilaTFDragonMenu);
     }
 
     private function MeilaTFEbunnyMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceBuckteeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsBunny.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyBunny.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "FurMenu", EbunnyFurMenu);
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailRabbit.applyEffect(); });
+        //Add Bunny Balls,
         addButton (14, "Back", DDullahanTFMenu3);
+    }
+
+    private function EbunnyFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton (14, "Back", MeilaTFEbunnyMenu);
     }
 
     private function DDullahanTFMenu4():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1365,14 +2196,14 @@ if (MeilaState == 0) {
         addButton (1, "Echidna", MeilaTFEchidnaMenu);
         addButton (2, "Elf", MeilaTFElfMenu);
         addButton (3, "FaeDrag", MeilaTFFaeDragMenu);
-        addButton (4, "Fairy", MeilaTFFairyMenu);
+        //addButton (4, "Fairy", MeilaTFFairyMenu);
         addButton (5, "Ferret", MeilaTFFerretMenu);
         addButton (6, "F.Snail", MeilaTFFSnailMenu);
         addButton (7, "F.Wyrm", MeilaTFFwyrmMenu);
         addButton (8, "Gazer", MeilaTFGazerMenu);
         addButton (9, "G.Troll", MeilaTFGtrollMenu);
         addButton (10, "Gorgon", MeilaTFGorgonMenu);
-        addButton (11, "Gremlin", MeilaTFGremlinMenu);
+        //addButton (11, "Gremlin", MeilaTFGremlinMenu);
         addButton (12, "Gryphon", MeilaTFGryphonMenu);
         addButton (13, "Harpy", MeilaTFHarpyMenu);
         addButton (14, "NextPage", DDullahanTFMenu5);
@@ -1380,71 +2211,246 @@ if (MeilaState == 0) {
 
     private function MeilaTFEchidnaMenu():void {
         menu();
+        //addButton(0, "SkinColor",  function():void {  player.skinColor = randomChoice(GoblinRace.GoblinSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceEchidna.applyEffect(); });
+       // addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        //addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsEchidna.applyEffect();});
+        //addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyE.applyEffect(); });
+        //addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Fur", EchidnaFurMenu );
         addButton (14, "Back", DDullahanTFMenu4);
+    }
+
+    private function EchidnaFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton (14, "Back", MeilaTFEchidnaMenu);
     }
 
     private function MeilaTFElfMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function MeilaTFFaeDragMenu():void {
         menu();
+        addButton(0, "Skin",  function():void { CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor = randomChoice(ElfRace.ElfSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceElf.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElven.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyElf.applyEffect(); });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairSilky.applyEffect(); player.hairColor = randomChoice(ElfRace.ElfHairColors); });
+        addButton(8, "Tongue",  function():void {  CoC.instance.transformations.TongueElf.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
-    private function MeilaTFFairyMenu():void {
+   /* private function MeilaTFFairyMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor = randomChoice(GoblinRace.GoblinSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceFairy.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesFairy.applyEffect();  });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElven.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyElf.applyEffect(); });
+        addButton(6, "Tongue",  function():void {  CoC.instance.transformations.TongueElf.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsFairy.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
+        addButton (14, "Back", DDullahanTFMenu4);
+    }
+*/
+    private function MeilaTFFSnailMenu():void {
+        menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesFireSnail.applyEffect(); CoC.instance.transformations.EyesChangeColor(FireSnailRace.FireSnailEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodySnailShell.applyEffect(); });
+        addButton(7, "Hair",  function():void {CoC.instance.transformations.HairBurning.applyEffect();  player.hairColor = randomChoice(FireSnailRace.FireSnailEyeColors); });
+        addButton(8, "Skin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor1 = randomChoice(FireSnailRace.FireSnailSkinColors);});
+        addButton(9, "Antenna",  function():void {  CoC.instance.transformations.AntennaeFireSnail.applyEffect(); });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function MeilaTFFerretMenu():void {
         menu();
+        addButton(0, "Face",  function():void {  CoC.instance.transformations.FaceFerret.applyEffect(); });
+        addButton(1, "Eyes",  function():void { CoC.instance.transformations.EyesWeasel.applyEffect();  player.eyes.colour = "golden"; });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsFerret.applyEffect();});
+        addButton(3, "Legs",  function():void {  CoC.instance.transformations.LowerBodyFerret.applyEffect(); });
+        addButton(4, "Fur",  FerretFurMenu);
+        addButton(5, "Tail",  function():void {  CoC.instance.transformations.TailFerret.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
-    private function MeilaTFFSnailMenu():void {
+    private function FerretFurMenu():void {
         menu();
-        addButton (14, "Back", DDullahanTFMenu4);
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton (14, "Back", MeilaTFFerretMenu);
     }
 
     private function MeilaTFFwyrmMenu():void {
         menu();
+        addButton(0, "Tongue",  function():void {  CoC.instance.transformations.TongueDraconic.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesFrostwyrm.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsDraconic.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyFrostwyrm.applyEffect(); });
+        addButton(6, "RearBody",  function():void {   CoC.instance.transformations.RearBodyFrostwyrm.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(FrostWyrmRace.FrostWyrmHairColors); });
+        addButton(8, "Scales", FrostwyrmScalesMenu);
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "Horns",  function():void {  CoC.instance.transformations.HornsFrostwyrm.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
+    }
+
+    private function FrostwyrmScalesMenu():void {
+        addButton(0, "ScaleColor",  function():void {  player.scaleColor1 = randomChoice(FrostWyrmRace.FrostWyrmScaleColos); });
+        addButton(1, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(2, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(3, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(4, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+        addButton (14, "Back", MeilaTFFwyrmMenu);
     }
 
     private function MeilaTFGazerMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eye",  function():void {  CoC.instance.transformations.EyesMonoeye.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyGazer.applyEffect(); });
+        //Add a Gazer Stalk Submenu
+        //addButton(6, "RearBody",  function():void {   });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairHuman.applyEffect(); player.hairColor = randomChoice(GazerRace.GazerHairColors); });
+        addButton(8, "Skin",  function():void { player.skinColor1 = randomChoice(GazerRace.GazerSkinColors); CoC.instance.transformations.SkinPlain.applyEffect(); CoC.instance.transformations.SkinPatternOil.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(12, "Levitation",  function():void {  CoC.instance.transformations.WingsLevitation.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function MeilaTFGtrollMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsGlacialTroll.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceGlacialTroll.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsGlacialTroll.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Fur",  function():void {player.furColor1 = randomChoice(GlacialTrollRace.GlacialTrollFurColors);  CoC.instance.transformations.SkinScales(4).applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailGlacialTroll.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function MeilaTFGorgonMenu():void {
         menu();
-        addButton (14, "Back", DDullahanTFMenu4);
-    }
-
-    private function MeilaTFGremlinMenu():void {
         menu();
+        addButton(0, "Tongue",  function():void {  CoC.instance.transformations.TongueSnake.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSnakeFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSnake.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsSnake.applyEffect();});
+        addButton(5, "SnakeLower",  function():void {  CoC.instance.transformations.LowerBodySnake.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  CoC.instance.transformations.HairGorgon.applyEffect(); });
+        addButton(8, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(9, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(10, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(11, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function MeilaTFGryphonMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsGryphon.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAvian.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesGryphon.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsGryphon.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyGryphonBipedal.applyEffect(); });
+        addButton(6, "RearBody",  function():void { CoC.instance.transformations.RearBodyLionMane.applyEffect(); });
+        addButton(7, "Hair",  function():void {  CoC.instance.transformations.HairFeather.applyEffect();  });
+        //Add Feathered Skin //addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredAvian.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailGriffin.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function MeilaTFHarpyMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHarpy.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyHarpy.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredLarge.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailHarpy.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu4);
     }
 
     private function DDullahanTFMenu5():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1467,71 +2473,275 @@ if (MeilaState == 0) {
 
     private function MeilaTFHellcatMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsCat.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCatCanines.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesInfernal.applyEffect();  });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsCat.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyCatBipedal.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(8, "Colors",  function():void {CoC.instance.transformations.SkinFur(4).applyEffect();  player.furColor1 = "midnight black"; player.skinColor1 = "ashen"; });
+        addButton(9, "tongue",  function():void {  CoC.instance.transformations.TongueCat.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailTwinkasha.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFHorseMenu():void {
         menu();
+        addButton(0, "Arms",  function():void { CoC.instance.transformations.ArmsHuman.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHorse.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Hooves",  function():void {  CoC.instance.transformations.LowerBodyHoofedBipedal.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Fur", HorseFurMenu);
+        addButton(7, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(8, "NoTail",  function():void {  CoC.instance.transformations.TailHorse.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
+    }
+
+    private function HorseFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(5, "FurColor",  function():void {  player.skinColor = randomChoice(HorseRace.FurColors); });
+        addButton (14, "Back", MeilaTFHorseMenu);
     }
 
     private function MeilaTFHumanMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor = randomChoice(HumanRace.HumanSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsHuman.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void { CoC.instance.transformations.RearBodyNone.applyEffect();});
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFHydraMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHydra.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSnakeFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSnake.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsSnake.applyEffect();});
+        addButton(4, "LowerBody", HydraTailMenu);
+        addButton(5, "RearBody",  function():void { CoC.instance.transformations.RearBodyNone.applyEffect();});
+        addButton(6, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
+    }
+
+    private function HydraTailMenu():void {
+        //Add the actual code for adding heads.
+        addButton(0, "HydraTail",  function():void { CoC.instance.transformations.LowerBodyHydra.applyEffect();});
+        addButton(1, "AddHead",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(2, "RemoveHead",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+
+        addButton (14, "Back", MeilaTFHydraMenu);
     }
 
     private function MeilaTFJabberwockMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsJabberwocky.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceJabberwocky.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesDraconic.applyEffect(); player.eyes.colour = "red";});
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsBunny.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyJabberwocky.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairHuman.applyEffect(); player.hairColor1 = "purplish-pink"; });
+        addButton(8, "Scales",  function():void {  CoC.instance.transformations.SkinScales(4).applyEffect(); player.scaleColor1 = randomChoice(JabberwockyRace.JabberwockyScaleColors); });
+        addButton(9, "Tongue",  function():void {  CoC.instance.transformations.TongueDraconic.applyEffect(); });
+        addButton(10, "Horns",  function():void {  CoC.instance.transformations.HornsJabberwocky.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsJabberwocky.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailDraconic.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFKtaichiMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsKamaitachi.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceWeasel.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesWeasel.applyEffect(); player.eyes.colour = "golden";});
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsWeasel.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyWeaselBipedal.applyEffect(); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairWindswept.applyEffect(); player.hairColor = randomChoice(KamaitachiRace.KamaitachiHairColors); });
+        addButton(7, "Fur",  function():void {  CoC.instance.transformations.SkinScales(3).applyEffect(); player.furColor1 = randomChoice(KamaitachiRace.KamaitachiFurColors); });
+        addButton(8, "Tongue",  function():void {  CoC.instance.transformations.TongueDraconic.applyEffect(); });
+        addButton(9, "SkinPattern",  function():void {  CoC.instance.transformations.SkinPatternScarWindswept.applyEffect(); });
+        addButton(10, "WindAura",  function():void {  CoC.instance.transformations.WingsWindyAura.applyEffect(); });
+        addButton(11, "Tail",  function():void {  CoC.instance.transformations.TailDraconic.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFKrooMenu():void {
         menu();
+        addButton(0, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(1, "Ears",  function():void {  CoC.instance.transformations.EarsKangaroo.applyEffect();});
+        addButton(2, "Legs",  function():void {  CoC.instance.transformations.LowerBodyKangaroo.applyEffect(); });
+        addButton(3, "Fur",  function():void {  CoC.instance.transformations.SkinScales(3).applyEffect(); });
+        addButton(4, "Tail",  function():void {  CoC.instance.transformations.TailKangaroo.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFKirinMenu():void {
         menu();
+        addButton(0, "Tongue",  function():void { CoC.instance.transformations.TongueDraconic.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesDraconic.applyEffect(); CoC.instance.transformations.EyesChangeColor(KirinRace.KirinEyeColors).applyEffect(); });
+        addButton(4, "Glowing",  function():void {  CoC.instance.transformations.AssholeGlowing.applyEffect();  CoC.instance.transformations.NipplesGlowing.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyKirinBipedal.applyEffect(); });
+        addButton(6, "R.Mane",  function():void {  CoC.instance.transformations.RearBodyRaijuMane.applyEffect(); });
+        addButton(7, "Hair",  function():void {   CoC.instance.transformations.HairStorm.applyEffect(); player.hairColor = randomChoice(KirinRace.KirinHairColors); });
+        addButton(8, "Arms",  function():void {  CoC.instance.transformations.ArmsLizard.applyEffect(); });
+        addButton(9, "Ears",  function():void {  CoC.instance.transformations.EarsKirin.applyEffect(); });
+        addButton(10, "Horns",  function():void {  CoC.instance.transformations.HornsKirin.applyEffect(); });
+        //Add size adjusting for horns
+        addButton(11, "ThndrAura",  function():void {  CoC.instance.transformations.WingsThunderousAura.applyEffect(); });
+        addButton(12, "Tail",  function():void {  CoC.instance.transformations.TailKirin.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFKitshooMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor = randomChoice(KitshooRace.KitshooSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSalamanderFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesFox.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsFox.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodySalamanderBipedal.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(KitshooRace.KitshooHairColors); });
+        addButton(8, "Skin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); CoC.instance.transformations.SkinPatternKitsune.applyEffect(); });
+        addButton(13, "Tails", KitshooTailsMenu);
         addButton (14, "Back", DDullahanTFMenu5);
+    }
+
+    private function KitshooTailsMenu():void {
+        addButton(0, "1 Tail",  function():void {  CoC.instance.transformations.TailKitshoo(1).applyEffect();  });
+        addButton(1, "2 Tails",  function():void {  CoC.instance.transformations.TailKitshoo(2).applyEffect();  });
+        addButton(2, "3 Tails",  function():void { CoC.instance.transformations.TailKitshoo(3).applyEffect(); });
+        addButton(3, "4 Tails",  function():void {  CoC.instance.transformations.TailKitshoo(4).applyEffect();});
+        addButton(4, "5 Tails",  function():void {  CoC.instance.transformations.TailKitshoo(5).applyEffect(); });
+        addButton(5, "6 Tails",  function():void {  CoC.instance.transformations.TailKitshoo(6).applyEffect(); });
+        addButton (14, "Back", MeilaTFKitshooMenu);
     }
 
     private function MeilaTFKitsuneMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsFox.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceFox.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesFox.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsFox.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyFoxBipedal.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor1 = randomChoice(KitsuneRace.KitsuneHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(13, "Tails", KitsuneTailsMenu);
         addButton (14, "Back", DDullahanTFMenu5);
+    }
+
+    private function KitsuneTailsMenu():void {
+        addButton(0, "1 Tail",  function():void {  CoC.instance.transformations.TailFox(1).applyEffect();  });
+        addButton(1, "2 Tails",  function():void {  CoC.instance.transformations.TailFox(2).applyEffect();  });
+        addButton(2, "3 Tails",  function():void { CoC.instance.transformations.TailFox(3).applyEffect(); });
+        addButton(3, "4 Tails",  function():void {  CoC.instance.transformations.TailFox(4).applyEffect();});
+        addButton(4, "5 Tails",  function():void {  CoC.instance.transformations.TailFox(5).applyEffect(); });
+        addButton(5, "6 Tails",  function():void {  CoC.instance.transformations.TailFox(6).applyEffect(); });
+        addButton (14, "Back", MeilaTFKitshooMenu);
     }
 
     private function MeilaTFLaquineMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceBunny.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesHuman.applyEffect();  });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsBunny.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyBunny.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Fur",  function():void { CoC.instance.transformations.SkinFur(3).applyEffect();  });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailRabbit.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function MeilaTFLizardMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsLizard.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceLizard.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesLizard.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsLizard.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyLizardBipedal.applyEffect(); });
+        addButton(6, "Scale/Horn", LizardScalesHornMenu);
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailLizard.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
+    private function LizardScalesHornMenu():void {
+        menu();
+        addButton(0, "DragonHornx2",  function():void {  CoC.instance.transformations.HornsDraconicDual.applyEffect(); });
+        addButton(1, "DragonHornx4",  function():void {  CoC.instance.transformations.HornsDraconicQuadruple.applyEffect(); });
+        addButton(2, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(3, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(4, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(5, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+        addButton(2, "LowDScales", function ():void {
+            CoC.instance.transformations.SkinDragonScales(1).applyEffect();
+        });
+        addButton(3, "MediumDScales", function ():void {
+            CoC.instance.transformations.SkinDragonScales(2).applyEffect();
+        });
+        addButton(4, "HighDScales", function ():void {
+            CoC.instance.transformations.SkinDragonScales(3).applyEffect();
+        });
+        addButton(5, "FullDScales", function ():void {
+            CoC.instance.transformations.SkinDragonScales(4).applyEffect();
+        });
+            addButton (14, "Back", MeilaTFLizardMenu);
 
+    }
     private function MeilaTFMSlimeMenu():void {
         menu();
+
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu5);
     }
 
     private function DDullahanTFMenu6():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1554,71 +2764,277 @@ if (MeilaState == 0) {
 
     private function MeilaTFManticoreMenu():void {
         menu();
+        addButton(0, "Face",  function():void {  CoC.instance.transformations.FaceManticore.applyEffect(); });
+        addButton(1, "Eyes",  function():void {  CoC.instance.transformations.EyesManticore.applyEffect(); });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsLion.applyEffect();});
+        addButton(3, "Legs",  function():void {  CoC.instance.transformations.LowerBodyLionBipedal.applyEffect(); });
+        addButton(4, "Mane",  function():void {  CoC.instance.transformations.RearBodyLionMane.applyEffect(); });
+        addButton(5, "Tongue",  function():void {  CoC.instance.transformations.TongueCat.applyEffect(); });
+        addButton(6, "S.Wings",  function():void {  CoC.instance.transformations.WingsManticoreSmall.applyEffect(); });
+        addButton(7, "L.Wings",  function():void {  CoC.instance.transformations.WingsManticoreLarge.applyEffect(); });
+        addButton(8, "PussyTail",  function():void {  CoC.instance.transformations.TailManticore.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFMantisMenu():void {
         menu();
+        addButton(0, "Chitin",  function():void {  player.chitinColor1 = randomChoice(MantisRace.MantisChitinColors); CoC.instance.transformations.SkinChitinToFull.applyEffect();});
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsInsect.applyEffect();});
+        addButton(3, "Legs",  function():void {  CoC.instance.transformations.LowerBodyMantisBipedal.applyEffect(); });
+        addButton(4, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(5, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });;
+        addButton(6, "Antenna",  function():void {  CoC.instance.transformations.AntennaeMantis.applyEffect(); });
+        addButton(7, "S.Wings",  function():void {  CoC.instance.transformations.WingsMantisSmall.applyEffect(); });
+        addButton(8, "L.Wings",  function():void {  CoC.instance.transformations.WingsMantisLarge.applyEffect();  });
+        addButton(9, "Abdomen",  function():void {  CoC.instance.transformations.TailMantis.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFMelkieMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsMelkie.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  player.eyes.colour = "blue"; CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsMelkie.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyMelkie.applyEffect(); });
+        addButton(6, "Tongue",  function():void {  CoC.instance.transformations.TongueMelkie.applyEffect(); });
+        addButton(7, "SkinColor",  function():void {  player.hairColor = randomChoice(MelkieRace.MelkieSkinColors); });
+        addButton(8, "Fur/Skin", MelkieFurMenu );
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
+    private function MelkieFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(5, "FurColor",  function():void {  player.furColor1 = randomChoice(MelkieRace.MelkieFurColors); });
+        addButton(5, "Skin",  function():void {  player.skinColor1 = randomChoice(MelkieRace.MelkieSkinColors); });
+        addButton (14, "Back", MeilaTFMelkieMenu);
+    }
+
+
     private function MeilaTFMothMenu():void {
         menu();
+        addButton(0, "Chitin",  function():void {  CoC.instance.transformations.SkinChitinToFull.applyEffect(); player.chitinColor1 = randomChoice(MothRace.MothChitinColors);});
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesMoth.applyEffect();});
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsInsect.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyMoth.applyEffect(); });
+        addButton(6, "Collar",  function():void {CoC.instance.transformations.RearBodyMoth.applyEffect();});
+        addButton(7, "Antenna",  function():void {  CoC.instance.transformations.AntennaeMoth.applyEffect(); });
+        addButton(8, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(9, "S.Wings",  function():void {  CoC.instance.transformations.WingsMothSmall.applyEffect();  });
+        addButton(10, "L.Wings",  function():void {  CoC.instance.transformations.WingsMothLarge.applyEffect(); });
+        addButton(11, "Abdomen",  function():void {  CoC.instance.transformations.TailMoth.applyEffect(); });
+        addButton(12, "Arms",  function():void {  CoC.instance.transformations.ArmsMoth.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFNagaMenu():void {
         menu();
+        addButton(0, "Scales", MeilaTFNagaScaleMenu);
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSnakeFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSnake.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsSnake.applyEffect();});
+        addButton(5, "SnekCoils",  function():void {  CoC.instance.transformations.LowerBodySnake.applyEffect(); });
+        addButton(6, "Arms",  function():void {  CoC.instance.transformations.ArmsHuman.applyEffect(); });
+        addButton(6, "Tongue",  function():void {  CoC.instance.transformations.TongueSnake.applyEffect(); });
+        addButton (14, "Back", DDullahanTFMenu6);
+    }
+    private function MeilaTFNagaScaleMenu():void {
+        menu();
+        addButton(0, "ScaleColor", function():void {  player.scaleColor1 = randomChoice(NagaRace.SnakeScaleColors); });
+        addButton(1, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(2, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(3, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(4, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+        addButton(14, "Back", MeilaTFNagaMenu);
+    }
+    private function MeilaTFNekomataMenu():void {
+        menu();
+
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCatCanines.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCat.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsCat.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyCatBipedal.applyEffect(); });
+        addButton(6, "Mane",  function():void { CoC.instance.transformations.RearBodyLionMane.applyEffect(); });
+        addButton(7, "Arms",  function():void {  CoC.instance.transformations.ArmsCat.applyEffect(); });
+        addButton(8, "FurMenu", NekomataFurMenu);
+        addButton(9, "Tongue",  function():void {  CoC.instance.transformations.TongueCat.applyEffect(); });
+        addButton(10, "TwoTails",  function():void {  CoC.instance.transformations.TailCat2nd.applyEffect();  });
+        addButton(11, "NormalTail",  function():void {  CoC.instance.transformations.TailCat.applyEffect(); });
+        addButton(12, "ForkedTail",  function():void {  CoC.instance.transformations.TailNekomataTwoThirdsForked.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
-    private function MeilaTFNekomataMenu():void {
+    private function NekomataFurMenu():void {
         menu();
-        addButton (14, "Back", DDullahanTFMenu6);
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton (14, "Back", MeilaTFNekomataMenu);
     }
 
     private function MeilaTFOniMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsOni.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceOniTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  player.eyes.colour = randomChoice(OniRace.OniEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsOni.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyOni.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyNone.applyEffect(); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Tattoo",  function():void {  CoC.instance.transformations.SkinPatternOni.applyEffect(); });
+        addButton(9, "1Horn",  function():void {  CoC.instance.transformations.HornsOni.applyEffect(); });
+        addButton(10, "2Horns",  function():void {  CoC.instance.transformations.HornsOniDual.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFOomukadeMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsCentipede.applyEffect();});
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCentipede.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyCentipede.applyEffect(); });
+        addButton(6, "RearBody",  function():void {   CoC.instance.transformations.RearBodyCentipede.applyEffect();  });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Pattern",  function():void {  CoC.instance.transformations.SkinPatternVenomousMarkings.applyEffect(); });
+        addButton(9, "Antenna",  function():void {  CoC.instance.transformations.AntennaeCentipede.applyEffect(); });
+        addButton(10, "NoFurScales",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFOrcaMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsOrca.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceOrca.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); player.eyes.colour = "orange"; });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsOrca.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyOrcaBipedal.applyEffect(); });
+        addButton(6, "Blowhole",  function():void {  CoC.instance.transformations.RearBodyOrcaBlowhole.applyEffect(); });
+        addButton(7, "Hair",  function():void {  CoC.instance.transformations.HairHuman.applyEffect(); });
+        addButton(8, "Skin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "Pattern",  function():void {  CoC.instance.transformations.SkinPatternOrca.applyEffect(); });
+        addButton(10, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(11, "NoTail",  function():void {  CoC.instance.transformations.TailOrca.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFOrcMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsOrc.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceOrcFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesOrc.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyOrc.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(7, "OrcSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor1 = randomChoice(OrcRace.OrcSkinColors); });
+        addButton(8, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFHeheheMenu():void {
         menu();
+        addButton(0, "Arms",  function():void { CoC.instance.transformations.ArmsAvian.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAvian.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesGryphon.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyAvian.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Hair",  function():void {  CoC.instance.transformations.HairPeafowlFeather.applyEffect(); });
+        addButton(7, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(8, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(9, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredAvian.applyEffect(); });
+        addButton(10, "Tail",  function():void {  CoC.instance.transformations.TailAvian.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function MeilaTFPhoenixMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsPhoenix.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSalamanderFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesLizard.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsLizard.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHarpy.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(7, "Scales", MeilaTFPhoenixScaleMenu);
+        addButton(8, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredPhoenix.applyEffect(); });
+        addButton(9, "Tail",  function():void {  CoC.instance.transformations.TailSalamander.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
+    }
+    private function MeilaTFPhoenixScaleMenu():void {
+        menu();
+        addButton(0, "ScaleColor", function ():void {
+            player.scaleColor1 = randomChoice(NagaRace.SnakeScaleColors);
+        });
+        addButton(1, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(2, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(3, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(4, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+        addButton(14, "Back", MeilaTFPhoenixMenu);
     }
 
     private function MeilaTFPlantMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsPlant.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Plantheels",  function():void {  CoC.instance.transformations.LowerBodyPlantHighHeels.applyEffect(); });
+        addButton(5, "RootClaws",  function():void { CoC.instance.transformations.LowerBodyPlantRootClaws.applyEffect(); });
+        addButton(6, "Hair",  function():void { player.hairColor = "green"; CoC.instance.transformations.HairLeaf.applyEffect(); });
+        addButton(7, "Skin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor = "leaf green"; });
+        addButton(8, "Barkskin",  function():void {  CoC.instance.transformations.SkinBarkToFull.applyEffect(); });
+        addButton(9, "Horns",  function():void {  CoC.instance.transformations.HornsOak.applyEffect(); });
+        addButton(10, "Wings",  function():void {  CoC.instance.transformations.WingsPlant.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu6);
     }
 
     private function DDullahanTFMenu7():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1629,7 +3045,7 @@ if (MeilaState == 0) {
         addButton (4, "Raisune", MeilaTFRaisuneMenu);
         addButton (5, "Ratatoskr", MeilaTFRatatoskrMenu);
         addButton (6, "R.Panda", MeilaTFRPandaMenu);
-        addButton (7, "Rhino", MeilaTFRhinoMenu);
+        //addButton (7, "Rhino", MeilaTFRhinoMenu);
         addButton (8, "Salamander", MeilaTFSalamanderMenu);
         addButton (9, "SandTrap", MeilaTFSandtrapMenu);
         addButton (9, "Yeti", MeilaTFYetiMenu);
@@ -1641,71 +3057,334 @@ if (MeilaState == 0) {
 
     private function MeilaTFghostMenu():void {
         menu();
+        addButton(0, "Arms",  function():void { CoC.instance.transformations.ArmsGhost.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceAnimalTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesGhost.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyGhost2.applyEffect(); });
+        addButton(6, "RearBody",  function():void { CoC.instance.transformations.RearBodyGhostlyAura.applyEffect();});
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Skin",  function():void {  player.skinColor1 = randomChoice(PoltergeistRace.PoltergeistSkinColors); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "G.Horns",  function():void {  CoC.instance.transformations.HornsGhostlyWisps.applyEffect(); });
+        addButton(11, "SkinPattern",  function():void {  CoC.instance.transformations.SkinPatternWhiteBlackVeins.applyEffect();  });
+        addButton(12, "Floating",  function():void {  CoC.instance.transformations.WingsEthereal.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
 
     private function MeilaTFRaccoonMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsRaccoon.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceRaccoonMask.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  player.skinColor ="golden"; });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsRaccoon.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyRaccoon.applyEffect(); });
+        addButton(8, "Fur", RaccoonFurMenu);
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailRaccoon.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
+    }
+
+    private function RaccoonFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(4, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(5, "FurColor",  function():void {  player.furColor1 = randomChoice(RaccoonRace.RaccoonFurColors); });
+        addButton(6, "HairColor",  function():void {  player.hairColor1 = randomChoice(RaccoonRace.RaccoonHairColors); });
+        addButton (14, "Back", MeilaTFRaccoonMenu);
     }
 
     private function MeilaTFRaijuMenu():void {
         menu();
+        addButton(0, "Arms",  function():void { CoC.instance.transformations.ArmsRaiju.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceWeasel.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesRaiju.applyEffect(); player.eyes.colour = randomChoice(RaijuRace.RaijuEyeColors);});
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsRaiju.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyRaijuBipedal.applyEffect(); });
+        addButton(5, "Mane",  function():void {  CoC.instance.transformations.RearBodyRaijuMane.applyEffect(); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairStorm.applyEffect(); player.hairColor = randomChoice(RaijuRace.RaijuHairColors); });
+        addButton(7, "GlowyBits",  function():void {  CoC.instance.transformations.NipplesGlowing.applyEffect(); CoC.instance.transformations.NipplesGlowing.applyEffect(); });
+        addButton(8, "Aura",  function():void {  CoC.instance.transformations.WingsThunderousAura.applyEffect(); });
+        addButton(9, "Tail",  function():void {  CoC.instance.transformations.TailRaiju.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
 
     private function MeilaTFRaisuneMenu():void {
         menu();
+        addButton(0, "Arms",  function():void { CoC.instance.transformations.ArmsRaiju.applyEffect();  });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceFox.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesFox.applyEffect(); player.eyes.colour = randomChoice(RaijuRace.RaijuEyeColors);});
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsFox.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyRaijuBipedal.applyEffect(); });
+        addButton(5, "Mane",  function():void {  CoC.instance.transformations.RearBodyRaijuMane.applyEffect(); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairStorm.applyEffect(); player.hairColor = randomChoice(RaijuRace.RaijuHairColors); });
+        addButton(7, "GlowyBits",  function():void {  CoC.instance.transformations.NipplesGlowing.applyEffect(); CoC.instance.transformations.NipplesGlowing.applyEffect(); });
+        addButton(8, "Aura",  function():void {  CoC.instance.transformations.WingsThunderousAura.applyEffect(); });
+        addButton(9, "Tails",  function():void {  CoC.instance.transformations.TailRaiju.applyEffect(); });
+        addButton(10, "Tails/Fur",  RaisuneTailsMenu);
         addButton (14, "Back", DDullahanTFMenu7);
+    }
+
+    private function RaisuneTailsMenu():void {
+        addButton(0, "1 Tail",  function():void {  CoC.instance.transformations.TailFox(1).applyEffect();  });
+        addButton(1, "2 Tails",  function():void {  CoC.instance.transformations.TailFox(2).applyEffect();  });
+        addButton(2, "3 Tails",  function():void { CoC.instance.transformations.TailFox(3).applyEffect(); });
+        addButton(3, "4 Tails",  function():void {  CoC.instance.transformations.TailFox(4).applyEffect();});
+        addButton(4, "5 Tails",  function():void {  CoC.instance.transformations.TailFox(5).applyEffect(); });
+        addButton(5, "6 Tails",  function():void {  CoC.instance.transformations.TailFox(6).applyEffect(); });
+        addButton(6, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(7, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(8, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(9, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton(10, "Pattern",  function():void {  CoC.instance.transformations.TailFox(6).applyEffect(); });
+        addButton (14, "Back", MeilaTFKitshooMenu);
     }
 
     private function MeilaTFRatatoskrMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsSquirrel.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSmug.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesRatatoskr.applyEffect(); player.eyes.colour = "emerald";});
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsSquirrel.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodySquirrel.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairRatatoskr.applyEffect(); player.hairColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors); });
+        addButton(7, "FurMenu", RatFurMenu);
+        addButton(8, "NoTail",  function():void {  CoC.instance.transformations.TailSquirrel.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
+    }
+
+    private function RatFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();  player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect(); player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect(); player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton(3, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect(); player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton (14, "Back", MeilaTFRatatoskrMenu);
     }
 
     private function MeilaTFRPandaMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsRedPanda.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceRedPanda.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesRatatoskr.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsSquirrel.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Hair",  function():void {  player.hairColor1 = randomChoice(RedPandaRace.RedPandaHairColors); });
+        //Add Red Panda Pattern
+        //addButton(7, "Pattern",  function():void {  CoC.instance.transformations.SkinPattern.applyEffect(); });
+        addButton(8, "Fur", RedPandaFurMenu);
+        addButton(9, "Tail",  function():void {  CoC.instance.transformations.TailRedPanda.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
-
+    private function RedPandaFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();  player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect(); player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect(); player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton(3, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect(); player.furColor1 = randomChoice(RatatoskrRace.RatatoskrHairColors);
+        });
+        addButton (14, "Back", MeilaTFRPandaMenu);
+    }
+/*
     private function MeilaTFRhinoMenu():void {
         menu();
+        addButton(0, "SkinColor",  function():void {  player.skinColor1 = "gray"; });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceRhino.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(11, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailRhino.applyEffect(); });
+        addButton (14, "Back", DDullahanTFMenu7);
+    }
+*/
+    private function MeilaTFSalamanderMenu():void {
+        menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsSalamander.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSalamanderFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesLizard.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsLizard.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodySalamanderBipedal.applyEffect(); });
+        addButton(5, "NoRearBody",  function():void {  CoC.instance.transformations.RearBodyNone.applyEffect(); });
+        addButton(6, "Scales", MeilaTFSalamanderScaleMenu);
+        addButton(7, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(8, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(9, "NoTail",  function():void {  CoC.instance.transformations.TailSalamander.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
 
-    private function MeilaTFSalamanderMenu():void {
+    private function MeilaTFSalamanderScaleMenu():void {
         menu();
-        addButton (14, "Back", DDullahanTFMenu7);
+        addButton(0, "ScaleColor", function ():void {
+            player.scaleColor1 = randomChoice(NagaRace.SnakeScaleColors);
+        });
+        addButton(1, "LowScales", function ():void {
+            CoC.instance.transformations.SkinScales(1).applyEffect();
+        });
+        addButton(2, "MediumScales", function ():void {
+            CoC.instance.transformations.SkinScales(2).applyEffect();
+        });
+        addButton(3, "HighScales", function ():void {
+            CoC.instance.transformations.SkinScales(3).applyEffect();
+        });
+        addButton(4, "FullScales", function ():void {
+            CoC.instance.transformations.SkinScales(4).applyEffect();
+        });
+        addButton(5, "Scalecolor", function ():void {
+            player.scaleColor1 = randomChoice(SalamanderRace.SalamanderScaleColors);
+        });
+        addButton(6, "Skincolor", function ():void {
+            player.skinColor1 = randomChoice(SalamanderRace.SalamanderSkinColors);
+        });
+        addButton(14, "Back", MeilaTFSalamanderMenu);
     }
 
     private function MeilaTFSandtrapMenu():void {
         menu();
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSandTrap.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        //the following 3 I don't know how to do -Snas
+        addButton(5, "BlkVag",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(6, "BlkNips",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "UniBall",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsGiantDragonfly.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
 
     private function MeilaTFYetiMenu():void {
         menu();
+        addButton(0, "Skin",  function():void { CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor = randomChoice(YetiRace.YetiSkinColors); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceYetiFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); CoC.instance.transformations.EyesChangeColor(YetiRace.YetiEyeColors).applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsYeti.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyYeti.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  CoC.instance.transformations.RearBodyYetiFur.applyEffect(); });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairFluffy.applyEffect(); player.eyes.colour = "white"; });
+        addButton(8, "Fur",  YetiFurMenu);
+        //Need to Add thicc butt
         addButton (14, "Back", DDullahanTFMenu7);
+    }
+
+    private function YetiFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect();
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect();
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect();
+        });
+        addButton(3, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect();
+        });
+        addButton (14, "Back", MeilaTFYetiMenu);
     }
 
     private function MeilaTFSatyrMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsSatyr.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesGoat.applyEffect(); player.eyes.colour = "golden"; });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyClovenHoofedBipedal.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairHuman.applyEffect();  player.hairColor = randomChoice(SatyrRace.SatyrHairColors); });
+        addButton(7, "Fur", SatyrFurMenu);
+        addButton(8, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(9, "Horns",  function():void {  CoC.instance.transformations.HornsGoatQuadruple.applyEffect(); });
+        addButton(10, "Tail",  function():void {  CoC.instance.transformations.TailGoat.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
+    }
+    private function SatyrFurMenu():void {
+        menu();
+        addButton(0, "LowFur", function ():void {
+            CoC.instance.transformations.SkinFur(1).applyEffect(); player.furColor1 = randomChoice(SatyrRace.SatyrFurColors);
+        });
+        addButton(1, "MediumFur", function ():void {
+            CoC.instance.transformations.SkinFur(2).applyEffect(); player.furColor1 = randomChoice(SatyrRace.SatyrFurColors);
+        });
+        addButton(2, "HighFur", function ():void {
+            CoC.instance.transformations.SkinFur(3).applyEffect(); player.furColor1 = randomChoice(SatyrRace.SatyrFurColors);
+        });
+        addButton(3, "FullFur", function ():void {
+            CoC.instance.transformations.SkinFur(4).applyEffect(); player.furColor1 = randomChoice(SatyrRace.SatyrFurColors);
+        });
+        addButton (14, "Back", MeilaTFSatyrMenu);
     }
 
     private function MeilaTFScorpionMenu():void {
         menu();
+        addButton(0, "Ears",  function():void {  CoC.instance.transformations.EarsInsect.applyEffect();});
+        addButton(1, "Chitin",  function():void {  CoC.instance.transformations.SkinChitinToFull.applyEffect(); });
+        addButton(2, "Tail",  function():void {  CoC.instance.transformations.TailScorpion.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
 
     private function MeilaTFScyllaMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsKraken.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHuman.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(ScyllaRace.ScyllaEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyKraken.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Skin",  function():void { CoC.instance.transformations.SkinSlippery.applyEffect(); CoC.instance.transformations.SkinPatternBioluminescence.applyEffect(); player.skinColor1 = "ghostly pale"; });
+        addButton(9, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(10, "Horns",  function():void {  CoC.instance.transformations.HornsKraken.applyEffect(); });
+        addButton(11, "Gills",  function():void {  CoC.instance.transformations.GillsFish.applyEffect();  });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu7);
     }
 
     private function DDullahanTFMenu8():void {
         clearOutput();
+        CoC.instance.mainViewManager.updateCharviewIfNeeded();
         outputText("Meila gives you a sly smile, sliding you a paper menu. “Making use of my services, [Master]? I promise to make this quick and painless.”  \n\n");
         outputText(" \n\n");
         menu();
@@ -1722,66 +3401,202 @@ if (MeilaState == 0) {
         addButton (11, "Vampire", MeilaTFVampireMenu);
         addButton (12, "Vouivre", MeilaTFVouivreMenu);
         addButton (13, "Wolf", MeilaTFWolfMenu);
-        addButton (14, "NextPage", MeilaTFConfirm);
+        addButton (14, "Finalize", MeilaTFConfirm);
     }
 
     private function MeilaTFSdragonMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsSeaDragon.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceOrca.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesDraconic.applyEffect(); CoC.instance.transformations.EyesChangeColor(SeaDragonRace.SeaDragonEyeColors).applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsOrca.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodySeaDragonBipedal.applyEffect(); });
+        addButton(6, "Blowhole",  function():void { CoC.instance.transformations.RearBodyOrcaBlowhole.applyEffect(); });
+        addButton(7, "Hair",  function():void { CoC.instance.transformations.HairPrismatic.applyEffect(); });
+        addButton(8, "Skin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(9, "Antenna",  function():void {  CoC.instance.transformations.AntennaeSeaDragon.applyEffect(); });
+        addButton(10, "Horns",  function():void {  CoC.instance.transformations.HornsSeadragon.applyEffect(); });
+        addButton(11, "Tongue",  function():void {  CoC.instance.transformations.TongueDraconic.applyEffect();  });
+        addButton(12, "Wings",  function():void {  CoC.instance.transformations.WingsSeaDragon.applyEffect(); });
+        addButton(13, "NoTail",  function():void {  CoC.instance.transformations.TailOrca.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFSharkMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsShark.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSharkTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsShark.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodySharkBipedal.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  CoC.instance.transformations.RearBodySharkFin.applyEffect(); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairHuman.applyEffect(); player.hairColor1 = randomChoice(SharkRace.SharkHairColors); });
+        addButton(7, "tongue",  function():void {  CoC.instance.transformations.TongueHuman.applyEffect(); });
+        addButton(8, "Gills",  function():void {  CoC.instance.transformations.GillsFish.applyEffect();  });
+        addButton(9, "Tail",  function():void {  CoC.instance.transformations.TailShark.applyEffect(); });
+        addButton(10, "Scales",  function():void { player.scaleColor1 = randomChoice(SharkRace.SharkScaleColors); CoC.instance.transformations.SkinAquaScalesToFull.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFSirenMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHarpy.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSharkTeeth.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsShark.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyHarpy.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  CoC.instance.transformations.RearBodySharkFin.applyEffect(); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairFeather.applyEffect(); player.hairColor1 = "silver"; });
+        addButton(7, "tongue",  function():void {  CoC.instance.transformations.TongueHuman.applyEffect(); });
+        addButton(8, "Gills",  function():void {  CoC.instance.transformations.GillsFish.applyEffect();  });
+        addButton(9, "Tail",  function():void {  CoC.instance.transformations.TailShark.applyEffect(); });
+        addButton(10, "Scales",  function():void { player.scaleColor1 = randomChoice(SirenRace.SirenScaleColors); CoC.instance.transformations.SkinAquaScalesToFull.applyEffect(); });
+        addButton(11, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredLarge.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFSlimeMenu():void {
         menu();
+        //Have someone look at this one. IDK how slimes work -Snas
+        addButton(0, "Skin",  function():void { player.isGooSkin(); player.skinColor = randomChoice(SlimeRace.SlimeSkinColors); });
+        addButton(1, "Eyes",  function():void {  CoC.instance.transformations.EyesChangeColor(GoblinRace.GoblinEyeColors).applyEffect(); });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(3, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyGoo.applyEffect(); });
+        addButton(4, "RearBody",  function():void { CoC.instance.transformations.RearBodyMetamorphicGoo.applyEffect();});
+        addButton(5, "Hair",  function():void { CoC.instance.transformations.HairGoo.applyEffect(); });
+        addButton(6, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(7, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(8, "NoGills",  function():void {  CoC.instance.transformations.GillsNone.applyEffect();  });
+        addButton(9, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFSphynxMenu():void {
         menu();
+        //Need to add cat genitals to this -Snas
+        addButton(0, "Skin",  function():void { CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor = randomChoice(SphinxRace.SphinxSkinColor); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceCatCanines.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesCat.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsLion.applyEffect();});
+        addButton(5, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyCat(4).applyEffect(); });
+        addButton(6, "Arms",  function():void {  CoC.instance.transformations.ArmsSphinx.applyEffect(); });
+        addButton(7, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredSphinx.applyEffect(); });
+        addButton(8, "NoTail",  function():void {  CoC.instance.transformations.TailCat.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFSpiderMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsSpider.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSpiderFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSpider.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "SpiderLegs",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(5, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(6, "DriderLegs",  function():void {  CoC.instance.transformations.LowerBodyDrider.applyEffect(); });
+        addButton(7, "Chitin",  function():void {  CoC.instance.transformations.SkinChitinToFull.applyEffect(); });
+        addButton(8, "BlkNipples",  function():void {  CoC.instance.transformations.NipplesBlack.applyEffect(); });
+        addButton(9, "Abdomen",  function():void {  CoC.instance.transformations.TailSpider.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFTbirdMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsHarpy.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceWeasel.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesRaiju.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "Legs",  function():void {  CoC.instance.transformations.LowerBodyHarpy.applyEffect(); });
+        addButton(5, "RaijuMane",  function():void {  CoC.instance.transformations.RearBodyRaijuMane.applyEffect(); });
+        addButton(6, "Hair",  function():void { CoC.instance.transformations.HairStorm.applyEffect(); player.hairColor = randomChoice(ThunderbirdRace.ThunderbirdHairColors); });
+        addButton(7, "Wings",  function():void {  CoC.instance.transformations.WingsFeatheredLarge.applyEffect(); });
+        addButton(8, "Tail",  function():void {  CoC.instance.transformations.TailThunderbird.applyEffect(); });
+        //addButton(9, "SkinPattern",  function():void {  CoC.instance.transformations.Skin.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFTrollMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsTroll.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceTroll.applyEffect(); });
+        addButton(2, "Eyes",  function():void { CoC.instance.transformations.EyesHuman.applyEffect();  CoC.instance.transformations.EyesChangeColor(TrollRace.TrollEyeColors).applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(4, "LowerBody",  function():void {  CoC.instance.transformations.LowerBodyTroll.applyEffect(); });
+        addButton(5, "Fur",  function():void { player.furColor1 = randomChoice(TrollRace.TrollFurColors); CoC.instance.transformations.SkinFur(4).applyEffect(); });
+        addButton(6, "Tail",  function():void {  CoC.instance.transformations.TailTroll.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFUnicornMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceHorse.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesHuman.applyEffect(); });
+        addButton(3, "Ears",  function():void {  CoC.instance.transformations.EarsHorse.applyEffect();});
+        addButton(4, "Biped",  function():void {  CoC.instance.transformations.LowerBodyHoofedBipedal.applyEffect(); });
+        addButton(5, "Quadraped",  function():void {  CoC.instance.transformations.LowerBodyHoofed(4).applyEffect(); });
+        addButton(6, "Hair",  function():void {  player.hairColor1 = randomChoice(UnicornRace.UnicornHairColors); });
+        addButton(7, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); });
+        addButton(8, "UniHorn",  function():void {  CoC.instance.transformations.HornsUnicorn.applyEffect(); });
+        addButton(9, "FurColor",  function():void {  player.furColor1 = randomChoice(UnicornRace.UnicornFurColors); });
+        addButton(10, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(11, "Tail",  function():void {  CoC.instance.transformations.TailHorse.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFVampireMenu():void {
         menu();
+        addButton(0, "Face",  function():void {  CoC.instance.transformations.FaceVampire.applyEffect(); });
+        addButton(1, "Eyes",  function():void {  CoC.instance.transformations.EyesVampire.applyEffect(); player.eyes.colour = "blood-red"; });
+        addButton(2, "Ears",  function():void {  CoC.instance.transformations.EarsVampire.applyEffect();});
+        addButton(3, "Legs",  function():void {  CoC.instance.transformations.LowerBodyHuman.applyEffect(); });
+        addButton(4, "PlainSkin",  function():void {  CoC.instance.transformations.SkinPlain.applyEffect(); player.skinColor1 = "pale";});
+        addButton(5, "NoAntenna",  function():void {  CoC.instance.transformations.AntennaeNone.applyEffect(); });
+        addButton(6, "NoHorns",  function():void {  CoC.instance.transformations.HornsNone.applyEffect(); });
+        addButton(7, "Wings",  function():void {  CoC.instance.transformations.WingsVampire.applyEffect(); });
+        addButton(8, "NoTail",  function():void {  CoC.instance.transformations.TailNone.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
     private function MeilaTFVouivreMenu():void {
         menu();
+        addButton(0, "Arms",  function():void {  CoC.instance.transformations.ArmsDraconic.applyEffect(); });
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceSnakeFangs.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesSnake.applyEffect(); });
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsElfin.applyEffect();});
+        addButton(5, "SnakeLegs",  function():void {  CoC.instance.transformations.LowerBodySnake.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton(8, "Horns/Wings",  VouivreHornMenu);
+        addButton(9, "L.Scales",  function():void {  CoC.instance.transformations.SkinScales(1).applyEffect(); });
+        addButton(10, "LM.Scales",  function():void {  CoC.instance.transformations.SkinScales(2).applyEffect(); });
+        addButton(11, "MH.Scales",  function():void {  CoC.instance.transformations.SkinScales(3).applyEffect();  });
+        addButton(12, "H.Scales",  function():void {  CoC.instance.transformations.SkinScales(4).applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
+    }
+
+    private function VouivreHornMenu():void {
+        addButton(0, "Hornx2",  function():void {  CoC.instance.transformations.HornsDraconicDual.applyEffect(); });
+        addButton(1, "Hornx4",  function():void {  CoC.instance.transformations.HornsDraconicQuadruple.applyEffect(); });
+        addButton(2, "SmallWings",  function():void {  CoC.instance.transformations.WingsDraconicSmall.applyEffect(); });
+        addButton(4, "LrgWings",  function():void {  CoC.instance.transformations.WingsDraconicLarge.applyEffect();});
+        addButton(5, "HugeWings",  function():void {  CoC.instance.transformations.WingsDraconicHuge.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  player.hairColor = randomChoice(BeeRace.BeeHairColors); });
+        addButton(7, "Hair",  function():void {  player.hairColor = randomChoice(GoblinRace.GoblinHairColors); });
+        addButton (14, "Back", MeilaTFVouivreMenu);
     }
 
     private function MeilaTFWolfMenu():void {
         menu();
+        addButton(1, "Face",  function():void {  CoC.instance.transformations.FaceWolf.applyEffect(); });
+        addButton(2, "Eyes",  function():void {  CoC.instance.transformations.EyesFenrir.applyEffect(); player.eyes.colour = "glacial blue";});
+        addButton(4, "Ears",  function():void {  CoC.instance.transformations.EarsWolf.applyEffect();});
+        addButton(5, "Legs",  function():void {  CoC.instance.transformations.LowerBodyWolfBipedal.applyEffect(); });
+        addButton(6, "RearBody",  function():void {  CoC.instance.transformations.RearBodyFenrirIceSpikes.applyEffect(); });
+        addButton(7, "Hairfurcolor",  function():void {  player.hairColor1 = "glacial white"; player.furColor1 = "glacial white"; });
+        addButton(8, "L.Fur",  function():void {  CoC.instance.transformations.SkinFur(2).applyEffect(); });
+        addButton(9, "H.Fur",  function():void {  CoC.instance.transformations.SkinFur(4).applyEffect(); });
+        addButton(12, "NoWings",  function():void {  CoC.instance.transformations.WingsNone.applyEffect(); });
+        addButton(13, "Tail",  function():void {  CoC.instance.transformations.TailWolf.applyEffect(); });
         addButton (14, "Back", DDullahanTFMenu8);
     }
 
@@ -1799,7 +3614,7 @@ if (MeilaState == 0) {
                 "\n" +
                 "“-nd there we go, that should do it!” Meila’s voice cuts through the fuzzy lethargy around your mind. You open your eyes, suddenly jolted awake. You sit upright, and Meila smiles, offering you a hand. “All done. Enjoy your new you, [master].”  \n\n");
         outputText("You exit the back room into the Dainty Dullahan’s lounge, feeling invigorated.  \n\n");
-
+doNext(StripClub);
     }
 
     private function DDullahanStock():void {
@@ -1942,6 +3757,12 @@ if (MeilaState == 0) {
         outputText("");
         outputText("");
         outputText("");
+        menu();
+        addButton(0, "Rough Fuck", GetRoughWithHer);
+        addButton(1, "ForcedLick", MeilaForcedLick);
+        addButton(2, "HeadnAss", MeilaDPHeadAss);
+        addButton(14, "Nvm", DaintyDullahan);
+
     }
 
     private function MeilaRoughSex():void {
@@ -1962,7 +3783,7 @@ if (MeilaState == 0) {
         menu();
         addButton(0, "Rough Fuck", GetRoughWithHer);
         addButton(1, "ForcedLick", MeilaForcedLick);
-        addButton(14, "HeadnAss", MeilaDPHeadAss);
+        addButton(2, "HeadnAss", MeilaDPHeadAss);
     }
 
     private function GetRoughWithHer():void {
@@ -1999,7 +3820,7 @@ if (MeilaState == 0) {
             outputText("“Thank y-you [master].” \n\n");
             player.sexReward("vaginalFluids","Dick");
         }
-        if(player.cumQ() <= 300) {
+        if(player.cumQ() >= 300) {
             outputText("Your [cock] twitches violently, and Meila looks up at you, giving you a split second of panic before your orgasm hits. You groan, your [balls] audibly churning as your baby batter shoots down your shaft in a thick wave. Meila moans, eyes glazing over as she swallows, her throat tightening on your shaft, taking mouthful after mouthful of your cum down her throat. \n\n");
             outputText("Your [cock2] in her ass violently shakes, her sphincter almost painful against you. Her legs shake, and you dimly notice Meila’s stomach…Is getting bigger.\n\n ");
             outputText("As your orgasm drags on, Meila’s ass and stomach swelling with your seed, she begins to moan, weakly trying to pull her head off your shaft. Concerned for her safety, you begin to pull her mouth off…only for a spurt of your load to come, propelling her head off your shaft like a shot from a cannon. You barely manage to grab her by the braid, and even as your load drips from her mouth, Meila’s coughing, moaning in pain as your [cock1] fires another round of sperm across her back. \n\n");
@@ -2120,7 +3941,7 @@ doNext(FoodHall);
             outputText("You hear her throat working from across the room, and Meila gags a little, a few tears falling as she wraps her lips around your base, drinking for all she’s worth. You see her stomach extend a little, but by the end of your orgasm, Meila’s clearly out of air. You pull her off, ordering her to stick her tongue out. Blindly, gasping for air, Meila obeys, and you run her tongue along your shaft, cleaning the mixed saliva and cum off your shaft. \n\n");
             doNext(MeilaBJLowMedProductionAfterScenes);
         }
-        if(player.cumQ() > 100 && player.cumQ() < 300) {
+        if(player.cumQ() > 300) {
             outputText("");
             outputText("");
             outputText("");
@@ -3319,7 +5140,7 @@ if (player.gender == 3) {
         addButton(0, "BendOver", BendGemOver);
         addButton(1, "Table", GemOnTable);
         addButton(2, "SitOnHer", ShoveGemUpThere);
-        addButton(3, "back", EmeraldBlueBalls);
+        addButton(3, "back", FoodHall);
     }
 
     private function GemOnTable():void {
@@ -3332,16 +5153,6 @@ if (player.gender == 3) {
     }
 
     private function ShoveGemUpThere():void {
-        outputText("\n\n");
-        outputText("\n\n");
-        outputText("\n\n");
-        outputText("\n\n");
-        outputText("\n\n");
-        doNext(FoodHall);
-    }
-
-    private function EmeraldBlueBalls():void {
-        outputText("\n\n");
         outputText("\n\n");
         outputText("\n\n");
         outputText("\n\n");
