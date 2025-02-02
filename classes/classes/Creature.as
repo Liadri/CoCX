@@ -415,7 +415,9 @@ public class Creature extends Utils
 		public var mdefStat: BuffableStat; // raw values (1pt = 1%)
 		public var rangedAccuracyStat: BuffableStat; // raw values (2pt = 1%)
 		public var spellpowerStat: BuffableStat; // multiplier (1pt = 100%)
+		public var spellpowerwhiteStat: BuffableStat; // multiplier (1pt = 100%)
 		public var spellcostStat: BuffableStat; // multiplier (1pt = 100%)
+		public var spellcostwhiteStat: BuffableStat; // multiplier (1pt = 100%)
 		public var psoulskillPowerStat: BuffableStat; // multiplier (1pt = 100%)
 		public var msoulskillPowerStat: BuffableStat; // multiplier (1pt = 100%)
 		public var soulskillcostStat: BuffableStat; // multiplier (1pt = 100%)
@@ -1661,7 +1663,9 @@ public class Creature extends Utils
 			mdefStat = new BuffableStat(this, 'mdef', {base:0});
 			rangedAccuracyStat = new BuffableStat(this, 'rangedaccuracy', {base:0});
 			spellpowerStat = new BuffableStat(this, 'spellpower', {base:1});
+			spellpowerwhiteStat = new BuffableStat(this, 'spellpowerwhite', {base:1});
 			spellcostStat = new BuffableStat(this, 'spellcost', {base:1});
+			spellcostwhiteStat = new BuffableStat(this, 'spellcostwhite', {base:0});
 			psoulskillPowerStat = new BuffableStat(this, 'psoulskillpower', {base:1});
 			msoulskillPowerStat = new BuffableStat(this, 'msoulskillpower', {base:1});
 			soulskillcostStat = new BuffableStat(this, 'soulskillcost', {base:1});
@@ -1722,7 +1726,9 @@ public class Creature extends Utils
 				mdefStat,
 				rangedAccuracyStat,
 				spellpowerStat,
+				spellpowerwhiteStat,
 				spellcostStat,
+				spellcostwhiteStat,
 				psoulskillPowerStat,
 				msoulskillPowerStat,
 				soulskillcostStat,

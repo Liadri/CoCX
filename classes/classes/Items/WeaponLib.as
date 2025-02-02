@@ -124,6 +124,8 @@ public final class WeaponLib extends ItemConstants
 				WT_DAGGER, WSZ_SMALL)
 				.withEffect(IELib.ScaleAttack_Spe, 300)
 				.withEffect(IELib.ScaleAttack_Str, 60) as Weapon;
+		public const AMBERSTAFF:Weapon = findCommonDynamicWeapon("amberstaff")
+		public const AMBERWAND:Weapon = findCommonDynamicWeapon("amberwand")
 		public const ARI_SPR:Weapon = new Weapon(
 				"Ari_Spr", "ArigeanSpear", "Arigean Spear", "an Arigean Spear", "thrust", 13, 1040,
 				"A black spear with white wrappings around the length of it, the metal shines a beautiful silver when even a small glimmer of light touches it. It supposedly becomes more dangerous the lower your mana is, and also should have no problem piercing armor.",
@@ -228,6 +230,7 @@ public final class WeaponLib extends ItemConstants
 				"A pair of kama. Preferred weapon for the ninja fans.",
 				WT_SCYTHE, WSZ_SMALL, true)
 				.withEffect(IELib.Bleed, 10) as Weapon;
+		public const D_RAPIER:Weapon = findCommonDynamicWeapon("dartrapier")
 		public const DAGGER :DynamicWeapon = findCommonDynamicWeapon("dagger");
 		public const DAGWHIP:Weapon = new Weapon(
 				"DagWhip","DaggerWhip","dagger whip","a dagger whip","whip-like slash",5,200,

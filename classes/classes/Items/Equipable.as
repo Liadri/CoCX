@@ -288,7 +288,7 @@ public class Equipable extends Useable {
 	 */
 	public function afterUnequip(doOutput:Boolean, slot:int):void {
 		for each (var ie:ItemEffect in effectsFlagged(IEF_ONEQUIP)) {
-			ie.onEquip(game.player, this);
+			ie.onUnequip(game.player, this);
 		}
 		if (_buffs) {
 			if (game.player.countSameEquippedItems(this) == 0 || !_buffsStack) {

@@ -279,7 +279,9 @@ public class StatUtils {
 		['maxsf_mult', "Max Soulforce"],
 		
 		['spellpower', "Spellpower"],
+		['spellpowerwhite', "Spellpower(White)"],
 		['spellcost', "Spell Cost"],
+		['spellcostwhite', "Spell Cost(White)"],
 		['soulskillcost', "Soulskill Cost"],
 		['psoulskillpower', "Physical Soulskill Power"],
 		['msoulskillpower', "Magical Soulskill Power"],

@@ -66,6 +66,7 @@ public class IELib extends ItemConstants {
 			}, 80,
 			// on equip
 			function (player:Player, item:Equipable, effect:ItemEffect):void {
+				trace("EQUIP",item, effect);
 				player.buff(item.tagForBuffs)
 						.addStat(effect.value1 as String, effect.power)
 						.withText(item.name)
@@ -73,6 +74,7 @@ public class IELib extends ItemConstants {
 			},
 			// on unequip
 			function (player:Player, item:Equipable, effect:ItemEffect):void {
+				trace("UNEQUIP",item, effect);
 				if (player.countSameEquippedItems(item) == 0) {
 					player.buff(item.tagForBuffs).removeFromStat(effect.value1 as String)
 				} else {
