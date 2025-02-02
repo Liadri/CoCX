@@ -145,6 +145,7 @@ public class CombatMagic extends BaseCombatContent {
 
     internal function costChange_white():Number {
 		var costPercent:Number = 0;
+		costPercent += 100*player.spellcostwhiteStat.value;
         if (player.hasPerk(PerkLib.Ambition)) costPercent -= (100 * player.perkv2(PerkLib.Ambition));
 		if (player.weapon == weapons.PURITAS) costPercent -= 15;
         return costPercent;
@@ -386,7 +387,7 @@ public class CombatMagic extends BaseCombatContent {
 	}
 
 	internal function spellModWhiteImpl():Number {
-		var mod:Number = 1;
+		var mod:Number = player.spellpowerwhiteStat.value;
 		if (spellModImpl() > 1) mod += (spellModImpl() - 1);
 		if (player.hasStatusEffect(StatusEffects.BlessingOfDivineMarae)) {
 			mod += player.statusEffectv2(StatusEffects.BlessingOfDivineMarae);
