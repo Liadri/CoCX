@@ -8,13 +8,123 @@ import classes.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.Areas.Forest.TentacleBeastRaging;
 import classes.Scenes.Monsters.FeralImps;
+import classes.internals.Utils;
 import classes.Scenes.SceneLib;
 import classes.Scenes.Combat.CombatAbilities;
+import classes.internals.Utils;
+import coc.view.ButtonDataList;
 
 public class CampMakeWinions extends BaseContent
 	{
 		public function CampMakeWinions()
 		{}
+
+		public function cond1():String { 
+			return (player.hasPerk(PerkLib.ElementsOfTheOrtodoxPath) || player.hasPerk(PerkLib.DaoOfTheElements)) ? "" : "You need to study the ortodox elements!";
+		}
+
+
+		public function cond2():String {
+			return (player.hasPerk(PerkLib.ElementsOfMarethBasics) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 1)) ? "" : "You need to study basic elements of Mareth!"
+		}
+
+		public function cond3():String {
+			return (player.hasPerk(PerkLib.ElementsOfMarethAdvanced) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 2)) ? "" : "You need to study advanced elements of Mareth!"
+			}
+		// element_name,  a/an : 0/1, status effect, Summon CONDition: func->str (empty=ok, else reason)
+		public const NORMAL_ELEMENTAL_TYPES:Array = [
+			{name: "air",        a:1, se:StatusEffects.SummonedElementalsAir,        sCond: null,   rname: "airy"        },
+			{name: "earth",      a:1, se:StatusEffects.SummonedElementalsEarth,      sCond: null,   rname: "earthen"     },
+			{name: "fire",       a:0, se:StatusEffects.SummonedElementalsFire,       sCond: null,   rname: "flaming"     },
+			{name: "water",      a:0, se:StatusEffects.SummonedElementalsWater,      sCond: null,   rname: "flowing"     },
+			{name: "ether",      a:1, se:StatusEffects.SummonedElementalsEther,      sCond: cond1,  rname: "ethereal"    },
+			{name: "wood",       a:0, se:StatusEffects.SummonedElementalsWood ,      sCond: cond1,  rname: "wooden"      },
+			{name: "metal",      a:0, se:StatusEffects.SummonedElementalsMetal,      sCond: cond1,  rname: "metallic"    },
+			{name: "ice",        a:1, se:StatusEffects.SummonedElementalsIce,        sCond: cond2,  rname: "icy"         },
+			{name: "lightning",  a:0, se:StatusEffects.SummonedElementalsLightning,  sCond: cond2,  rname: "electrifying"},
+			{name: "darkness",   a:0, se:StatusEffects.SummonedElementalsDarkness,   sCond: cond2,  rname: "shadowy"     },
+			{name: "poison",     a:0, se:StatusEffects.SummonedElementalsPoison,     sCond: cond3,  rname: "poisonous"   },
+			{name: "purity",     a:0, se:StatusEffects.SummonedElementalsPurity,     sCond: cond3,  rname: "pure"        },
+			{name: "corruption", a:0, se:StatusEffects.SummonedElementalsCorruption, sCond: cond3,  rname: "corrupted"   }
+		]
+		public const ELITE_ELEMENTAL_TYPES:Array = [
+			{name: "air",        a:1, se:StatusEffects.SummonedElementalsAirE       },
+			{name: "earth",      a:1, se:StatusEffects.SummonedElementalsEarthE     },
+			{name: "fire",       a:0, se:StatusEffects.SummonedElementalsFireE      },
+			{name: "water",      a:0, se:StatusEffects.SummonedElementalsWaterE     }
+		]
+		public const NORMAL_ELEMENTAL_RANKS:Array = [
+			"<b>ERROR: ELEMENTAL RANK ARRAY IDX=0</b>",
+			"(Rank 0)", // idx = 1
+			"(Rank 1)",
+			"(Rank 2)",
+			"(Rank 3)",
+			"(Rank 4)",
+			"(Rank 5)",
+			"(Rank 6)",
+			"(Rank 7)",
+			"(Rank 8)",
+			"(Rank 9)",
+			"(9th Elder Rank)", // idx = 11
+			"(8th Elder Rank)",
+			"(7th Elder Rank)",
+			"(6th Elder Rank)",
+			"(5th Elder Rank)",
+			"(4th Elder Rank)",
+			"(3rd Elder Rank)",
+			"(2nd Elder Rank)",
+			"(1st Elder Rank)",
+			"(Grand Elder Rank)", // idx = 21
+			"((Low) Lord Rank)",
+			"((Mid) Lord Rank)",
+			"((Advanced) Lord Rank)",
+			"((Peak) Lord Rank)",
+			"((Low) Baron Rank)",
+			"((Mid) Baron Rank)",
+			"((Advanced) Baron Rank)",
+			"((Peak) Baron Rank)",
+			"((Low) Viscount Rank)",
+			"((Mid) Viscount Rank)", // idx = 31
+			"((Advanced) Viscount Rank)",
+			"((Peak) Viscount Rank)", 
+			"((Low) Earl Rank)",// lvl = 186
+			"((Mid) Earl Rank)",// lvl = 192
+			"((Advanced) Earl Rank)",// lvl = 198
+			"((Peak) Earl Rank)",// lvl = 204
+			"((Low) Marquess Rank)",// lvl = 210
+			"((Mid) Marquess Rank)",// lvl = 216
+			"((Advanced) Marquess Rank)",// lvl = 222
+			"((Peak) Marquess Rank)",// lvl = 228
+			"((Low) Duke Rank)",// lvl = 234
+			"((Mid) Duke Rank)",// lvl = 240
+			"((Advanced) Duke Rank)",// lvl = 246
+			"((Peak) Duke Rank)",// lvl = 252
+			"((Low) Prince Rank)",// lvl = 258
+			"((Mid) Prince Rank)",// lvl = 264
+			"((Advanced) Prince Rank)",// lvl = 270
+			"((Peak) Prince Rank)",// lvl = 276
+			"((Low) King Rank)",// lvl = 282
+			"((Mid) King Rank)",// lvl = 288
+			"((Advanced) King Rank)",// lvl = 294
+			"((Peak) King Rank)"// lvl = 300
+		];
+
+		public const ELITE_ELEMENTAL_RANKS:Array = [
+			"<b>ERROR: ELEMENTAL RANK ARRAY IDX=0</b>",
+			"(Rank 1)",
+			"(Rank 2)",
+			"(Rank 3)",
+			"(Rank 4)",
+			"(Elder Rank)",
+			"(Lord Rank)",
+			"(Baron Rank)",
+			"(Viscount Rank)",
+			"(Earl Rank)",// lvl = 204
+			"(Marquess Rank)",// lvl = 228
+			"(Duke Rank)",// lvl = 252
+			"(Prince Rank)",// lvl = 276
+			"(King Rank)"// lvl = 300
+		]
 
 		//-------------
 		//
@@ -955,6 +1065,16 @@ public class CampMakeWinions extends BaseContent
 		private function maxSizeOfElementalsArmy():Number {
 			var maxSizeOfElementalsArmyCounter:Number = 0;
 			if (player.hasPerk(PerkLib.JobElementalConjurer)) maxSizeOfElementalsArmyCounter += 3;
+			maxSizeOfElementalsArmyCounter += elementalContractCount();
+			if (player.hasPerk(PerkLib.ElementsOfTheOrtodoxPath)) maxSizeOfElementalsArmyCounter += 2;
+			if (player.hasPerk(PerkLib.ElementsOfMarethBasics)) maxSizeOfElementalsArmyCounter += 2;
+			if (player.hasPerk(PerkLib.ElementsOfMarethAdvanced)) maxSizeOfElementalsArmyCounter += 2;
+			if (player.hasPerk(PerkLib.DaoOfTheElements)) maxSizeOfElementalsArmyCounter += player.perkv2(PerkLib.DaoOfTheElements);
+			return maxSizeOfElementalsArmyCounter;
+		}
+
+		private function elementalContractCount():int {
+			var maxSizeOfElementalsArmyCounter:int = 0;
 			if (player.hasPerk(PerkLib.ElementalContractRank1)) maxSizeOfElementalsArmyCounter += 1;
 			if (player.hasPerk(PerkLib.ElementalContractRank2)) maxSizeOfElementalsArmyCounter += 1;
 			if (player.hasPerk(PerkLib.ElementalContractRank3)) maxSizeOfElementalsArmyCounter += 1;
@@ -986,12 +1106,9 @@ public class CampMakeWinions extends BaseContent
 			if (player.hasPerk(PerkLib.ElementalContractRank29)) maxSizeOfElementalsArmyCounter += 1;
 			if (player.hasPerk(PerkLib.ElementalContractRank30)) maxSizeOfElementalsArmyCounter += 1;
 			if (player.hasPerk(PerkLib.ElementalContractRank31)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementsOfTheOrtodoxPath)) maxSizeOfElementalsArmyCounter += 2;
-			if (player.hasPerk(PerkLib.ElementsOfMarethBasics)) maxSizeOfElementalsArmyCounter += 2;
-			if (player.hasPerk(PerkLib.ElementsOfMarethAdvanced)) maxSizeOfElementalsArmyCounter += 2;
-			if (player.hasPerk(PerkLib.DaoOfTheElements)) maxSizeOfElementalsArmyCounter += player.perkv2(PerkLib.DaoOfTheElements);
 			return maxSizeOfElementalsArmyCounter;
 		}
+
 		private function currentSizeOfElementalsArmy():Number {
 			var currentSizeOfElementalsArmyCounter:Number = 0;
 			if (player.statusEffectv1(StatusEffects.SummonedElementals) > 0) currentSizeOfElementalsArmyCounter += player.statusEffectv1(StatusEffects.SummonedElementals);
@@ -1013,529 +1130,33 @@ public class CampMakeWinions extends BaseContent
 			}
 			if (player.hasStatusEffect(StatusEffects.ElementalEnergyConduits)) outputText("Elemental Energy Stored in Conduits: <i>"+player.statusEffectv1(StatusEffects.ElementalEnergyConduits)+" / "+player.statusEffectv2(StatusEffects.ElementalEnergyConduits)+"</i>\n\n");
 			outputText("<b>Currently summoned elementals:</b><i>");
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsAir)) {
-				outputText("\nAir");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 32) outputText(" ((Peak) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 33) outputText(" ((Low) Earl Rank)");//186
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 34) outputText(" ((Mid) Earl Rank)");//192
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 35) outputText(" ((Advanced) Earl Rank)");//198
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 36) outputText(" ((Peak) Earl Rank)");//204
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 37) outputText(" ((Low) Marquess Rank)");//210
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 38) outputText(" ((Mid) Marquess Rank)");//216
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 39) outputText(" ((Advanced) Marquess Rank)");//222
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 40) outputText(" ((Peak) Marquess Rank)");//228
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 41) outputText(" ((Low) Duke Rank)");//234
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 42) outputText(" ((Mid) Duke Rank)");//240
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 43) outputText(" ((Advanced) Duke Rank)");//246
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 44) outputText(" ((Peak) Duke Rank)");//252
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 45) outputText(" ((Low) Prince Rank)");//258
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 46) outputText(" ((Mid) Prince Rank)");//264
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 47) outputText(" ((Advanced) Prince Rank)");//270
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 48) outputText(" ((Peak) Prince Rank)");//276
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 49) outputText(" ((Low) King Rank)");//282
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 50) outputText(" ((Mid) King Rank)");//288
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 51) outputText(" ((Advanced) King Rank)");//294
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAir) == 52) outputText(" ((Peak) King Rank)");//300
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsEarth)) {
-				outputText("\nEarth");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsFire)) {
-				outputText("\nFire");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFire) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsWater)) {
-				outputText("\nWater");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWater) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsEther)) {
-				outputText("\nEther");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEther) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsWood)) {
-				outputText("\nWood");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWood) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsMetal)) {
-				outputText("\nMetal");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsMetal) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsIce)) {
-				outputText("\nIce");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsIce) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsLightning)) {
-				outputText("\nLightning");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsLightning) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsDarkness)) {
-				outputText("\nDarkness");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsPoison)) {
-				outputText("\nPoison");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPoison) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsPurity)) {
-				outputText("\nPurity");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsPurity) == 32) outputText(" ((Peak) Viscount Rank)");
-			}
-			if (player.hasStatusEffect(StatusEffects.SummonedElementalsCorruption)) {
-				outputText("\nCorruption");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 1) outputText(" (Rank 0)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 2) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 3) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 4) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 5) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 6) outputText(" (Rank 5)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 7) outputText(" (Rank 6)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 8) outputText(" (Rank 7)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 9) outputText(" (Rank 8)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 10) outputText(" (Rank 9)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 11) outputText(" (9th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 12) outputText(" (8th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 13) outputText(" (7th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 14) outputText(" (6th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 15) outputText(" (5th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 16) outputText(" (4th Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 17) outputText(" (3rd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 18) outputText(" (2nd Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 19) outputText(" (1st Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 20) outputText(" (Grand Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 21) outputText(" ((Low) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 22) outputText(" ((Mid) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 23) outputText(" ((Advanced) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 24) outputText(" ((Peak) Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 25) outputText(" ((Low) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 26) outputText(" ((Mid) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 27) outputText(" ((Advanced) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 28) outputText(" ((Peak) Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 29) outputText(" ((Low) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 30) outputText(" ((Mid) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 31) outputText(" ((Advanced) Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) == 32) outputText(" ((Peak) Viscount Rank)");
+			var idx:int = 0;
+			for each(var t:Object in NORMAL_ELEMENTAL_TYPES){
+				if (player.hasStatusEffect(t.se)) {
+					outputText("\n"+ Utils.capitalizeFirstLetter(t.name)  +" ");
+					idx = player.statusEffectv2(t.se);
+					outputText(NORMAL_ELEMENTAL_RANKS[idx]);
+				}
 			}
 			if (player.hasStatusEffect(StatusEffects.SummonedElementalsAirE)) {
-				outputText("\nAir <b>(Elite)</b>");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 1) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 2) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 3) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 4) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 5) outputText(" (Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 6) outputText(" (Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 7) outputText(" (Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 8) outputText(" (Viscount Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 9) outputText(" (Earl Rank)");//204
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 10) outputText(" (Marquess Rank)");//228
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 11) outputText(" (Duke Rank)");//252
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 12) outputText(" (Prince Rank)");//276
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsAirE) == 13) outputText(" (King Rank)");//300
+				outputText("\nAir <b>(Elite)</b> ");
+				idx = player.statusEffectv2(StatusEffects.SummonedElementalsAirE);
+				outputText(ELITE_ELEMENTAL_RANKS[idx]);
 			}
 			if (player.hasStatusEffect(StatusEffects.SummonedElementalsEarthE)) {
-				outputText("\nEarth <b>(Elite)</b>");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 1) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 2) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 3) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 4) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 5) outputText(" (Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 6) outputText(" (Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 7) outputText(" (Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsEarthE) == 8) outputText(" (Viscount Rank)");
+				outputText("\nEarth <b>(Elite)</b> ");
+				idx = player.statusEffectv2(StatusEffects.SummonedElementalsEarthE);
+				outputText(ELITE_ELEMENTAL_RANKS[idx]);
 			}
 			if (player.hasStatusEffect(StatusEffects.SummonedElementalsFireE)) {
-				outputText("\nFire <b>(Elite)</b>");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 1) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 2) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 3) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 4) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 5) outputText(" (Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 6) outputText(" (Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 7) outputText(" (Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsFireE) == 8) outputText(" (Viscount Rank)");
+				outputText("\nFire <b>(Elite)</b> ");
+				idx = player.statusEffectv2(StatusEffects.SummonedElementalsFireE);
+				outputText(ELITE_ELEMENTAL_RANKS[idx]);
 			}
 			if (player.hasStatusEffect(StatusEffects.SummonedElementalsWaterE)) {
-				outputText("\nWater <b>(Elite)</b>");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 1) outputText(" (Rank 1)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 2) outputText(" (Rank 2)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 3) outputText(" (Rank 3)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 4) outputText(" (Rank 4)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 5) outputText(" (Elder Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 6) outputText(" (Lord Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 7) outputText(" (Baron Rank)");
-				if (player.statusEffectv2(StatusEffects.SummonedElementalsWaterE) == 8) outputText(" (Viscount Rank)");
+				outputText("\nWater <b>(Elite)</b> ");
+				idx = player.statusEffectv2(StatusEffects.SummonedElementalsWaterE);
+				outputText(ELITE_ELEMENTAL_RANKS[idx]);
 			}
 			outputText("</i>");/*	usunąć za jakiś czas wykorektorowaną cześć
 			outputText("\n"+player.statusEffectv1(StatusEffects.ElementalPearlGolems)+"");
@@ -1564,63 +1185,34 @@ public class CampMakeWinions extends BaseContent
 		}
 
 		private function elementaLvlUp():void {
-			var elementalTypes:Array = [];
-			var contractRankI:int = 0;
-			var btnInt:int = 0;
-			var pPerkList:Array = player.perks;
-			menu();
-			elementalTypes.push(StatusEffects.SummonedElementalsAir, rankUpElementalAir, "air");
-			elementalTypes.push(StatusEffects.SummonedElementalsEarth, rankUpElementalEarth, "earthen");
-			elementalTypes.push(StatusEffects.SummonedElementalsFire, rankUpElementalFire, "flaming");
-			elementalTypes.push(StatusEffects.SummonedElementalsWater, rankUpElementalWater, "flowing");
-			elementalTypes.push(StatusEffects.SummonedElementalsEther, rankUpElementalEther, "ethereal");
-			elementalTypes.push(StatusEffects.SummonedElementalsWood, rankUpElementalWood, "wooden");
-			elementalTypes.push(StatusEffects.SummonedElementalsMetal, rankUpElementalMetal, "metallic");
-			elementalTypes.push(StatusEffects.SummonedElementalsIce, rankUpElementalIce, "icy");
-			elementalTypes.push(StatusEffects.SummonedElementalsLightning, rankUpElementalLightning, "electrifying");
-			elementalTypes.push(StatusEffects.SummonedElementalsDarkness, rankUpElementalDarkness, "shadowy");
-			elementalTypes.push(StatusEffects.SummonedElementalsPoison, rankUpElementalPoison, "poisonous");
-			elementalTypes.push(StatusEffects.SummonedElementalsPurity, rankUpElementalPurity, "pure");
-			elementalTypes.push(StatusEffects.SummonedElementalsCorruption, rankUpElementalCorruption, "corrupted");
-			for each(var pPerks:PerkClass in pPerkList) { //Cheaty way of getting value equivalences.
-				var temp:String = pPerks.perkName
-				if (temp.indexOf("Elemental Contract Rank") >= 0){
-					temp = temp.replace("Elemental Contract Rank ", "");
-					var temp2:int = parseInt(temp, 10);
-					if (temp2 > contractRankI){
-						contractRankI = temp2;
-					}
-				}
-			}
+			var contractRankI:int = elementalContractCount();
+			var buttons:ButtonDataList = new ButtonDataList();
+
 			var arcaneCMax:int = (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE]*4);
-			for (var i:int = 0,j:int = elementalTypes.length; i < j; i++){
-				if (i % 3 == 0){
-					var btnName:String = elementalTypes[i];
-					btnName = btnName.replace("\"Summoned Elementals ", "").replace("\"", "");
-					//outputText(btnName);
-					var pElemLvlStat:int = player.statusEffectv2(elementalTypes[i]);
+			for each(var t:Object in NORMAL_ELEMENTAL_TYPES){
+					var btnName:String = Utils.capitalizeFirstLetter(t.name);
+					var pElemLvlStat:int = player.statusEffectv2(t.se);
 					if (pElemLvlStat <= contractRankI && pElemLvlStat > 0){//Checks Elemental level lower than max, but not 0.
 						if (pElemLvlStat < arcaneCMax){	//If lower, don't care. You have the circle and the highest level circle can support.
-							addButton(btnInt, btnName,elementalLvlUpCostCheck , elementalTypes[i + 1], pElemLvlStat, btnName, "Level up your "+ elementalTypes[i + 2] +" elemental!");
+							buttons.add(btnName,curry(elementalLvlUpCostCheck, t.se, pElemLvlStat, t.name), "Level up your "+ t.rname +" elemental!");
 						}
 						else{//Outside Bracket.
-							addButtonDisabled(btnInt, btnName,"Your Arcane Circle can't handle the elemental level up safely!");
+						buttons.add(btnName, null, "Your Arcane Circle can't handle the elemental level up safely!").disable();
 						}
 					}
 					else if (pElemLvlStat == 0){
-						addButtonDisabled(btnInt, btnName,"You don't have this elemental yet!");
+						buttons.add(btnName, null, "You don't have this elemental yet!").disable();
 					}
 					else{
-						addButtonDisabled(btnInt, btnName,"You can't handle this elemental if you go further!");
+						buttons.add(btnName, null, "You can't handle this elemental if you go further!").disable();
 					}
-					btnInt += 1;
-				}
 			}
-			addButton(14, "Back", accessSummonElementalsMainMenu);
+			submenu(buttons, accessSummonElementalsMainMenu);
 		}
-		private function elementalLvlUpCostCheck(elemType:Function, elemLvl:int, btnName:String):void{ //Check if player can afford to do so.
+		private function elementalLvlUpCostCheck(elemType:StatusEffectType, elemLvl:int, name:String):void{ //Check if player can afford to do so.
 			clearOutput();
 			menu();
+			var btnName:String = Utils.capitalizeFirstLetter(name);
 			outputText("It will cost you " + rankUpElementalManaCost() * elemLvl + " mana and " + rankUpElementalFatigueCost() * elemLvl + " fatigue. Are you sure you want to proceed?");
 			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) {
 				outputText("\n\nYou could also replace mana and fatigue with elemental energy ("+((rankUpElementalElementalEnergyCost()*elemLvl)/4)+") stored into energy conduits. (Elemental energy will take priority over other resources when determining which are used)\n\n");
@@ -1636,7 +1228,7 @@ public class CampMakeWinions extends BaseContent
 				addButtonDisabled(0, btnName,"You are too tired to attempt this. Try again when you have more energy!");
 			}
 			else{
-				addButton(0, btnName, elemType, null, null, null, "Let's do this!")
+				addButton(0, btnName, curry(rankUpNormalElemental, name, elemType), null, null, null, "Let's do this!")
 			}
 			addButton(14, "Back", elementaLvlUp);
 		}
@@ -1929,29 +1521,25 @@ public class CampMakeWinions extends BaseContent
 		private function summoningElementalsSubmenu():void {
 			clearOutput();
 			outputText("If you don't have enough mana (100+) and fatigue (50+) it will be impossible to summon any elementals.\n\n");
-			menu();
-			if (player.mana >= 100 && (player.fatigue + 50 <= player.maxOverFatigue())) {
-				if (player.statusEffectv1(StatusEffects.SummonedElementalsAir) < 1) addButton(0, "Air", summonElementalAir);
-				if (player.statusEffectv1(StatusEffects.SummonedElementalsEarth) < 1) addButton(1, "Earth", summonElementalEarth);
-				if (player.statusEffectv1(StatusEffects.SummonedElementalsFire) < 1) addButton(2, "Fire", summonElementalFire);
-				if (player.statusEffectv1(StatusEffects.SummonedElementalsWater) < 1) addButton(3, "Water", summonElementalWater);
-				if (player.hasPerk(PerkLib.ElementsOfTheOrtodoxPath) || player.hasPerk(PerkLib.DaoOfTheElements)) {
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsEther) < 1) addButton(4, "Ether", summonElementalEther);
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsWood) < 1) addButton(5, "Wood", summonElementalWood);
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsMetal) < 1) addButton(6, "Metal", summonElementalMetal);
+			var buttons:ButtonDataList = new ButtonDataList();
+			for each(var t:Object in NORMAL_ELEMENTAL_TYPES){
+				var can:Boolean = true;
+				var reason:String = "";
+				if (player.statusEffectv1(t.se) > 0){
+					can = false;
+					reason = "You already have one!";
 				}
-				if (player.hasPerk(PerkLib.ElementsOfMarethBasics) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 1)) {
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsIce) < 1) addButton(7, "Ice", summonElementalIce);
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsLightning) < 1) addButton(8, "Lightning", summonElementalLightning);
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsDarkness) < 1) addButton(9, "Darkness", summonElementalDarkness);
+				if(!(t.sCond == null || (reason = t.sCond()) == "" )) can = false;
+				if (player.mana < 100 && (player.fatigue + 50 > player.maxOverFatigue())){
+					 can = false;
+					 reason = "Not enough mana or fatigue!"
 				}
-				if (player.hasPerk(PerkLib.ElementsOfMarethAdvanced) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 2)) {
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsPoison) < 1) addButton(10, "Poison", summonElementalPoison);
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsPurity) < 1) addButton(11, "Purity", summonElementalPurity);
-					if (player.statusEffectv1(StatusEffects.SummonedElementalsCorruption) < 1) addButton(12, "Corruption", summonElementalCorruption);
-				}
+				buttons.add(
+					Utils.capitalizeFirstLetter(t.name),
+					curry(summonNormalElemental, t.a, t.name, t.se),
+					"You can summon "+t.name+" elemental!").disableIf(!can, reason)
 			}
-			addButton(14, "Back", accessSummonElementalsMainMenu);
+			submenu(buttons, accessSummonElementalsMainMenu);
 		}
 
 		private function summoningEpicElementalsSubmenu():void {
@@ -1976,134 +1564,14 @@ public class CampMakeWinions extends BaseContent
 			addButton(14, "Back", accessSummonElementalsMainMenu);
 		}
 
-		private function summonElementalAir():void {
+		private function summonNormalElemental(a_or_an:Boolean, name:String, se:StatusEffectType):void {
 			clearOutput();
 			useMana(100);
 			fatigue(50);
 			statScreenRefresh();
-			outputText("Since this is your first time summoning an air elemental, you begin the ritual by drawing a small circle of runes inside the larger arcane circle you’ve already built, including runes for binding and directive. Once complete, you move on to the most dangerous part of the ritual—invoking the primal might of the elemental. The air elemental appears within the circle, huge and terrifying at first, fighting against its bindings and attempting to break free. ");
-			outputText("The binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete! Congratulations are in order, as you have successfully bound your very own air elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsAir, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalEarth():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning an earth elemental, you begin the ritual by drawing a small circle of runes inside the larger arcane circle you’ve already built, including runes for binding and directive. Once complete, you move on to the most dangerous part of the ritual—invoking the primal might of the elemental. The earth elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("The binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>Congratulations are in order, as you have successfully bound your very own earth elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsEarth, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalFire():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a fire elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The fire elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>Congratulations are in order, as you have successfully bound your very own fire elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsFire, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalWater():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a water elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The water elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>Congratulations are in order, as you have successfully bound your very own water elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsWater, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalIce():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning an ice elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The ice elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own ice elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsIce, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalLightning():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a lightning elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The lightning elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own lightning elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsLightning, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalDarkness():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a darkness elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The darkness elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own darkness elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsDarkness, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalWood():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a wood elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The wood elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own wood elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsWood, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalMetal():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a metal elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The metal elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own metal elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsMetal, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalEther():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning an ether elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The ether elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own ether elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsEther, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalPoison():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a poison elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The poison elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own poison elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsPoison, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalPurity():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a purity elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The purity elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own purity elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsPurity, 1, 1, 0, 0);
-			finishingSummoningElemental();
-		}
-		private function summonElementalCorruption():void {
-			clearOutput();
-			useMana(100);
-			fatigue(50);
-			statScreenRefresh();
-			outputText("Since this is your first time summoning a corruption elemental, you begin the ritual by drawing a small circle of rune inside the larger arcane circle you already built, including runes for binding, and directive. With that complete, you initiate the most dangerous part of the ritual—invoking the primal might of the elemental. The corruption elemental appears within the circle, huge and terrifying at first, as it fights against its bindings, trying to break free. ");
-			outputText("he binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete congratulation is in order as you bound your very own corruption elemental!</b>\"");
-			player.createStatusEffect(StatusEffects.SummonedElementalsCorruption, 1, 1, 0, 0);
+			outputText("Since this is your first time summoning " + (a_or_an?"an":"a") + name +" elemental, you begin the ritual by drawing a small circle of runes inside the larger arcane circle you’ve already built, including runes for binding and directive. Once complete, you move on to the most dangerous part of the ritual—invoking the primal might of the elemental. The "+name+" elemental appears within the circle, huge and terrifying at first, fighting against its bindings and attempting to break free. ");
+			outputText("The binding circle holds, acting as a powerful barrier that the creature cannot breach. As the restraint rune takes effect, the elemental slowly shrinks to a size you can properly control. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is finally complete! Congratulations are in order, as you have successfully bound your very own "+name+" elemental!</b>\"");
+			player.createStatusEffect(se, 1, 1, 0, 0);
 			finishingSummoningElemental();
 		}
 		private function finishingSummoningElemental():void {
@@ -2191,331 +1659,32 @@ public class CampMakeWinions extends BaseContent
 			advanceMinutes(30);
 		}
 
-		private function rankUpElementalAir():void {
+		private function rankUpNormalElemental(name:String, se:StatusEffectType):void {
 			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsAir)) / 4);
+			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(se)) / 4);
 			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
 				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
 				elecostr = true;
 			}
 			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsAir));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsAir));
+				useMana(rankUpElementalManaCost() * player.statusEffectv2(se));
+				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(se));
 				statScreenRefresh();
 			}
 			rankUpElementalPart1();
 			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsAir) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsAir);
+			if (player.wis > player.statusEffectv2(se) * 25) summmast += 25;
+			else summmast += player.wis / player.statusEffectv2(se);
 			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
 			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsAir, 2, 1);
+				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your " + name + " elemental is now empowered!</b>\"");
+				player.addStatusValue(se, 2, 1);
 			}
 			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
+			doNext(accessSummonElementalsMainMenu);
 			advanceMinutes(30);
 		}
-		private function rankUpElementalEarth():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsEarth)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsEarth));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsEarth));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsEarth) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsEarth);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsEarth, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalFire():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsFire)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsFire));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsFire));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsFire) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsFire);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsFire, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalWater():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsWater)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsWater));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsWater));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsWater) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsWater);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsWater, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalIce():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsIce)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsIce));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsIce));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsIce) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsIce);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsIce, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalLightning():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsLightning)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsLightning));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsLightning));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsLightning) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsLightning);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsLightning, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalDarkness():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsDarkness)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsDarkness));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsDarkness));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsDarkness) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsDarkness);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsDarkness, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalWood():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsWood)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsWood));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsWood));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsWood) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsWood);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsWood, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalMetal():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsMetal)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsMetal));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsMetal));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsMetal) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsMetal);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsMetal, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalEther():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsEther)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsEther));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsEther));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsEther) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsEther);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsEther, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalPoison():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsPoison)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsPoison));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsPoison));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsPoison) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsPoison);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsPoison, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalPurity():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsPurity)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsPurity));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsPurity));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsPurity) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsPurity);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsPurity, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
-		private function rankUpElementalCorruption():void {
-			clearOutput();
-			elecost += ((rankUpElementalElementalEnergyCost() * player.statusEffectv2(StatusEffects.SummonedElementalsCorruption)) / 4);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx) && (player.statusEffectv1(StatusEffects.ElementalEnergyConduits) >= elecost)) {
-				player.addStatusValue(StatusEffects.ElementalEnergyConduits, 1, -elecost);
-				elecostr = true;
-			}
-			else {
-				useMana(rankUpElementalManaCost() * player.statusEffectv2(StatusEffects.SummonedElementalsCorruption));
-				fatigue(rankUpElementalFatigueCost() * player.statusEffectv2(StatusEffects.SummonedElementalsCorruption));
-				statScreenRefresh();
-			}
-			rankUpElementalPart1();
-			var summmast:Number = 0;
-			if (player.wis > player.statusEffectv2(StatusEffects.SummonedElementalsCorruption) * 25) summmast += 25;
-			else summmast += player.wis / player.statusEffectv2(StatusEffects.SummonedElementalsCorruption);
-			if (player.hasPerk(PerkLib.ElementalConjurerKnowledgeEx)) summmast += 25;
-			if (rand(summmast) > 5) {
-				outputText("The outraged elemental struggles at first but is unable to break free from its bindings. It eventually gives up and stands still, awaiting your commands. With their duty fulfilled, the binding runes fade, disappearing into the elemental until you call upon them again. \"<b>The ritual is complete, and your elemental is now empowered!</b>\"");
-				player.addStatusValue(StatusEffects.SummonedElementalsCorruption, 2, 1);
-			}
-			else failToRankUpElemental(elecost, elecostr);
-			doNext(elementaLvlUp);
-			advanceMinutes(30);
-		}
+
 		private function rankUpElementalManaCost():Number {
 			var rankUpElementalManaCost:Number = 100;
 			if (player.hasPerk(PerkLib.ElementalConjurerKnowledge)) rankUpElementalManaCost -= 40;
