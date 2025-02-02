@@ -42,8 +42,8 @@ public class Thief extends Monster
 				this.level = 1;
 				this.gems = 5 + rand(3);
 				this.drop = new WeightedDrop()
-						.add(armors.LEATHRA,1)
-						.add(null, 4);
+						.add(armors.LEATHRA,4)
+						.add(null, 6);
 				this.createPerk(PerkLib.EnemyForBeginnersType, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.INGNAM_ENEMIES] == 1) {
@@ -66,9 +66,9 @@ public class Thief extends Monster
 				this.level = 5;
 				this.gems = 10 + rand(5);
 				this.drop = new WeightedDrop()
-						.add(armors.LEATHRA,1)
-						.add(weapons.DAGGER,2)
-						.add(null, 7);
+						.add(armors.LEATHRA,2)
+						.add(weapons.DAGGER,3)
+						.add(null, 5);
 				this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 				this.createPerk(PerkLib.EnemyForBeginnersType, 0, 0, 0, 0);
 			}

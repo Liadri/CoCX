@@ -293,9 +293,9 @@ public class Changelog extends BaseContent
 			outputText("-A bunch of fixes and Tifa's Hive. (DigitalKitsune)\n");
 			outputText("-New melee weapon (by Ormael): Old Lute. Currently dropped by Satyr enemies. Cost 960 gems. Is medium mace/hammer type weapon with atk 6. Effects: +75% spellpower, +75% performance power.\n");
 			outputText("-New melee weapon (by Ormael): Acoustic Guitar. Currently dropped by Satyr enemies. Cost 3360 gems. Is large mace/hammer type weapon with atk 21. Effects: +100% spellpower, +100% performance power.\n");
-			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-PC now could explore in Ignam after dusk but only for 2 additional hours and it will increase massively chance to find hostile enocuter and they may even be much stronger ones enemies then it should be acording to current PC level.\n");
+			outputText("-Starting game all PC's would have 15 more stat points, additional 2 perk points and 1 super perk point.\n");
+			outputText("-Fixed Equipable.afterUnequip to actually call UNequip on item's effects instead of Equip, added spellpowerwhite and spellcostwhite buffable stats. (DigitalKitsune)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");

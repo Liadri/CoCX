@@ -77,8 +77,8 @@ public class Ingnam extends BaseContent
 			//Show wait/rest/sleep depending on conditions.
 			addButton(9, "Wait", SceneLib.camp.doWait);
             if (player.fatigue > 40 || player.HP / player.maxHP() <= .9) addButton(9, "Rest", SceneLib.camp.rest);
+			if (model.time.hours >= 23 || model.time.hours < 6) removeButton(0);
             if (model.time.hours >= 21 || model.time.hours < 6) {
-				removeButton(0);
 				removeButton(1);
 				removeButton(2);
 				removeButton(4);
@@ -128,6 +128,7 @@ public class Ingnam extends BaseContent
 			if (player.level < 9 && rand(10) == 0) canOrNot = false;
 			else if (player.level < 6 && rand(5) == 0) canOrNot = false;
 			else if (player.level < 3 && rand(2) == 0) canOrNot = false;
+			else if (model.time.hours >= 21) canOrNot = false;
 			return canOrNot;
 		}
 

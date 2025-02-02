@@ -2224,7 +2224,9 @@ import classes.Scenes.Combat.CombatAbility;
 				//if(player.perkv1(PerkLib.AscensionTrancendentalGeneticMemoryStageX) > 6)
                //     player.createPerk(PerkLib.MetamorphMastery, 0, 0, 0, 0);
 			}
-			player.perkPoints += 1;
+			player.superPerkPoints += 1;
+			player.perkPoints += 3;
+			player.statPoints += 15;
 			//setupMutations();
 			Metamorph.resetMetamorph();
 			if (player.hasCock()) transformations.UnlockCocks();

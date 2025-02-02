@@ -2747,11 +2747,13 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.58;
 				outputText("\n\nEmber was bit too... corrupt to our liking so we adjusted her corruption to new standards ^^");
 				if (flags[kFLAGS.TOOK_EMBER_EGG] > 0) flags[kFLAGS.EMBER_COR] -= 50;
-			}/*
+			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.59) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.59;
-				if (player.hasPerk(PerkLib.TransformationImmunity2) && player.hasPerk(PerkLib.SoulDrinker)) player.addPerkValue(PerkLib.TransformationImmunity2, 1, 1);
-			}
+				player.superPerkPoints += 1;
+				player.perkPoints += 2;
+				player.statPoints += 15;
+			}/*
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.60) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.60;
 			}
