@@ -19,113 +19,6 @@ public class CampMakeWinions extends BaseContent
 		public function CampMakeWinions()
 		{}
 
-		public function cond1():String { 
-			return (player.hasPerk(PerkLib.ElementsOfTheOrtodoxPath) || player.hasPerk(PerkLib.DaoOfTheElements)) ? "" : "You need to study the ortodox elements!";
-		}
-
-
-		public function cond2():String {
-			return (player.hasPerk(PerkLib.ElementsOfMarethBasics) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 1)) ? "" : "You need to study basic elements of Mareth!"
-		}
-
-		public function cond3():String {
-			return (player.hasPerk(PerkLib.ElementsOfMarethAdvanced) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 2)) ? "" : "You need to study advanced elements of Mareth!"
-			}
-		// element_name,  a/an : 0/1, status effect, Summon CONDition: func->str (empty=ok, else reason)
-		public const NORMAL_ELEMENTAL_TYPES:Array = [
-			{name: "air",        a:1, se:StatusEffects.SummonedElementalsAir,        sCond: null,   rname: "airy"        },
-			{name: "earth",      a:1, se:StatusEffects.SummonedElementalsEarth,      sCond: null,   rname: "earthen"     },
-			{name: "fire",       a:0, se:StatusEffects.SummonedElementalsFire,       sCond: null,   rname: "flaming"     },
-			{name: "water",      a:0, se:StatusEffects.SummonedElementalsWater,      sCond: null,   rname: "flowing"     },
-			{name: "ether",      a:1, se:StatusEffects.SummonedElementalsEther,      sCond: cond1,  rname: "ethereal"    },
-			{name: "wood",       a:0, se:StatusEffects.SummonedElementalsWood ,      sCond: cond1,  rname: "wooden"      },
-			{name: "metal",      a:0, se:StatusEffects.SummonedElementalsMetal,      sCond: cond1,  rname: "metallic"    },
-			{name: "ice",        a:1, se:StatusEffects.SummonedElementalsIce,        sCond: cond2,  rname: "icy"         },
-			{name: "lightning",  a:0, se:StatusEffects.SummonedElementalsLightning,  sCond: cond2,  rname: "electrifying"},
-			{name: "darkness",   a:0, se:StatusEffects.SummonedElementalsDarkness,   sCond: cond2,  rname: "shadowy"     },
-			{name: "poison",     a:0, se:StatusEffects.SummonedElementalsPoison,     sCond: cond3,  rname: "poisonous"   },
-			{name: "purity",     a:0, se:StatusEffects.SummonedElementalsPurity,     sCond: cond3,  rname: "pure"        },
-			{name: "corruption", a:0, se:StatusEffects.SummonedElementalsCorruption, sCond: cond3,  rname: "corrupted"   }
-		]
-		public const ELITE_ELEMENTAL_TYPES:Array = [
-			{name: "air",        a:1, se:StatusEffects.SummonedElementalsAirE       },
-			{name: "earth",      a:1, se:StatusEffects.SummonedElementalsEarthE     },
-			{name: "fire",       a:0, se:StatusEffects.SummonedElementalsFireE      },
-			{name: "water",      a:0, se:StatusEffects.SummonedElementalsWaterE     }
-		]
-		public const NORMAL_ELEMENTAL_RANKS:Array = [
-			"<b>ERROR: ELEMENTAL RANK ARRAY IDX=0</b>",
-			"(Rank 0)", // idx = 1
-			"(Rank 1)",
-			"(Rank 2)",
-			"(Rank 3)",
-			"(Rank 4)",
-			"(Rank 5)",
-			"(Rank 6)",
-			"(Rank 7)",
-			"(Rank 8)",
-			"(Rank 9)",
-			"(9th Elder Rank)", // idx = 11
-			"(8th Elder Rank)",
-			"(7th Elder Rank)",
-			"(6th Elder Rank)",
-			"(5th Elder Rank)",
-			"(4th Elder Rank)",
-			"(3rd Elder Rank)",
-			"(2nd Elder Rank)",
-			"(1st Elder Rank)",
-			"(Grand Elder Rank)", // idx = 21
-			"((Low) Lord Rank)",
-			"((Mid) Lord Rank)",
-			"((Advanced) Lord Rank)",
-			"((Peak) Lord Rank)",
-			"((Low) Baron Rank)",
-			"((Mid) Baron Rank)",
-			"((Advanced) Baron Rank)",
-			"((Peak) Baron Rank)",
-			"((Low) Viscount Rank)",
-			"((Mid) Viscount Rank)", // idx = 31
-			"((Advanced) Viscount Rank)",
-			"((Peak) Viscount Rank)", 
-			"((Low) Earl Rank)",// lvl = 186
-			"((Mid) Earl Rank)",// lvl = 192
-			"((Advanced) Earl Rank)",// lvl = 198
-			"((Peak) Earl Rank)",// lvl = 204
-			"((Low) Marquess Rank)",// lvl = 210
-			"((Mid) Marquess Rank)",// lvl = 216
-			"((Advanced) Marquess Rank)",// lvl = 222
-			"((Peak) Marquess Rank)",// lvl = 228
-			"((Low) Duke Rank)",// lvl = 234
-			"((Mid) Duke Rank)",// lvl = 240
-			"((Advanced) Duke Rank)",// lvl = 246
-			"((Peak) Duke Rank)",// lvl = 252
-			"((Low) Prince Rank)",// lvl = 258
-			"((Mid) Prince Rank)",// lvl = 264
-			"((Advanced) Prince Rank)",// lvl = 270
-			"((Peak) Prince Rank)",// lvl = 276
-			"((Low) King Rank)",// lvl = 282
-			"((Mid) King Rank)",// lvl = 288
-			"((Advanced) King Rank)",// lvl = 294
-			"((Peak) King Rank)"// lvl = 300
-		];
-
-		public const ELITE_ELEMENTAL_RANKS:Array = [
-			"<b>ERROR: ELEMENTAL RANK ARRAY IDX=0</b>",
-			"(Rank 1)",
-			"(Rank 2)",
-			"(Rank 3)",
-			"(Rank 4)",
-			"(Elder Rank)",
-			"(Lord Rank)",
-			"(Baron Rank)",
-			"(Viscount Rank)",
-			"(Earl Rank)",// lvl = 204
-			"(Marquess Rank)",// lvl = 228
-			"(Duke Rank)",// lvl = 252
-			"(Prince Rank)",// lvl = 276
-			"(King Rank)"// lvl = 300
-		]
-
 		//-------------
 		//
 		//  TAMED MONSTERS
@@ -1059,6 +952,111 @@ public class CampMakeWinions extends BaseContent
 		//  ELEMENTALS
 		//
 		//--------------
+		public function cond1():String { 
+			return (player.hasPerk(PerkLib.ElementsOfTheOrtodoxPath) || player.hasPerk(PerkLib.DaoOfTheElements)) ? "" : "You need to study the ortodox elements!";
+		}
+
+		public function cond2():String {
+			return (player.hasPerk(PerkLib.ElementsOfMarethBasics) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 1)) ? "" : "You need to study basic elements of Mareth!"
+		}
+
+		public function cond3():String {
+			return (player.hasPerk(PerkLib.ElementsOfMarethAdvanced) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) > 2)) ? "" : "You need to study advanced elements of Mareth!"
+			}
+		// element_name,  a/an : 0/1, status effect, Summon CONDition: func->str (empty=ok, else reason)
+		public const NORMAL_ELEMENTAL_TYPES:Array = [
+			{name: "air",        a:1, se:StatusEffects.SummonedElementalsAir,        sCond: null,   rname: "airy"        },
+			{name: "earth",      a:1, se:StatusEffects.SummonedElementalsEarth,      sCond: null,   rname: "earthen"     },
+			{name: "fire",       a:0, se:StatusEffects.SummonedElementalsFire,       sCond: null,   rname: "flaming"     },
+			{name: "water",      a:0, se:StatusEffects.SummonedElementalsWater,      sCond: null,   rname: "flowing"     },
+			{name: "ether",      a:1, se:StatusEffects.SummonedElementalsEther,      sCond: cond1,  rname: "ethereal"    },
+			{name: "wood",       a:0, se:StatusEffects.SummonedElementalsWood ,      sCond: cond1,  rname: "wooden"      },
+			{name: "metal",      a:0, se:StatusEffects.SummonedElementalsMetal,      sCond: cond1,  rname: "metallic"    },
+			{name: "ice",        a:1, se:StatusEffects.SummonedElementalsIce,        sCond: cond2,  rname: "icy"         },
+			{name: "lightning",  a:0, se:StatusEffects.SummonedElementalsLightning,  sCond: cond2,  rname: "electrifying"},
+			{name: "darkness",   a:0, se:StatusEffects.SummonedElementalsDarkness,   sCond: cond2,  rname: "shadowy"     },
+			{name: "poison",     a:0, se:StatusEffects.SummonedElementalsPoison,     sCond: cond3,  rname: "poisonous"   },
+			{name: "purity",     a:0, se:StatusEffects.SummonedElementalsPurity,     sCond: cond3,  rname: "pure"        },
+			{name: "corruption", a:0, se:StatusEffects.SummonedElementalsCorruption, sCond: cond3,  rname: "corrupted"   }
+		]
+		public const ELITE_ELEMENTAL_TYPES:Array = [
+			{name: "air",   a:1, se:StatusEffects.SummonedElementalsAirE,   sCond: null   },
+			{name: "earth", a:1, se:StatusEffects.SummonedElementalsEarthE, sCond: null   },
+			{name: "fire",  a:0, se:StatusEffects.SummonedElementalsFireE,  sCond: null   },
+			{name: "water", a:0, se:StatusEffects.SummonedElementalsWaterE, sCond: null   }
+		]
+		public static const NORMAL_ELEMENTAL_RANKS:Array = [
+			"<b>ERROR: ELEMENTAL RANK ARRAY IDX=0</b>",
+			"Rank 0", // idx = 1
+			"Rank 1",
+			"Rank 2",
+			"Rank 3",
+			"Rank 4",
+			"Rank 5",
+			"Rank 6",
+			"Rank 7",
+			"Rank 8",
+			"Rank 9",
+			"9th Elder Rank", // idx = 11
+			"8th Elder Rank",
+			"7th Elder Rank",
+			"6th Elder Rank",
+			"5th Elder Rank",
+			"4th Elder Rank",
+			"3rd Elder Rank",
+			"2nd Elder Rank",
+			"1st Elder Rank",
+			"Grand Elder Rank", // idx = 21
+			"(Low) Lord Rank",
+			"(Mid) Lord Rank",
+			"(Advanced) Lord Rank",
+			"(Peak) Lord Rank",
+			"(Low) Baron Rank",
+			"(Mid) Baron Rank",
+			"(Advanced) Baron Rank",
+			"(Peak) Baron Rank",
+			"(Low) Viscount Rank",
+			"(Mid) Viscount Rank", // idx = 31
+			"(Advanced) Viscount Rank",
+			"(Peak) Viscount Rank", 
+			"(Low) Earl Rank",// lvl = 186
+			"(Mid) Earl Rank",// lvl = 192
+			"(Advanced) Earl Rank",// lvl = 198
+			"(Peak) Earl Rank",// lvl = 204
+			"(Low) Marquess Rank",// lvl = 210
+			"(Mid) Marquess Rank",// lvl = 216
+			"(Advanced) Marquess Rank",// lvl = 222
+			"(Peak) Marquess Rank",// lvl = 228
+			"(Low) Duke Rank",// lvl = 234
+			"(Mid) Duke Rank",// lvl = 240
+			"(Advanced) Duke Rank",// lvl = 246
+			"(Peak) Duke Rank",// lvl = 252
+			"(Low) Prince Rank",// lvl = 258
+			"(Mid) Prince Rank",// lvl = 264
+			"(Advanced) Prince Rank",// lvl = 270
+			"(Peak) Prince Rank",// lvl = 276
+			"(Low) King Rank",// lvl = 282
+			"(Mid) King Rank",// lvl = 288
+			"(Advanced) King Rank",// lvl = 294
+			"(Peak) King Rank"// lvl = 300
+		];
+
+		public const ELITE_ELEMENTAL_RANKS:Array = [
+			"<b>ERROR: ELEMENTAL RANK ARRAY IDX=0</b>",
+			"(Rank 1)",
+			"(Rank 2)",
+			"(Rank 3)",
+			"(Rank 4)",
+			"(Elder Rank)",
+			"(Lord Rank)",
+			"(Baron Rank)",
+			"(Viscount Rank)",
+			"(Earl Rank)",// lvl = 204
+			"(Marquess Rank)",// lvl = 228
+			"(Duke Rank)",// lvl = 252
+			"(Prince Rank)",// lvl = 276
+			"(King Rank)"// lvl = 300
+		]
 
 		private var elecost:Number = 0;
 		private var elecostr:Boolean = false;
@@ -1074,39 +1072,25 @@ public class CampMakeWinions extends BaseContent
 		}
 
 		private function elementalContractCount():int {
-			var maxSizeOfElementalsArmyCounter:int = 0;
-			if (player.hasPerk(PerkLib.ElementalContractRank1)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank2)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank3)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank4)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank5)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank6)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank7)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank8)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank9)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank10)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank11)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank12)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank13)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank14)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank15)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank16)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank17)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank18)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank19)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank20)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank21)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank22)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank23)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank24)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank25)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank26)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank27)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank28)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank29)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank30)) maxSizeOfElementalsArmyCounter += 1;
-			if (player.hasPerk(PerkLib.ElementalContractRank31)) maxSizeOfElementalsArmyCounter += 1;
-			return maxSizeOfElementalsArmyCounter;
+			var count:int = 0;
+			for each(var pPerks:PerkClass in player.perks) {
+				if (pPerks.perkName.indexOf("Elemental Contract Rank") >= 0) count++;
+			}
+			return count;
+		}
+		private function elementalContractRank():int {
+			var count:int = 0;
+			for each(var pPerks:PerkClass in player.perks) { //Cheaty way of getting value equivalences.
+				var temp:String = pPerks.perkName
+				if (temp.indexOf("Elemental Contract Rank") >= 0){
+					temp = temp.replace("Elemental Contract Rank ", "");
+					var temp2:int = parseInt(temp, 10);
+					if (temp2 > count){
+						count = temp2;
+					}
+				}
+			}
+			return count;
 		}
 
 		private function currentSizeOfElementalsArmy():Number {
@@ -1135,7 +1119,7 @@ public class CampMakeWinions extends BaseContent
 				if (player.hasStatusEffect(t.se)) {
 					outputText("\n"+ Utils.capitalizeFirstLetter(t.name)  +" ");
 					idx = player.statusEffectv2(t.se);
-					outputText(NORMAL_ELEMENTAL_RANKS[idx]);
+					outputText("(" + NORMAL_ELEMENTAL_RANKS[idx] + ")");
 				}
 			}
 			if (player.hasStatusEffect(StatusEffects.SummonedElementalsAirE)) {
@@ -1185,7 +1169,7 @@ public class CampMakeWinions extends BaseContent
 		}
 
 		private function elementaLvlUp():void {
-			var contractRankI:int = elementalContractCount();
+			var contractRankI:int = elementalContractRank();
 			var buttons:ButtonDataList = new ButtonDataList();
 
 			var arcaneCMax:int = (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE]*4);
@@ -1194,10 +1178,10 @@ public class CampMakeWinions extends BaseContent
 					var pElemLvlStat:int = player.statusEffectv2(t.se);
 					if (pElemLvlStat <= contractRankI && pElemLvlStat > 0){//Checks Elemental level lower than max, but not 0.
 						if (pElemLvlStat < arcaneCMax){	//If lower, don't care. You have the circle and the highest level circle can support.
-							buttons.add(btnName,curry(elementalLvlUpCostCheck, t.se, pElemLvlStat, t.name), "Level up your "+ t.rname +" elemental!");
+							buttons.add(btnName, curry(elementalLvlUpCostCheck, t.se, pElemLvlStat, t.name), "Level up your "+ t.rname +" elemental!");
 						}
 						else{//Outside Bracket.
-						buttons.add(btnName, null, "Your Arcane Circle can't handle the elemental level up safely!").disable();
+							buttons.add(btnName, null, "Your Arcane Circle can't handle the elemental level up safely!").disable();
 						}
 					}
 					else if (pElemLvlStat == 0){
