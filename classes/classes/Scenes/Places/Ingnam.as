@@ -125,10 +125,10 @@ public class Ingnam extends BaseContent
 		}
 		private function cantFindEnemies():Boolean {
 			var canOrNot:Boolean = true;
-			if (player.level < 9 && rand(10) == 0) canOrNot = false;
-			else if (player.level < 6 && rand(5) == 0) canOrNot = false;
-			else if (player.level < 3 && rand(2) == 0) canOrNot = false;
-			else if (model.time.hours >= 21) canOrNot = false;
+			if (player.level >= 9 || model.time.hours >= 21) canOrNot = false;
+			else if (player.level < 9 && rand(3) > 0) canOrNot = false;
+			else if (player.level < 6 && rand(2) == 0) canOrNot = false;
+			else if (player.level < 3 && rand(3) == 0) canOrNot = false;
 			return canOrNot;
 		}
 
@@ -248,8 +248,33 @@ public class Ingnam extends BaseContent
 			addShopItem(consumables.SMART_T, 30, 5);
 			addShopItem(consumables.INCOINS, 30, 5);
 			addShopItem(consumables.FISHFIL, 10, 5);
-			addShopItem(consumables.H_PILL, 10, 5);
+			addShopItem(consumables.H_PILL, 10, 5); 
 			addButton(10, "Sell", sellAtTradingPost);
+			addButtonDisabled(11, "-1-", "Misc");
+			addButton(12, "-2-", shopTradingPost2);
+			addButton(14, "Leave", menuShops);
+		}
+		public function shopTradingPost2():void {
+			clearOutput();
+			outputText("The trading post is one of the larger buildings in the village, with its porch covered in barrels filled with pickled goods, preserved delicacies and dried goods, from the humble local farm to exotic faraway lands. The interior is packed with crowded shelves that boast a variety of goods, all arranged neatly on shelves.");
+			outputText("\n\nYou suspect you could buy or sell some imported goods here.");
+			outputText("\n\n<b><u>Trading post pricings</u></b>");
+			menu();
+			if (player.hasPerk(PerkLib.HistoryScout) || player.hasPerk(PerkLib.PastLifeScout)) { //20% discount for History: Scout perk
+				addShopItem(weaponsrange.BOWOLD_, 40, 6);
+				addShopItem(weaponsrange.LCROSBW, 200, 6);
+				addShopItem(weaponsrange.O_JAVEL, 40, 6);
+				addShopItem(weaponsrange.FLINTLK, 248, 6);
+			}
+			else {
+				addShopItem(weaponsrange.BOWOLD_, 50, 6);
+				addShopItem(weaponsrange.LCROSBW, 250, 6);
+				addShopItem(weaponsrange.O_JAVEL, 50, 6);
+				addShopItem(weaponsrange.FLINTLK, 310, 6);
+			}
+			addButton(10, "Sell", sellAtTradingPost);
+			addButton(11, "-1-", shopTradingPost);
+			addButtonDisabled(12, "-2-", "Weapons");
 			addButton(14, "Leave", menuShops);
 		}
 		private function sellAtTradingPost(page:int = 1):void {
@@ -379,12 +404,20 @@ public class Ingnam extends BaseContent
 			}
 			outputText("\n\n<b><u>Black market pricings</u></b>");
 			menu();
-			addShopItem(consumables.W_FRUIT, 75, 6);
-			addShopItem(consumables.CANINEP, 75, 6);
-			addShopItem(consumables.EQUINUM, 75, 6);
-			addShopItem(consumables.INCUBID, 75, 6);
-			addShopItem(consumables.SUCMILK, 75, 6);
-			addShopItem(consumables.RINGFIG, 75, 6);
+			addShopItem(consumables.W_FRUIT, 20, 7);
+			addShopItem(consumables.CANINEP, 20, 7);
+			addShopItem(consumables.EQUINUM, 20, 7);
+			addShopItem(consumables.INCUBID, 20, 7);
+			addShopItem(consumables.SUCMILK, 20, 7);
+			addShopItem(consumables.RINGFIG, 20, 7);
+			addShopItem(consumables.BLADEGR, 20, 7);
+			addShopItem(consumables.ELFEARS, 20, 7);
+			addShopItem(consumables.FOXBERY, 20, 7);
+			addShopItem(consumables.REPTLUM, 20, 7);
+			addShopItem(consumables.SALAMFW, 20, 7);
+			addShopItem(consumables.JACKALD, 25, 7);
+			addShopItem(consumables.DESERTB, 30, 7);
+			addShopItem(consumables.FOXJEWL, 75, 7);
 			addButton(14, "Leave", menuShops);
 		}
 
@@ -412,6 +445,7 @@ public class Ingnam extends BaseContent
 			else if (shop == 3) shopToGo = shopTailor;
 			else if (shop == 4) shopToGo = shopAlchemist;
 			else if (shop == 5) shopToGo = shopTradingPost;
+			else if (shop == 6) shopToGo = shopTradingPost2;
 			else shopToGo = shopBlackMarket;
 			//Process
 			clearOutput();
@@ -434,7 +468,8 @@ public class Ingnam extends BaseContent
 			else if (shop == 3) shopTailor();
 			else if (shop == 4) shopAlchemist();
 			else if (shop == 5) shopTradingPost();
-			else if (shop == 6) shopBlackMarket();
+			else if (shop == 6) shopTradingPost2();
+			else if (shop == 7) shopBlackMarket();
 			else shopBlackMarket();
 		}
 

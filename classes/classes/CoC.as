@@ -72,7 +72,7 @@ public class CoC extends MovieClip
 
     //Mod save version.
     public var modSaveVersion:Number = 36.59;
-    public const levelCap:Number = 205;
+    public const levelCap:Number = 233;
 
     //Lock cheats menus from public
     // builds.
