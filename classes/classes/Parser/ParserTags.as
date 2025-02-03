@@ -156,6 +156,7 @@ public class ParserTags {
         "vagina"                : function ():* { return CoC.instance.player.vaginaDescript(); },
         "vagorass"              : function ():* { return (CoC.instance.player.hasVagina() ? CoC.instance.player.vaginaDescript() : CoC.instance.player.assholeDescript()); },
         "weapon"                : function ():* { return CoC.instance.player.weaponName; },
+        "weaponoff"             : function ():* { return CoC.instance.player.weaponOffhandName; },
         "weaponname"            : function ():* { return CoC.instance.player.weaponName; },
         "weaponrange"       	: function ():* { return CoC.instance.player.weaponRangeName; },
         "weaponrangename"       : function ():* { return CoC.instance.player.weaponRangeName; },
