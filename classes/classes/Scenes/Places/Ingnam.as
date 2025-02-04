@@ -264,13 +264,11 @@ public class Ingnam extends BaseContent
 				addShopItem(weaponsrange.BOWOLD_, 40, 6);
 				addShopItem(weaponsrange.LCROSBW, 200, 6);
 				addShopItem(weaponsrange.O_JAVEL, 40, 6);
-				addShopItem(weaponsrange.FLINTLK, 248, 6);
 			}
 			else {
 				addShopItem(weaponsrange.BOWOLD_, 50, 6);
 				addShopItem(weaponsrange.LCROSBW, 250, 6);
 				addShopItem(weaponsrange.O_JAVEL, 50, 6);
-				addShopItem(weaponsrange.FLINTLK, 310, 6);
 			}
 			addButton(10, "Sell", sellAtTradingPost);
 			addButton(11, "-1-", shopTradingPost);
@@ -415,9 +413,9 @@ public class Ingnam extends BaseContent
 			addShopItem(consumables.FOXBERY, 20, 7);
 			addShopItem(consumables.REPTLUM, 20, 7);
 			addShopItem(consumables.SALAMFW, 20, 7);
-			addShopItem(consumables.JACKALD, 25, 7);
 			addShopItem(consumables.DESERTB, 30, 7);
 			addShopItem(consumables.FOXJEWL, 75, 7);
+			addShopItem(weaponsrange.FLINTLK, 310, 7);
 			addButton(14, "Leave", menuShops);
 		}
 

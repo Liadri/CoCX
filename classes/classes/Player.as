@@ -6134,7 +6134,7 @@ use namespace CoC;
 			if (level >= 180) xpm += 100;
 			//if (level >= 274)
 			var temp:int = (level + 1) * xpm;
-			if (temp > 82000) temp = 82000;//(max lvl)205 * 400(exp multi)
+			//if (temp > 93200) temp = 93200;(max lvl)233 * 400(exp multi)
 			return temp;
 		}
 
