@@ -76,6 +76,14 @@ public class CampUpgrades extends BaseContent {
     6 - sixth arcane circle
     7 - seventh arcane circle
     8 - eighth arcane circle
+    9 - ninth arcane circle
+    10 - tenth arcane circle
+    11 - eleventh arcane circle
+    12 - twelfth arcane circle
+    13 - thirteenth arcane circle
+    14 - fourteenth arcane circle
+    15 - fifteenth arcane circle
+    16 - sixteenth arcane circle
 
     flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD]:
     1 - readed Warding Tome
@@ -129,7 +137,7 @@ public class CampUpgrades extends BaseContent {
             if (flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 3) addButton(4, "Sparring Ring", sparringRing).hint("Expand the sparring ring to large size. (Decrease npc's training time by 1/6 and increase exp from using training dummy by 150% (250% of base amount))(Req. "+usedFatigue(150, true)+" fatigue)");
             if (flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 2) addButton(4, "Sparring Ring", sparringRing).hint("Build the sparring ring at the camp. (Unlock sparring option for all camp members that have this option)(Req. "+usedFatigue(50, true)+" fatigue)");
         }
-        if (player.hasPerk(PerkLib.JobElementalConjurer) && flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] < 8) addButton(5, "Arcane Circle", arcaneCircle).hint("Build an arcane circle at the camp OR add another circle to it. (Unlocks elemental summoning/ranking up related options)(Req. 50 fatigue, enough stones, mana and blood)");
+        if (player.hasPerk(PerkLib.JobElementalConjurer) && flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] < 10) addButton(5, "Arcane Circle", arcaneCircle).hint("Build an arcane circle at the camp OR add another circle to it. (Unlocks elemental summoning/ranking up related options)(Req. 50 fatigue, enough stones, mana and blood)");
         if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] >= 1) addButton(6, "Elemental E. C.", arcaneCircleUpgrade).hint("Add Elemental Energy Conduits to your arcane circle to store in them elemental energy stored in elementals shards for more easy use. (Allows replacing mana and reduce fatigue usage when summoning/ranking up normal tier elementals. Allowing you to rank up elementals of tiers above normal tier.)(Req. 50 fatigue, enough stones, mana and elemental shards)");
         if (player.inte >= 50 && flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD] == 1) addButton(7, "Magic Ward", magicWard).hint("Set up a Magic Ward around the camp. (Req. 200 fatigue)");
         if (flags[kFLAGS.CAMP_UPGRADES_DAM] < 3) addButton(8, "Dam", dam).hint("Build a dam on the stream next to the camp. (Req. "+usedFatigue(200, true)+" fatigue * tier of built dam)");

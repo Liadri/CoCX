@@ -838,7 +838,9 @@ public class Camp extends NPCAwareContent{
 			outputText("\n\n");
 		}
 		if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] >= 1) {
-			if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 8) outputText("Eight large arcane circles are");
+			if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 10) outputText("Ten large arcane circles are");
+			else if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 9) outputText("Nine large arcane circles are");
+			else if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 8) outputText("Eight large arcane circles are");
 			else if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 7) outputText("Seven large arcane circles are");
 			else if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 6) outputText("Six large arcane circles are");
 			else if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] == 5) outputText("Five large arcane circles are");
@@ -5349,7 +5351,7 @@ public function rebirthFromBadEnd():void {
 		if (flags[kFLAGS.CAMP_UPGRADES_KITSUNE_SHRINE] > 3) performancePointsPredictionCampStructures += 2;
 		if (flags[kFLAGS.CAMP_UPGRADES_HOT_SPRINGS] > 3) performancePointsPredictionCampStructures += 2;
 		if (flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] > 1) performancePointsPredictionCampStructures += ((flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] - 1) * 2);//obecnie +4*2
-		if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] > 0) performancePointsPredictionCampStructures += flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE];//obecnie +8
+		if (flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE] > 0) performancePointsPredictionCampStructures += flags[kFLAGS.CAMP_UPGRADES_ARCANE_CIRCLE];//obecnie +10
 		if (flags[kFLAGS.CAMP_UPGRADES_MAGIC_WARD] > 1) performancePointsPredictionCampStructures += 2;
 		if (flags[kFLAGS.CAMP_UPGRADES_DAM] > 0) performancePointsPredictionCampStructures += (flags[kFLAGS.CAMP_UPGRADES_DAM] * 2);//obecnie +3*2
 		if (flags[kFLAGS.CAMP_UPGRADES_FISHERY] > 0) performancePointsPredictionCampStructures += (flags[kFLAGS.CAMP_UPGRADES_FISHERY] * 2);//obecnie +2*2

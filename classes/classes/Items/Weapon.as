@@ -323,13 +323,13 @@ public class Weapon extends Equipable
 				}
 			}
 			if (slot == SLOT_WEAPON_MELEE && (hasShield || hasOffHandWeapon) && noShieldOffHandAllowed) {
-				if (!game.player.shield.canUnequip(doOutput) || !game.player.weaponOff.canUnequip(doOutput)) {
-					if (doOutput && !game.player.shield.canUnequip(doOutput)) {
+				if (doOutput && hasShield && !game.player.shield.canUnequip(doOutput)) {
 						outputText(getItemText("unshield_fail"));
-					}
-					if (doOutput && !game.player.weaponOff.canUnequip(doOutput)) {
+					return false;
+				}
+				else if (doOutput && hasOffHandWeapon && !game.player.weaponOff.canUnequip(doOutput)) {
 						outputText(getItemText("unoffhand_fail"));
-					}
+					return false;
 				}
 				else if (doOutput) {
 					if (hasShield) {
@@ -341,7 +341,6 @@ public class Weapon extends Equipable
 						SceneLib.inventory.unequipWeaponOff();
 					}
 				}
-				return false;
 			}
 			if (slot == SLOT_WEAPON_MELEE_OFF) {
 				if (hasMainHandWeapon && noMainHandAllowed) {

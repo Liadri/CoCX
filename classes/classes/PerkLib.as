@@ -9,6 +9,7 @@ import classes.BodyParts.Tail;
 import classes.IMutations.IMutationsLib;
 import classes.GlobalFlags.kFLAGS;
 import classes.Perks.*;
+import classes.Scenes.Camp.CampMakeWinions;
 import classes.Scenes.Crafting;
 
 public class PerkLib
@@ -1467,99 +1468,46 @@ public class PerkLib
 		public static const ElementalConjurerSacrifice:PerkType = mk("Elemental Conjurer Sacrifice", "Elemental Conjurer Sacrifice",
 				"Your elementals attack power is enhanced beyond limits at the cost of similar weakening physical ones.",
 				"You've chosen the 'Elemental Conjurer Sacrifice' perk, showing your will to sacrifice everything to reach perfect elemental enhancement.").withBuffs({'str.mult':-0.45,'tou.mult':-0.45,'spe.mult':-0.45,'int.mult':0.60,'wis.mult':0.90});
-		public static const ElementalContractRank1:PerkType = mk("Elemental Contract Rank 1", "Elemental Contract Rank 1",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 1.",
-				"You've chosen the 'Elemental Contract Rank 1' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank2:PerkType = mk("Elemental Contract Rank 2", "Elemental Contract Rank 2",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 2.",
-				"You've chosen the 'Elemental Contract Rank 2' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank3:PerkType = mk("Elemental Contract Rank 3", "Elemental Contract Rank 3",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 3.",
-				"You've chosen the 'Elemental Contract Rank 3' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank4:PerkType = mk("Elemental Contract Rank 4", "Elemental Contract Rank 4",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 4.",
-				"You've chosen the 'Elemental Contract Rank 4' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank5:PerkType = mk("Elemental Contract Rank 5", "Elemental Contract Rank 5",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 5.",
-				"You've chosen the 'Elemental Contract Rank 5' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank6:PerkType = mk("Elemental Contract Rank 6", "Elemental Contract Rank 6",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 6.",
-				"You've chosen the 'Elemental Contract Rank 6' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank7:PerkType = mk("Elemental Contract Rank 7", "Elemental Contract Rank 7",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 7.",
-				"You've chosen the 'Elemental Contract Rank 7' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank8:PerkType = mk("Elemental Contract Rank 8", "Elemental Contract Rank 8",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 8.",
-				"You've chosen the 'Elemental Contract Rank 8' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank9:PerkType = mk("Elemental Contract Rank 9", "Elemental Contract Rank 9",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to rank 9.",
-				"You've chosen the 'Elemental Contract Rank 9' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank10:PerkType = mk("Elemental Contract Rank 10", "Elemental Contract Rank 10",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 9th Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 10' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank11:PerkType = mk("Elemental Contract Rank 11", "Elemental Contract Rank 11",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 8th Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 11' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank12:PerkType = mk("Elemental Contract Rank 12", "Elemental Contract Rank 12",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 7th Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 12' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank13:PerkType = mk("Elemental Contract Rank 13", "Elemental Contract Rank 13",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 6th Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 13' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank14:PerkType = mk("Elemental Contract Rank 14", "Elemental Contract Rank 14",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 5th Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 14' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank15:PerkType = mk("Elemental Contract Rank 15", "Elemental Contract Rank 15",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 4th Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 15' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank16:PerkType = mk("Elemental Contract Rank 16", "Elemental Contract Rank 16",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 3rd Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 16' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank17:PerkType = mk("Elemental Contract Rank 17", "Elemental Contract Rank 17",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 2nd Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 17' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank18:PerkType = mk("Elemental Contract Rank 18", "Elemental Contract Rank 18",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to 1st Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 18' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank19:PerkType = mk("Elemental Contract Rank 19", "Elemental Contract Rank 19",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to Grand Elder rank.",
-				"You've chosen the 'Elemental Contract Rank 19' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank20:PerkType = mk("Elemental Contract Rank 20", "Elemental Contract Rank 20",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Low) Lord rank.",
-				"You've chosen the 'Elemental Contract Rank 20' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank21:PerkType = mk("Elemental Contract Rank 21", "Elemental Contract Rank 21",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Mid) Lord rank.",
-				"You've chosen the 'Elemental Contract Rank 21' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank22:PerkType = mk("Elemental Contract Rank 22", "Elemental Contract Rank 22",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Advanced) Lord rank.",
-				"You've chosen the 'Elemental Contract Rank 22' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank23:PerkType = mk("Elemental Contract Rank 23", "Elemental Contract Rank 23",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Peak) Lord rank.",
-				"You've chosen the 'Elemental Contract Rank 23' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank24:PerkType = mk("Elemental Contract Rank 24", "Elemental Contract Rank 24",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Low) Baron rank.",
-				"You've chosen the 'Elemental Contract Rank 24' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank25:PerkType = mk("Elemental Contract Rank 25", "Elemental Contract Rank 25",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Mid) Baron rank.",
-				"You've chosen the 'Elemental Contract Rank 25' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank26:PerkType = mk("Elemental Contract Rank 26", "Elemental Contract Rank 26",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Advanced) Baron rank.",
-				"You've chosen the 'Elemental Contract Rank 26' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank27:PerkType = mk("Elemental Contract Rank 27", "Elemental Contract Rank 27",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Peak) Baron rank.",
-				"You've chosen the 'Elemental Contract Rank 27' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank28:PerkType = mk("Elemental Contract Rank 28", "Elemental Contract Rank 28",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Low) Viscount rank.",
-				"You've chosen the 'Elemental Contract Rank 28' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank29:PerkType = mk("Elemental Contract Rank 29", "Elemental Contract Rank 29",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Mid) Viscount rank.",
-				"You've chosen the 'Elemental Contract Rank 29' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank30:PerkType = mk("Elemental Contract Rank 30", "Elemental Contract Rank 30",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Advanced) Viscount rank.",
-				"You've chosen the 'Elemental Contract Rank 30' perk, raising your ability to command more and stronger elementals.");
-		public static const ElementalContractRank31:PerkType = mk("Elemental Contract Rank 31", "Elemental Contract Rank 31",
-				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to (Peak) Viscount rank.",
-				"You've chosen the 'Elemental Contract Rank 31' perk, raising your ability to command more and stronger elementals.");
+		public static const ElementalContractRank1:PerkType =  mkECR(1 );
+		public static const ElementalContractRank2:PerkType =  mkECR(2 );
+		public static const ElementalContractRank3:PerkType =  mkECR(3 );
+		public static const ElementalContractRank4:PerkType =  mkECR(4 );
+		public static const ElementalContractRank5:PerkType =  mkECR(5 );
+		public static const ElementalContractRank6:PerkType =  mkECR(6 );
+		public static const ElementalContractRank7:PerkType =  mkECR(7 );
+		public static const ElementalContractRank8:PerkType =  mkECR(8 );
+		public static const ElementalContractRank9:PerkType =  mkECR(9 );
+		public static const ElementalContractRank10:PerkType = mkECR(10);
+		public static const ElementalContractRank11:PerkType = mkECR(11);
+		public static const ElementalContractRank12:PerkType = mkECR(12);
+		public static const ElementalContractRank13:PerkType = mkECR(13);
+		public static const ElementalContractRank14:PerkType = mkECR(14);
+		public static const ElementalContractRank15:PerkType = mkECR(15);
+		public static const ElementalContractRank16:PerkType = mkECR(16);
+		public static const ElementalContractRank17:PerkType = mkECR(17);
+		public static const ElementalContractRank18:PerkType = mkECR(18);
+		public static const ElementalContractRank19:PerkType = mkECR(19);
+		public static const ElementalContractRank20:PerkType = mkECR(20);
+		public static const ElementalContractRank21:PerkType = mkECR(21);
+		public static const ElementalContractRank22:PerkType = mkECR(22);
+		public static const ElementalContractRank23:PerkType = mkECR(23);
+		public static const ElementalContractRank24:PerkType = mkECR(24);
+		public static const ElementalContractRank25:PerkType = mkECR(25);
+		public static const ElementalContractRank26:PerkType = mkECR(26);
+		public static const ElementalContractRank27:PerkType = mkECR(27);
+		public static const ElementalContractRank28:PerkType = mkECR(28);
+		public static const ElementalContractRank29:PerkType = mkECR(29);
+		public static const ElementalContractRank30:PerkType = mkECR(30);
+		public static const ElementalContractRank31:PerkType = mkECR(31);
+		public static const ElementalContractRank32:PerkType = mkECR(32);
+		public static const ElementalContractRank33:PerkType = mkECR(33);
+		public static const ElementalContractRank34:PerkType = mkECR(34);
+		public static const ElementalContractRank35:PerkType = mkECR(35);
+		public static const ElementalContractRank36:PerkType = mkECR(36);
+		public static const ElementalContractRank37:PerkType = mkECR(37);
+		public static const ElementalContractRank38:PerkType = mkECR(38);
+		public static const ElementalContractRank39:PerkType = mkECR(39);
+		public static const ElementalContractRank40:PerkType = mkECR(40);
 		public static const ElementalTouch:PerkType = mk("Elemental touch", "Elemental touch",
 				"Unarmed strikes and elemental skills inflict a status on your victim when infused: respectively Frostbite, Burn, Acid, and Bleed.",
 				"You've chosen the 'Elemental touch' perk. Unarmed strikes and elemental skills inflict a status on your victim when infused: respectively Frostbite, Burn, Acid, and Bleed.");
@@ -5091,6 +5039,20 @@ public class PerkLib
 		}
 	
 		// Tiered perks
+
+		//
+		public static const ELEMENTAL_CONTRACT_TIER_LIST:/*PerkType[]*/Array = [
+			ElementalContractRank1,  ElementalContractRank2,  ElementalContractRank3,  ElementalContractRank4,
+			ElementalContractRank5,  ElementalContractRank6,  ElementalContractRank7,  ElementalContractRank8,
+			ElementalContractRank9,  ElementalContractRank10, ElementalContractRank11, ElementalContractRank12,
+			ElementalContractRank13, ElementalContractRank14, ElementalContractRank15, ElementalContractRank16,
+			ElementalContractRank17, ElementalContractRank18, ElementalContractRank19, ElementalContractRank20,
+			ElementalContractRank21, ElementalContractRank22, ElementalContractRank23, ElementalContractRank24,
+			ElementalContractRank25, ElementalContractRank26, ElementalContractRank27, ElementalContractRank28,
+			ElementalContractRank29, ElementalContractRank30, ElementalContractRank31, ElementalContractRank32,
+			ElementalContractRank33, ElementalContractRank34, ElementalContractRank35, ElementalContractRank36,
+			ElementalContractRank37, ElementalContractRank38, ElementalContractRank39, ElementalContractRank40
+		];
 		// Array of arrays of perks
 		public static const PERK_TIER_LISTS:/*PerkType[]*/Array = [
 			// by alphabet (minus prefix) + special sections below
@@ -5127,16 +5089,7 @@ public class PerkLib
 			[Desensitization, GreaterDesensitization, EpicDesensitization, LegendaryDesensitization/*, MythicalDesensitization*/],
 			[Diehard, ImprovedDiehard, GreaterDiehard, EpicDiehard],
 			[DoorKnob, Bicycle, MeatHole, BedWarmer, TensionTamer, PartyBoyGirl],
-			[
-				ElementalContractRank1, ElementalContractRank2, ElementalContractRank3, ElementalContractRank4,
-				ElementalContractRank5, ElementalContractRank6, ElementalContractRank7, ElementalContractRank8,
-				ElementalContractRank9, ElementalContractRank10, ElementalContractRank11, ElementalContractRank12,
-				ElementalContractRank13, ElementalContractRank14, ElementalContractRank15, ElementalContractRank16,
-				ElementalContractRank17, ElementalContractRank18, ElementalContractRank19, ElementalContractRank20,
-				ElementalContractRank21, ElementalContractRank22, ElementalContractRank23, ElementalContractRank24,
-				ElementalContractRank25, ElementalContractRank26, ElementalContractRank27, ElementalContractRank28,
-				ElementalContractRank29, ElementalContractRank30, ElementalContractRank31
-			],
+			ELEMENTAL_CONTRACT_TIER_LIST,
 			[Enhancement,Fusion,Enchantment,Refinement,Saturation,Perfection,Creationism],
 			[Evade, ImprovedEvade, GreaterEvade],
 			[EyesOfTheHunterNovice, EyesOfTheHunterAdept, EyesOfTheHunterExpert, EyesOfTheHunterMaster,
@@ -5259,6 +5212,16 @@ public class PerkLib
 		private static function mk(id:String, name:String, desc:String, longDesc:String = null, keepOnAscension:Boolean = false):PerkType
 		{
 			return new PerkType(id, name, desc, longDesc, keepOnAscension);
+		}
+
+		private static function mkECR(rank:int):PerkType
+		{
+			return mk(
+				"Elemental Contract Rank "+rank,
+				"Elemental Contract Rank "+rank, 
+				"As Elemental Contract rank increase, the number and maximum rank of elementals you can command increases by 1. Allows you to rank-up summoned elementals to "+ CampMakeWinions.NORMAL_ELEMENTAL_RANKS[rank] +".",
+				"You've chosen the 'Elemental Contract Rank "+rank+"' perk, raising your ability to command more and stronger elementals."
+			);
 		}
 
 	// Perk requirements
@@ -6811,8 +6774,7 @@ public class PerkLib
 					.requireNotThosePerks(ElementalConjurerMindAndBodyResolveEx, ElementalConjurerMindAndBodyDedicationEx, ElementalConjurerMindAndBodySacrificeEx)
                     .requireWis(20);
             ElementalContractRank1.requireAnyPerk(ElementalConjurerResolve, ElementalConjurerMindAndBodyResolveEx)
-					.requireNotThosePerks(DaoOfTheElements, ElementalConjurerMindAndBodyDedicationEx)
-                    .requireWis(25);
+					.requireNotThosePerks(DaoOfTheElements, ElementalConjurerMindAndBodyDedicationEx);
             ElementsOfTheOrtodoxPath.requirePerk(ElementalContractRank1)
                     .requireWis(30);
             ElementsOfMarethBasics.requireOrPerks(ElementsOfTheOrtodoxPath, DaoOfTheElements, 1)
@@ -6843,9 +6805,6 @@ public class PerkLib
                     .requireLevel(10)
                     .requireNGPlus(2);
             ElementalContractRank2.requireStatusEffect(StatusEffects.ArcaneCircle, "Built Arcane Circle")
-					.requirePerk(ElementalContractRank1)
-                    .requireWis(50)
-                    .requireLevel(6);
             ElementalBondFlesh.requireWis(50)
                     .requireLevel(6)
 					.requirePerk(JobElementalConjurer)
@@ -6916,9 +6875,6 @@ public class PerkLib
 					.requireWis(85)
 					.requireSpe(55)
 					.requireLevel(16);
-            ElementalContractRank3.requirePerk(ElementalContractRank2)
-                    .requireWis(75)
-                    .requireLevel(12);
             ElementalBondUrges.requireWis(75)
                     .requireLevel(12)
 					.requirePerk(JobElementalConjurer)
@@ -6954,9 +6910,6 @@ public class PerkLib
             FourthTamerOfTheApocalypse.requireLevel(18)
                     .requirePerk(ThreeTimesATame)
                     .requireWis(100);
-            ElementalContractRank4.requirePerk(ElementalContractRank3)
-                    .requireWis(100)
-                    .requireLevel(18);
 			ElementalConjurerKnowledge.requireWis(100)
                     .requireLevel(18)
 					.requirePerk(JobElementalConjurer)
@@ -7002,10 +6955,6 @@ public class PerkLib
 					.requireWis(105)
 					.requireSpe(65)
 					.requireLevel(24);
-            ElementalContractRank5.requireOrPerks(ElementalContractRank4, DaoOfTheElements, 1)
-					.requireAnyPerk(ElementalConjurerDedication, ElementalConjurerMindAndBodyDedicationEx)
-                    .requireWis(125)
-                    .requireLevel(24);
             StrongElementalBondEx.requirePerk(StrongElementalBond)
                     .requireWis(125)
                     .requireLevel(24)
@@ -7051,9 +7000,6 @@ public class PerkLib
             UnlockSpirit2ndStage.requirePerk(UnlockSpirit)
                     .requireWis(125)
                     .requireLevel(30);
-            ElementalContractRank6.requirePerk(ElementalContractRank5)
-                    .requireWis(150)
-                    .requireLevel(30);
             FirstAttackElementalsEx.requirePerk(FirstAttackElementals)
                     .requireLevel(30)
 					.requirePerk(JobElementalConjurer)
@@ -7081,9 +7027,6 @@ public class PerkLib
                     .requirePerk(ConductionSoulforceCharge)
                     .requireWis(150);
             //Tier 6 Wisdom perks
-            ElementalContractRank7.requirePerk(ElementalContractRank6)
-                    .requireWis(175)
-                    .requireLevel(36);
             StrongElementalBondSu.requirePerks(StrongElementalBondEx)
                     .requireWis(175)
                     .requireLevel(36)
@@ -7112,9 +7055,6 @@ public class PerkLib
                     .requireSpe(90)
                     .requireLevel(36);
             //Tier 7 Wisdom perks
-            ElementalContractRank8.requirePerk(ElementalContractRank7)
-                    .requireWis(200)
-                    .requireLevel(42);
 			ElementalConjurerKnowledgeSu.requirePerk(ElementalConjurerKnowledgeEx)
 					.requireWis(200)
                     .requireLevel(42)
@@ -7123,10 +7063,6 @@ public class PerkLib
                         return player.hasPerk(PerkLib.ElementalContractRank6) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) >= 2);
                     }, "Having Elemental Contract Rank 6 or Dao of the Elements (layer 2 or higher) perks");
             //Tier 8 Wisdom perks
-            ElementalContractRank9.requireOrPerks(ElementalContractRank8, DaoOfTheElements, 2)
-					.requireAnyPerk(ElementalConjurerSacrifice, ElementalConjurerMindAndBodySacrificeEx)
-                    .requireWis(225)
-                    .requireLevel(48);
             ElementalConjurerSacrifice.requireAnyPerk(ElementalConjurerMindAndBodyDedication, ElementalConjurerMindAndBodyDedicationEx)
 					.requireNotThosePerks(ElementalConjurerMindAndBodyResolveEx, ElementalConjurerMindAndBodySacrificeEx)
 					.requireOrPerks(ElementalContractRank8, DaoOfTheElements, 2)
@@ -7152,9 +7088,6 @@ public class PerkLib
 					.requireCustomFunction(function (player:Player):Boolean {
                         return (player.hasPerk(PerkLib.ElementalContractRank7) || (player.hasPerk(PerkLib.DaoOfTheElements) && player.perkv1(PerkLib.DaoOfTheElements) >= 2)) && !player.hasPerk(PerkLib.PrestigeJobDruid);
                     }, "Having Elemental Contract Rank 7 or Dao of the Elements (layer 2 or higher) perks");
-            ElementalContractRank10.requirePerk(ElementalContractRank9)
-                    .requireWis(250)
-                    .requireLevel(54);
 			//This perk below (with others as well) for some reason stack overflows when using requirePerks.
             StrongerElementalBond.requirePerk(StrongElementalBondSu)
                     .requireWis(250)
@@ -7170,9 +7103,6 @@ public class PerkLib
                     .requirePerk(PrestigeJobNecromancer);
             SharedPower.requireLevel(60)
                     .requirePerk(PrestigeJobDruid);
-            ElementalContractRank11.requirePerk(ElementalContractRank10)
-                    .requireWis(275)
-                    .requireLevel(60);
             UnlockSpirit3rdStage.requirePerk(UnlockSpirit2ndStage)
                     .requireWis(230)
                     .requireLevel(60);
@@ -7183,9 +7113,6 @@ public class PerkLib
                     .requirePerk(GreaterHarvest);
             ElementalTouch.requireLevel(66)
                     .requirePerk(SharedPower);
-            ElementalContractRank12.requirePerk(ElementalContractRank11)
-                    .requireWis(300)
-                    .requireLevel(66);
             LegendaryWisdom.requireWis(15)
                     .requirePerk(EpicWisdom)
                     .requireLevel(66);
@@ -7196,9 +7123,6 @@ public class PerkLib
                     .requirePerk(BoneSoul);
             GreaterSharedPower.requireLevel(72)
                     .requirePerk(ElementalTouch);
-            ElementalContractRank13.requireOrPerks(ElementalContractRank12, DaoOfTheElements, 3)
-                    .requireWis(325)
-                    .requireLevel(72);
             StrongerElementalBondEx.requirePerk(StrongerElementalBond)
 					.requireOrPerks(ElementalContractRank13, DaoOfTheElements, 4)
                     .requireWis(325)
@@ -7209,103 +7133,61 @@ public class PerkLib
                     .requirePerk(FlurryOfBlows);
             EclipticInfusion.requireLevel(78)
                     .requirePerk(GreaterSharedPower);
-			ElementalContractRank14.requirePerk(ElementalContractRank13)
-                    .requireWis(350)
-                    .requireLevel(78);
-            //Tier 14 Wisdom perks
-			ElementalContractRank15.requirePerk(ElementalContractRank14)
-                    .requireWis(375)
-                    .requireLevel(84);
             //Tier 15 Wisdom perks
 			UnlockSpirit4thStage.requirePerk(UnlockSpirit3rdStage)
                     .requireWis(335)
-                    .requireLevel(90);
-			ElementalContractRank16.requirePerk(ElementalContractRank15)
-                    .requireWis(400)
                     .requireLevel(90);
             StrongerElementalBondSu.requirePerk(StrongerElementalBondEx)
 					.requireOrPerks(ElementalContractRank16, DaoOfTheElements, 4)
                     .requireWis(400)
                     .requireLevel(90)
 					.requirePerk(JobElementalConjurer);
-			///Tier 16 Wisdom perks
-			ElementalContractRank17.requirePerk(ElementalContractRank16)
-                    .requireWis(425)
-                    .requireLevel(96);
             MythicalWisdom.requireWis(20)
                     .requirePerk(LegendaryWisdom)
                     .requireLevel(96);
 			///Tier 17 Wisdom perks
-			ElementalContractRank18.requireOrPerks(ElementalContractRank17, DaoOfTheElements, 4)
-                    .requireWis(450)
-                    .requireLevel(102);
-			///Tier 18 Wisdom perks
-			ElementalContractRank19.requirePerk(ElementalContractRank18)
-                    .requireWis(475)
-                    .requireLevel(108);
-			///Tier 19 Wisdom perks
-			ElementalContractRank20.requirePerk(ElementalContractRank19)
-                    .requireWis(500)
-                    .requireLevel(114);
             StrongestElementalBond.requirePerk(StrongerElementalBondSu)
 					.requireOrPerks(ElementalContractRank20, DaoOfTheElements, 5)
                     .requireWis(500)
                     .requireLevel(90)
 					.requirePerk(JobElementalConjurer);
-			///Tier 20 Wisdom perks
-			ElementalContractRank21.requirePerk(ElementalContractRank20)
-                    .requireWis(525)
-                    .requireLevel(120);
-			///Tier 21 Wisdom perks
-			ElementalContractRank22.requirePerk(ElementalContractRank21)
-                    .requireWis(550)
-                    .requireLevel(126);
 			///Tier 22 Wisdom perks
-			ElementalContractRank23.requireOrPerks(ElementalContractRank22, DaoOfTheElements, 5)
-                    .requireWis(575)
-                    .requireLevel(132);
-			///Tier 23 Wisdom perks
-			ElementalContractRank24.requirePerk(ElementalContractRank23)
-                    .requireWis(600)
-                    .requireLevel(138);
             StrongestElementalBondEx.requirePerk(StrongestElementalBond)
 					.requireOrPerks(ElementalContractRank24, DaoOfTheElements, 6)
                     .requireWis(600)
                     .requireLevel(138)
 					.requirePerk(JobElementalConjurer);
-			///Tier 24 Wisdom perks
-			ElementalContractRank25.requirePerk(ElementalContractRank24)
-                    .requireWis(625)
-                    .requireLevel(144);
-			///Tier 25 Wisdom perks
-			ElementalContractRank26.requirePerk(ElementalContractRank25)
-                    .requireWis(650)
-                    .requireLevel(150);
-			///Tier 26 Wisdom perks
-			ElementalContractRank27.requirePerk(ElementalContractRank26)
-                    .requireWis(675)
-                    .requireLevel(156);
 			///Tier 27 Wisdom perks
-			ElementalContractRank28.requireOrPerks(ElementalContractRank27, DaoOfTheElements, 6)
-                    .requireWis(700)
-                    .requireLevel(162);
             StrongestElementalBondSu.requirePerk(StrongestElementalBondEx)
 					.requireOrPerks(ElementalContractRank28, DaoOfTheElements, 7)
                     .requireWis(700)
                     .requireLevel(162)
 					.requirePerk(JobElementalConjurer);
-			///Tier 28 Wisdom perks
-			ElementalContractRank29.requirePerk(ElementalContractRank28)
-                    .requireWis(725)
-                    .requireLevel(168);
-			///Tier 29 Wisdom perks
-			ElementalContractRank30.requirePerk(ElementalContractRank29)
-                    .requireWis(750)
-                    .requireLevel(174);
-			///Tier 30 Wisdom perks
-			ElementalContractRank31.requirePerk(ElementalContractRank30)
-                    .requireWis(775)
-                    .requireLevel(180);
+
+			// Some of the ElementalContract perks do not simply require previous tier perk, but either that or DaoOfTheElements
+			// This is a array of their numbers to ignore.
+			var ECP_IGNORED_INDEXES:Array = [5, 9, 13, 18, 23, 28];
+			for(var idx:int = 0, prev:PerkType = null; idx < ELEMENTAL_CONTRACT_TIER_LIST.length; idx++){
+				var perk:PerkType = ELEMENTAL_CONTRACT_TIER_LIST[idx];
+				if(prev != null && !(ECP_IGNORED_INDEXES.indexOf(idx+1)>=0)) perk.requirePerk(prev);
+				if(idx > 0) perk.requireLevel(idx*6);
+				perk.requireWis(idx*25+25);
+				prev = perk;
+			}
+			
+            ElementalContractRank5.requireOrPerks(ElementalContractRank4, DaoOfTheElements, 1)
+					.requireAnyPerk(ElementalConjurerDedication, ElementalConjurerMindAndBodyDedicationEx);
+
+            ElementalContractRank9.requireOrPerks(ElementalContractRank8, DaoOfTheElements, 2)
+					.requireAnyPerk(ElementalConjurerSacrifice, ElementalConjurerMindAndBodySacrificeEx);
+
+            ElementalContractRank13.requireOrPerks(ElementalContractRank12, DaoOfTheElements, 3);
+
+			ElementalContractRank18.requireOrPerks(ElementalContractRank17, DaoOfTheElements, 4);
+
+			ElementalContractRank23.requireOrPerks(ElementalContractRank22, DaoOfTheElements, 5);
+
+			ElementalContractRank28.requireOrPerks(ElementalContractRank27, DaoOfTheElements, 6);
             //------------
             // LIBIDO
             //------------
