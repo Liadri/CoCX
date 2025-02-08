@@ -12891,6 +12891,12 @@ public final class Mutations extends MutationsHelper {
             transformations.FaceDemon.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
+		//Elfin ears
+		if (player.faceType == Face.DEMON && player.ears.type != Ears.ELFIN && rand(3) == 0) {
+			outputText("[pg]");
+			transformations.EarsElfin.applyEffect();
+			flags[kFLAGS.TIMES_TRANSFORMED]++;
+		}
         //Demon tongue
         if (player.tongue.type != Tongue.DEMONIC && rand(2) == 0) {
             outputText("[pg]");
@@ -12898,7 +12904,7 @@ public final class Mutations extends MutationsHelper {
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
 		//Demon/Devil eyes
-		if (player.faceType == Face.DEMON && (transformations.EyesDemon.isPossible() || transformations.EyesDevil.isPossible() || transformations.EyesDemonColors.isPossible()) && changes < changeLimit && rand(3) == 0) {
+		if (player.faceType == Face.DEMON && (transformations.EyesDemon.isPossible() || transformations.EyesDevil.isPossible() || transformations.EyesDemonColors.isPossible()) && rand(3) == 0) {
 			if (transformations.EyesDemonColors.isPossible()) {
 				transformations.EyesDemonColors.applyEffect();
 			}
@@ -12906,19 +12912,19 @@ public final class Mutations extends MutationsHelper {
 				if (rand(2) == 0) transformations.EyesDemon.applyEffect();
 				else transformations.EyesDevil.applyEffect();
 			}
-			changes++;
+			flags[kFLAGS.TIMES_TRANSFORMED]++;
 		}
         //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, centaurinum, canine pepps, demon items)
-        if (changes < changeLimit && !InCollection(player.arms.type, Arms.HUMAN) && rand(4) == 0) {
+        if (!InCollection(player.arms.type, Arms.HUMAN, Arms.DEMON) && rand(4) == 0) {
             outputText("[pg]");
             transformations.ArmsHuman.applyEffect();
-            changes++;
+            flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
 		//arms changes - requires furless
 		if (player.hasPlainSkinOnly() && player.arms.type == Arms.HUMAN && player.arms.type != Arms.DEMON && rand(3) == 0) {
 			outputText("[pg]");
             transformations.ArmsDemon.applyEffect();
-            changes++;
+            flags[kFLAGS.TIMES_TRANSFORMED]++;
 		}
         //foot changes - requires furless
         if (player.hasPlainSkinOnly() && rand(3) == 0) {
