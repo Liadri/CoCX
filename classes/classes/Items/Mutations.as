@@ -12892,7 +12892,7 @@ public final class Mutations extends MutationsHelper {
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
 		//Elfin ears
-		if (player.faceType == Face.DEMON && player.ears.type != Ears.ELFIN && rand(3) == 0) {
+		if (player.faceType == Face.DEMON && player.ears.type != Ears.ELFIN && rand(2) == 0) {
 			outputText("[pg]");
 			transformations.EarsElfin.applyEffect();
 			flags[kFLAGS.TIMES_TRANSFORMED]++;
@@ -12904,7 +12904,7 @@ public final class Mutations extends MutationsHelper {
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
 		//Demon/Devil eyes
-		if (player.faceType == Face.DEMON && (transformations.EyesDemon.isPossible() || transformations.EyesDevil.isPossible() || transformations.EyesDemonColors.isPossible()) && rand(3) == 0) {
+		if (player.faceType == Face.DEMON && (transformations.EyesDemon.isPossible() || transformations.EyesDevil.isPossible() || transformations.EyesDemonColors.isPossible()) && rand(2) == 0) {
 			if (transformations.EyesDemonColors.isPossible()) {
 				transformations.EyesDemonColors.applyEffect();
 			}
@@ -12915,19 +12915,19 @@ public final class Mutations extends MutationsHelper {
 			flags[kFLAGS.TIMES_TRANSFORMED]++;
 		}
         //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, centaurinum, canine pepps, demon items)
-        if (!InCollection(player.arms.type, Arms.HUMAN, Arms.DEMON) && rand(4) == 0) {
+        if (!InCollection(player.arms.type, Arms.HUMAN, Arms.DEMON) && rand(2) == 0) {
             outputText("[pg]");
             transformations.ArmsHuman.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
 		//arms changes - requires furless
-		if (player.hasPlainSkinOnly() && player.arms.type == Arms.HUMAN && player.arms.type != Arms.DEMON && rand(3) == 0) {
+		if (player.hasPlainSkinOnly() && player.arms.type == Arms.HUMAN && player.arms.type != Arms.DEMON && rand(2) == 0) {
 			outputText("[pg]");
             transformations.ArmsDemon.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
 		}
         //foot changes - requires furless
-        if (player.hasPlainSkinOnly() && rand(3) == 0) {
+        if (player.hasPlainSkinOnly() && rand(2) == 0) {
             //Males/genderless get clawed feet
             if (player.gender <= 1 || (player.gender == 3 && player.mf("m", "f") == "m")) {
                 if (player.lowerBody != LowerBody.DEMONIC_CLAWS) {
@@ -12944,22 +12944,22 @@ public final class Mutations extends MutationsHelper {
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
         //Demon wings
-        if ((InCollection(player.wings.type, Wings.DRACONIC_LARGE, Wings.BEE_LARGE, Wings.MANTIS_LARGE, Wings.MANTICORE_LARGE) && player.cor >= (50-player.corruptionTolerance) || player.wings.type == Wings.BAT_LIKE_TINY && player.cor >= (75-player.corruptionTolerance)) && rand(3) == 0) {
+        if ((InCollection(player.wings.type, Wings.DRACONIC_LARGE, Wings.BEE_LARGE, Wings.MANTIS_LARGE, Wings.MANTICORE_LARGE) && player.cor >= (50-player.corruptionTolerance) || player.wings.type == Wings.BAT_LIKE_TINY && player.cor >= (75-player.corruptionTolerance)) && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsDemonicLarge.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
-        if ((player.wings.type == Wings.DRACONIC_SMALL || player.wings.type == Wings.BEE_SMALL || player.wings.type == Wings.MANTIS_SMALL || player.wings.type == Wings.MANTICORE_SMALL) && player.cor >= (50-player.corruptionTolerance) && rand(3) == 0) {
+        if ((player.wings.type == Wings.DRACONIC_SMALL || player.wings.type == Wings.BEE_SMALL || player.wings.type == Wings.MANTIS_SMALL || player.wings.type == Wings.MANTICORE_SMALL) && player.cor >= (50-player.corruptionTolerance) && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsDemonicTiny.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
-        if (player.wings.type == Wings.NONE && player.cor >= (50-player.corruptionTolerance) && rand(3) == 0) {
+        if (player.wings.type == Wings.NONE && player.cor >= (50-player.corruptionTolerance) && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsDemonicTiny.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
         }
-        if (!InCollection(player.wings.type, [Wings.NONE, Wings.BAT_LIKE_LARGE, Wings.BAT_LIKE_TINY]) && rand(3) == 0) {
+        if (!InCollection(player.wings.type, [Wings.NONE, Wings.BAT_LIKE_LARGE, Wings.BAT_LIKE_TINY]) && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsNone.applyEffect();
             flags[kFLAGS.TIMES_TRANSFORMED]++;
