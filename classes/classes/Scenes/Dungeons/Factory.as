@@ -1642,39 +1642,7 @@ use namespace CoC;
 
 		private function goDemonSharedEnd():void {
 			clearOutput();
-			player.skin.setBaseOnly({type:Skin.PLAIN, color1:"blue", pattern: Skin.PATTERN_DEMONIC_PLEASURE_RUNE});
-			if (!InCollection(player.skinColor1, DemonRace.DemonSkinColors) && !InCollection(player.skinColor2, DemonRace.DemonSkin2Colors)) {
-				var choice1:String = randomChoice(DemonRace.DemonSkinColors);
-                var choice2:String = randomChoice(DemonRace.DemonSkin2Colors);
-                player.skinColor1 = choice1;
-                player.skinColor2 = choice2;
-			}
-			if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-			else {
-				if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-				else {
-					if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-					else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
-				}
-			}
-			player.legCount = 2;
-			transformations.TailDemonic.applyEffect(false);
-			transformations.HairHuman.applyEffect(false);
-			transformations.FaceDemon.applyEffect(false);
-			transformations.EyesDemon.applyEffect(false);
-			transformations.ArmsDemon.applyEffect(false);
-			transformations.TongueDemonic.applyEffect(false);
-			transformations.EarsElfin.applyEffect(false);
-			transformations.HornsDemonic.applyEffect(false);
-			transformations.AntennaeNone.applyEffect(false);
-			transformations.GillsNone.applyEffect(false);
-			transformations.WingsDemonicLarge.applyEffect(false);
-			transformations.RearBodyNone.applyEffect(false);
-			if (player.hasCock()) transformations.CockDemon().applyEffect(false);
-			if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
-			outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
-			player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
-			player.npcsThatLeaveSoullessPC();
+			consumables.DEMONME.demonizePlayer();
 			if (player.level < 25) inventory.takeItem(consumables.LETHITE, playerMenu);
 			else if (player.level < 50) inventory.takeItem(consumables.LETH1TE, playerMenu);
 			else if (player.level < 75) inventory.takeItem(consumables.LETH2TE, playerMenu);
