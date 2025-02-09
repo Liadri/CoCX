@@ -982,6 +982,12 @@ public final class Mutations extends MutationsHelper {
 
     /* ITEMZZZZZ FUNCTIONS GO HERE */
     public function incubiDraft(tainted:Boolean, player:Player):void {
+        changes = 0;
+        changeLimit = 1;
+        if (rand(2) == 0) changeLimit++;
+        if (rand(2) == 0) changeLimit++;
+        if (rand(2) == 0) changeLimit++;
+        changeLimit += player.additionalTransformationChances;
         player.slimeFeed();
         var temp2:Number = 0;
         var temp3:Number = 0;
@@ -1132,11 +1138,12 @@ public final class Mutations extends MutationsHelper {
 				}
             }
             //Demonic changes - higher chance with higher corruption.
-            if (rand(40) + (player.cor + player.corruptionTolerance) / 2 > 40 && tainted) demonChanges(player);
+            if (rand(40) + (player.cor + player.corruptionTolerance) / 2 > 40 && tainted && changeLimit != 0) demonChanges(player);
         }
         if (rand(4) == 0 && tainted) outputText(player.modFem(5, 2));
         if (rand(4) == 0 && tainted) outputText(player.modThickness(30, 2));
         player.refillHunger(10);
+        flags[kFLAGS.TIMES_TRANSFORMED] += changes;
     }
 
     public function growDemonCock(growCocks:Number, tainted:Boolean):void {
@@ -1251,6 +1258,12 @@ public final class Mutations extends MutationsHelper {
     }
 
     public function succubiMilk(tainted:Boolean, player:Player):void {
+        changes = 0;
+        changeLimit = 1;
+        if (rand(2) == 0) changeLimit++;
+        if (rand(2) == 0) changeLimit++;
+        if (rand(2) == 0) changeLimit++;
+        changeLimit += player.additionalTransformationChances;
         player.slimeFeed();
         var temp2:Number = 0;
         var temp3:Number = 0;
@@ -1446,6 +1459,7 @@ public final class Mutations extends MutationsHelper {
         }
 		if (player.perkv1(IMutationsLib.DisplacerMetabolismIM) >= 1) player.displacerFeedFromBottle();
         player.refillHunger(20);
+        flags[kFLAGS.TIMES_TRANSFORMED] += changes;
     }
 
     public function wolfPepper(player:Player):void {
@@ -12651,8 +12665,8 @@ public final class Mutations extends MutationsHelper {
     //Mouse
     public function mouseCocoa(type:Number, player:Player):void {
         clearOutput();
-        var changes:int = 0;
-        var changeLimit:int = 1;
+        changes = 0;
+        changeLimit = 1;
         if (rand(2) == 0) changeLimit++;
         if (rand(2) == 0) changeLimit++;
         if (rand(2) == 0) changeLimit++;
@@ -12853,58 +12867,58 @@ public final class Mutations extends MutationsHelper {
     //Demon
     private function demonChanges(player:Player):void {
         //Change tail if already horned.
-        if (player.tailType != Tail.DEMONIC && player.horns.count > 0) {
+        if (player.tailType != Tail.DEMONIC && player.horns.count > 0 && changes < changeLimit) {
             outputText("[pg]");
             transformations.TailDemonic.applyEffect();
             dynStats("cor", 4);
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
         //grow horns!
-        if (player.horns.count == 0 || (rand(player.horns.count + 3) == 0 && player.horns.count < 12) && player.horns.type != Horns.ORCHID) {
+        if (player.horns.count == 0 || (rand(player.horns.count + 3) == 0 && player.horns.count < 12) && player.horns.type != Horns.ORCHID && changes < changeLimit) {
             outputText("[pg]");
             transformations.HornsDemonic.applyEffect();
             dynStats("cor", 3);
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
         //Nipples Turn Back:
-        if (player.hasStatusEffect(StatusEffects.BlackNipples) && rand(2) == 0) {
+        if (player.hasStatusEffect(StatusEffects.BlackNipples) && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]Something invisible brushes against your " + nippleDescript(0) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             player.removeStatusEffect(StatusEffects.BlackNipples);
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
         //remove fur
-        if (!player.hasPlainSkinOnly() && rand(2) == 0) {
+        if (!player.hasPlainSkinOnly() && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             if (player.isFurCovered()) outputText("Your skin suddenly feels itchy as your fur begins falling out in clumps, <b>revealing inhumanly smooth skin</b> underneath.");
             if (player.isScaleCovered()) outputText("Your scales begin to itch as they begin falling out in droves, <b>revealing your inhumanly smooth " + player.skinColor + " skin</b> underneath.");
             player.skin.setBaseOnly({type: Skin.PLAIN});
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
         //Demon face
-        if (player.faceType != Face.HUMAN && player.faceType != Face.DEMON && rand(2) == 0) {
+        if (player.faceType != Face.HUMAN && player.faceType != Face.DEMON && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.FaceHuman.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
-        if (player.faceType == Face.HUMAN && rand(2) == 0) {
+        if (player.faceType == Face.HUMAN && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.FaceDemon.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
 		//Elfin ears
-		if (player.faceType == Face.DEMON && player.ears.type != Ears.ELFIN && rand(2) == 0) {
+		if (player.faceType == Face.DEMON && player.ears.type != Ears.ELFIN && changes < changeLimit && rand(2) == 0) {
 			outputText("[pg]");
 			transformations.EarsElfin.applyEffect();
-			flags[kFLAGS.TIMES_TRANSFORMED]++;
+			changes++;
 		}
         //Demon tongue
-        if (player.tongue.type != Tongue.DEMONIC && rand(2) == 0) {
+        if (player.tongue.type != Tongue.DEMONIC && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.TongueDemonic.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
 		//Demon/Devil eyes
-		if (player.faceType == Face.DEMON && (transformations.EyesDemon.isPossible() || transformations.EyesDevil.isPossible() || transformations.EyesDemonColors.isPossible()) && rand(2) == 0) {
+		if (player.faceType == Face.DEMON && (transformations.EyesDemon.isPossible() || transformations.EyesDevil.isPossible() || transformations.EyesDemonColors.isPossible()) && changes < changeLimit && rand(2) == 0) {
 			if (transformations.EyesDemonColors.isPossible()) {
 				transformations.EyesDemonColors.applyEffect();
 			}
@@ -12912,22 +12926,22 @@ public final class Mutations extends MutationsHelper {
 				if (rand(2) == 0) transformations.EyesDemon.applyEffect();
 				else transformations.EyesDevil.applyEffect();
 			}
-			flags[kFLAGS.TIMES_TRANSFORMED]++;
+			changes++;
 		}
         //-Remove feather-arms (copy this for goblin ale, mino blood, equinum, centaurinum, canine pepps, demon items)
-        if (!InCollection(player.arms.type, Arms.HUMAN, Arms.DEMON) && rand(2) == 0) {
+        if (!InCollection(player.arms.type, Arms.HUMAN, Arms.DEMON) && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.ArmsHuman.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
 		//arms changes - requires furless
-		if (player.hasPlainSkinOnly() && player.arms.type == Arms.HUMAN && player.arms.type != Arms.DEMON && rand(2) == 0) {
+		if (player.hasPlainSkinOnly() && player.arms.type == Arms.HUMAN && player.arms.type != Arms.DEMON && changes < changeLimit && rand(2) == 0) {
 			outputText("[pg]");
             transformations.ArmsDemon.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
 		}
         //foot changes - requires furless
-        if (player.hasPlainSkinOnly() && rand(2) == 0) {
+        if (player.hasPlainSkinOnly() && changes < changeLimit && rand(2) == 0) {
             //Males/genderless get clawed feet
             if (player.gender <= 1 || (player.gender == 3 && player.mf("m", "f") == "m")) {
                 if (player.lowerBody != LowerBody.DEMONIC_CLAWS) {
@@ -12941,28 +12955,28 @@ public final class Mutations extends MutationsHelper {
                 if (rand(2) == 0) transformations.LowerBodyDemonHighHeels.applyEffect();
 				else transformations.LowerBodyDemonGracefulFeet.applyEffect();
             }
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
         //Demon wings
-        if ((InCollection(player.wings.type, Wings.DRACONIC_LARGE, Wings.BEE_LARGE, Wings.MANTIS_LARGE, Wings.MANTICORE_LARGE) && player.cor >= (50-player.corruptionTolerance) || player.wings.type == Wings.BAT_LIKE_TINY && player.cor >= (75-player.corruptionTolerance)) && rand(2) == 0) {
+        if ((InCollection(player.wings.type, Wings.DRACONIC_LARGE, Wings.BEE_LARGE, Wings.MANTIS_LARGE, Wings.MANTICORE_LARGE) && player.cor >= (50-player.corruptionTolerance) || player.wings.type == Wings.BAT_LIKE_TINY && player.cor >= (75-player.corruptionTolerance)) && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsDemonicLarge.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
-        if ((player.wings.type == Wings.DRACONIC_SMALL || player.wings.type == Wings.BEE_SMALL || player.wings.type == Wings.MANTIS_SMALL || player.wings.type == Wings.MANTICORE_SMALL) && player.cor >= (50-player.corruptionTolerance) && rand(2) == 0) {
+        if (InCollection(player.wings.type, Wings.DRACONIC_SMALL, Wings.BEE_SMALL, Wings.MANTIS_SMALL, Wings.MANTICORE_SMALL) && player.cor >= (50-player.corruptionTolerance) && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsDemonicTiny.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
-        if (player.wings.type == Wings.NONE && player.cor >= (50-player.corruptionTolerance) && rand(2) == 0) {
+        if (player.wings.type == Wings.NONE && player.cor >= (50-player.corruptionTolerance) && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsDemonicTiny.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
-        if (!InCollection(player.wings.type, [Wings.NONE, Wings.BAT_LIKE_LARGE, Wings.BAT_LIKE_TINY]) && rand(2) == 0) {
+        if (!InCollection(player.wings.type, [Wings.NONE, Wings.BAT_LIKE_LARGE, Wings.BAT_LIKE_TINY]) && changes < changeLimit && rand(2) == 0) {
             outputText("[pg]");
             transformations.WingsNone.applyEffect();
-            flags[kFLAGS.TIMES_TRANSFORMED]++;
+            changes++;
         }
     }
 
