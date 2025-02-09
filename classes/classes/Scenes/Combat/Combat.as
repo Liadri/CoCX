@@ -2059,12 +2059,9 @@ public class Combat extends BaseContent {
 		outputText(" ");
         if (monster.HP > monster.minHP() && monster.lust < monster.maxOverLust()) {
 			outputText("\n\n");
-			if (!flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] || !flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED]
+			if (flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] != 1 || flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] != 1
 				&& (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4)) {
-				if (summonedEpicElemental) {
-					flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] = 1;
-					//summonedEpicElemental = false;
-				}
+				if (summonedEpicElemental) flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] = 1;
 				else flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] = 1;
 				if (!player.hasStatusEffect(StatusEffects.SimplifiedNonPCTurn) || showNext) {
 					menu();

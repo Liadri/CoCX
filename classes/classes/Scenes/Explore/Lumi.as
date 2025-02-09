@@ -420,7 +420,7 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Nitro Boots") < 0) addButton(5, "Nitro Boots", lumiEngineeringBuyBlueprintNitroBoots).hint("Nitro Boots BP - 1000 gems");
 		if (player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Rocket Boots") < 0) addButton(5, "Rocket Boots", lumiEngineeringBuyBlueprintRocketBoots).hint("Rocket Boots BP - 500 gems");
 		if (player.hasKeyItem("Spring Boots") < 0 && player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Spring Boots") < 0) addButton(5, "Spring Boots", lumiEngineeringBuyBlueprintSpringBoots).hint("Spring Boots BP - 100 gems");
-		if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(6, "Flasherbang", lumiEngineeringBuyBlueprintFlasherbang).hint("Flasherbang BP - 1000 gems");
+		if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(6, "Flasherbang", lumiEngineeringBuyBlueprintFlasherbang).hint("Flasherbang BP - 500 gems");
 		if (player.hasKeyItem("Goblin Bomber") < 0 && player.hasKeyItem("Blueprint - Goblin Bomber") < 0) addButton(7, "Goblin Bomber", lumiEngineeringBuyBlueprintGoblinBomber).hint("Goblin Bomber BP - 1500 gems");
 		if (player.hasKeyItem("GOBX Chemical Improved formula") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(8, "GOBX Chemical IF", lumiEngineeringBuyBlueprintGOBXChemicalImprovedFormula).hint("GOBX Chemical Improved formula BP - 1000 gems");
 		if (player.hasKeyItem("GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(8, "GOBX Chemical", lumiEngineeringBuyBlueprintGOBXChemical).hint("GOBX Chemical BP - 1000 gems");
@@ -661,8 +661,8 @@ public class Lumi extends BaseContent {
 	}
 	public function lumiEngineeringBuyBlueprintFlasherbang():void {
 		clearOutput();
-		if (player.gems >= 1000) {
-			player.gems -= 1000;
+		if (player.gems >= 500) {
+			player.gems -= 500;
 			outputText("Lumi seals the blueprint in a tube and displays it on the counter.\n\n");
 			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
 			outputText("<b>Gained Key Item: Blueprint - Flasherbang!</b>");
@@ -2089,4 +2089,4 @@ public class Lumi extends BaseContent {
 	}
 }
 }
-//
+//

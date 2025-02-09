@@ -312,6 +312,7 @@ public class Changelog extends BaseContent
 			outputText("-Fix demonChanges. (Stadler)\n");
 			outputText("-For Yuki Onna encounters it will now only req. to find Yu shop.\n");
 			outputText("-Non goblonoid PC's can now buy and craft few simpler gadgets at Tripxi gunshop: Flasherbang\n");
+			outputText("-Training Dummy now got bit more sponge on it and each upgrade increase it lvl by 60.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -331,15 +332,14 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
 			outputText("-\n");
 			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: Apes Together Strong. Req. ??? perk and 130+ wisdom. Effect: allow exchange single monsters variants > group monsters variants
-			outputText("-\n");//New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: meat shield option ^^
+			outputText("-\n");
 			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
 			outputText("-\n");//New tier 4 wisdom lvl-up perk: ???. Req. Fourth Tamer of the Apocalypse perk and 125+ wisdom. Effect: 5th slot
 			outputText("-\n");//New tier 7 wisdom lvl-up perk: Kaiju No8. Req. Job: Tamer and 50+ wisdom. Effect: 8th kaiju joins your team of monsters.

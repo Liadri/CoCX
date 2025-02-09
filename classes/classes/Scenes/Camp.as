@@ -3442,13 +3442,13 @@ public class Camp extends NPCAwareContent{
 		switch(lvl) {
 			case 0: outputText("Level: 0\n");
 					break;
-			case 1: outputText("Level: 30\n");
+			case 1: outputText("Level: 60\n");
 					break;
-			case 2: outputText("Level: 60\n");
+			case 2: outputText("Level: 120\n");
 					break;
-			case 3: outputText("Level: 90\n");
+			case 3: outputText("Level: 180\n");
 					break;
-			case 4: outputText("Level: 150\n");
+			case 4: outputText("Level: 240\n");
 					break;
 		}
 
@@ -3467,26 +3467,27 @@ public class Camp extends NPCAwareContent{
 		menu();
 		addButton(0, "Lvl0", dummyTraining, 0, lustImmune, isGroup)
 			.disableIf(lvl == 0, "Already selected");
-		addButton(1, "Lvl30", dummyTraining, 1, lustImmune, isGroup)
+		addButton(1, "Lvl60", dummyTraining, 1, lustImmune, isGroup)
 			.disableIf(lvl == 1, "Already selected")
 			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 3, "You need to improve the sparring ring more first!");
-		addButton(2, "Lvl60", dummyTraining, 2, lustImmune, isGroup)
+		addButton(2, "Lvl120", dummyTraining, 2, lustImmune, isGroup)
 			.disableIf(lvl == 2, "Already selected")
 			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 4, "You need to improve the sparring ring more first!");
-		addButton(3, "Lvl90", dummyTraining, 3, lustImmune, isGroup)
-			.disableIf(lvl == 3, "Already selected")
-			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 5, "You need to improve the sparring ring more first!");
-		addButton(4, "Lvl150", dummyTraining, 4, lustImmune, isGroup)
-			.disableIf(lvl == 4, "Already selected")
-			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 5, "You need to improve the sparring ring more first!");
-		addButton(5, "Normal", dummyTraining, lvl, true, isGroup)
+		addButton(3, "Normal", dummyTraining, lvl, true, isGroup)
 			.disableIf(lustImmune, "Already selected");
-		addButton(6, "Sim. Lust", dummyTraining, lvl, false, isGroup)
+		addButton(4, "Sim. Lust", dummyTraining, lvl, false, isGroup)
 			.disableIf(!lustImmune, "Already selected")
 			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 3, "You need to improve the sparring ring more first!");
-		addButton(7, "Solo", dummyTraining, lvl, lustImmune, false)
+		addButton(5, "Lvl180", dummyTraining, 3, lustImmune, isGroup)
+			.disableIf(lvl == 3, "Already selected")
+			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 5, "You need to improve the sparring ring more first!");
+		addButton(6, "Lvl240", dummyTraining, 4, lustImmune, isGroup)
+			.disableIf(lvl == 4, "Already selected")
+			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 6, "You need to improve the sparring ring more first!");
+		//7 - lvl 300 dummy
+		addButton(8, "Solo", dummyTraining, lvl, lustImmune, false)
 			.disableIf(!isGroup, "Already selected");
-		addButton(8, "Group", dummyTraining, lvl, lustImmune, true)
+		addButton(9, "Group", dummyTraining, lvl, lustImmune, true)
 			.disableIf(isGroup, "Already selected")
 			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 5, "You need to improve the sparring ring more first!");
 		addButton(13, "Fight", dummyTrainingStart, lvl, lustImmune, isGroup);

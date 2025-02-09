@@ -1349,7 +1349,7 @@ public function tripxiShopMainMenu1a():void {
 	addButton(0, "Talk", tripxiShopTalk);
 	addButton(1, "Gunshop", tripxiShopMainMenu2a);
 	addButton(2, "Rent Workshop", tripxiRentWorkshop);
-	if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(5, "Flasherbang", curry(tripxiEngineeringBuyBlueprint, 1000, "Flasherbang")).hint("Flasherbang BP - 1000 gems");
+	if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(5, "Flasherbang", curry(tripxiEngineeringBuyBlueprint, 500, "Flasherbang")).hint("Flasherbang BP - 500 gems");
 	addButton(14, "Leave", telAdreMenu);
 }
 
