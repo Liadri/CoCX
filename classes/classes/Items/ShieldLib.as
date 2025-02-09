@@ -31,6 +31,7 @@ public final class ShieldLib extends ItemConstants
 		public static const NOTHING:Nothing = new Nothing();
 		
 		public const AETHERS:AetherS = new AetherS();
+		public const AMBSHLD:DynamicShield = ItemTemplateLib.instance.createShield("ambershield", ItemConstants.RARITY_COMMON, 0, ItemConstants.CS_KNOWN_UNCURSED, []);
 		public const ANC_CON:AncientConduit = new AncientConduit();
 		public const BATTNET:Shield = new Shield("BattNet", "BattleNet", "Battle Net", "a Battle Net", 0, 100, "A battle net used in the off-hand to impair the opponent's movement. Also very good for fishing.");
 		public const BSHIELD:BeautifulShield = new BeautifulShield();

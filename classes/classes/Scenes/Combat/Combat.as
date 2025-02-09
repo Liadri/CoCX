@@ -10,6 +10,7 @@ import classes.GlobalFlags.kFLAGS;
 import classes.IMutations.*;
 import classes.ItemType;
 import classes.Items.IELib;
+import classes.Items.ItemEffect;
 import classes.Items.ItemConstants;
 import classes.Items.Weapon;
 import classes.Items.WeaponLib;
@@ -58,6 +59,7 @@ import coc.view.ButtonDataList;
 import coc.view.MainView;
 
 import mx.formatters.NumberFormatter;
+import classes.Items.ItemEffectType;
 
 //import flash.utils.getTimer;
 
@@ -7369,51 +7371,47 @@ public class Combat extends BaseContent {
                     }
                     //Lust raising weapon bonuses
                     if (monster.lustVuln > 0) {
-                        if (player.weapon == weapons.L_CLAWS || player.weapon == weapons.L_DAGGR || player.weapon == weapons.LRAPIER || player.weapon == weapons.DEPRAVA || player.weapon == weapons.ASCENSU || player.hasAetherTwinsTier2() || player.hasAetherTwinsTierS1() || player.hasAetherTwinsTierS2()) {
-                            outputText("\n[Themonster] shivers as your weapon's 'poison' goes to work.");
-                            if (player.weapon == weapons.L_DAGGR || player.hasAetherTwinsTierS1() || player.hasAetherTwinsTierS2()) monster.teased(monster.lustVuln * (5 + player.cor / 10));
-                            else monster.teased(monster.lustVuln * (10 + player.cor / 8));
-                        }
-                        var whipLustDmg:Number = 0;
-                        var whipCorSelf:Number = 0;
-                        var whipLustSelf:Number = 0;
-                        var hasArcaneLash:Boolean = player.hasPerk(PerkLib.ArcaneLash);
-                        if ((player.weapon == weapons.B_WHIP || player.weapon == weapons.WHIP || player.weapon == weapons.PWHIP || player.weapon == weapons.NTWHIP) && rand(2) == 0) {
-                            whipLustDmg = (5 + player.cor / 12) * (hasArcaneLash ? 1.4 : 1); // 5-13.3 (7-18.7 w/perk)
-                            whipCorSelf = 0;
-                            whipLustSelf = 0;
-                        } else if (player.weapon == weapons.SUCWHIP || player.weapon == weapons.PSWHIP) {
-                            whipLustDmg = (20 + player.cor / 15) * (hasArcaneLash ? 1.8 : 1); // 20-26.7 (36-48 w/perk)
-                            whipCorSelf = 0.3;
-                            whipLustSelf = (rand(2) == 0) ? 0 : 1; // 50% +1
-                        } else if (player.weapon == weapons.L_WHIP || player.weapon == weapons.DL_WHIP) {
-                            whipLustDmg = (10 + player.cor / 5) * (hasArcaneLash ? 2.0 : 1); // 10-30 (20-60 w/perk)
-                            whipCorSelf = 0.6;
-                            whipLustSelf = (rand(4) == 0) ? 0 : 1; // 75% +1
-                        } else if (player.weapon == weapons.D_FLAIL) {
-							whipLustDmg = (10 + player.cor / 10); // 10-20
-							whipCorSelf = 0.5;
-                            whipLustSelf = 0;
-						}
-                        if (player.armor == armors.ELFDRES && player.isElf()) whipLustDmg *= 2;
-                        if (player.armor == armors.FMDRESS && player.isWoodElf()) whipLustDmg *= 2;
-                        if (whipLustDmg > 0) {
-                            var s:String = monster.plural ? "" : "s";
-                            if (rand(2) == 0) {
-                                outputText("\n[Themonster] shiver" + s + " and get" + s + " turned on from the whipping.");
+                        var effLustDmg:Number = 0;
+                        var lustEff:ItemEffect = null;
+                        if ((lustEff = player.weapon.findEffect(IELib.LustDamage)) != null) {
+                            effLustDmg = lustEff.power + player.cor*lustEff.value1;
+                            if (player.weapon.isWhipType()) {
+
+                                var hasArcaneLash:Boolean = player.hasPerk(PerkLib.ArcaneLash);
+                                if (player.weapon == weapons.B_WHIP || player.weapon == weapons.WHIP || player.weapon == weapons.PWHIP || player.weapon == weapons.NTWHIP) {
+                                    effLustDmg *= hasArcaneLash ? 1.4 : 1; // 5-13.3 (7-18.7 w/perk)
+                                } else if (player.weapon == weapons.SUCWHIP || player.weapon == weapons.PSWHIP) {
+                                    effLustDmg *= hasArcaneLash ? 1.8 : 1; // 20-26.7 (36-48 w/perk)
+                                } else if (player.weapon == weapons.L_WHIP || player.weapon == weapons.DL_WHIP) {
+                                    effLustDmg *= hasArcaneLash ? 2.0 : 1; // 10-30 (20-60 w/perk)
+                                }
+
+                                if (player.armor == armors.ELFDRES && player.isElf()) effLustDmg *= 2;
+                                if (player.armor == armors.FMDRESS && player.isWoodElf()) effLustDmg *= 2;
+
+                                var s:String = monster.plural ? "" : "s";
+                                if (rand(2) == 0) {
+                                    outputText("\n[Themonster] shiver" + s + " and get" + s + " turned on from the whipping.");
+                                } else {
+                                    outputText("\n[Themonster] shiver" + s + " and moan" + s + " involuntarily from the whip's touches.");
+                                }
                             } else {
-                                outputText("\n[Themonster] shiver" + s + " and moan" + s + " involuntarily from the whip's touches.");
+                                outputText("\n[Themonster] shivers as your weapon's 'poison' goes to work.");
                             }
-                            if (whipCorSelf > 0 && player.cor < 90) dynStats("cor", whipCorSelf);
-                            monster.teased(monster.lustVuln * whipLustDmg);
-                            if (whipLustSelf > 0) {
-                                outputText(" You get a sexual thrill from it. ");
-                                dynStats("lus", whipLustSelf);
-                            }
+                            monster.teased(monster.lustVuln * effLustDmg);
                         }
                     }
+                    //Selflust weapons
+                    var slustEff:ItemEffect = null;
+                    if ((slustEff = player.weapon.findEffect(IELib.SelfLust)) != null && player.cor < 90) {
+                        outputText(" You get a sexual thrill from it. ");
+                        dynStats("lus", slustEff.power);
+                    }
                     //Selfcorrupting weapons
-                    if ((player.weapon == weapons.HELRAIS || player.weapon == weapons.EBNYBLD) && player.cor < 90) dynStats("cor", 1);
+                    var corrEff:ItemEffect = null;
+                    if ((corrEff = player.weapon.findEffect(IELib.SelfCorr)) != null && player.cor < 90) {
+                        dynStats("cor", corrEff.power);
+                    }
                     //Selfpurifying and Lust lowering weapons
                     if ((player.weapon == weapons.LHSCYTH || player.weapon == weapons.NPHBLDE) && player.cor > 10) dynStats("cor", -1);
                     if (player.weapon == weapons.EXCALIB || player.weapon == weapons.DEXCALI || player.weapon == weapons.PARACEL) {
@@ -7425,7 +7423,7 @@ public class Combat extends BaseContent {
                     //Weapon Procs!
                     WeaponMeleeStatusProcsMain();
                 }
-                if (flags[kFLAGS.ENVENOMED_MELEE_ATTACK] == 1 && (player.weapon.isSmall())) {
+                if (flags[kFLAGS.ENVENOMED_MELEE_ATTACK] == 1 && (player.weapon.isSmall() || player.weapon.hasTag(ItemConstants.W_ENVENOM_POSSIBLE))) {
                     if (player.tailVenom >= player.VenomWebCost()) {
                         outputText("  ");
                         if (monster.lustVuln == 0) {
@@ -7885,51 +7883,49 @@ public class Combat extends BaseContent {
                     }
                     //Lust raising weapon bonuses
                     if (monster.lustVuln > 0) {
-                        if (player.weaponOff == weapons.L_DAGGR || player.weaponOff == weapons.LRAPIER || player.weaponOff == weapons.DEPRAVA || player.weaponOff == weapons.ASCENSU) {
-                            outputText("\n[Themonster] shivers as your weapon's 'poison' goes to work.");
-                            if (player.weaponOff == weapons.L_DAGGR) monster.teased(monster.lustVuln * (5 + player.cor / 10));
-                            else monster.teased(monster.lustVuln * (10 + player.cor / 8));
-                        }
-                        var whipLustDmg:Number = 0;
-                        var whipCorSelf:Number = 0;
-                        var whipLustSelf:Number = 0;
-                        var hasArcaneLash:Boolean = player.hasPerk(PerkLib.ArcaneLash);
-                        if ((player.weaponOff == weapons.B_WHIP || player.weaponOff == weapons.WHIP || player.weaponOff == weapons.PWHIP || player.weaponOff == weapons.NTWHIP) && rand(2) == 0) {
-                            whipLustDmg = (5 + player.cor / 12) * (hasArcaneLash ? 1.4 : 1); // 5-13.3 (7-18.7 w/perk)
-                            whipCorSelf = 0;
-                            whipLustSelf = 0;
-                        } else if (player.weaponOff == weapons.SUCWHIP || player.weaponOff == weapons.PSWHIP) {
-                            whipLustDmg = (20 + player.cor / 15) * (hasArcaneLash ? 1.8 : 1); // 20-26.7 (36-48 w/perk)
-                            whipCorSelf = 0.3;
-                            whipLustSelf = (rand(2) == 0) ? 0 : 1; // 50% +1
-                        } else if (player.weaponOff == weapons.L_WHIP || player.weaponOff == weapons.DL_WHIP) {
-                            whipLustDmg = (10 + player.cor / 5) * (hasArcaneLash ? 2.0 : 1); // 10-30 (20-60 w/perk)
-                            whipCorSelf = 0.6;
-                            whipLustSelf = (rand(4) == 0) ? 0 : 1; // 75% +1
-                        } else if (player.weaponOff == weapons.D_FLAIL) {
-							whipLustDmg = (10 + player.cor / 10); // 10-20
-							whipCorSelf = 0.5;
-                            whipLustSelf = 0;
-						}
-                        if (player.armor == armors.ELFDRES && player.isElf()) whipLustDmg *= 2;
-                        if (player.armor == armors.FMDRESS && player.isWoodElf()) whipLustDmg *= 2;
-                        if (whipLustDmg > 0) {
-                            var s:String = monster.plural ? "" : "s";
-                            if (rand(2) == 0) {
-                                outputText("\n[Themonster] shiver" + s + " and get" + s + " turned on from the whipping.");
+                        var effLustDmg:Number = 0;
+                        var lustEff:ItemEffect = null;
+                        if ((lustEff = player.weaponOff.findEffect(IELib.LustDamage)) != null) {
+                            effLustDmg = lustEff.power + player.cor*lustEff.value1;
+                        
+                            if (player.weaponOff.isWhipType()) {
+
+                                var hasArcaneLash:Boolean = player.hasPerk(PerkLib.ArcaneLash);
+                                if (player.weaponOff == weapons.B_WHIP || player.weaponOff == weapons.WHIP || player.weaponOff == weapons.PWHIP || player.weaponOff == weapons.NTWHIP) {
+                                    effLustDmg *= hasArcaneLash ? 1.4 : 1; // 5-13.3 (7-18.7 w/perk)
+                                } else if (player.weaponOff == weapons.SUCWHIP || player.weaponOff == weapons.PSWHIP) {
+                                    effLustDmg *= hasArcaneLash ? 1.8 : 1; // 20-26.7 (36-48 w/perk)
+                                } else if (player.weaponOff == weapons.L_WHIP || player.weaponOff == weapons.DL_WHIP) {
+                                    effLustDmg *= hasArcaneLash ? 2.0 : 1; // 10-30 (20-60 w/perk)
+                                }
+
+                                if (player.armor == armors.ELFDRES && player.isElf()) effLustDmg *= 2;
+                                if (player.armor == armors.FMDRESS && player.isWoodElf()) effLustDmg *= 2;
+                                
+                                var s:String = monster.plural ? "" : "s";
+                                if (rand(2) == 0) {
+                                    outputText("\n[Themonster] shiver" + s + " and get" + s + " turned on from the whipping.");
+                                } else {
+                                    outputText("\n[Themonster] shiver" + s + " and moan" + s + " involuntarily from the whip's touches.");
+                                }
+                                
                             } else {
-                                outputText("\n[Themonster] shiver" + s + " and moan" + s + " involuntarily from the whip's touches.");
+                                outputText("\n[Themonster] shivers as your weapon's 'poison' goes to work.");
                             }
-                            if (whipCorSelf > 0 && player.cor < 90) dynStats("cor", whipCorSelf);
-                            monster.teased(monster.lustVuln * whipLustDmg);
-                            if (whipLustSelf > 0) {
-                                outputText(" You get a sexual thrill from it. ");
-                                dynStats("lus", whipLustSelf);
-                            }
+                            monster.teased(monster.lustVuln * effLustDmg);
                         }
                     }
+                    //Selflust weapons
+                    var slustEff:ItemEffect = null;
+                    if ((slustEff = player.weaponOff.findEffect(IELib.SelfLust)) != null && player.cor < 90) {
+                        outputText(" You get a sexual thrill from it. ");
+                        dynStats("lus", slustEff.power);
+                    }
                     //Selfcorrupting weapons
-                    if ((player.weaponOff == weapons.HELRAIS || player.weaponOff == weapons.EBNYBLD) && player.cor < 90) dynStats("cor", 1);
+                    var corrEff:ItemEffect = null;
+                    if ((corrEff = player.weaponOff.findEffect(IELib.SelfCorr)) != null && player.cor < 90) {
+                        dynStats("cor", corrEff.power);
+                    }
                     //Selfpurifying and Lust lowering weapons
                     if ((player.weaponOff == weapons.LHSCYTH || player.weaponOff == weapons.NPHBLDE) && player.cor > 10) dynStats("cor", -1);
                     if (player.weaponOff == weapons.EXCALIB || player.weaponOff == weapons.DEXCALI || player.weaponOff == weapons.PARACEL) {

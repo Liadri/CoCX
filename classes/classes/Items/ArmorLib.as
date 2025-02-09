@@ -221,6 +221,7 @@ public final class ArmorLib extends ItemConstants
 					'spellcost': -0.20,
 					'soulskillcost': -0.20
 				}) as Armor;
+		public const QGUARDA:Armor = findCommonDynamicArmor("qguarda");
 		public const R_BDYST:Armor = new Armor("R.BdySt","R.BdySt","red, high-society bodysuit","a red bodysuit for high society",1,0,50,"A high society bodysuit. It is as easy to mistake it for ballroom apparel as it is for boudoir lingerie. The thin transparent fabric is so light and airy that it makes avoiding blows a second nature.","Light", true, false)
 				.withTag(A_AGILE) as Armor;
 		public const R_CHANG:Armor = new Armor("R.Chang","RedChangshan","Red Lunar new year dress (m)","a Red Lunar new year dress (m)",0,0,100,"A simple yet elegant red changshan with dragon motif. This clothing is said to bring in good luck increasing evasiveness and critical chance.","Light");

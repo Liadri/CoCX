@@ -126,6 +126,8 @@ public final class WeaponLib extends ItemConstants
 				.withEffect(IELib.ScaleAttack_Str, 60) as Weapon;
 		public const AMBERSTAFF:Weapon = findCommonDynamicWeapon("amberstaff")
 		public const AMBERWAND:Weapon = findCommonDynamicWeapon("amberwand")
+		public const AMBERSPEAR:Weapon = findCommonDynamicWeapon("amberspear")
+		public const AMBERGSPEAR:Weapon = findCommonDynamicWeapon("ambergspear")
 		public const ARI_SPR:Weapon = new Weapon(
 				"Ari_Spr", "ArigeanSpear", "Arigean Spear", "an Arigean Spear", "thrust", 13, 1040,
 				"A black spear with white wrappings around the length of it, the metal shines a beautiful silver when even a small glimmer of light touches it. It supposedly becomes more dangerous the lower your mana is, and also should have no problem piercing armor.",
@@ -141,7 +143,8 @@ public final class WeaponLib extends ItemConstants
 				"Ascensus", "Ascensus", "Ascensus", "Ascensus, Element of Ascension", "smack", 30, 4800,
 				"This staff is made from sacred wood and holy bark. Vines and tentacles run along the staff, grown out of the wood itself. The top has an odd zigzag shape, with pulsing crystals adorning the recesses. This staff radiates power, neither pure nor corrupt. (-25% spell cost, x6.5 spellpower / healpower)",
 				WT_STAFF, WSZ_LARGE)
-				.withBuff('spellpower',+1.5) as Weapon;
+				.withBuff('spellpower',+1.5)
+				.withEffect(IELib.LustDamage, 10, 1/8) as Weapon;
 		public const ASTERIUS:AsteriusRage = new AsteriusRage();
 		public const AWL_   :Weapon = new Weapon(
 				"Awl    ","Awl","awl","an awl","pierce",3,240,
@@ -162,7 +165,8 @@ public final class WeaponLib extends ItemConstants
 				.withBuffs({'teasedmg': 35})
 				.withTag(W_WHIPPING)
 				.withEffect(IELib.Require_CorBelow, 33)
-				.withEffect(IELib.AttackBonus_Cor, -1/3) as Weapon;
+				.withEffect(IELib.AttackBonus_Cor, -1/3)
+				.withEffect(IELib.LustDamage, 5, 1/12) as Weapon as Weapon;
 		public const B_FLYWHISK :Weapon = new BeautifulFlyWhisk();
 		public const B_SCARB:Weapon = new Weapon(
 				"B.ScarB", "B.ScarBlade", "broken scarred blade", "a broken scarred blade", "slash", 12, 480,
@@ -217,7 +221,8 @@ public final class WeaponLib extends ItemConstants
 				WT_WHIP, WSZ_LARGE)
 				.withTag(W_WHIPPING)
 				.withEffect(IELib.Bleed, 25)
-				.withEffect(IELib.ScaleAttack_StrSpe, 225) as Weapon;
+				.withEffect(IELib.ScaleAttack_StrSpe, 225)
+				.withEffect(IELib.LustDamage, 5, 1/12)  as Weapon;
 		public const C_BLADE:Weapon = new Weapon(
 				"ChaosBlade", "Chaos Blade", "Chaos Blade", "a Chaos Blade", "slash", 135, 10800,
 				"This dark blade is as beautiful as it is deadly, made in black metal and decorated with a single crimson ruby gemstones. Lending its power to a corrupt warrior, it will strike with an unholy force, albeit, draining some blood from its wielder on the process as this weapon is not meant to be wielded by mortals.",
@@ -289,7 +294,8 @@ public final class WeaponLib extends ItemConstants
 				"Depravatio", "Depravatio", "Depravatio", "Depravatio, Element of Corruption", "smack", 12, 1920,
 				"This staff is made from sacred wood, infused with Marae’s bark. Tentacles run along the staff, and attempt to grope you when they think you’re not watching. The top has an odd zigzag shape, with clear crystals adorning the recesses. The staff seethes with corruption. (-15% spell cost, x2.5 black spellpower / he" +
 				"alpower)", WT_STAFF, WSZ_LARGE)
-				.withBuff('spellpower',0.6) as Weapon;
+				.withBuff('spellpower',0.6)
+				.withEffect(IELib.LustDamage, 10, 1/8) as Weapon;
 		public const DEXCALI:Weapon = new Weapon(
 				"DExcalib", "DualExcalibur", "Dual Excalibur", "a Dual Excalibur", "slash", 40, 1600,
 				"A legendary dual swords said to have been made by Marae for her champion. Those weapon radiates divine power, purifying its wielder and protecting them from impurity.",
@@ -364,7 +370,10 @@ public final class WeaponLib extends ItemConstants
 				"Those whips once belonged to Lethice who was defeated at your hands. It gives off flames when you crack those whips.",
 				WT_WHIP, WSZ_MEDIUM, true)
 				.withBuffs({'teasedmg': 50})
-				.withTags(W_WHIPPING, W_FIRE_TYPE) as Weapon;
+				.withTags(W_WHIPPING, W_FIRE_TYPE)
+				.withEffect(IELib.LustDamage, 10, 1/5)
+				.withEffect(IELib.SelfCorr, 0.6)
+				.withEffect(IELib.SelfLust, 1, 0.75) as Weapon;
 		public const DOCDEST:Weapon = new Weapon(
 				"DOCDest", "DOCDestroyer", "Defiled Oni Chieftain Destroyer", "a Defiled Oni Chieftain Destroyer", "smash", 160, 16800,
 				"This unrealistically large two handed mace was clearly made for some legendary oni chieftain to wield. Even bigger than the standard oni tetsubo, this thing could topple buildings. You likely will need some absurd strength just to lift it.",
@@ -396,6 +405,7 @@ public final class WeaponLib extends ItemConstants
 				WT_SWORD, WSZ_LARGE)
 				.withTags(I_LEGENDARY, W_CORRUPT_TYPE)
 				.withEffect(IELib.AttackBonus_Cor, 1/5)
+				.withEffect(IELib.SelfCorr, 1)
 				.withEffect(IELib.ScaleAttack_Str, 250) as Weapon;
 		public const ERIBBON:Weapon = new Weapon(
 				"ERibbon", "ERibbon", "eldritch ribbon", "an eldritch ribbon", "whip-like slash", 5, 400,
@@ -479,6 +489,7 @@ public final class WeaponLib extends ItemConstants
 				.withEffect(IELib.Bleed, 10)
 				.withEffect(IELib.ScaleAttack_Str, 100)
 				.withEffect(IELib.AttackBonus_Cor, 0.1)
+				.withEffect(IELib.SelfCorr, 1)
 				.withTags(W_STAFFPART, W_WHIRLWIND, I_LEGENDARY) as Weapon;
 		public const HNTCANE:Weapon = new HuntsmansCane();
 		public const HSWORDS:Weapon = new Weapon(
@@ -522,7 +533,8 @@ public final class WeaponLib extends ItemConstants
 		public const L_DAGGR:Weapon = new Weapon(
 				"L.Daggr","L.Daggr","lust-enchanted dagger","an aphrodisiac-coated dagger","stab",3,240,
 				"A dagger with a short blade in a wavy pattern.  Its edge seems to have been enchanted to always be covered in a light aphrodisiac to arouse anything cut with it.",
-				WT_DAGGER, WSZ_SMALL);
+				WT_DAGGER, WSZ_SMALL)
+				.withEffect(IELib.LustDamage, 5, 0.1) as Weapon;
 		public const L_HAMMR:Weapon = new Weapon(
 				"L.Hammr", "L.Hammr", "large hammer", "Marble's large hammer", "smash", 18, 720,
 				"This two-handed warhammer looks pretty devastating.  You took it from Marble after she refused your advances.",
@@ -539,7 +551,10 @@ public final class WeaponLib extends ItemConstants
 				"This whip once belonged to Lethice who was defeated at your hands. It gives off flames when you crack this whip.",
 				WT_WHIP, WSZ_MEDIUM)
 				.withBuffs({'teasedmg': 50})
-				.withTags(W_WHIPPING, W_FIRE_TYPE) as Weapon;
+				.withTags(W_WHIPPING, W_FIRE_TYPE)
+				.withEffect(IELib.LustDamage, 10, 1/5)
+				.withEffect(IELib.SelfCorr, 0.6)
+				.withEffect(IELib.SelfLust, 1, 0.75) as Weapon;
 		public const LANCE  :Weapon = new Weapon(
 				"Lance", "Lance", "deadly lance", "a deadly lance", "piercing stab", 12, 480,
 				"A long wooden shaft with a pointed metal head, used as a weapon by knights and cavalry soldiers in charging.  This would ignore most armors.  Req. 100+ speed to unleash full attack power.",
@@ -557,7 +572,8 @@ public final class WeaponLib extends ItemConstants
 				"LRapier", "LRapier", "lust rapier", "lust-coated rapier", "slash", 8, 640,
 				"A rapier with an edge that seems to have been enchanted to always be covered in a light aphrodisiac to arouse anything cut with it.",
 				WT_DUELING, WSZ_MEDIUM)
-				.withTags(W_RAPIER) as Weapon;
+				.withTags(W_RAPIER)
+				.withEffect(IELib.LustDamage, 10, 1/8) as Weapon;
 		public const MACE   :Weapon = findCommonDynamicWeapon("mace");
 		public const MACGRSW:Weapon = new Weapon(
 				"Macgrsw","Mach.greatsword","Machine Greatsword","a Machine Greatsword","slash",19,2720,
@@ -651,7 +667,10 @@ public final class WeaponLib extends ItemConstants
 				"This pair of coiled length of midnight-black leather practically exudes lust.  Though it looks like it could do a lot of damage, the feel of that slick leather impacting flesh is sure to inspire lust.  However, it might slowly warp the mind of wielder.",
 				WT_WHIP, WSZ_MEDIUM, true)
 				.withBuffs({'teasedmg': 90})
-				.withTags(W_WHIPPING) as Weapon;
+				.withTags(W_WHIPPING)
+				.withEffect(IELib.LustDamage, 20, 1/15)
+				.withEffect(IELib.SelfCorr, 0.3)
+				.withEffect(IELib.SelfLust, 1, 0.5) as Weapon;
 		public const PTCHFRK:Weapon = new Weapon(
 				"PtchFrk","Pitchfork","pitchfork","a pitchfork","stab",10,400,
 				"This is a pitchfork.  Intended for farm work but also useful as stabbing weapon.",
@@ -661,7 +680,8 @@ public final class WeaponLib extends ItemConstants
 				"A pair of coiled length of leather designed to lash your foes into submission.  There's a chance the bondage inclined might enjoy it!",
 				WT_WHIP, WSZ_MEDIUM, true)
 				.withBuffs({'teasedmg': 30})
-				.withTags(W_WHIPPING) as Weapon;
+				.withTags(W_WHIPPING)
+				.withEffect(IELib.LustDamage, 5, 1/12)  as Weapon;
 		public const PURITAS:Weapon = new Weapon(
 				"Puritas", "Puritas", "Puritas", "Puritas, Element of Purity", "smack", 12, 1920,
 				"This staff is made from sacred wood, infused with Marae’s bark. Vines run along the staff, grown out of the wood itself. The top has an odd zigzag shape, with clear crystals adorning the recesses. The staff glows with power, radiating purity. (-15% spell cost, x2.5 white spellpower / healpower)",
@@ -799,7 +819,10 @@ public final class WeaponLib extends ItemConstants
 				"This coiled length of midnight-black leather practically exudes lust.  Though it looks like it could do a lot of damage, the feel of that slick leather impacting flesh is sure to inspire lust.  However, it might slowly warp the mind of wielder.",
 				WT_WHIP, WSZ_MEDIUM)
 				.withBuffs({'teasedmg': 45})
-				.withTags(W_WHIPPING) as Weapon;
+				.withTags(W_WHIPPING)
+				.withEffect(IELib.LustDamage, 20, 1/15)
+				.withEffect(IELib.SelfCorr, 0.3)
+				.withEffect(IELib.SelfLust, 1, 0.5) as Weapon;
 		public const T_HEART:Weapon = new Weapon(
 				"T.Heart", "T.Heart", "Trull Heart", "a Trull Heart", "slash", 180, 14400,
 				"This pair of oversized swords is said to have once belonged to a legendary giant. The owner wounds seems to recover when those pure blades are used.", WT_SWORD, WSZ_LARGE, true)

@@ -40,7 +40,7 @@ public class DraculinaScene extends BaseContent {
 	public function encounterYes():void {
 		clearOutput();
         //spriteSelect(SpriteDb.s_Atlach_16bit);
-		if (player.racialScore(Races.DRACULA) >= 22) {
+		if (player.racialTier(Races.DRACULA) >= 1) {
 			outputText("As you explore the labyrinth, you find yourself in a familiar room. Nonchalantly, you push open the large, unassuming stone door to enter the vampire's lair. If you were another person, this would certainly be your demise, being but another snack for the entity that dwells here, but in your case, you are a different type of deal entirely. You enter the dwelling without hesitation, ears perking up to your surroundings as you locate your kind easily, spotting her resting by a large stalactite.\n\n");
 			outputText("You fly to her in silence, surprising her with a sudden embrace as she is unable to track a heartbeat, something you lack entirely.\n\n");
 			outputText("She recoils, trying to shake you off, \"<i>What the hell, who are you, weirdo?! And where did you come from?!</i>\"\n\n");

@@ -86,7 +86,7 @@ public class DynamicShield extends Shield implements IDynamicItem {
 			desc      = "INVALID ITEM:\n" + parsedParams.error + "\n" + desc;
 		}
 		
-		block *= (1.0 + quality * subtype.qattack);
+		block *= (1.0 + quality * subtype.qblock);
 		
 		super(
 				id,
@@ -200,27 +200,39 @@ public class DynamicShield extends Shield implements IDynamicItem {
 	 * - (optional) tags: Array of item tags (ItemTag.XXXX)
 	 * - (optional) quality: force quality
 	 * - block: Base attack power
-	 * - qdef: quality-per-defence (0.25 = +25% per +1 qualiity)
+	 * - qblock: quality-per-defence (0.25 = +25% per +1 qualiity)
 	 * - value: Base cost in gems
 	 */
 	public static const Subtypes:Object = {
+		"ambershield": {
+			chance:    0,
+			name:      "Amber Shield",
+			shortName: "AmberShield",
+			desc:      "This shield of Chitin and hardened amber grants excellent protection against magic, but also fluid attacks such as acid, aphrodisiacs and other nasty liquids. A small cache in the shield allows a bee wielder to shower in fresh honey for restoration mid battle, healing the wielder over time as well as on blocks",
+			effect:    [
+				[IELib.Buff, 10, "mdef"]
+			],
+			block:     25,
+			qblock:    0.2,
+			value:     120
+		},
 		"shield": {
-			chance: 1,
-			name: "Shield",
+			chance:    1,
+			name:      "Shield",
 			shortName: "Shield",
-			desc: "This is a basic light shield.",
-			block: 4,
-			qattack: 0.25,
-			value: 120
+			desc:      "This is a basic light shield.",
+			block:     4,
+			qblock:    0.25,
+			value:     120
 		},
 		"tome": {
-			chance: 1,
-			name: "Tome",
+			chance:    1,
+			name:      "Tome",
 			shortName: "Tome",
-			desc: "This is a basic tome of knowledge.",
-			block: 4,
-			qattack: 0.25,
-			value: 120
+			desc:      "This is a basic tome of knowledge.",
+			block:     4,
+			qblock:    0.25,
+			value:     120
 		}
 	}
 }
