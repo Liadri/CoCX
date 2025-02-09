@@ -16,6 +16,7 @@ import classes.Items.Weapon;
 				"These metal gauntlets have finger tips shaped like natural claws.  They seems to be enchanted, always covered in a light aphrodisiac that arouses anything they cut.",
 				WT_GAUNTLET, WSZ_MEDIUM);
 				withEffect(IELib.Bleed, 10);
+				withEffect(IELib.LustDamage, 10, 1.0/8.0);
 		}
 		
 		private static const SLOTS:Array = [SLOT_WEAPON_MELEE];

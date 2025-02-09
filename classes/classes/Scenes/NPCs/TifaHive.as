@@ -3,7 +3,7 @@ package classes.Scenes.NPCs
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.WeaponLib;
-import classes.Items.ShieldLib;
+import classes.Items.IDynamicItem;
 import classes.Items.Consumables.BeeHoney;
 import classes.Scenes.SceneLib;
 import classes.internals.SaveableState;
@@ -25,12 +25,20 @@ public static const BEE_CLUTCH_MAX:int = 25;
 public static const BEE_ITEM_UPGRADE_BEEHONY:int = 5;
 public static const BEE_ITEM_UPGRADE_RAUNECT:int = 5;
 public static const BEE_ITEM_UPGRADE_GEMS:int = 3000;
+public static const BEE_ITEM_UPGRADE_MAXLVL:int = 3;
 
 
 public const BEE_FORGE_ITEMS:Array = [
 	//Item, Chitin req., Nectar req., Gems req.
+	[shields.AMBSHLD, 2, 1, 500],
+	[weapons.AMBERGSPEAR, 4, 2, 500],
+	[weapons.AMBERSPEAR, 3, 1, 500],
+	[weapons.AMBERSTAFF, 5, 2, 500],
+	[weapons.AMBERWAND, 3, 0, 500],
 	[weapons.CHITSPR, 5, 0, 100],
-	[shields.CHISHLD, 3, 0, 100]
+	[shields.CHISHLD, 3, 0, 100],
+	[weapons.D_RAPIER, 3, 1, 500],
+	[armors.QGUARDA, 5, 2, 500]
 ]
 
 public var HiveComplete:Boolean   = false;
@@ -216,6 +224,7 @@ public function amberforgeBack():void {
 	addButton(2, "Back",    enterTheHive);
 }
 
+//red-green font color function, s:text, b: whether red(false) or green(true) text color 
 protected function rgf(s:String, b:Boolean):String{
 	return '<font color="'+ (b ? "#008000" : "#800000") + '">' + s + "</font>"
 }
@@ -246,28 +255,46 @@ public function amberforgeCraft():void {
 public function amberforgeUpgrade():void {
 	clearOutput();
 	outputText("You could use an improvement of your gear and thus present the forge sister with what you have.\n\n");
-	outputText("<i>\"You have notzzing that I cold upgrade, zzorry.\"</i>")
-	/*
+
+	var upgradeable:Array = [];
+	for each(var i:Array in BEE_FORGE_ITEMS){
+		if (i[0].isDynamicItem){
+			upgradeable.push(i[0].subtypeId);
+		}
+	}
+
+	var a:Boolean = player.hasItem(consumables.BEEHONY, BEE_ITEM_UPGRADE_BEEHONY);
+	var b:Boolean = player.hasItem(consumables.RAUNENECT, BEE_ITEM_UPGRADE_RAUNECT);
+	var c:Boolean = player.gems > BEE_ITEM_UPGRADE_GEMS;
+
 	outputText("<i>\"Want me to upgrade an item sizzzter? Hope you got the materials for it then.\"</i>")
 	
 	var buttons:ButtonDataList = new ButtonDataList();
-	for each(var i:Array in BEE_FORGE_ITEMS){
-		var a:Boolean = player.hasItem(consumables.BEEHONY, BEE_ITEM_UPGRADE_BEEHONY);
-		var b:Boolean = player.hasItem(consumables.RAUNENECT, BEE_ITEM_UPGRADE_RAUNECT);
-		var c:Boolean = player.gems > BEE_ITEM_UPGRADE_GEMS;
-		var d:String = i[0].description
-		if(a && b && c){
-			d += "\n\nYou will spend " + (i[1] ? (i[1] + " honey, ") : "") + (i[2] ? (i[2] + " nectar, ") : "") + "and " + i[3] + " gems.";
-		} else {
-			d += "\n\nYou need ";
-			if(i[1]) d += rgf(i[1]+" honey", a) + ", "
-			if(i[2]) d += rgf(i[2]+" nectar", b) + ",  "
-			if(i[3]) d += rgf(i[3]+" gems", c) + ".";
+	for each(var s:ItemSlotClass in player.itemSlots){
+		if (!s.isEmpty() && s.itype.isDynamicItem && upgradeable.indexOf((s.itype as IDynamicItem).subtypeId)>=0) {
+			var d:String = s.itype.description
+			var cant:Boolean = false;
+			if ((s.itype as IDynamicItem).quality +1 > BEE_ITEM_UPGRADE_MAXLVL){
+				d += "\n\nIt couldn't be upgraded further!";
+				cant = true;
+			} else if (a && b && c) {
+				d += "\n\nYou will spend " + BEE_ITEM_UPGRADE_BEEHONY + " honey, "+ BEE_ITEM_UPGRADE_RAUNECT + " nectar, " + "and " + BEE_ITEM_UPGRADE_GEMS + " gems.";
+			} else {
+				d += "\n\nYou need ";
+				if(i[1]) d += rgf(BEE_ITEM_UPGRADE_BEEHONY + " honey", a) + ", "
+				if(i[2]) d += rgf(BEE_ITEM_UPGRADE_RAUNECT + " nectar", b) + ",  "
+				if(i[3]) d += rgf(BEE_ITEM_UPGRADE_GEMS + " gems", c) + ".";
+				cant = true;
+			}
+			buttons.add(s.itype.shortName, curry(upgradeBeestStuff, s.itype), d).disableIf(cant);
 		}
 	}
-	submenu(buttons, amberforgeBack);
-	*/
-	doNext(amberforgeBack);
+	if (buttons.length>0){
+		submenu(buttons, amberforgeBack);
+	} else {
+		outputText("She looks at your inventory and says: <i>\"You have notzzing that I cold upgrade, zzorry.\"</i>")
+		doNext(amberforgeBack)
+	}
 }
 
 public function forgeBeestStuff(i:Array):void
@@ -277,6 +304,18 @@ public function forgeBeestStuff(i:Array):void
 	if(i[2]) player.consumeItem(consumables.RAUNENECT, i[2]);
 	if(i[3]) player.gems -= i[3];
 	inventory.takeItem(i[0], camp.returnToCampUseOneHour);
+}
+
+public function upgradeBeestStuff(i:ItemType):void
+{
+	outputText("\n\nThe bees get to work tempering and hammering the amber item into something stronger. Within an hour at most, your " + i.longName + " is ready for use!\n\n");
+	player.consumeItem(consumables.BEEHONY, BEE_ITEM_UPGRADE_BEEHONY);
+	player.consumeItem(consumables.RAUNENECT, BEE_ITEM_UPGRADE_RAUNECT);
+	player.gems -= BEE_ITEM_UPGRADE_GEMS;
+	player.consumeItem(i)
+	var d:IDynamicItem = i as IDynamicItem;
+	var n:ItemType = d.moddedCopy({q: d.quality+1});
+	inventory.takeItem(n, camp.returnToCampUseOneHour);
 }
 
 }

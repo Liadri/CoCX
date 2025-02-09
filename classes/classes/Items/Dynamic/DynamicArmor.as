@@ -5,11 +5,13 @@ import classes.Items.Dynamic.Effects.SimpleRaceEnchantment;
 import classes.Items.DynamicItems;
 import classes.Items.Enchantment;
 import classes.Items.EnchantmentLib;
+import classes.Items.ItemConstants;
 import classes.Items.EnchantmentType;
 import classes.Items.Equipable;
 import classes.Items.IDynamicItem;
 import classes.Items.IELib;
 import classes.Items.ItemEffect;
+import classes.PerkLib;
 import classes.Race;
 
 public class DynamicArmor extends Armor implements IDynamicItem {
@@ -72,6 +74,7 @@ public class DynamicArmor extends Armor implements IDynamicItem {
 		_effectDesc              = parsedParams.effectDesc;
 		var value:Number         = parsedParams.value;
 		var buffs:Object         = parsedParams.buffs;
+		_playerPerks             = subtype.perks || [];
 		var type:String          = subtype.type;
 		var tags:Array           = subtype.tags || [];
 		var def:Number           = subtype.def;
@@ -212,6 +215,24 @@ public class DynamicArmor extends Armor implements IDynamicItem {
 	 * - undergarment: Can be worn with undergarment. Default true
 	 */
 	public static const Subtypes:Object = {
+		"qguarda": {
+			chance: 0,
+			name: "queen's guard armor",
+			shortName: "QGuardA",
+			desc: "A suit of chitinous plate armour, hardened with amber. It grants incredible protection against attacks while weighting next to nothing, allowing for maximum mobility. The amber is just translucent enough to reveal the user's curves and arouse the senses. The insides, being coated in honey, provides a comfortable, if not sticky, experience to the wielder. For a bee, this will help in recovering from wounds. When worn by a bee, increase tease damage and grant regeneration.",
+			type: AP_LIGHT,
+			tags: [
+				ItemConstants.A_AGILE,
+				ItemConstants.A_REVEALING
+			],
+			perks: [
+				[PerkLib.Misdirection, 0, 0, 1, 0]
+			],
+			def: 25,
+			mdef: 0,
+			qdef: 0.2,
+			value: 1000
+		},
 		"clothes": {
 			chance: 1,
 			name: "comfortable clothes",

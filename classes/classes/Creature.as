@@ -1,4 +1,4 @@
-//CoC Creature.as
+﻿//CoC Creature.as
 package classes
 {
 import classes.BodyParts.Antennae;
@@ -390,6 +390,7 @@ public class Creature extends Utils
 		public var maxHpBaseStat: BuffableStat;
 		public var maxHpPerLevelStat: BuffableStat;
 		public var maxHpMultStat: BuffableStat;
+		public var hpRegenStat:BuffableStat;
 		public var maxLustBaseStat: BuffableStat;
 		public var maxLustPerLevelStat: BuffableStat;
 		public var maxLustPerLibStat: BuffableStat;
@@ -1638,6 +1639,7 @@ public class Creature extends Utils
 			maxHpBaseStat = new BuffableStat(this, 'maxhp_base', {base:0});
 			maxHpPerLevelStat = new BuffableStat(this, 'maxhp_perlevel', {base:60});
 			maxHpMultStat = new BuffableStat(this, 'maxhp_mult', {base:1});
+			hpRegenStat = new BuffableStat(this, 'hp_regen', {base:0});
 			maxLustBaseStat = new BuffableStat(this, 'maxlust_base', {base:100});
 			maxLustPerLevelStat = new BuffableStat(this, 'maxlust_perlevel', {base:3});
 			maxLustPerLibStat = new BuffableStat(this, 'maxlust_perlib', {base:0});
@@ -1701,6 +1703,7 @@ public class Creature extends Utils
 				maxHpBaseStat,
 				maxHpPerLevelStat,
 				maxHpMultStat,
+				hpRegenStat,
 				maxLustBaseStat,
 				maxLustPerLevelStat,
 				maxLustPerLibStat,

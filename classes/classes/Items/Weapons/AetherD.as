@@ -10,6 +10,9 @@ import classes.StatusEffects;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Weapon;
 import classes.Items.WeaponLib;
+import classes.Items.IELib;
+import classes.Items.ItemEffect;
+import classes.Items.ItemEffectType;
 import classes.Scenes.NPCs.AetherTwinsFollowers;
 	
 	public class AetherD extends Weapon {
@@ -81,6 +84,15 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 		override public function beforeUnequip(doOutput:Boolean, slot:int):ItemType {
 			super.beforeUnequip(doOutput, slot);
 			return WeaponLib.FISTS;
+		}
+
+		private const lustDmg1:ItemEffect = new ItemEffect(IELib.LustDamage, 10, 1/8)
+		private const lustDmg2:ItemEffect = new ItemEffect(IELib.LustDamage, 5, 1/10)
+		override public function findEffect(type:ItemEffectType):ItemEffect {
+			if (type == IELib.LustDamage) {
+				return (AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gauntlets") ? lustDmg1 : lustDmg2;
+			}
+			return super.findEffect(type)
 		}
 	}
 }

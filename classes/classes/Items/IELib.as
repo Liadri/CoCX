@@ -66,7 +66,7 @@ public class IELib extends ItemConstants {
 			}, 80,
 			// on equip
 			function (player:Player, item:Equipable, effect:ItemEffect):void {
-				trace("EQUIP",item, effect);
+				trace("EQUIP",item, effect.description(item));
 				player.buff(item.tagForBuffs)
 						.addStat(effect.value1 as String, effect.power)
 						.withText(item.name)
@@ -74,7 +74,7 @@ public class IELib extends ItemConstants {
 			},
 			// on unequip
 			function (player:Player, item:Equipable, effect:ItemEffect):void {
-				trace("UNEQUIP",item, effect);
+				trace("UNEQUIP",item, effect.description(item));
 				if (player.countSameEquippedItems(item) == 0) {
 					player.buff(item.tagForBuffs).removeFromStat(effect.value1 as String)
 				} else {
@@ -149,11 +149,12 @@ public class IELib extends ItemConstants {
 	// Weapons (melee and ranged) //
 	//============================//
 	
-	
 	//=================//
 	// Weapons (melee) //
 	//=================//
 	
+	public static const SelfCorr:ItemEffectType = mk("SelfCorr", "Corrupts the wielder with use");
+	public static const SelfLust:ItemEffectType = mk("SelfLust", "Induces lust in the wielder with use");
 	/** reduce enemy armor by (power) % */
 	public static const ArmorPenetration:ItemEffectType = mk("ArmorPenetration", "Armor Penetration {power}%");
 	/** subtract (power) from enemy armor */
@@ -162,6 +163,8 @@ public class IELib extends ItemConstants {
 	public static const Stun:ItemEffectType = mk("Stun", "Stun {power;+d}%");
 	/** power = bleed chance in % */
 	public static const Bleed:ItemEffectType = mk("Bleed", "Bleed {power;+d}%");
+	/** power = lust damage, v1 - bonus to it = pc.corruption*v1 */
+	public static const LustDamage:ItemEffectType = mk("LustDamage", "{power;+d} Lust dmg on hit");
 	/** Add (power*corruption) to base attack. Can be negative. */
 	public static const AttackBonus_Cor:ItemEffectType = mk("AttackBonus_Cor", "{power;+2F} attack per corruption").withFlags(IEF_ATTACK);
 	/** Add (power*(100-corruption)) to base attack. Can be negative. */
@@ -170,6 +173,7 @@ public class IELib extends ItemConstants {
 	public static const AttackBonus_Fem:ItemEffectType = mk("AttackBonus_Fem", "{power;+2F} attack per femininity").withFlags(IEF_ATTACK);
 	/** Add (power*(100-femininity))% to base attack. Can be negative. */
 	public static const AttackBonus_Masc:ItemEffectType = mk("AttackBonus_Masc", "{power;+2F} attack per masculinity").withFlags(IEF_ATTACK);
+
 	/**
 	 * Add (power) to attack per racial tier.
 	 * - value1:Race = race to check (Races.XXXX, not race id)
@@ -187,6 +191,16 @@ public class IELib extends ItemConstants {
 	public static const AttackMult_RaceTier:ItemEffectType  = mkfn("AttackMult_RaceTier",
 			function (ie:ItemEffect, item:ItemType):String {
 				return Utils.substitute("{power;+d}% attack per {race} racial tier", ie, {
+					race: (ie.value1 as Race).name
+				})
+			}).withFlags(IEF_ATTACK);
+	/**
+	 * Add (power)% to attack per racial tier.
+	 * - value1:Race = race to check (Races.XXXX, not race id)
+	 */
+	public static const VenomMult_RaceTier:ItemEffectType  = mkfn("VenomMult_RaceTier",
+			function (ie:ItemEffect, item:ItemType):String {
+				return Utils.substitute("{power;+d}% venom effect per {race} racial tier", ie, {
 					race: (ie.value1 as Race).name
 				})
 			}).withFlags(IEF_ATTACK);

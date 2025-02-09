@@ -8,6 +8,7 @@ import classes.Items.EnchantmentType;
 import classes.Items.Equipable;
 import classes.Items.IDynamicItem;
 import classes.Items.IELib;
+import classes.Items.ItemConstants;
 import classes.Items.Weapon;
 
 public class DynamicWeapon extends Weapon implements IDynamicItem {
@@ -205,7 +206,39 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 	 * qeffects searches for effect with same ItemEffectType and v1-v4
 	 */
 	public static const Subtypes:Object = {
-		"amberstaff":   {
+		"ambergspear":{
+			chance:    0,
+			name:      "amber great spear",
+			shortName: "AmberGSpear",
+			longName:  "a bee amber great spear",
+			verb:      "stab",
+			desc:      "An enchanted great spear of hardened amber. This weapon, despite not being a small weapon, qualifies for venom coating feats and when used by a bee, deals twice as much damage when envenomed. Also double the potency of bee venom.",
+			type:      WT_SPEAR,
+			size:      WSZ_LARGE,
+			tags:      [
+				ItemConstants.W_ENVENOM_POSSIBLE
+			],
+			attack:    35,
+			qattack:   1.0/7.0,
+			value:     1000
+		},
+		"amberspear": {
+			chance:    0,
+			name:      "amber spear",
+			shortName: "AmberSpear",
+			longName:  "a bee amber spear",
+			verb:      "stab",
+			desc:      "An enchanted spear of hardened amber. This weapon, despite not being a small weapon, qualifies for venom coating feats and when used by a bee, deals twice as much damage when envenomed. Also double the potency of bee venom.",
+			type:      WT_SPEAR,
+			size:      WSZ_MEDIUM,
+			tags:      [
+				ItemConstants.W_ENVENOM_POSSIBLE
+			],
+			attack:    25,
+			qattack:   0.2,
+			value:     1000
+		},
+		"amberstaff": {
 			chance:    0,
 			name:      "amber staff",
 			shortName: "AmberStaff",
@@ -226,7 +259,7 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			qattack:   0,
 			value:     1000
 		},
-		"amberwand":   {
+		"amberwand":  {
 			chance:    0,
 			name:      "amber wand",
 			shortName: "AmberWand",
@@ -243,7 +276,7 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 				[IELib.Buff, .6, 'spellpower'],
 				[IELib.Buff, .6, 'spellpowerwhite']
 			],
-			attack:    8,
+			attack:    0,
 			qattack:   0,
 			value:     1000
 		},
@@ -275,8 +308,8 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			qattack:   0.25,
 			value:     120
 		},
-		"dartrapier":      {
-			chance:    1,
+		"dartrapier": {
+			chance:    0,
 			name:      "darting rapier",
 			shortName: "DartRapier",
 			longName:  "a darting rapier",
@@ -284,9 +317,13 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			desc:      "This rapier is essentially a dart mounted over a carved chitin hilt. The tip of the blade seethes poison. Particularly deadly when used by a bee.",
 			type:      WT_DUELING,
 			size:      WSZ_MEDIUM,
+			tags:      [
+				ItemConstants.W_RAPIER,
+				ItemConstants.W_ENVENOM_POSSIBLE
+			],
 			attack:    18,
-			qattack:   0.333333333,
-			value:     200
+			qattack:   1/3,
+			value:     1000
 		},
 		"flail":      {
 			chance:    0.5,
@@ -486,7 +523,8 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			type:      WT_WHIP,
 			size:      WSZ_MEDIUM,
 			effects:   [
-				[IELib.Buff, 35, 'teasedmg']
+				[IELib.Buff, 35, 'teasedmg'],
+				[IELib.LustDamage, 5, 1/12]
 			],
 			qeffects:  [
 				[IELib.Buff, 5, 'teasedmg'] // +5 teasedmg per quality point
