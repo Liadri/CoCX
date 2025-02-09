@@ -104,10 +104,11 @@ public class CampMakeWinions extends BaseContent
 				menu();
 				addButton(0, "Don't Tame", cleanupAfterCombat);
 				addButtonIfTrue(1, "Tame", tamingAttemptYes, "Taming this monster would exceed the limit of monsters you can currently control. If you want to tame it, release another tamed monster first.", (currentTamedMonstersCount() < currentTamingCap()));
-				addButtonIfTrue(2, "Release 01", curry(tamingAttemptRelease, 1), "You do not have any tamed monster No.1.", player.hasStatusEffect(StatusEffects.TamedMonster01), "Release Monster No.1.");
-				if (player.hasPerk(PerkLib.Beast02)) addButtonIfTrue(3, "Release 02", curry(tamingAttemptRelease, 2), "You do not have any tamed monster No.2.", player.hasStatusEffect(StatusEffects.TamedMonster02), "Release Monster No.2.");
-				if (player.hasPerk(PerkLib.ThreeTimesATame)) addButtonIfTrue(4, "Release 03", curry(tamingAttemptRelease, 3), "You do not have any tamed monster No.3.", player.hasStatusEffect(StatusEffects.TamedMonster03), "Release Monster No.3.");
-				if (player.hasPerk(PerkLib.FourthTamerOfTheApocalypse)) addButtonIfTrue(5, "Release 04", curry(tamingAttemptRelease, 4), "You do not have any tamed monster No.4.", player.hasStatusEffect(StatusEffects.TamedMonster04), "Release Monster No.4.");
+				addButtonIfTrue(2, "Release 01", curry(tamingAttemptRelease, 1), "You do not have any tamed monster No.1", player.hasStatusEffect(StatusEffects.TamedMonster01), "Release Monster No.1");
+				if (player.hasPerk(PerkLib.Beast02)) addButtonIfTrue(3, "Release 02", curry(tamingAttemptRelease, 2), "You do not have any tamed monster No.2", player.hasStatusEffect(StatusEffects.TamedMonster02), "Release Monster No.2");
+				if (player.hasPerk(PerkLib.ThreeTimesATame)) addButtonIfTrue(4, "Release 03", curry(tamingAttemptRelease, 3), "You do not have any tamed monster No.3", player.hasStatusEffect(StatusEffects.TamedMonster03), "Release Monster No.3");
+				if (player.hasPerk(PerkLib.FourthTamerOfTheApocalypse)) addButtonIfTrue(5, "Release 04", curry(tamingAttemptRelease, 4), "You do not have any tamed monster No.4", player.hasStatusEffect(StatusEffects.TamedMonster04), "Release Monster No.4");
+				//if (player.hasPerk(PerkLib.)) addButtonIfTrue(6, "Release 05", curry(tamingAttemptRelease, 5), "You do not have any tamed monster No.5", player.hasStatusEffect(StatusEffects.TamedMonster05), "Release Monster No.5");
 			}
 			else tamingAttemptYes();
 		}

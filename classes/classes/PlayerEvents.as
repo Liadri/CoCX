@@ -951,6 +951,41 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				player.addStatusValue(StatusEffects.TFWarning, 3, -1);
 				if (player.getStatusValue(StatusEffects.TFWarning, 3) <= 0) player.removeStatusEffect(StatusEffects.TFWarning);
 			}
+			//Process crops harvest moon
+			if (CoC.instance.model.time.hours == 24){
+				if (HarvestMoonScenes.harvestmoonstageHH < 7 && HarvestMoonScenes.harvestmoonstageHH > 0) {
+					HarvestMoonScenes.harvestmoonstageHH += 1;
+				}
+				if (HarvestMoonScenes.harvestmoonstageMG < 7 && HarvestMoonScenes.harvestmoonstageMG > 0) {
+					HarvestMoonScenes.harvestmoonstageMG += 1;
+				}
+				if (HarvestMoonScenes.harvestmoonstageSB < 7 && HarvestMoonScenes.harvestmoonstageSB > 0) {
+					HarvestMoonScenes.harvestmoonstageSB += 1;
+				}
+				if (HarvestMoonScenes.harvestmoonstageIW < 7 && HarvestMoonScenes.harvestmoonstageIW > 0) {
+					HarvestMoonScenes.harvestmoonstageIW += 1;
+				}
+				if (HarvestMoonScenes.harvestmoonstageBF < 7 && HarvestMoonScenes.harvestmoonstageBF > 0) {
+					HarvestMoonScenes.harvestmoonstageBF += 1;
+				}
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster01) && player.statusEffectv2(StatusEffects.TamedMonster01) > 0) {
+				/*if (player.hasPerk(PerkLib.TheyFightTheyProtect)) player.addStatusValue(StatusEffects.TamedMonster01, 2, -20);
+				else */player.addStatusValue(StatusEffects.TamedMonster01, 2, -10);
+				if (player.statusEffectv2(StatusEffects.TamedMonster01) < 0) player.changeStatusValue(StatusEffects.TamedMonster01, 2, 0);
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster02) && player.statusEffectv2(StatusEffects.TamedMonster02) > 0) {
+				player.addStatusValue(StatusEffects.TamedMonster02, 2, -10);
+				if (player.statusEffectv2(StatusEffects.TamedMonster02) < 0) player.changeStatusValue(StatusEffects.TamedMonster02, 2, 0);
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster03) && player.statusEffectv2(StatusEffects.TamedMonster03) > 0) {
+				player.addStatusValue(StatusEffects.TamedMonster03, 2, -10);
+				if (player.statusEffectv2(StatusEffects.TamedMonster03) < 0) player.changeStatusValue(StatusEffects.TamedMonster03, 2, 0);
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster04) && player.statusEffectv2(StatusEffects.TamedMonster04) > 0) {
+				player.addStatusValue(StatusEffects.TamedMonster04, 2, -10);
+				if (player.statusEffectv2(StatusEffects.TamedMonster04) < 0) player.changeStatusValue(StatusEffects.TamedMonster04, 2, 0);
+			}
 
 			if (CoC.instance.model.time.hours == 6) {
 				var vthirst:VampireThirstEffect = player.statusEffectByType(StatusEffects.VampireThirst) as VampireThirstEffect;
@@ -1440,24 +1475,6 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 				if (player.hasStatusEffect(StatusEffects.FontOfCorruption) && player.statusEffectv1(StatusEffects.FontOfCorruption) > 0) {
 					if (player.statusEffectv1(StatusEffects.FontOfCorruption) <= 0) player.removeStatusEffect(StatusEffects.FontOfCorruption);
 					else player.addStatusValue(StatusEffects.FontOfCorruption, 1, -1);
-				}
-			}
-			//Process crops harvest moon
-			if (CoC.instance.model.time.hours == 24){
-				if (HarvestMoonScenes.harvestmoonstageHH < 7 && HarvestMoonScenes.harvestmoonstageHH > 0) {
-					HarvestMoonScenes.harvestmoonstageHH += 1;
-				}
-				if (HarvestMoonScenes.harvestmoonstageMG < 7 && HarvestMoonScenes.harvestmoonstageMG > 0) {
-					HarvestMoonScenes.harvestmoonstageMG += 1;
-				}
-				if (HarvestMoonScenes.harvestmoonstageSB < 7 && HarvestMoonScenes.harvestmoonstageSB > 0) {
-					HarvestMoonScenes.harvestmoonstageSB += 1;
-				}
-				if (HarvestMoonScenes.harvestmoonstageIW < 7 && HarvestMoonScenes.harvestmoonstageIW > 0) {
-					HarvestMoonScenes.harvestmoonstageIW += 1;
-				}
-				if (HarvestMoonScenes.harvestmoonstageBF < 7 && HarvestMoonScenes.harvestmoonstageBF > 0) {
-					HarvestMoonScenes.harvestmoonstageBF += 1;
 				}
 			}
 			return needNext;

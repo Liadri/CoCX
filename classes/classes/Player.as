@@ -2970,9 +2970,9 @@ use namespace CoC;
 			var returnDamage:int = (damage>0 && damage<1)?1:damage;
 			if (damage>0){
 				var i:Number = 0;
-				if (henchmanBasedInvulnerabilityFrame()) {
+				if (minionOrHenchmanBasedInvulnerabilityFrame()) {
 					for(i; i < hit; i++){
-						henchmanBasedInvulnerabilityFrameTexts();
+						minionOrHenchmanBasedInvulnerabilityFrameTexts();
 					}
 					damage = 0;
 				}
@@ -4241,10 +4241,10 @@ use namespace CoC;
 			return CoC.instance.monster.hasPerk(PerkLib.EnemyGodType) || CoC.instance.monster.hasPerk(PerkLib.EnemyBossType);
 		}
 
-		public function henchmanBasedInvulnerabilityFrame():Boolean {
-			return statusEffectv3(StatusEffects.CombatFollowerZenji) == 1 || statusEffectv3(StatusEffects.CombatFollowerZenji) == 3 || statusEffectv4(StatusEffects.CombatFollowerAyane) == 2;
+		public function minionOrHenchmanBasedInvulnerabilityFrame():Boolean {
+			return statusEffectv3(StatusEffects.CombatFollowerZenji) == 1 || statusEffectv3(StatusEffects.CombatFollowerZenji) == 3 || statusEffectv4(StatusEffects.CombatFollowerAyane) == 2 || flags[kFLAGS.TAMED_MONSTER_PROTECTING] > 0;
 		}
-		public function henchmanBasedInvulnerabilityFrameTexts():void {
+		public function minionOrHenchmanBasedInvulnerabilityFrameTexts():void {
 			if (statusEffectv3(StatusEffects.CombatFollowerZenji) == 1 || statusEffectv3(StatusEffects.CombatFollowerZenji) == 3) {
 				outputText(" Zenji grits his teeth as he shields you, enduring several strikes from your opponent.");
 				addStatusValue(StatusEffects.CombatFollowerZenji, 3, 1);
@@ -4252,6 +4252,27 @@ use namespace CoC;
 			if (statusEffectv4(StatusEffects.CombatFollowerAyane) == 2) {
 				outputText(" Ayane is defending you, parrying [themonster]’s attack with her weapon.");
 				addStatusValue(StatusEffects.CombatFollowerAyane, 4, -1);
+			}
+			if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] > 0) {
+				outputText(" ");
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 1) {
+					outputText(""+flags[kFLAGS.TAMED_01_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster01, 2, 100);
+				}
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 2) {
+					outputText(""+flags[kFLAGS.TAMED_02_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster02, 2, 100);
+				}
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 3) {
+					outputText(""+flags[kFLAGS.TAMED_03_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster03, 2, 100);
+				}
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 4) {
+					outputText(""+flags[kFLAGS.TAMED_04_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster04, 2, 100);
+				}
+				outputText(" shields you, enduring several strikes from your opponent.");
+				flags[kFLAGS.TAMED_MONSTER_PROTECTING] = 0;
 			}
 		}
 

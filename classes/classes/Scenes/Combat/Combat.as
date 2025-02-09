@@ -865,6 +865,23 @@ public class Combat extends BaseContent {
 				else player.addStatusValue(StatusEffects.TyrantiaTraining30, 1, 1);
 			}
 			if (player.hasStatusEffect(StatusEffects.TyrantiaTraining30) && player.lust < player.maxOverLust()) player.removeStatusEffect(StatusEffects.TyrantiaTraining30);
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster01) && player.statusEffectv2(StatusEffects.TamedMonster01) > 0) {
+				/*if (player.hasPerk(PerkLib.TheyFightTheyProtect)) player.addStatusValue(StatusEffects.TamedMonster01, 2, -10);
+				else */player.addStatusValue(StatusEffects.TamedMonster01, 2, -5);
+				if (player.statusEffectv2(StatusEffects.TamedMonster01) < 0) player.changeStatusValue(StatusEffects.TamedMonster01, 2, 0);
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster02) && player.statusEffectv2(StatusEffects.TamedMonster02) > 0) {
+				player.addStatusValue(StatusEffects.TamedMonster02, 2, -5);
+				if (player.statusEffectv2(StatusEffects.TamedMonster02) < 0) player.changeStatusValue(StatusEffects.TamedMonster02, 2, 0);
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster03) && player.statusEffectv2(StatusEffects.TamedMonster03) > 0) {
+				player.addStatusValue(StatusEffects.TamedMonster03, 2, -5);
+				if (player.statusEffectv2(StatusEffects.TamedMonster03) < 0) player.changeStatusValue(StatusEffects.TamedMonster03, 2, 0);
+			}
+			if (player.hasPerk(PerkLib.TheyFightTheyProtect) && player.hasStatusEffect(StatusEffects.TamedMonster04) && player.statusEffectv2(StatusEffects.TamedMonster04) > 0) {
+				player.addStatusValue(StatusEffects.TamedMonster04, 2, -5);
+				if (player.statusEffectv2(StatusEffects.TamedMonster04) < 0) player.changeStatusValue(StatusEffects.TamedMonster04, 2, 0);
+			}
         }
         mainView.hideMenuButton(MainView.MENU_DATA);
         mainView.hideMenuButton(MainView.MENU_APPEARANCE);

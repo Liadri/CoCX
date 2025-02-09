@@ -2546,7 +2546,7 @@ public static const REUSABLE_GOLEM_CORES_BAG:int                                
 public static const ELEMENTAL_CONJUER_SUMMONS:int                                   = 2538;
 public static const ATTACKING_ELEMENTAL_TYPE:int                                   	= 2539;
 public static const PINCHOU_SHOP:int                                   				= 2540;
-public static const SOUL_ARENA_FINISHED_GAUNTLETS:int                                = 2541;
+public static const SOUL_ARENA_FINISHED_GAUNTLETS:int                               = 2541;
 public static const CHI_CHI_FOLLOWER:int		                                    = 2542;
 public static const CHI_CHI_AFFECTION:int		                                    = 2543;
 public static const CHI_CHI_TALKS:int			                                    = 2544;
@@ -2810,7 +2810,7 @@ public static const IN_COMBAT_PLAYER_ANUBI_HEART_LEECH:int                      
 public static const E_ICHOR_PITY_SYSTEM:int                                   		= 2802;
 public static const NECROMANCER_SKELETONS:int                                   	= 2803;
 public static const IN_COMBAT_PLAYER_SKELETONS_ATTACKED:int                         = 2804;
-public static const UNKNOWN_FLAG_NUMBER_02805:int                                   = 2805;
+public static const TAMED_MONSTER_PROTECTING:int                                    = 2805;
 public static const UNKNOWN_FLAG_NUMBER_02806:int                                   = 2806;
 public static const UNKNOWN_FLAG_NUMBER_02807:int                                   = 2807;
 public static const UNKNOWN_FLAG_NUMBER_02808:int                                   = 2808;

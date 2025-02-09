@@ -764,6 +764,9 @@ public class PerkLib
 		public static const GreasedLightning:PerkType = mk("Greased lightning", "Greased lightning",
 				"After activating a gadget or mechanical ability overcharge yourself with electric current. The next set of attacks deals extra electricity damage equal to the damage dealt, expending the charge. Multiple charges can be stacked which increase the damage multiplier.",
 				"You've chosen the 'Greased lightning' perk. After activating a gadget or mechanical ability overcharge yourself with electric current. The next set of attacks deals extra electricity damage equal to the damage dealt, expending the charge. Multiple charges can be stacked which increase the damage multiplier.");
+		public static const TheyFightTheyProtect:PerkType = mk("They Fight, They Protect", "They Fight, They Protect",
+				"You could now command tamed monster with full health to protect you from next enemy attack. After protecting they recover 5% HP per turn or 10% per hour.",
+				"You've chosen the 'They Fight, They Protect' perk. You could now command tamed monster with full health to protect you from next enemy attack. After protecting they recover 5% HP per turn or 10% per hour.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -777,6 +780,24 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
+		public static const :PerkType = mk("", "",
+				".",
+				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -6840,9 +6861,9 @@ public class PerkLib
             ThreeTimesATame.requireLevel(12)
                     .requirePerk(Beast02)
                     .requireWis(75);
-//            StrongerTamedMosters.requireLevel(12)
-//                    .requirePerk(ThreeTimesATame)
-//                    .requireWis(80);
+            TheyFightTheyProtect.requireLevel(12)
+                    .requirePerk(ThreeTimesATame)
+                    .requireWis(80);
             InsightfulResourcesIV.requireLevel(12)
                     .requirePerk(InsightfulResourcesIII)
                     .requireWis(110)
@@ -6910,6 +6931,9 @@ public class PerkLib
             FourthTamerOfTheApocalypse.requireLevel(18)
                     .requirePerk(ThreeTimesATame)
                     .requireWis(100);
+//            StrongerTamedMosters.requireLevel(18)
+//                    .requirePerk(FourthTamerOfTheApocalypse)
+//                    .requireWis(105);
 			ElementalConjurerKnowledge.requireWis(100)
                     .requireLevel(18)
 					.requirePerk(JobElementalConjurer)
