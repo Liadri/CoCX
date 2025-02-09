@@ -1962,13 +1962,14 @@ public class Combat extends BaseContent {
 					if (rand(10) == 0 || player.hasPerk(PerkLib.FirstAttackElementalsSu)) summonedElementalsMulti += 1;
 					if (player.hasPerk(PerkLib.FirstAttackElementalsSu)) summonedElementalsMulti += 1;
 				}
-				outputText(" hit"+(summonedElementalsMulti > 1 ? "s":"")+" [themonster]! ");
-				elementalattacks(elementType, summonedElementals, summonedElementalsMulti, summonedEpicElemental, showNext);
+				outputText(" hit" + (summonedElementalsMulti > 1 ? "s":"") + " [themonster]! ");
+				var repeats:Number = summonedElementalsMulti;
+				while (repeats-->0) elementalattacks(elementType, summonedElementals, summonedEpicElemental, showNext);
 			}
 		}
     }
 
-    public function elementalattacks(elementType:int, summonedElementals:int, summonedElementalsMulti:Number, summonedEpicElemental:Boolean, showNext:Boolean = false):void {
+    public function elementalattacks(elementType:int, summonedElementals:int, summonedEpicElemental:Boolean, showNext:Boolean = false):void {
         var elementalDamage:Number = 0;
         var baseDamage:Number = summonedElementals * intwisscaling() * 0.1;
         if (summonedElementals >= 1) elementalDamage += baseDamage;
@@ -2057,25 +2058,20 @@ public class Combat extends BaseContent {
         //checkMinionsAchievementDamage(elementalDamage);
 		outputText(" ");
         if (monster.HP > monster.minHP() && monster.lust < monster.maxOverLust()) {
-			if (summonedElementalsMulti > 1) {
-				summonedElementalsMulti -= 1;
-				elementalattacks(elementType, summonedElementals, summonedElementalsMulti, summonedEpicElemental, showNext);
-			} else {
-				outputText("\n\n");
-				if (!flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] || !flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED]
-                    && (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4)) {
-					if (summonedEpicElemental) {
-						flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] = 1;
-						//summonedEpicElemental = false;
-					}
-					else flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] = 1;
-					if (!player.hasStatusEffect(StatusEffects.SimplifiedNonPCTurn) || showNext) {
-						menu();
-						addButton(0, "Next", combatMenu, false);
-					}
+			outputText("\n\n");
+			if (!flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] || !flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED]
+				&& (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4)) {
+				if (summonedEpicElemental) {
+					flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] = 1;
+					//summonedEpicElemental = false;
 				}
-				else enemyAIImpl();
+				else flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] = 1;
+				if (!player.hasStatusEffect(StatusEffects.SimplifiedNonPCTurn) || showNext) {
+					menu();
+					addButton(0, "Next", combatMenu, false);
+				}
 			}
+			else enemyAIImpl();
         } else {
             //If monster is dead, prevent further elemental attack calls
             flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] = 1;
@@ -12641,7 +12637,7 @@ if (player.hasStatusEffect(StatusEffects.MonsterSummonedRodentsReborn)) {
         }
         //Gallop
         if (player.hasStatusEffect(StatusEffects.Gallop)) {
-            if (player.fatigueLeft() > gallopingcoooooost()) {
+            if (player.fatigueLeft() < gallopingcoooooost()) {
                 player.removeStatusEffect(StatusEffects.Gallop);
                 outputText("<b>As you become increasingly tired you slow your run to a stand still finally stopping in front of your opponent. </b>\n\n");
             }
