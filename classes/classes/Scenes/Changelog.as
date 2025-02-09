@@ -313,7 +313,7 @@ public class Changelog extends BaseContent
 			outputText("-For Yuki Onna encounters it will now only req. to find Yu shop.\n");
 			outputText("-Non goblonoid PC's can now buy and craft few simpler gadgets at Tripxi gunshop: Flasherbang\n");
 			outputText("-Training Dummy now got bit more sponge on it and each upgrade increase it lvl by 60.\n");
-			outputText("-\n");
+			outputText("-Dracula scene fix racial check. (DigitalKitsune)\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
