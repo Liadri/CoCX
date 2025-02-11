@@ -176,8 +176,12 @@ public class Changelog extends BaseContent
 			outputText("-New tier 9 misc lvl-up perk: Utility Skills: Professional. Req. Utility Skills: Skilled & any non combat skill at lvl 10. Effect: Increasing mastery gains in non-combat skills by 400% of base and decreasing a bit req. exp to level up.\n");
 			outputText("-New tier 9 misc lvl-up perk: All-Rounder Education ( Grand Master ). Req. All-Rounder Education ( Master ) perk. Effect: Limit of advanced job you can learn is increased by 3.\n");
 			outputText("-New tier 10 misc lvl-up perk: All-Rounder Training ( Expert ). Req. All-Rounder Training ( Advanced ) perk. Effect: Limit of train caps for stats is increased by 5.\n");
+			outputText("-New tier 11 libido lvl-up perk: Bard endurance. Req. Empowered Aria perk. Effect: Increase your maximum lust. (+3 extra LP per point of libido)\n");
 			outputText("-New tier 12 misc lvl-up perk: Utility Skills: Artisan. Req. Utility Skills: Professional & any non combat skill at lvl 13. Effect: Increasing mastery gains in non-combat skills by 500% of base and decreasing a bit req. exp to level up.\n");
+			outputText("-New tier 12 libido lvl-up perk: Magical Charm. Req. Bard endurance perk. Effect: You learned how to naturally weave your tease with hypnotic magic, melding your magical talent in your seduction attempt.\n");
 			outputText("-New tier 13 misc lvl-up perk: All-Rounder Training ( Master ). Req. All-Rounder Training ( Expert ) perk and 5+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
+			outputText("-New tier 13 libido lvl-up perk: Seducer Resilience. Req. Magical Charm perk. Effect: Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)\n");
+			outputText("-New tier 14 libido lvl-up perk: Spellsong. Req. Seducer Resilience perk. Effect: You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)\n");
 			outputText("-New tier 16 misc lvl-up perk: All-Rounder Training ( Grand Master ). Req. All-Rounder Training ( Master ) perk and 7+ advanced jobs. Effect: Limit of train caps for stats is increased by 10.\n");
 			outputText("-New tier 20 intelligence lvl-up perk: Ultimate Magic. Req. Prestige Job: Warlock or Prestige Job: Arch-priest perk and 475+ int. Effect: You may ignore all constraints to your spell book usage from a dedicated path and may even learn its opposite as a prestige class.\n");
 			outputText("-Areas and Places with enemies to fight have their general levels and stats increased. Areas/Places adjusted (new lvl range of enemies): Lake (3-10), Boat (15-29), Forest (O)(8-16), Forest (I)(19-27), Deepwoods (32-52), Desert (O)(13-20), Desert (I)(25-39), Battlefield (B)(18-41), Battlefield (O)(36-65), Hills (23-30), Low Mountains (35-49), Mountains (54-74), High Mountains (79-104), ");
@@ -272,10 +276,6 @@ public class Changelog extends BaseContent
 			outputText("-MouseTown Armor and Weapon added. (Canadian Snas)\n");
 			outputText("-Path to open up the Dom's Domain added. (Canadian Snas)\n");
 			outputText("-Cap for Kirin and Minotaur horns length tf effect. (Stadler)\n");
-			outputText("-New tier 11 libido lvl-up perk: Bard endurance. Req. Empowered Aria perk. Effect: Increase your maximum lust. (+3 extra LP per point of libido)\n");
-			outputText("-New tier 12 libido lvl-up perk: Magical Charm. Req. Bard endurance perk. Effect: You learned how to naturally weave your tease with hypnotic magic, melding your magical talent in your seduction attempt.\n");
-			outputText("-New tier 13 libido lvl-up perk: Seducer Resilience. Req. Magical Charm perk. Effect: Increase HP based on Libido and Sensitivity. (+12 extra LP per point of libido / sensitivity)\n");
-			outputText("-New tier 14 libido lvl-up perk: Spellsong. Req. Seducer Resilience perk. Effect: You learned how to naturally weave your spell with seductive music, melding your artistic talent into your spellcasting. (Spells gain a Libido scaling so long as lust is above 35%)\n");
 			outputText("-New event perk: Challenging shout (Mastered). Gained by use of the Pocket Watch when req. are meet. Effects: You can now use the ability Warrior Shout! Can be used at any turn but amount of gained wrath would depend how long it was used since last time during combat. ");
 			outputText("(4% per turn up to 60% after 15 turns - first use in combat giving 60%) Also allow to automaticaly use weakened version at the combat round end if wrath is below 750.\n");
 			outputText("-In character creation if Herm option is unlocked can choose now between: Man, Woman, Herm (without balls), Herm (with balls)\n");
@@ -311,10 +311,14 @@ public class Changelog extends BaseContent
 			outputText("-Arcane circle can be upgraded 8th and 9th time enabling 2 more steps in making elementals stronger per added circle.\n");
 			outputText("-Fix demonChanges. (Stadler)\n");
 			outputText("-For Yuki Onna encounters it will now only req. to find Yu shop.\n");
-			outputText("-Non goblonoid PC's can now buy and craft few simpler gadgets at Tripxi gunshop: Flasherbang\n");
+			outputText("-Non goblonoid PC's can now buy and craft few simpler gadgets at Tripxi gunshop: Flasherbang, Fire Grenade, Fire Grenade II\n");
 			outputText("-Training Dummy now got bit more sponge on it and each upgrade increase it lvl by 60.\n");
 			outputText("-Dracula scene fix racial check. (DigitalKitsune)\n");
-			outputText("-New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: You could now command tamed monster with full health to protect you from next enemy attack. After protecting they recover 5% HP per turn or 10% per hour.\n");
+			outputText("-New tier 2 wisdom lvl-up perk: They Fight, They Protect. Req. Three times a tame perk and 80+ wisdom. Effect: You could now command tamed monster with full health to protect you from next enemy attack. After protecting they recover 5% HP per turn or 10% HP per hour.\n");
+			outputText("-New tier 2 misc lvl-up perk: Polarize. Req. Greased lightning perk, 45+ wisdom and 45+ intelligence. Effect: Lightning attacks magnetize your foes making physical attacks dealt by metallic objects such as ammunition or a conventional blade deal 50% increased damage for two rounds.\n");
+			outputText("-New tier 2 misc lvl-up perk: Simplified Interface. Req. Master Gadgeteer perk, 45+ wisdom and 45+ intelligence. Effect: You did what goblins did not and simplified the interface slightly in order to quicken the usage of your gadgets. Once per round use a gadget as a free action.\n");
+			outputText("-New key Item (by Liadri): Fire Grenade - req. Toolbelt - Toss a grenade that sets foes on fire inflicting the burn status effect.\n");
+			outputText("-New key Item (by Liadri): Fire Grenade II - req. Fire Grenade - Upgrade the fire grenade explosion to also deal fire damage.\n");
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
@@ -334,12 +338,8 @@ public class Changelog extends BaseContent
 			outputText("-\n");
 			outputText("-\n");
 			outputText("-\n");
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
-			outputText("-\n");//New tier   lvl-up perk: . Req. . Effect: .
 			outputText("-\n");
-			outputText("-\n");
-			outputText("-\n");
+			outputText("-\n");//New tier 3 misc lvl-up perk: . Req. . Effect: .
 			outputText("-\n");//New tier 3 wisdom lvl-up perk: Stronger Tamed Mosters. Req. Fourth Tamer of the Apocalypse perk and 105+ wisdom. Effect: bigger meat shields, bigger claws, bigger muscles \o/ bigger everything???
 			outputText("-\n");
 			outputText("-\n");

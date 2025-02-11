@@ -1788,6 +1788,11 @@ use namespace CoC;
 		{
 			return weapon.isWandType();
 		}
+		//Energy Melee Weapons
+		public function isEnergyMeleeWeapon():Boolean
+		{
+			return weapon == game.weapons.TIDAR;// || weapon == game.weapons.TIDAR
+		}
 		//override public function get weapons
 		override public function get weaponRangeName():String {
 			return weaponRange.name;

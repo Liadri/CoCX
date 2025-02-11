@@ -767,6 +767,12 @@ public class PerkLib
 		public static const TheyFightTheyProtect:PerkType = mk("They Fight, They Protect", "They Fight, They Protect",
 				"You could now command tamed monster with full health to protect you from next enemy attack. After protecting they recover 5% HP per turn or 10% per hour.",
 				"You've chosen the 'They Fight, They Protect' perk. You could now command tamed monster with full health to protect you from next enemy attack. After protecting they recover 5% HP per turn or 10% per hour.");
+		public static const Polarize:PerkType = mk("Polarize", "Polarize",
+				"Lightning attacks magnetize your foes making physical attacks dealt by metallic objects such as ammunition or a conventional blade deal 50% increased damage for two rounds.",
+				"You've chosen the 'Polarize' perk. Lightning attacks magnetize your foes making physical attacks dealt by metallic objects such as ammunition or a conventional blade deal 50% increased damage for two rounds.");
+		public static const SimplifiedInterface:PerkType = mk("Simplified Interface", "Simplified Interface",
+				"You did what goblins did not and simplified the interface slightly in order to quicken the usage of your gadgets. Once per round use a gadget as a free action.",
+				"You've chosen the 'Simplified Interface' perk. You did what goblins did not and simplified the interface slightly in order to quicken the usage of your gadgets. Once per round use a gadget as a free action.");
 		
 		public static const ElementsOfMarethBasic1:PerkType = mk("Elements of Mareth: ", "Elements of Mareth: ",
 				"You can now summon and command ice, lightning and darkness elementals. Also increase elementals command limit by 1.",
@@ -780,12 +786,6 @@ public class PerkLib
 		public static const DomainKineses:PerkType = mk("Domain Kineses", "Domain Kineses",
 				".",
 				"You've chosen the 'Domain Kineses' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
-		public static const :PerkType = mk("", "",
-				".",
-				"You've chosen the '' perk. .");
 		public static const :PerkType = mk("", "",
 				".",
 				"You've chosen the '' perk. .");
@@ -8058,6 +8058,14 @@ public class PerkLib
 			ImprovedCursedTag.requireRace(Races.JIANGSHI)
 					.requirePerk(CursedTag)
 					.requireLevel(12);
+            Polarize.requireLevel(12)
+                    .requirePerk(GreasedLightning)
+                    .requireInt(45)
+					.requireWis(45);
+            SimplifiedInterface.requireLevel(12)
+                    .requirePerk(MasterGadgeteer)
+                    .requireInt(45)
+					.requireWis(45);
 			SkilledFighterEx.requirePerk(MeleeWeaponsAttackMultiplier)
 					.requireLevel(12)
 					.requireStr(35)

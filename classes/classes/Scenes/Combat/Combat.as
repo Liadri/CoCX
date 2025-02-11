@@ -847,6 +847,7 @@ public class Combat extends BaseContent {
 			flags[kFLAGS.IN_COMBAT_PLAYER_MUMMY_ATTACKED] = 0;
 			flags[kFLAGS.IN_COMBAT_PLAYER_ANUBI_HEART_LEECH] = 0;
             flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_MECH_AI_ATTACKED] = 0;
+            flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] = 0;
 			if (player.hasPerk(PerkLib.FirstAttackSkeletons)) flags[kFLAGS.IN_COMBAT_PLAYER_SKELETONS_ATTACKED] = 0;
 			if (player.hasPerk(PerkLib.MyBloodForBloodPuppies)) flags[kFLAGS.IN_COMBAT_PLAYER_BLOOD_PUPPIES_ATTACKED] = 0;
 			if (player.perkv1(IMutationsLib.SharkOlfactorySystemIM) >= 4) flags[kFLAGS.IN_COMBAT_PLAYER_USED_SHARK_BITE] = 0;
@@ -4871,7 +4872,8 @@ public class Combat extends BaseContent {
             if (player.hasPerk(PerkLib.Ghostslinger)) damage *= 1.15;
             if (player.hasPerk(PerkLib.PhantomShooting)) damage *= 1.05;
 			if (player.hasPerk(PerkLib.SilverForMonsters) && monster.hasPerk(PerkLib.EnemyTrueDemon)) damage *= 1.2;
-            if (monster.hasStatusEffect(StatusEffects.WoundPoison)) damage*=1+(monster.statusEffectv1(StatusEffects.WoundPoison)/100);
+            if (monster.hasStatusEffect(StatusEffects.WoundPoison)) damage *= 1 + (monster.statusEffectv1(StatusEffects.WoundPoison) / 100);
+			if (monster.hasStatusEffect(StatusEffects.Polarize)) damage *= 1.5;//later add exclusion for energy weapon shoots
             //Determine if critical hit!
 			var crit:Boolean;
             var critChance:Number = calculateCritFirearms();
@@ -6713,6 +6715,7 @@ public class Combat extends BaseContent {
         if (player.weaponOff.isSpearType() && player.hasPerk(PerkLib.ElvenRangerArmor)) damage *= 1.5;
         if ((player.weaponOff == weapons.S_RULER || player.weaponOff == weapons.TSRULER) && (monster.hasPerk(PerkLib.EnemyHugeType) || monster.hasPerk(PerkLib.EnemyGigantType) || monster.hasPerk(PerkLib.EnemyColossalType))) damage *= 1.5;
 		if (monster.hasStatusEffect(StatusEffects.Stunned) && player.weaponOff.isMaceHammerType() && player.hasPerk(PerkLib.Backbreaker)) damage *= 1.5;
+		if (monster.hasStatusEffect(StatusEffects.Polarize) && !player.isEnergyMeleeWeapon()) damage *= 1.5;
         // Mastery bonus damage
 		damage *= MasteryBonusDamageMelee(false, true);
 		//Thunderous Strikes
@@ -10568,6 +10571,10 @@ public class Combat extends BaseContent {
         if (monster.hasStatusEffect(StatusEffects.Gigafire)) monster.addStatusValue(StatusEffects.Gigafire, 1, damage);
         //Keep shit in bounds.
         if (monster.HP < monster.minHP()) monster.HP = monster.minHP();
+		if (player.hasPerk(PerkLib.Polarize)) {
+			if (monster.hasStatusEffect(StatusEffects.Polarize)) monster.removeStatusEffect(StatusEffects.Polarize);
+			monster.createStatusEffect(StatusEffects.Polarize,2,0,0,0);
+		}
         return damage;
     }
 

@@ -421,9 +421,12 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Rocket Boots") < 0) addButton(5, "Rocket Boots", lumiEngineeringBuyBlueprintRocketBoots).hint("Rocket Boots BP - 500 gems");
 		if (player.hasKeyItem("Spring Boots") < 0 && player.hasKeyItem("Rocket Boots") < 0 && player.hasKeyItem("Nitro Boots") < 0 && player.hasKeyItem("Blueprint - Spring Boots") < 0) addButton(5, "Spring Boots", lumiEngineeringBuyBlueprintSpringBoots).hint("Spring Boots BP - 100 gems");
 		if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(6, "Flasherbang", lumiEngineeringBuyBlueprintFlasherbang).hint("Flasherbang BP - 500 gems");
-		if (player.hasKeyItem("Goblin Bomber") < 0 && player.hasKeyItem("Blueprint - Goblin Bomber") < 0) addButton(7, "Goblin Bomber", lumiEngineeringBuyBlueprintGoblinBomber).hint("Goblin Bomber BP - 1500 gems");
-		if (player.hasKeyItem("GOBX Chemical Improved formula") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(8, "GOBX Chemical IF", lumiEngineeringBuyBlueprintGOBXChemicalImprovedFormula).hint("GOBX Chemical Improved formula BP - 1000 gems");
-		if (player.hasKeyItem("GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(8, "GOBX Chemical", lumiEngineeringBuyBlueprintGOBXChemical).hint("GOBX Chemical BP - 1000 gems");
+		if (player.hasKeyItem("Fire Grenade II") < 0 && player.hasKeyItem("Blueprint - Fire Grenade II") < 0) addButton(7, "Fire Grenade II", lumiEngineeringBuyBlueprintFireGrenadeII).hint("Fire Grenade II BP - 1000 gems");
+		if (player.hasKeyItem("Fire Grenade") < 0 && player.hasKeyItem("Fire Grenade II") < 0 && player.hasKeyItem("Blueprint - Fire Grenade") < 0) addButton(7, "Fire Grenade", lumiEngineeringBuyBlueprintFireGrenade).hint("Fire Grenade II BP - 500 gems");
+		
+		if (player.hasKeyItem("Goblin Bomber") < 0 && player.hasKeyItem("Blueprint - Goblin Bomber") < 0) addButton(9, "Goblin Bomber", lumiEngineeringBuyBlueprintGoblinBomber).hint("Goblin Bomber BP - 1500 gems");
+		if (player.hasKeyItem("GOBX Chemical Improved formula") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(10, "GOBX Chemical IF", lumiEngineeringBuyBlueprintGOBXChemicalImprovedFormula).hint("GOBX Chemical Improved formula BP - 1000 gems");
+		if (player.hasKeyItem("GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical") < 0 && player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") < 0) addButton(10, "GOBX Chemical", lumiEngineeringBuyBlueprintGOBXChemical).hint("GOBX Chemical BP - 1000 gems");
 		addButton(14, "Back", lumiEngineering);
 	}
 	public function lumiEngineeringMechUpgrades():void {
@@ -667,6 +670,32 @@ public class Lumi extends BaseContent {
 			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
 			outputText("<b>Gained Key Item: Blueprint - Flasherbang!</b>");
 			player.createKeyItem("Blueprint - Flasherbang", 0, 0, 0, 0);
+			statScreenRefresh();
+			doNext(lumiEngineering2);
+		}
+		else lumiEngineeringBuyBlueprintNotEnoughGems();
+	}
+	public function lumiEngineeringBuyBlueprintFireGrenadeII():void {
+		clearOutput();
+		if (player.gems >= 1000) {
+			player.gems -= 1000;
+			outputText("Lumi seals the blueprint in a tube and displays it on the counter.\n\n");
+			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
+			outputText("<b>Gained Key Item: Blueprint - Fire Grenade II!</b>");
+			player.createKeyItem("Blueprint - Fire Grenade II", 0, 0, 0, 0);
+			statScreenRefresh();
+			doNext(lumiEngineering2);
+		}
+		else lumiEngineeringBuyBlueprintNotEnoughGems();
+	}
+	public function lumiEngineeringBuyBlueprintFireGrenade():void {
+		clearOutput();
+		if (player.gems >= 500) {
+			player.gems -= 500;
+			outputText("Lumi seals the blueprint in a tube and displays it on the counter.\n\n");
+			outputText("\"<i>Greaf far you that ya starting a new project. Ya tell me the result in a few days gotcha?</i>\"\n\n");
+			outputText("<b>Gained Key Item: Blueprint - Fire Grenade!</b>");
+			player.createKeyItem("Blueprint - Fire Grenade", 0, 0, 0, 0);
 			statScreenRefresh();
 			doNext(lumiEngineering2);
 		}
@@ -1187,6 +1216,9 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Blueprint - Rocket Boots") >= 0) outputText("Rocket Boots - Req. 75+ int, Spring Boots, 10 metal pieces, 200 nails, 1 firemander whiskey, 2 mechanism.\n");
 		if (player.hasKeyItem("Blueprint - Spring Boots") >= 0) outputText("Spring Boots - Req. 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism.\n");
 		if (player.hasKeyItem("Blueprint - Flasherbang") >= 0) outputText("Flasherbang - Req. 100+ int, Toolbelt, 10 metal pieces, 1 energy core.\n");
+		if (player.hasKeyItem("Blueprint - Fire Grenade II") >= 0) outputText("Fire Grenade II - Req. 200+ int, Fire Grenade, 10 metal pieces, 5 firemander whisky.\n");
+		if (player.hasKeyItem("Blueprint - Fire Grenade") >= 0) outputText("Fire Grenade - Req. 100+ int, Toolbelt, 10 metal pieces, 1 firemander whisky.\n");
+		
 		if (player.hasKeyItem("Blueprint - Goblin Bomber") >= 0) outputText("Goblin Bomber - Req. 250+ int, Toolbelt, 100 metal pieces, 200 nails, 1 energy core, 10+ goblin daughters.\n");
 		if (player.hasKeyItem("Blueprint - GOBX Chemical Improved formula") >= 0) outputText("GOBX Chemical Improved formula - Req. 100+ int, Potent Drug injectors, 3 metal pieces, 30 nails, 5 lust drafts, 5 Goblin Ale, GOBX Chemical.\n");
 		if (player.hasKeyItem("Blueprint - GOBX Chemical") >= 0) outputText("GOBX Chemical - Req. 100+ int, Potent Drug injectors, 3 metal pieces, 30 nails, 5 lust drafts, 5 Goblin Ale, Goblinoid race.\n");
@@ -1199,10 +1231,13 @@ public class Lumi extends BaseContent {
 		if (player.hasKeyItem("Blueprint - Rocket Boots") >= 0 && player.inte >= 75 && player.hasKeyItem("Spring Boots") >= 0 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.MechanismResc >= 2 && player.hasItem(consumables.SALAMFW, 1)) addButton(2, "Rocket Boots", lumiWorkshopRocketBoots).hint("Rocket Boots - This device allows you to increase your movement speed with rockets. Also can be used to kick people in the face - 75+ int, Spring Boots, 10 metal pieces, 200 nails, 1 salamander firewater, 2 mechanism, 8 hours of work");
 		if (player.hasKeyItem("Blueprint - Spring Boots") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 50 && CampStatsAndResources.MetalPieces >= 5 && CampStatsAndResources.NailsResc >= 100 && CampStatsAndResources.MechanismResc >= 1) addButton(2, "Spring Boots", lumiWorkshopSpringBoots).hint("Spring Boots - This device allows you to increase your movement speed with springs - 50+ int, Toolbelt, 5 metal pieces, 100 nails, 1 mechanism, 4 hours of work");
 		if (player.hasKeyItem("Blueprint - Flasherbang") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(3, "Flasherbang", lumiWorkshopFlasherbang).hint("Flasherbang - Toss a grenade that overloads the brain with lewd images and light rendering one blind, aroused and increasingly susceptible to lust chemicals - 100+ int, 10 metal pieces, 1 energy core, 4 hours of work");
-		if (player.hasKeyItem("Blueprint - Goblin Bomber") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 250 && CampStatsAndResources.MetalPieces >= 100 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1 && flags[kFLAGS.PC_GOBLIN_DAUGHTERS] >= 10) addButton(4, "Goblin Bomber", lumiWorkshopGoblinBomber).hint("Goblin Bomber - Unlock the goblin bomber P.Attack during battle summoning one of your many daughters to the field in order to carpet bomb the area. Can be used once per Hour. (Deals massive tech damage and stun for two round) - 100+ int, 10 metal pieces, 1 energy core, 10+ goblin daughters, 8 hours of work");
-		if (player.hasKeyItem("Blueprint - Ripper 1.0") >= 0 && player.inte >= 75 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 500 && CampStatsAndResources.EnergyCoreResc >= 2 && CampStatsAndResources.MechanismResc >= 5 && player.hasItem(weapons.MACGRSW, 1)) addButton(5, "Ripper 1.0", lumiWorkshopRipper1).hint("Ripper 1.0 - Similar to the machined great sword this weapon is highly mechanical. Instead of a sharp straight blade the weapon's sides is a set of sharp metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. Very good for cutting down trees to - 75+ int, Machined greatsword, 10 metal pieces, 500 nails, 2 energy core, 5 mechanism, 12 hours of work");
+		if (player.hasKeyItem("Blueprint - Fire Grenade II") >= 0 && player.hasKeyItem("Fire Grenade") >= 0 && player.inte >= 200 && CampStatsAndResources.MetalPieces >= 10 && player.hasItem(consumables.SALAMFW, 5)) addButton(4, "Fire Grenade II", lumiWorkshopFireGrenadeII).hint("Fire Grenade II - Upgrade the fire grenade explosion to also deal fire damage - 200+ int, Fire Grenade, 10 metal pieces, 5 salamander firewaters, 8 hours of work");
+		if (player.hasKeyItem("Blueprint - Fire Grenade") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && player.hasItem(consumables.SALAMFW, 1)) addButton(4, "Fire Grenade", lumiWorkshopFireGrenade).hint("Fire Grenade - Toss a grenade that sets foes on fire inflicting the burn status effect - 100+ int, Toolbelt, 10 metal pieces, 1 salamander firewater, 4 hours of work");
+		//5
+		if (player.hasKeyItem("Blueprint - Goblin Bomber") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 250 && CampStatsAndResources.MetalPieces >= 100 && CampStatsAndResources.NailsResc >= 200 && CampStatsAndResources.EnergyCoreResc >= 1 && flags[kFLAGS.PC_GOBLIN_DAUGHTERS] >= 10) addButton(6, "Goblin Bomber", lumiWorkshopGoblinBomber).hint("Goblin Bomber - Unlock the goblin bomber P.Attack during battle summoning one of your many daughters to the field in order to carpet bomb the area. Can be used once per Hour. (Deals massive tech damage and stun for two round) - 100+ int, 10 metal pieces, 1 energy core, 10+ goblin daughters, 8 hours of work");
+		if (player.hasKeyItem("Blueprint - Ripper 1.0") >= 0 && player.inte >= 75 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.NailsResc >= 500 && CampStatsAndResources.EnergyCoreResc >= 2 && CampStatsAndResources.MechanismResc >= 5 && player.hasItem(weapons.MACGRSW, 1)) addButton(7, "Ripper 1.0", lumiWorkshopRipper1).hint("Ripper 1.0 - Similar to the machined great sword this weapon is highly mechanical. Instead of a sharp straight blade the weapon's sides is a set of sharp metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. Very good for cutting down trees to - 75+ int, Machined greatsword, 10 metal pieces, 500 nails, 2 energy core, 5 mechanism, 12 hours of work");
 		else addButtonDisabled(5, "Ripper 1.0", "Req. 75+ int, Machined greatsword, 10 metal pieces, 500 nails, 2 energy core, 5 mechanism.");
-		//6-9
+		//8-9
 		if (player.hasKeyItem("Blueprint - Ripper 2.0") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 30 && CampStatsAndResources.NailsResc >= 500 && CampStatsAndResources.EnergyCoreResc >= 5 && CampStatsAndResources.MechanismResc >= 10 && player.hasItem(weapons.RIPPER1, 1)) addButton(10, "Ripper 2.0", lumiWorkshopRipper2).hint("Ripper 2.0 - Similar to the machined great sword this weapon is highly mechanical. Instead of a sharp straight blade the weapon's sides is a set of sharp metal teeth that constantly move in order to properly saw through flesh and more solid matter, creating grievous wounds. The blades movement is so fast it creates heat along the length and thanks to a small system set the saw constantly aflame. Aside of cutting fleshy things in half it is very good for taking down trees - 100+ int, Ripper 1.0, 30 metal pieces, 500 nails, 5 energy core, 10 mechanism, 12 hours of work");
 		else addButtonDisabled(10, "Ripper 2.0", "Req. 100+ int, Ripper 1.0, 30 metal pieces, 500 nails, 5 energy core, 10 mechanism.");
 		//11-12
@@ -1511,6 +1546,29 @@ public class Lumi extends BaseContent {
 		outputText("You get to work spending the necessary time to craft your newest toy. After "+(player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop) ? "an hour":"four hours")+" your brand new Flasherbang is ready.\n\n");
 		player.createKeyItem("Flasherbang", 0, 0, 0, 0);
 		player.removeKeyItem("Blueprint - Flasherbang");
+		statScreenRefresh();
+		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) endEncounter();
+		else doNext(camp.returnToCampUseFourHours);
+	}
+	public function lumiWorkshopFireGrenadeII():void {
+		clearOutput();
+		CampStatsAndResources.MetalPieces -= 10;
+		player.destroyItems(consumables.SALAMFW, 5);
+		outputText("You get to work spending the necessary time to craft your newest toy. After "+(player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop) ? "four":"eight")+" hours your brand new Fire Grenade II is ready.\n\n");
+		player.createKeyItem("Fire Grenade II", 0, 0, 0, 0);
+		player.removeKeyItem("Blueprint - Fire Grenade II");
+		player.removeKeyItem("Fire Grenade");
+		statScreenRefresh();
+		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) doNext(camp.returnToCampUseFourHours);
+		else doNext(camp.returnToCampUseEightHours);
+	}
+	public function lumiWorkshopFireGrenade():void {
+		clearOutput();
+		CampStatsAndResources.MetalPieces -= 10;
+		player.destroyItems(consumables.SALAMFW, 1);
+		outputText("You get to work spending the necessary time to craft your newest toy. After "+(player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop) ? "an hour":"four hours")+" your brand new Fire Grenade is ready.\n\n");
+		player.createKeyItem("Fire Grenade", 0, 0, 0, 0);
+		player.removeKeyItem("Blueprint - Fire Grenade");
 		statScreenRefresh();
 		if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) endEncounter();
 		else doNext(camp.returnToCampUseFourHours);

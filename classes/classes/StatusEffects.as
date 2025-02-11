@@ -1131,6 +1131,7 @@ import classes.StatusEffects.VampireThirstEffect;
 		public static const Poison:StatusEffectType                    = mkCombat("Poison");
 		public static const PoisonDoT:StatusEffectType                 = mkCombat("Poison DoT");
 		public static const PoisonDoTH:StatusEffectType                = mkCombat("Poison DoT (H)");
+		public static const Polarize:StatusEffectType                  = mkCombat("Polarize");
 		public static const Polymorphed:StatusEffectType               = mkCombat("Polymorphed");
 		public static const Pounced:StatusEffectType         		   = mkCombat("Pounced");
 		public static const PouncedByCompanion:StatusEffectType        = mkCombat("Pounced By Companion");

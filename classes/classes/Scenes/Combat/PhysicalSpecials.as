@@ -583,6 +583,10 @@ public class PhysicalSpecials extends BaseCombatContent {
 				bd = buttons.add("Flasherbang", gadgetFlasherbang).hint("Throw a flasherbang to blind and arouse your opponents.");
 				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 			}
+			if (player.hasKeyItem("Fire Grenade") >= 0 || player.hasKeyItem("Fire Grenade II") >= 0) {
+				bd = buttons.add("Flasherbang", gadgetFireGrenade).hint("Throw a flasherbang to blind and arouse your opponents.");
+				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
+			}
 			if (player.hasKeyItem("Goblin Bomber") >= 0) {
 				bd = buttons.add("Goblin Bomber", optionGoblinBomber).hint("Call for an airstrike.");
 				if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
@@ -3248,7 +3252,14 @@ public class PhysicalSpecials extends BaseCombatContent {
 		combat.EruptingRiposte();
 		doNext(playerMenu);
 		if (monster.HP <= monster.minHP()) doNext(endHpVictory);
-		else enemyAI();
+		else {
+			if (player.hasPerk(PerkLib.SimplifiedInterface) && flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] == 0) {
+				flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] = 1;
+				menu();
+				addButton(0, "Next", combatMenu, false);
+			}
+			else enemyAI();
+		}
 	}
 	
 	public function gadgetFlasherbang():void {
@@ -3330,7 +3341,53 @@ public class PhysicalSpecials extends BaseCombatContent {
 			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
 		}
 		combat.bonusExpAfterSuccesfullTease();
-		enemyAI();
+		if (player.hasPerk(PerkLib.SimplifiedInterface) && flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] == 0) {
+			flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] = 1;
+			menu();
+			addButton(0, "Next", combatMenu, false);
+		}
+		else enemyAI();
+	}
+	
+	public function gadgetFireGrenade():void {
+		clearOutput();
+		outputText("You pull the metal plug and throw the fire grenade ahead watching with satisfaction as it explodes dousing your foe with flames. ");
+		if (monster.hasStatusEffect(StatusEffects.BurnDoT)) monster.addStatusValue(StatusEffects.BurnDoT,1,1);
+		else monster.createStatusEffect(StatusEffects.BurnDoT, 4, 0.02, 0, 0);
+		if (player.hasKeyItem("Fire Grenade II") >= 0) {
+			var damage:Number;
+			damage = scalingBonusIntelligence() * spellModWhite() * 8;
+			damage = calcInfernoMod(damage, true);
+			damage = combat.tinkerDamageBonus(damage);
+			damage = combat.goblinDamageBonus(damage);
+			//Determine if critical hit!
+			var crit:Boolean = false;
+			var critChance:int = 5;
+			critChance += combatMagicalCritical();
+			if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+			if (rand(100) < critChance) {
+				crit = true;
+				damage *= 1.75;
+			}
+			if (monster is GooGirl) damage = Math.round(damage * 1.5);
+			if (monster.short == "tentacle beast") damage = Math.round(damage * 1.2);
+			damage = Math.round(damage);
+			doFireDamage(damage, true, true);
+			if (crit) outputText(" <b>*Critical Hit!*</b>");
+			outputText("\n\n");
+			combat.heroBaneProc(damage);
+			statScreenRefresh();
+		}
+		if (player.hasPerk(PerkLib.GreasedLightning)) {
+			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
+			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
+		}
+		if (player.hasPerk(PerkLib.SimplifiedInterface) && flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] == 0) {
+			flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] = 1;
+			menu();
+			addButton(0, "Next", combatMenu, false);
+		}
+		else enemyAI();
 	}
 	
 	public function optionGoblinBomber():void {
@@ -3364,7 +3421,14 @@ public class PhysicalSpecials extends BaseCombatContent {
 		outputText("\n\n");
 		if (!monster.hasPerk(PerkLib.Resolute)) monster.createStatusEffect(StatusEffects.Stunned,2,0,0,0);
 		if (monster.HP <= monster.minHP()) doNext(endHpVictory);
-		else enemyAI();
+		else {
+			if (player.hasPerk(PerkLib.SimplifiedInterface) && flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] == 0) {
+				flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] = 1;
+				menu();
+				addButton(0, "Next", combatMenu, false);
+			}
+			else enemyAI();
+		}
 	}
 
 	public function EggThrowLustDamageRepeat():void {
@@ -7027,7 +7091,12 @@ public class PhysicalSpecials extends BaseCombatContent {
 			if (player.hasStatusEffect(StatusEffects.GreasedLightning)) player.addStatusValue(StatusEffects.GreasedLightning, 1, 1);
 			else player.createStatusEffect(StatusEffects.GreasedLightning, 1, 1, 0, 0);
 		}
-		enemyAI();
+		if (player.hasPerk(PerkLib.SimplifiedInterface) && flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] == 0) {
+			flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED] = 1;
+			menu();
+			addButton(0, "Next", combatMenu, false);
+		}
+		else enemyAI();
 	}
 
 	public function mechGravityShots(mechAI:Boolean = false, half:Boolean = false):void {
@@ -7174,7 +7243,6 @@ public class PhysicalSpecials extends BaseCombatContent {
 		else player.createStatusEffect(StatusEffects.CooldownWhitefireBeamCannon,8,0,0,0);
 		var damage:Number;
 		damage = scalingBonusIntelligence() * spellModWhite() * 8;
-
 		damage = calcInfernoMod(damage, true);
 		damage = combat.tinkerDamageBonus(damage);
 		damage = combat.goblinDamageBonus(damage);

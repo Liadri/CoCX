@@ -3795,6 +3795,14 @@ import classes.Scenes.Combat.CombatAbilities;
 				}
 				else outputText("<b>[Themonster] is lost in your gaze unable to act.</b>\n\n");
 			}
+			if (hasStatusEffect(StatusEffects.Polarize)) {
+				addStatusValue(StatusEffects.Polarize, 1, -1);
+				if(statusEffectv1(StatusEffects.Polarize) <= 0) {
+					outputText("<b>" + capitalA + short + (plural ? " are" : " is") + " no longer polarized!</b>\n\n");
+					removeStatusEffect(StatusEffects.Polarize);
+				}
+				else outputText("<b>" + capitalA + short + (plural ? " are" : " is") + " currently polarized!</b>\n\n");
+			}
 			if(hasStatusEffect(StatusEffects.Earthshield)) {
 				outputText("<b>[Themonster] is protected by a shield of rocks!</b>\n\n");
 			}
@@ -4808,4 +4816,4 @@ import classes.Scenes.Combat.CombatAbilities;
 			}
 		}
 	}
-}
+}

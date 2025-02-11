@@ -1350,6 +1350,8 @@ public function tripxiShopMainMenu1a():void {
 	addButton(1, "Gunshop", tripxiShopMainMenu2a);
 	addButton(2, "Rent Workshop", tripxiRentWorkshop);
 	if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(5, "Flasherbang", curry(tripxiEngineeringBuyBlueprint, 500, "Flasherbang")).hint("Flasherbang BP - 500 gems");
+	if (player.hasKeyItem("Fire Grenade II") < 0 && player.hasKeyItem("Blueprint - Fire Grenade II") < 0) addButton(6, "Fire Grenade II", curry(tripxiEngineeringBuyBlueprint, 1000, "Fire Grenade II")).hint("Fire Grenade II BP - 1000 gems");
+	if (player.hasKeyItem("Fire Grenade") < 0 && player.hasKeyItem("Fire Grenade II") < 0 && player.hasKeyItem("Blueprint - Fire Grenade") < 0) addButton(6, "Fire Grenade", curry(tripxiEngineeringBuyBlueprint, 500, "Fire Grenade")).hint("Fire Grenade II BP - 500 gems");
 	addButton(14, "Leave", telAdreMenu);
 }
 
@@ -1555,17 +1557,19 @@ private function tripxiRentWorkshop():void {
 }
 private function tripxiRentWorkshopYes():void {
 	clearOutput();
-	//SceneLib.camp.campUpgrades.checkMaterials();
 	outputText("Metal Pieces: " + CampStatsAndResources.MetalPieces + "/200" + "\n");
-	//outputText("Mechanisms: " + CampStatsAndResources.MechanismResc + "/200" + "\n");
 	outputText("Energy Cores: " + CampStatsAndResources.EnergyCoreResc + "/200" + "\n");
 	outputText("\nWhich blueprints will you work on today?\n\n");
 	if (player.hasKeyItem("Blueprint - Flasherbang") >= 0) outputText("Flasherbang - Req. 100+ int, 10 metal pieces, 1 energy core.\n");
+	if (player.hasKeyItem("Blueprint - Fire Grenade II") >= 0) outputText("Fire Grenade II - Req. 200+ int, 10 metal pieces, 5 salamander firewaters.\n");
+	if (player.hasKeyItem("Blueprint - Fire Grenade") >= 0) outputText("Fire Grenade - Req. 100+ int, 10 metal pieces, 1 salamander firewater.\n");
 	menu();
-	if (player.hasKeyItem("Blueprint - Flasherbang") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(0, "Flasherbang", lumiWorkshopFlasherbang).hint("Flasherbang - Toss a grenade that overloads the brain with lewd images and light rendering one blind, aroused and increasingly susceptible to lust chemicals - 100+ int, 10 metal pieces, 1 energy core, 4 hours of work");
+	if (player.hasKeyItem("Blueprint - Flasherbang") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(0, "Flasherbang", tripxiWorkshopFlasherbang).hint("Flasherbang - Toss a grenade that overloads the brain with lewd images and light rendering one blind, aroused and increasingly susceptible to lust chemicals - 100+ int, 10 metal pieces, 1 energy core, 4 hours of work");
+	if (player.hasKeyItem("Blueprint - Fire Grenade II") >= 0 && player.hasKeyItem("Fire Grenade") >= 0 && player.inte >= 200 && CampStatsAndResources.MetalPieces >= 10 && player.hasItem(consumables.SALAMFW, 5)) addButton(1, "Fire Grenade II", tripxiWorkshopFireGrenadeII).hint("Fire Grenade II - Upgrade the fire grenade explosion to also deal fire damage - 200+ int, Fire Grenade, 10 metal pieces, 5 salamander firewaters, 8 hours of work");
+	if (player.hasKeyItem("Blueprint - Fire Grenade") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && player.hasItem(consumables.SALAMFW, 1)) addButton(1, "Fire Grenade", tripxiWorkshopFireGrenade).hint("Fire Grenade - Toss a grenade that sets foes on fire inflicting the burn status effect - 100+ int, Toolbelt, 10 metal pieces, 1 salamander firewater, 4 hours of work");
 	addButton(14, "Back", tripxiShopInside);
 }
-public function lumiWorkshopFlasherbang():void {
+public function tripxiWorkshopFlasherbang():void {
 	clearOutput();
 	player.gems -= 100;
 	CampStatsAndResources.MetalPieces -= 10;
@@ -1573,6 +1577,27 @@ public function lumiWorkshopFlasherbang():void {
 	outputText("You get to work spending the necessary time to craft your newest toy. After four hours your brand new Flasherbang is ready.\n\n");
 	player.createKeyItem("Flasherbang", 0, 0, 0, 0);
 	player.removeKeyItem("Blueprint - Flasherbang");
+	statScreenRefresh();
+	doNext(camp.returnToCampUseFourHours);
+}
+public function tripxiWorkshopFireGrenadeII():void {
+	clearOutput();
+	CampStatsAndResources.MetalPieces -= 10;
+	player.destroyItems(consumables.SALAMFW, 5);
+	outputText("You get to work spending the necessary time to craft your newest toy. After eight hours your brand new Fire Grenade II is ready.\n\n");
+	player.createKeyItem("Fire Grenade II", 0, 0, 0, 0);
+	player.removeKeyItem("Blueprint - Fire Grenade II");
+	player.removeKeyItem("Fire Grenade");
+	statScreenRefresh();
+	doNext(camp.returnToCampUseEightHours);
+}
+public function tripxiWorkshopFireGrenade():void {
+	clearOutput();
+	CampStatsAndResources.MetalPieces -= 10;
+	player.destroyItems(consumables.SALAMFW, 1);
+	outputText("You get to work spending the necessary time to craft your newest toy. After four hours your brand new Fire Grenade is ready.\n\n");
+	player.createKeyItem("Fire Grenade", 0, 0, 0, 0);
+	player.removeKeyItem("Blueprint - Fire Grenade");
 	statScreenRefresh();
 	doNext(camp.returnToCampUseFourHours);
 }
