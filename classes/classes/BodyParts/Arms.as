@@ -408,6 +408,12 @@ public class Arms extends BodyPart {
 		claw: true
 	});
 
+	public static const HUMANCHAINED:int = 58;
+	EnumValue.add(Types, HUMANCHAINED, "HUMAN", {
+		name:"human chained",
+		appearanceDesc: "You have a pair of normal human arms and though they dont have any unusual traits thick magical silver chains coils around your arms protecting them from arms. You know those chains to be fully part of your body and can use them to fight if necessary."
+	});
+
 	public static function canFly(id: int): Boolean {
 		return Types[id].canFly || false;
 	}

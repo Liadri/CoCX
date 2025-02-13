@@ -161,6 +161,15 @@ public class RearBody extends BodyPart {
 		}
 	});
 
+	public static const MINDWARP: int = 26;
+	EnumValue.add(Types, MINDWARP, "MINDWARP", {
+		name:"mind warping aura",
+		appearanceDescFunc: function(player: *): String {
+			var desc: String = " The air around you warps and shifts from the mind warping aura your defiled body releases.";
+			return desc;
+		}
+	});
+
 	public function RearBody() {
 		super(null, null);
 	}

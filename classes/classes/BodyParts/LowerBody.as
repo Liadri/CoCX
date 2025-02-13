@@ -743,6 +743,12 @@ public class LowerBody extends SaveableBodyPart {
 		canTaur: true
 	});
 
+	public static const HUMANCHAINED:int = 74;
+	EnumValue.add(Types, HUMANCHAINED, "HUMAN", {
+		name: "human chained",
+		appearanceDesc: "{legCount} human legs grow down from your [hips], ending in normal human feet. Thick magical silver chains coils around your legs protecting them from arms. You know those chains to be fully part of your body and can use them to fight if necessary."
+	});
+
 	override public function set type(value:int):void {
 		super.type = value;
 		// Reset leg count
