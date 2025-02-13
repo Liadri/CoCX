@@ -1425,6 +1425,103 @@ public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 					}
 					else player.buff("Sagittarius Focus").remove();
 				}
+
+				if (player.armor == armors.CNUNOUT)
+				{
+					var stage:int = 0;
+					var randomDream:int = 0;
+					if (player.hasVagina()) randomDream = randomChoice(2);
+					if (randomDream == 0)
+					{
+						outputText("\n In your dreams you're standing next to the body of a chained man, probably a bandit whom you have defeated." +
+								" The convict is properly chained to a torture table with various tools." +
+								" You proceed and begin the interrogation by using a lightning wand though you can't hear his response." +
+								" Each time the man answers you zap his exposed penis and balls with the wand discharging electricity into his body through his genitals which begins dripping a decent amount of precums." +
+								" His answers are a constant blabber of pleasure mixed word but at the end you can clearly hear your own voice over his." +
+								"\n\n \"Do you renounce your wicked ways and embrace the teachings of the goddess?\"" +
+								"\n\nAs the man answers a pleasure muddled yes you grab his leash and climb on the table delivering the sinner's cock with the loving embrace of your holy pussy." +
+								" The moment your vaginal lips wrap around his penis causing him to erupt into a deluge of cum");
+						if (stage == 0)
+						{
+							outputText(" is when you wake up in cold sweat and panic. Just what the hell was that?!\n");
+						}
+						if (stage == 1)
+						{
+							outputText(" you profess your devotion to your most holy goddess reaching a spontaneous orgasm as the convert takes the communion," +
+									" painting your pussy walls white as his sins are purged away into your cunt and you deliriously imagine some of that precious cum flowing all the way back to Kyta realms where she collects the fluids of the sinners." +
+									" Sadly the scene fizzles out and you wake up," +
+									" disappointed that it was just a dream but blessing any and all vision the goddess sends you to reinforce your fervor.\n");
+						}
+					}
+					else
+					{
+						var gender:String;
+						var nunCleric:String;
+						var sheHe:String;
+						var SheHe:String;
+						var herhis:String;
+						var herhim:String;
+						var daughterSon:String;
+						if (player.isFemale() || player.isHerm())
+						{
+							gender = "sister";
+							nunCleric = "nun";
+							sheHe = "she";
+							SheHe = "She";
+							herhis = "her";
+							herhim = "her";
+							daughterSon = "daughter";
+						}
+						if (player.isMale())
+						{
+							gender = "brother"
+							nunCleric = "cleric";
+							sheHe = "he";
+							SheHe = "He";
+							herhis = "his";
+							herhim = "him";
+							daughterSon = "son";
+						}
+						outputText("\n In your dreams you are shackled down to a table as a "+nunCleric+" whose face is hidden by the light dark spot approaches you. Despite the lack of light you can easily imagine her/his thin smile as she/he grabs what appears to be a whip." +
+								"\n\n\"You have sinned quite badly "+gender+" [name], and as we both know a bad " +
+								gender+" must be punished. I will now expel the sin from your flesh.\"" +
+								SheHe+" raises "+herhis+" hand, making the whip arc before landing on your sinful flesh with a clear sound wich causes you to moan loudly as the whip traces your thigh like a tender lover." +
+								" It leaves a mark just red enough that the skin tingles with pain mixed with pleasure." +
+								SheHe+" gently passes "+herhis+" hand over the mark," +
+								" the deliberately slow caress of your oversensitive skin making you gasp in pleasure at "+herhis+" touch." +
+								" You beg "+herhim+" to purge you of your sins, to make you more into the goddess image." +
+								" The shadows fall revealing the face of the "+nunCleric+" revealing itself to be your own as "+sheHe+" replies with your own voice.");
+						if (stage == 0)
+						{
+							outputText("\n\n\"Oh but you only need to yield to your own desire my child, embrace us.\"\n\n" +
+									"You wake up in cold sweat and panic. Just what the hell was that?!\n\n");
+						}
+						if (stage == 1)
+						{
+							outputText("\n\n\"You are the blessed "+daughterSon+" of the faith" +
+									", walk in depravity that you may redeem the sinners and unbelievers.\"" +
+									" At which point your mirror image kneels down between your legs and begins to kiss");
+							if (player.isMale() || player.isHerm())
+							{
+								outputText("your twitching hard cock");
+							}
+							if (player.isHerm())
+							{
+								outputText(" making you gasp in pleasure before moving down to");
+							}
+							if (player.isFemale())
+							{
+								outputText("your puffed up cunt lips slipping "+herhis+" tongue inside.")
+							}
+							outputText("You endure for a moment pleasure building up within you before with a lustful prayer you achieve climax," +
+									" releasing your sins all at once into your mirror image mouth seemingly cuming an endless amount of ink black corruption which flood the world." +
+									" It is as your goddess wanted." +
+									"\n\nSadly the holy vision fizzles out and you wake up, disappointed that it was just a dream but blessing any and all vision the goddess sends you to reinforce your fervor.\n\n");
+						}
+					}
+				}
+
+
 				if (player.hasStatusEffect(StatusEffects.MeetXuviel) && player.statusEffectv2(StatusEffects.MeetXuviel) > 0) player.addStatusValue(StatusEffects.MeetXuviel, 2, -1);
 				if (player.hasStatusEffect(StatusEffects.MeetXuviel2) && player.statusEffectv1(StatusEffects.MeetXuviel2) > 0) player.addStatusValue(StatusEffects.MeetXuviel2, 1, -1);
 				if (player.hasStatusEffect(StatusEffects.FontOfCorruption) && player.statusEffectv1(StatusEffects.FontOfCorruption) > 0) {

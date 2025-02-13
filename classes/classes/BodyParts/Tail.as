@@ -532,6 +532,13 @@ public class Tail extends SaveableBodyPart {
 		isLong: true
 	});
 
+	public static const DEMONICCHAINED: int = 64;
+	EnumValue.add(Types, DEMONICCHAINED, "DEMONICCHAINED", {
+		name:"demonic chained",
+		appearanceDesc: "A narrow tail ending in a spaded tip curls down from your [butt], wrapping around your [leg] sensually at every opportunity. Thick magical silver chains coils around your tail, the proof of your absolute devotion to your dark goddess.",
+		isLong: true
+	});
+
 	override public function set type(value:int):void {
 		var old:int = type;
 		super.type = value;

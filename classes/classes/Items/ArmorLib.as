@@ -101,6 +101,7 @@ public final class ArmorLib extends ItemConstants
 		public const CTBGUAR:CentaurBlackguardArmor = new CentaurBlackguardArmor();
 		public const CTHPALA:CentaurPaladinArmor = new CentaurPaladinArmor();
 		public const CTPALAD:CentaurArmor = new CentaurArmor();
+		public const CNUNOUT:CursedNunOutfit = new CursedNunOutfit();
 		public const DBARMOR:PureMaraeArmor = new PureMaraeArmor();
 		public const DEATHPGA:DeathPrinceGoldenArmor = new DeathPrinceGoldenArmor();
 		public const DEATHPO:DeathPrinceOutfit = new DeathPrinceOutfit();
