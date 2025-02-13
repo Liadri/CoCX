@@ -46,7 +46,7 @@ use namespace CoC;
 				damage += this.wis * 2;
 				damage = Math.round(damage);
 				damage = player.takePoisonDamage(damage, true);
-				player.dynStats("lus", 7 + rand(5) + player.effectiveSensitivity() / 5);
+				player.takeLustDamage(7 + rand(5) + player.effectiveSensitivity() / 5, true);
 			}
 		}
 		private function Dragonbreath():void
@@ -126,7 +126,17 @@ use namespace CoC;
 			damage = Math.round(damage);
 			damage = player.takePhysDamage(damage, true);
 		}
-		
+
+		override public function preAttackSeal():Boolean
+		{
+			if (player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 0) {
+				outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Curse have made normal melee attacks impossible!  Maybe you could try something else?\n\n");
+				// enemyAI();
+				return false;
+			}
+			else return true;
+		}
+
 		override protected function performCombatAction():void
 		{
 			if (hasStatusEffect(StatusEffects.Flying) && statusEffectv1(StatusEffects.Flying) <= 1) {

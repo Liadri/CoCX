@@ -10,8 +10,33 @@ import classes.VaginaClass;
 import classes.internals.Utils;
 
 public class HarpyRace extends Race {
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Snake",
+        /*Eyes*/		"Gorgon",
+        /*Face*/		"Snake",
+        /*Gills*/		"None",
+        /*Hair*/		"Gorgon",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Snake",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Snake",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Snake",
+        /*Wings*/		"Human",
+        /*Penis*/		"Lizard",
+        /*Vagina*/		"Lizard",
+        /*Perks*/		"Human"];
+
 	public function HarpyRace(id:int) {
-		super("Harpy", id);
+		super("Harpy", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -36,6 +61,7 @@ public class HarpyRace extends Race {
 				.faceType(ANY(Face.HUMAN, Face.ANIMAL_TOOTHS), +1)
 				.earType(ANY(Ears.HUMAN, Ears.ELFIN), +1);
 		
+		addBloodline(PerkLib.HarpysDescendant, PerkLib.BloodlineHarpy);
 		addMutation(IMutationsLib.HarpyHollowBonesIM);
 		
 		buildTier(8, "harpy")

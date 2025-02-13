@@ -19,7 +19,7 @@ public class HarpyQueen extends Monster
 			//(Effect: Grab + Physical Damage)
 			var damage:int = 25 + rand(this.inte / 5);
 			player.takeMagicDamage(damage, true);
-			createStatusEffect(StatusEffects.QueenBind,0,0,0,0);
+			player.createStatusEffect(StatusEffects.QueenBind,0,0,0,0);
 		}
 
 		public function ropeStruggles(wait:Boolean = false):void {
@@ -33,7 +33,7 @@ public class HarpyQueen extends Monster
 			}
 			else {
 				outputText("With supreme effort, you pull free of the magic ropes, causing the queen to tumble to her hands and knees.");
-				removeStatusEffect(StatusEffects.QueenBind);
+				player.removeStatusEffect(StatusEffects.QueenBind);
 			}
 		}
 
@@ -41,7 +41,7 @@ public class HarpyQueen extends Monster
 		public function lustSpikeAttack():void {
 			outputText("The Harpy Queen draws a strange arcane circle in the air, lines of magic remaining wherever the tip of her staff goes.  You try to rush her, but the circle seems to have created some kind of barrier around her.  You can only try to force it open - but too late!  A great pink bolt shoots out of the circle, slamming into your chest.  You suddenly feel light-headed and so very, very horny...");
 			//(Effect: Heavy Lust Damage)
-			player.dynStats("lus", (50 + rand(this.lib / 4)));
+			player.takeLustDamage((50 + rand(this.lib / 4)), true);
 		}
 
 		//ATTACK THREE: Wind Slam!
@@ -65,10 +65,7 @@ public class HarpyQueen extends Monster
 				damage *= 1.5;
 				outputText("It's super effective! ");
 			}
-			if (flags[kFLAGS.GAME_DIFFICULTY] == 1) damage *= 1.2;
-			else if (flags[kFLAGS.GAME_DIFFICULTY] == 2) damage *= 1.5;
-			else if (flags[kFLAGS.GAME_DIFFICULTY] == 3) damage *= 2;
-			else if (flags[kFLAGS.GAME_DIFFICULTY] >= 4) damage *= 3.5;
+			
 			damage = Math.round(damage);
 			player.takeFireDamage(damage, true);
 			mana -= spellCostWhitefire;
@@ -79,7 +76,6 @@ public class HarpyQueen extends Monster
 			if (hasPerk(PerkLib.JobSorcerer)) mod += .1;
 			if (hasPerk(PerkLib.Mage)) mod += .2;
 			if (hasPerk(PerkLib.Spellpower)) mod += .2;
-			if (hasPerk(PerkLib.WizardsFocus)) mod += .6;
 			return mod;
 		}
 
@@ -114,7 +110,7 @@ public class HarpyQueen extends Monster
 			this.hairColor = "black";
 			this.hairLength = 15;
 			initStrTouSpeInte(100, 90, 170, 100);
-			initWisLibSensCor(100, 80, 45, 50);
+			initWisLibSensCor(100, 80, 45, 0);
 			this.weaponName = "eldritch staff";
 			this.weaponVerb="thwack";
 			this.weaponAttack = 31;
@@ -126,7 +122,6 @@ public class HarpyQueen extends Monster
 			this.fatigue = 0;
 			this.lust = 20;
 			this.lustVuln = .15;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.level = 30;
 			this.gems = rand(25)+160;
 			this.additionalXP = 50;
@@ -138,13 +133,13 @@ public class HarpyQueen extends Monster
 				{ call: lustSpikeAttack, type: ABILITY_MAGIC, range: RANGE_RANGED, tags:[]},
 				{ call: windSlamAttack, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[]},
 				{ call: whitefire, type: ABILITY_MAGIC, range: RANGE_RANGED, tags:[TAG_FIRE], condition: function():Boolean { return mana >= spellCostWhitefire }}
-			]
+			];
 			this.createPerk(PerkLib.JobSorcerer, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Spellpower, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Mage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.ManaAffinityI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.MindOverBodyI, 0, 0, 0, 0);
-			this.createPerk(PerkLib.WizardsFocus, 0, 0, 0, 0);
+			this.buff("Wizard's Focus").addStat('spellpower', 0.6);
 			this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
 			checkMonster();
 		}

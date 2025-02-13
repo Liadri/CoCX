@@ -68,11 +68,11 @@ public class GoblinWarrior extends Goblin
 			this.tallness = 44 + rand(7);
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "dark green";
+			this.bodyColor = "dark green";
 			this.hairColor = "red";
 			this.hairLength = 4;
 			initStrTouSpeInte(75, 60, 70, 72);
-			initWisLibSensCor(70, 45, 45, 60);
+			initWisLibSensCor(70, 45, 45, 20);
 			this.weaponName = "sword and shield";
 			this.weaponVerb = "slash";
 			this.weaponAttack = 14;
@@ -83,7 +83,6 @@ public class GoblinWarrior extends Goblin
 			this.bonusLust = 106;
 			this.lust = 50;
 			this.lustVuln = 0.44;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.level = 16;
 			this.gems = rand(15) + 15;
 			this.drop = new WeightedDrop().
@@ -95,13 +94,18 @@ public class GoblinWarrior extends Goblin
 							consumables.BLUEDYE,
 							consumables.ORANGDY,
 							consumables.GREEN_D,
-							consumables.PURPDYE);
+							consumables.PURPDYE,
+							consumables.HEALHERB,
+							consumables.MOONGRASS,
+							consumables.SNAKEBANE,
+							consumables.IRONWEED,
+							consumables.BLADEFERN);
 			this.abilities = [
 				{ call: eAttack, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_WEAPON], weight:2},
 				{ call: goblinDrugAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[TAG_FLUID]},
 				{ call: goblinTeaseAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[]},
 				{ call: warriorSpecial, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_WEAPON]},
-			]
+			];
 			this.createPerk(PerkLib.ShieldWielder, 0, 0, 0, 0);
 			checkMonster();
 		}

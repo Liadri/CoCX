@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Dungeons.EbonLabyrinth 
+package classes.Scenes.Dungeons.EbonLabyrinth
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -38,8 +38,10 @@ use namespace CoC;
 			damage += eBaseIntelligenceDamage() * 0.2;
 			damage = Math.round(damage);
 			damage = player.takeAcidDamage(damage, true);
-			if (player.hasStatusEffect(StatusEffects.AcidDoT)) player.addStatusValue(StatusEffects.AcidDoT, 2, 10); //More heads will produce more potent acid
-			else player.createStatusEffect(StatusEffects.AcidDoT, 6, 10, 0, 0);
+			if (!player.immuneToAcid()) {
+				if (player.hasStatusEffect(StatusEffects.AcidDoT)) player.addStatusValue(StatusEffects.AcidDoT, 2, 10); //More heads will produce more potent acid
+				else player.createStatusEffect(StatusEffects.AcidDoT, 6, 10, 0, 0);
+			}
 		}
 		
 		private function hydraOmnibites():void
@@ -58,7 +60,7 @@ use namespace CoC;
 			damage = Math.round(damage);
 			damage = player.takePhysDamage(damage, true);
 			if (!player.hasStatusEffect(StatusEffects.Poison)) {
-				var multiplier:Number = this.tailCount; //more heads -> more venom
+				var multiplier:Number = this.statusEffectv1(StatusEffects.HydraTails); //more heads -> more venom
 				player.createStatusEffect(StatusEffects.Poison, 0, multiplier, 0, 0);
 			}
 		}
@@ -84,18 +86,18 @@ use namespace CoC;
 			SceneLib.dungeons.ebonlabyrinth.hydraScene.defeatedBy();
 		}
 		
-		public function Hydra() 
+		public function Hydra()
 		{
             var mod:int = inDungeon ? SceneLib.dungeons.ebonlabyrinth.enemyLevelMod : 0;
 			initStrTouSpeInte(136 + 38*mod, 250 + 40*mod, 158 + 28*mod, 142 + 21*mod);
-            initWisLibSensCor(150 + 22*mod, 255 + 25*mod, 160 + 20*mod, 40);
+            initWisLibSensCor(150 + 22*mod, 255 + 25*mod, 160 + 20*mod, -20);
             this.armorDef = 80 + 20*mod;
             this.armorMDef = 80 + 20*mod;
             this.bonusHP = 1000 + 1000*mod;
             this.bonusLust = 480 + 50*mod;
             this.level = 60 + 5*mod; //starts from 65 due to EL levelMod calculations;
-            this.gems = mod > 50 ? 0 : Math.floor((2000 + rand(400)) * Math.exp(0.3*mod));
-            this.additionalXP = mod > 50 ? 0 : Math.floor(9000 * Math.exp(0.3*mod));
+            this.gems = mod > 20 ? 0 : Math.floor((2000 + rand(400)) * Math.exp(0.3*mod));
+            this.additionalXP = mod > 20 ? 0 : Math.floor(9000 * Math.exp(0.3*mod));
 
 			this.a = "";
 			this.short = "Hydra";
@@ -113,7 +115,7 @@ use namespace CoC;
 			this.butt.type = Butt.RATING_LARGE;
 			this.lowerBody = LowerBody.HYDRA;
 			this.faceType = Face.SNAKE_FANGS;
-			this.skinTone = "mediterranean-toned";
+			this.bodyColor = "mediterranean-toned";
 			this.hairColor = "brown";
 			this.hairLength = 16;
 			this.weaponName = "fist";
@@ -121,7 +123,6 @@ use namespace CoC;
 			this.weaponAttack = 5;
 			this.armorName = "scales";
 			this.lust = 30;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.drop = new WeightedDrop(consumables.HYDRASC, 1);
 			this.createStatusEffect(StatusEffects.HydraTails, 5, 0, 0, 0);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);

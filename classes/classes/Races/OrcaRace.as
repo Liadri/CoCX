@@ -5,8 +5,33 @@ import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
 import classes.Race;
 public class OrcaRace extends Race {
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
 	public function OrcaRace(id:int) {
-		super("Orca", id);
+		super("Orca", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -26,7 +51,7 @@ public class OrcaRace extends Race {
 				.noWings(+2)
 				.tone(LESS_THAN(10), +1)
 				.height(AT_LEAST(84),+1)
-				.customRequirement("",'big H-cup tits (o bigger) or 19"+ long cock',
+				.customRequirement("",'big H-cup tits (or bigger) or 19"+ long cock',
 						function (body:BodyData):Boolean {
 							return body.biggestTitSize > 19 || body.biggestCockSize > 18
 						}, +1)

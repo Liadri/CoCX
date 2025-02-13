@@ -2,16 +2,17 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Areas.GlacialRift 
+package classes.Scenes.Areas.GlacialRift
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.internals.Utils;
+import classes.Scenes.API.MultiBuy;
 
-	public class YuWinterGearShop extends BaseContent
+public class YuWinterGearShop extends BaseContent
 	{
 		
-		public function YuWinterGearShop() 
+		public function YuWinterGearShop()
 		{}
 		
 		public function YuIntro():void {
@@ -38,7 +39,7 @@ import classes.internals.Utils;
 				outputText("\"<i>Tourist lucky! Yu owner to small shop of winter gear. Outsider go to Yu cave if wants gear to properly wander around in snow.</i>\"\n\n");
 				outputText("Yu laughs, grabs her board and walks away. You guess gearing up for the area wouldn't be a dumb idea.");
 				flags[kFLAGS.YU_SHOP] = 1;
-				doNext(camp.returnToCampUseOneHour);
+				endEncounter();
 			}
 		}
 		
@@ -51,7 +52,7 @@ import classes.internals.Utils;
 				else addButton(2, "Sex", YuShopSex);
 			}
 			else addButtonDisabled(2, "Sex", "You need to talk with her first.");
-			addButton(14, "Leave", camp.returnToCampUseOneHour);
+			addButton(14, "Leave", explorer.done);
 		}
 		public function YuMenuMain2():void {
 			clearOutput();
@@ -65,83 +66,35 @@ import classes.internals.Utils;
 			outputText("You begin to browse Yu’s shop inventory.");
 			menu();
 			addButton(0, "W.Scarfs", YuShopMainSecond);
-			addButton(1, undergarments.F_B_TOP.shortName, buyItem, 0).hint("Fur bikini top");
-			addButton(2, undergarments.F_PANTY.shortName, buyItem, 1).hint("Fur panty");
-			addButton(3, undergarments.F_LOIN_.shortName, buyItem, 2).hint("Fur loincloth");
-			addButton(4, weapons.NORTHIP.shortName, buyItem, 3).hint("Northerner ice picks");
-			addButton(5, headjewelries.SKIGOGG.shortName, buyItem, 4).hint("Ski goggles");
-			addButton(6, headjewelries.SNOWFH.shortName, buyItem, 5).hint("Snowflake hairpin");
-			addButton(7, armors.BLIZZ_K.shortName, buyItem, 6).hint("Blizzard Kimono");
-			addButton(8, miscjewelries.SNOWBOA.shortName, buyItem, 7).hint("Snowboard");
-			addButton(12, consumables.SKELP__.shortName, buyItem, 11).hint("Skelp");
-			addButton(13, consumables.F_TEAR.shortName, buyItem, 12).hint("Fafnir Tear");
+			addButton(1, undergarments.F_B_TOP.shortName, confirmBuy, undergarments.F_B_TOP, YuShopMain).hint(undergarments.F_B_TOP.description, "Fur bikini top");
+			addButton(2, undergarments.F_PANTY.shortName, confirmBuy, undergarments.F_PANTY, YuShopMain).hint(undergarments.F_PANTY.description, "Fur panty");
+			addButton(3, undergarments.F_LOIN_.shortName, confirmBuy, undergarments.F_LOIN_, YuShopMain).hint(undergarments.F_LOIN_.description, "Fur loincloth");
+			addButton(4, weapons.NORTHIP.shortName, confirmBuy, weapons.NORTHIP, YuShopMain).hint(weapons.NORTHIP.description, "Northerner ice picks");
+			addButton(5, headjewelries.SKIGOGG.shortName, confirmBuy, headjewelries.SKIGOGG, YuShopMain).hint(headjewelries.SKIGOGG.description, "Ski goggles");
+			addButton(6, headjewelries.SNOWFH.shortName, confirmBuy, headjewelries.SNOWFH, YuShopMain).hint(headjewelries.SNOWFH.description, "Snowflake hairpin");
+			addButton(7, armors.BLIZZ_K.shortName, confirmBuy, armors.BLIZZ_K, YuShopMain).hint(armors.BLIZZ_K.description, "Blizzard Kimono");
+			addButton(8, weapons.BCLAWS.shortName, confirmBuy, weapons.BCLAWS, YuShopMain).hint(weapons.BCLAWS.description, "Blizzard Claws");
+			addButton(10, miscjewelries.SNOWBOA.shortName, confirmBuy, miscjewelries.SNOWBOA, YuShopMain).hint(miscjewelries.SNOWBOA.description, "Snowboard");
+			addButton(12, consumables.SKELP__.shortName, confirmBuy, consumables.SKELP__, YuShopMain).hint(consumables.SKELP__.description, "Skelp");
+			addButton(13, consumables.F_TEAR.shortName, confirmBuy, consumables.F_TEAR, YuShopMain).hint(consumables.F_TEAR.description, "Fafnir Tear");
 			addButton(14, "Back", YuMenuMain2);
 		}
-		private function buyItem(item:Number = 0):void {
-			if (item == 0) yetiBuy(undergarments.F_B_TOP);
-			if (item == 1) yetiBuy(undergarments.F_PANTY);
-			if (item == 2) yetiBuy(undergarments.F_LOIN_);
-			if (item == 3) yetiBuy(weapons.NORTHIP);
-			if (item == 4) yetiBuy(headjewelries.SKIGOGG);
-			if (item == 5) yetiBuy(headjewelries.SNOWFH);
-			if (item == 6) yetiBuy(armors.BLIZZ_K);
-			if (item == 7) yetiBuy(miscjewelries.SNOWBOA);
-			if (item == 11) yetiBuy(consumables.SKELP__);
-			if (item == 12) yetiBuy(consumables.F_TEAR);
-		}
-		public function yetiBuy(itype:ItemType):void {
-			clearOutput();
-			outputText("You point out the " + itype.longName + " on the shelf.\n\n");
-			outputText("\"<i>Oh this one? Yu forgot how much it’s worth so Yu offers it to you at discount of " + itype.value + " gems.</i>\"");
-			if (player.gems < itype.value) {
-				outputText("\n<b>You don't have enough gems...</b>");
-				doNext(YuShopMain);
-				return;
-			}
-			doYesNo(Utils.curry(yetiTransact,itype), YuShopMain);
-		}
-		public function yetiTransact(itype:ItemType):void {
-			clearOutput();
-			player.gems -= itype.value;
-			outputText("You bring your purchase to an icy counter and Yu checks up her prices list before exchanging it for your gems.\n\n");
-			outputText("\"<i>Thanks for patronage.</i>\"\n\n");
-			statScreenRefresh();
-			inventory.takeItem(itype, YuShopMain);
-		}
+
 		public function YuShopMainSecond():void {
 			menu();
-			addButton(0, necklaces.BWSCARF.shortName, buyItem2, 0).hint("Blue Winter scarf");
-			addButton(1, necklaces.GWSCARF.shortName, buyItem2, 1).hint("Green Winter scarf");
-			addButton(2, necklaces.PWSCARF.shortName, buyItem2, 2).hint("Purple Winter scarf");
-			addButton(3, necklaces.RWSCARF.shortName, buyItem2, 3).hint("Red Winter scarf");
-			addButton(4, necklaces.YWSCARF.shortName, buyItem2, 4).hint("Yellow Winter scarf");
-			addButton(14, "Back", YuMenuMain);
+			addButton(0, necklaces.BWSCARF.shortName, confirmBuy, necklaces.BWSCARF, YuShopMainSecond).hint(necklaces.BWSCARF.description, "Blue Winter scarf");
+			addButton(1, necklaces.GWSCARF.shortName, confirmBuy, necklaces.GWSCARF, YuShopMainSecond).hint(necklaces.GWSCARF.description, "Green Winter scarf");
+			addButton(2, necklaces.PWSCARF.shortName, confirmBuy, necklaces.PWSCARF, YuShopMainSecond).hint(necklaces.PWSCARF.description, "Purple Winter scarf");
+			addButton(3, necklaces.RWSCARF.shortName, confirmBuy, necklaces.RWSCARF, YuShopMainSecond).hint(necklaces.RWSCARF.description, "Red Winter scarf");
+			addButton(4, necklaces.YWSCARF.shortName, confirmBuy, necklaces.YWSCARF, YuShopMainSecond).hint(necklaces.YWSCARF.description, "Yellow Winter scarf");
+			addButton(14, "Back", YuShopMain);
 		}
-		private function buyItem2(item:Number = 0):void {
-			if (item == 0) yetiBuy2(necklaces.BWSCARF);
-			if (item == 1) yetiBuy2(necklaces.GWSCARF);
-			if (item == 2) yetiBuy2(necklaces.PWSCARF);
-			if (item == 3) yetiBuy2(necklaces.RWSCARF);
-			if (item == 4) yetiBuy2(necklaces.YWSCARF);
-		}
-		public function yetiBuy2(itype:ItemType):void {
-			clearOutput();
-			outputText("You point out the " + itype.longName + " on the shelf.\n\n");
-			outputText("\"<i>Oh this one? Yu forgot how much it’s worth so Yu offers it to you at discount of " + itype.value + " gems.</i>\"");
-			if (player.gems < itype.value) {
-				outputText("\n<b>You don't have enough gems...</b>");
-				doNext(YuShopMainSecond);
-				return;
-			}
-			doYesNo(Utils.curry(yetiTransact2,itype), YuShopMainSecond);
-		}
-		public function yetiTransact2(itype:ItemType):void {
-			clearOutput();
-			player.gems -= itype.value;
-			outputText("You bring your purchase to an icy counter and Yu checks up her prices list before exchanging it for your gems.\n\n");
-			outputText("\"<i>Thanks for patronage.</i>\"\n\n");
-			statScreenRefresh();
-			inventory.takeItem(itype, YuShopMainSecond);
+
+		private function confirmBuy(itype:ItemType, returnFunc:Function):void {
+			var descString:String = "You point out the " + itype.longName + " on the shelf.\n\n\"<i>Oh this one? Yu forgot how much it’s worth so Yu offers it to you at discount.</i>\"\n";
+			var onBuyString:String = "You bring your purchase to an icy counter and Yu checks up her prices list before exchanging it for your gems.\n\n<i>Thanks for patronage.</i>\"\n\n";
+
+			MultiBuy.confirmBuyMulti(returnFunc, "Yu", 1, itype, descString, onBuyString, false);
 		}
 		
 		public function YuShopTalkMain():void {
@@ -217,7 +170,7 @@ import classes.internals.Utils;
 				if (flags[kFLAGS.YU_SEX] < 1) flags[kFLAGS.YU_SEX] = 1;
 				player.sexReward("vaginalFluids","Dick");
 				outputText("You wake up in Yu’s cave house a few hours later. Yu is still there sleeping next to you, but you have adventuring to do. You give Yu a parting kiss before grabbing back your gear and traveling back to your camp.\n\n");
-				doNext(camp.returnToCampUseOneHour);
+				endEncounter();
 			}
 
 			function vagF():void {
@@ -229,10 +182,10 @@ import classes.internals.Utils;
 				outputText("She kisses you again, exchanging some of her Saliva with yours and to your surprise the ambient cold starts to diminish as your body becomes increasingly hot or increasingly numb perhaps? " + (flags[kFLAGS.MET_YETI_FIRST_TIME] == 1 ? "Unsurprisingly, like for all Yeti" : "Surprisingly") + " her fluids actually create a tingling warmth in the partner’s body meant to facilitate intercourse even at the lowest ambient temperature. ");
 				outputText("If Yu had wanted to fuck with you in the middle of a blizzard, she could just have. Her cool breath contrasts highly with the warmth of her pussy, and you are pretty sure that " + (flags[kFLAGS.MET_YETI_FIRST_TIME] == 1 ? "just as with all yeti " : "") + "she could freeze you solid by blowing on you if she wanted. Yet right now her breath only gives you the right amount of fresh air you need. ");
 				outputText("While you are lost in thought, Yu uses the opportunity to insert the glacial dildo into your cunt, making you gasp as the home-made toy gives your burning body some seriously needed cool. You need to calm that heat, and the only way you have is this icy dildo! You barely register it as Yu mounts the dildo herself and begins sliding against it, causing it to slide in and out of your own pussy. ");
-				outputText("You need it deeper and faster and to make it clear you slide up to the middle of the length causing Yu to yelp in surprise at the swift insertion. The both of you keep fucking until you both cum, your pussy juices freezing on the dildo yet your cunt burning brightly with the need for a good working. Eventually the both of you fall off, asleep. Yu making sure to protect you from the cold.\n\n");
-				player.sexReward("Default","Vaginal",true,false);
+				outputText("You need it deeper and faster and to make it clear you slide up to the middle of the length causing Yu to yelp in surprise at the swift insertion. Both of you keep fucking until you both cum, your pussy juices freezing on the dildo yet your cunt burning brightly with the need for a good working. Eventually both of you fall off, asleep. Yu making sure to protect you from the cold.\n\n");
+				player.sexReward("no", "Vaginal");
 				outputText("You wake up in Yu’s cave house a few hours later. Yu is still there sleeping next to you, but you have adventuring to do. You give Yu a parting kiss before grabbing back your gear and traveling back to your camp.\n\n");
-				doNext(camp.returnToCampUseOneHour);
+				endEncounter();
 			}
 		}
 	}

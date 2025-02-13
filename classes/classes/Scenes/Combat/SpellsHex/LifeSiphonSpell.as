@@ -20,7 +20,7 @@ public class LifeSiphonSpell extends AbstractHexSpell {
 	}
 	
 	override public function describeEffectVs(target:Monster):String {
-		return "" + calcDamage(target, false, false) + " HP leech for "+
+		return "" + numberFormat(calcDamage(target, false, false)) + " HP leech for "+
 				numberOfThings(calcDuration(),"round") +
 				"; " + calcBackfirePercent() + "% backfire"
 	}
@@ -33,7 +33,7 @@ public class LifeSiphonSpell extends AbstractHexSpell {
 		return player.hasStatusEffect(StatusEffects.LifeSiphon);
 	}
 	
-	public function calcDuration():int {
+	override public function calcDuration():int {
 		return 15;
 	}
 	
@@ -43,7 +43,7 @@ public class LifeSiphonSpell extends AbstractHexSpell {
 		 }else {
 			player.addStatusValue(StatusEffects.LifeSiphon, 1, -1);
 			if (display) {
-				outputText("<b>[Themonster] health is being funneled to you through your life siphon hex. (<font color=\"#008000\">+" + player.statusEffectv2(StatusEffects.LifeSiphon) + "</font>)</b>\n\n");
+				outputText("<b>[Themonster] health is being funneled to you through your life siphon hex. ([font-heal]+" + player.statusEffectv2(StatusEffects.LifeSiphon) + "[/font])</b>\n\n");
 			}
 			HPChange(player.statusEffectv2(StatusEffects.LifeSiphon), false);
 			monster.HP -= player.statusEffectv2(StatusEffects.LifeSiphon);
@@ -58,9 +58,8 @@ public class LifeSiphonSpell extends AbstractHexSpell {
 			if (player.hasPerk(PerkLib.HexKnowledge) && monster.cor < 34) lifesiphon = Math.round(lifesiphon * 1.2);
 			lifesiphon *= corruptMagicPerkFactor(monster);
 		}
-		if (player.hasPerk(PerkLib.CorruptMagic)) {
-			if (player.hasStatusEffect(StatusEffects.DarkRitual)) lifesiphon *= 2;
-		}
+		if (player.hasPerk(PerkLib.Necromancy)) lifesiphon *= 1.5;
+		if (player.hasPerk(PerkLib.CorruptMagic) && player.hasStatusEffect(StatusEffects.DarkRitual)) lifesiphon *= 2;
 		return Math.round(lifesiphon);
 	}
 	

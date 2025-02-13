@@ -58,12 +58,22 @@ public class BuffBuilder {
 		}
 		return this;
 	}
+	public function subtractStat(statName: String, value: Number,
+							min: Number = Number.NEGATIVE_INFINITY,
+							max: Number = Number.POSITIVE_INFINITY): BuffBuilder {
+		addStat(statName, -value, min, max);
+		return this;
+	}
 	public function setStat(statName: String, value: Number): BuffBuilder {
 		store.findBuffableStat(statName).addOrReplaceBuff(tag, value, options);
 		return this;
 	}
 	public function addStats(buffObject: Object): BuffBuilder {
 		store.addBuffObject(buffObject, tag, options);
+		return this;
+	}
+	public function subtractStats(buffObject: Object): BuffBuilder {
+		store.addBuffObject(StatUtils.inverseBuffObject(buffObject), tag, options);
 		return this;
 	}
 	public function setStats(buffObject: Object): BuffBuilder {

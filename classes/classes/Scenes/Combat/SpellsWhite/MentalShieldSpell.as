@@ -25,17 +25,19 @@ public class MentalShieldSpell extends AbstractWhiteSpell{
 	}
 	
 	override public function calcCooldown():int {
-		return 10;
+		var calcC:int = 7;
+		calcC += spellGenericCooldown();
+		return calcC;
 	}
 	
 	override public function isActive():Boolean {
 		return player.hasStatusEffect(StatusEffects.MentalShield);
 	}
 	
-	public function calcDuration():int {
+	override public function calcDuration():int {
 		var mentalshieldduration:Number = 10;
-		if (player.hasPerk(PerkLib.DefensiveStaffChanneling)) mentalshieldduration *= 1.1;
-		return Math.round(mentalshieldduration)
+		if (player.hasPerk(PerkLib.DefensiveStaffChanneling) && (player.weapon.isStaffType() || player.weaponOff.isStaffType() || player.weapon.isWandType() || player.weaponOff.isWandType())) mentalshieldduration *= 1.2;
+		return Math.round(mentalshieldduration);
 	}
 	
 	override public function advance(display:Boolean):void {

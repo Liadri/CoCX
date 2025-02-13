@@ -18,7 +18,7 @@ public class QuatroElementalBoss extends Monster
 			outputText("Elemental concentrate fire on it fist and send punch toward you.");
 			var damage:Number = inte + wis;
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 2);
 			damage = Math.round(damage);
 			//Dodge
@@ -27,7 +27,7 @@ public class QuatroElementalBoss extends Monster
 			{
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" It hit you square in the chest. ");
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		
@@ -35,7 +35,7 @@ public class QuatroElementalBoss extends Monster
 			outputText("Elemental concentrate fire on it fists and goes wild at you sending flurry of punches.");
 			var damage:Number = inte + wis;
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.5);
 			damage = Math.round(damage);
 			//Dodge
@@ -44,10 +44,10 @@ public class QuatroElementalBoss extends Monster
 			{
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" They hits you all over the body. ");
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		
@@ -57,27 +57,27 @@ public class QuatroElementalBoss extends Monster
 			else {
 				var damage:Number = inte + wis;
 				if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-				if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+				if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 				damage *= 3.75;
 				damage = Math.round(damage);
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" The flaming spheres explode upon impact with you. Talk about Pyromania! ");
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		public function subbossSpecial2():void {
@@ -89,14 +89,14 @@ public class QuatroElementalBoss extends Monster
 				damage = Math.round(damage);
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" The razor-like rocks cut into you. ");
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
-				damage = player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
+				player.takeEarthDamage(damage, true);
 			}
 		}
 		public function subbossSpecial3():void {
@@ -105,19 +105,19 @@ public class QuatroElementalBoss extends Monster
 			else {
 				var damage:Number = inte + wis;
 				if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 0.3;
-				if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 3;
+				if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 3;
 				damage *= 3.75;
 				damage = Math.round(damage);
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" The watery strikes connect with your body. ");
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
-				damage = player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
+				player.takeWaterDamage(damage, true);
 			}
 		}
 		public function subbossSpecial4():void {
@@ -129,30 +129,30 @@ public class QuatroElementalBoss extends Monster
 				damage = Math.round(damage);
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" The wind slices through you. ");
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
-				damage = player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
+				player.takeWindDamage(damage, true);
 			}
 		}
 		
@@ -250,13 +250,13 @@ public class QuatroElementalBoss extends Monster
 			_fightPhase = 2;
 			short = "mutated fire-earth elemental";
 			armorName = "magma skin";
-			weaponAttack += 10;
-			armorDef += 10;
-			armorMDef += 60;
-			bonusHP += 125;
+			weaponAttack += 20;
+			armorDef += 20;
+			armorMDef += 120;
+			bonusHP += 250;
 			level += 2;
-			this.strStat.core.value *= 1.3;
-			this.touStat.core.value *= 1.3;
+			this.strStat.core.value *= 1.4;
+			this.touStat.core.value *= 1.4;
 			this.removePerk(PerkLib.FireNature);
 			this.createPerk(PerkLib.IceVulnerability, 0, 0, 0, 0);
 			HP = maxHP();
@@ -270,12 +270,12 @@ public class QuatroElementalBoss extends Monster
 			_fightPhase = 3;
 			short = "tripple-fusion elemental";
 			armorName = "magma skin covered with layer of steam";
-			armorDef += 5;
-			armorMDef = 30;
+			armorDef += 10;
+			armorMDef += 60;
 			level += 2;
-			this.wisStat.core.value *= 1.3;
-			this.strStat.core.value *= 1.2;
-			this.touStat.core.value *= 1.2;
+			this.wisStat.core.value *= 1.4;
+			this.strStat.core.value *= 1.3;
+			this.touStat.core.value *= 1.3;
 			this.removePerk(PerkLib.IceVulnerability);
 			this.createPerk(PerkLib.MonsterRegeneration, 2, 0, 0, 0);
 			HP = maxHP();
@@ -290,14 +290,14 @@ public class QuatroElementalBoss extends Monster
 			_fightPhase = 4;
 			short = "quatro elemental";
 			armorName = "magma skin covered with layer of steam and air currents";
-			weaponAttack += 5;
-			armorDef += 5;
-			armorMDef = 30;
+			weaponAttack += 10;
+			armorDef += 10;
+			armorMDef += 60;
 			level += 2;
-			this.intStat.core.value *= 1.3;
-			this.wisStat.core.value *= 1.2;
-			this.strStat.core.value *= 1.1;
-			this.touStat.core.value *= 1.1;
+			this.intStat.core.value *= 1.4;
+			this.wisStat.core.value *= 1.3;
+			this.strStat.core.value *= 1.2;
+			this.touStat.core.value *= 1.2;
 			this.removePerk(PerkLib.MonsterRegeneration);
 			this.createPerk(PerkLib.MonsterRegeneration, 5, 0, 0, 0);
 			HP = maxHP();
@@ -346,19 +346,19 @@ public class QuatroElementalBoss extends Monster
 			this.plural = false;
 			this.createBreastRow(0, 1);
 			initGenderless();
-			initStrTouSpeInte(24, 40, 70, 120);
-			initWisLibSensCor(120, 15, 55, 50);
+			initStrTouSpeInte(48, 80, 140, 240);
+			initWisLibSensCor(240, 30, 110, 0);
 			this.weaponName = "fists";
 			this.weaponVerb = "smash";
-			this.weaponAttack = 10;
+			this.weaponAttack = 20;
 			this.armorName = "fire skin";
-			this.armorDef = 10;
-			this.armorMDef = 60;
-			this.bonusHP = 875;
-			this.lustVuln = 0;
+			this.armorDef = 20;
+			this.armorMDef = 120;
+			this.bonusHP = 1750;
+			this.lustVuln = 0.01;
 			this.drop = new ChainedDrop()
-					.add(useables.ELSHARD, 1);
-			this.level = 21;
+					.add(useables.EL_CORE, 1);
+			this.level = 18;
 			this.additionalXP = 250;
 			this.createPerk(PerkLib.EnemyElementalType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);

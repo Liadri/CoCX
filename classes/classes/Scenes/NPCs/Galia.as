@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -16,36 +16,37 @@ import classes.internals.*;
 	public class Galia extends Monster
 	{
 		public function clawAttack():void {
-			outputText("" + this.capitalA + this.short + " charges at you with his claws ready! ");
+			outputText("" + this.capitalA + this.short + " charges at you with h"+(flags[kFLAGS.GALIA_LVL_UP] >= 1?"er":"is")+" claws ready! ");
 			if (player.getEvasionRoll()) {
-				outputText("You manage to avoid his claws thanks to your reaction!");
+				outputText("You manage to avoid h"+(flags[kFLAGS.GALIA_LVL_UP] >= 1?"er":"is")+" claws thanks to your reaction!");
 				return;
 			}
 			else {
 				outputText("" + this.capitalA + this.short + " manages to swipe you!  You let out a cry in pain. ");
-				var damage:int = rand(50) + str + weaponAttack;
-				if (damage < 20) damage = 20;
+				var damage:int = eBaseStrengthDamage() + rand(50) + str + weaponAttack;
+				if (damage < 50) damage = 50;
 				player.takePhysDamage(damage, true);
 			}
 		}
 
 		public function doubleAttack():void {
-			outputText("" + this.capitalA + this.short + " charges at you with his claws ready and sword raised! ");
+			outputText("" + this.capitalA + this.short + " charges at you with h"+(flags[kFLAGS.GALIA_LVL_UP] >= 1?"er":"is")+" deadly claws ready! ");
 			if (player.getEvasionRoll()) {
-				outputText("You manage to dodge his deadly attack!");
+				outputText("You manage to dodge h"+(flags[kFLAGS.GALIA_LVL_UP] >= 1?"er":"is")+" deadly attack!");
 				return;
 			}
 			else {
-				outputText("" + this.capitalA + this.short + " manages to slash you with his sword and his deadly claws!");
-				var damage:int = rand(50) + str + weaponAttack;
-				if (damage < 20) damage = 20; //Min-cap damage.
-				if (damage >= 50) {
+				outputText("" + this.capitalA + this.short + " manages to slash you with h"+(flags[kFLAGS.GALIA_LVL_UP] >= 1?"er":"is")+" deadly claws!");
+				var damage:int = eBaseStrengthDamage() + rand(50) + str + weaponAttack;
+				if (damage < 50) damage = 50; //Min-cap damage.
+				if (damage >= 250 && !player.immuneToBleed()) {
 					outputText("You let out a cry in pain and you swear you could see your wounds bleeding. ");
 					player.createStatusEffect(StatusEffects.IzmaBleed, 2, 0, 0, 0);
 				}
 				else {
 					outputText("Thankfully the wounds aren't that serious. ");
 				}
+				player.takePhysDamage(damage, true);
 				player.takePhysDamage(damage, true);
 			}
 		}
@@ -61,40 +62,25 @@ import classes.internals.*;
 		
 		override public function defeated(hpVictory:Boolean):void
 		{
-			cleanupAfterCombat();
-			if (flags[kFLAGS.GALIA_LVL_UP] >= 1) {
+			//if (flags[kFLAGS.GALIA_LVL_UP] >= 1) {
 			//if (player.hasStatusEffect(StatusEffects.CampSparingDinah)) {
 				//player.removeStatusEffect(StatusEffects.CampSparingDinah);
 				SceneLib.galiaFollower.GaliaLostSparring();
-			}
-			else SceneLib.impScene.impVictory2();
+			//}
 		}
 
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
-			if (flags[kFLAGS.GALIA_LVL_UP] >= 1) {
+			//if (flags[kFLAGS.GALIA_LVL_UP] >= 1) {
 			//if (player.hasStatusEffect(StatusEffects.CampSparingDinah)) {
 				//player.removeStatusEffect(StatusEffects.CampSparingDinah);
 				SceneLib.galiaFollower.GaliaWonSparring();
-			}
-			else {
-				outputText("Last thing you remember before black out is imp smashing you on the head with it sandal.");
-				cleanupAfterCombat();
-			}
+			//}
 		}
 		
-		public function Galia() 
+		public function Galia()
 		{
-			if (flags[kFLAGS.GALIA_LVL_UP] < 1) {
-				this.a = "the ";
-				this.short = "imp";
-				this.imageName = "imp";
-				this.long = "An feral imp is short, only a few feet tall.  An unkempt mane of shaggy black hair hangs from his head, parted by two short curved horns.  His eyes are solid black, save for tiny red irises which glow with evil intent.  His skin is bright red, and unencumbered by clothing or armor, save for a small loincloth at his belt, and he's extremely well-muscled.  His feet are covered by tiny wooden sandals, and his hands tipped with sharp claws.  A pair of tiny but functional wings occasionally flap from his back.";
-			}
-			if (flags[kFLAGS.GALIA_LVL_UP] >= 1) {
-				this.a = "";
-				this.short = "Galia";
-			}
+			var add:Number = 0;
 			if (flags[kFLAGS.GALIA_LVL_UP] < 2) {
 				initStrTouSpeInte(35, 5, 5, 5);
 				initWisLibSensCor(5, 5, 5, 100);
@@ -102,138 +88,95 @@ import classes.internals.*;
 				this.armorDef = 1;
 				this.armorMDef = 0;
 				this.bonusWrath = 50;
-				this.bonusLust = 11;//lib+sens+lvl
+				this.bonusLust = 11;
 				this.lust = 40;
 				this.level = 1;
 				this.gems = rand(5) + 5;
 				this.createPerk(PerkLib.OverMaxHP, 1, 0, 0, 0);
 			}
-			if (flags[kFLAGS.GALIA_LVL_UP] == 2) {
-				initStrTouSpeInte(35, 5, 5, 5);
-				initWisLibSensCor(5, 5, 5, 100);
-				this.weaponAttack = 2;
-				this.armorDef = 1;
-				this.armorMDef = 0;
-				this.bonusHP = 50;
-				this.bonusWrath = 50;
-				this.bonusLust = 17;
+			if (flags[kFLAGS.GALIA_LVL_UP] >= 2 && flags[kFLAGS.GALIA_LVL_UP] < 5) {
+				add += flags[kFLAGS.GALIA_LVL_UP] - 1;
+				initStrTouSpeInte(35+(25*add), 5+(5*add), 5+(15*add), 5+(10*add));
+				initWisLibSensCor(5+(10*add), 5+(2*add), 5+(21*add), 100);
+				this.weaponAttack = 2+(5*add);
+				this.armorDef = 1+(2*add);
+				this.armorMDef = 0+(1*add);
+				this.bonusHP = 50+(50*add);
+				this.bonusWrath = 50+(100*add);
+				this.bonusLust = 11+(29*add);//lib+sens+lvl
 				this.lust = 40;
-				this.level = 7;
+				this.level = (1+(6*add));
 				this.gems = rand(5) + 5;
-				this.createPerk(PerkLib.OverMaxHP, 7, 0, 0, 0);
+				this.createPerk(PerkLib.OverMaxHP, (1+(6*add)), 0, 0, 0);
 			}
-			if (flags[kFLAGS.GALIA_LVL_UP] == 3) {
-				initStrTouSpeInte(35, 5, 5, 5);
-				initWisLibSensCor(5, 5, 5, 100);
-				this.weaponAttack = 2;
-				this.armorDef = 1;
-				this.armorMDef = 0;
-				this.bonusHP = 50;
-				this.bonusWrath = 50;
-				this.bonusLust = 23;
+			if (flags[kFLAGS.GALIA_LVL_UP] >= 5 && flags[kFLAGS.GALIA_LVL_UP] < 8) {//pierwsza normalna mutacja
+				add += flags[kFLAGS.GALIA_LVL_UP] - 5;
+				initStrTouSpeInte(110+(25*add), 20+(5*add), 50+(15*add), 35+(10*add));
+				initWisLibSensCor(35+(10*add), 11+(2*add), 68+(21*add), 100);
+				this.weaponAttack = 17;
+				this.armorDef = 7;
+				this.armorMDef = 3;
+				this.bonusHP = 200;
+				this.bonusWrath = 350;
+				this.bonusLust = 98;
 				this.lust = 40;
-				this.level = 13;
+				this.level = 14;
 				this.gems = rand(5) + 5;
-				this.createPerk(PerkLib.OverMaxHP, 13, 0, 0, 0);
+				this.createPerk(PerkLib.OverMaxHP, (14+(6*add)), 0, 0, 0);
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			}
-			if (flags[kFLAGS.GALIA_LVL_UP] == 4) {
-				initStrTouSpeInte(35, 5, 5, 5);
-				initWisLibSensCor(5, 5, 5, 100);
-				this.weaponAttack = 2;
-				this.armorDef = 1;
-				this.armorMDef = 0;
-				this.bonusHP = 50;
-				this.bonusWrath = 50;
-				this.bonusLust = 29;
-				this.lust = 40;
-				this.level = 19;
-				this.gems = rand(5) + 5;
-				this.createPerk(PerkLib.OverMaxHP, 19, 0, 0, 0);
-			}
-			if (flags[kFLAGS.GALIA_LVL_UP] == 5) {//pierwsza specialna ewolucja/mutacja
-				initStrTouSpeInte(35, 5, 5, 5);
-				initWisLibSensCor(5, 5, 5, 100);
-				this.weaponAttack = 2;
-				this.armorDef = 1;
-				this.armorMDef = 0;
-				this.bonusHP = 50;
-				this.bonusWrath = 50;
-				this.bonusLust = 35;
+			if (flags[kFLAGS.GALIA_LVL_UP] == 8) {//pierwsza specialna ewolucja/mutacja
+				initStrTouSpeInte(135, 25, 65, 45);
+				initWisLibSensCor(45, 13, 89, 100);
+				this.weaponAttack = 22;
+				this.armorDef = 9;
+				this.armorMDef = 4;
+				this.bonusHP = 250;
+				this.bonusWrath = 450;
+				this.bonusLust = 127;
 				this.lust = 40;
 				this.level = 25;
-				this.gems = rand(5) + 5;
+				this.gems = rand(6) + 15;
+				this.createPerk(PerkLib.OverMaxHP, 25, 0, 0, 0);
+				this.createPerk(PerkLib.EnemyChampionType, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.GALIA_LVL_UP] < 5) {
-				this.imageName = "imp";
-				this.long = "Galia is short, only a few feet tall.  An unkempt mane of shaggy black hair hangs from her head, parted by two short curved horns.  Her eyes are solid black, save for tiny red irises.  Her skin is bright red unencumbered by clothing or armor, save for a small loincloth at her belt and wrap around her flat chest. She's extremely well-muscled, her feet are covered by tiny wooden sandals, and her hands tipped with sharp claws.  A pair of tiny but functional wings occasionally flap from her back.";
-				createBreastRow(0);
-				this.hips.type = Hips.RATING_BOYISH;
-				this.butt.type = Butt.RATING_TIGHT;
-				this.createVagina(true, VaginaClass.WETNESS_DRY, VaginaClass.LOOSENESS_TIGHT);
+				this.long = "Galia is short, only 2 feet 3 inches tall. An unkempt mane of shaggy platinum blond hair hangs from her head, parted by two short curved horns. Her eyes are solid black, save for tiny red irises. Her skin is bright red unencumbered by clothing or armor, save for a small loincloth at her belt and wrap fighting to keep her massive for her height breasts. Her extremely well-muscled body is nowhere to be seen replaced by much soft one, her feet are covered by tiny wooden sandals, and her hands tipped with sharp claws. A pair of tiny but functional wings occasionally flap from her back.";
+				createBreastRow(Appearance.breastCupInverse("DD"));
+				this.hairLength = 36;
+				this.tallness = 26;
+				
+			}
+			if (flags[kFLAGS.GALIA_LVL_UP] >= 5 && flags[kFLAGS.GALIA_LVL_UP] < 8) {
+				this.long = "Galia is now taller reaching 4 feet 4 inches. An unkempt mane of shaggy platinum blond hair hangs from her head, parted by two short curved horns. Her eyes are solid black, save for tiny red irises. Her skin is bright red unencumbered by clothing or armor, save for bandage-like loincloths wrapped around her foreamrs, forelegs and hips. The one wrapped around her more them ample chest seems to be from some elastic metalic material that barely doing it job. Her extremely well-muscled body is nowhere to be seen replaced by much soft one, her feet are covered by wooden sandals, and her hands tipped with sharp claws. A pair of small but functional wings occasionally flap from her back.";
+				createBreastRow(Appearance.breastCupInverse("DD"));
+				this.hairLength = 62;
+				this.tallness = 52;//for later desc - two middle length curved horns
+			}
+			if (flags[kFLAGS.GALIA_LVL_UP] < 8) {
+				this.createVagina(true, VaginaClass.WETNESS_SLICK, VaginaClass.LOOSENESS_TIGHT);
 				this.ass.analLooseness = AssClass.LOOSENESS_VIRGIN;
 				this.ass.analWetness = AssClass.WETNESS_NORMAL;
-				this.hairLength = 5;
-				this.tallness = 26;
+				this.hips.type = Hips.RATING_CURVY+2;
+				this.butt.type = Butt.RATING_JIGGLY+2;
 				this.weaponName = "claws";
 				this.weaponVerb = "claw-slash";
 				this.armorName = "leathery skin";
 			}
-			if (flags[kFLAGS.GALIA_LVL_UP] >= 5 && flags[kFLAGS.GALIA_LVL_UP] < 7) {
-				this.imageName = "imp";
-				this.long = "Galia is short, only a few feet tall.  An unkempt mane of shaggy black hair hangs from her head, parted by two short curved horns.  Her eyes are solid black, save for tiny red irises.  Her skin is bright red unencumbered by clothing or armor, save for a small loincloth at her belt and wrap around her flat chest. She's extremely well-muscled, her feet are covered by tiny wooden sandals, and her hands tipped with sharp claws.  A pair of tiny but functional wings occasionally flap from her back.";
-				createBreastRow(Appearance.breastCupInverse("A"));
-				this.hips.type = Hips.RATING_AMPLE + 2;//zmniejszyć
-				this.butt.type = Butt.RATING_LARGE;//zmniejszyć
-				this.createVagina(true, VaginaClass.WETNESS_DRY, VaginaClass.LOOSENESS_TIGHT);
-				this.ass.analLooseness = AssClass.LOOSENESS_VIRGIN;
-				this.ass.analWetness = AssClass.WETNESS_NORMAL;
-				this.hairLength = 5;
-				this.tallness = 26;
-				this.lustVuln = .1;
-				this.weaponName = "claws";
-				this.weaponVerb = "claw-slash";
-				this.armorName = "leathery skin";
-			}
-			if (flags[kFLAGS.GALIA_LVL_UP] >= 7 && flags[kFLAGS.GALIA_LVL_UP] < 9) {
-				this.imageName = "imp";
-				this.long = "Galia is short, only a few feet tall.  An unkempt mane of shaggy black hair hangs from her head, parted by two short curved horns.  Her eyes are solid black, save for tiny red irises.  Her skin is bright red unencumbered by clothing or armor, save for a small loincloth at her belt and wrap around her flat chest. She's extremely well-muscled, her feet are covered by tiny wooden sandals, and her hands tipped with sharp claws.  A pair of tiny but functional wings occasionally flap from her back.";
-				createBreastRow(Appearance.breastCupInverse("B"));//zwiekszyć?
-				this.hips.type = Hips.RATING_AMPLE + 2;//zmniejszyć?
-				this.butt.type = Butt.RATING_LARGE;//zmniejszyć?
-				this.createVagina(false, VaginaClass.WETNESS_DRY, VaginaClass.LOOSENESS_TIGHT);
-				this.ass.analLooseness = AssClass.LOOSENESS_VIRGIN;
-				this.ass.analWetness = AssClass.WETNESS_NORMAL;
-				this.hairLength = 5;
-				this.tallness = 26;
-				this.lustVuln = .1;
-				this.weaponName = "claws";
-				this.weaponVerb = "claw-slash";
-				this.armorName = "leathery skin";
-			}
-			if (flags[kFLAGS.GALIA_LVL_UP] >= 9) {
-				this.imageName = "imp";
-				this.long = "Galia is short, only a few feet tall.  An unkempt mane of shaggy black hair hangs from her head, parted by two short curved horns.  Her eyes are solid black, save for tiny red irises.  Her skin is bright red unencumbered by clothing or armor, save for a small loincloth at her belt and wrap around her flat chest. She's extremely well-muscled, her feet are covered by tiny wooden sandals, and her hands tipped with sharp claws.  A pair of tiny but functional wings occasionally flap from her back.";
-				createBreastRow(Appearance.breastCupInverse("C"));//zwiekszyć?
-				this.hips.type = Hips.RATING_AMPLE + 2;//zmniejszyć?
-				this.butt.type = Butt.RATING_LARGE;//zmniejszyć?
-				this.createVagina(false, VaginaClass.WETNESS_DRY, VaginaClass.LOOSENESS_TIGHT);
-				this.ass.analLooseness = AssClass.LOOSENESS_VIRGIN;
-				this.ass.analWetness = AssClass.WETNESS_NORMAL;
-				this.hairLength = 5;
-				this.tallness = 26;
-				this.lustVuln = .1;
-				this.weaponName = "claws";
-				this.weaponVerb = "claw-slash";
-				this.armorName = "leathery skin";
-			}
-			this.skinTone = "red";
+			this.a = "";
+			this.short = "Galia";
+			this.imageName = "imp";
+			this.bodyColor = "red";
 			this.hairColor = "black";
 			this.plural = false;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.drop = NO_DROP;
-			if (flags[kFLAGS.GALIA_LVL_UP] < 5) this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
+			if (flags[kFLAGS.GALIA_LVL_UP] < 8) this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
+			if (flags[kFLAGS.GALIA_AFFECTION] >= 2) this.createPerk(PerkLib.Sentience, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyFeralType, 0, 0, 0, 0);
-			this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
+			if (flags[kFLAGS.GALIA_LVL_UP] >= 8) {
+				this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
+				//this.createPerk(PerkLib., 0, 0, 0, 0);
+			}
 			checkMonster();
 		}
 		

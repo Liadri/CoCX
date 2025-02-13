@@ -13,6 +13,9 @@ import classes.Races;
 
 public class VenomGlandsMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Venom Glands";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -21,35 +24,22 @@ public class VenomGlandsMutation extends IMutationPerkType
                 descS = "You now possess venom glands, and your teeth now can inject the venom when you bite";
             }
             if (pTier == 2){
-                descS = "You now possess venom glands with increased venom capacity, and your teeth now can inject the venom when you bite (+5% poison resist)";
+                descS = "You now possess venom glands with increased venom capacity, and your teeth now can inject the venom when you bite (+5% poison resistance)";
             }
             if (pTier == 3){
                 descS = "You now possess venom glands with increased venom capacity, and your teeth now can inject the venom when you bite (+15% poison resistance)";
+            }
+            if (pTier == 4){
+                descS = "You now possess venom glands with greatly increased venom capacity, and your teeth now can inject the venom when you bite (+30% poison resistance)";
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Venom Glands" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -69,18 +59,17 @@ public class VenomGlandsMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) pBuffs['tou.mult'] = 0.05;
-            else if (pTier == 2) pBuffs['tou.mult'] = 0.15;
-            else if (pTier == 3) pBuffs['tou.mult'] = 0.3;
+            if (pTier == 2) pBuffs['tou.mult'] = 0.15;
+            if (pTier == 3) pBuffs['tou.mult'] = 0.3;
+            if (pTier == 4) pBuffs['tou.mult'] = 0.6;
             return pBuffs;
         }
 
         public function VenomGlandsMutation() {
-            super("Venom Glands IM", "Venom Glands", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_MOUTH, 4);
         }
 
     }

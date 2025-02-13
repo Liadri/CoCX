@@ -16,6 +16,28 @@ use namespace CoC;
 
 	public class DarkSlimeEmpress extends Monster
 	{
+		override public function playerBoundStruggle():Boolean{
+			clearOutput();
+			//[Struggle](successful) :
+			if (rand(3) == 0 || rand(80) < player.str) {
+				outputText("You barely manage to break out of the slimes clingy bodies standing up to resume the battle.");
+				player.removeStatusEffect(StatusEffects.PlayerBoundPhysical);
+			}
+			//Failed struggle
+			else {
+				outputText("You writhe uselessly, trapped inside the dark slime girls warm, seething bodies. Darkness creeps at the edge of your vision as you are lulled into surrendering by the rippling vibrations of the girls pulsing bodies around yours.");
+				player.takePhysDamage(.15 * player.maxHP(), true);
+			}
+			return true;
+		}
+
+		override public function playerBoundWait():Boolean{
+			clearOutput();
+			outputText("You writhe uselessly, trapped inside the dark slime girls warm, seething bodies. Darkness creeps at the edge of your vision as you are lulled into surrendering by the rippling vibrations of the girls pulsing bodies around yours.");
+			player.takePhysDamage(.35 * player.maxHP(), true);
+			return true;
+		}
+
 		private function gooHaremStrike():void
 		{
 			outputText("The slime girls begin to fondle your ");
@@ -28,7 +50,7 @@ use namespace CoC;
 			outputText(". ");
 			if (player.isLactating()) outputText("One of them even made suction cup tentacles in order to milk your breasts. ");
 			outputText("You’re being violated from all sides and in all possible ways by a full harem of jelly girls!\n\n");
-			player.dynStats("lus", 17 + rand(7) + this.sens / 5, "scale", false);
+			player.takeLustDamage(17 + rand(7) + this.sens / 5, true);
 			if (!hasStatusEffect(StatusEffects.LingeringSlime)) createStatusEffect(StatusEffects.LingeringSlime, 0, 0, 0, 0);
 		}
 
@@ -48,26 +70,25 @@ use namespace CoC;
 			td += player.lib / 8;
 			td += player.effectiveSensitivity() / 8;
 			td = Math.round(td);
-			td = td * (EngineCore.lustPercent() / 100);
 			if (!hasStatusEffect(StatusEffects.LingeringSlime)) createStatusEffect(StatusEffects.LingeringSlime, 0, 0, 0, 0);
-			outputText("\nLust swells up in your body as the substance splash on you. <b>(<font color=\"#ff00ff\">" + (Math.round(td * 10) / 10) + "</font>)</b> lust damage.");
-			player.dynStats("lus", td, "scale", false);
+			outputText("\nLust swells up in your body as the substance splash on you.");
+			player.takeLustDamage(td, true);
 		}
 
 		private function gooGroupGrapple():void
 		{
 			outputText("The slime girls suddenly attempt to grapple you one after another to restrict your movements!");
-			if((player.hasPerk(PerkLib.Evade) && rand(6) == 0) || (player.spe > ((this.spe * 1.5) + rand(200)))) outputText("You barely manage to break out of their clingy bodies!");
+			if(player.getEvasionRoll()) outputText("You barely manage to break out of their clingy bodies!");
 			else {
 				outputText("Before you know it you’re covered and pulled down by their combined bodies.");
-				if (!player.hasStatusEffect(StatusEffects.GooBind)) player.createStatusEffect(StatusEffects.GooBind, 0, 0, 0, 0);
+				if (!player.hasStatusEffect(StatusEffects.PlayerBoundPhysical)) player.createStatusEffect(StatusEffects.PlayerBoundPhysical, 0, 0, 0, 0);
 			}
 		}
 
 		override protected function performCombatAction():void {
 			if (hasStatusEffect(StatusEffects.LingeringSlime)) {
 				outputText("Small stains of lingering slimes cling to your body, insidiously pouring you with aphrodisiacs.\n\n");
-				player.dynStats("lus", (10 + int(player.lib / 12 + player.cor / 14)));
+				player.takeLustDamage((10 + int(player.lib / 12 + player.cor / 14)), true);
 				removeStatusEffect(StatusEffects.LingeringSlime);
 			}
 			super.performCombatAction();
@@ -88,14 +109,14 @@ use namespace CoC;
 		{
 			var mod:int = inDungeon ? SceneLib.dungeons.ebonlabyrinth.enemyLevelMod : 3;
             initStrTouSpeInte(120 + 20*mod, 240 + 50*mod, 160 + 40*mod, 150 + 30*mod);
-            initWisLibSensCor(150 + 30*mod, 240 + 50*mod, 200 + 10*mod, 10);
+            initWisLibSensCor(150 + 30*mod, 240 + 50*mod, 200 + 10*mod, -80);
             this.armorDef = 60 + 20*mod;
             this.armorMDef = 180 + 60*mod;
             this.bonusHP = 10000 + 2500*mod;
             this.bonusLust = 505 + 65*mod;
             this.level = 60 + 5*mod; //starts from 65 due to EL levelMod calculations;
-            this.gems = mod > 50 ? 0 : Math.floor((2500 + rand(500)) * Math.exp(0.3*mod));
-            this.additionalXP = mod > 50 ? 0 : Math.floor(10000 * Math.exp(0.3*mod));
+            this.gems = mod > 20 ? 0 : Math.floor((2500 + rand(500)) * Math.exp(0.3*mod));
+            this.additionalXP = mod > 20 ? 0 : Math.floor(10000 * Math.exp(0.3*mod));
             
 			this.a = "";
 			this.short = "Dark Slime Empress";
@@ -121,7 +142,6 @@ use namespace CoC;
 			this.armorName = "gelatinous skin";
 			this.lust = 45;
 			this.lustVuln = .75;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.drop = new WeightedDrop(consumables.DSLIMEJ, 1);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.FireVulnerability, 0, 0, 0, 0);
@@ -132,9 +152,9 @@ use namespace CoC;
 			this.abilities = [
 				{ call: gooHaremStrike, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_FLUID,]},
 				{ call: gooGroupGrapple, type: ABILITY_TEASE, range: RANGE_MELEE, tags:[TAG_FLUID]},
-				{ call: gooHaremStrike, type: ABILITY_TEASE, range: RANGE_MELEE, tags:[TAG_FLUID], condition: function():Boolean { return player.hasStatusEffect(StatusEffects.GooBind) }, weight:Infinity},
+				{ call: gooHaremStrike, type: ABILITY_TEASE, range: RANGE_MELEE, tags:[TAG_FLUID], condition: function():Boolean { return player.hasStatusEffect(StatusEffects.PlayerBoundPhysical) }, weight:Infinity},
 				{ call: gooSlimeBarrage, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[TAG_FLUID]}
-			]
+			];
 			checkMonster();
 		}
 	}

@@ -4,6 +4,7 @@ import classes.*;
 import classes.BodyParts.Antennae;
 import classes.BodyParts.Arms;
 import classes.BodyParts.Beard;
+import classes.BodyParts.BodyMaterial;
 import classes.BodyParts.Claws;
 import classes.BodyParts.Ears;
 import classes.BodyParts.Eyes;
@@ -18,22 +19,37 @@ import classes.BodyParts.Tail;
 import classes.BodyParts.Tongue;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.Armor;
 import classes.Items.Consumable;
-import classes.Items.ConsumableLib;
+import classes.Items.Consumables.HairDye;
+import classes.Items.Dynamic.DynamicArmor;
+import classes.Items.Dynamic.DynamicWeapon;
+import classes.Items.DynamicItems;
+import classes.Items.EnchantmentType;
+import classes.Items.FlyingSwords;
+import classes.Items.HeadJewelry;
+import classes.Items.ItemConstants;
+import classes.Items.Jewelry;
+import classes.Items.MiscJewelry;
+import classes.Items.Shield;
+import classes.Items.Undergarment;
+import classes.Items.Weapon;
+import classes.Items.WeaponRange;
 import classes.Parser.Parser;
 import classes.Scenes.NPCs.JojoScene;
 import classes.Transformations.PossibleEffect;
 import classes.Transformations.Transformation;
 import classes.internals.EnumValue;
-import classes.internals.race.RacialRequirement;
 
 import coc.view.Block;
+import coc.view.ButtonDataList;
 import coc.view.Color;
 import coc.view.MainView;
-
-import fl.controls.ComboBox;
-import fl.controls.TextInput;
-import fl.data.DataProvider;
+import com.bit101.components.ComboBox;
+import com.bit101.components.InputText;
+//import fl.controls.ComboBox;
+//import fl.controls.TextInput;
+//import fl.data.DataProvider;
 
 import flash.display.DisplayObject;
 import flash.events.Event;
@@ -42,9 +58,6 @@ import flash.utils.describeType;
 
 public class DebugMenu extends BaseContent
 	{
-		public var flagNames:XML = describeType(kFLAGS);
-		private var lastMenu:Function = null;
-
 		public var setArrays:Boolean = false;
 
 		//Set up equipment arrays
@@ -84,13 +97,13 @@ public class DebugMenu extends BaseContent
 				addButton(1, "Change Stats", statChangeMenu).hint("Change your core stats.");
 				addButton(2, "Flag Editor", flagEditor).hint("Edit any flag. \n\nCaution: This might screw up your save!");
 				addButton(3, "Reset NPC", resetNPCMenu).hint("Choose a NPC to reset.");
-				//addButton(5, "Event Trigger", eventTriggerMenu);
-				//addButton(6, "MeaninglessCorr", toggleMeaninglessCorruption).hint("Toggles the Meaningless Corruption flag. If enabled, all corruption requirements are disabled for scenes.");
+				addButton(6, "MeaninglessCorr", toggleMeaninglessCorruption).hint("Toggles the Meaningless Corruption flag. If enabled, most corruption requirements are disabled for scenes.");
 				if (player.isPregnant()) addButton(4, "Abort Preg", abortPregnancy);
 				addButton(5, "DumpEffects", dumpEffectsMenu).hint("Display your status effects");
 				addButton(7, "HACK STUFFZ", styleHackMenu).hint("H4X0RZ");
 	            addButton(8, "Test Scene", testScene);
 	            addButton(9, "Test Tf", testTfMenu);
+	            addButton(10, "Debug set var", debugSetVarMenu);
 				addButton(14, "Exit", playerMenu);
 			}
             if (CoC.instance.inCombat) {
@@ -99,7 +112,58 @@ public class DebugMenu extends BaseContent
 				doNext(playerMenu);
 			}
 		}
-		private function  dumpEffectsMenu():void {
+		
+		/**
+		 * Sets an inputted variable to specified value
+		 * all parameters are strings
+		 * @param	objName name of desired object (player)
+		 * @param	varName name of desired variable (XP)
+		 * @param	varVal value to set
+		 * @return true if obj.var exists, otherwise false
+		 */public function debugVarSet(objName:String, varName:String, varVal:String):Boolean {
+			if (!BaseContent[objName].hasOwnProperty(varName)) {
+				outputText("Invalid " + objName + "or" + varName);
+				return false;
+			} else {
+				BaseContent[objName][varName] = varVal;
+				return true;
+			}
+		}
+		/**
+		 * Accepts a simple assignment string like player.XP=10
+		 * can also read text box in debug menu
+		 * @param	input String to parse, no fancy interpreting
+		 * @return true unless textbox empty, otherwise false
+		 */public function debugVarParse(input:String = null):Boolean {
+			if (input == null) input = mainView.nameBox.text;
+			if (input == "") return false;
+			mainView.nameBox.visible = false;
+			mainView.nameBox.text = "";
+			var regex:RegExp = /[.=]/;
+			var inputa:Array = input.split(regex);
+			outputText("\n\n"+input+" became "+inputa[0]+", "+inputa[1]+", "+inputa[2]+".");
+			return debugVarSet(inputa[0], inputa[1], inputa[2]);
+		}
+		
+		private function debugSetVarMenu():void {
+			clearOutput();
+			mainView.nameBox.visible = true;
+			mainView.nameBox.width = 165;
+			mainView.nameBox.x = mainView.mainText.x + 5;
+			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
+			mainView.nameBox.text = "";
+			mainView.nameBox.maxChars = 999;
+			mainView.nameBox.restrict = null;
+			outputText("\n\n\n\n\nThis is not intelligent, please use the format: obj.var=val\n"
+				+"For example, player.XP=10\nValues are <b>case-sensitive</b> and basically only strings or numbers.\n"
+				+"Note that values may not visibly update until a refresh is called in some way.\n");
+			menu();
+			addButton(0, "Enter", debugVarParse);
+			addButton(1, "Cancel", accessDebugMenu);
+			addButton(2, "Refresh", debugSetVarMenu);
+		}
+		
+		private function dumpEffectsMenu():void {
 			clearOutput();
 			for each (var effect:StatusEffectClass in player.statusEffects) {
 				outputText("'"+effect.stype.id+"': "+effect.value1+" "+effect.value2+" "+effect.value3+" "+effect.value4+"\n");
@@ -168,9 +232,9 @@ public class DebugMenu extends BaseContent
 				if (tf.isPossible()) outputText("</u>");
 				outputText(" / "+tf.name);
 				if (tf is Transformation && (tf as Transformation).isPresent()) {
-					outputText(" <font color='#008000'>present</font>");
+					outputText(" [font-green]present[/font]");
 				} else if (!tf.isPossible()) {
-					outputText(" <font color='#800000'>impossible</font>");
+					outputText(" [font-red]impossible[/font]");
 				}
 			}
 			outputText("\n\n");
@@ -200,28 +264,308 @@ public class DebugMenu extends BaseContent
 			clearOutput();
 			outputText("Select a category.");
 			menu();
-			addButton(0, "Transformatives", displayItemPage, transformativeArray, 1);
-			addButton(1, "Consumables", displayItemPage, consumableArray, 1);
-			addButton(2, "Dyes", displayItemPage, dyeArray, 1);
-			addButton(3, "Materials", displayItemPage, materialArray, 1);
-			addButton(4, "Rare Items", displayItemPage, rareArray, 1);
-			addButton(5, "Weapons", displayItemPage, weaponArray, 1);
-			addButton(6, "Shields", displayItemPage, shieldArray, 1);
-			addButton(7, "Armours", displayItemPage, armourArray, 1);
-			addButton(8, "Undergarments", displayItemPage, undergarmentArray, 1);
-			addButton(9, "Accessories", displayItemPage, accessoryArray, 1);
-			addButton(10,"ConsumableLib",displayItemPage,testArray,1);
+			addButton(0, "Transformatives", displayItemList, transformativeArray);
+			addButton(1, "Consumables", displayItemList, consumableArray);
+			addButton(2, "Dyes", displayItemList, dyeArray);
+			addButton(3, "Materials", displayItemList, materialArray);
+			addButton(4, "Rare Items", displayItemList, rareArray);
+			addButton(5, "Weapons", displayItemList, weaponArray);
+			addButton(6, "Shields", displayItemList, shieldArray);
+			addButton(7, "Armours", displayItemList, armourArray);
+			addButton(8, "Undergarments", displayItemList, undergarmentArray);
+			addButton(9, "Accessories", displayItemList, accessoryArray);
+			addButton(10,"ConsumableLib",displayItemList,testArray);
+			addButton(12, "Dynamic", dynamicItemMenu);
+			addButton(13, "Enchanted", enchantedItemMenu);
 			addButton(14, "Back", accessDebugMenu);
 		}
+		
+		private function dynamicItemMenu():void {
+			hideItemParams();
+			clearOutput();
+			menu();
+			var buttons:ButtonDataList = new ButtonDataList();
+			buttons.add("HairDye", curry(configureTemplate, itemTemplates.THairDye));
+			submenu(buttons, itemSpawnMenu);
+		}
+		private var itemParamsBlock:Block;
+		private function hideItemParams():void {
+			if (itemParamsBlock) {
+				mainView.removeElement(itemParamsBlock);
+				itemParamsBlock = null;
+			}
+		}
+		private function configureTemplate(template:ItemTemplate, paramsDef:Array=null):void {
+			paramsDef ||= template.metadata.params;
+			clearOutput();
+			outputText(template.name + " parameters:\n");
+			flushOutputTextToGUI();
+			
+			var parameters:Object = {};
+			
+			itemParamsBlock = new Block({
+				layoutConfig: {
+					type: "flow",
+					direction: "column",
+					gap: 2
+				},
+				x: mainView.mainText.x,
+				y: mainView.mainText.y + 24,
+				width: mainView.mainText.width,
+				height: mainView.mainText.height - 24
+			});
+			mainView.hotkeysDisabled = true;
+			mainView.addElement(itemParamsBlock);
+			for each (var def:Object in paramsDef) {
+				parameters[def.name] = def.value;
+				var row:Block = new Block({height: 24});
+				row.addTextField({text: def.label || def.name});
+				var element:DisplayObject;
+				switch (def.type) {
+					case "text":
+						element = (function(def:Object):DisplayObject{
+							return row.addTextInput({
+								bindText: [parameters, def.name]
+							})
+						})(def);
+						break;
+					case "number":
+						element = (function(def:Object):DisplayObject{
+							return row.addTextInput({
+								bindNumber: [parameters, def.name]
+							})
+						})(def);
+						break;
+					default:
+						element = row.addTextField({text:"Bad type "+def.type});
+				}
+				if (element) {
+					element.x       = itemParamsBlock.width * 1 / 5;
+					element.width   = itemParamsBlock.width * 4 / 5;
+					element.visible = true;
+					row.addElement(element);
+					itemParamsBlock.addElement(row);
+				}
+			}
+			
+			menu();
+			addButton(0, "Create", createDynamicItem, template, parameters);
+			addButton(14, "Back", dynamicItemMenu);
+		}
+		private function createDynamicItem(template:ItemTemplate, parameters:Object):void {
+			clearOutput();
+			hideItemParams();
+			inventory.takeItem(template.createItem(parameters), dynamicItemMenu);
+		}
 
+		private function enchantedItemMenu():void {
+			clearOutput();
+			outputText("Create an enchanted item");
+			flushOutputTextToGUI();
+			
+			var params:Object = {
+				typeSubtype: "weapon/sword",
+				rarity: ItemConstants.RARITY_COMMON,
+				curse: ItemConstants.CS_HIDDEN_UNCURSED,
+				quality: +0,
+				effects: [
+					{identified: true, type: 0, params: "0"},
+					{identified: true, type: 0, params: "0"},
+					{identified: true, type: 0, params: "0"},
+					{identified: true, type: 0, params: "0"}
+				]
+			};
+			
+			hideItemParams();
+			itemParamsBlock = new Block({
+				layoutConfig: {
+					type: "flow",
+					direction: "column",
+					gap: 2,
+					stretch: true
+				},
+				x: mainView.mainText.x,
+				y: mainView.mainText.y + 24,
+				width: mainView.mainText.width,
+				height: mainView.mainText.height - 24
+			});
+			
+			var paramGrid:Block = new Block({
+				layoutConfig: {
+					type: "grid",
+					columns: [1/3, 2/3],
+					gap: 2,
+					setWidth: true
+				}
+			});
+			
+			var typesAndSubtypes:Array = [];
+			for each (var k:String in values(DynamicWeapon.Subtypes).sort()) typesAndSubtypes.push("weapon/"+k);
+			for each (k in values(DynamicArmor.Subtypes).sort()) typesAndSubtypes.push("armor/"+k);
+			paramGrid.addTextField("Type/Subtype");
+			paramGrid.addComboBox({
+				bindValue: [params, "typeSubtype"],
+				items: typesAndSubtypes
+			});
+			paramGrid.addTextField("Rarity");
+			paramGrid.addComboBox({
+				bindValue: [params, "rarity"],
+				items: ItemConstants.Rarities,
+				labelKey: "name",
+				valueKey: "value"
+			});
+			paramGrid.addTextField("Curse status");
+			paramGrid.addComboBox({
+				bindValue: [params, "curse"],
+				items: [
+					{label:"Unknown uncursed", data:ItemConstants.CS_HIDDEN_UNCURSED},
+					{label:"Known uncursed", data:ItemConstants.CS_KNOWN_UNCURSED},
+					{label:"Unknown cursed", data:ItemConstants.CS_HIDDEN_CURSED},
+					{label:"Known cursed", data:ItemConstants.CS_KNOWN_CURSED}
+				]
+			});
+			paramGrid.addTextField("Quality");
+			paramGrid.addTextInput({
+				bindNumber: [params, "quality"]
+			});
+			itemParamsBlock.addElement(paramGrid);
+			
+			var effectGrid:Block = new Block({
+				layoutConfig: {
+					type: "grid",
+					columns: [1/3, 1/3, 1/3],
+					gap: 2,
+					setWidth: true
+				}
+			});
+			effectGrid.addTextField("Identified");
+			effectGrid.addTextField("Enchantment type");
+			effectGrid.addTextField("Enchantment power/params");
+			for (var i:int = 0; i < params.effects.length; i++) {
+				effectGrid.addComboBox({
+					bindValue: [params.effects[i], "identified"],
+					items:[
+						{label:"identified", data:true},
+						{label:"unidentified", data:false}
+					]
+				}, {setWidth:false});
+				effectGrid.addComboBox({
+					items: [{name:"(none)", id:0}].concat(values(EnchantmentType.ENCHANTMENT_TYPES)),
+					labelKey: "name",
+					valueKey: "id",
+					bindValue: [params.effects[i], "type"]
+				});
+				effectGrid.addTextInput({
+					bindText: [params.effects[i], "params"]
+				});
+			}
+			itemParamsBlock.addElement(effectGrid);
+			
+			mainView.hotkeysDisabled = true;
+			mainView.addElement(itemParamsBlock);
+			
+			menu();
+			addButton(0, "Spawn", function():void {
+				hideItemParams();
+				clearOutput();
+				rawOutputText(JSON.stringify(params));
+				outputText("\n\n");
+				var effs:Array = [];
+				for each (var e:Object in params.effects) {
+					if (e.type) {
+						effs.push(
+								[
+									e.identified ? 1 : 0,
+									e.type
+								].concat(JSON.parse("[" + e.params + "]"))
+						);
+					}
+				}
+				var p:Object = {
+					t: params.typeSubtype.split("/")[1],
+					r: params.rarity,
+					q: params.quality,
+					c: params.curse,
+					e: effs
+				}
+				rawOutputText(JSON.stringify(p));
+				outputText("\n\n");
+				var item:ItemType;
+				switch (params.typeSubtype.split("/")[0]) {
+					case "weapon":
+						item = itemTemplates.TDynamicWeapon.createItem(p);
+						break;
+					case "armor":
+						item = itemTemplates.TDynamicArmor.createItem(p);
+						break;
+					default:
+						throw new Error(params.typeSubtype);
+				}
+				
+				outputText(item.shortName+"\n"+item.longName+"\n"+item.description);
+				
+				doNext(inventory.takeItem, item, itemSpawnMenu);
+			});
+			addButton(5, "Random", function():void {
+				hideItemParams();
+				clearOutput();
+				var item:ItemType = DynamicItems.randomItem({identified:true});
+				inventory.takeItem(item, enchantedItemMenu);
+			});
+			addButton(6, "Random x20", generate20RandomItems);
+			addButton(14, "Back", function():void {
+				hideItemParams();
+				itemSpawnMenu();
+			})
+		}
+		
+		private function generate20RandomItems():void {
+			hideItemParams();
+			clearOutput();
+			mainView.linkHandler = function(event:String):void {
+				inventory.takeItem(ItemType.lookupItem(event), enchantedItemMenu);
+			}
+			outputText("Click to take:");
+			for (var i:int = 0; i<20; i++) {
+				var item:ItemType = DynamicItems.randomItem({identified:true});
+				outputText("\n"+mkLink(item.longName, item.id));
+			}
+			menu();
+			addButton(0, "Again", generate20RandomItems);
+			addButton(14, "Back", itemSpawnMenu);
+		}
+		
+		private function displayItemList(array:/*ItemType*/Array):void {
+			// displayItemPage(array, 1);
+			var storage:/*ItemSlotClass*/Array = [];
+			for (var i:int = 0; i < array.length; i++) {
+				var isc:ItemSlotClass = new ItemSlotClass();
+				var itype:ItemType = array[i];
+				if (itype) {
+					isc.setItemAndQty(itype, itype.stackSize);
+				}
+				storage.push(isc);
+			}
+			inventory.transferMenu(
+					storage,
+					0,
+					storage.length,
+					itemSpawnMenu,
+					"Spawn Item",
+					null,
+					true,
+					false
+			);
+		}
 		private function displayItemPage(array:Array, page:int):void {
 			clearOutput();
 			outputText("What item would you like to spawn? ");
 			menu();
 			var buttonPos:int = 0; //Button positions 4 and 9 are reserved for next and previous.
 			for (var i:int = 0; i < 12; i++) {
-				if (array[((page-1) * 12) + i] != undefined) {
-					if (array[((page-1) * 12) + i] != null) addButton(buttonPos, array[((page-1) * 12) + i].shortName, inventory.takeItem, array[((page-1) * 12) + i], curry(displayItemPage, array, page));
+				var itemType:ItemType = array[((page-1) * 12) + i];
+				if (itemType) {
+					addButton(buttonPos, itemType.shortName, inventory.takeItem, itemType, curry(displayItemPage, array, page)).itemIcon(itemType);
 				}
 				buttonPos++;
 				if (buttonPos == 4 || buttonPos == 9) buttonPos++;
@@ -253,177 +597,19 @@ public class DebugMenu extends BaseContent
 
 		private function setItemArrays():void {
             if (setArrays) return; //Already set, cancel.
-            var xmlList:XMLList = describeType(ConsumableLib).factory.constant;
-            for each (var item:XML in xmlList){
-                if(consumables[item.@name] is Consumable){
-					testArray.push(consumables[item.@name]);
-                    trace(String(consumables[item.@name]));
-				} else {
-					trace("Not Added: "+String(consumables[item.@name]));
+			function addItemsFromLib(array:/*ItemType*/Array, lib:Object, itemClass:Class):void {
+				for each (var item:* in values(lib, true)) {
+					if (item is ItemType && !(item as ItemType).isNothing && item is itemClass) {
+						array.push(item);
+						// trace(String(item.name));
+					} else {
+						trace("Not Added: " + String(item));
+					}
 				}
-            }
+				array.sortOn("shortName");
+			}
+			addItemsFromLib(testArray, consumables, Consumable);
 			//Build arrays here
-			//------------
-			// Transformatives
-			//------------
-			//Page 1
-			transformativeArray.push(consumables.B_GOSSR);
-			transformativeArray.push(consumables.BAYRLEA);
-			transformativeArray.push(consumables.BEEHONY);
-			transformativeArray.push(consumables.BLACKPP);
-			transformativeArray.push(consumables.BOARTRU);
-			transformativeArray.push(consumables.BULBYPP);
-			transformativeArray.push(consumables.CANINEP);
-			transformativeArray.push(consumables.CENTARI);
-			transformativeArray.push(consumables.DBLPEPP);
-			transformativeArray.push(consumables.DRAKHRT);
-			transformativeArray.push(consumables.DRYTENT);
-			transformativeArray.push(consumables.ECTOPLS);
-			//Page 2
-			transformativeArray.push(consumables.EQUINUM);
-			transformativeArray.push(consumables.FOXBERY);
-			transformativeArray.push(consumables.FOXJEWL);
-			transformativeArray.push(consumables.FRRTFRT);
-			transformativeArray.push(consumables.GLDRIND);
-			transformativeArray.push(consumables.GLDSEED);
-			transformativeArray.push(consumables.GOB_ALE);
-			transformativeArray.push(consumables.HUMMUS_);
-			transformativeArray.push(consumables.IMPFOOD);
-			transformativeArray.push(consumables.INCUBID);
-			transformativeArray.push(consumables.KANGAFT);
-			transformativeArray.push(consumables.KNOTTYP);
-			//Page 3
-			transformativeArray.push(consumables.LABOVA_);
-			transformativeArray.push(consumables.LARGEPP);
-			transformativeArray.push(consumables.M_GOSSR);
-			transformativeArray.push(consumables.MAGSEED);
-			transformativeArray.push(consumables.METHIRC);
-			transformativeArray.push(consumables.MGHTYVG);
-			transformativeArray.push(consumables.MOUSECO);
-			transformativeArray.push(consumables.MINOBLO);
-			transformativeArray.push(consumables.MYSTJWL);
-			transformativeArray.push(consumables.P_LBOVA);
-			transformativeArray.push(consumables.PIGTRUF);
-			transformativeArray.push(consumables.PRFRUIT);
-			//Page 4
-			transformativeArray.push(consumables.PROBOVA);
-			transformativeArray.push(consumables.P_DRAFT);
-			transformativeArray.push(consumables.P_S_MLK);
-			transformativeArray.push(consumables.PSDELIT);
-			transformativeArray.push(consumables.PURHONY);
-			transformativeArray.push(consumables.SATYR_W);
-			transformativeArray.push(consumables.SDELITE);
-			transformativeArray.push(consumables.S_DREAM);
-			transformativeArray.push(consumables.SUCMILK);
-			transformativeArray.push(consumables.REPTLUM);
-			transformativeArray.push(consumables.RINGFIG);
-			transformativeArray.push(consumables.RIZZART);
-			//Page 5
-			transformativeArray.push(consumables.S_GOSSR);
-			transformativeArray.push(consumables.SALAMFW);
-			transformativeArray.push(consumables.SHARK_T);
-			transformativeArray.push(consumables.SNAKOIL);
-			transformativeArray.push(consumables.SPHONEY);
-			transformativeArray.push(consumables.TRAPOIL);
-			transformativeArray.push(consumables.TSCROLL);
-			transformativeArray.push(consumables.TSTOOTH);
-			transformativeArray.push(consumables.VIXVIGR);
-			transformativeArray.push(consumables.W_FRUIT);
-			transformativeArray.push(consumables.WETCLTH);
-
-			//------------
-			// Consumables
-			//------------
-			//Page 1
-			consumableArray.push(consumables.AKBALSL);
-			consumableArray.push(consumables.C__MINT);
-			consumableArray.push(consumables.CERUL_P);
-			consumableArray.push(consumables.COAL___);
-			consumableArray.push(consumables.DEBIMBO);
-			consumableArray.push(consumables.EXTSERM);
-			consumableArray.push(consumables.F_DRAFT);
-			consumableArray.push(consumables.GROPLUS);
-			consumableArray.push(consumables.H_PILL);
-			consumableArray.push(consumables.HRBCNT);
-			consumableArray.push(consumables.ICICLE_);
-			consumableArray.push(consumables.KITGIFT);
-			//Page 2
-			consumableArray.push(consumables.L_DRAFT);
-			consumableArray.push(consumables.LACTAID);
-			consumableArray.push(consumables.LUSTSTK);
-			consumableArray.push(consumables.MILKPTN);
-			consumableArray.push(consumables.NUMBOIL);
-			consumableArray.push(consumables.NUMBROX);
-			consumableArray.push(consumables.OVIELIX);
-			consumableArray.push(consumables.PEPPWHT);
-			consumableArray.push(consumables.PPHILTR);
-			consumableArray.push(consumables.PRNPKR);
-			consumableArray.push(consumables.REDUCTO);
-			consumableArray.push(consumables.SENSDRF);
-			//Page 3
-			consumableArray.push(consumables.SMART_T);
-			consumableArray.push(consumables.VITAL_T);
-			consumableArray.push(consumables.B__BOOK);
-			consumableArray.push(consumables.W__BOOK);
-			consumableArray.push(consumables.G__BOOK);
-			consumableArray.push(consumables.BC_BEER);
-			consumableArray.push(consumables.BHMTCUM);
-			consumableArray.push(consumables.BIMBOCH);
-			consumableArray.push(consumables.C_BREAD);
-			consumableArray.push(consumables.CCUPCAK);
-			consumableArray.push(consumables.FISHFIL);
-			consumableArray.push(consumables.FR_BEER);
-			//Page 4
-			consumableArray.push(consumables.GODMEAD);
-			consumableArray.push(consumables.H_BISCU);
-			consumableArray.push(consumables.IZYMILK);
-			consumableArray.push(consumables.M__MILK);
-			consumableArray.push(consumables.MINOCUM);
-			consumableArray.push(consumables.P_BREAD);
-			consumableArray.push(consumables.P_WHSKY);
-			consumableArray.push(consumables.PURPEAC);
-			consumableArray.push(consumables.SHEEPMK);
-			consumableArray.push(consumables.S_WATER);
-			consumableArray.push(consumables.NPNKEGG);
-			consumableArray.push(consumables.DRGNEGG);
-			//Page 5
-			consumableArray.push(consumables.W_PDDNG);
-			consumableArray.push(consumables.TRAILMX);
-			consumableArray.push(consumables.URTACUM);
-			consumableArray.push(consumables.BLACKEG);
-			consumableArray.push(consumables.L_BLKEG);
-			consumableArray.push(consumables.BLUEEGG);
-			consumableArray.push(consumables.L_BLUEG);
-			consumableArray.push(consumables.BROWNEG);
-			consumableArray.push(consumables.L_BRNEG);
-			consumableArray.push(consumables.PINKEGG);
-			consumableArray.push(consumables.L_PNKEG);
-			consumableArray.push(consumables.PURPLEG);
-			//Page 6
-			consumableArray.push(consumables.L_PRPEG);
-			consumableArray.push(consumables.WHITEEG);
-			consumableArray.push(consumables.L_WHTEG);
-			consumableArray.push(consumables.AMBROSA);
-
-			//------------
-			// Dyes
-			//------------
-			//Page 1
-			dyeArray.push(consumables.AUBURND);
-			dyeArray.push(consumables.BLACK_D);
-			dyeArray.push(consumables.BLOND_D);
-			dyeArray.push(consumables.BLUEDYE);
-			dyeArray.push(consumables.BROWN_D);
-			dyeArray.push(consumables.GRAYDYE);
-			dyeArray.push(consumables.GREEN_D);
-			dyeArray.push(consumables.ORANGDY);
-			dyeArray.push(consumables.PINKDYE);
-			dyeArray.push(consumables.PURPDYE);
-			dyeArray.push(consumables.RAINDYE);
-			dyeArray.push(consumables.RED_DYE);
-			//Page 2
-			dyeArray.push(consumables.WHITEDY);
-
 			//------------
 			// Materials
 			//------------
@@ -433,9 +619,8 @@ public class DebugMenu extends BaseContent
 			materialArray.push(useables.T_SSILK);
 			materialArray.push(useables.D_SCALE);
 			materialArray.push(useables.IMPSKLL);
-			materialArray.push(useables.LETHITE);
-			materialArray.push(null);
-			materialArray.push(null);
+			materialArray.push(useables.E_ICHOR);
+			materialArray.push(useables.D_E_ICHOR);
 			materialArray.push(null);
 			materialArray.push(null);
 			materialArray.push(null);
@@ -451,148 +636,48 @@ public class DebugMenu extends BaseContent
 
 			rareArray.push(useables.DBGWAND);
 			rareArray.push(useables.GLDSTAT);
+			//------------
+			// Transformatives & Consumables
+			//------------
+			for each (var item:ItemType in testArray) {
+				if (item is HairDye) {
+					dyeArray.push(item);
+				} else if (materialArray.indexOf(item) == -1 && rareArray.indexOf(item) == -1) {
+					if (item.hasTag(ItemConstants.U_TF)) {
+						transformativeArray.push(item);
+					} else
+						consumableArray.push(item);
+				}
+			}
 
 			//------------
 			// Weapons
 			//------------
-			//Page 1
-			weaponArray.push(weapons.B_SCARB);
-			weaponArray.push(weapons.B_SWORD);
-			weaponArray.push(weapons.BFSWORD);
-			weaponArray.push(weapons.CLAYMOR);
-			weaponArray.push(weapons.E_STAFF);
-			weaponArray.push(weapons.FLAIL);
-			weaponArray.push(weapons.URTAHLB);
-			weaponArray.push(weapons.H_GAUNT);
-			weaponArray.push(weapons.JRAPIER);
-			weaponArray.push(weapons.KATANA);
-			weaponArray.push(weapons.L__AXE);
-			weaponArray.push(weapons.L_DAGGR);
-			//Page 2
-			weaponArray.push(weapons.L_HAMMR);
-			weaponArray.push(weapons.L_STAFF);
-			weaponArray.push(weapons.MACE);
-			weaponArray.push(weapons.PIPE);
-			weaponArray.push(weapons.PTCHFRK);
-			weaponArray.push(weapons.RIDINGC);
-			weaponArray.push(weapons.RRAPIER);
-			weaponArray.push(weapons.S_BLADE);
-			weaponArray.push(weapons.S_GAUNT);
-			weaponArray.push(weapons.SCARBLD);
-			weaponArray.push(weapons.SCIMITR);
-			weaponArray.push(weapons.SPEAR);
-			//Page 3
-			weaponArray.push(weapons.SUCWHIP);
-			weaponArray.push(weapons.W_STAFF);
-			weaponArray.push(weapons.WARHAMR);
-			weaponArray.push(weapons.WHIP);
-			weaponArray.push(weaponsrange.BLUNDER);
-			weaponArray.push(weaponsrange.BOWKELT);
-			weaponArray.push(weaponsrange.BOWOLD_);
-			weaponArray.push(weaponsrange.LCROSBW);
-			weaponArray.push(weaponsrange.FLINTLK);
-			weaponArray.push(weapons.UGATANA);
-			weaponArray.push(weapons.DDAGGER);
-			weaponArray.push(weapons.D_LANCE);
+			addItemsFromLib(weaponArray, weapons, Weapon);
+			addItemsFromLib(weaponArray, weaponsrange, WeaponRange);
+			addItemsFromLib(weaponArray, weaponsflyingswords, FlyingSwords);
 
 			//------------
 			// Shields
 			//------------
-			//Page 1, poor shield category is so lonely. :(
-			shieldArray.push(shields.BUCKLER);
-			shieldArray.push(shields.DRGNSHL);
-			shieldArray.push(shields.GREATSH);
-			shieldArray.push(shields.KITE_SH);
-			shieldArray.push(shields.TOWERSH);
-			shieldArray.push(shields.SPI_FOC);
-			shieldArray.push(shields.BSHIELD);
+			addItemsFromLib(shieldArray, shields, Shield);
 
 			//------------
 			// Armours
 			//------------
-			//Page 1
-			armourArray.push(armors.ADVCLTH);
-			armourArray.push(armors.B_DRESS);
-			armourArray.push(armors.BEEARMR);
-			armourArray.push(armors.BIMBOSK);
-			armourArray.push(armors.BONSTRP);
-			armourArray.push(armors.C_CLOTH);
-			armourArray.push(armors.CHBIKNI);
-			armourArray.push(armors.CLSSYCL);
-			armourArray.push(armors.DBARMOR);
-			armourArray.push(armors.FULLCHN);
-			armourArray.push(armors.FULLPLT);
-			armourArray.push(armors.GELARMR);
-			//Page 2
-			armourArray.push(armors.GOOARMR);
-			armourArray.push(armors.I_CORST);
-			armourArray.push(armors.I_ROBES);
-			armourArray.push(armors.INDECST);
-			armourArray.push(armors.LEATHRA);
-			armourArray.push(armors.URTALTA);
-			armourArray.push(armors.LMARMOR);
-			armourArray.push(armors.LTHCARM);
-			armourArray.push(armors.LTHRPNT);
-			armourArray.push(armors.LTHRROB);
-			armourArray.push(armors.M_ROBES);
-			armourArray.push(armors.TBARMOR);
-			//Page 3
-			armourArray.push(armors.NURSECL);
-			armourArray.push(armors.OVERALL);
-			armourArray.push(armors.R_BDYST);
-			armourArray.push(armors.RBBRCLT);
-			armourArray.push(armors.S_SWMWR);
-			armourArray.push(armors.SAMUARM);
-			armourArray.push(armors.SCALEML);
-			armourArray.push(armors.SEDUCTA);
-			armourArray.push(armors.SEDUCTU);
-			armourArray.push(armors.SS_ROBE);
-			armourArray.push(armors.SSARMOR);
-			armourArray.push(armors.T_BSUIT);
-			armourArray.push(armors.TUBETOP);
-			//Page 4
-			armourArray.push(armors.W_ROBES);
+			addItemsFromLib(armourArray, armors, Armor);
 
 			//------------
 			// Undergarments
 			//------------
-			//Page 1
-			undergarmentArray.push(undergarments.C_BRA);
-			undergarmentArray.push(undergarments.C_LOIN);
-			undergarmentArray.push(undergarments.C_PANTY);
-			undergarmentArray.push(undergarments.DS_BRA);
-			undergarmentArray.push(undergarments.DS_LOIN);
-			undergarmentArray.push(undergarments.DSTHONG);
-			undergarmentArray.push(undergarments.FURLOIN);
-			undergarmentArray.push(undergarments.GARTERS);
-			undergarmentArray.push(undergarments.LTX_BRA);
-			undergarmentArray.push(undergarments.LTXSHRT);
-			undergarmentArray.push(undergarments.LTXTHNG);
-			undergarmentArray.push(undergarments.SS_BRA);
-			//Page 2
-			undergarmentArray.push(undergarments.SS_LOIN);
-			undergarmentArray.push(undergarments.SSPANTY);
-			undergarmentArray.push(undergarments.COW_BRA);
-			undergarmentArray.push(undergarments.COW_PANTY);
-			undergarmentArray.push(undergarments.DRI_BRA);
-			undergarmentArray.push(undergarments.DRI_PANTY);
+			addItemsFromLib(undergarmentArray, undergarments, Undergarment);
 
 			//------------
 			// Accessories
 			//------------
-			//Page 1
-			accessoryArray.push(jewelries.CRIMRNG);
-			accessoryArray.push(jewelries.FERTRNG);
-			accessoryArray.push(jewelries.ICE_RNG);
-			accessoryArray.push(jewelries.LIFERNG);
-			accessoryArray.push(jewelries.MYSTRNG);
-			accessoryArray.push(jewelries.POWRRNG);
-			accessoryArray.push(jewelries.PURERNG);
-			accessoryArray.push(jewelries.DIAMRNG);
-			accessoryArray.push(jewelries.GOLDRNG);
-			accessoryArray.push(jewelries.LTHCRNG);
-			accessoryArray.push(jewelries.PLATRNG);
-			accessoryArray.push(jewelries.SILVRNG);
+			addItemsFromLib(accessoryArray, jewelries, Jewelry);
+			addItemsFromLib(accessoryArray, headjewelries, HeadJewelry);
+			addItemsFromLib(accessoryArray, miscjewelries, MiscJewelry);
 			setArrays = true;
 		}
 
@@ -613,7 +698,6 @@ public class DebugMenu extends BaseContent
 		}
 
 		private function statChangeAttributeMenu(stats:String = ""):void {
-			var attribute:* = stats;
 			clearOutput();
 			outputText("Increment or decrement by how much?");
 			addButton(0, "Add 1", statChangeApply, stats, 1);
@@ -643,11 +727,10 @@ public class DebugMenu extends BaseContent
 			addButton(1, "Scorpion Tail", changeScorpionTail);
 			addButton(2, "Be Manticore", getManticoreKit).hint("Gain everything needed to become a Manticore-morph.");
 			addButton(3, "Be Dragonne", getDragonneKit).hint("Gain everything needed to become a Dragonne-morph.");
-			addButton(4, "Debug Prison", debugPrison);
 			addButton(5, "Tooltips Ahoy", EngineCore.doNothing).hint("Ahoy! I'm a tooltip! I will show up a lot in future updates!", "Tooltip 2.0");
 			addButton(6, "Lights Out", startLightsOut, testVictoryFunc, testFailureFunc, null, "Test the lights out puzzle, fresh off TiTS!");
 			addButton(7, "Isabella Birth", SceneLib.isabellaFollowerScene.isabellaGivesBirth).hint("Test Isabella giving birth for debugging purposes.", "Trigger Isabella Giving Birth");
-			addButton(8, "BodyPartEditor", bodyPartEditorRoot).hint("Inspect and fine-tune the player body parts");
+			addButton(8, "BodyPartEditor", bodyPartEditorRoot, styleHackMenu).hint("Inspect and fine-tune the player body parts");
 			addButton(9, "Color Picker", colorPickerRoot).hint("HSL picker for skin/hair color");
 			addButton(14, "Back", accessDebugMenu);
 		}
@@ -657,19 +740,7 @@ public class DebugMenu extends BaseContent
                         Parser.recursiveParser("[" + tag + "]").replace(' ', '\xA0')
             }).join(",\t");
 		}
-		private function showChangeOptions(backFn:Function, page:int, constants:Array, functionPageIndex:Function):void {
-			var N:int = 12;
-			for (var i:int = N * page; i < constants.length && i < (page + 1) * N; i++) {
-				var e:* = constants[i];
-				if (e === null || e === undefined) continue;
-				if (e is EnumValue) e = [e.value, e.value+' '+e.id];
-				else if (!(e is Array)) e = [i,e];
-				addButton(i % N, e[1], curry(functionPageIndex, page, e[0])).hint(e[1]);
-			}
-			if (page > 0) addButton(12, "PrevPage", curry(functionPageIndex, page - 1));
-			if ((page +1)*N < constants.length) addButton(13, "NextPage", curry(functionPageIndex, page + 1));
-			addButton(14, "Back", backFn);
-		}
+
 		private var oldColor:String = "";
 		private var pickerMode:String = "skin";
 		private function colorPickerRoot():void {
@@ -795,7 +866,12 @@ public class DebugMenu extends BaseContent
 			flushOutputTextToGUI();
 		}
 		private var bodyEditorControls:Block;
-		public function bodyPartEditorRoot():void {
+
+		private var bodyPartEditorBack:Function = null;
+		public function bodyPartEditorRoot(back:Function = null):void {
+			if (back != null) bodyPartEditorBack = back;
+			if (bodyPartEditorBack == null) bodyPartEditorBack = accessDebugMenu;
+			clearOutput();
 			menu();
 			if (bodyEditorControls) {
 				mainView.removeElement(bodyEditorControls);
@@ -828,7 +904,7 @@ public class DebugMenu extends BaseContent
 					mainView.removeElement(bodyEditorControls);
 					bodyEditorControls = null;
 				}
-				accessDebugMenu();
+				bodyPartEditorBack();
 			});
 		}
 		private function clearBeElements():void {
@@ -841,8 +917,10 @@ public class DebugMenu extends BaseContent
 			var row:Block = new Block({
 				height: 24
 			});
+			var style:* = MainView.Themes[flags[kFLAGS.BACKGROUND_STYLE]];
 			row.addTextField({
-				text: label
+				text: label,
+				defaultTextFormat:{color:style.statTextColor}
 			});
 			element.x = bodyEditorControls.width*2/5;
 			element.width = bodyEditorControls.width*3/5;
@@ -852,21 +930,21 @@ public class DebugMenu extends BaseContent
 		}
 		private function addBeComboBox(label:String, items:Array, selectedItem:*, callback:Function):void {
 			var cb:ComboBox = new ComboBox();
-			cb.dataProvider = new DataProvider(items);
+			cb.items = items;
 			for (var i:int = 0; i < items.length; i++) {
 				if (selectedItem == items[i] || 'data' in items[i] && items[i].data == selectedItem) {
 					cb.selectedIndex = i;
 					break;
 				}
 			}
-			cb.addEventListener(Event.CHANGE, function(event:Event):void {
+			cb.addEventListener(Event.SELECT, function(event:Event):void {
 				event.preventDefault();
 				callback(cb.selectedItem);
 			});
 			addBeControl(label, cb);
 		}
 		private function addBeTextInput(label:String, value:String, callback:Function):void {
-			var ti:TextInput = new TextInput();
+			var ti:InputText = new InputText();
 			ti.text = value;
 			ti.addEventListener(Event.CHANGE, function (event:Event):void {
 				event.preventDefault();
@@ -894,13 +972,6 @@ public class DebugMenu extends BaseContent
 							dumpPlayerData();
 							tagDemosSkin();
 						}
-					}
-			);
-			addBeComboBox("Hair color", COLOR_CONSTANTS, player.hairColor,
-					function (item:*):void {
-						player.hairColorOnly = item.data;
-						dumpPlayerData();
-						tagDemosSkin();
 					}
 			);
 			addBeComboBox("Skin coverage", SKIN_COVERAGE_CONSTANTS, player.skin.coverage,
@@ -936,32 +1007,18 @@ public class DebugMenu extends BaseContent
 			);
 			addBeComboBox("Base adj", SKIN_ADJ_CONSTANTS, player.skin.base.adj,
 					function (item:*):void {
-						player.skin.base.adj = item.data;
+						player.skin.base.adj = item == "(none)" ? "" : item;
 						dumpPlayerData();
 						tagDemosSkin();
 					}
 			);
-			addBeComboBox("Base desc", SKIN_DESC_CONSTANTS, player.skin.base.descRaw,
+			/*addBeComboBox("Base desc", SKIN_DESC_CONSTANTS, player.skin.base.descRaw,
 					function (item:*):void {
-						player.skin.base.descRaw = item.data;
+						player.skin.base.descRaw = item.data === "(default)" ? "" : item.data;
 						dumpPlayerData();
 						tagDemosSkin();
 					}
-			);
-			addBeComboBox("Base color", COLOR_CONSTANTS, player.skin.base.color,
-					function (item:*):void {
-						player.skin.base.color = item.data;
-						dumpPlayerData();
-						tagDemosSkin();
-					}
-			);
-			addBeComboBox("Base color 2", COLOR_CONSTANTS, player.skin.base.color2raw,
-					function (item:*):void {
-						player.skin.base.color2raw = item.data;
-						dumpPlayerData();
-						tagDemosSkin();
-					}
-			);
+			);*/
 			addBeComboBox("Coat type",
 					mapForComboBox(
 							filterByProp(Skin.SkinTypes,"coat",true),
@@ -986,34 +1043,40 @@ public class DebugMenu extends BaseContent
 						tagDemosSkin();
 					}
 			);
-			addBeComboBox("Coat color", COLOR_CONSTANTS, player.skin.coat.color,
-					function (item:*):void {
-						player.skin.coat.color = item.data;
-						dumpPlayerData();
-						tagDemosSkin();
-					}
-			);
-			addBeComboBox("Coat color 2", COLOR_CONSTANTS, player.skin.coat.color2raw,
-					function (item:*):void {
-						player.skin.coat.color2raw = item.data;
-						dumpPlayerData();
-						tagDemosSkin();
-					}
-			);
 			addBeComboBox("Coat adj", SKIN_ADJ_CONSTANTS, player.skin.coat.adj,
 					function (item:*):void {
-						player.skin.coat.adj = item.data;
+						player.skin.coat.adj = item == "(none)" ? "" : item;
 						dumpPlayerData();
 						tagDemosSkin();
 					}
 			);
-			addBeComboBox("Coat desc", SKIN_DESC_CONSTANTS, player.skin.coat.descRaw,
+			/*addBeComboBox("Coat desc", SKIN_DESC_CONSTANTS, player.skin.coat.descRaw,
 					function (item:*):void {
-						player.skin.coat.descRaw = item.data;
+						player.skin.coat.descRaw = item.data === "(default)" ? "" : item.data;
 						dumpPlayerData();
 						tagDemosSkin();
 					}
-			);
+			);*/
+			for each (var type:EnumValue in BodyMaterial.Types) {
+				addBeComboBox(capitalizeFirstLetter(type.name)+" color1",
+						COLOR_CONSTANTS,
+						player.bodyMaterialColor1(type.value),
+						curry(function (id:int,item:*):void {
+							player.setBodyMaterialColor1(id, item);
+							dumpPlayerData();
+							tagDemosSkin();
+						}, type.value)
+				);
+				addBeComboBox(capitalizeFirstLetter(type.name)+" color2",
+						COLOR_CONSTANTS,
+						player.bodyMaterialColor2(type.value),
+						curry(function (id:int,item:*):void {
+							player.setBodyMaterialColor2(id, item);
+							dumpPlayerData();
+							tagDemosSkin();
+						}, type.value)
+				);
+			}
 			menu();
 			dumpPlayerData();
 			tagDemosSkin();
@@ -1022,7 +1085,7 @@ public class DebugMenu extends BaseContent
 		private static const COLOR_CONSTANTS:Array = [
 			"albino", "aqua", "ashen", "auburn", "black", "blond", "blonde", "blood-red", "blue", "bronzed", "brown", "caramel",
 			"cerulean", "chocolate", "crimson", "crystal", "dark", "dusky", "ebony", "emerald", "fair",
-			"golden", "gray", "green", "indigo", "light", "mahogany", "metallic", "midnight", "olive", "orange",
+			"golden", "gray", "green", "indigo", "light", "light pink", "mahogany", "metallic", "midnight", "olive", "orange",
 			"peach", "pink", "purple", "red", "russet", "sable", "sanguine", "silky", "silver",
 			"tan", "tawny", "turquoise", "white", "yellow",
 			"aphotic blue-black", "ashen grayish-blue", "creamy-white", "crimson platinum",
@@ -1030,10 +1093,10 @@ public class DebugMenu extends BaseContent
 			"ghostly pale", "glacial white", "golden blonde", "grayish-blue", "iridescent gray",
 			"leaf green", "light blonde", "light blue", "light gray", "light green", "light grey", "light purple", "lime green",
 			"mediterranean-toned", "metallic golden", "metallic silver", "midnight black", "milky white",
-			"pale white", "pale yellow", "platinum blonde", "platinum crimson", "platinum-blonde", "purplish-black",
-			"quartz white", "reddish-orange", "rough gray",
-			"sandy blonde", "sandy brown", "sandy-blonde", "shiny black", "silver blonde", "silver-white", "snow white",
-			"yellowish-green", "black and yellow", "white and black"
+			"pale white", "pale yellow", "pinkish purple", "platinum blonde", "platinum crimson", "platinum-blonde", "purplish-black",
+			"quartz white", "reddish-orange", "rough gray", "immaculate white", "royal purple", "dark purple",
+			"sandy blonde", "sandy brown", "sandy-blonde", "shiny black", "silver blonde", "silver-white", "snow white", "blazing red",
+			"yellowish-green", "black and yellow", "white and black", "pure blue", "neon blue", "pale purple", "eldritch green"
 		];
 
 		private static const SKIN_ADJ_CONSTANTS:Array = [
@@ -1068,7 +1131,7 @@ public class DebugMenu extends BaseContent
 							"skin color", "skin base.color", "skin coat.color",
 							"skin isare", "skin base.isare", "skin coat.isare",
 							"skin vs","skin base.vs", "skin coat.vs",
-							"skinfurscales", "skintone") + ".\n");
+							"skinfurscales", "color") + ".\n");
 		}
 		private function bodyPartEditorHead():void {
 			clearBeElements();
@@ -1100,7 +1163,7 @@ public class DebugMenu extends BaseContent
 			);
 			addBeComboBox("Eye color", COLOR_CONSTANTS, player.eyes.colour,
 					function (item:*):void {
-						player.eyes.colour = item.data;
+						player.eyes.colour = item;
 						dumpPlayerData();
 					}
 			);
@@ -1131,7 +1194,7 @@ public class DebugMenu extends BaseContent
 			addBeComboBox("Horn count", HORN_COUNT_CONSTANTS,
 					player.horns.count,
 					function (item:*):void {
-						player.horns.count = item.data;
+						player.horns.count = item;
 						dumpPlayerData();
 					}
 			);
@@ -1154,7 +1217,7 @@ public class DebugMenu extends BaseContent
 			addBeComboBox("Beard length", BEARD_LENGTH_CONSTANTS,
 					player.beardLength,
 					function (item:*):void {
-						player.beardLength = item.data;
+						player.beardLength = item;
 						dumpPlayerData();
 					}
 			);
@@ -1173,52 +1236,12 @@ public class DebugMenu extends BaseContent
 		];
 		private function AlrauneDebug():void {
 			outputText("\n\nSet all cocks to tentacle and lower body to alraune!");
-			if (player.cocks.length == 0) {
-				if (player.balls > 0) player.balls = 0;
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.cocks[0].cockType = CockTypesEnum.STAMEN;
-				player.cocks[1].cockType = CockTypesEnum.STAMEN;
-				player.cocks[2].cockType = CockTypesEnum.STAMEN;
-				player.cocks[3].cockType = CockTypesEnum.STAMEN;
-				player.cocks[4].cockType = CockTypesEnum.STAMEN;
-				player.cocks[5].cockType = CockTypesEnum.STAMEN;
-				player.cocks[6].cockType = CockTypesEnum.STAMEN;
-				player.cocks[7].cockType = CockTypesEnum.STAMEN;
-				player.cocks[8].cockType = CockTypesEnum.STAMEN;
-				player.cocks[9].cockType = CockTypesEnum.STAMEN;
-			}
-			if (player.cocks.length > 0) {
+			if (player.cocks.length > 0)
 				player.killCocks(-1);
-				if (player.balls > 0) player.balls = 0;
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.createCock(7 + rand(7), 1.5 + rand(10) / 10);
-				player.cocks[0].cockType = CockTypesEnum.STAMEN;
-				player.cocks[1].cockType = CockTypesEnum.STAMEN;
-				player.cocks[2].cockType = CockTypesEnum.STAMEN;
-				player.cocks[3].cockType = CockTypesEnum.STAMEN;
-				player.cocks[4].cockType = CockTypesEnum.STAMEN;
-				player.cocks[5].cockType = CockTypesEnum.STAMEN;
-				player.cocks[6].cockType = CockTypesEnum.STAMEN;
-				player.cocks[7].cockType = CockTypesEnum.STAMEN;
-				player.cocks[8].cockType = CockTypesEnum.STAMEN;
-				player.cocks[9].cockType = CockTypesEnum.STAMEN;
+			if (player.cocks.length == 0) {
+				if (player.hasBalls()) player.balls = 0;
+				for (var i:int = 0; i<10; i++)
+					transformations.CockStamen(i, 7 + rand(7), 1.5 + rand(10) / 10).applyEffect(false);
 			}
 			if (!player.hasStatusEffect(StatusEffects.AlrauneFlower)) player.createStatusEffect(StatusEffects.AlrauneFlower,0,0,0,0);
 			if (player.wings.type == Wings.PLANT) player.wings.type = Wings.NONE;
@@ -1247,7 +1270,7 @@ public class DebugMenu extends BaseContent
 			addBeComboBox("Claw color", COLOR_CONSTANTS,
 					player.clawsPart.tone,
 					function (item:*):void {
-						player.clawsPart.tone = item.data;
+						player.clawsPart.tone = item;
 						dumpPlayerData();
 					}
 			);
@@ -1262,7 +1285,7 @@ public class DebugMenu extends BaseContent
 			addBeComboBox("Tail count", TAIL_COUNT_CONSTANTS,
 					player.tail.count,
 					function (item:*):void {
-						player.tail.count = item.data;
+						player.tail.count = item;
 						dumpPlayerData();
 					}
 			);
@@ -1277,7 +1300,7 @@ public class DebugMenu extends BaseContent
 			addBeComboBox("Wing desc", WING_DESC_CONSTANTS,
 					player.wings.desc,
 					function (item:*):void {
-						player.wings.desc = item.data;
+						player.wings.desc = item;
 						dumpPlayerData();
 					}
 			);
@@ -1292,7 +1315,7 @@ public class DebugMenu extends BaseContent
 			addBeComboBox("Leg count", LEG_COUNT_CONSTANTS,
 					player.lowerBodyPart.legCount,
 					function (item:*):void {
-						player.lowerBodyPart.legCount = item.data;
+						player.lowerBodyPart.legCount = item;
 						dumpPlayerData();
 					}
 			);
@@ -1376,56 +1399,15 @@ public class DebugMenu extends BaseContent
 			doNext(styleHackMenu);
 		}
 
-		private function debugPrison():void {
-			clearOutput();
-			doNext(styleHackMenu);
-			//Stored equipment
-			outputText("<b><u>Stored equipment:</u></b>");
-			outputText("\n<b>Stored armour:</b> ");
-			if (flags[kFLAGS.PRISON_STORAGE_ARMOR] != 0) {
-				outputText("" + ItemType.lookupItem(flags[kFLAGS.PRISON_STORAGE_ARMOR]));
-			}
-			else outputText("None");
-			outputText("\n<b>Stored weapon:</b> ");
-			if (flags[kFLAGS.PRISON_STORAGE_WEAPON] != 0) {
-				outputText("" + ItemType.lookupItem(flags[kFLAGS.PRISON_STORAGE_WEAPON]));
-			}
-			else outputText("None");
-			outputText("\n<b>Stored shield:</b> ");
-			if (flags[kFLAGS.PRISON_STORAGE_SHIELD] != 0) {
-				outputText("" + ItemType.lookupItem(flags[kFLAGS.PRISON_STORAGE_SHIELD]));
-			}
-			else outputText("None");
-			//Stored items
-			outputText("\n\n<b><u>Stored items:</u></b>");
-			for (var i:int = 0; i < 10; i++) {
-				if (player.prisonItemSlots[i*2] != null && player.prisonItemSlots[i*2] != undefined) {
-					outputText("\n" + player.prisonItemSlots[i*2]);
-					outputText(" x" + player.prisonItemSlots[(i*2)+1]);
-				}
-			}
-			flushOutputTextToGUI();
-		}
-
-		private function eventTriggerMenu():void {
-			menu();
-			addButton(0, "Anemone", SceneLib.anemoneScene.anemoneKidBirthPtII);
-			//addButton(0, "Marae Purify", CoC.instance.highMountains.minervaScene.minervaPurification.purificationByMarae);
-			//addButton(1, "Jojo Purify", CoC.instance.highMountains.minervaScene.minervaPurification.purificationByJojoPart1);
-			//addButton(2, "Rathazul Purify", CoC.instance.highMountains.minervaScene.minervaPurification.purificationByRathazul);
-
-			addButton(14, "Back", accessDebugMenu);
-		}
-
 		private function toggleMeaninglessCorruption():void {
 			clearOutput();
-			if (flags[kFLAGS.MEANINGLESS_CORRUPTION] == 0) {
-				flags[kFLAGS.MEANINGLESS_CORRUPTION] = 1;
-				outputText("<b>Set MEANINGLESS_CORRUPTION flag to 1.</b>");
+			if (flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] == 0) {
+				flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] = 2;
+				outputText("<b>Set CORRUPTION_TOLERANCE_MODE flag to 2.</b>");
 			}
 			else {
-				flags[kFLAGS.MEANINGLESS_CORRUPTION] = 0;
-				outputText("<b>Set MEANINGLESS_CORRUPTION flag to 0.</b>");
+				flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] = 0;
+				outputText("<b>Set CORRUPTION_TOLERANCE_MODE flag to 0.</b>");
 			}
 		}
 
@@ -1485,13 +1467,13 @@ public class DebugMenu extends BaseContent
 		private function resetJojo():void {
 			clearOutput();
 			outputText("Did you do something wrong with Jojo? Corrupted him? Accidentally removed him from the game? No problem!");
-			doYesNo(reallyResetSheila, resetNPCMenu);
+			doYesNo(reallyResetJojo, resetNPCMenu);
 		}
 		private function reallyResetJojo():void {
 			clearOutput();
 			if (JojoScene.monk > 1) {
 				outputText("Jojo is no longer corrupted!  ");
-				JojoScene.monk = 0;
+				JojoScene.monk = JojoScene.JOJO_NOT_MET;
 			}
 			if (flags[kFLAGS.JOJO_DEAD_OR_GONE] > 0) {
 				outputText("Jojo has respawned.  ");
@@ -1518,6 +1500,7 @@ public class DebugMenu extends BaseContent
 			clearOutput();
 			outputText("You feel as if something's dissolving inside your womb. Liquid flows out of your [vagina] and your womb feels empty now. <b>You are no longer pregnant!</b>");
 			player.knockUpForce();
+			player.knockUpForce(0, 0, 1);
 			doNext(accessDebugMenu);
 		}
 
@@ -1585,7 +1568,7 @@ public class DebugMenu extends BaseContent
 			lightsOutFailureFunction = failureFunction;
 
 			menu();
-			lightsArray = new Array();
+			lightsArray = [];
 
 			for (var i:int = 0; i < 15; i++)
 			{

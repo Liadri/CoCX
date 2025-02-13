@@ -22,7 +22,9 @@ public class BoneshatterSpell extends AbstractNecroSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return 3;
+		var calcC:int = 0;
+		calcC += spellGenericCooldown();
+		return calcC;
 	}
 	
 	override public function get isKnown():Boolean {
@@ -30,7 +32,10 @@ public class BoneshatterSpell extends AbstractNecroSpell {
 	}
 	
 	override public function demonBonesCost():int {
-		return 5;
+		var calcDBC:int = 5;
+		if (player.hasPerk(PerkLib.HyperCasting)) calcDBC -= 1;
+		if (player.hasStatusEffect(StatusEffects.BonusEffectsNecroSet) && player.statusEffectv3(StatusEffects.BonusEffectsNecroSet) > 0) calcDBC -= 1;
+		return calcDBC;
 	}
 	
 	override protected function usabilityCheck():String {
@@ -39,7 +44,7 @@ public class BoneshatterSpell extends AbstractNecroSpell {
 				|| monster.hasPerk(PerkLib.EnemyGhostType)
 				|| monster.hasPerk(PerkLib.EnemyGooType)
 				|| monster.hasPerk(PerkLib.EnemyPlantType)) {
-			return "Your enemy lack bones.";
+			return "Your enemy lacks bones.";
 		}
 		if (monster.plural
 				|| monster.hasPerk(PerkLib.Enemy300Type)
@@ -52,7 +57,7 @@ public class BoneshatterSpell extends AbstractNecroSpell {
 	
 	public function calcDebuffPower(monster:Monster, randomize:Boolean=true):Number {
 		var shatterIt:Number = 0.2;
-		shatterIt *= boneSoulBonus(demonBonesCost())
+		shatterIt *= boneSoulBonus(demonBonesCost());
 		return shatterIt;
 	}
 	
@@ -79,7 +84,7 @@ public class BoneshatterSpell extends AbstractNecroSpell {
 		consumeBones(demonBonesCost());
 		damage = critAndRepeatDamage(display, damage, DamageType.TRUE);
 		checkAchievementDamage(damage);
-		combat.heroBaneProc(damage)
+		combat.heroBaneProc(damage);
 		if (monster.hasStatusEffect(StatusEffects.Boneshatter)) {
 			var currentShatter:Number = monster.statusEffectv1(StatusEffects.Boneshatter);
 			if (currentShatter < 0.9) {

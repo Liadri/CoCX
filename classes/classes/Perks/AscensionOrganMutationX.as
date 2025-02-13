@@ -11,17 +11,19 @@ public class AscensionOrganMutationX extends PerkType
 {
 
     override public function desc(params:PerkClass = null):String {
+        if (!player || !params) return _desc;
         var pVal:Number = player.perkv1(PerkLib.AscensionAdditionalOrganMutationX);
-        return "Your body has adapted to having unnatural organs to the point of being able to sustain " + pVal.toString() + " extra mutation" + (pVal > 1 ? "s":"") +" in each organ.";
+        return "Your body has adapted to having unnatural organs to the point of being able to sustain " + pVal.toString() + " extra mutation" + (pVal > 1 ? "s":"") +" in each organ. Double increase to Adaptations category.";
     }
-
+    
     override public function name(params:PerkClass=null):String {
+        if (!player || !params) return _name;
         var sufval:String = player.perkv1(PerkLib.AscensionAdditionalOrganMutationX).toString();
         return "Ascension: Additional Organ Mutation " + sufval;
     }
 
     public function AscensionOrganMutationX() {
-        super("Ascension Additional Organ Mutation", "Ascension Additional Organ Mutation",
+        super("Ascension Additional Organ Mutation", "Ascension: Additional Organ Mutation",
                 ".");
     }
 

@@ -2,13 +2,14 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.GlobalFlags.kFLAGS;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbilities;
 
 use namespace CoC;
 	
@@ -24,11 +25,10 @@ use namespace CoC;
 		}
 		public function soulskillMulti():Number {
 			var multi:Number = 1;
-			if (hasPerk(PerkLib.DaoistCultivator)) multi += 0.2;
 			if (hasPerk(PerkLib.DaoistApprenticeStage)) {
-				if (hasPerk(PerkLib.SoulApprentice)) multi += .4;
-				if (hasPerk(PerkLib.SoulPersonage)) multi += .4;
-				if (hasPerk(PerkLib.SoulWarrior)) multi += .4;
+				if (hasPerk(PerkLib.SoulApprentice)) multi += .3;
+				if (hasPerk(PerkLib.SoulPersonage)) multi += .3;
+				if (hasPerk(PerkLib.SoulWarrior)) multi += .3;
 			}
 			if (hasPerk(PerkLib.DaoistWarriorStage)) {
 				if (hasPerk(PerkLib.SoulSprite)) multi += .6;
@@ -36,9 +36,9 @@ use namespace CoC;
 				if (hasPerk(PerkLib.SoulElder)) multi += .6;
 			}
 			if (hasPerk(PerkLib.DaoistElderStage)) {
-				if (hasPerk(PerkLib.SoulExalt)) multi += .8;
-				if (hasPerk(PerkLib.SoulOverlord)) multi += .8;
-				if (hasPerk(PerkLib.SoulTyrant)) multi += .8;
+				if (hasPerk(PerkLib.SoulExalt)) multi += 1;
+				if (hasPerk(PerkLib.SoulOverlord)) multi += 1;
+				if (hasPerk(PerkLib.SoulTyrant)) multi += 1;
 			}
 			return multi;
 		}
@@ -81,9 +81,9 @@ use namespace CoC;
 			if (flags[kFLAGS.KINDRA_AFFECTION] < 7) outputText("Sheep-morph archer");
 			if (flags[kFLAGS.KINDRA_AFFECTION] >= 7) outputText("Kindra");
 			outputText(" casually fire an arrow at you with supreme skill.");
-			if (player.hasStatusEffect(StatusEffects.WindWall)) {
+			if (CombatAbilities.EAspectAir.isActive()) {
 				outputText(" Still surrounding you wind wall stops it without much trouble.");
-				player.addStatusValue(StatusEffects.WindWall,2,-1);
+				CombatAbilities.EAspectAir.advance(true);
 			}
 			else {
 				var damage:Number = 0;
@@ -307,7 +307,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 1) {
 				initStrTouSpeInte(30, 50, 100, 80);
-				initWisLibSensCor(80, 30, 40, 10);
+				initWisLibSensCor(80, 30, 40, -80);
 				this.weaponAttack = 8;
 				this.weaponRangeAttack = 20;
 				this.armorDef = 5;
@@ -318,7 +318,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 2) {
 				initStrTouSpeInte(40, 65, 120, 100);
-				initWisLibSensCor(100, 30, 40, 10);
+				initWisLibSensCor(100, 30, 40, -80);
 				this.weaponAttack = 8;
 				this.weaponRangeAttack = 20;
 				this.armorDef = 5;
@@ -329,7 +329,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 3) {
 				initStrTouSpeInte(50, 80, 140, 120);
-				initWisLibSensCor(120, 30, 40, 10);
+				initWisLibSensCor(120, 30, 40, -80);
 				this.weaponAttack = 8;
 				this.weaponRangeAttack = 20;
 				this.armorDef = 5;
@@ -340,7 +340,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 4) {
 				initStrTouSpeInte(60, 95, 160, 140);
-				initWisLibSensCor(140, 30, 40, 10);
+				initWisLibSensCor(140, 30, 40, -80);
 				this.weaponAttack = 8;
 				this.weaponRangeAttack = 20;
 				this.armorDef = 5;
@@ -351,7 +351,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 5) {
 				initStrTouSpeInte(70, 110, 180, 150);
-				initWisLibSensCor(150, 30, 40, 10);
+				initWisLibSensCor(150, 30, 40, -80);
 				this.weaponAttack = 8;
 				this.weaponRangeAttack = 20;
 				this.armorDef = 5;
@@ -362,7 +362,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 6) {
 				initStrTouSpeInte(80, 130, 205, 150);
-				initWisLibSensCor(150, 30, 40, 10);
+				initWisLibSensCor(150, 30, 40, -80);
 				this.weaponAttack = 8;
 				this.weaponRangeAttack = 20;
 				this.armorDef = 5;
@@ -373,7 +373,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 7) {
 				initStrTouSpeInte(100, 150, 235, 150);
-				initWisLibSensCor(150, 50, 50, 10);
+				initWisLibSensCor(150, 50, 50, -80);
 				this.weaponAttack = 16;
 				this.weaponRangeAttack = 50;
 				this.armorDef = 16;
@@ -384,7 +384,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 8) {
 				initStrTouSpeInte(120, 170, 270, 160);
-				initWisLibSensCor(160, 70, 60, 10);
+				initWisLibSensCor(160, 70, 60, -80);
 				this.weaponAttack = 17;
 				this.weaponRangeAttack = 55;
 				this.armorDef = 18;
@@ -395,7 +395,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 9) {
 				initStrTouSpeInte(140, 190, 305, 170);
-				initWisLibSensCor(170, 90, 70, 10);
+				initWisLibSensCor(170, 90, 70, -80);
 				this.weaponAttack = 18;
 				this.weaponRangeAttack = 60;
 				this.armorDef = 20;
@@ -406,7 +406,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 10) {
 				initStrTouSpeInte(160, 210, 340, 180);
-				initWisLibSensCor(180, 110, 80, 10);
+				initWisLibSensCor(180, 110, 80, -80);
 				this.weaponAttack = 19;
 				this.weaponRangeAttack = 65;
 				this.armorDef = 22;
@@ -417,7 +417,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 11) {
 				initStrTouSpeInte(180, 230, 375, 190);
-				initWisLibSensCor(190, 130, 90, 10);
+				initWisLibSensCor(190, 130, 90, -80);
 				this.weaponAttack = 20;
 				this.weaponRangeAttack = 70;
 				this.armorDef = 24;
@@ -428,7 +428,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 12) {
 				initStrTouSpeInte(200, 250, 410, 200);
-				initWisLibSensCor(200, 150, 100, 10);
+				initWisLibSensCor(200, 150, 100, -80);
 				this.weaponAttack = 21;
 				this.weaponRangeAttack = 75;
 				this.armorDef = 26;
@@ -439,7 +439,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 13) {
 				initStrTouSpeInte(220, 270, 445, 210);
-				initWisLibSensCor(210, 170, 110, 10);
+				initWisLibSensCor(210, 170, 110, -80);
 				this.weaponAttack = 22;
 				this.weaponRangeAttack = 80;
 				this.armorDef = 28;
@@ -450,7 +450,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 14) {
 				initStrTouSpeInte(240, 290, 480, 220);
-				initWisLibSensCor(220, 190, 120, 10);
+				initWisLibSensCor(220, 190, 120, -80);
 				this.weaponAttack = 23;
 				this.weaponRangeAttack = 85;
 				this.armorDef = 30;
@@ -461,7 +461,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 15) {
 				initStrTouSpeInte(260, 310, 515, 230);
-				initWisLibSensCor(230, 210, 130, 10);
+				initWisLibSensCor(230, 210, 130, -80);
 				this.weaponAttack = 24;
 				this.weaponRangeAttack = 90;
 				this.armorDef = 45;
@@ -472,7 +472,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 16) {
 				initStrTouSpeInte(300, 350, 585, 250);
-				initWisLibSensCor(250, 250, 150, 10);
+				initWisLibSensCor(250, 250, 150, -80);
 				this.weaponAttack = 30;
 				this.weaponRangeAttack = 120;
 				this.armorDef = 50;
@@ -483,7 +483,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] == 17) {
 				initStrTouSpeInte(340, 390, 655, 270);
-				initWisLibSensCor(270, 290, 170, 10);
+				initWisLibSensCor(270, 290, 170, -80);
 				this.weaponAttack = 32;
 				this.weaponRangeAttack = 130;
 				this.armorDef = 55;
@@ -511,7 +511,7 @@ use namespace CoC;
 			this.tallness = 64;
 			this.hips.type = Hips.RATING_BOYISH;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "white";
+			this.bodyColor = "white";
 			this.hairColor = "white";
 			this.hairLength = 4;
 			this.weaponVerb= "stab";
@@ -545,7 +545,7 @@ use namespace CoC;
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 6) {
 				this.createPerk(PerkLib.PrestigeJobArcaneArcher, 0, 0, 0, 0);
 				this.createPerk(PerkLib.HalfStepToAdvancedEndurance, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulGrandmaster, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 7) {
 				this.createPerk(PerkLib.NaturesSpringI, 0, 0, 0, 0);
@@ -555,12 +555,12 @@ use namespace CoC;
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 8) {
 				this.createPerk(PerkLib.AdvancedEndurance, 0, 0, 0, 0);
 				this.createPerk(PerkLib.HalfStepToImprovedSelfControl, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulExalt, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 9) {
 				this.createPerk(PerkLib.ImprovedSelfControl, 0, 0, 0, 0);
 				this.createPerk(PerkLib.EpicSpeed, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulExalt, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 10) {
 				this.createPerk(PerkLib.HalfStepToSuperiorEndurance, 0, 0, 0, 0);
@@ -569,28 +569,28 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 11) {
 				this.createPerk(PerkLib.AdvancedSelfControl, 0, 0, 0, 0);
-				this.createPerk(PerkLib.DaoistCultivator, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulTyrant, 0, 0, 0, 0);
+				this.createPerk(PerkLib.DaoistApprenticeStage, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 12) {
 				this.createPerk(PerkLib.SuperiorEndurance, 0, 0, 0, 0);
-				this.createPerk(PerkLib.DaoistApprenticeStage, 0, 0, 0, 0);
+				this.createPerk(PerkLib.DaoistWarriorStage, 0, 0, 0, 0);
 				this.createPerk(PerkLib.PrestigeJobSoulArcher, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 13) {
 				this.createPerk(PerkLib.HalfStepToSuperiorSelfControl, 0, 0, 0, 0);
 				this.createPerk(PerkLib.LegendarySpeed, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulKing, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulTyrant, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 14) {
 				this.createPerk(PerkLib.HalfStepToPeerlessEndurance, 0, 0, 0, 0);
-				this.createPerk(PerkLib.DaoistWarriorStage, 0, 0, 0, 0);
-				this.createPerk(PerkLib.EclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SuperiorSelfControl, 0, 0, 0, 0);
+				this.createPerk(PerkLib.FFclassHeavenTribulationSurvivor, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.KINDRA_LVL_UP] >= 15) {
-				this.createPerk(PerkLib.SuperiorSelfControl, 0, 0, 0, 0);
+				this.createPerk(PerkLib.HalfStepToPeerlessSelfControl, 0, 0, 0, 0);
 				this.createPerk(PerkLib.DaoistElderStage, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulEmperor, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulKing, 0, 0, 0, 0);
 			}
 			//if (flags[kFLAGS.KINDRA_LVL_UP] >= ) this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);kiedy zacznie sie KindraQuest
 			checkMonster();

@@ -1,14 +1,17 @@
 package classes.Scenes {
 import classes.CoC;
-import classes.Items.Mutations;
+import classes.Items.ItemSetChecks;
+import classes.Scenes.API.ExplorationEngine;
 import classes.Scenes.Areas.*;
 import classes.Scenes.Areas.Battlefield.DilapidatedShrine;
 import classes.Scenes.Areas.Bog.TrollScenes;
 import classes.Scenes.Areas.Caves.DisplacerBeastScene;
+import classes.Scenes.Areas.DeepSea.AbyssalSharkScene;
+import classes.Scenes.Areas.Forest.ErlKingScene;
 import classes.Scenes.Areas.Forest.KitsuneScene;
 import classes.Scenes.Areas.GlacialRift.YuWinterGearShop;
 import classes.Scenes.Areas.Ocean.ScyllaScene;
-import classes.Scenes.Camp.HarvestMoonScenes;
+import classes.Scenes.Camp.*;
 import classes.Scenes.Combat.Combat;
 import classes.Scenes.Dungeons.AnzuPalace.AnzuScene;
 import classes.Scenes.Dungeons.D3.D3;
@@ -22,22 +25,27 @@ import classes.Scenes.Places.*;
 import classes.Scenes.Places.Boat.SharkGirlScene;
 import classes.Scenes.Places.HeXinDao.AdventurerGuild;
 import classes.Scenes.Places.HeXinDao.JourneyToTheEast;
+import classes.Scenes.Places.TelAdre.Loppe;
 import classes.Scenes.Quests.UrtaQuest;
 
 public class SceneLib {
     public static var camp:Camp = new Camp(/*campInitialize*/);
+	
+	public static var campMakeWinions:CampMakeWinions = new CampMakeWinions();
+	
+	public static var campUpgrades:CampUpgrades = new CampUpgrades();
 
     public static var combat:Combat = new Combat();
 
     public static var exploration:Exploration = new Exploration();
+    
+    public static var explorationEngine:ExplorationEngine = new ExplorationEngine();
 
     public static var followerInteractions:FollowerInteractions = new FollowerInteractions();
 
     public static var inventory:Inventory = new Inventory(CoC.instance.saves);
 
     public static var masturbation:Masturbation = new Masturbation();
-
-    public static var mutationsTable:Mutations = new Mutations();
 
     public static var battlefiledboundary:BattlefieldBoundary = new BattlefieldBoundary();
 
@@ -50,8 +58,6 @@ public class SceneLib {
     public static var defiledravine:DefiledRavine = new DefiledRavine();
 
     public static var bog:Bog = new Bog();
-
-    public static var deepsea:DeepSea = new DeepSea();
 
     public static var desert:Desert = new Desert();
 
@@ -66,6 +72,10 @@ public class SceneLib {
     public static var ocean:Ocean = new Ocean();
 
     public static var plains:Plains = new Plains();
+    
+    public static var kihaFollower:KihaFollower = new KihaFollower();
+    
+    public static var kihaScene:KihaScene = new KihaScene();
 
     public static var swamp:Swamp = new Swamp();
 
@@ -89,6 +99,8 @@ public class SceneLib {
 
     public static var giacomoShop:Giacomo = new Giacomo();
 
+    public static var angelScene:AngelScene = new AngelScene();
+
     public static var impScene:ImpScene = new ImpScene();
 
     public static var goblinScene:GoblinScene = new GoblinScene();
@@ -107,7 +119,7 @@ public class SceneLib {
 
     public static var amilyScene:AmilyScene = new AmilyScene();
 
-    public static var anemoneScene:AnemoneScene = new AnemoneScene();
+    public static var kidAScene:KidAScene = new KidAScene();
 
     public static var ariaScene:AriaFollower = new AriaFollower();
 
@@ -125,11 +137,11 @@ public class SceneLib {
 
     public static var ceraphFollowerScene:CeraphFollowerScene = new CeraphFollowerScene();
 
+    public static var charybdisScene:CharybdisFollower = new CharybdisFollower();
+
     public static var chichiScene:ChiChiFollower = new ChiChiFollower();
 
     public static var ceaniScene:CeaniScene = new CeaniScene();
-
-    public static var darkenedKitsuneScene:HydeKitsuneScene = new HydeKitsuneScene();
 
     public static var dianaScene:DianaFollower = new DianaFollower();
 
@@ -137,9 +149,15 @@ public class SceneLib {
 
     public static var electraScene:ElectraFollower = new ElectraFollower();
 
+    //public static var NadiaFollower:NadiaFollower = new NadiaFollower();
+
     public static var emberScene:EmberScene = new EmberScene();
+	
+	public static var erlkingScene:ErlKingScene = new ErlKingScene();
 
     public static var etnaScene:EtnaFollower = new EtnaFollower();
+
+    public static var etnaDaughterScene:EtnaDaughterScene = new EtnaDaughterScene();
 
     public static var evangelineFollower:EvangelineFollower = new EvangelineFollower();
 
@@ -151,7 +169,7 @@ public class SceneLib {
 
     public static var galiaFollower:GaliaFollower = new GaliaFollower();
 
-    public static var harvestMoonScene:HarvestMoonScenes = new HarvestMoonScenes();
+    public static var graydaScene:GraydaRetainer = new GraydaRetainer();
 
     public static var helFollower:HelFollower = new HelFollower();
 
@@ -169,13 +187,11 @@ public class SceneLib {
 
     public static var izmaScene:IzmaScene = new IzmaScene();
 
+    public static var jinxFollower:JinxFollower = new JinxFollower();
+
     public static var jojoScene:JojoScene = new JojoScene();
 
     public static var joyScene:JoyScene = new JoyScene();
-
-    public static var kihaFollower:KihaFollower = new KihaFollower();
-
-    public static var kihaScene:KihaScene = new KihaScene();
 
     public static var kindraFollower:KindraFollower = new KindraFollower();
 
@@ -193,7 +209,11 @@ public class SceneLib {
 
     public static var michikoFollower:Michiko = new Michiko();
 
+    public static var midokaScene:MidokaScene = new MidokaScene();
+
     public static var milkWaifu:MilkWaifu = new MilkWaifu();
+
+    public static var nadiaScene:NadiaFollower = new NadiaFollower();
 
     public static var neisaFollower:NeisaFollower = new NeisaFollower();
 
@@ -229,7 +249,9 @@ public class SceneLib {
 
     public static var tifaFollower:TifaFollower = new TifaFollower();
 
-    public static var tyrania:TyrantiaFollower = new TyrantiaFollower();
+    public static var tyrantia:TyrantiaFollower = new TyrantiaFollower();
+
+    public static var loppe:Loppe = new Loppe();
 
     public static var urta:Urta = new Urta();
 
@@ -245,6 +267,12 @@ public class SceneLib {
 
     public static var waizabi:WaizAbiFollower = new WaizAbiFollower();
 
+    public static var werefoxScene:WerefoxScene = new WerefoxScene();
+
+    public static var werespiderScene:WerespiderScene = new WerespiderScene();
+
+    public static var weresharkScene:WeresharkScene = new WeresharkScene();
+
     public static var woodElves:WoodElves = new WoodElves();
 
     public static var mindbreaker:Mindbreaker = new Mindbreaker();
@@ -254,6 +282,12 @@ public class SceneLib {
     public static var sharkgirlScene:SharkGirlScene = new SharkGirlScene();
 
     public static var scyllaScene:ScyllaScene = new ScyllaScene();
+
+    public static var abyssalsharkScene:AbyssalSharkScene = new AbyssalSharkScene();
+
+    public static var ghoulishVampireServant:GhoulishVampireServant = new GhoulishVampireServant();
+
+    public static var xuvielGiftSlave1:XuvielGiftSlaveFirst = new XuvielGiftSlaveFirst();
 
     public static var trollVillage:TrollVillage = new TrollVillage();
 
@@ -267,11 +301,15 @@ public class SceneLib {
 
     public static var telAdre:TelAdre = new TelAdre();
 
+    public static var theTrench:TheTrench = new TheTrench();
+
+    public static var ruinedTown:RuinedTownRebuilt = new RuinedTownRebuilt();
+
+    public static var demonicLair:DemonLair = new DemonLair();
+
     public static var dungeons:DungeonEngine = new DungeonEngine();
 
     public static var ingnam:Ingnam = new Ingnam();
-
-    public static var prison:Prison = new Prison();
 
     public static var hexindao:HeXinDao = new HeXinDao();
 
@@ -291,6 +329,8 @@ public class SceneLib {
 
     public static var crafting:Crafting = new Crafting();
 
+    public static var garden:Garden = new Garden();
+
     public static var aikoScene:AikoScene = new AikoScene();
 	
 	public static var glacialYuShop:YuWinterGearShop = new YuWinterGearShop();
@@ -307,7 +347,14 @@ public class SceneLib {
 
     public static var uniqueSexScene:UniqueSexScenes = new UniqueSexScenes();
 
-    public function SceneLib() {
-    }
+    public static var setItemsChecks:ItemSetChecks = new ItemSetChecks();
+
+    public static var mimicScene:MimicScene = new MimicScene();
+
+    public static var ivorySuccubusScene:IvorySuccubusScene = new IvorySuccubusScene();
+
+    public static var holidays:Holidays = new Holidays();
+
+    public static var werewolfFemaleScene:WerewolfFemaleScene = new WerewolfFemaleScene();
 }
 }

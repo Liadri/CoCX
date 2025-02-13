@@ -33,12 +33,12 @@ use namespace CoC;
 			if (rand(20) + 1 + player.spe / 20 > 17) {
 				outputText("With your trained reflexes, you manage to duck and roll, narrowly avoiding getting sprayed with milk.");
 				outputText("\n\n\"<i>Such a waste.</i>\"  The succubus pouts.  \"<i>No worries, I'll just have Fido clean it up later... perhaps I'll even have you do it later, when you become mine.</i>\"  The succubus giggles.");
-				player.dynStats("lus", 6);
+				player.takeLustDamage(6, true);
 			}
 			//Hit:
 			else {
 				outputText("All you manage to do is cover your face; the rest of you, however, gets completely soaked in the demon's corrupted milk.  Looking down at yourself, you realize that you are panting, and the places where the milk splashed your fur begin to heat up.  Oh no! <b>You'd better finish off this succubus before you succumb to your lusts!</b>");
-				player.dynStats("lus", 15);
+				player.takeLustDamage(15, true);
 				createStatusEffect(StatusEffects.MilkyUrta, 3, 0, 0, 0);
 			}
 		}
@@ -66,7 +66,7 @@ use namespace CoC;
 			else if (rand(3) == 0) outputText("The succubus squeezes her spotted, sweat-oiled breasts together, squirting out trickles of fresh, creamy, succubi milk.  Bending down, she laps at her own bounty, taking to meet your eyes, her own glowing violet.  You can feel her next words as much as hear them, reaching into your brain and stirring a familiar heat in your loins.  \"<i>Giving in would mean pleasure unending, my dear vixen.</i>\"");
 			else if (rand(2) == 0) outputText("The succubus turns slightly and slowly bends over, sliding her hands down the sides of her milk laden jugs. \"<i>Mmm, would you help a poor girl relax? These things need some attention,</i>\" she says with a lust filled moan as her hands reach her multitude of nipples.");
 			else outputText("The succubus leans forwards holding her tits, while wrapping her fingers around her nipples.  \"<i>My boobs are soo full.  Would you like to help me drain them?</i>\" she says with a husky voice.");
-			player.dynStats("lus", 20);
+			player.takeLustDamage(20, true);
 		}
 
 		override public function defeated(hpVictory:Boolean):void
@@ -80,12 +80,12 @@ use namespace CoC;
 		}
 
 
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			outputText(capitalA + short + " smiles, rubbing her hands across herself as she watches your display.  She does not seem greatly affected by your show - at least in the sense of increasing arousal.  She does seem oddly more... vital, as if she drew strength from the very display you put on.");
 			this.statStore.addBuff("str", 5, "DispelablePowerUP",{});
 			addHP(50);
-			applyTease(lustDelta);
+			applyTease(lustDelta, display, aura);
 		}
 
 		public function MilkySuccubus()
@@ -104,7 +104,7 @@ use namespace CoC;
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE + 1;
 			this.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-			this.skinTone = "blue";
+			this.bodyColor = "blue";
 			this.hairColor = "black";
 			this.hairLength = 13;
 			initStrTouSpeInte(130, 100, 180, 120);
@@ -112,7 +112,6 @@ use namespace CoC;
 			this.weaponName = "whip";
 			this.weaponVerb="whipping";
 			this.weaponAttack = 34;
-			this.weaponPerk = "";
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
 			this.armorDef = 22;
@@ -121,7 +120,6 @@ use namespace CoC;
 			this.bonusLust = 241;
 			this.lust = 40;
 			this.lustVuln = .3;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.level = 31;
 			this.gems = rand(40)+50;
 			this.additionalXP = 100;

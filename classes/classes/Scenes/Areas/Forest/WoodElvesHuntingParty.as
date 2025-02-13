@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Areas.Forest 
+package classes.Scenes.Areas.Forest
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -15,6 +15,8 @@ import classes.Items.WeaponRange;
 import classes.Items.WeaponRangeLib;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
+
+import coc.view.CoCButton;
 
 public class WoodElvesHuntingParty extends Monster
 	{
@@ -52,9 +54,11 @@ public class WoodElvesHuntingParty extends Monster
 			WoodElfSpearStab();
 			WoodElfSpearStab();
 			WoodElfSpearStab();
+			WoodElfSpearStab();
+			if (rand(100) < (95 + Acc)) WoodElfSpearStab();
 			if (rand(100) < (90 + Acc)) WoodElfSpearStab();
+			if (rand(100) < (85 + Acc)) WoodElfSpearStab();
 			if (rand(100) < (80 + Acc)) WoodElfSpearStab();
-			if (rand(100) < (70 + Acc)) WoodElfSpearStab();
 			outputText("\n\n");
 		}
 		
@@ -83,28 +87,28 @@ public class WoodElvesHuntingParty extends Monster
 		{
 			outputText("The elves aren't just fighting, each and every movement of these graceful warriors is like a well refined pole dance giving you a playful glimpse of their privates. Through the motion of their clothes they manage to both entice your lust and vex your effort at fighting, making a complete sexy show of their combat performance. ");
 			outputText("While you're distracted, out of nowhere one closes the gap forcing you to block her strike. Using your confusion as an opportunity she crosses the distance between your weapon in a flash and delivers a surprise kiss before leaping back out of striking range.\n\n");
-			outputText("\"<i>Aw why all the violence when I could be having so much fun right now? Why don't you drop your weapon already so we can get to the nice and cuddly part?~♥</i>\"\n\n");
+			outputText("\"<i>Aw why all the violence when we could be having so much fun right now? Why don't you drop your weapon already so we can get to the nice and cuddly part?~♥</i>\"\n\n");
 			outputText("The elves giggle at this suggestion which only adds to both the humiliation and your arousal.");
-			player.dynStats("lus", 40 + rand(20));
+			player.takeLustDamage(40 + rand(20), true);
 		}
 		
 		public function Disarm():void
 		{
 			outputText("A random bow shot hits your weapon's hand forcing you to drop it. <b>You are disarmed from your ");
-			if (player.weapon != WeaponLib.FISTS) {
+			if (player.weapon.canUnequip(false)) {
 				outputText("melee weapon!</b>");
 				if (flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] == 2) {
 					outputText(" \"<i>Woah who are you blond bimbos to dare remove <b>ME</b>?</i>\" <b>You Aether Twin melee weapon returned to your hand!</b>");
 				}
 				else {
 					flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] = player.weapon.id;
-					player.setWeapon(WeaponLib.FISTS);
+					player.unequipWeapon(false);
 				}
 			}
 			else {
 				outputText("range weapon!</b>");
 				flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] = player.weaponRange.id;
-				player.setWeaponRange(WeaponRangeLib.NOTHING);
+				player.unequipWeaponRange(false);
 			}
 		}
 		public function pickUpMelee():void
@@ -127,7 +131,22 @@ public class WoodElvesHuntingParty extends Monster
 			EngineCore.statScreenRefresh();
             SceneLib.combat.enemyAIImpl();
         }
-		
+
+		override public function postPlayerBusyBtnSpecial(btnSpecial1:CoCButton, btnSpecial2:CoCButton):void{
+				if (flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] != 0) btnSpecial1.show("Pick (M)", pickUpMelee, "Pick up your melee weapon.");
+				if (flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] != 0) btnSpecial2.show("Pick (R)", pickUpRange, "Pick up your range weapon.");
+		}
+
+		override public function preAttackSeal():Boolean
+		{
+			if (player.hasStatusEffect(StatusEffects.Sealed2) && player.statusEffectv2(StatusEffects.Sealed2) == 0) {
+				outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Recent enemy attack have made normal melee attacks impossible!  Maybe you could try something else?\n\n");
+				// enemyAI();
+				return false;
+			}
+			else return true;
+		}
+
 		override protected function performCombatAction():void
 		{
 			var choice:Number = rand(4);
@@ -136,14 +155,14 @@ public class WoodElvesHuntingParty extends Monster
 				else WoodElfsGroupAttack();
 			}
 			if (choice == 1) {
-				if (player.weapon == WeaponLib.FISTS && player.weaponRange == WeaponRangeLib.NOTHING) WoodElfsGroupAttack();
-				else Disarm();
+				if (player.weapon.canUnequip(false) || player.weaponRange.canUnequip(false)) Disarm();
+				else WoodElfsGroupAttack();
 			}
 			if (choice == 2) WoodElfsGroupAttack();
 			if (choice == 3) GroupTease();
 		}
 		
-		public function WoodElvesHuntingParty() 
+		public function WoodElvesHuntingParty()
 		{
 			this.a = "the ";
 			this.short = "wood elf hunting party";
@@ -151,7 +170,7 @@ public class WoodElvesHuntingParty extends Monster
 			this.long = "You are fighting a wood elf hunting party. The girls are all dressed up light and use bows or spears if they have a weapon at all. It'd be a good guess to think they intend to tease you into submission rather than beat you into it seeing as they hardly seem to take the battle all that seriously.";
 			this.createVagina(false, VaginaClass.WETNESS_SLAVERING, VaginaClass.LOOSENESS_NORMAL);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 30, 0, 0, 0);
-			createBreastRow(Appearance.breastCupInverse("F"));
+			createBreastRow(Appearance.breastCupInverse("II"));
 			this.ass.analLooseness = AssClass.LOOSENESS_NORMAL;
 			this.ass.analWetness = AssClass.WETNESS_MOIST;
 			this.plural = true;
@@ -159,25 +178,24 @@ public class WoodElvesHuntingParty extends Monster
 			this.hips.type = Hips.RATING_AMPLE + 1;
 			this.butt.type = Butt.RATING_AVERAGE + 1;
 			this.lowerBody = LowerBody.ELF;
-			this.skinTone = "light";
+			this.bodyColor = "light";
 			this.hairColor = "blonde";
 			this.hairLength = 13;
-			initStrTouSpeInte(30, 30, 80, 30);
-			initWisLibSensCor(30, 50, 60, 80);
+			initStrTouSpeInte(50, 50, 180, 40);
+			initWisLibSensCor(40, 130, 170, 100);
 			this.weaponName = "spear";
 			this.weaponVerb= "stab";
-			this.weaponAttack = 15;
+			this.weaponAttack = 45;
 			this.weaponRangeName = "elven bow";
 			this.weaponRangeVerb= "shoot";
-			this.weaponRangeAttack = 18;
+			this.weaponRangeAttack = 54;
 			this.armorName = "elven armor";
-			this.armorDef = 3;
-			this.armorMDef = 3;
-			this.bonusLust = 125;
+			this.armorDef = 12;
+			this.armorMDef = 12;
+			this.bonusLust = 323;
 			this.lustVuln = .7;
 			this.lust = 50;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 14;
+			this.level = 23;
 			this.gems = rand(10) + 10;
 			this.drop = new WeightedDrop().
 					add(weaponsrange.BOWLIGH,1).

@@ -6,6 +6,7 @@ package classes.Scenes.Areas.Mountain
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 
 public class LactaBovinaScene extends BaseContent
@@ -32,9 +33,10 @@ public function lactaBovinaVictoryRapeChoices():void {
 	menu();
 	addButtonIfTrue(1, "Lick it!", lactaBovinaVictoryLickIt, "Req. to have pussy.", player.hasVagina());
 	addButtonIfTrue(2, "Sitting Boobjob", lactaBovinaVictorySittingBoobjob,
-		"Req. to have a cock and be no taller than the cow.",
-		player.hasCock() && player.tallness <= monster.tallness);
-	addButton(4, "Leave", lactaBovinaVictoryLeave);
+		"Req. to have a cock.",
+		player.hasCock());
+	addButton(10, "Convert Elf", SceneLib.woodElves.CaptureCowgirl).hint("Take the milky slut to the Sacred Tree to become a new sister!").disableIf(!player.isWoodElf(), "Wood elves only!");
+	addButton(14, "Leave", lactaBovinaVictoryLeave);
 }
 public function lactaBovinaVictoryLickIt():void {
 	clearOutput();
@@ -54,7 +56,7 @@ public function lactaBovinaVictorySittingBoobjob():void {
 	outputText("You watch patiently as the cow uses her massive tits to pleasure aching cock, bitch must be used to treating minotaurs on a daily basis because she's very good at this. "+(player.horseCocks() > 0?"That your cock is equine in shape probably helps put her in the mood. ":"")+"You moan as the cow slowly edges you toward the inevitable climax, her jiggly orbs moving across your lenght. ");
 	outputText("You almost feel the bump of fresh cum move along the length of you prick as you finally explode painting the cow face with your seed.\n\n");
 	outputText("Satisfied you stand up and redress leaving the pleading needy cow behind heading back to your camp.");
-	player.sexReward("Default","Dick",true,false);
+	player.sexReward("no", "Dick");
 	cleanupAfterCombat();
 }
 public function lactaBovinaVictoryLeave():void {

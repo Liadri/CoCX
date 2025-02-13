@@ -39,9 +39,9 @@ import classes.Scenes.SceneLib;
 			return SceneLib.amilyScene.amilyFollower();
 		}
 		// Anemone
-		protected function get anemoneScene():AnemoneScene
+		protected function get kidAScene():KidAScene
 		{
-			return SceneLib.anemoneScene;
+			return SceneLib.kidAScene;
 		}
 		// Arian
 		protected function get arianScene():ArianScene
@@ -51,6 +51,10 @@ import classes.Scenes.SceneLib;
 		public function arianFollower():Boolean
 		{
 			return SceneLib.arianScene.arianFollower();
+		}
+		// Ayayayane
+		protected function get ayaneFollower():AyaneFollower{
+			return SceneLib.ayaneFollower;
 		}
 		// Celess
 		protected function get celessScene():CelessScene
@@ -83,22 +87,22 @@ import classes.Scenes.SceneLib;
 		{
 			return SceneLib.emberScene.emberMF(man,woman);
 		}
-		// Ayayayane
-		protected function get ayaneFollower():AyaneFollower{
-			return SceneLib.ayaneFollower;
+		public function etnaScene():EtnaFollower
+		{
+			return SceneLib.etnaScene;
 		}
-		public function followerAyane():Boolean{
-			return SceneLib.ayaneFollower.followerAyane();
+		public function followerEtnaKid():Boolean
+		{
+			return SceneLib.etnaDaughterScene.etnaDaughterFollower();
+		}
+		public function get etnaKidFollower():EtnaDaughterScene
+		{
+			return SceneLib.etnaDaughterScene;
 		}
 		// Exgartuan
 		protected function get exgartuan():Exgartuan
 		{
 			return SceneLib.exgartuan;
-		}
-		// Forgefather
-		protected function get ForgeFather():Forgefather
-		{
-			return SceneLib.forgefatherScene;
 		}
 		// Helia
 		protected function get helScene():HelScene
@@ -214,6 +218,14 @@ import classes.Scenes.SceneLib;
 		public function marbleFollower():Boolean
 		{
 			return SceneLib.marbleScene.marbleFollower();
+		}
+		public function followerMidoka():Boolean
+		{
+			return SceneLib.midokaScene.midokaFollower();
+		}
+		public function get midokaScene():MidokaScene
+		{
+			return SceneLib.midokaScene;
 		}
 		// Milk slave
 		public function milkSlave():Boolean

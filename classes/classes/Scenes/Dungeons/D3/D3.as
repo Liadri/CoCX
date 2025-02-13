@@ -1,14 +1,14 @@
-package classes.Scenes.Dungeons.D3 
+package classes.Scenes.Dungeons.D3
 {
 import classes.BaseContent;
+import classes.EventParser;
 import classes.GlobalFlags.kFLAGS;
-import classes.Items.Consumables.SimpleConsumable;
+import classes.Items.Consumable;
 import classes.Items.Vehicles;
 import classes.Items.Weapon;
 import classes.Scenes.SceneLib;
-import classes.EventParser;
-import classes.room;
 import classes.StatusEffects;
+import classes.room;
 
 /**
 	 * ...
@@ -29,7 +29,7 @@ import classes.StatusEffects;
 		public var minotaurKing:MinotaurKingScenes = new MinotaurKingScenes();
 		public var lethice:LethiceScenes = new LethiceScenes();
 		
-		public function D3() 
+		public function D3()
 		{
 			configureRooms();
 		}
@@ -236,28 +236,21 @@ import classes.StatusEffects;
 		
 		// Entrance/Exit
 		
-		public function discoverD3():Boolean
+		public function discoverD3():void
 		{
-			if (flags[kFLAGS.D3_DISCOVERED] == 0 && player.hasKeyItem("Zetaz's Map") >= 0 && rand(5) == 0)
-			{
-				flags[kFLAGS.D3_DISCOVERED] = 1;
-				
-				clearOutput();
-				outputText("During your exploration, you come across a familiar looking patch of ground. In fact... you pull out Zetaz’s map, your eyes widening as they realize what you’ve just found: Lethice’s Keep. You follow a concealed trail past several harpy nests directly to an almost invisible cave entrance. You never would’ve found it without the map.");
-				outputText("\n\n<b>You’ve discovered a hidden entrance to Lethice’s lair. It can be accessed from the Dungeons submenu in the future.</b>");
-				outputText("\n\nDo you step inside, or wait until you’re better prepared?");
-				
-				menu();
-				addButton(0, "Enter", enterD3);
-				addButton(1, "Leave", camp.returnToCampUseOneHour);
-				
-				return true;
-			}
-			return false;
+			flags[kFLAGS.D3_DISCOVERED] = 1;
+			clearOutput();
+			outputText("During your exploration, you come across a familiar looking patch of ground. In fact... you pull out Zetaz’s map, your eyes widening as they realize what you’ve just found: Lethice’s Keep. You follow a concealed trail past several harpy nests directly to an almost invisible cave entrance. You never would’ve found it without the map.");
+			outputText("\n\n<b>You’ve discovered a hidden entrance to Lethice’s lair. It can be accessed from the Dungeons submenu in the future.</b>");
+			outputText("\n\nDo you step inside, or wait until you’re better prepared?");
+			menu();
+			addButton(0, "Enter", enterD3);
+			addButton(1, "Leave", explorer.done);
 		}
 		
 		public function enterD3():void
 		{
+			explorer.stopExploring();
 			SceneLib.dungeons.setDungeonButtons(); //Ensures the top buttons are visible.
 			menu(); //Clear bottom buttons
 			inRoomedDungeon = true;
@@ -269,9 +262,9 @@ import classes.StatusEffects;
 		{
 			inRoomedDungeon = false;
 			inRoomedDungeonResume = null;
-			if ((flags[kFLAGS.MITZI_RECRUITED] == 1 && player.hasStatusEffect(StatusEffects.CampRathazul)) || (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && !camp.followerShouldra())) {
+			if ((flags[kFLAGS.MITZI_RECRUITED] == 1 && player.hasStatusEffect(StatusEffects.CampRathazul)) || (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && (!camp.followerShouldra() || player.hasStatusEffect(StatusEffects.ShouldraOff)))) {
 				clearOutput();
-				if (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && !camp.followerShouldra()) outputText("Before you go, you look for where you left the former cow queen. You find her laying in an imp nest covered in cum. She appears to have fallen asleep sometime during the battle. Shaking your head, you wipe most of the mess from her body then drag her back to camp, leaving the stronghold behind.\n\n");
+				if (flags[kFLAGS.EXCELLIA_RECRUITED] == 1 && (!camp.followerShouldra() || player.hasStatusEffect(StatusEffects.ShouldraOff))) outputText("Before you go, you look for where you left the former cow queen. You find her laying in an imp nest covered in cum. She appears to have fallen asleep sometime during the battle. Shaking your head, you wipe most of the mess from her body then drag her back to camp, leaving the stronghold behind.\n\n");
 				if (flags[kFLAGS.MITZI_RECRUITED] == 1 && player.hasStatusEffect(StatusEffects.CampRathazul)) {
 					outputText("With the threat of the demon queen taken care of, you head back outside where you told Mitzi to wait. When you open the doors, you look around and spot the goblin laying against the wall struggling to stay awake. You head over and barely manage to catch her as she slumps to the side. She shivers and shakes in your arms and a heavy blush is plastered on her face. Fearing something else could be wrong with her, you pick up the drug addled goblin then carry her back to your camp. She mumbles and moans faintly as you carry her. With the amount of mind numbing lust inducing drugs pumped into her, you're not sure if she can simply shake this herself. Maybe Rathazul can help in that regard. Once you reach camp, you head right to the elder rat's lab. He notices you coming over with the barely conscious goblin in your arms.\n\n");
 					outputText("<i>\"[name]! It's good to see you return safe and sound. Hm? Is that a goblin you have there?\"</i>\n\n");
@@ -345,7 +338,7 @@ import classes.StatusEffects;
 			
 			addButton(13, "Inventory", inventory.inventoryMenu);
 			addButton(14, "Map", SceneLib.dungeons.map.displayMap);
-            if (player.lust >= 30) addButton(8, "Masturbate", SceneLib.masturbation.masturbateGo);
+			SceneLib.masturbation.masturButton(8);
         }
 		
 		public function move(roomName:String, timeToPass:Number = 0):void
@@ -407,7 +400,7 @@ import classes.StatusEffects;
 		private function roomofmirrorsRoomFunc():Boolean
 		{
 			outputText("<b><u>Room of Mirrors</u></b>\n");
-			outputText("The metal door opens soundlessly onto a fairly large, unlit room, shabby and grey with disuse. It is cluttered with a great quantity of mirrors. Round hand mirrors are stacked on shelves, square wall mirrors are leant against walls, a large,"); 
+			outputText("The metal door opens soundlessly onto a fairly large, unlit room, shabby and grey with disuse. It is cluttered with a great quantity of mirrors. Round hand mirrors are stacked on shelves, square wall mirrors are leant against walls, a large,");
 			if (flags[kFLAGS.D3_MIRRORS_SHATTERED] == 1) outputText(" now shattered,");
 			outputText(" ornate standing mirror dominates the center of the room, and a number of broken, jagged specimens are stacked near the back. They reflect the dull trappings of this place back at you emptily. You guess as self-centred a race as the demons probably has quite a large use for these.");
 			
@@ -440,13 +433,13 @@ import classes.StatusEffects;
                     if (flags[kFLAGS.BENOIT_AFFECTION] == 100) outputText("  This can only be the hall that " + SceneLib.bazaar.benoit.benoitMF("Benoit", "Benoite") + " once worked in.");
                     outputText("  You get the fright of your life when you think you see a number of depthless pools of grey revolve up to meet yours- but they don’t freeze you, you note as you reflexively turn away. The tinted glass must carry some sort of anti-petrifying charm, and further it must be reflective on the other side, because no one below seems to realize you’re standing there. Relaxing a bit, you continue to absorb the massive room. At the end furthest away from you two huge piles have been created- one of eggs, a massed assortment of every color and size imaginable, and one of pure junk, presumably everything the basilisks have found whilst scavenging and considered worth keeping. The detritus of a dozen collapsed civilizations must be down there, collected for the demons’ perusal by their scaly custodians. Directly below you, you can see archways like the one you just passed under, through which the basilisks ebb and flow.");
 					outputText("\n\nYour heartbeat quickens as you consider. There is a grid gantry running from where you are right around the room to the other side, where you can see a matching observation booth, presumably containing another exit. But it’s quite a distance, there are stairs leading down to the ground level, and outside the protective glass you would surely be spotted and apprehended");
-					if (player.canFly()) outputText(", even if you tried to fly it"); 
-					outputText(". Wouldn’t you? You can’t outrun the gaze of a thousand basilisks... could you?"); 
+					if (player.canFly()) outputText(", even if you tried to fly it");
+					outputText(". Wouldn’t you? You can’t outrun the gaze of a thousand basilisks... could you?");
 					if (player.hasKeyItem("Laybans") >= 0) outputText("  You take the Laybans out of your pouch and hold them up against the glass. It’s exactly as you hoped - they are made of the same material, and are almost certainly what the demons wear when they themselves interact with the basilisks. They would surely help you get across the hall, if you were crazy enough to try.");
 				}
 				else
 				{
-					outputText("Again you creep up to the tinted glass, again you take in the vast hall with the army of basilisks below hard at work, and again you stare out at the metal gantry, with the exit tantalizingly visible on the other side."); 
+					outputText("Again you creep up to the tinted glass, again you take in the vast hall with the army of basilisks below hard at work, and again you stare out at the metal gantry, with the exit tantalizingly visible on the other side.");
 					if (player.hasKeyItem("Laybans") < 0) outputText("  Are you going to try this?");
 					else outputText("  You take the Laybans out of your pocket, turning them around in your hands as you consider. Are you going to try this?");
 				}
@@ -454,7 +447,7 @@ import classes.StatusEffects;
 				menu();
 				addButton(0, "Go!", jeanClaude.gogoFuckTheseBasilisks);
 				addButton(1, "Fall Back", fallbackFromMagpieHallS);
-					
+				
 				return true;
 			}
 			
@@ -511,7 +504,7 @@ import classes.StatusEffects;
 		
 		private function takeEgg(eggMask:int):void
 		{
-			var item:SimpleConsumable;
+			var item:Consumable;
 			
 			if (eggMask == BLACK) item = consumables.L_BLKEG;
 			if (eggMask == BLUE) item = consumables.L_BLUEG;
@@ -524,7 +517,7 @@ import classes.StatusEffects;
 			// Should actually be handled by the fallthrough of doNext(1) in the takeItem shit
 			
 			clearOutput();
-			outputText("You pluck out " + item.longName + " ");			
+			outputText("You pluck out " + item.longName + " ");
 			
 			flags[kFLAGS.D3_EGGS_AVAILABLE] += eggMask;
 			inventory.takeItem(item, playerMenu); //playerMenu is equivalent to doNext(1)
@@ -536,7 +529,7 @@ import classes.StatusEffects;
 			
 			clearOutput();
 			item = weapons.DEMSCYT;
-			outputText("You pluck out " + item.longName + " ");			
+			outputText("You pluck out " + item.longName + " ");
 			flags[kFLAGS.D3_DEMONIC_SCYTHE] = 1;
 			inventory.takeItem(item, playerMenu);
 		}
@@ -548,7 +541,7 @@ import classes.StatusEffects;
 			if (player.hasStatusEffect(StatusEffects.PCDaughtersWorkshop)) {
 				var item:Vehicles;
 				item = vehicles.GOBMPRI;
-				outputText("You decide to haul it back home and call on the walkie talkie system in your mech to tell your daughters to come and pick it up for you. It should be at camp the next time you're there and ready to install any and all upgrades you already own.");
+				outputText("You decide to haul it back home and call on the walkie-talkie system in your mech to tell your daughters to come and pick it up for you. It should be at camp the next time you're there and ready to install any and all upgrades you already own.");
 				flags[kFLAGS.D3_GOBLIN_MECH_PRIME] = 1;
 				inventory.takeItem(item, playerMenu);
 			}
@@ -575,24 +568,13 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.D3_JEAN_CLAUDE_DEFEATED] == 0)
 			{
 				outputText("You find yourself back in the small booth, with the locked door leading out into the Magpie Hall. Just like the one on the opposite side, there is a darkened screen here through which you can see hundreds of basilisks milling down below, sorting through the vast amount of junk and eggs they have collected from the mountainside. They don’t seem to have taken any extra precautions following your narrow escape of them- the gantry remains free of any guards, and the door on the other side looks open.");
-				
 				menu();
-				
 				addButton(0, "Go!", jeanClaude.gogoFuckTheseBasilisksNorth);
 				addButton(1, "Stronghold", move, "tunnel2");
-				
 				return true;
 			}
-			
 			outputText("You are back in the northern end of the Magpie Hall. Without the bustle of activity below it is a gapingly empty and quiet place, the only sound the murmur of activity from elsewhere. There is a vast amount of collected junk below but it would take, well, an army of basilisks to sort through it to find anything worthwhile. You could check out the massive pile of eggs, though.");
-			
-			if (eggsAvailable() >= 0)
-			{
-				addButton(2, "Eggs", goToEggPile);
-			}
-			if (flags[kFLAGS.D3_DEMONIC_SCYTHE] == 0) addButton(3, "Scythe", takeScythe);
-			if (flags[kFLAGS.D3_GOBLIN_MECH_PRIME] == 0) addButton(4, "Mech", takeMech);
-			
+			if (eggsAvailable() >= 0 || flags[kFLAGS.D3_DEMONIC_SCYTHE] == 0 || flags[kFLAGS.D3_GOBLIN_MECH_PRIME] == 0) addButton(2, "Eggs", goToEggPile);
 			return false;
 		}
 		
@@ -621,7 +603,7 @@ import classes.StatusEffects;
 		{
 			outputText("<b><u>South Courtyard</u></b>\n");
 			outputText("Lethice's courtyard is surprisingly well-groomed for a place that's supposedly home to neverending debauchery and depravity. The paths are laid with interconnecting sandstone bricks that reflect the sun to give the place a gentle, amber glow, and lush, green grass lines the sides along with well-trimmed hedges. You could almost mistake this place for a churchyard if it wasn't for the faint sound of moans on the wind. The courtyard paths lead away east and west, while the gateway out hangs open to the south.");
-			return false;			
+			return false;
 		}
 		
 		private function southwestcourtyardRoomFunc():Boolean

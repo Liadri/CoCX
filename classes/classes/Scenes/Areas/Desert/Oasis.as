@@ -35,7 +35,7 @@ private function oasisRunAway():void {
 	//Run away successfully if fast enough.  80 speed = autosuccess.
 	if(player.spe > 15 && player.spe/2 > rand(40)) {
 		outputText("You bolt out from under your bush and scramble away over the sand. Before long the swishing sounds of pursuit fade away and looking back you see the few demons with the gusto to follow you tramping back to the oasis.");
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 	else {
 		outputText("You scramble away from the demons, but are too late. A swift demon with canine features tackles you to the ground.  Luckily he loses his grip as you tumble onto the sand and you slither free, stand up and wheel to face the host of leering demons which begin to advance with malicious intent.");
@@ -113,7 +113,7 @@ internal function oasisSexing():void {
 			else outputText("cocks are");
 			outputText(" taken by other hands and other eager pussies ranging from painfully, childishly tight to freakishly huge!");
 		}
-		player.sexReward("Default", "Dick", true, false)
+		player.sexReward("no", "Dick")
 		//IZ OVER FOR MENZ
 		outputText("\n\n");
 	}
@@ -137,7 +137,8 @@ internal function oasisSexing():void {
 		//IZ OVER! NEWLINE BITCH
 		outputText("\n\n");
 		//Preggers chance!
-		if (!player.isGoblinoid()) player.knockUp(PregnancyStore.PREGNANCY_IMP, PregnancyStore.INCUBATION_IMP, 90);
+		if (player.hasUniquePregnancy()) player.impregnationRacialCheck();
+		else player.knockUp(PregnancyStore.PREGNANCY_IMP, PregnancyStore.INCUBATION_IMP, 90);
 		player.sexReward("cum","Vaginal");
 	}
 	//Buttbutt buuuuuttt
@@ -159,13 +160,13 @@ internal function oasisSexing():void {
 	outputText("\n\nSoon even your mouth is taken by a demoness lowering her slick honeypot down onto your lips. You lick and suck as she moans like a whore atop your head. It's impossible to count how many times she comes and so you just relax into a rhythm of licking and sucking, interrupted only by your own bone-creaking orgasms as the demonic attentions to the rest of your body drive you over the edge time and time again.");
 	player.sexReward("cum","Lips");
 	//Non-preggers text!
-	if(player.pregnancyIncubation == 0 && player.gender > 1) {
+	if(player.canGetPregnant() && player.gender > 1) {
 		//Newline for potential preggers?
 		outputText("\n\n");
 		outputText("You do your best to keep a vague mental catalogue of what has been in where, but eventually it becomes impossible to remember the type or number of demonic dicks that have filled you with their cum. The sand below your ass is wet with seed that has spilled out of your overflowing " + vaginaDescript(0) + " and there is every indication of more to come.\n\n");
 	}
 	//If you got here by winning combat!
-    if ((monster.HP < 1 || monster.lust >= monster.maxLust()) && CoC.instance.inCombat) {
+    if ((monster.HP < 1 || monster.lust >= monster.maxOverLust()) && CoC.instance.inCombat) {
         outputText("You fuck and fuck until not a single demon is capable of servicing your needs. They lie moaning and panting at the edge of the oasis, unable to move. You survey the fallen fiends with just a touch of pride and a whole lot of satisfaction, your body feeling stronger for the endurance exercise.");
 		cleanupAfterCombat();
 		player.sexReward("cum");
@@ -173,7 +174,7 @@ internal function oasisSexing():void {
 		return;
 	}
 	//If you got here by losing combat!
-    else if ((player.HP < 1 || player.lust >= player.maxLust()) && CoC.instance.inCombat) {
+    else if ((player.HP < 1 || player.lust >= player.maxOverLust()) && CoC.instance.inCombat) {
         //►Oasis Demons Defeat PC as part of antm
 		//Antmorph stuff
 		if(monster.hasStatusEffect(StatusEffects.phyllafight)) {
@@ -195,6 +196,7 @@ internal function oasisSexing():void {
 	outputText("You fuck for hours; 'feasting' with the demons. Pain, pleasure and exhaustion intermingle and no matter how hard you try to cling to consciousness you are in no state to concentrate. You dangle over the edge for what seems like eternity before another orgasm, stronger than any other, hits you like a solid wall and you black out. For a little while you drift in and out of conscious reality to find your body still the object of demonic attentions until eventually you wake to find that the seemingly endless string of orgasms has stopped. Looking around you see what demons remain awake engaged solely in fucking each other. Tender and sore from the abuse and still finding it hard to concentrate you gather your clothes and steal away, leaving them to the tail end of their orgy. In the aftermath you feel like you've just run an endurance race, but the rubbed raw sensitivity of your brutally fucked body tells another tale.");
 	player.sexReward("cum");
 	dynStats("tou", .5, "sen", .5, "cor", 4);
+	explorer.stopExploring();
     if (CoC.instance.inCombat) cleanupAfterCombat();
     else doNext(playerMenu);
 }

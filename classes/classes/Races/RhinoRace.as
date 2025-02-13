@@ -4,10 +4,36 @@ import classes.CockTypesEnum;
 import classes.Race;
 
 public class RhinoRace extends Race {
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
 	public function RhinoRace(id:int) {
-		super("Rhino", id);
+		super("Rhino", id, []);//RaceBody);
 		chimeraTier = 0;
 		grandChimeraTier = 0;
+		disabled = true;
 	}
 	
 	public override function setup():void {
@@ -16,9 +42,8 @@ public class RhinoRace extends Race {
 				.earType(Ears.RHINO, +1)
 				.tailType(Tail.RHINO, +1)
 				.faceType(Face.RHINO, +1)
-				.hornType(Horns.RHINO, +1);
-		addScoresAfter(2)
-				.skinBaseColor("gray", +1)
+				.hornType(Horns.RHINO, +1)
+				.skinColor1("gray", +1)//thic skin perk also form numb rocks
 				.hasCockOfType(CockTypesEnum.RHINO, +1);
 		
 		buildTier(4, "rhino")

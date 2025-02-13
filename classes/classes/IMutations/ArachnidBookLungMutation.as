@@ -12,6 +12,9 @@ import classes.Races;
 
     public class ArachnidBookLungMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Arachnid Book Lung";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -29,26 +32,15 @@ import classes.Races;
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Arachnid Book Lung" + sufval;
+        override public function evolveText():String {
+            var descS:String = "\nYou feel change overcoming your body. It would seem your symbiotic relationship with your err… was it your upper or lower half… has improved? Your webs are more voluminous while your venom is thicker and more potent. You could bite and weave for days right now.";
+            return descS;
         }
 
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -67,18 +59,16 @@ import classes.Races;
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) pBuffs['int.mult'] = 0.05;
-            else if (pTier == 2) pBuffs['int.mult'] = 0.15;
-            else if (pTier == 3) pBuffs['int.mult'] = 0.3;
+            if (pTier == 2) pBuffs['int.mult'] = 0.15;
+            if (pTier == 3) pBuffs['int.mult'] = 0.3;
             return pBuffs
         }
 
         public function ArachnidBookLungMutation() {
-            super("Arachnid Book Lung IM", "Arachnid Book Lung", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_ADAPTATIONS, 3);
         }
         
     }

@@ -2,17 +2,16 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
-import classes.Scenes.SceneLib;
 
 public class TedScenes extends NPCAwareContent
 	{
 		
-				
-		public function TedScenes() 
+		
+		public function TedScenes()
 		{
 		}
 
@@ -60,18 +59,14 @@ public function introPostHiddenCave():void {
 		outputText("\"<i>Repent sinner...</i>\" and you just dodge in time throws at you his hammer.\n\n");
 	}
 	startCombat(new Ted());
-	doNext(playerMenu);
 }
 
 public function defeatedTedPostHiddenCave():void {
 	if (flags[kFLAGS.TED_LVL_UP] >= 3) {
 		outputText(".");
 		outputText("\n\n\"<i>My Dao Heart is firm.</i>\" he recite before escaping with help of smokescreen.\n\n");//WIP post combat version
-		menu();
-		addButton(14, "Leave", cleanupAfterCombat);
-		SceneLib.uniqueSexScene.pcUSSPreChecksV2(defeatedTedPostHiddenCave);
-			}
-	if (flags[kFLAGS.TED_LVL_UP] == 2) {
+	}
+	else if (flags[kFLAGS.TED_LVL_UP] == 2) {
 		outputText(".");
 		outputText("\n\n\"<i>My Dao Heart is firm.</i>\" he recite before escaping with help of smokescreen.\n\n");//WIP post combat version
 	}//w walce po której Ted awansuje do lvl 27 dać fragment gdzie on lub ktoś inny jak npc. jakiś loli bat golem co Ted ją znalazł do pomocy zdradza jego imie typu: mistrzu ted bla bla bla

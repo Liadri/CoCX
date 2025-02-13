@@ -12,6 +12,9 @@ import classes.Player;
 
 public class NaturalPunchingBagMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Natural Punching Bag";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -29,26 +32,10 @@ public class NaturalPunchingBagMutation extends IMutationPerkType
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Natural Punching Bag" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -68,20 +55,16 @@ public class NaturalPunchingBagMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
-            var buffVal:Number = 0;
-            if (pTier == 1) buffVal = 0.05;
-            if (pTier == 2) buffVal = 0.15;
-            if (pTier == 3) buffVal = 0.35;
-            pBuffs['tou.mult'] = buffVal;
+            if (pTier == 1) pBuffs['tou.mult'] = 0.05;
+            if (pTier == 2) pBuffs['tou.mult'] = 0.15;
+            if (pTier == 3) pBuffs['tou.mult'] = 0.35;
             return pBuffs;
         }
 
         public function NaturalPunchingBagMutation() {
-            super("Natural Punching Bag IM", "Natural Punching Bag", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_FAT, 3);
         }
 
     }

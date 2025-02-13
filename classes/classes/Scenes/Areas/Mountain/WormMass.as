@@ -4,18 +4,15 @@ import classes.*;
 import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.Scenes.SceneLib;
+import classes.Scenes.Combat.CombatAbility;
+import classes.Scenes.Combat.General.TeaseSkill;
 
 public class WormMass extends Monster
 	{
 		public function wormAttack():void {
 			//Dodged!
-			if(player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 80) {
+			if(player.getEvasionRoll()) {
 				outputText("The worm colony flails at you with its simulated arms, but its lack of coordination allows you to easily dodge its attack.\n");
-				return;
-			}
-			//Evade
-			if(player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "' attacks.\n");
 				return;
 			}
 			var temp:int = int((str + weaponAttack) - Math.random()*(player.tou+player.armorDef));
@@ -39,7 +36,7 @@ public class WormMass extends Monster
 			//SUCCESS
 			if(player.lust < 50) {
 				outputText("The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your [cock] is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.\n");
-				player.dynStats("lus", 10+player.lib/20+player.cor/20);
+				player.takeLustDamage(10+player.lib/20+player.cor/20, true);
 			}
 			else {
 				outputText("The worm colony shambles over to you and attempts to grapple you. Attempting to dodge, you fail to get away fast enough and fall to the ground engulfed by the mass. You are completely covered in the slimy worms!!! Incapable of avoiding any of their movements, you feel their slime coat every inch of your body and you feel the struggle and strain of each individual worm as they crawl all over you. You immediately begin flailing wildly as you cannot even breathe!");
@@ -56,7 +53,24 @@ public class WormMass extends Monster
 				}
 			}
 		}
-		
+
+		override public function midAttackSeal():Boolean{
+			var dam:int = int(player.str / 5 - rand(5));
+			if (dam == 0) dam = 1;
+			outputText("You strike at the amalgamation, crushing countless worms into goo, dealing <b>[font-damage]" + dam + "[/font]</b> damage.\n\n");
+			this.HP -= dam;
+			return false;
+		}
+
+		override public function interceptPlayerAbility(ability:CombatAbility):Boolean {
+			if (ability is TeaseSkill) {
+				outputText("Thinking to take advantage of its humanoid form, you wave your cock and slap your ass. However, the creature fails to react to your suggestive actions.\n\n");
+				return true;
+			}
+
+			return false;
+		}
+
 		override protected function performCombatAction():void
 		{
 			//Worms have different AI
@@ -94,20 +108,19 @@ public class WormMass extends Monster
 			this.tallness = 1;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_BUTTLESS;
-			this.skinTone = "white";
-			initStrTouSpeInte(40, 10, 10, 1);
+			this.bodyColor = "white";
+			initStrTouSpeInte(110, 240, 30, 1);
 			initWisLibSensCor(1, 90, 60, 90);
 			this.weaponName = "worm";
 			this.weaponVerb="slap";
-			this.weaponAttack = 1;
+			this.weaponAttack = 10;
 			this.armorName = "skin";
-			this.armorDef = 1;
-			this.armorMDef = 0;
-			this.bonusLust = 156;
+			this.armorDef = 50;
+			this.armorMDef = 10;
+			this.bonusLust = 185;
 			this.lust = 30;
-			this.lustVuln = 0;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.level = 6;
+			this.lustVuln = 0.01;
+			this.level = 35;
 			this.gems = 0;
 			this.special1 = wormAttack;
 			this.special2 = wormsEntice;

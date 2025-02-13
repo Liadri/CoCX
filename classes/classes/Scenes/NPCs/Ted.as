@@ -19,10 +19,7 @@ use namespace CoC;
 	{
 		private function tedSpecialAttackOne():void {
 			var damage:Number = 0;
-			if (hasStatusEffect(StatusEffects.Blind)) {
-				outputText((flags[kFLAGS.TED_LVL_UP] >= 3 ?"Ted":"Dragon-boy")+" makes a wide sweeping attack with his hammer, which is difficult to avoid even from a blinded opponent.\n");//Ted
-			}
-			if (player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
+			if (player.getEvasionRoll()) {
 				outputText("You barely manage to avoid a wide sweeping attack from dragon-boy by rolling under it.");//Ted's
 				return;
 			}
@@ -34,20 +31,11 @@ use namespace CoC;
 			}
 			else outputText((flags[kFLAGS.TED_LVL_UP] >= 3 ?"Ted":"Dragon-boy")+" easily hits you with a wide, difficult to avoid swing.  ");//Ted
 			if(damage > 0) player.takePhysDamage(damage, true);
-			statScreenRefresh();
 		}
 		private function tedSpecialAttackTwo():void {
 			var damage:Number = 0;
-			if (hasStatusEffect(StatusEffects.Blind)) {
-				outputText((flags[kFLAGS.TED_LVL_UP] >= 3 ?"Ted":"Dragon-boy")+" unwisely tries to make a massive swing while blinded, which you are easily able to avoid.");//Ted
-				return;
-			}
-			if (player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 60) {
+			if (player.getEvasionRoll()) {
 				outputText("You manage to roll out of the way of a massive overhand swing.");
-				return;
-			}
-			if (player.hasPerk(PerkLib.Evade) && rand(100) < 60) {
-				outputText("You easily sidestep as dragon-boy tries to deliver a huge overhand blow.");//Ted
 				return;
 			}
 			damage = int((str + 30 + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
@@ -59,19 +47,15 @@ use namespace CoC;
 				outputText("You are struck by a two-handed overhead swing from the enraged dragon-boy.  ");//Ted
 				damage = player.takePhysDamage(damage, true);
 			}
-			statScreenRefresh();
 		}//poniżej ataki jakie bedzie używać w dodatku do 2 powyżej w czasie spotkań po Hidden Cave
 		private function tedSpecialAttack1():void {
 			var damage:Number = 0;
-			statScreenRefresh();
 		}
 		private function tedSpecialAttack2():void {
 			var damage:Number = 0;
-			statScreenRefresh();
 		}
 		private function tedSpecialAttack3():void {
 			var damage:Number = 0;
-			statScreenRefresh();
 		}
 		
 		override protected function performCombatAction():void
@@ -111,7 +95,7 @@ use namespace CoC;
 		{
 			if (flags[kFLAGS.TED_LVL_UP] < 1) {
 				initStrTouSpeInte(30, 50, 50, 30);
-				initWisLibSensCor(30, 20, 40, 50);
+				initWisLibSensCor(30, 20, 40, 0);
 				this.weaponAttack = 8;
 				this.armorDef = 5;
 				this.armorMDef = 50;
@@ -120,7 +104,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.TED_LVL_UP] == 1) {
 				initStrTouSpeInte(40, 70, 70, 40);
-				initWisLibSensCor(40, 25, 50, 50);
+				initWisLibSensCor(40, 25, 50, 0);
 				this.weaponAttack = 10;
 				this.armorDef = 10;
 				this.armorMDef = 55;
@@ -129,7 +113,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.TED_LVL_UP] == 2) {
 				initStrTouSpeInte(50, 90, 90, 50);
-				initWisLibSensCor(50, 30, 60, 50);
+				initWisLibSensCor(50, 30, 60, 0);
 				this.weaponAttack = 12;
 				this.armorDef = 15;
 				this.armorMDef = 60;
@@ -138,7 +122,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.TED_LVL_UP] == 3) {
 				initStrTouSpeInte(63, 115, 115, 62);
-				initWisLibSensCor(62, 35, 70, 50);
+				initWisLibSensCor(62, 35, 70, 0);
 				this.weaponAttack = 15;
 				this.armorDef = 21;
 				this.armorMDef = 66;
@@ -179,13 +163,13 @@ use namespace CoC;
 			this.armorName = "dragonscales armor";
 			this.lust = 15;
 			this.lustVuln = .9;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.gems = rand(10) + 5;
 			this.createPerk(PerkLib.RefinedBodyI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
 			this.createPerk(PerkLib.LizanRegeneration, 0, 0, 0, 0);
 			this.createPerk(IMutationsLib.LizanMarrowIM, 1, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			IMutationsLib.LizanMarrowIM.acquireMutation(this, "none");

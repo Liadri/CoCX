@@ -15,40 +15,28 @@ public class HellHound extends Monster
 		
 		protected function hellhoundFire():void {
 			//Blind dodge change
-			if(hasStatusEffect(StatusEffects.Blind)) {
-				outputText(capitalA + short + " completely misses you with a wave of dark fire! Thank the gods it's blind!");
-				return;
-			}
-			if(player.hasPerk(PerkLib.Evade) && player.spe >= 35 && rand(3) != 0) {
+			if(player.getEvasionRoll()) {
 				outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You easily avoid the wave, diving to the side and making the most of your talents at evasion.");
-			}
-			else if(player.hasPerk(PerkLib.Misdirection) && rand(100) < 20 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				outputText("Using Raphael's teachings and the movement afforded by your bodysuit, you anticipate and sidestep " + a + short + "'s fire.\n");
-			}
-			else if(player.hasPerk(PerkLib.Flexibility) && player.spe > 30 && rand(10) != 0) {
-				outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you.  You twist and drop with incredible flexibility, watching the fire blow harmlessly overhead.");
 			}
 			else {
 				//Determine the damage to be taken
-				var temp:Number = 15 + rand(10);
+				var temp:Number = (tou + rand(10)) * 2;
 				temp = Math.round(temp);
 				if (player.hasStatusEffect(StatusEffects.Blizzard)) {
-				player.addStatusValue(StatusEffects.Blizzard,1,-1);
-				temp *= 0.2;
-				outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you. While the flames don't burn much due to protection of blizzard, the unnatural heat fills your body with arousal. ");
+					player.addStatusValue(StatusEffects.Blizzard,1,-1);
+					temp *= 0.2;
+					outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you. While the flames don't burn much due to protection of blizzard, the unnatural heat fills your body with arousal. ");
 				}
-				else {
-				outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you. While the flames don't burn much, the unnatural heat fills your body with arousal. ");
-				}
+				else outputText("Both the hellhound's heads breathe in deeply before blasting a wave of dark fire at you. While the flames don't burn much, the unnatural heat fills your body with arousal. ");
 				temp = Math.round(temp);
 				player.takeFireDamage(temp, true);
-				player.dynStats("lus", 20+(player.effectiveSensitivity()/10));
+				player.takeLustDamage(20+(player.effectiveSensitivity()/10), true);
 				statScreenRefresh();
 				if(player.HP <= player.minHP()) {
 					doNext(SceneLib.combat.endHpLoss);
 					return;
 				}
-				if(player.lust >= player.maxLust()) {
+				if(player.lust >= player.maxOverLust() && !SceneLib.combat.tyrantiaTrainingExtension()) {
 					doNext(SceneLib.combat.endLustLoss);
 					return;
 				}
@@ -93,6 +81,27 @@ public class HellHound extends Monster
 
 		public function HellHound(noInit:Boolean=false)
 		{
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
+				initStrTouSpeInte(69, 69, 54, 1);
+				initWisLibSensCor(1, 95, 20, 100);
+				this.weaponAttack = 15;
+				this.armorDef = 14;
+				this.armorMDef = 2;
+				this.bonusLust = 125;
+				this.level = 6;
+				this.gems = 15 + rand(12);
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
+			}
+			else {
+				initStrTouSpeInte(281, 281, 270, 1);
+				initWisLibSensCor(1, 317, 77, 100);
+				this.weaponAttack = 60;
+				this.armorDef = 330;
+				this.armorMDef = 60;
+				this.bonusLust = 443;
+				this.level = 49;
+				this.gems = 25+rand(7);
+			}
 			if (noInit) return;
 			trace("HellHound Constructor!");
 			this.a = "the ";
@@ -118,19 +127,10 @@ public class HellHound extends Monster
 			this.skin.growFur({color:"black"});
 			this.hairColor = "red";
 			this.hairLength = 3;
-			initStrTouSpeInte(64, 64, 50, 1);
-			initWisLibSensCor(1, 95, 20, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 10;
 			this.armorName = "thick fur";
-			this.armorDef = 7;
-			this.armorMDef = 1;
-			this.bonusLust = 125;
 			this.lust = 25;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.level = 10;
-			this.gems = 15+rand(12);
 			this.drop = new WeightedDrop().add(consumables.CANINEP, 3)
 					.addMany(1, consumables.BULBYPP,
 							consumables.KNOTTYP,

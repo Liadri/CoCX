@@ -20,7 +20,7 @@ public class LifetapSpell extends AbstractHexSpell {
 	}
 	
 	override public function describeEffectVs(target:Monster):String {
-		return "" + hpCost() + " HP to mana; " + calcBackfirePercent() + "% backfire"
+		return "" + numberFormat(hpCost()) + " HP to mana; " + calcBackfirePercent() + "% backfire"
 	}
 	
 	override public function get isKnown():Boolean {
@@ -47,8 +47,10 @@ public class LifetapSpell extends AbstractHexSpell {
 			if (display) {
 				outputText("You proceed to cut your hand and draw a small pattern. You feel your magical reservoirs fill back up by a significant amount.");
 			}
-			HPChange(-Math.round(player.maxHP() * .25), false);
-			EngineCore.ManaChange(Math.round(player.maxMana() * .25), false);
+			var recmana:Number = 0.25;
+			if (player.hasPerk(PerkLib.Necromancy)) recmana += 0.125;
+			HPChange(-Math.round(player.maxHP() * 0.25), false);
+			EngineCore.ManaChange(Math.round(player.maxMana() * recmana));
 		}
 	}
 }

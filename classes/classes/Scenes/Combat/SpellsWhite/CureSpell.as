@@ -46,6 +46,7 @@ public class CureSpell extends AbstractWhiteSpell{
 		StatusEffects.AcidDoT,
 		StatusEffects.FrostburnDoT,
 		StatusEffects.FrozenLung,
+		StatusEffects.Blind,
 	];
 	
 	public function CureSpell() {
@@ -64,7 +65,9 @@ public class CureSpell extends AbstractWhiteSpell{
 	}
 	
 	override public function calcCooldown():int {
-		return 7;
+		var calcC:int = 4;
+		calcC += spellGenericCooldown();
+		return calcC;
 	}
 	
 	override protected function doSpellEffect(display:Boolean = true):void {
@@ -75,7 +78,7 @@ public class CureSpell extends AbstractWhiteSpell{
 			player.buff(buff).remove();
 		}
 		for each (var type:StatusEffectType in CurableEffects) {
-			player.removeStatusEffect(type)
+			player.removeStatusEffect(type);
 		}
 		if (player.statStore.hasBuff("Weakened") || player.statStore.hasBuff("Drained")) {
 			for each (var stat:String in ["str","spe","tou","int","wis","lib","sens"]) {

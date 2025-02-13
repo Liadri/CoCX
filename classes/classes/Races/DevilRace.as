@@ -6,16 +6,42 @@ import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
 import classes.Race;
 import classes.VaginaClass;
+import classes.internals.Utils;
 
 public class DevilRace extends Race {
-	public function DevilRace(id:int) {
-		super("Devil", id);
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
+    public function DevilRace(id:int) {
+		super("Devil", id, []);//RaceBody);
 		mutationThreshold = 6;
 	}
 	
 	public override function setup():void {
 		addScores()
-				.legType(LowerBody.HOOFED, +1)
+				.legType(LowerBody.CLOVEN_HOOFED, +1)
 				.tailType(ANY(Tail.GOAT, Tail.DEMONIC), +1)
 				.wingType(ANY(Wings.BAT_LIKE_TINY, Wings.BAT_LIKE_LARGE, Wings.DEVILFEATHER), +4)
 				.armType(Arms.DEVIL, +1)
@@ -27,8 +53,13 @@ public class DevilRace extends Race {
 				.height(LESS_THAN(48), +1)
 				.cockOrVaginaOfType(CockTypesEnum.HORSE, VaginaClass.DEMONIC, +1)
 				.corruption(AT_LEAST(60), +1)
-				.hasPerk(PerkLib.Phylactery, +5);
+				.hasPerk(PerkLib.Phylactery, +5)
+				.customRequirement("","not Azazel",
+						function (body:BodyData):Boolean {
+							return !(AzazelRace.isAzazelLike(body));
+						}, 0, -1000);
 		
+		addBloodline(PerkLib.DevilsDescendant, PerkLib.BloodlineDevil);
 		addMutation(IMutationsLib.ObsidianHeartIM);
 		
 		buildTier(11, "devilkin")
@@ -68,6 +99,11 @@ public class DevilRace extends Race {
 					"sens": +50
 				})
 				.end();
+	}
+
+	public static function isDevilLike(body:BodyData):Boolean {
+		return body.faceType == Face.DEVIL_FANGS
+				|| Utils.InCollection(body.wingType, Wings.BAT_LIKE_TINY, Wings.BAT_LIKE_LARGE, Wings.DEVILFEATHER);
 	}
 }
 }

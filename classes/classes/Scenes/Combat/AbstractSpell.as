@@ -3,6 +3,7 @@ import classes.GlobalFlags.kFLAGS;
 import classes.IMutations.IMutationsLib;
 import classes.Monster;
 import classes.PerkLib;
+import classes.Scenes.NPCs.SiegweirdBoss;
 import classes.StatusEffects;
 import classes.lists.Gender;
 import classes.Scenes.NPCs.Forgefather;
@@ -21,6 +22,7 @@ public class AbstractSpell extends CombatAbility {
 	protected var useManaType:int;
 	protected var canBackfire:Boolean = false;
 	protected var isAutocasting:Boolean = false;
+	protected var magicAddonProcs:int = 1;
 	
 	function AbstractSpell(
 			name:String,
@@ -32,22 +34,33 @@ public class AbstractSpell extends CombatAbility {
 	) {
 		super(name, desc, targetType, timingType, tags);
 		this.useManaType = useManaType;
+		this.lastAttackType = Combat.LAST_ATTACK_SPELL;
+	}
+
+	override public function manaCost():Number {
+		return combat.finalSpellCost(super.manaCost(), useManaType); //includes modifiers
 	}
 	
 	override public function useResources():void {
+		super.useResources();
+		//var realManaCost:Number = combat.finalSpellCost(manaCost(), useManaType);
 		var realManaCost:Number = manaCost();
 		var realWrathCost:Number = wrathCost();
-		
-		flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
-		
-		if (isBloodMagicApplicable && (player.hasStatusEffect(StatusEffects.BloodMage) || player.hasPerk(PerkLib.BloodMage))) {
-			player.HP -= realManaCost;
-		} else if (isLastResortApplicable && player.hasPerk(PerkLib.LastResort) && player.mana < realManaCost) {
-			player.HP -= realManaCost;
-		} else {
-			useMana(realManaCost, useManaType);
+		if (realManaCost > 0) {
+			// Blood magic first
+			if (isBloodMagicApplicable && (player.hasStatusEffect(StatusEffects.BloodMage) || player.hasPerk(PerkLib.BloodMage)))
+				player.HP -= realManaCost;
+			else {
+				// Normal mana usage, if possible
+				var manaUsed:Number = Math.min(realManaCost, player.mana);
+				useMana(manaUsed); // no type - it's already accounted for!!!
+				realManaCost -= manaUsed;
+				// Now last resort, if not enough mana
+				if (realManaCost > 0 && isLastResortApplicable && player.hasPerk(PerkLib.LastResort))
+					player.HP -= realManaCost;
+			}
 		}
-		
+		combat.darkRitualCheckDamage();
 		player.wrath -= realWrathCost;
 		
 		flags[kFLAGS.SPELLS_CAST]++;
@@ -62,28 +75,22 @@ public class AbstractSpell extends CombatAbility {
 		if (uc) return uc;
 		
 		// Run our checks
-		var manaCost:Number = this.manaCost();
+		//var finalCost:Number = combat.finalSpellCost(manaCost(), useManaType);
+		var finalCost:Number = this.manaCost();
 		if (isBloodMagicApplicable && (player.hasStatusEffect(StatusEffects.BloodMage) || player.hasPerk(PerkLib.BloodMage))) {
-			if (player.HP - player.minHP() <= manaCost) {
-				return "Your hp is too low to cast this spell."
+			if (player.HP - player.minHP() <= finalCost) {
+				return "Your HP is too low to cast this spell."
 			}
-		} else {
-			if (player.mana < manaCost) {
-				if (isLastResortApplicable && player.hasPerk(PerkLib.LastResort)) {
-					if (player.HP < manaCost) {
-						return "Your hp and mana are too low to cast this spell."
-					}
-				} else {
-					return "Your mana is too low to cast this spell."
-				}
+		} else if (isLastResortApplicable && player.hasPerk(PerkLib.LastResort)) {
+			if (player.mana + (player.HP - player.minHP()) < finalCost) {
+				return "Your HP and mana are too low to cast this spell.";
 			}
-		}
+		} else if (player.mana < finalCost)
+			return "Your mana is too low to cast this spell.";
+
 		if (targetType == TARGET_ENEMY) {
 			if (monster.hasStatusEffect(StatusEffects.Dig)) {
 				return "You can only use buff magic while underground."
-			}
-			if (combat.isEnnemyInvisible) {
-				return "You cannot use offensive spells against an opponent you cannot see or target."
 			}
 		}
 		
@@ -97,13 +104,16 @@ public class AbstractSpell extends CombatAbility {
 		throw new Error("Method performSpellEffect() not implemented for ability " + name);
 	}
 	
-	protected function preSpellEffect():void {
-		MagicPrefixEffect();
+	protected function preSpellEffect(display:Boolean = true):void {
+		MagicPrefixEffect(display);
 	}
 	
-	protected function postSpellEffect():void {
-		MagicAddonEffect();
+	protected function postSpellEffect(display:Boolean = true):void {
+		MagicAddonEffect(magicAddonProcs);
 		if (player.weapon == weapons.DEMSCYT && player.cor < 90) dynStats("cor", 0.3);
+		if (targetType == TARGET_ENEMY && hasTag(TAG_LUSTDMG)) combat.teases.fueledByDesireHeal(display);
+		if (monster is SiegweirdBoss) (monster as SiegweirdBoss).castedSpellThisTurn = true;
+		if (targetType == TARGET_ENEMY && hasTag(TAG_DAMAGING) && player.hasPerk(PerkLib.BrutalSpells)) combat.magic.brutalSpellsEffect(display);
 	}
 	
 	public override function doEffect(display:Boolean = true):void {
@@ -111,10 +121,19 @@ public class AbstractSpell extends CombatAbility {
 			if (display) {
 				outputText("As soon as your magic touches the multicolored shell around [themonster], it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 			}
+		} else if (monster.hasStatusEffect(StatusEffects.LowtierMagicImmunity) && hasTag(TAG_DAMAGING) && hasTag(TAG_TIER1)) {
+			if (display) {
+				outputText("As soon as your magic touches [themonster], it sizzles and fades to nothing.\n\n");
+			}
 		} else {
-			if (!isAutocasting) preSpellEffect();
+			if (!isAutocasting) preSpellEffect(display);
 			doSpellEffect(display);
-			if (!isAutocasting) postSpellEffect();
+			if(monster.hasStatusEffect(StatusEffects.Blacken) && (hasTag(TAG_FIRE) || hasTag(TAG_AOE))) {
+				monster.removeStatusEffect(StatusEffects.Blacken);
+				player.removeStatusEffect(StatusEffects.Blind);
+				player.buff("Black Gas").remove();
+			}
+			if (!isAutocasting) postSpellEffect(display);
 			if (display) {
 				outputText("\n\n");
 			}
@@ -139,8 +158,8 @@ public class AbstractSpell extends CombatAbility {
 	// Shortcuts and utilities
 	///////////////////////////
 	
-	protected function MagicPrefixEffect():void {
-		combat.magic.MagicPrefixEffect();
+	protected function MagicPrefixEffect(display:Boolean = true):void {
+		combat.magic.MagicPrefixEffect(display);
 	}
 	
 	protected function MagicAddonEffect(numberOfProcs:Number = 1):void {
@@ -161,6 +180,8 @@ public class AbstractSpell extends CombatAbility {
 				return spellModBlack();
 			case CAT_SPELL_NECRO:
 				return spellModBlack();
+			case CAT_SPELL_GREEN:
+				return spellModGreen();
 			default:
 				return spellMod();
 		}
@@ -179,7 +200,8 @@ public class AbstractSpell extends CombatAbility {
 			baseDamage:Number,
 			monster:Monster,
 			category:int,
-			randomize:Boolean=true
+			randomize:Boolean=true,
+			applyOmnicaster:Boolean = true
 	): Number {
 		var lustDmg:Number = baseDamage;
 		lustDmg *= spellModByCat(category);
@@ -191,12 +213,20 @@ public class AbstractSpell extends CombatAbility {
 				lustDmg *= 5;
 			}
 		}
-		if(player.hasPerk(PerkLib.ArcaneLash)) lustDmg *= 1.5;
+		if(player.hasPerk(PerkLib.ArcaneLash) && player.isWhipTypeWeapon()) lustDmg *= 1.5;
 		if(player.hasStatusEffect(StatusEffects.AlvinaTraining2)) lustDmg *= 1.2;
+		lustDmg = combat.teases.fueledByDesireDamageBonus(lustDmg);
 		if (monster != null) {
 			if (player.hasPerk(PerkLib.HexKnowledge) && monster.cor < 34) lustDmg *= 1.2;
 			lustDmg *= corruptMagicPerkFactor(monster);
 		}
+		if (player.armor == armors.ELFDRES && player.isElf()) lustDmg *= 2;
+		if (player.armor == armors.FMDRESS && player.isWoodElf()) lustDmg *= 2;
+
+		if (applyOmnicaster && (category != CAT_SPELL_GREEN || !player.hasPerk(PerkLib.ArcaneVenom))) {
+			lustDmg *= omnicasterDamageFactor();
+		}
+
 		return Math.round(lustDmg);
 	}
 	
@@ -210,7 +240,7 @@ public class AbstractSpell extends CombatAbility {
 	 * @param casting Determines if elemental spell counter (like Raging Inferno) should be increased
 	 * @return
 	 */
-	protected function adjustSpellDamage(
+	public function adjustSpellDamage(
 			baseDamage:Number,
 			damageType:int,
 			category:int,
@@ -232,6 +262,7 @@ public class AbstractSpell extends CombatAbility {
 			}
 			case DamageType.MAGICAL: {
 				if (category == CAT_SPELL_BLOOD) {
+					if (player.hasPerk(PerkLib.BloodMastery)) damage *= 2;
 					damage *= combat.bloodDamageBoostedByDao();
 				}
 				break;
@@ -245,20 +276,20 @@ public class AbstractSpell extends CombatAbility {
 					if (monster.short == "tentacle beast") damage *= 1.2;
 				}
 				if (player.statStore.hasBuff("AjidAji")) damage *= 1.3;
-				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 4) damage *= 1.25
-				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 5) damage *= 1.5
-				if (Forgefather.gem == "ruby" && Forgefather.refinement == 4) damage *= 1.12
-				if (Forgefather.gem == "ruby" && Forgefather.refinement == 5) damage *= 1.25
+				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 3) damage *= 1.25
+				if (Forgefather.channelInlay == "ruby" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.gem == "ruby" && Forgefather.refinement == 3) damage *= 1.12
+				if (Forgefather.gem == "ruby" && Forgefather.refinement == 4) damage *= 1.25
 				damage *= combat.fireDamageBoostedByDao();
 				break;
 			}
 			case DamageType.LIGHTNING: {
 				damage = calcVoltageMod(damage, casting);
 				if (player.hasPerk(PerkLib.ElectrifiedDesire)) damage *= (1 + (player.lust100 * 0.01));
-				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 4) damage *= 1.25
-				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 5) damage *= 1.5
-				if (Forgefather.gem == "topaz" && Forgefather.refinement == 4) damage *= 1.12
-				if (Forgefather.gem == "topaz" && Forgefather.refinement == 5) damage *= 1.25
+				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 3) damage *= 1.25
+				if (Forgefather.channelInlay == "topaz" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.gem == "topaz" && Forgefather.refinement == 3) damage *= 1.12
+				if (Forgefather.gem == "topaz" && Forgefather.refinement == 4) damage *= 1.25
 				damage *= combat.lightningDamageBoostedByDao();
 				break;
 			}
@@ -267,35 +298,39 @@ public class AbstractSpell extends CombatAbility {
 				if (combat.wearingWinterScarf()) damage *= 1.2;
 				if (player.armor == armors.BLIZZ_K) damage *= 1.5;
 				if (player.headJewelry == headjewelries.SNOWFH) damage *= 1.3;
-				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 4) damage *= 1.25
-				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 5) damage *= 1.5
-				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 4) damage *= 1.12
-				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 5) damage *= 1.25
+				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 3) damage *= 1.25
+				if (Forgefather.channelInlay == "sapphire" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 3) damage *= 1.12
+				if (Forgefather.gem == "sapphire" && Forgefather.refinement == 4) damage *= 1.25
 				damage *= combat.iceDamageBoostedByDao();
 				break;
 			}
 			case DamageType.DARKNESS: {
 				damage = calcEclypseMod(damage, casting);
-				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 4) damage *= 1.25
-				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 5) damage *= 1.5
-				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 4) damage *= 1.12
-				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 5) damage *= 1.25
+				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 3) damage *= 1.25
+				if (Forgefather.channelInlay == "amethyst" && Forgefather.refinement == 4) damage *= 1.5
+				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 3) damage *= 1.12
+				if (Forgefather.gem == "amethyst" && Forgefather.refinement == 4) damage *= 1.25
 				damage *= combat.darknessDamageBoostedByDao();
 				break;
 			}
 			case DamageType.WATER: {
+				damage = calcTideMod(damage, casting);
 				damage *= combat.waterDamageBoostedByDao();
 				break;
 			}
 			case DamageType.WIND: {
+				damage = calcGaleMod(damage, casting);
 				damage *= combat.windDamageBoostedByDao();
 				break;
 			}
 			case DamageType.EARTH: {
+				damage = calcQuakeMod(damage, casting);
 				damage *= combat.earthDamageBoostedByDao();
 				break;
 			}
 			case DamageType.ACID: {
+				damage = calcCorrosionMod(damage, casting);
 				damage *= combat.acidDamageBoostedByDao();
 				break;
 			}
@@ -304,7 +339,7 @@ public class AbstractSpell extends CombatAbility {
 			}
 		}
 		if (monster != null) {
-			if (hasTag(TAG_AOE) && monster.plural) damage *= 5;
+			if (hasTag(TAG_AOE) && (monster.plural || monster.hasPerk(PerkLib.EnemyGigantType) || monster.hasPerk(PerkLib.EnemyColossalType))) damage *= 5;
 			if (category == CAT_SPELL_WHITE || category == CAT_SPELL_DIVINE) {
 				if (player.hasPerk(PerkLib.DivineKnowledge) && monster.cor > 65) {
 					damage *= 1.2;
@@ -349,7 +384,8 @@ public class AbstractSpell extends CombatAbility {
     
     public static function omnicasterDamageFactor_gazer():Number {
         if (player.hasPerk(PerkLib.Omnicaster)) {
-			if (player.perkv1(IMutationsLib.GazerEyesIM) >= 3) return 0.5;
+			if (player.perkv1(IMutationsLib.GazerEyesIM) >= 4) return 1;
+			else if (player.perkv1(IMutationsLib.GazerEyesIM) >= 3) return 0.5;
 			else if (player.perkv1(IMutationsLib.GazerEyesIM) >= 2) return 0.3;
 			else return 0.2;
 		}
@@ -366,16 +402,16 @@ public class AbstractSpell extends CombatAbility {
 	}
     
     public static function omnicasterDamageFactor_osc():Number {
-		if ((player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
-			if (player.isPartiallyStaffTypeWeapon()) return 0.8;
+		if ((player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
+			if (player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) return 0.8;
 			else return 0.7;
 		}
         else return 0.0;
     }
 	
 	public static function omnicasterRepeatCount_osc():int {
-		if ((player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
-			if (player.isPartiallyStaffTypeWeapon()) return 2;
+		if ((player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
+			if (player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) return 2;
 			else return 3;
 		}
         else return 1;
@@ -388,22 +424,9 @@ public class AbstractSpell extends CombatAbility {
     }
 	
 	public static function omnicasterDamageFactor():Number {
-        /*
-        if (!player.hasPerk(PerkLib.Omnicaster) &&
-                !(player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling))
-            return 1.0;
-        return oscOverGazer() ? omnicasterDamageFactor_osc() : omnicasterDamageFactor_gazer();
-        */
-        if ((player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
-            if (player.hasPerk(PerkLib.Omnicaster) && !oscOverGazer()) 
-                return omnicasterDamageFactor_gazer() * 1.1;
-                /*
-                Because:
-                1. I fixed the selection, so I want this.
-                2. "player is familiar with multicasting, so his ability to focus is slightly better"
-                3. "the staff helps to concentrate beacause.... eh.. PC's familiar with it"
-                4. :P
-                */
+        if ((player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling)) {
+            if (player.hasPerk(PerkLib.Omnicaster) && !oscOverGazer())
+                return omnicasterDamageFactor_gazer() * 1.2;
             else
                 return omnicasterDamageFactor_osc();
         }
@@ -417,7 +440,7 @@ public class AbstractSpell extends CombatAbility {
 	
 	public static function omnicasterRepeatCount():int {
         if (!player.hasPerk(PerkLib.Omnicaster) &&
-                !(player.isStaffTypeWeapon() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling))
+                !(player.isStaffTypeWeapon() || player.weapon.isWandType() || player.weaponOff.isWandType() || player.isPartiallyStaffTypeWeapon()) && player.hasPerk(PerkLib.OffensiveStaffChanneling))
             return 1;
         return oscOverGazer() ? omnicasterRepeatCount_osc() : omnicasterRepeatCount_gazer();
 	}
@@ -432,6 +455,80 @@ public class AbstractSpell extends CombatAbility {
 		if (backfire < 5 && player.hasPerk(PerkLib.FocusedMind)) backfire = 5;
 		else if (backfire < 15) backfire = 15;
 		return backfire
+	}
+	
+	public static function stackingArcaneVenom():Number {
+		var sAV:Number = 0;
+		sAV += Math.round((player.intStat.core.value + player.intStat.train.value) / 50);
+		return sAV;
+	}
+	
+	public function bloodAffinityBoost():Number {
+		var bAB:Number = 1;
+		if (player.hasPerk(PerkLib.BloodAffinity)) bAB += 1;
+		return bAB;
+	}
+
+	/**
+	 * Award tease exp if nessecary, and apply verdent leech effects
+	 * @param hits (int) - number of hits applied by the lust spell
+	 */
+	protected function postLustSpellEffect(hits:int):void {
+		if (player.hasPerk(PerkLib.EromancyMaster)) combat.teaseXP((1 + combat.bonusExpAfterSuccesfullTease()) * hits);
+		if (player.hasPerk(PerkLib.VerdantLeech)) {
+			if (monster.lustVuln != 0 && !player.enemiesImmuneToLustResistanceDebuff()) monster.lustVuln += hits * 0.025;
+			HPChange(Math.round(player.maxHP() * 0.01 * hits), false);
+		}
+	}
+
+	/**
+	 * Do a crit roll and apply crit multiplier.
+	 * Deal damage once or repeatedly (if Omnicaster and param set). Does NOT apply Omnicaster damage downscale!
+	 * Also prints "Monster takes N N N N damage. Critical Hit!"
+	 * @param lustDmg Lust damage to deal
+	 * @param Spell category (e.g. CAT_SPELL_GREEN)
+	 * @param omnicaterRepeat Determine if spell should hit multiple times
+	 * @return {Array} [Total damage dealt (int), number of hits (int), crit or not (boolean)]
+	 */
+	protected function critAndRepeatLust(
+			display:Boolean,
+			lustDmg:Number,
+			category:int,
+			displayDamageOnly:Boolean=false,
+			omnicasterRepeat:Boolean=true
+	):Array {
+		
+		//Determine if critical hit!
+		var crit:Boolean = false;
+		var critChance:int = 5 + combat.teases.combatTeaseCritical();
+        if (player.perkv1(IMutationsLib.ElvishPeripheralNervSysIM) >= 4) critChance += 10;
+		if (player.perkv1(IMutationsLib.GazerEyesIM) >= 3) critChance += 10;
+		if (player.perkv1(IMutationsLib.GazerEyesIM) >= 4) critChance += 25;
+		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+		if (critChance > 0 && rand(100) < critChance) {
+			crit = true;
+			lustDmg *= 1.75;
+		}
+
+		var repeats:int = 1;
+		if (omnicasterRepeat) {
+			if (category == CAT_SPELL_GREEN && player.hasPerk(PerkLib.ArcaneVenom)) {
+				repeats += stackingArcaneVenom();
+			} else {
+				repeats = omnicasterRepeatCount();
+			}
+		}
+
+		var i:int = repeats;
+		while (i-->0) {
+			if (display) outputText(" ");
+			monster.teased(lustDmg, false, display || displayDamageOnly);
+		}
+		if (display) {
+			if (crit) outputText(" <b>*Critical Hit!*</b>");
+		}
+
+		return [lustDmg * repeats, repeats, crit];
 	}
 	
 	/**
@@ -456,6 +553,9 @@ public class AbstractSpell extends CombatAbility {
 		//Determine if critical hit!
 		var crit:Boolean = false;
 		var critChance:int = 5 + combatMagicalCritical();
+        if (player.perkv1(IMutationsLib.ElvishPeripheralNervSysIM) >= 4) critChance += 10;
+		if (player.perkv1(IMutationsLib.GazerEyesIM) >= 3) critChance += 10;
+		if (player.perkv1(IMutationsLib.GazerEyesIM) >= 4) critChance += 25;
 		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
 		if (critChance > 0 && rand(100) < critChance) {
 			crit = true;
@@ -474,7 +574,7 @@ public class AbstractSpell extends CombatAbility {
 				damageFn = doIceDamage;
 				break;
 			case DamageType.LIGHTNING:
-				damageFn = doLightingDamage;
+				damageFn = doLightningDamage;
 				break;
 			case DamageType.WATER:
 				damageFn = doWaterDamage;
@@ -499,6 +599,7 @@ public class AbstractSpell extends CombatAbility {
 		if (convergenceRepeat && player.hasPerk(PerkLib.Convergence) && !monster.hasPerk(PerkLib.EnemyGroupType) && !monster.hasPerk(PerkLib.EnemyLargeGroupType) && !monster.hasPerk(PerkLib.Enemy300Type)) {
 			if (player.hasPerk(PerkLib.SuperConvergence)) repeats *= 3;
 			else repeats *= 2;
+			if (monster.hasPerk(PerkLib.EnemyGigantType) || monster.hasPerk(PerkLib.EnemyColossalType)) repeats *= 3;
 		}
 		var i:int = repeats;
 		while (i-->0) {
@@ -530,7 +631,7 @@ public class AbstractSpell extends CombatAbility {
 					break;
 			}
 		}
-		dynStats("lib", .25, "lus", 15);
+		dynStats("lib", .25, "lus", Math.max(player.maxLust() * 0.01, 15));
 	}
 	
 	/**

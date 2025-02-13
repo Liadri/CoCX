@@ -7,6 +7,7 @@ import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.SceneLib;
+import classes.Scenes.Combat.CombatAbilities;
 
 public class Kelt extends Monster
 	{
@@ -44,9 +45,9 @@ public class Kelt extends Monster
 				outputText("You manage to avoid the missile by the skin of your teeth!");
 				return;
 			}
-			if (player.hasStatusEffect(StatusEffects.WindWall)) {
+			if (CombatAbilities.EAspectAir.isActive()) {
 				outputText("Still his arrow hits wind wall dealing no damage to you.");
-				player.addStatusValue(StatusEffects.WindWall,2,-1);
+				CombatAbilities.EAspectAir.advance(true);
 				return;
 			}
 
@@ -76,7 +77,7 @@ public class Kelt extends Monster
 				if(player.lust >= 80) outputText("Your hand moves towards your groin seemingly of its own volition.");
 				else outputText("Your hands twitch towards your groin but you arrest them.  Still, the idea seems to buzz at the back of your brain, exciting you.");
 			}
-			player.dynStats("lus", player.lib/5 + rand(10));
+			player.takeLustDamage(player.lib/5 + rand(10), true);
 		}
 
 		//Attacks as normal + daydream "attack"
@@ -152,23 +153,22 @@ public class Kelt extends Monster
 			this.butt.type = Butt.RATING_AVERAGE + 1;
 			this.lowerBody = LowerBody.HOOFED;
 			this.legCount = 4;
-			this.skinTone = "tan";
+			this.bodyColor = "tan";
 			this.hairColor = randomChoice("black","brown");
 			this.hairLength = 3;
-			initStrTouSpeInte(70, 80, 50, 20);
-			initWisLibSensCor(20, 40, 25, 55);
+			initStrTouSpeInte(210, 160, 110, 20);
+			initWisLibSensCor(20, 120, 75, 75);
 			this.weaponName = "fist";
 			this.weaponVerb="punch";
-			this.weaponAttack = 11;
+			this.weaponAttack = 30;
 			this.armorName = "tough skin";
-			this.armorDef = 10;
-			this.armorMDef = 0;
-			this.bonusHP = 250;
-			this.bonusLust = 78;
+			this.armorDef = 30;
+			this.armorMDef = 5;
+			this.bonusHP = 750;
+			this.bonusLust = 221;
 			this.lust = 40;
 			this.lustVuln = 0.83;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
-			this.level = 13;
+			this.level = 26;
 			this.gems = rand(15) + 25;
 			this.tailType = Tail.HORSE;
 			this.drop = NO_DROP;

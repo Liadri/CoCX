@@ -22,11 +22,10 @@ public class Kraken extends Monster
 		
 		public function krakenInkSpray():void {
 			outputText("The kraken stretches all her tentacles apart revealing a huge gaping pussy at the center which spray a cloud of ink all around you impairing your vision. ");
-			if (!player.hasPerk(PerkLib.BlindImmunity)) player.createStatusEffect(StatusEffects.Blind, 3, 0, 0, 0);
+			if (!player.isImmuneToBlind()) player.createStatusEffect(StatusEffects.Blind, 3, 0, 0, 0);
 		}
 		
 		public function krakenTentacleSlap():void {
-			clearOutput();
 			var damage:Number = 0;
 			damage += eBaseStrengthDamage() * 2;
 			outputText("The kraken slaps you with her tentacles, dealing ");
@@ -39,7 +38,6 @@ public class Kraken extends Monster
 			outputText(" damage!");
 		}
 		public function krakenTentacleSlap2():void {
-			clearOutput();
 			var damage:Number = 0;
 			damage += eBaseStrengthDamage() * 2;
 			outputText("The kraken slaps you with her tentacles, dealing ");
@@ -87,7 +85,7 @@ public class Kraken extends Monster
 			this.hairColor = "brown";
 			this.hairLength = 5;
 			initStrTouSpeInte(700, 400, 400, 250);
-			initWisLibSensCor(250, 300, 250, 50);
+			initWisLibSensCor(250, 300, 250, 0);
 			this.weaponName = "large tentacle";
 			this.weaponVerb="slash";
 			this.weaponAttack = 145;
@@ -108,6 +106,7 @@ public class Kraken extends Monster
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
 			this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
+			this.createPerk(PerkLib.WaterNature, 0, 0, 0, 0);
 			//this.createPerk(PerkLib., 0, 0, 0, 0);
 			//this.createPerk(PerkLib., 0, 0, 0, 0);
 			//this.createPerk(PerkLib., 0, 0, 0, 0);

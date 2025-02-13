@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Arms;
@@ -67,8 +67,8 @@ use namespace CoC;
 				}
 				outputText(" You are slashed for ");
 				player.takePhysDamage(damage, true);
-				player.dynStats("lus", damageLust, "scale", false);
-				outputText(" damage. The lingering electricity on her claws leaves you aroused. <b>(<font color=\"#ff00ff\">" + damageLust + "</font>)</b> lust damage.");
+				player.takeLustDamage(damageLust, true);
+				outputText(" damage. The lingering electricity on her claws leaves you aroused. <b>([font-lust]" + damageLust + "[/font])</b> lust damage.");
 			}
 		}
 		
@@ -89,11 +89,11 @@ use namespace CoC;
 					if (flags[kFLAGS.ELECTRA_LVL_UP] >= 7) discharge += 2;
 					if (flags[kFLAGS.ELECTRA_LVL_UP] >= 11) discharge += 2;
 				}
-				player.dynStats("lus", discharge);
+				player.takeLustDamage(discharge, true);
 			}
 			else {
 				player.createStatusEffect(StatusEffects.RaijuStaticDischarge, 0, 0, 0, 0);
-				player.dynStats("lus", discharge);
+				player.takeLustDamage(discharge, true);
 			}
 			outputText("\n\n");
 		}
@@ -109,10 +109,10 @@ use namespace CoC;
 				if (flags[kFLAGS.ELECTRA_LVL_UP] >= 7) damageLust += Math.round(this.lib / 20);
 				if (flags[kFLAGS.ELECTRA_LVL_UP] >= 11) damageLust += Math.round(this.lib / 20);
 			}
-			player.dynStats("lus", damageLust, "scale", false);
+			player.takeLustDamage(damageLust, true);
 			outputText(" gleefully fingers herself while looking at you with a half crazed look.\n\n");
 			outputText("\"<i>Do you know... How frustrating it is to be dependant on someone else to achieve release? Ohhhh soon you will find out!</i>\"\n\n");
-			outputText("The display left you aroused but likely she's preparing something. <b>(<font color=\"#ff00ff\">" + damageLust + "</font>)</b> lust damage.\n\n");
+			outputText("The display left you aroused but likely she's preparing something. <b>([font-lust]" + damageLust + "[/font])</b> lust damage.\n\n");
 			lust += maxLust() * 0.2;
 			createStatusEffect(StatusEffects.RaijuUltReady,0,0,0,0);
 		}
@@ -133,8 +133,8 @@ use namespace CoC;
 					if (flags[kFLAGS.ELECTRA_LVL_UP] >= 11) damageLust += lust;
 				}
 				damageLust = Math.round(damageLust);
-				player.dynStats("lus", damageLust, "scale", false);
-				outputText(" You are zapped clean but instead of feeling pain, you feel intense electric pleasure coursing through your body as the Raiju shares some of her unbridled arousal. <b>(<font color=\"#ff00ff\">" + damageLust + "</font>)</b> lust damage.");
+				player.takeLustDamage(damageLust, true);
+				outputText(" You are zapped clean but instead of feeling pain, you feel intense electric pleasure coursing through your body as the Raiju shares some of her unbridled arousal. <b>([font-lust]" + damageLust + "[/font])</b> lust damage.");
 			}
 			lust -= lust * 0.2;
 			if (lust < 0) lust = 0;
@@ -197,7 +197,7 @@ use namespace CoC;
 			else electraScene.ElectraSexPlayer();
 		}
 		
-		public function Electra() 
+		public function Electra()
 		{
 			if (flags[kFLAGS.ELECTRA_TALKED_ABOUT_HER] >= 1 && !player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
 				this.a = "";
@@ -210,19 +210,20 @@ use namespace CoC;
 				this.long = "You are fighting a Raiju, a lightning imbued weasel morph. She is fiercely masturbating as she looks at you from a distance and you have issues figuring out whenever she is going to strike.";
 			}
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
-				initStrTouSpeInte(70, 170, 150, 160);
-				initWisLibSensCor(160, 280, 200, 80);
-				this.weaponAttack = 18;
-				this.armorDef = 30;
-				this.armorMDef = 40;
-				this.bonusHP = 200;
-				this.bonusLust = 520;
-				this.level = 40;
+				initStrTouSpeInte(140, 340, 300, 320);
+				initWisLibSensCor(320, 560, 400, 60);
+				this.weaponAttack = 36;
+				this.armorDef = 60;
+				this.armorMDef = 80;
+				this.bonusHP = 400;
+				this.bonusLust = 1000;
+				this.level = 34;
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			}
 			else {
 				if (flags[kFLAGS.ELECTRA_LVL_UP] < 2) {
 					initStrTouSpeInte(60, 110, 100, 150);
-					initWisLibSensCor(150, 220, 160, 80);
+					initWisLibSensCor(150, 220, 160, 60);
 					this.weaponAttack = 12;
 					this.armorDef = 12;
 					this.armorMDef = 10;
@@ -232,7 +233,7 @@ use namespace CoC;
 				}
 				else if (flags[kFLAGS.ELECTRA_LVL_UP] == 12) {
 					initStrTouSpeInte(150, 365, 320, 260);
-					initWisLibSensCor(260, 550, 340, 80);
+					initWisLibSensCor(260, 550, 340, 60);
 					this.weaponAttack = 45;
 					this.armorDef = 78;
 					this.armorMDef = 120;
@@ -243,7 +244,7 @@ use namespace CoC;
 				else {	//leave min and max levels to easily balance npc combat
 					var electraLvl:Number = flags[kFLAGS.ELECTRA_LVL_UP]-1;
 					initStrTouSpeInte(60 + 10*electraLvl, 110 + 15*electraLvl, 100 + 20*electraLvl, 150 + 10*electraLvl);
-					initWisLibSensCor(150 + 10*electraLvl, 220 + 30*electraLvl, 160 + 20*electraLvl, 80);
+					initWisLibSensCor(150 + 10*electraLvl, 220 + 30*electraLvl, 160 + 20*electraLvl, 60);
 					this.weaponAttack = 12 + 3*electraLvl;
 					this.armorDef = 12 + 5*electraLvl;
 					this.armorMDef = 10 + 10*electraLvl;
@@ -261,7 +262,7 @@ use namespace CoC;
 			this.tallness = 72;
 			this.hips.type = Hips.RATING_CURVY + 2;
 			this.butt.type = Butt.RATING_LARGE + 1;
-			this.skinTone = "light";
+			this.bodyColor = "light";
 			this.hairColor = "blue";
 			this.hairLength = 13;
 			this.weaponName = "claw";
@@ -269,7 +270,6 @@ use namespace CoC;
 			this.armorName = "indecent spider silk robe";
 			this.lust = 30;
 			this.lustVuln = .8;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 500;
 			this.drop = new ChainedDrop().
 					add(armors.INDESSR,1/10).
@@ -284,6 +284,7 @@ use namespace CoC;
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.LightningNature, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);
+			if (!player.hasStatusEffect(StatusEffects.RiverDungeonA)) this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			if (flags[kFLAGS.ELECTRA_LVL_UP] > 1 || flags[kFLAGS.ELECTRA_TALKED_ABOUT_HER] > 1) this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
 			if (flags[kFLAGS.ELECTRA_LVL_UP] >= 2) {
 				this.createPerk(PerkLib.BasicSelfControl, 0, 0, 0, 0);

@@ -1,4 +1,5 @@
 package classes.BodyParts {
+import classes.Creature;
 import classes.internals.EnumValue;
 
 public class Tongue extends BodyPart{
@@ -83,15 +84,29 @@ public class Tongue extends BodyPart{
 		name:"mindbreaker",
 		appearanceDesc: "In your mouth hides a long tentacle-like tongue ready to probe the mouth of others."
 	});
-
 	public static const MINDBREAKERMALE: int = 14;
 	EnumValue.add(Types, MINDBREAKERMALE, "MINDBREAKERMALE", {
 		name:"mindbreaker male",
 		appearanceDesc: "Over your mouth are several tentacles, but underneath that is your long tentacle-like tongue, ready to probe the mouth of others."
 	});
+	public static const BEE: int = 15;
+	EnumValue.add(Types, BEE, "BEE", {
+		name:"bee",
+		appearanceDesc: "Your long black proboscis-like tongue allows you to lick just anything clean."
+	});
+	public static const IMPISH: int = 16;
+	EnumValue.add(Types, IMPISH, "IMPISH", {
+		name:"impish",
+		appearanceDesc: "Your voice is far higher pitched than your old human one possibly because it's fit to a small imp body."
+	});
+	public static const ARIGEAN: int = 17;
+	EnumValue.add(Types, ARIGEAN, "ARIGEAN", {
+		name:"arigean",
+		appearanceDesc: "Your tongue is identical to that of a human’s save for it’s light blue color, most likely caused by your blue blood."
+	});
 
-	public function Tongue() {
-		super(null, null);
+	public function Tongue(creature:Creature) {
+		super(creature, null);
 	}
 
 	public static function getAppearanceDescription(creature: *):String {

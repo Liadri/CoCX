@@ -17,7 +17,7 @@ public class FireElemental extends Monster
 			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Ifrit":"Fire elemental")+" concentrates flames on its fist before launching a punch toward you.");
 			var damage:Number = inte + wis;
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 2);
 			damage = Math.round(damage);
 			//Dodge
@@ -26,7 +26,7 @@ public class FireElemental extends Monster
 			{
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" It hits you square in the chest. ");
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		
@@ -34,7 +34,7 @@ public class FireElemental extends Monster
 			outputText(""+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Ifrit":"Fire elemental")+" concentrates embers from its fists before launching a flurry of punches.");
 			var damage:Number = inte + wis;
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.5);
 			damage = Math.round(damage);
 			//Dodge
@@ -43,10 +43,10 @@ public class FireElemental extends Monster
 			{
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" The blazing fists connect with your body. Talk about Pyromania! ");
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		
@@ -56,27 +56,27 @@ public class FireElemental extends Monster
 			else {
 				var damage:Number = inte + wis;
 				if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-				if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+				if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 				damage *= 3.75;
 				damage = Math.round(damage);
 				if (hasStatusEffect(StatusEffects.Provoke)) damage = Math.round(damage * statusEffectv2(StatusEffects.Provoke));
 				outputText(" The flaming spheres explode upon impact with you. Talk about Pyromania! ");
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		
@@ -130,13 +130,13 @@ public class FireElemental extends Monster
 				this.imageName = "fire elemental";
 				this.long = "You're currently fighting fire elemental. It's a four foot tall body of flame, currently using its bare fists to fight.";
 				this.tallness = 48;
-				initStrTouSpeInte(10, 20, 40, 50);
-				initWisLibSensCor(50, 10, 20, 50);
-				this.weaponAttack = 5;
-				this.armorDef = 5;
-				this.armorMDef = 30;
+				initStrTouSpeInte(20, 40, 80, 100);
+				initWisLibSensCor(100, 20, 40, 0);
+				this.weaponAttack = 10;
+				this.armorDef = 10;
+				this.armorMDef = 60;
 				this.level = 12;
-				this.bonusHP = 400;
+				this.bonusHP = 800;
 				this.additionalXP = 50;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 1) {
@@ -144,13 +144,13 @@ public class FireElemental extends Monster
 				this.imageName = "fire elemental";
 				this.long = "You're currently fighting fire elemental. It's a four foot, three inch tall body of flame, currently using its bare fists to fight.";
 				this.tallness = 51;
-				initStrTouSpeInte(12, 22, 42, 60);
-				initWisLibSensCor(60, 10, 25, 50);
-				this.weaponAttack = 6;
-				this.armorDef = 6;
-				this.armorMDef = 35;
-				this.level = 15;
-				this.bonusHP = 450;
+				initStrTouSpeInte(24, 44, 84, 120);
+				initWisLibSensCor(120, 20, 50, 0);
+				this.weaponAttack = 12;
+				this.armorDef = 12;
+				this.armorMDef = 70;
+				this.level = 14;
+				this.bonusHP = 900;
 				this.additionalXP = 75;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 2) {
@@ -158,13 +158,13 @@ public class FireElemental extends Monster
 				this.imageName = "fire elemental";
 				this.long = "You're currently fighting fire elemental. It's a four and a half foot tall body of flame, currently using its bare fists to fight";
 				this.tallness = 54;
-				initStrTouSpeInte(14, 24, 44, 70);
-				initWisLibSensCor(70, 10, 30, 50);
-				this.weaponAttack = 7;
-				this.armorDef = 7;
-				this.armorMDef = 40;
-				this.level = 18;
-				this.bonusHP = 500;
+				initStrTouSpeInte(28, 48, 88, 140);
+				initWisLibSensCor(140, 20, 60, 0);
+				this.weaponAttack = 14;
+				this.armorDef = 14;
+				this.armorMDef = 80;
+				this.level = 16;
+				this.bonusHP = 1000;
 				this.additionalXP = 100;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 3) {
@@ -172,13 +172,13 @@ public class FireElemental extends Monster
 				this.imageName = "fire elemental";
 				this.long = "You're currently fighting fire elemental. It's a four foot, nine inch tall body of flame, currently using its bare fists to fight.";
 				this.tallness = 57;
-				initStrTouSpeInte(16, 26, 46, 80);
-				initWisLibSensCor(80, 10, 35, 50);
-				this.weaponAttack = 8;
-				this.armorDef = 8;
-				this.armorMDef = 45;
-				this.level = 21;
-				this.bonusHP = 550;
+				initStrTouSpeInte(32, 52, 92, 160);
+				initWisLibSensCor(160, 20, 70, 0);
+				this.weaponAttack = 16;
+				this.armorDef = 16;
+				this.armorMDef = 90;
+				this.level = 18;
+				this.bonusHP = 1100;
 				this.additionalXP = 125;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4) {
@@ -186,20 +186,18 @@ public class FireElemental extends Monster
 				this.imageName = "fire ifrit";
 				this.long = "You're currently fighting 'female' ifrit. It's a nine foot tall body of flame, currently using its bare fists to fight";
 				this.tallness = 108;
-				initStrTouSpeInte(24, 39, 69, 120);
-				initWisLibSensCor(120, 15, 55, 50);
-				this.weaponAttack = 10;
-				this.armorDef = 10;
-				this.armorMDef = 60;
-				this.level = 24;
-				this.bonusHP = 875;
+				initStrTouSpeInte(48, 78, 139, 240);
+				initWisLibSensCor(240, 30, 110, 0);
+				this.weaponAttack = 20;
+				this.armorDef = 20;
+				this.armorMDef = 120;
+				this.level = 21;
+				this.bonusHP = 1750;
 				this.additionalXP = 190;
 			}
 			this.a = "the ";
 			this.plural = false;
-			this.lustVuln = 0;
-			this.drop = new ChainedDrop()
-					.add(useables.ELSHARD, 1);
+			this.lustVuln = 0.01;
 			this.createBreastRow(0, 1);
 			initGenderless();
 			this.weaponName = "fists";
@@ -209,7 +207,16 @@ public class FireElemental extends Monster
 			this.createPerk(PerkLib.FireNature, 0, 0, 0, 0);
 			if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4) {
 				this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
-				this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
+				this.createPerk(PerkLib.EnemyChampionType, 0, 0, 0, 0);
+				this.drop = new WeightedDrop()
+					.add(useables.LELSHARD, 3)
+					.add(useables.ELCRYST, 1);
+			}
+			else {
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
+				this.drop = new WeightedDrop()
+					.add(useables.ELSHARD, 3)
+					.add(useables.LELSHARD, 1);
 			}
 			checkMonster();
 		}

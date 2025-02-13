@@ -1,26 +1,38 @@
 /**
  * Created by Ormael on 04.06.21.
  */
-package classes.Items 
+package classes.Items
 {
 	import classes.ItemType;
 	import classes.PerkLib;
 	import classes.Player;
+	import classes.Scenes.Combat.CombatAbility;
 
-	public class FlyingSwords extends Useable
+	public class FlyingSwords extends Equipable
 	{
 		private var _verb:String;
 		private var _attack:Number;
 		private var _perk:String;
-		private var _name:String;
+		private var _element:int;
+		private var _count:int;
 		
-		public function FlyingSwords(id:String, shortName:String, name:String,longName:String, verb:String, attack:Number, value:Number = 0, description:String = null, perk:String = "") 
+		override public function get category():String {
+			return CATEGORY_FLYING_SWORD;
+		}
+		
+		public function FlyingSwords(id:String, shortName:String, name:String,longName:String, verb:String, attack:Number, value:Number = 0, description:String = null, perk:String = "", count:int= 1, element:int=-1)
 		{
-			super(id, shortName, longName, value, description);
-			this._name = name;
+			super(id, shortName, name, longName, value, description);
 			this._verb = verb;
 			this._attack = attack;
 			this._perk = perk;
+			this._count = count;
+			this._element = (element == -1)? CombatAbility.TAG_PHYSICAL: element;
+		}
+		
+		private static const SLOTS:Array = [SLOT_FLYING_SWORD];
+		override public function slots():Array {
+			return SLOTS; // don't recreate every time
 		}
 		
 		public function get verb():String { return _verb; }
@@ -28,45 +40,33 @@ package classes.Items
 		public function get attack():Number { return _attack; }
 		
 		public function get perk():String { return _perk; }
+
+		public function get element():int { return _element; }
+
+		public function get count():int { return _count; }
 		
-		public function get name():String { return _name; }
-		
-		override public function get description():String {
-			var desc:String = _description;
+		override public function effectDescriptionParts():Array {
+			var list:Array = super.effectDescriptionParts();
 			//Size
-			desc += "\n\nSize: ";
-			if (perk == "Massive") desc += "(Massive)";
-			else if (perk == "Large Two") desc += "(Large (set of 2))";
-			else if (perk == "Large") desc += "(Large)";
-			else if (perk == "Small") desc += "(Small)";
+			var desc:String = "Size: (" + perk;
+			var suffix:String = ")";
+			if (count == 1) desc += suffix;
+			else desc += " (set of " + count +")" + suffix;
+			
+			list.push([15, desc]);
 			//Attack
-			desc += "\nAttack: " + String(attack);
-			//Value
-			desc += "\nBase value: " + String(value);
-			return desc;
+			list.push([20,"Attack: " + attack]);
+			//Element
+			list.push([25,"Element: " + CombatAbility.AllTags[element].name]);
+			return list;
 		}
 		
-		override public function useText():void {
-			outputText("You equip " + longName + ".  ");
-		}
-		
-		override public function canUse():Boolean {
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
 			if (!game.player.hasPerk(PerkLib.FlyingSwordPath)) {
-				outputText("You need first to learn fine control over flying swords to equip this one.");
+				if (doOutput) outputText("You need first to learn fine control over flying swords to equip this one.");
 				return false;
 			}
 			return true;
 		}
-		
-		public function playerEquip():FlyingSwords { //This item is being equipped by the player. Add any perks, etc. - This function should only handle mechanics, not text output
-			return this;
-		}
-		
-		public function playerRemove():FlyingSwords { //This item is being removed by the player. Remove any perks, etc. - This function should only handle mechanics, not text output
-			return this;
-		}
-		
-		public function removeText():void {} //Produces any text seen when removing the armor normally
-		
 	}
 }

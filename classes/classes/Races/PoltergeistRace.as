@@ -1,6 +1,7 @@
 package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
+import classes.GeneticMemories.RaceMem;
 import classes.PerkLib;
 import classes.Race;
 
@@ -9,9 +10,36 @@ import classes.Race;
  * Tier 2: Poltergeist
  * Tier 3: Eldritch Poltergeist
  */
+
 public class PoltergeistRace extends Race{
+	public static const PoltergeistSkinColors:/*String*/Array = ["sable", "white"];
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Ghost",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Ghost",
+        /*Face*/		"Ghost",
+        /*Gills*/		"Human",
+        /*Hair*/		"Ghost",
+        /*Horns*/		"Ghost",
+        /*LowerBody*/	"Ghost2",
+        /*RearBody*/	"Ghost",
+        /*Skin*/		"Ghost",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Ghost",
+        /*Wings*/		"Ghost",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Ghost"];
+
 	public function PoltergeistRace(id:int) {
-		super("Poltergeist", id);
+		super("Poltergeist", id, RaceBody);
 		chimeraTier = 0;
 		grandChimeraTier = 0;
 	}
@@ -36,17 +64,15 @@ public class PoltergeistRace extends Race{
 						"milky white or ashen sable, plain skin",
 						function (body:BodyData):Boolean {
 							return body.player.hasPlainSkinOnly() &&
-									(body.skinBaseAdj == "milky" && body.skinBaseColor == "white" ||
-											body.skinBaseAdj == "ashen" && body.skinBaseColor == "sable")
-						}, +1
-						)
+									(body.skinBaseAdj == "milky" && body.skinColor1 == "white" ||
+											body.skinBaseAdj == "ashen" && body.skinColor1 == "sable")
+						}, +1)
 				.customRequirement("skin",
 						"milky or ashen ghost skin",
 						function (body:BodyData):Boolean {
-							return body.player.hasGhostSkin() &&
+							return body.player.isGhostSkin() &&
 									(body.skinBaseAdj == "milky" || body.skinBaseAdj == "ashen")
-						}, +1
-						)
+						}, +1)
 				.hasPerk(PerkLib.Incorporeality, +1)
 				.hasPerk(PerkLib.Ghostslinger, +1)
 				.hasPerk(PerkLib.PhantomShooting, +1)
@@ -56,9 +82,10 @@ public class PoltergeistRace extends Race{
 				.buffs({
 					"str.mult": -0.15,
 					"tou.mult": -0.15,
-					"spe.mult": +0.45,
-					"int.mult": +0.45,
-					"wis.mult": +0.30
+					"spe.mult": +0.50,
+					"int.mult": +0.70,
+					"wis.mult": +0.40,
+					"sens": +40
 				})
 				.end();
 		
@@ -66,9 +93,10 @@ public class PoltergeistRace extends Race{
 				.buffs({
 					"str.mult": -0.25,
 					"tou.mult": -0.25,
-					"spe.mult": +0.90,
-					"int.mult": +0.90,
-					"wis.mult": +0.45
+					"spe.mult": +1.00,
+					"int.mult": +1.60,
+					"wis.mult": +0.90,
+					"sens": +125
 				})
 				.end();
 		
@@ -76,9 +104,10 @@ public class PoltergeistRace extends Race{
 				.buffs({
 					"str.mult": -0.45,
 					"tou.mult": -0.45,
-					"spe.mult": +1.50,
-					"int.mult": +1.50,
-					"wis.mult": +0.60
+					"spe.mult": +1.60,
+					"int.mult": +3.10,
+					"wis.mult": +1.70,
+					"sens": +280
 				})
 				.end();
 	}

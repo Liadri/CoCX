@@ -12,6 +12,9 @@ import classes.Races;
 
 public class PigBoarFatMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Pig Boar Fat";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -24,32 +27,16 @@ public class PigBoarFatMutation extends IMutationPerkType
                 descS = "Body Slam req. lower thickness to be used, increase max Hunger cap by 15 (if PC have Hunger bar active)";
             }
             if (pTier == 3){
-                descS = "Body Slam req. lower thickness and doubled power, pig/boar req. removed, thickness requirement lowered, increase max Hunger cap by 35 (if PC have Hunger bar active)";
+                descS = "Body Slam thickness requirement lowered and it power is doubled, pig/boar/red panda req. removed, increase max Hunger cap by 35 (if PC have Hunger bar active)";
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Pig Boar Fat" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -69,9 +56,8 @@ public class PigBoarFatMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) pBuffs['tou.mult'] = 0.05;
             if (pTier == 2) pBuffs['tou.mult'] = 0.15;
             if (pTier == 3) pBuffs['tou.mult'] = 0.3;
@@ -79,8 +65,7 @@ public class PigBoarFatMutation extends IMutationPerkType
         }
 
         public function PigBoarFatMutation() {
-            super("Pig Boar Fat IM", "Pig Boar Fat", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_FAT, 3);
         }
 
     }

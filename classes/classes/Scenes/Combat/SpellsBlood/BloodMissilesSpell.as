@@ -15,6 +15,7 @@ public class BloodMissilesSpell extends AbstractBloodSpell {
 			[TAG_DAMAGING]
 		);
 		baseHpCost = 50;
+		magicAddonProcs = 5;
 	}
 	
 	override public function get isKnown():Boolean {
@@ -26,12 +27,15 @@ public class BloodMissilesSpell extends AbstractBloodSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return 2;
+		var calcC:int = -1;
+		calcC += spellGenericCooldown();
+		if (calcC < 0) calcC = 0;
+		return calcC;
 	}
 	
 	public function calcDamage(target:Monster, randomize:Boolean=true, casting:Boolean = true):Number {
 		var damage:Number = adjustSpellDamage(
-				scalingBonusIntelligence(randomize),
+				scalingBonusIntelligence(randomize)*bloodAffinityBoost(),
 				DamageType.MAGICAL,
 				CAT_SPELL_BLOOD,
 				target,
@@ -72,11 +76,6 @@ public class BloodMissilesSpell extends AbstractBloodSpell {
 		damage *= 5;
 		checkAchievementDamage(damage);
 		combat.heroBaneProc(damage);
-	}
-	
-	override protected function postSpellEffect():void {
-		MagicAddonEffect(5);
-		if (player.weapon == weapons.DEMSCYT && player.cor < 90) dynStats("cor", 0.3);
 	}
 }
 }

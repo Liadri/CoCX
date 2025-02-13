@@ -6,6 +6,7 @@ import classes.BodyParts.Hips;
 import classes.BodyParts.LowerBody;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
 
@@ -34,16 +35,19 @@ public class ImpLord extends Imp
 			}
 			damage = Math.round(damage);
 			player.takeFireDamage(damage, true);
-			player.dynStats("lus", 20 + player.cor / 10);
+			player.takeLustDamage(20 + player.cor / 10, true);
 		}
-		
+
+		override protected function outputPlayerDodged(dodge:int):void{
+			outputText("The demonic creature slashes a clawed hand towards your stomach, but you handily avoid it.");
+		}
+
 		//Heavy Attack
 		protected function impLordHeavyEncounter():void
 		{
 			var damage:int = int((str + weaponAttack + 20) - rand(player.tou) - player.armorDef);
 			outputText("The demonic creature slashes a clawed hand towards your stomach,");
-			if (player.getEvasionRoll()) outputText(" but you handily avoid it.");
-			else if (damage <= 0) outputText(" but the attack proves ineffectual.");
+			if (damage <= 0) outputText(" but the attack proves ineffectual.");
 			else {
 				outputText("leaving a large gash. The attack leaves you slightly stunned, but you recover. ");
 				player.takePhysDamage(damage, true);
@@ -55,7 +59,7 @@ public class ImpLord extends Imp
 		{
 			outputText("Lowering his loincloth the imp reveals his inhumanly thick shaft.  He smirks and licks his lips as he gives his cock a squeeze, milking a few beads of clear pre from the tip.  You shake your head and try to ignore your growing need.");
 			//[+Lust]
-			player.dynStats("lus", 5 + player.lib / 5 + player.cor / 5);
+			player.takeLustDamage(5 + player.lib / 5 + player.cor / 5, true);
 		}
 
 		//Lust and Light Attack
@@ -65,7 +69,7 @@ public class ImpLord extends Imp
 			var damage:int = 3 + rand(10);
 			player.takePhysDamage(damage, true);
 			//[-HP(minor) // +Lust]
-			player.dynStats("lus", 5 + player.effectiveSensitivity() / 4 + player.cor / 10);
+			player.takeLustDamage(5 + player.effectiveSensitivity() / 4 + player.cor / 10, true);
 		}
         override protected function performCombatAction():void
 		{
@@ -83,7 +87,15 @@ public class ImpLord extends Imp
 			}
 			else {
 				game.flags[kFLAGS.DEMONS_DEFEATED]++;
-				SceneLib.impScene.defeatImpLord();
+				if (rand(20) == 0 && !player.hasStatusEffect(StatusEffects.TookImpTome)) {
+					outputText("\n\nYou spot an odd book lying close by the imp and stook to pick it up. ");
+					SceneLib.inventory.takeItem(shields.IMPTOME, hasTakenBook);
+					function hasTakenBook():void {
+						if (player.hasItem(shields.IMPTOME) || player.shieldName == "cursed Tome of Imp")
+							player.createStatusEffect(StatusEffects.TookImpTome,  0, 0, 0, 0);
+						SceneLib.impScene.defeatImpLord();
+					}
+				} else SceneLib.impScene.defeatImpLord();
 			}
 		}
 
@@ -121,11 +133,11 @@ public class ImpLord extends Imp
 			this.pronoun3 = "his";
 			this.ass.analLooseness = AssClass.LOOSENESS_STRETCHED;
 			this.ass.analWetness = AssClass.WETNESS_NORMAL;
-			this.tallness = rand(14) + 40;
+			this.tallness = rand(12) + 34;
 			this.hips.type = Hips.RATING_BOYISH;
 			this.butt.type = Butt.RATING_TIGHT;
 			this.lowerBody = LowerBody.HOOFED;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			initStrTouSpeInte(55, 40, 45, 42);
 			initWisLibSensCor(42, 55, 35, 100);
 			if (player.hasStatusEffect(StatusEffects.SiegweirdImp)) {
@@ -145,9 +157,12 @@ public class ImpLord extends Imp
 			this.bonusLust = 97;
 			this.lust = 30;
 			this.lustVuln = .65;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 7;
 			this.gems = rand(15) + 25;
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
 			this.drop = new WeightedDrop().
 					add(consumables.MINOBLO,1).
 					add(consumables.LABOVA_,1).

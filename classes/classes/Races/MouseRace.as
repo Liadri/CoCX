@@ -12,9 +12,33 @@ import classes.Race;
  */
 public class MouseRace extends Race {
 	public static const MouseHairColors:/*String*/Array = ["red", "orange", "pinkish orange", "platinum crimson"];
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
 	
 	public function MouseRace(id:int) {
-		super("Mouse", id);
+		super("Mouse", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -27,7 +51,7 @@ public class MouseRace extends Race {
 				.armType(Arms.HINEZUMI, +1)
 				.eyeTypeAndColor(Eyes.HINEZUMI, "blazing red", +1)
 				.hairType(Hair.BURNING, +1)
-				.hairColor(ANY(MouseHairColors), +1)
+				.hairColor1(ANY(MouseHairColors), +1)
 				.skinCoatType(Skin.FUR, +1);
 		addConditionedScores(function (body:BodyData): Boolean {
 			return body.skinCoatType == Skin.FUR;
@@ -35,7 +59,9 @@ public class MouseRace extends Race {
 				.height(LESS_THAN(60), +1)
 				.height(LESS_THAN(52), +1);
 		
+		addBloodline(PerkLib.MousesDescendant, PerkLib.BloodlineMouse);
 		addMutation(IMutationsLib.HinezumiBurningBloodIM);
+		addMutation(IMutationsLib.BlazingHeartIM);
 		
 		buildTier(8, "mouse-morph")
 				.namesMaleFemaleMorphTaur("mouse-boy","mouse-girl","mouse-morph","mouse-taur")
@@ -46,8 +72,8 @@ public class MouseRace extends Race {
 				})
 				.end();
 		
-		buildTier(12, "hinezumi")
-				.namesTauric("hinezumi","hinezumi-taur")
+		buildTier(12, "fire mouse")
+				.namesTauric("fire mouse","fire mouse-taur")
 				.requireArmType(Arms.HINEZUMI)
 				.requireLegType(LowerBody.HINEZUMI)
 				.requireTailType(Tail.HINEZUMI)

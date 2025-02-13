@@ -12,21 +12,26 @@
  ****/
 
 package coc.view {
-import coc.view.UIUtils;
+import classes.CoC;
+import classes.CoC_Settings;
+import classes.EngineCore;
 
-import fl.controls.ComboBox;
-import fl.controls.ScrollBarDirection;
-import fl.controls.UIScrollBar;
-import fl.data.DataProvider;
+
+import com.bit101.components.ComboBox;
+import com.bit101.components.ScrollBar;
+import com.bit101.components.TextFieldVScroll;
+import com.bit101.components.ScrollPane;
 
 import flash.display.BitmapData;
-
+import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.events.TextEvent;
 import flash.text.TextField;
 import flash.text.TextFormat;
+import flash.ui.Multitouch;
+import flash.ui.MultitouchInputMode;
 
 public class MainView extends Block {
 	[Embed(source="../../../res/ui/background1.png")]
@@ -114,40 +119,6 @@ public class MainView extends Block {
 		}
 	];
 
-	[Embed(source="../../../res/ui/button0.jpg")]
-	public static var ButtonBackground0:Class;
-	[Embed(source="../../../res/ui/button1.jpg")]
-	public static var ButtonBackground1:Class;
-	[Embed(source="../../../res/ui/button2.jpg")]
-	public static var ButtonBackground2:Class;
-	[Embed(source="../../../res/ui/button3.jpg")]
-	public static var ButtonBackground3:Class;
-	[Embed(source="../../../res/ui/button4.jpg")]
-	public static var ButtonBackground4:Class;
-	[Embed(source="../../../res/ui/button5.jpg")]
-	public static var ButtonBackground5:Class;
-	[Embed(source="../../../res/ui/button6.jpg")]
-	public static var ButtonBackground6:Class;
-	[Embed(source="../../../res/ui/button7.jpg")]
-	public static var ButtonBackground7:Class;
-	[Embed(source="../../../res/ui/button8.jpg")]
-	public static var ButtonBackground8:Class;
-	[Embed(source="../../../res/ui/button9.jpg")]
-	public static var ButtonBackground9:Class;
-	public static var ButtonBackgrounds:Array = [
-		ButtonBackground0,
-		ButtonBackground1,
-		ButtonBackground2,
-		ButtonBackground3,
-		ButtonBackground4,
-		ButtonBackground5,
-		ButtonBackground6,
-		ButtonBackground7,
-		ButtonBackground8,
-		ButtonBackground9,
-	];
-
-
 	// Menu button names.
 	public static const MENU_NEW_MAIN:String   = 'newGame';
 	public static const MENU_DATA:String       = 'data';
@@ -159,11 +130,11 @@ public class MainView extends Block {
 
 	public static const GAP:Number   = 4; // Gap between UI panels
 	public static const HALFGAP:Number = GAP/2;
-	internal static const BTN_W:Number = 150; // Button size
-	internal static const BTN_H:Number = 40;
+	public static const BTN_W:Number = 150; // Button size
+	public static const BTN_H:Number = 40;
 
-	internal static const SCREEN_W:Number       = 1420;
-	internal static const SCREEN_H:Number       = 800;
+	public static const SCREEN_W:Number       = 1420;
+	public static const SCREEN_H:Number       = 800;
 
 	// TOPROW: [Main Menu]/[New Game], [Data] ... [Appearance]
 	
@@ -178,7 +149,7 @@ public class MainView extends Block {
 	
 	// Misc properties
 	internal static const TOPROW_NUMBTNS:Number   = 6;
-	internal static const VSCROLLBAR_W:Number     = 15;
+	public static const VSCROLLBAR_W:Number     = ScrollBar.VWIDTH;
 	internal static const BOTTOM_COLS:Number      = 5;
 	internal static const BOTTOM_ROWS:Number      = 3;
 	internal static const BOTTOM_BUTTON_COUNT:int = BOTTOM_COLS * BOTTOM_ROWS;
@@ -191,7 +162,7 @@ public class MainView extends Block {
 	internal static const COLUMN_1_W:Number      = Math.max(STATBAR_W, CHARVIEW_W);
 	internal static const COLUMN_1_RIGHT:Number  = COLUMN_1_X + COLUMN_1_W;
 	// Column 2 core
-	internal static const TEXTZONE_W:Number      = 770;
+	public static const TEXTZONE_W:Number        = 770;
 	internal static const COLUMN_2_X:Number      = COLUMN_1_RIGHT + GAP;
 	internal static const COLUMN_2_W:Number      = TEXTZONE_W;
 	internal static const COLUMN_2_RIGHT:Number  = COLUMN_2_X + COLUMN_2_W;
@@ -212,10 +183,12 @@ public class MainView extends Block {
 	internal static const STATBAR_2_X:Number     = STATBAR_1_RIGHT;
 	internal static const STATBAR_2_RIGHT:Number = STATBAR_2_X + STATBAR_COL_W + HALFGAP;
 	internal static const STATBAR_RIGHT:Number   = STATBAR_2_RIGHT;
+	public static const STATBAR_WIDTH:Number     = STATBAR_RIGHT - STATBAR_X;
 	// Char viewer
 	internal static const CHARVIEW_X:Number      = 0;
 	internal static const CHARVIEW_H:Number      = 202*2;
 	internal static const CHARVIEW_BOTTOM:Number = SCREEN_H;
+	internal static const CHARVIEW_Y:Number      = CHARVIEW_BOTTOM - CHARVIEW_H;
 	// Text zone
 	internal static const TEXTZONE_X:Number      = STATBAR_RIGHT;
 	internal static const TEXTZONE_Y:Number      = TOPROW_BOTTOM + GAP;
@@ -234,7 +207,7 @@ public class MainView extends Block {
 	// monster stats (top right below sprite)
 	public static const MONSTER_X:Number          = COLUMN_3_X;
 	public static const MONSTER_W:Number          = SPRITE_MAX_W;
-	public static const MONSTER_H:Number          = 300;
+	public static const MONSTER_H:Number          = 270;
 	public static const MONSTER_Y:Number          = SPRITE_Y + SPRITE_MAX_H + GAP;
 	// corner stats (bottom right)
 	internal static const CORNERSTATS_X:Number      = COLUMN_3_X;
@@ -262,10 +235,11 @@ public class MainView extends Block {
 	public var toolTipView:ToolTipView;
 	public var cornerStatsView:CornerStatsView;
 	public var statsView:StatsView;
+	public var notificationView:NotificationView;
 	public var monsterStatsView:MonsterStatsView;
 	public var sideBarDecoration:Sprite;
 
-	private var _onBottomButtonClick:Function;//(index:int)=>void
+	private var _onBottomButtonClick:Function;//(index:int, button:CoCButton)=>void
 	public var bottomButtons:Array;
 	private var currentActiveButtons:Array;
 	private var allButtons:Array;
@@ -276,7 +250,7 @@ public class MainView extends Block {
 	public var levelButton:CoCButton;
 	public var perksButton:CoCButton;
 	public var appearanceButton:CoCButton;
-	public var scrollBar:UIScrollBar;
+	public var scrollBar:TextFieldVScroll;
 
 	protected var callbacks:Object = {};
 	protected var options:Object;
@@ -285,12 +259,13 @@ public class MainView extends Block {
 	 * Is reset on `clearOutput()`
 	 */
 	public var linkHandler:Function;
+	private var customElement:DisplayObject = null;
+	public var hotkeysDisabled:Boolean = false;
 
 	public var charView:CharView;
 	public function MainView():void {
 		super();
 		addElement(blackBackground = new BitmapDataSprite({
-			bitmapClass: ButtonBackground2,
 			x          : -SCREEN_W / 2,
 			width      : SCREEN_W * 2,
 			height     : SCREEN_H * 2,
@@ -326,28 +301,22 @@ public class MainView extends Block {
 			}
 		}));
 		topRow.addElement(newGameButton = new CoCButton({
-			labelText  : 'New Game',
-			bitmapClass: ButtonBackground1
+			labelText  : 'New Game'
 		}));
 		topRow.addElement(dataButton = new CoCButton({
-			labelText  : 'Data',
-			bitmapClass: ButtonBackground2
+			labelText  : 'Data'
 		}));
 		topRow.addElement(statsButton = new CoCButton({
-			labelText  : 'Stats',
-			bitmapClass: ButtonBackground3
+			labelText  : 'Stats'
 		}));
 		topRow.addElement(levelButton = new CoCButton({
-			labelText  : 'Level Up',
-			bitmapClass: ButtonBackground4
+			labelText  : 'Level Up'
 		}));
 		topRow.addElement(perksButton = new CoCButton({
-			labelText  : 'Perks',
-			bitmapClass: ButtonBackground5
+			labelText  : 'Perks & Opt.'
 		}));
 		topRow.addElement(appearanceButton = new CoCButton({
-			labelText  : 'Appearance',
-			bitmapClass: ButtonBackground6
+			labelText  : 'Appearance'
 		}));
 		addElement(textBGWhite = new BitmapDataSprite({
 			fillColor: '#FFFFFF',
@@ -376,9 +345,9 @@ public class MainView extends Block {
 			}
 		});
 		mainText.addEventListener(TextEvent.LINK, function(e:TextEvent):void {
-			if (linkHandler != null) linkHandler(e.text);
+			if (linkHandler != null) linkHandler(decodeURI(e.text));
 		});
-		scrollBar = new UIScrollBar();
+		scrollBar = new TextFieldVScroll(mainText);
 		UIUtils.setProperties(scrollBar,{
 			name: "scrollBar",
 			direction: "vertical",
@@ -426,7 +395,13 @@ public class MainView extends Block {
 		this.statsView = new StatsView(this, this.cornerStatsView);
 		this.statsView.hide();
 		this.addElement(this.statsView);
-
+		this.notificationView = new NotificationView({
+			x: CHARVIEW_X,
+			y: CHARVIEW_Y,
+			width: COLUMN_1_W
+		});
+		this.addElement(this.notificationView);
+		
 		this.monsterStatsView = new MonsterStatsView(this);
 		this.monsterStatsView.hide();
 		this.addElement(this.monsterStatsView);
@@ -451,8 +426,6 @@ public class MainView extends Block {
 		this.addElement(this.toolTipView);
 
 		// hook!
-		hookBottomButtons();
-		hookAllButtons();
 		this.width  = SCREEN_W;
 		this.height = SCREEN_H;
 		this.scaleX = 1;
@@ -480,12 +453,10 @@ public class MainView extends Block {
 	protected function formatMiscItems():void {
 
 		this.aCb               = new ComboBox();
-		this.aCb.dropdownWidth = 200;
 		this.aCb.width         = 200;
 		this.aCb.scaleY        = 1.1;
-		this.aCb.rowCount = 15;
 		this.aCb.move(-1250, -1550);
-		this.aCb.addEventListener(Event.CHANGE, function (event:Event):void {
+		this.aCb.addEventListener(Event.SELECT, function (event:Event):void {
 			if (comboboxHandler != null) comboboxHandler(ComboBox(event.target).selectedItem);
 		});
 
@@ -515,38 +486,23 @@ public class MainView extends Block {
 //			b.width  = BUTTON_REAL_WIDTH;   //The button symbols are actually 135 wide
 //			b.height = BUTTON_REAL_HEIGHT; //and 38 high. Not sure why the difference here.
 
-			button = new CoCButton({
-				bitmapClass: ButtonBackgrounds[bi % 10],
-				visible    : false,
-				x          : BOTTOM_X + BOTTOM_HGAP + c * (BOTTOM_HGAP * 2 + BTN_W),
-				y          : BOTTOM_Y + r * (GAP + BTN_H)
-			});
-			button.preCallback = (function(i:int):Function{
-				return function(b:CoCButton):void{
-					if (_onBottomButtonClick != null) _onBottomButtonClick(i);
-				};
-			})(bi);
+			button = createActionButton(bi);
+			button.visible = false;
+			button.x = BOTTOM_X + BOTTOM_HGAP + c * (BOTTOM_HGAP * 2 + BTN_W);
+			button.y = BOTTOM_Y + r * (GAP + BTN_H);
 			this.bottomButtons.push(button);
 			this.addElement(button);
 		}
 		this.allButtons = this.allButtons.concat(this.bottomButtons);
 	}
-
-	protected function hookBottomButtons():void {
-		var bi:Sprite;
-		for each(bi in this.bottomButtons) {
-			bi.addEventListener(MouseEvent.CLICK, this.executeBottomButtonClick);
-		}
-	}
-
-	protected function hookAllButtons():void {
-		var b:Sprite;
-
-		for each(b in this.allButtons) {
-			b.mouseChildren = false;
-			b.addEventListener(MouseEvent.ROLL_OVER, this.hoverElement);
-			b.addEventListener(MouseEvent.ROLL_OUT, this.dimElement);
-		}
+	
+	public function createActionButton(index:int):CoCButton {
+		var button:CoCButton = new CoCButton();
+		button.preCallback = function (b:CoCButton):void {
+			if (_onBottomButtonClick != null) _onBottomButtonClick(index, button);
+		};
+		button.addEventListener(MouseEvent.CLICK, this.executeBottomButtonClick);
+		return button;
 	}
 
 	//////// Internal(?) view update methods ////////
@@ -576,7 +532,7 @@ public class MainView extends Block {
 		var button:CoCButton = this.bottomButtons[index] as CoCButton;
 		// Should error.
 		if (!button) return null;
-		return button.hide();
+		return button.reset();
 	}
 
 	public function hideCurrentBottomButtons():void {
@@ -616,9 +572,7 @@ public class MainView extends Block {
 		button = event.target as CoCButton;
 
 		if (button && button.visible && button.toolTipText) {
-			this.toolTipView.header = button.toolTipHeader;
-			this.toolTipView.text   = button.toolTipText;
-			this.toolTipView.showForElement(button);
+			this.toolTipView.showForElement(button, button.toolTipHeader, button.toolTipText);
 		}
 		else {
 			this.toolTipView.hide();
@@ -815,8 +769,72 @@ public class MainView extends Block {
 
 	public function clearOutputText():void {
 		this.linkHandler = null;
+		if (this.customElement) {
+			this.removeElement(this.customElement);
+			this.customElement = null;
+			this.scrollBar.activated = true;
+		}
+		this.hotkeysDisabled = false;
 		this.mainText.htmlText = '';
-		this.scrollBar.update();
+		this.scrollBar.draw();
+	}
+	
+	/**
+	 * Display a custom UI element. Only 1 supported at a time (use container if more is needed).
+	 * It will be removed on clearOutput() call
+	 * @param element
+	 * @param afterText Position the element after current text (true, default) or on top of text (false)
+	 * @param stretch Stretch the element (default false)
+	 */
+	public function setCustomElement(element:DisplayObject, afterText:Boolean=true, stretch:Boolean=false, scroll:Boolean=false):void {
+		CoC.instance.flushOutputTextToGUI();
+		if (this.customElement) {
+			this.removeElement(this.customElement);
+		}
+		var innerElement:DisplayObject = element;
+		if (scroll) {
+			var container:ScrollPane = new ScrollPane();
+			container.autoHideScrollBar = true;
+			container.PanelAlpha = 0;
+			container.color = 0xCCCCC;
+			container.border = false;
+			//container.setStyle("upSkin", new MovieClip());
+			//container.horizontalScrollPolicy = ScrollPolicy.OFF;
+			//container.verticalPageScrollSize = mainText.height - 64;
+			//container.verticalLineScrollSize = 16;
+			container.addChild(innerElement);
+			element = container;
+			if (innerElement is Block) {
+				innerElement.addEventListener(Block.ON_LAYOUT, function(e:Event):void {
+					container.update();
+				})
+			}
+			scrollBar.visible = false;
+			if (CoC_Settings.mobileBuild) {
+				container.dragContent = true;
+				Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+//				container.addEventListener(TransformGestureEvent.GESTURE_PAN, function (e:TransformGestureEvent):void {
+//					if (e.phase == GesturePhase.UPDATE) {
+//						this._vScrollbar.value += -(e.offsetY);
+//					}
+//				});
+			}
+		}
+		element.x = mainText.x;
+		element.y = afterText ? mainText.y + mainText.textHeight : mainText.y;
+		if (stretch || scroll) {
+			element.width = TEXTZONE_W;
+			element.height = mainText.y + mainText.height - element.y;
+		}
+		if (scroll && stretch) {
+			innerElement.width = container.width - ScrollBar.VWIDTH;
+			// innerElement.height = container.height;
+		}
+		this.addElement(element);
+		this.customElement = element;
+	}
+	public function getCustomElement():DisplayObject {
+		return customElement;
 	}
 
 	public function appendOutputText(text:String):void {
@@ -826,8 +844,13 @@ public class MainView extends Block {
 		fmt.underline = false;
 		this.mainText.htmlText += text;
 		this.mainText.defaultTextFormat = fmt;
-		this.scrollBar.update();
+		this.scrollBar.draw();
 	}
+
+	// I think font ones are 90% false reports (because of some Flash weirdness)
+	// (no actual unclosed tag, but the font is off because dark magic)
+	// there's a workaround I might try - if the font is messed up, clear text (but save first), reset font, and print text again
+	private var fontKostyl:Boolean = false;
 
 	public function setOutputText(text:String):void {
 		var fmt:TextFormat     = this.mainText.defaultTextFormat;
@@ -838,9 +861,21 @@ public class MainView extends Block {
 		this.mainText.htmlText = text; // Altering htmlText can cause changes in defaultTextFormat
 		var fmtnew:TextFormat  = this.mainText.defaultTextFormat;
 		this.mainText.defaultTextFormat = fmt;
-		if (fmtnew.bold != fmt.bold || fmtnew.italic != fmt.italic || fmtnew.underline != fmt.underline) {this.mainText.htmlText += " /!\\ UNCLOSED TAG DETECTED (When reporting this bug, give information on your previous actions. You can check text history by pressing [H] (Mobile version does not support this).) /!\\ "
+		if (fmtnew.bold != fmt.bold || fmtnew.italic != fmt.italic || fmtnew.underline != fmt.underline) {
+			if (fontKostyl) {
+				//autofix failed, rerun didn't help
+				this.mainText.htmlText += " /!\\ UNCLOSED TAG DETECTED (When reporting this bug, give information on your previous actions. You can check text history by pressing [H] (Mobile version does not support this).) /!\\ ";
+			} else {
+				//attempt to autofix
+				var txt:String = CoC.instance.currentText;
+				EngineCore.clearOutputTextOnly(true);
+				CoC.instance.currentText = txt;
+				fontKostyl = true;
+				CoC.instance.flushOutputTextToGUI();
+				fontKostyl = false;
+			}
 		}
-		this.scrollBar.update();
+		this.scrollBar.draw();
 	}
 
 	public function hideSprite():void {
@@ -857,7 +892,7 @@ public class MainView extends Block {
 //		this.eventTestInput.type       = TextFieldType.INPUT;
 		this.eventTestInput.visible    = true;
 
-		this.scrollBar.scrollTarget = this.eventTestInput;
+		this.scrollBar.value = this.eventTestInput.y;
 
 	}
 
@@ -873,7 +908,7 @@ public class MainView extends Block {
 //		this.eventTestInput.type       = TextFieldType.DYNAMIC;
 		this.eventTestInput.visible    = false;
 
-		this.scrollBar.scrollTarget = this.mainText;
+		this.scrollBar.value = this.mainText.y;
 
 	}
 
@@ -886,8 +921,9 @@ public class MainView extends Block {
 	}
 
 	public function showComboBox(items:Array,propmt:String,onChange:Function):void {
-		aCb.dataProvider = new DataProvider(items);
-		aCb.prompt = propmt;
+		aCb.items = items;
+		aCb.numVisibleItems = 15;
+		aCb.defaultLabel = propmt;
 		comboboxHandler = onChange;
 		if (aCb.parent == null) {
 			addElement(aCb);

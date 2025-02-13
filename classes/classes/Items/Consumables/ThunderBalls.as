@@ -33,6 +33,7 @@ package classes.Items.Consumables
 			}
 			else { //Not dodged
 				var damage:Number = 1440 + Utils.rand(721);
+				damage = SceneLib.combat.tinkerDamageBonus(damage);
 				if (game.player.level >= 6) {
 					if (game.player.level >= 24) {
 						if (game.player.level >= 42) damage *= 4;
@@ -42,7 +43,7 @@ package classes.Items.Consumables
 				}
 				if (game.monster.hasPerk(PerkLib.EnemyGroupType) || game.monster.hasPerk(PerkLib.EnemyLargeGroupType)) damage *= 5;
 				outputText(game.monster.capitalA + game.monster.short + " is hit with the THUNDERballs!  They crackle and shock, electrocuting " + game.monster.pronoun2 + ". ");
-				damage = SceneLib.combat.doLightingDamage(damage, true, true);
+				damage = SceneLib.combat.doLightningDamage(damage, true, true);
 				if (game.monster.HP < game.monster.minHP()) game.monster.HP = game.monster.minHP() - 1;
 			}
 			return(false);

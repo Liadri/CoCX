@@ -2,7 +2,7 @@
  * ...
  * @author ...
  */
-package classes.Scenes.Explore 
+package classes.Scenes.Explore
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -31,12 +31,11 @@ import classes.internals.*;
 		}
 		
 		public function kitsunesoulskillMod():Number {
-			var kmodss:Number = 1;
-			if (hasPerk(PerkLib.DaoistCultivator) && wis >= 20) kmodss += .2;
-			if (hasPerk(PerkLib.DaoistApprenticeStage)) kmodss += .12;
+			var kmodss:Number = 1;//bonusy 3x
+			if (hasPerk(PerkLib.DaoistApprenticeStage)) kmodss += .9;
 			if (hasPerk(PerkLib.DaoistWarriorStage)) kmodss += 1.8;
-			if (hasPerk(PerkLib.DaoistElderStage)) kmodss += 2.4;
-			if (hasPerk(PerkLib.DaoistOverlordStage)) kmodss += 3;
+			if (hasPerk(PerkLib.DaoistElderStage)) kmodss += 3;
+			if (hasPerk(PerkLib.DaoistOverlordStage)) kmodss += 4.2;
 			return kmodss;
 		}
 		
@@ -54,18 +53,18 @@ import classes.internals.*;
 			var lustDmg:Number = player.lustVuln * ((this.inte / 10) + rand(player.lib + player.cor) / 5);
 			lustDmg *= 2;
 			lustDmg = Math.round(lustDmg);
-			player.dynStats("lus", lustDmg, "scale", false);
+			player.takeLustDamage(lustDmg, true);
 		}
 		
 		public function KitsuneCastsComet():void {
 			soulforce -= 216;
 			outputText("He raises a hand, focusing with intensity.  From above comes a crystalline meteor, which you barely manage to dodge.  The crystal shatters upon contact with the ground, sending a shower of splinters that you cannot avoid. ");
-			if (player.armorName == "Drider-weave Armor" || player.armorPerk == "Heavy" || player.armorPerk == "Light Ayo" || player.armorPerk == "Heavy Ayo" || player.armorPerk == "Ultra Heavy Ayo") outputText("Thankfully, your armor manages to absorb most of the impact. ");
+			if (player.isInHeavyArmor() || player.isInAyoArmor()) outputText("Thankfully, your armor manages to absorb most of the impact. ");
 			var damage:Number = 0;
 			damage += inteligencescalingbonus();
 			damage *= kitsunesoulskillMod();
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			if (player.armorPerk != "Heavy" && player.armorPerk != "Light Ayo" && player.armorPerk != "Heavy Ayo" && player.armorPerk != "Ultra Heavy Ayo") damage *= 2;
 			damage = Math.round(damage);
 			player.takeMagicDamage(damage, true);
@@ -125,7 +124,17 @@ import classes.internals.*;
 				player.removeStatusEffect(StatusEffects.Sealed);
 			}
 		}
-		
+
+		override public function preAttackSeal():Boolean
+		{
+			if (player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 0) {
+				outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The kitsune's seals have made normal melee attacks impossible!  Maybe you could try something else?\n\n");
+				// enemyAI();
+				return false;
+			}
+			else return true;
+		}
+
 		override protected function performCombatAction():void
 		{
 			var choice:Number = rand(4);
@@ -156,7 +165,7 @@ import classes.internals.*;
 					"His left hand is lit up by an aura of blue flames, ready to flare up into gouts of foxfire at a moment’s notice. In his right hand is his metal staff, foxfire burning at it’s tip.";
 		}
 		
-		public function KitsuneAncestor() 
+		public function KitsuneAncestor()
 		{
 			this.a = "a ";
 			this.short = "kitsune ancestor";
@@ -174,11 +183,11 @@ import classes.internals.*;
 			this.tallness = rand(14) + 70;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "grey";
+			this.bodyColor = "grey";
 			this.hairColor = "grey";
 			this.hairLength = 31 + rand(10);
 			initStrTouSpeInte(95, 160, 420, 330);
-			initWisLibSensCor(330, 160, 190, 45);
+			initWisLibSensCor(330, 160, 190, -10);
 			this.weaponName = "worn down staff";
 			this.weaponVerb="smack";
 			this.weaponAttack = 8;
@@ -191,7 +200,6 @@ import classes.internals.*;
 			this.bonusSoulforce = 3000;
 			this.lust = 20;
 			this.lustVuln = 0.9;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 80;
 			this.gems = rand(20) + 20;
 			this.drop = NO_DROP;/*
@@ -206,14 +214,13 @@ import classes.internals.*;
 			this.createPerk(PerkLib.SoulWarrior, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulSprite, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulScholar, 0, 0, 0, 0);
+			this.createPerk(PerkLib.SoulGrandmaster, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulExalt, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulTyrant, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulKing, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulEmperor, 0, 0, 0, 0);
-			this.createPerk(PerkLib.SoulAncestor, 0, 0, 0, 0);
-			this.createPerk(PerkLib.DaoistCultivator, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DaoistApprenticeStage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DaoistWarriorStage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DaoistElderStage, 0, 0, 0, 0);
@@ -229,6 +236,6 @@ import classes.internals.*;
 			this.createPerk(PerkLib.GreyArchmage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.GrandGreyArchmage, 0, 0, 0, 0);
 			checkMonster();
-		}	
+		}
 	}
 }

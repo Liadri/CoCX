@@ -11,13 +11,14 @@ import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
 
 use namespace CoC;
 	
 	public class Incubus extends Monster
-	{		
+	{
 		override public function defeated(hpVictory:Boolean):void
 		{
 			game.flags[kFLAGS.DEMONS_DEFEATED]++;
@@ -47,11 +48,11 @@ use namespace CoC;
 				}
 				else if (player.lust >= 50 || player.cor >= 50) {
 					outputText("  Blushing at the scent and feel of cum on your [legs], you twist and pull free.  You find yourself wondering what this demon's dick would taste like.");
-					player.dynStats("lus", 7 + player.cor / 25);
+					player.takeLustDamage(7 + player.cor / 25, true);
 				}
 				else {
 					outputText("  Disgusted, you pull away from the purplish monstrosity, the act made easier by your well-slimed [legs].");
-					player.dynStats("lus", 4 + player.cor / 25);
+					player.takeLustDamage(4 + player.cor / 25, true);
 				}
 				player.takePhysDamage(4);
 			}
@@ -73,7 +74,7 @@ use namespace CoC;
 			switch (rand(3)) {
 				case 0: //Face
 					outputText("face.  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way into your mouth and nose!  You can feel it moving around inside you, doing its best to prepare you for its master.");
-					player.dynStats("lus", 3);
+					player.takeLustDamage(3, true);
 					if (!player.hasStatusEffect(StatusEffects.DemonSeed))
 						player.createStatusEffect(StatusEffects.DemonSeed, 4, 0, 0, 0);
 					else player.addStatusValue(StatusEffects.DemonSeed, 1, 6);
@@ -82,7 +83,7 @@ use namespace CoC;
 				case 1: //Chest
 					if (player.hasFuckableNipples()) {
 						outputText(allBreastsDescript() + ".  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way into your open nipples.  You can feel it moving around inside you, doing its best to prepare you for its master.");
-						player.dynStats("lus", 3);
+						player.takeLustDamage(3, true);
 						if (!player.hasStatusEffect(StatusEffects.DemonSeed))
 							player.createStatusEffect(StatusEffects.DemonSeed, 4, 0, 0, 0);
 						else player.addStatusValue(StatusEffects.DemonSeed, 1, 7);
@@ -93,7 +94,7 @@ use namespace CoC;
 				default: //Crotch
 					if (player.vaginas.length > 0) {
 						outputText("crotch.  The gooey demon-seed oozes and slides over you with a mind of its own, forcing its way past your [armor] and into your " + player.vaginaDescript(0) + ".  You can feel it moving around inside you, doing its best to prepare you for its master.");
-						player.dynStats("lus", 3);
+						player.takeLustDamage(3, true);
 						if (!player.hasStatusEffect(StatusEffects.DemonSeed))
 							player.createStatusEffect(StatusEffects.DemonSeed, 4, 0, 0, 0);
 						else player.addStatusValue(StatusEffects.DemonSeed, 1, 7);
@@ -118,8 +119,8 @@ use namespace CoC;
                 this.bonusHP = 1000 + 1000*mod;
                 this.bonusLust = 332 + 22*mod;
                 this.level = 62 + 5*mod;
-                this.additionalXP = int(500 * Math.exp(0.3*mod));
-			    this.gems = int((60 + rand(30)) * Math.exp(0.3*mod));
+				this.gems = mod > 20 ? 0 : Math.floor((60 + rand(30)) * Math.exp(0.3*mod));
+				this.additionalXP = mod > 20 ? 0 : Math.floor(500 * Math.exp(0.3*mod));
 				this.createPerk(PerkLib.OverMaxHP, (62 + 5*mod), 0, 0, 0);
 			}
 			else {
@@ -140,6 +141,7 @@ use namespace CoC;
 			this.imageName = "incubus";
 			this.long = "The demon before you is clad only in cut-off denim overalls.  There is a large hole ripped in the crotch, allowing the demon's foot-long member to hang free.  His skin is light purple and perfect, face rugged and handsome, topped with a simple black ponytail and two large horns that sprout from his forehead like twisted tree-trunks.  He not seems to be using any weapon aside of his own claws.";
 			// this.plural = false;
+			this.flyer = true;
 			this.createCock(12,1.75,CockTypesEnum.DEMON);
 			this.balls = 2;
 			this.ballSize = 2;
@@ -152,17 +154,19 @@ use namespace CoC;
 			this.hips.type = Hips.RATING_AMPLE;
 			this.butt.type = Butt.RATING_TIGHT;
 			this.lowerBody = LowerBody.DEMONIC_CLAWS;
-			this.skinTone = "light purple";
+			this.bodyColor = "light purple";
 			this.hairColor = "black";
 			this.hairLength = 12;
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponPerk = "";
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
 			this.lust = 30;
 			this.lustVuln = .5;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
 			this.drop = new WeightedDrop().
 					add(consumables.BROBREW, 1).
 					add(consumables.INCUBID, 12);

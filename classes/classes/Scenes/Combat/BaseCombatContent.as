@@ -42,44 +42,56 @@ public class BaseCombatContent extends BaseContent {
 	// ==================
 	// APPLY EFFECTS
 	// ==================
-	protected function doDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doDamage(damage, apply, display);
+	protected function doDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doMagicDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doMagicDamage(damage, apply, display);
+	protected function doPhysicalDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doPhysicalDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doFireDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doFireDamage(damage, apply, display);
+	protected function doMinionPhysDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doMinionPhysDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doIceDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doIceDamage(damage, apply, display);
+	protected function doMagicDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doMagicDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doLightingDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doLightingDamage(damage, apply, display);
+	protected function doFireDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doFireDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doDarknessDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doDarknessDamage(damage, apply, display);
+	protected function doIceDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doIceDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doPoisonDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doPoisonDamage(damage, apply, display);
+	protected function doLightningDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doLightningDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doWindDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doWindDamage(damage, apply, display);
+	protected function doDarknessDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doDarknessDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doWaterDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doWaterDamage(damage, apply, display);
+	protected function doPoisonDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doPoisonDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doEarthDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doEarthDamage(damage, apply, display);
+	protected function doWindDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doWindDamage(damage, apply, display, ignoreDR);
 	}
-	protected function doAcidDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
-		return combat.doAcidDamage(damage, apply, display);
+	protected function doWaterDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doWaterDamage(damage, apply, display, ignoreDR);
+	}
+	protected function doEarthDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doEarthDamage(damage, apply, display, ignoreDR);
+	}
+	protected function doAcidDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doAcidDamage(damage, apply, display, ignoreDR);
+	}
+	protected function doPlasmaDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doPlasmaDamage(damage, apply, display, ignoreDR);
+	}
+	protected function doBlackIceDamage(damage:Number, apply:Boolean = true, display:Boolean = false, ignoreDR:Boolean = false):Number {
+		return combat.doBlackIceDamage(damage, apply, display, ignoreDR);
+	}
+	protected function doPsychicDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
+		return combat.doPsychicDamage(damage, apply, display);
 	}
 	protected function doTrueDamage(damage:Number, apply:Boolean = true, display:Boolean = false):Number {
 		return combat.doTrueDamage(damage, apply, display);
-	}
-	protected function combatMiss():Boolean {
-		return combat.combatMiss();
 	}
 	protected function combatParry():Boolean {
 		return combat.combatParry();
@@ -120,9 +132,6 @@ public class BaseCombatContent extends BaseContent {
 	protected function spellCount():Number {
 		return player.spellCount();
 	}
-	protected function spellCountWhiteBlack():Number {
-		return player.spellCountWhiteBlack();
-	}
 	protected function spellPerkUnlock():void {
 		combat.spellPerkUnlock();
 	}
@@ -157,19 +166,28 @@ public class BaseCombatContent extends BaseContent {
 		return combat.bowCost(mod);
 	}
 	protected function soulskillCost():Number {
-		return combat.soulskillCost();
+		return combat.soulskills.soulskillCostImpl();
 	}
 	protected function soulskillcostmulti():Number {
-		return combat.soulskillcostmulti();
+		return combat.soulskills.soulskillcostmultiImpl();
 	}
 	protected function soulskillMod():Number {
-		return combat.soulskillMod();
+		return combat.soulskills.soulskillModImpl();
 	}
 	protected function soulskillPhysicalMod():Number {
-		return combat.soulskillPhysicalMod();
+		return combat.soulskills.soulskillPhysicalModImpl();
 	}
 	protected function soulskillMagicalMod():Number {
-		return combat.soulskillMagicalMod();
+		return combat.soulskills.soulskillMagicalModImpl();
+	}
+	protected function soulskillCooldown(duration:int = 2, physical:Boolean = true):Number {
+		return combat.soulskills.soulskillCooldownImpl(duration, physical);
+	}
+	protected function soulskillTier2Cooldown(duration:int = 4, physical:Boolean = true):Number {
+		return combat.soulskills.soulskillTier2CooldownImpl(duration, physical);
+	}
+	protected function soulskillTier3Cooldown(duration:int = 10, physical:Boolean = true):Number {
+		return combat.soulskills.soulskillTier3CooldownImpl(duration, physical);
 	}
 	protected function scalingBonusStrength(randomize:Boolean = true):Number {
 		return combat.scalingBonusStrength(randomize);
@@ -186,7 +204,7 @@ public class BaseCombatContent extends BaseContent {
 	protected function scalingBonusSpeed(randomize:Boolean = true):Number {
 		return combat.scalingBonusSpeed(randomize);
 	}
-	protected function scalingBonusIntelligence(randomize:Boolean = true):Number {
+	public function scalingBonusIntelligence(randomize:Boolean = true):Number {
 		return combat.scalingBonusIntelligence(randomize);
 	}
 	protected function scalingBonusIntelligenceCompanion(randomize:Boolean = true):Number {
@@ -194,6 +212,9 @@ public class BaseCombatContent extends BaseContent {
 	}
 	protected function scalingBonusWisdom(randomize:Boolean = true):Number {
 		return combat.scalingBonusWisdom(randomize);
+	}
+	protected function scalingBonusWisdomCompanion(randomize:Boolean = true):Number {
+		return combat.scalingBonusWisdomCompanion(randomize);
 	}
 	protected function scalingBonusLibido(randomize:Boolean = true):Number {
 		return combat.scalingBonusLibido(randomize);
@@ -204,10 +225,13 @@ public class BaseCombatContent extends BaseContent {
 	protected function rangePhysicalForce():Number {
 		return combat.rangePhysicalForce();
 	}
+	protected function firearmsForce():Number {
+		return combat.firearmsForce();
+	}
 	protected function spellCost(mod:Number):Number {
 		return combat.magic.spellCostImpl(mod);
 	}
-	protected function spellCostWhite(mod:Number):Number {
+	public function spellCostWhite(mod:Number):Number {
 		return combat.magic.spellCostWhiteImpl(mod);
 	}
 	protected function spellCostBlack(mod:Number):Number {
@@ -215,6 +239,9 @@ public class BaseCombatContent extends BaseContent {
 	}
 	protected function spellCostGrey(mod:Number):Number {
 		return combat.magic.spellCostGreyImpl(mod);
+	}
+	public function spellCostGreen(mod:Number):Number {
+		return combat.magic.spellCostGreenImpl(mod);
 	}
 	protected function healCost(mod:Number):Number {
 		return combat.magic.healCostImpl(mod);
@@ -243,11 +270,17 @@ public class BaseCombatContent extends BaseContent {
 	protected function spellModBlood():Number {
 		return combat.magic.spellModBloodImpl();
 	}
+	protected function spellModGreen():Number {
+		return combat.magic.spellModGreenImpl();
+	}
 	protected function spellBlackCooldown():Number {
 		return combat.magic.spellBlackCooldownImpl();
 	}
 	protected function spellBlackTier2Cooldown():Number {
 		return combat.magic.spellBlackTier2CooldownImpl();
+	}
+	protected function spellBlackTier3Cooldown():Number {
+		return combat.magic.spellBlackTier3CooldownImpl();
 	}
 	protected function spellGreyCooldown():Number {
 		return combat.magic.spellGreyCooldownImpl();
@@ -261,6 +294,12 @@ public class BaseCombatContent extends BaseContent {
 	protected function spellWhiteTier2Cooldown():Number {
 		return combat.magic.spellWhiteTier2CooldownImpl();
 	}
+	protected function spellWhiteTier3Cooldown():Number {
+		return combat.magic.spellWhiteTier3CooldownImpl();
+	}
+	protected function spellGenericCooldown():Number {
+		return combat.magic.spellGenericCooldownImpl();
+	}
 	protected function healMod():Number {
 		return combat.magic.healModImpl();
 	}
@@ -270,7 +309,7 @@ public class BaseCombatContent extends BaseContent {
 	protected function healModWhite():Number {
 		return combat.magic.healModWhiteImpl();
 	}
-	protected function calcInfernoMod(damage:Number, incCnt:Boolean):Number {
+	public function calcInfernoMod(damage:Number, incCnt:Boolean):Number {
 		return combat.magic.calcInfernoModImpl(damage, incCnt);
 	}
 	protected function calcGlacialMod(damage:Number, incCnt:Boolean):Number {
@@ -282,5 +321,49 @@ public class BaseCombatContent extends BaseContent {
 	protected function calcEclypseMod(damage:Number, incCnt:Boolean):Number {
 		return combat.magic.calcEclypseModImpl(damage, incCnt);
 	}
+	protected function calcTideMod(damage:Number, incCnt:Boolean):Number {
+		return combat.magic.calcTideModImpl(damage, incCnt);
+	}
+	protected function calcQuakeMod(damage:Number, incCnt:Boolean):Number {
+		return combat.magic.calcQuakeModImpl(damage, incCnt);
+	}
+	protected function calcGaleMod(damage:Number, incCnt:Boolean):Number {
+		return combat.magic.calcGaleModImpl(damage, incCnt);
+	}
+	protected function calcCorrosionMod(damage:Number, incCnt:Boolean):Number {
+		return combat.magic.calcCorrosionModImpl(damage, incCnt);
+	}
+
+	protected function maintainInfernoMod():void {
+        combat.magic.maintainInfernoModImpl();
+	}
+
+    protected function maintainGlacialMod():void {
+        combat.magic.maintainGlacialModImpl();
+	}
+
+    protected function maintainVoltageMod():void {
+        combat.magic.maintainVoltageModImpl();
+	}
+
+    protected function maintainEclypseMod():void {
+        combat.magic.maintainEclypseModImpl();
+    }
+
+    protected function maintainTideMod():void {
+        combat.magic.maintainTideModImpl();
+    }
+
+	protected function maintainQuakeMod():void {
+        combat.magic.maintainQuakeModImpl();
+    }
+
+	protected function maintainGaleMod():void {
+        combat.magic.maintainGaleModImpl();
+    }
+
+	protected function maintainCorrosionMod():void {
+        combat.magic.maintainCorrosionModImpl();
+    }
 }
 }

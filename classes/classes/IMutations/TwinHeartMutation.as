@@ -12,49 +12,38 @@ import classes.Races;
 
 public class TwinHeartMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Twin Heart";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier == 1){
-                descS = "+40% fatigue recovery and +5 to max tou/spe (scalable). +100% fatigue recovery, reduce Charge fatigue cost by 10% as well as its cooldown by 1 round so long as your body is tauric/drider. (Also raise all Taur race score by 1, by 2 as long pc is tauric/drider)";
+                descS = "+40% fatigue recovery, with tauric/drider body: +100% fatigue recovery, reduce Charge fatigue cost by ~10% as well as its cooldown by 1.";
             }
             if (pTier == 2){
-                descS = "+80% fatigue recovery and +15 to max tou/spe (scalable). +200% fatigue recovery, reduce Charge fatigue cost by 20%, increase damage by 20%, its cooldown by 2 rounds so long as your body is tauric/drider. (Also raise all Taur race score by 2, by 4 as long pc is tauric/drider)";
+                descS = "+80% fatigue recovery, with tauric/drider body: +200% fatigue recovery, reduce Charge fatigue cost by ~20% as well as its cooldown by 2, increase damage by 20%.";
             }
             if (pTier == 3){
-                descS = "+120% fatigue recovery and +45 to max tou/spe (scalable). +300% fatigue recovery, reduce Charge fatigue cost by 30%, increase damage by 80%, its cooldown by 3 rounds so long as your body is tauric/drider. (Also raise all Taur race score by 3, by 6 as long pc is tauric/drider)";
+                descS = "+120% fatigue recovery, with tauric/drider body: +300% fatigue recovery, reduce Charge fatigue cost by ~30% as well as its cooldown by 3, increase damage by 80%.";
             }
-            if (descS != "")descS += ".";
+            if (pTier == 4){
+                descS = "+160% fatigue recovery, with tauric/drider body: +400% fatigue recovery, reduce Charge fatigue cost by ~40% as well as its cooldown by 4, increase damage by 200%.";
+            }
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Twin Heart" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
                     this.requireAdaptationsMutationSlot()
                     .requireCustomFunction(function (player:Player):Boolean {
-                        return player.isRace(Races.CENTAUR) || player.isRace(Races.UNICORN, 2) || player.isRace(Races.SPHINX) || player.isRace(Races.CANCER) || player.isTaur() || player.isDrider();
+                        return player.isRace(Races.CENTAUR) || player.isRace(Races.UNICORN, 2) || player.isRace(Races.SPHINX) || player.isRace(Races.CANCER) || player.isRace(Races.SANDWORM) || player.isTaur() || player.isDrider();
                     }, "Taur/Drider or Unicorn/Bicorn race");
                 }
                 else{
@@ -67,9 +56,8 @@ public class TwinHeartMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) {
                 pBuffs['tou.mult'] = 0.05;
                 pBuffs['spe.mult'] = 0.05;
@@ -79,15 +67,18 @@ public class TwinHeartMutation extends IMutationPerkType
                 pBuffs['spe.mult'] = 0.15;
             }
             else if (pTier == 3) {
-                pBuffs['tou.mult'] = 0.45;
-                pBuffs['spe.mult'] = 0.45;
+                pBuffs['tou.mult'] = 0.35;
+                pBuffs['spe.mult'] = 0.35;
+            }
+            else if (pTier == 4) {
+                pBuffs['tou.mult'] = 0.75;
+                pBuffs['spe.mult'] = 0.75;
             }
             return pBuffs;
         }
 
         public function TwinHeartMutation() {
-            super("Twin Heart IM", "Twin Heart", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_ADAPTATIONS, 4);
         }
 
     }

@@ -5,10 +5,16 @@
 package classes.Scenes.Dungeons.BeeHive 
 {
 import classes.*;
+import classes.BodyParts.Antennae;
+import classes.BodyParts.Butt;
+import classes.BodyParts.Hips;
+import classes.BodyParts.LowerBody;
+import classes.BodyParts.Tail;
+import classes.BodyParts.Wings;
 import classes.Scenes.SceneLib;
 import classes.internals.ChainedDrop;
 	
-	public class DemonicBee extends BeeGuards {
+	public class DemonicBee extends Monster {
 		
 		public function demonicBeeStinger():void {
 			outputText("The demonic bee guard strikes through your defenses, trying to burrow her stinger in. ");
@@ -19,7 +25,7 @@ import classes.internals.ChainedDrop;
 				outputText("The arousal and pleasure spike from the aphrodisiac in the sting leaves you stunned.");
 				if (!player.hasPerk(PerkLib.Resolute)) player.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
 				createStatusEffect(StatusEffects.AbilityCooldown1,5,0,0,0);
-				player.dynStats("lus", 120 + rand(60));
+				player.takeLustDamage(120 + rand(60), true);
 			}
 		}
 		
@@ -33,7 +39,7 @@ import classes.internals.ChainedDrop;
 				var damage:Number = weaponAttack + str * 2 + rand(str);
 				damage = player.takePhysDamage(damage, true);
 				outputText("What's worse, she applied venom on it!");
-				player.dynStats("lus", 20 + rand(10));
+				player.takeLustDamage(20 + rand(10), true);
 			}
 		}
 		
@@ -58,10 +64,24 @@ import classes.internals.ChainedDrop;
 			this.a = "";
 			this.short = "Demonic bee";
 			this.long = "This bee guard is severely corrupted clearly having become an omnibus. Her bat shaped bee wings, unholy cock and demonic horns is a testament to how far she has fallen.";
+			this.createVagina(false, VaginaClass.WETNESS_SLAVERING, VaginaClass.LOOSENESS_GAPING);
+			createBreastRow(Appearance.breastCupInverse("D"));
 			this.createCock(12,2,CockTypesEnum.DEMON);
+			this.ass.analLooseness = AssClass.LOOSENESS_STRETCHED;
+			this.ass.analWetness = AssClass.WETNESS_NORMAL;
+			this.tallness = rand(14) + 59;
+			this.hips.type = Hips.RATING_CURVY + 3;
+			this.butt.type = Butt.RATING_EXPANSIVE;
+			this.lowerBody = LowerBody.BEE;
+			this.bodyColor = "yellow";
+			this.hairColor = randomChoice("black","black and yellow");
+			this.hairLength = 6;
 			initStrTouSpeInte(75, 180, 95, 45);
 			initWisLibSensCor(45, 180, 135, 100);
+			this.weaponName = "chitin-plated fist";
+			this.weaponVerb="armored punch";
 			this.weaponAttack = 19;
+			this.armorName = "chitin";
 			this.armorDef = 55;
 			this.armorMDef = 22;
 			this.bonusHP = 150;
@@ -73,6 +93,10 @@ import classes.internals.ChainedDrop;
 					.add(consumables.W__BOOK, 1 / 3)
 					.add(consumables.BEEHONY, 1 / 2)
 					.elseDrop(useables.B_CHITN);
+			this.antennae.type = Antennae.BEE;
+			this.wings.type = Wings.BEE_SMALL;
+			this.tailType = Tail.BEE_ABDOMEN;
+			this.tailVenom = 100;
 			checkMonster();
 		}
 		

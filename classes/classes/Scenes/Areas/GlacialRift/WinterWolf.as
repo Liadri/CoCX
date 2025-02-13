@@ -26,15 +26,19 @@ public class WinterWolf extends Monster
 			outputText("The wolf lunge, biting viciously at your leg.");
 			var dmgtaken:Number = 0;
 			var damage:Number = 0;
-			if(!player.hasStatusEffect(StatusEffects.Frostbite)) {
+			if(!player.hasStatusEffect(StatusEffects.FrostburnDoT)) {
 				outputText(" You feel the cold enter your body and shake you to the very core weakening your resolve just as much as slowing down your movement.");
 				if(player.str > 7) {
 					player.addCurse("str", 6,2);
 					showStatDown( 'str' );
-					player.createStatusEffect(StatusEffects.Frostbite,6,0,0,0);
+					if (!player.immuneToFrostBurn()) {
+						player.createStatusEffect(StatusEffects.FrostburnDoT,6,0,0,0);
+					}
 				}
 				else {
-					player.createStatusEffect(StatusEffects.Frostbite,0,0,0,0);
+					if (!player.immuneToFrostBurn()) {
+						player.createStatusEffect(StatusEffects.FrostburnDoT,0,0,0,0);
+					}
 					damage += 30 + Math.round(rand((str + weaponAttack) / 2));
 					player.takeIceDamage(damage);
 					dmgtaken += damage;
@@ -42,14 +46,14 @@ public class WinterWolf extends Monster
 				damage += 30 + Math.round(rand((str + weaponAttack) / 2));
 				player.takeIceDamage(damage);
 				dmgtaken += damage;
-				outputText(" (<b><font color=\"#800000\">" + damage + "</font></b>)");
+				outputText(" (<b>[font-damage]" + damage + "[/font]</b>)");
 			}
 			else {
 				outputText(" The coldness effects intensify as your movement slowing down even more.");
 				if(player.str > 6) {
 					player.addCurse("str", 5,2);
 					showStatDown( 'str' );
-					player.addStatusValue(StatusEffects.Frostbite,1,5);
+					player.addStatusValue(StatusEffects.FrostburnDoT,1,5);
 				}
 				else {
 					damage += 30 + Math.round(rand((str + weaponAttack) / 2));
@@ -59,7 +63,7 @@ public class WinterWolf extends Monster
 				damage += 30 + Math.round(rand((str + weaponAttack) / 2));
 				player.takeIceDamage(damage);
 				dmgtaken += damage;
-				outputText(" (<b><font color=\"#800000\">" + damage + "</font></b>)");
+				outputText(" (<b>[font-damage]" + damage + "[/font]</b>)");
 			}
 		}
 
@@ -100,7 +104,7 @@ public class WinterWolf extends Monster
 			this.hairColor = "glacial white";
 			this.hairLength = 8;
 			initStrTouSpeInte(400, 420, 375, 120);
-			initWisLibSensCor(100, 75, 150, 75);
+			initWisLibSensCor(100, 75, 150, 50);
 			this.weaponName = "paws";
 			this.weaponVerb="paw-slash";
 			this.weaponAttack = 274;
@@ -111,7 +115,6 @@ public class WinterWolf extends Monster
 			this.bonusLust = 324;
 			this.lust = 10;
 			this.lustVuln = 0.4;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 99;
 			this.additionalXP = 5000;
 			this.gems = 200 + rand(50);
@@ -131,7 +134,7 @@ public class WinterWolf extends Monster
 				{ call: wolfHold, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY], condition: function():Boolean { return player.tallness < 96 && !player.hasStatusEffect(StatusEffects.WolfHold) } },
 				{ call: paw, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY], condition: function():Boolean { return player.tallness < 72 && !hasStatusEffect(StatusEffects.AbilityCooldown1) } },
 				{ call: frostbite, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY,TAG_ICE], condition: function():Boolean { return player.hasStatusEffect(StatusEffects.WolfHold) }, weight:Infinity },
-			]
+			];
 			checkMonster();
 		}
 

@@ -17,7 +17,7 @@ public class PyreBurstSpell extends AbstractWhiteSpell {
 				: "Teach your foes a lesson with the strength of a firestorm.",
 			TARGET_ENEMY,
 			TIMING_INSTANT,
-			[TAG_DAMAGING, TAG_AOE, TAG_FIRE]
+			[TAG_DAMAGING, TAG_AOE, TAG_FIRE, TAG_TIER1]
 		);
 		baseManaCost = 200;
 		baseWrathCost = ex ? 100 : 0;
@@ -35,7 +35,15 @@ public class PyreBurstSpell extends AbstractWhiteSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return spellWhiteCooldown();
+		var calcC:int = 0;
+		calcC += spellWhiteCooldown();
+		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 18) {
+			if (player.level < 6) calcC -= 1;
+			if (player.level < 12) calcC -= 1;
+			calcC -= 1;
+			if (calcC < 0) calcC = 0;
+		}
+		return calcC;
 	}
 	
 	/**

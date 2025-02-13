@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Monsters 
+package classes.Scenes.Monsters
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -10,14 +10,14 @@ import classes.BodyParts.Hips;
 import classes.BodyParts.LowerBody;
 import classes.internals.*;
 
-public class DarkElfRanger extends DarkElfScout
+public class DarkElfRanger extends DarkElfs
 	{
 		override public function DarkElfBowShooting():void
 		{
 			var Acc:Number = 0;
 			Acc += (this.spe - player.spe);
 			if (Acc < 0) Acc = 0;
-			outputText("The black skinned elf aims her bow at you, drawing several arrows and starts shooting.\n\n");
+			outputText("The black skinned elf aims her bow at you, drawing several arrows and firing with expert precision.\n\n");
 			PoisonedBowShoot();
 			if (rand(100) < (90 + Acc)) PoisonedBowShoot();
 			else outputText("An arrow missed you.\n\n");
@@ -29,12 +29,12 @@ public class DarkElfRanger extends DarkElfScout
 			else outputText("An arrow missed you.\n\n");
 		}
 		
-		public function DarkElfRanger() 
+		public function DarkElfRanger()
 		{
 			this.a = "the ";
 			this.short = "dark elf ranger";
 			this.imageName = "dark elf";
-			this.long = "This woman with dark skin has long pointed ears. You suspect her to be a dark elf, though why she’s here on the surface, you have no idea. Regardless, she’s dangerous and seems well equipped for kidnapping.";
+			this.long = "This woman is a Dark elf. She's slender and elegant, with dark skin and long pointed ears. The look in her eyes, a mixture of bloodlust and greed, give her intentions away...as does her equipment. Ropes, poisoned arrows, she's come to the surface to capture slaves.";
 			this.createVagina(false, VaginaClass.WETNESS_SLAVERING, VaginaClass.LOOSENESS_NORMAL);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 30, 0, 0, 0);
 			createBreastRow(Appearance.breastCupInverse("DD"));
@@ -44,11 +44,11 @@ public class DarkElfRanger extends DarkElfScout
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE + 1;
 			this.lowerBody = LowerBody.ELF;
-			this.skinTone = "dark";
+			this.bodyColor = "dark";
 			this.hairColor = "silver";
 			this.hairLength = 13;
 			initStrTouSpeInte(90, 130, 190, 100);
-			initWisLibSensCor(100, 70, 80, 90);
+			initWisLibSensCor(100, 70, 80, 80);
 			this.weaponName = "dagger";
 			this.weaponVerb= "stab";
 			this.weaponAttack = 5;
@@ -58,11 +58,10 @@ public class DarkElfRanger extends DarkElfScout
 			this.armorName = "elven armor";
 			this.armorDef = 12;
 			this.armorMDef = 12;
-			this.bonusLust = 189;
+			this.bonusLust = 197;
 			this.lustVuln = .7;
 			this.lust = 50;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 39;
+			this.level = 47;
 			this.gems = rand(10) + 20;
 			this.drop = new WeightedDrop().
 					add(weaponsrange.BOWLIGH,1).
@@ -70,10 +69,10 @@ public class DarkElfRanger extends DarkElfScout
 			this.abilities = [
 				{ call: eAttack, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY]},
 				{ call: DarkElfBowShooting, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[TAG_WEAPON]},
-				{ call: AnkleShot, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[TAG_WEAPON], condition: !player.hasStatusEffect(StatusEffects.Sealed2)},
-				{ call: WingClip, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[TAG_WEAPON], condition: player.isFlying(), weight: Infinity}
-			]
+				{ call: AnkleShot, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[TAG_WEAPON], condition: function():Boolean{return!player.hasStatusEffect(StatusEffects.Sealed2)}},
+				{ call: WingClip, type: ABILITY_PHYSICAL, range: RANGE_RANGED, tags:[TAG_WEAPON], condition: function():Boolean{return player.isFlying()}, weight: Infinity}
+			];
 			checkMonster();
-		}	
+		}
 	}
 }

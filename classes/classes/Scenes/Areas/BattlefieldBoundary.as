@@ -3,149 +3,261 @@
  * Area with lvl 6-29 group enemies. Good for PC focused on group fights.
  * Currently a Work in Progress
  */
-package classes.Scenes.Areas 
+package classes.Scenes.Areas
 {
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
-import classes.CoC;
+import classes.Scenes.API.Encounters;
+import classes.Scenes.API.ExplorationEntry;
+import classes.Scenes.API.FnHelpers;
+import classes.Scenes.API.GroupEncounter;
 import classes.Scenes.Areas.Battlefield.*;
+import classes.Scenes.Camp.CampStatsAndResources;
+import classes.Scenes.NPCs.EtnaFollower;
 import classes.Scenes.SceneLib;
 
 use namespace CoC;
 	
 	public class BattlefieldBoundary extends BaseContent
 	{
-		
-		public function BattlefieldBoundary() 
-		{
+		public var battlefieldEnemiesScene:BattlefieldEnemiesScenes = new BattlefieldEnemiesScenes();
+
+		public function BattlefieldBoundary() {
+			onGameInit(init);
 		}
+
+		private var _battlefieldBoundaryEncounter:GroupEncounter = null;
+		private var _battlefieldLoot:GroupEncounter = null;
+		public function get battlefieldBoundaryEncounter():GroupEncounter {
+			return _battlefieldBoundaryEncounter;
+		}
+		public function get battlefieldLoot():GroupEncounter {
+			return _battlefieldLoot;
+		}
+
+		private function init():void {
+			const fn:FnHelpers = Encounters.fn;
+			_battlefieldLoot = Encounters.group("battlefieldLoot", {
+				name: "MG_SFRP",
+				label: "MGSFRPill",
+				kind  : 'item',
+				chance: 0.08,
+				when: fn.ifLevelMin(24,0),
+				call: curry(findItem, consumables.MG_SFRP)
+			}, {
+				name: "D_ARCON",
+				label: "Dil.ARC",
+				kind  : 'item',
+				chance: 0.08,
+				when: fn.ifLevelMin(24,0),
+				call: curry(findItem, consumables.D_ARCON)
+			}, {
+				name: "SPIL_SH",
+				label: "SpikeLShield",
+				kind  : 'item',
+				chance: 0.10,
+				when: fn.ifLevelMin(16,0),
+				call: curry(findItem, shields.SPIL_SH)
+			}, {
+				name: "LG_SFRP",
+				label: "LGSFRPill",
+				kind  : 'item',
+				chance: 0.17,
+				call: curry(findItem, consumables.LG_SFRP)
+			}, {
+				name: "VDARCON",
+				label: "V.D.ARC",
+				kind  : 'item',
+				chance: 0.17,
+				call: curry(findItem, consumables.VDARCON)
+			});
+			_battlefieldBoundaryEncounter = Encounters.group("batllefieldboundary", {
+				//Discover Outer Battlefield
+				name: "discoverOuter",
+				label : "New Area",
+				kind  : 'place',
+				unique: true,
+				chance: 30,
+				when: SceneLib.battlefiledouter.canDiscover,
+				call: SceneLib.battlefiledouter.discover
+			}, {
+				name: "metal",
+				label : "Scrap",
+				kind  : 'item',
+				chance: 0.4,
+				call: findMetalScrapBoundary
+			}, {
+				//Find Tripxi gun parts
+				name: "gunPart",
+				label : "Gun Parts",
+				kind  : 'item',
+				unique: true,
+				chance:30,
+				when: function ():Boolean {
+					return player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns6) && player.statusEffectv1(StatusEffects.TelAdreTripxiGuns6) == 0 && player.hasKeyItem("Twin Grakaturd") < 0
+				},
+				call: partsofTwinGrakaturd
+			}, {
+				//Dilapidated Shrine
+				name: "dilapidatedShrine",
+				label : "Dilapidated Shrine",
+				shortLabel: "D.Shrine",
+				kind  : 'place',
+				unique: true,
+				call: SceneLib.dilapidatedShrine.firstvisitshrineintro,
+				when: function ():Boolean {
+					return flags[kFLAGS.DILAPIDATED_SHRINE_UNLOCKED] == 1
+				},
+				chance: 0.2
+			}, battlefieldLoot, {
+				name: "nothing",
+				label : "Walk",
+				kind  : "walk",
+				call: findNothing
+			}, {
+				//Helia monogamy fucks
+				name: "helcommon",
+				label : "Helia",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				call: SceneLib.helScene.helSexualAmbush,
+				chance: battlefieldBoundaryChance,
+				when: SceneLib.helScene.helSexualAmbushCondition
+			}, {
+				name: "etna",
+				label : "Etna",
+				kind  : 'npc',
+				unique: true,
+				when: function ():Boolean {
+					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
+							&& flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
+							&& !player.hasStatusEffect(StatusEffects.EtnaOff);
+				},
+				chance: battlefieldBoundaryChance,
+				call: SceneLib.etnaScene.repeatYandereEnc
+			},  {
+				name: "nadia",
+				label : "Nadia",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function():Boolean {
+					return flags[kFLAGS.NADIA_FOLLOWER] < 6 && !(flags[kFLAGS.NADIA_FOLLOWER] != 3 && flags[kFLAGS.NADIA_LVL_UP] >= 8) && player.statusEffectv4(StatusEffects.CampSparingNpcsTimers2) < 1 && !player.hasStatusEffect(StatusEffects.NadiaOff);
+				},
+				chance: battlefieldBoundaryChance,
+				call: SceneLib.nadiaScene.repeatEnc
+			}, {
+				name: "nadiaName",
+				label : "Nadia",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function():Boolean {
+					return ((flags[kFLAGS.NADIA_FOLLOWER] < 3 || flags[kFLAGS.NADIA_FOLLOWER] == 5) && flags[kFLAGS.NADIA_LVL_UP] >= 8) && !player.hasStatusEffect(StatusEffects.NadiaOff) && player.statusEffectv4(StatusEffects.CampSparingNpcsTimers2) < 1;
+				},
+				chance: battlefieldBoundaryChance,
+				call: SceneLib.nadiaScene.postNameEnc
+			}, {
+				name: "ted",
+				label : "Dragon-Boy",
+				kind  : 'npc',
+				unique: true,
+				call: SceneLib.tedScene.introPostHiddenCave,
+				when: SceneLib.tedScene.canEncounterTed
+			}, SceneLib.exploration.commonGroupEncounters.withChanceFactor(0.1), {
+				name: "zombies",
+				label : "Zombies",
+				kind : 'monster',
+				chance: 0.4,
+				call: battlefieldEnemiesScene.encounterZombies,
+				when: battlefieldEnemiesScene.canEncounterZombies
+			}, {
+				name: "demonProjects",
+				label : "DemLab Subject",
+				kind  : 'monster',
+				chance: 0.2,
+				when: function ():Boolean {
+					return SceneLib.exploration.demonLabProjectEncountersEnabled();
+				},
+				call: SceneLib.exploration.demonLabProjectEncounters
+			});
+		}
+		
+		public const discoverLevel:int = 15;
+		public const areaLevel:int = 16;
+		public function isDiscovered():Boolean {
+			return SceneLib.exploration.counters.battlefieldBoundary > 0;
+		}
+		public function canDiscover():Boolean {
+			return !isDiscovered() && adjustedPlayerLevel() >= discoverLevel && SceneLib.desert.isDiscoveredOuter();
+		}
+		public function timesExplored():int {
+			return SceneLib.exploration.counters.battlefieldBoundary;
+		}
+		public function discover():void {
+			SceneLib.exploration.counters.battlefieldBoundary = 1;
+			clearOutput();
+			outputText("While exploring you run into the sight of endless field, littered with the remains of fallen soldiers from what appears to have been the demon war, this much do the horned skeletons tells. You can see some golem husk on the ground as well. It’s very plausible the war is still ongoing.\n\n<b>You've discovered the Battlefield (Boundary)!</b>");
+			endEncounter(60);
+		}
+		
 		
 		public function exploreBattlefieldBoundary():void {
-			flags[kFLAGS.DISCOVERED_BATTLEFIELD_BOUNDARY]++;
-			//Discover Outer Battlefield
-			if (flags[kFLAGS.DISCOVERED_OUTER_BATTLEFIELD] <= 0 && (player.level + combat.playerLevelAdjustment()) >= 19) {
-				flags[kFLAGS.DISCOVERED_OUTER_BATTLEFIELD] = 1;
-				player.explored++;
-				clearOutput();
-				outputText("As you explore the boundary of the endless field, you cautiously step over countless remains of fallen and golem husks littered across the ground. Treading further, you reach a part of the battlefield you haven't seen yet. The air is thick, and it constantly feels like you're being watched by something. Perhaps the war isn't quite finished yet...\n\n<b>You've discovered the (Outer) Battlefield!</b>");
-				doNext(camp.returnToCampUseOneHour);
-				return;
+			explorer.prepareArea(battlefieldBoundaryEncounter);
+			explorer.setTags("battlefield", "battlefieldBoundary");
+			explorer.prompt = "You explore the battlefield boundary.";
+			explorer.onEncounter = function(e:ExplorationEntry):void {
+				SceneLib.exploration.counters.battlefieldBoundary++;
 			}
-			//Twin Grakaturd
-			if (player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns6) && player.statusEffectv1(StatusEffects.TelAdreTripxiGuns6) == 0 && player.hasKeyItem("Twin Grakaturd") < 0 && rand(2) == 0) {
-				partsofTwinGrakaturd();
-				return;
-			}
-			//Helia monogamy fucks
-			if (flags[kFLAGS.PC_PROMISED_HEL_MONOGAMY_FUCKS] == 1 && flags[kFLAGS.HEL_RAPED_TODAY] == 0 && rand(10) == 0 && player.gender > 0 && !SceneLib.helFollower.followerHel()) {
-				SceneLib.helScene.helSexualAmbush();
-				return;
-			}
-			//Etna
-			if (flags[kFLAGS.ETNA_FOLLOWER] < 1 && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2 && !player.hasStatusEffect(StatusEffects.EtnaOff) && rand(5) == 0 && (player.level >= 20)) {
-				SceneLib.etnaScene.repeatYandereEnc();
-				return;
-			}
-			//Diana
-			if (flags[kFLAGS.DIANA_FOLLOWER] < 6 && player.statusEffectv4(StatusEffects.CampSparingNpcsTimers2) < 1 && !player.hasStatusEffect(StatusEffects.DianaOff) && rand(5) == 0) {
-                if ((flags[kFLAGS.DIANA_FOLLOWER] < 3 || flags[kFLAGS.DIANA_FOLLOWER] == 5) && flags[kFLAGS.DIANA_LVL_UP] >= 8)
-                    SceneLib.dianaScene.postNameEnc();
-                else
-				    SceneLib.dianaScene.repeatEnc();
-				return;
-			}
-			//Ted
-			if (SceneLib.tedScene.canEncounterTed() && rand(10) == 0) {
-				SceneLib.tedScene.introPostHiddenCave();
-				return;
-			}
-			//Dilapidated Shrine
-			if (flags[kFLAGS.DILAPIDATED_SHRINE_UNLOCKED] == 1 && rand(10) == 0) {
-				SceneLib.dilapidatedShrine.firstvisitshrineintro();
-				return;
-			}
-			
-			var choice:Array = [];
-			var select:int;
-			
-			//Build choice list!
-			choice[choice.length] = 0; //Golem group enemies
-			choice[choice.length] = 1; //Golem group enemies
-			choice[choice.length] = 2; //Golem group enemies
-			choice[choice.length] = 3; //Goblin/Imp group enemies
-			choice[choice.length] = 4; //Items
-			choice[choice.length] = 5; //Find nothing!
-			
-			select = choice[rand(choice.length)];
-			switch(select) {
-				case 0:
-				case 1:
-				case 2:
-					SceneLib.exploration.genericGolemsEncounters1();
-					break;
-				case 3:
-					SceneLib.exploration.genericGobImpEncounters1();
-					break;
-				case 4:
-					clearOutput();
-					if (rand(2) == 0) {
-						outputText("You spot something on the ground among various items remains. Taking a closer look, it's ");
-						if (rand(2) == 0) {
-							if (player.level >= 24 && rand(3) == 0) {
-								outputText("a mid-grade Soulforce Recovery Pill. ");
-								inventory.takeItem(consumables.MG_SFRP, camp.returnToCampUseOneHour);
-							}
-							else {
-								outputText("a low-grade Soulforce Recovery Pill. ");
-								inventory.takeItem(consumables.LG_SFRP, camp.returnToCampUseOneHour);
-							}
-						}
-						else {
-							if (player.level >= 24 && rand(3) == 0) {
-								outputText("a diluted Arcane Regen Concotion. ");
-								inventory.takeItem(consumables.D_ARCON, camp.returnToCampUseOneHour);
-							}
-							else {
-								outputText("a very diluted Arcane Regen Concotion. ");
-								inventory.takeItem(consumables.VDARCON, camp.returnToCampUseOneHour);
-							}
-						}
-					}
-					else {
-						if (player.level >= 16 && rand(5) == 0) {
-							outputText("You spot something on the ground among various items remains. Taking a closer look, it's a Light Spiked Shield. ");
-							inventory.takeItem(shields.SPIL_SH, camp.returnToCampUseOneHour);
-						}
-						else {
-							outputText("While exploring the battlefield you find the remains of some metal scraps. At first you think you won't find anything useful there but a metal plate draws your attention, it could be useful later. You put the item in your backpack and head back to camp.\n\n");
-							outputText("<b>You found a metal plate.</b>");
-							flags[kFLAGS.CAMP_CABIN_METAL_PIECES_RESOURCES]++;
-							doNext(camp.returnToCampUseOneHour);
-						}
-					}
-					break;
-				default:
-					clearOutput();
-					if (rand(4) == 0) {
-						outputText("You spend almost hour exploring this deserted battlefield but you don't manage to find anything interesting. After checking another pile of weapons you hear some noise coming from nearby. Intrigued you cautiously approach source of it, which turns to be... "+(rand(2) == 0?"demons":"imps")+". Whole group of them running straight at you. ");
-						outputText("As they approach you ready your [weapon] but... the first ones after reaching you jsut give you a short glance and just pass by. Then another one and one more pass you by almost looking like they just seen you as merely obstacle to avoid during their run. Then you hear some fragments of the words they seems to talks form time to time.\n\n");
-						outputText("\"<i>...ster or the fog will catch up to u...</i>\", \"<i>...ut there is <b>SOMETHING</b> insid...</i>\", \"<i>...us..t reeee....port b...</i>\"\n\n");
-						outputText("After last one of them pass you by they soon vanish into distance behind you. What just happened? Usualy laidback and horny " + (rand(2) == 0?"demons":"imps") + " was actualy running away? From fog? As you thinking over it you notice something moving slightly in the direction they came. ");
-						outputText("Some grey, maybe black colored shape seemly wiggling as it like moving in your direction."+(silly()?" Oh are you approaching me?":"")+" Bit tired and on the edge due to meeting potential enemies moments ago you decide to return this time. Maybe next time you will check out closer that 'fog' or whatever it's.");
-					}
-					else outputText("You spend an hour exploring this deserted battlefield but you don't manage to find anything interesting, yet this trip had made you a little wiser.");
-					dynStats("wis", .5);
-					doNext(camp.returnToCampUseOneHour);
-			}
+			explorer.leave.hint("Leave the battlefield boundary");
+			explorer.skillBasedReveal(areaLevel, timesExplored());
+			explorer.doExplore();
 		}
 		
+		public function battlefieldBoundaryChance():Number {
+			var temp:Number = 0.5;
+			temp *= player.npcChanceToEncounter();
+			return temp;
+		}
+
+		private function findItem(item:ItemType):void {
+			clearOutput();
+			outputText("You spot something on the ground among various items remains. Taking a closer look, it's ");
+			outputText(item.longName);
+			outputText(". ");
+			inventory.takeItem(item, explorer.done);
+		}
+		private function findMetalScrapBoundary():void {
+			clearOutput();
+			var mpa:Number = 2 + rand(2);
+			outputText("While exploring the battlefield you find the remains of some metal scraps. At first you think you won't find anything useful there but a metal plates draws your attention, it could be useful later. You put the item in your backpack and head back to camp.\n\n");
+			outputText("<b>You found "+mpa+" metal plates.</b>");
+			CampStatsAndResources.MetalPieces += mpa;
+			outputText("<b>(Metal plates: "+CampStatsAndResources.MetalPieces+"/200 total)</b>");//"+SceneLib.campUpgrades.checkMaterialsCapStones()+"
+			endEncounter();
+		}
+
+		private function findNothing():void {
+			clearOutput();
+			if (rand(4) == 0) {
+				outputText("You spend almost hour exploring this deserted battlefield but you don't manage to find anything interesting. After checking another pile of weapons you hear some noise coming from nearby. Intrigued you cautiously approach source of it, which turns to be... " + (rand(2) == 0 ? "demons" : "imps") + ". Whole group of them running straight at you. ");
+				outputText("As they approach you ready your [weapon] but... the first ones after reaching you jsut give you a short glance and just pass by. Then another one and one more pass you by almost looking like they just seen you as merely obstacle to avoid during their run. Then you hear some fragments of the words they seems to talks form time to time.\n\n");
+				outputText("\"<i>...ster or the fog will catch up to u...</i>\", \"<i>...ut there is <b>SOMETHING</b> insid...</i>\", \"<i>...us..t reeee....port b...</i>\"\n\n");
+				outputText("After last one of them pass you by they soon vanish into distance behind you. What just happened? Usualy laidback and horny " + (rand(2) == 0 ? "demons" : "imps") + " was actualy running away? From fog? As you thinking over it you notice something moving slightly in the direction they came. ");
+				outputText("Some grey, maybe black colored shape seemly wiggling as it like moving in your direction." + (silly() ? " Oh are you approaching me?" : "") + " Bit tired and on the edge due to meeting potential enemies moments ago you decide to return this time. Maybe next time you will check out closer that 'fog' or whatever it's.");
+			} else outputText("You spend an hour exploring this deserted battlefield but you don't manage to find anything interesting, yet this trip had made you a little wiser.");
+			dynStats("wis", .5);
+			endEncounter();
+		}
+
 		public function partsofTwinGrakaturd():void {
 			clearOutput();
 			outputText("As you explore the battlefield (boundary), you run into what appears to be the half buried remains of an old contraption. This might just be what that gun vendor was talking about! You proceed to dig up the items realizing this to indeed be the remains of a broken firearm.\n\n");
 			outputText("You carefully put the pieces of the Twin Grakaturd in your back and head back to your camp.\n\n");
 			player.addStatusValue(StatusEffects.TelAdreTripxi, 2, 1);
 			player.createKeyItem("Twin Grakaturd", 0, 0, 0, 0);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 	}
 }

@@ -90,7 +90,7 @@ public class AbstractFleshGargoyle extends Monster {
 		outputText(", dealing ");
 		player.takePhysDamage(damage, true);
 		outputText(" damage! The attack leaves you bleeding from deep wounds!");
-		player.createStatusEffect(StatusEffects.IzmaBleed, 3, 0, 0, 0);
+		if (!player.immuneToBleed()) player.createStatusEffect(StatusEffects.IzmaBleed, 3, 0, 0, 0);
 		if (crit == true) outputText(" <b>*Critical Hit!*</b>");
 		outputText("\n\n");
 	}
@@ -123,6 +123,7 @@ public class AbstractFleshGargoyle extends Monster {
 	
 	public function AbstractFleshGargoyle() 
 	{
+		createStatusEffect(StatusEffects.LowtierMagicImmunity, 0, 0, 0, 0);
 		createPerk(PerkLib.Resolute, 0, 0, 0, 0);
 		createPerk(PerkLib.Sentience, 0, 0, 0, 0);
 		createPerk(PerkLib.EnemyFleshConstructType, 0, 0, 0, 0);

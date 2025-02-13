@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Areas.Ashlands 
+package classes.Scenes.Areas.Ashlands
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -18,9 +18,7 @@ import classes.internals.*;
 		public function castArouse():void {
 			outputText("She makes a series of arcane gestures, drawing on her lust to inflict it upon you! ");
 			var lustDamage:int = (inte / 5) + rand(10);
-			lustDamage = lustDamage * (EngineCore.lustPercent() / 100);
-			player.dynStats("lus", lustDamage, "scale", false);
-			outputText(" <b>(<font color=\"#ff00ff\">" + (Math.round(lustDamage * 10) / 10) + "</font>)</b>");
+			player.takeLustDamage(lustDamage);
 			mana -= spellCostArouse;
 		}
 		
@@ -28,29 +26,33 @@ import classes.internals.*;
 		{
 			var damage:int = (inte * 1.1) + rand(25);
 			damage = Math.round(damage);
-			outputText("The hellcat cast a spell, materializing a fireball before throwing it at you. ");
+			outputText("The hellcat holds out her hand, a fireball forming in her palm. She launches the ball of molten heat your way.");
 			player.takeFireDamage(damage, true);
 		}
 		
 		public function hellcatInfernalClaw():void
 		{
-			outputText("The hellcat growls at you, unsheathing her claws which turns orange-red like hot irons as she enhances it with a dash of fire magic. She leaps forward and viciously attempts to rend you. ");
+			outputText("The hellcat growls at you, unsheathing her claws. She crouches, her claws beginning to glow with orange-red heat. The smell of molten iron fills the air as she pounces at you, claws outstretched. ");
 			var firedamage:int = (inte * 0.45) + rand(10);
 			firedamage = Math.round(firedamage);
 			player.takeFireDamage(firedamage, true);
-			if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
-			else player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			if (!player.immuneToBurn()) {
+				if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
+				else player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			}
 			var physdamage:Number = 0;
 			physdamage += eBaseDamage();
 			player.takePhysDamage(physdamage, true);
-			if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
-			else player.createStatusEffect(StatusEffects.Hemorrhage,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			if (!player.immuneToBleed()) {
+				if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
+				else player.createStatusEffect(StatusEffects.Hemorrhage, SceneLib.combat.debuffsOrDoTDuration(3), 0.05, 0, 0);
+			}
 			outputText(" Reeling in pain you begin to bleed and burn at the same time.");
 		}
 		
 		public function hellcatFelineCurse():void
 		{
-			outputText("The hellcat incants a curse and you suddenly shrink in size. To your complete horror, you realize she polymorphed you into a small housecat!");
+			outputText("The hellcat incants a curse. Your head reels as the world around you seems to grow. You fall, unable to balance as your [legs] give way. After a few seconds, you open your eyes, trying to rub them...but your arm isn't moving right. You look down and see...fuzzy paws. Cat paws. To your growing horror, you realize what she did. You're now a housecat!");
 			player.createStatusEffect(StatusEffects.Polymorphed, 3, 0, 0, 0);
 			createStatusEffect(StatusEffects.AbilityCooldown1, 8, 0, 0, 0);
 		}
@@ -87,12 +89,12 @@ import classes.internals.*;
 			SceneLib.ashlands.hellcatScene.DefeatedByHellCat();
 		}
 		
-		public function HellCat() 
+		public function HellCat()
 		{
 			this.a = "the ";
 			this.short = "hellcat";
 			this.imageName = "hellcat";
-			this.long = "Your opponent is a Hellcat, a fire witch with cat-like features. She would look like a standard catgirl if not for her ashen skin, fiery hair and blazing tail. Fire seeps up from the side corner of her ember-like black sclera eyes which glow with the dark promise of burning passion. The catgirl caster is clearly in heat and plans to vent it on you. Aside from her black hooded cape, she wears nothing to hide her modesty, displaying her D cup breast, drooling pussy and hardening cat cock for you to enjoy.";
+			this.long = "Your opponent is a Hellcat, a fire witch with cat-like features. She would look like a standard catgirl if not for her ashen skin, fiery hair and blazing tail. Fire seeps up from the side corner of her ember-like black sclera eyes which glow with the dark promise of burning passion. The catgirl caster is clearly in heat and plans to vent it on you. Aside from her black hooded cape, she wears nothing to hide her modesty, displaying her D cup breasts, drooling pussy and hardening cat cock for you to enjoy.";
 			// this.plural = false;
 			this.createCock(10,2.5,CockTypesEnum.CAT);
 			this.createVagina(false, VaginaClass.WETNESS_SLICK, VaginaClass.LOOSENESS_LOOSE);
@@ -105,11 +107,11 @@ import classes.internals.*;
 			this.hips.type = Hips.RATING_CURVY + 2;
 			this.butt.type = Butt.RATING_LARGE + 1;
 			this.tailType = Tail.BURNING;
-			this.skinTone = "ashen";
+			this.bodyColor = "ashen";
 			this.hairColor = "midnight black";
 			this.hairLength = 13;
 			initStrTouSpeInte(70, 70, 150, 210);
-			initWisLibSensCor(140, 145, 50, 80);
+			initWisLibSensCor(140, 145, 50, 70);
 			this.weaponName = "claws";
 			this.weaponVerb="slash";
 			this.weaponAttack = 2;
@@ -122,12 +124,13 @@ import classes.internals.*;
 			this.bonusLust = 241;
 			this.lust = 20;
 			this.lustVuln = .1;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.level = 46;
 			this.gems = rand(55) + 40;
-			this.drop = new WeightedDrop().add(consumables.W_FRUIT,5)
-					//.add(useables.T_SSILK,1)
-					.add(null,4);
+			this.drop = new WeightedDrop().addMany(5,
+					consumables.W_FRUIT,
+					weapons.H_WAND,
+					null)
+					.add(shields.NEKONOM, 1);
 			this.createPerk(PerkLib.FireNature, 0, 0, 0, 0);
 			checkMonster();
 		}

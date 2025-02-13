@@ -1,20 +1,18 @@
 package coc.view {
 import classes.CoC;
 import classes.GlobalFlags.kFLAGS;
-import classes.CoC;
 import classes.PerkLib;
 import classes.Player;
-import classes.Scenes.SceneLib;
 import classes.Stats.BuffableStat;
 import classes.Stats.IStat;
 import classes.Stats.PrimaryStat;
 import classes.Stats.StatUtils;
 import classes.internals.Utils;
 
-import flash.events.MouseEvent;
+import coc.model.TimeModel;
 
+import flash.events.MouseEvent;
 import flash.text.TextField;
-import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
@@ -55,11 +53,8 @@ public class StatsView extends Block {
 	private var manaBar:StatBar;
 	private var soulforceBar:StatBar;
 	private var hungerBar:StatBar;
-	private var esteemBar:StatBar;
-	private var willBar:StatBar;
-	private var obeyBar:StatBar;
 
-	private var allStats:Array;
+	private var allStats:/*StatBar*/Array;
 
 	private var col1:Block;
 	private var col2:Block;
@@ -154,6 +149,8 @@ public class StatsView extends Block {
 			bgColor : '#ff0000',
 			showMax : true
 		}));
+		hpBar.addEventListener("rollOver",Utils.curry(hoverStat,'hp'));
+		hpBar.addEventListener("rollOut",Utils.curry(hoverStat,'hp'));
 		col2.addElement(lustBar = new StatBar({
 			statName   : "Lust:",
 		//	barColor   : '#ff1493',
@@ -161,10 +158,14 @@ public class StatsView extends Block {
 			hasMinBar  : true,
 			showMax    : true
 		}));
+		lustBar.addEventListener("rollOver",Utils.curry(hoverStat,'minlust'));
+		lustBar.addEventListener("rollOut",Utils.curry(hoverStat,'minlust'));
 		col2.addElement(wrathBar = new StatBar({
 			statName: "Wrath:",
 			showMax : true
 		}));
+		wrathBar.addEventListener("rollOver",Utils.curry(hoverStat,'wrath'));
+		wrathBar.addEventListener("rollOut",Utils.curry(hoverStat,'wrath'));
 		col2.addElement(fatigueBar = new StatBar({
 			statName: "Fatigue:",
 			showMax : true
@@ -181,18 +182,6 @@ public class StatsView extends Block {
 		}));
 		col2.addElement(hungerBar = new StatBar({
 			statName: "Satiety:",
-			showMax : true
-		}));
-		col2.addElement(esteemBar = new StatBar({
-			statName: "Self Esteem:",
-			showMax : true
-		}));
-		col2.addElement(willBar = new StatBar({
-			statName: "Willpower:",
-			showMax : true
-		}));
-		col2.addElement(obeyBar = new StatBar({
-			statName: "Obedience:",
 			showMax : true
 		}));
 		///////////////////////////
@@ -226,6 +215,11 @@ public class StatsView extends Block {
 
 	
 	override public function set visible(value:Boolean):void {
+		if (visible != value) {
+			for each (var sb:StatBar in allStats) {
+				sb.animate = value && (CoC.instance.flags[kFLAGS.STATBAR_ANIMATIONS] == 0);
+			}
+		}
 		super.visible = value;
 		if (corner) corner.visible = visible;
 	}
@@ -287,12 +281,6 @@ public class StatsView extends Block {
 				return corner.xpBar;
 			case 'gems':
 				return corner.gemsBar;
-			case 'will':
-				return willBar;
-			case 'esteem':
-				return esteemBar;
-			case 'obey':
-				return obeyBar;
 			case 'spiritstones':
 				return corner.spiritstonesBar;
 		}
@@ -308,6 +296,9 @@ public class StatsView extends Block {
 		var stat:StatBar = statByName(statName);
 		if (stat) stat.isDown      = true;
 		else trace("[ERROR] Cannot showStatDown "+statName);
+	}
+	public function hungerBarIsVisible():Boolean {
+		return hungerBar.visible;
 	}
 	public function toggleHungerBar(show:Boolean):void {
 		hungerBar.visible = show;
@@ -328,15 +319,21 @@ public class StatsView extends Block {
 		wisBar.value          = player.wis;
 		libBar.maxValue       = player.libStat.max;
 		libBar.value          = player.lib;
-		senBar.maxValue       = player.sensStat.max;
-		senBar.value          = player.sens;
+		senBar.maxValue       = player.sens;
+		senBar.value          = player.effectiveSensitivity();
 		corBar.value          = player.cor;
+		var hpPercent:Boolean = game.flags[kFLAGS.HP_STATBAR_PERCENTAGE] == 1;
 		hpBar.maxValue        = player.maxHP();
 		hpBar.value           = player.HP;
+		hpBar.percentage	  = hpPercent;
+		var wrathPercent:Boolean = game.flags[kFLAGS.WRATH_STATBAR_PERCENTAGE] == 1;
 		wrathBar.maxValue 	  = player.maxWrath();
 		wrathBar.value    	  = player.wrath;
+		wrathBar.percentage	  = wrathPercent;
+		var lustPercent:Boolean = game.flags[kFLAGS.LUST_STATBAR_PERCENTAGE] == 1;
 		lustBar.maxValue      = player.maxLust();
 		lustBar.minValue      = player.minLust();
+		lustBar.percentage	  = lustPercent;
 		lustBar.value         = player.lust;
 		fatigueBar.maxValue   = player.maxFatigue();
 		fatigueBar.value      = player.fatigue;
@@ -352,36 +349,20 @@ public class StatsView extends Block {
 		} else {
 			hungerBar.statName = 'Satiety:';
 		}
-		var inPrison:Boolean          = SceneLib.prison.inPrison;
-		esteemBar.visible     		  = inPrison;
-		willBar.visible      		  = inPrison;
-		obeyBar.visible       		  = inPrison;
-		corner.levelBar.visible      		  = !inPrison;
-		corner.xpBar.visible         		  = !inPrison;
-		corner.gemsBar.visible       		  = !inPrison;
-		corner.spiritstonesBar.visible       = !inPrison;
-		if (inPrison) {
-			corner.advancementText.htmlText = "<b>Prison Stats</b>";
-			esteemBar.maxValue       = 100;
-			esteemBar.value          = player.esteem;
-			willBar.maxValue         = 100;
-			willBar.value            = player.will;
-			obeyBar.maxValue         = 100;
-			obeyBar.value            = player.obey;
+
+		corner.advancementText.htmlText = "<b>Advancement</b>";
+		corner.levelBar.value           = player.level;
+		if (player.negativeLevel) corner.levelBar.valueText = "(-" + player.negativeLevel + ") " + player.level;
+		if (player.level < CoC.instance.levelCap || player.negativeLevel > 0) {
+			corner.xpBar.maxValue = player.requiredXP();
+			corner.xpBar.value    = player.XP;
 		} else {
-			corner.advancementText.htmlText = "<b>Advancement</b>";
-			corner.levelBar.value           = player.level;
-			if (player.level < CoC.instance.levelCap) {
-				corner.xpBar.maxValue = player.requiredXP();
-				corner.xpBar.value    = player.XP;
-			} else {
-				corner.xpBar.maxValue  = player.XP;
-				corner.xpBar.value     = player.XP;
-				corner.xpBar.valueText = 'MAX';
-			}
-			corner.gemsBar.valueText = Utils.addComma(Math.floor(player.gems));
-			corner.spiritstonesBar.valueText = game.flags[kFLAGS.SPIRIT_STONES];
+			corner.xpBar.maxValue  = player.XP;
+			corner.xpBar.value     = player.XP;
+			corner.xpBar.valueText = 'MAX';
 		}
+		corner.gemsBar.valueText = Utils.addComma(Math.floor(player.gems));
+		corner.spiritstonesBar.valueText = game.flags[kFLAGS.SPIRIT_STONES];
 
 		var minutesDisplay:String = "" + game.model.time.minutes;
 		if (minutesDisplay.length == 1) minutesDisplay = "0" + minutesDisplay;
@@ -395,8 +376,11 @@ public class StatsView extends Block {
 			hrs  = (hours % 12 == 0) ? "12" : "" + (hours % 12);
 			ampm = hours < 12 ? "am" : "pm";
 		}
-		corner.timeText.htmlText = "<u>Day#: " + game.model.time.days + "</u>"+
-						"\nTime: " + hrs + ":" + minutesDisplay + ampm;
+		corner.timeText.htmlText = "<u>Days Passed: " + game.model.time.days + "</u>\n"
+			+ (CoC.instance.model.time.useRealDate() ? '' : '<u>Date: ' + TimeModel.formatDate(CoC.instance.model.time.date) + '</u>\n')
+			+ "Time: " + hrs + ":" + minutesDisplay + ampm;
+		corner.debugBuildVersion.htmlText = "CoCX: " + CoC.instance.debugGameVer +
+				", NG: "+ CoC.instance.flags[kFLAGS.NEW_GAME_PLUS_LEVEL];
 
 		invalidateLayout();
 	}
@@ -422,7 +406,7 @@ public class StatsView extends Block {
 			if (e.bar) e.bar.alpha    = style.barAlpha;
 			if (e.minBar) e.minBar.alpha = (1 - (1 - style.barAlpha) / 2); // 2 times less transparent than bar
 		}
-		for each(var tf:TextField in [nameText,coreStatsText,combatStatsText,corner.advancementText,corner.timeText]) {
+		for each(var tf:TextField in [nameText,coreStatsText,combatStatsText,corner.advancementText,corner.timeText,corner.debugBuildVersion]) {
 			dtf = tf.defaultTextFormat;
 			dtf.color = style.statTextColor;
 			tf.defaultTextFormat = dtf;
@@ -441,30 +425,56 @@ public class StatsView extends Block {
 					var stat:BuffableStat = astat as BuffableStat;
 					if (!stat) return;
 					if (!bar) return;
-					CoC.instance.mainView.toolTipView.header = bar.statName;
-					if (statname == "sens" || statname == "cor") isPositiveStat = false;
-					CoC.instance.mainView.toolTipView.text = StatUtils.describeBuffs(stat, false, isPositiveStat);
-					CoC.instance.mainView.toolTipView.showForElement(bar);
-					break;
+					if (statname == "sens" || statname == "cor" || statname == "minlust") isPositiveStat = false;
+					if (statname == "minlust") {
+						var lustValue:String = (CoC.instance.flags[kFLAGS.LUST_STATBAR_PERCENTAGE])? "Lust: " +
+							 Utils.formatNumber(Math.floor(player.lust)) + (bar.showMax ? '/' + Utils.formatNumber(player.maxLust()) : '') + "\n": "";
+						var text:String = lustValue + StatUtils.describeBuffs(stat, false, isPositiveStat);
+						player.listMinLustMultiBuffs();
+						text += StatUtils.describeBuffs(player.minLustXStat, true, isPositiveStat);
+						CoC.instance.mainView.toolTipView.showForElement(
+								bar,
+								bar.statName,
+								text);
+					}
+					else {
+						CoC.instance.mainView.toolTipView.showForElement(
+								bar,
+								bar.statName,
+								StatUtils.describeBuffs(stat, false, isPositiveStat));
+					}
 				} else if (astat is PrimaryStat) {
 					var primStat:PrimaryStat = astat as PrimaryStat;
 					if (!primStat) return;
-					CoC.instance.mainView.toolTipView.header = bar.statName;
 					if (statname == "sens" || statname == "cor") isPositiveStat = false;
+					var s:String = "Core: "+primStat.core.value+"/"+primStat.core.max+". ";
+					s += "Training: "+primStat.train.value+"/"+primStat.train.max+". ";
 					if (statname == "tou" && (player.hasPerk(PerkLib.IcyFlesh) || player.hasPerk(PerkLib.HaltedVitals))) {
-						CoC.instance.mainView.toolTipView.text = "Base: "+primStat.core.value+"\n" +
-								"You are currently in a state of undeath and cannot benefit from bonus to toughness.";
+						s += "\nYou are currently in a state of undeath and cannot benefit from bonus to toughness.";
+					} else {
+						s += "\n" +
+								"" + StatUtils.describeBuffs(primStat.bonus, false, isPositiveStat) + "" +
+								"" + StatUtils.describeBuffs(primStat.mult, true, isPositiveStat) + "";
 					}
-					else{
-						CoC.instance.mainView.toolTipView.text = "Base: "+primStat.core.value+"\n" +
-								""+StatUtils.describeBuffs(primStat.bonus, false, isPositiveStat)+"" +
-								""+StatUtils.describeBuffs(primStat.mult, true, isPositiveStat)+"";
-					}
-					CoC.instance.mainView.toolTipView.showForElement(bar);
-					break;
+					CoC.instance.mainView.toolTipView.showForElement(bar,bar.statName,s);
+				} else if (statname == "hp") {
+					if (!bar) return;
+					if (!CoC.instance.flags[kFLAGS.HP_STATBAR_PERCENTAGE]) return;
+					var hpText:String = "HP: " + Utils.formatNumber(Math.floor(player.HP)) + (bar.showMax ? '/' + Utils.formatNumber(player.maxHP()) : '');
+					CoC.instance.mainView.toolTipView.showForElement(bar,bar.statName,hpText);
+				} else if (statname == "wrath") {
+					if (!bar) return;
+					if (!CoC.instance.flags[kFLAGS.WRATH_STATBAR_PERCENTAGE]) return;
+					var wrathText:String = "Wrath: " + Utils.formatNumber(Math.floor(player.wrath)) + (bar.showMax ? '/' + Utils.formatNumber(player.maxWrath()) : '');
+					CoC.instance.mainView.toolTipView.showForElement(bar,bar.statName,wrathText);
 				}
+				break;
 			case MouseEvent.ROLL_OUT:
 				CoC.instance.mainView.toolTipView.hide();
+				if (statname == "minlust") {
+					player.minLustStat.removeCombatRoundTrackingBuffs();
+					player.minLustXStat.removeCombatRoundTrackingBuffs();
+				}
 				break;
 		}
 	}

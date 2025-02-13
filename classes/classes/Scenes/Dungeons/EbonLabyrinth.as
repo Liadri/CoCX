@@ -1,14 +1,12 @@
 /**
  * Quest Dungeon: The Ebon Labyrinth (for Alvina Black Rose Quest)
- * @author Liadri
+ * @author Liadri, reworked by Svalkash
  */
 package classes.Scenes.Dungeons
 {
-import classes.CockTypesEnum;
 import classes.EventParser;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
-import classes.PerkLib;
 import classes.Races;
 import classes.Scenes.Areas.BlightRidge.Incubus;
 import classes.Scenes.Areas.BlightRidge.Omnibus;
@@ -26,7 +24,7 @@ import classes.display.SpriteDb;
 public class EbonLabyrinth extends DungeonAbstractContent {
     //FLAGS:
     //EBON_LABYRINTH: 0 - not discovered, 1 - discovered, 50 / 150 / 300 / 150*x - AWARDED levels
-    //EBON_LABYRINTH_RECORD — max reached level. Used for achievements only.
+    //EBON_LABYRINTH_RECORD — max reached level. Used for achievements or unlocking waypoints.
 
     //Current room number
     public var room:int = 1;
@@ -61,14 +59,15 @@ public class EbonLabyrinth extends DungeonAbstractContent {
 
     //Scene instances
     public var chaosChimeraScene:ChaosChimeraScene = new ChaosChimeraScene();
+    public var mindbreakerScene:MindbreakerScene = new MindbreakerScene();
 
     public var darkSlimeEmpressScene:DarkSlimeEmpressScene = new DarkSlimeEmpressScene();
     public var hydraScene:HydraScene = new HydraScene();
     public var hellfireSnailScene:HellfireSnailScene = new HellfireSnailScene();
-
     public var eyeTyrantScene:EyeTyrantScene = new EyeTyrantScene();
     public var atlachNachaScene:AtlachNachaScene = new AtlachNachaScene();
     public var livingFailureScene:LivingFailureScene = new LivingFailureScene();
+    public var draculinaScene:DraculinaScene = new DraculinaScene();
 
     /*
     //Boss tracker
@@ -81,7 +80,7 @@ public class EbonLabyrinth extends DungeonAbstractContent {
     public var bossTracker:int  = 0;
     //containts the references... right?
     private var bossPool:Array;
-    
+
     public function EbonLabyrinth() {
         //init boss arrays.
         bossPool = [];
@@ -93,7 +92,8 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         bossPool[2] = [
             [3, eyeTyrantScene.encounter],
             [4, atlachNachaScene.encounter],
-            [5, livingFailureScene.encounter]
+            [5, livingFailureScene.encounter],
+			[6, draculinaScene.encounter]
         ];
         bossPool[0] = bossPool[1].concat(bossPool[2]);
     }
@@ -109,6 +109,7 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         outputText("You find the entrance to what appears to be a tunnel made of stone. This place looks man made as if carved by humanoid hands yet sports no decoration. Just empty linear corridors and corners dimly lit by magical torches. On a wall you find a sign reading ");
         outputText("-Woe to whom seeketh the black rose. Thy who enter beware, while riches you may find, death lurks in the Labyrinth's deepest reaches. It ever hungers.- how charming. The ruin of an old campfire is all that's left of the previous adventurers to come here.\n\n");
         outputText("<b>You found the Ebon Labyrinth.</b>\n\n");
+        explorer.stopExploring();
         doNext(enterDungeon);
     }
 
@@ -150,8 +151,9 @@ public class EbonLabyrinth extends DungeonAbstractContent {
             addButton(13, "Down", navigateToRoomEL, DIR_DOWN).hint("Descend even deeper. The monsters will be tougher, but you'll always be able to climb back.");
         }
         addButtonIfTrue(0, "Sleep", doSleepEL, "It's still too early to go to sleep.",
-            model.time.hours >= 21 || model.time.hours < 6,  "Turn yourself in for the night. May result in monster ambush!");
-        addButtonIfTrue(5, "Masturbate", SceneLib.masturbation.masturbateGo, "Req. 30+ lust.", player.lust >= 30);
+                isNightTime,  "Turn yourself in for the night. May result in monster ambush!");
+        SceneLib.masturbation.masturButton(5);
+		if (room == 1) addButtonIfTrue(7, "Cat", shortcuts, "You not even beaten ANY boss yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 50, "Talk to the cat only if you plan skip some rooms.");
         addButton(9, "Inventory", inventory.inventoryMenu);
         addButton(14, "Exit", confirmExit);
         dungeons.setTopButtons();
@@ -162,7 +164,29 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         outputText("<b>Are you sure about that?</b>");
         doYesNo(exitDungeon, playerMenu);
     }
-		
+	
+	public function shortcuts():void {
+		statScreenRefresh();
+        hideUpDown();
+        spriteSelect(null);
+		outputText("\n\nYou are facing a cat-morph. She would looks quite average if not for black stripes on purple fur. Without any sound she points behind her and then vanishing.");
+        menu();
+		addButton(0, "50", navigateToRoomEL050).hint("Skip 50 rooms but beware of the boss at the end of this detour.");
+		addButtonIfTrue(1, "100", navigateToRoomEL100, "You not even beaten 2 bosses yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 100, "Skip 100 rooms but beware of the boss at the end of this detour.");
+		addButtonIfTrue(2, "150", navigateToRoomEL150, "You not even beaten 3 bosses yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 150, "Skip 150 rooms but beware of the boss at the end of this detour.");
+		addButtonIfTrue(3, "200", navigateToRoomEL200, "You not even beaten 4 bosses yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 200, "Skip 200 rooms but beware of the boss at the end of this detour.");
+		addButtonIfTrue(4, "250", navigateToRoomEL250, "You not even beaten 5 bosses yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 250, "Skip 250 rooms but beware of the boss at the end of this detour.");
+		addButtonIfTrue(5, "300", navigateToRoomEL300, "You not even beaten 6 bosses yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 300, "Skip 300 rooms but beware of the boss at the end of this detour.");
+		addButtonIfTrue(6, "350", navigateToRoomEL350, "You not even beaten 7 bosses yet.", flags[kFLAGS.EBON_LABYRINTH_RECORD] >= 350, "Skip 350 rooms but beware of the boss at the end of this detour.");
+	}
+	
+	public function returnFromDraculinaRoom():void {
+		clearOutput();
+		outputText("You not open boss room door and return to previous room.");
+		room -= 1;
+		doNext(playerMenu);
+	}
+
     //Player menu. Doesn't start any encounters.
     //Can print stuff is called with 'true' and new direction.
     public function roomStatic(move:Boolean = false, newDir:int = DIR_DOWN):void {
@@ -198,14 +222,14 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         //unique buttons
         if (fountainRoom) addButton(10, "Fountain", encountersUpgradeFountain, true);
     }
-	
+
     //Navigation function. Increments the counter and checks the encounters.
     public function navigateToRoomEL(newDir:int):void {
         //clear room-specific
         fountainRoom = false;
         //move
         ++room;
-        eachMinuteCount(15);
+        advanceMinutes(15);
         //modify enemy level
         if (newDir == DIR_DOWN)
             ++depth;
@@ -218,7 +242,49 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         }
         //static otherwise
         roomStatic(true, newDir);
+        goNext(false);
     }
+	public function navigateToRoomEL050():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(50);
+	}
+	public function navigateToRoomEL100():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(100);
+	}
+	public function navigateToRoomEL150():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(150);
+	}
+	public function navigateToRoomEL200():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(200);
+	}
+	public function navigateToRoomEL250():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(250);
+	}
+	public function navigateToRoomEL300():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(300);
+	}
+	public function navigateToRoomEL350():void {
+		//clear room-specific
+        fountainRoom = false;
+        navigateToXRoom(350);
+	}
+	private function navigateToXRoom(rooms:Number = 50):void {
+		//move
+        room += rooms;
+		resetEncChance();
+        bossSelector(0);
+	}
 
     //if a new highscore is set, checks achievements
     public function highScore():void {
@@ -244,13 +310,16 @@ public class EbonLabyrinth extends DungeonAbstractContent {
                 case 300:
                     awardAchievement("Why are you here?", kACHIEVEMENTS.DUNGEON_WHY_ARE_YOU_HERE);
                     break;
+                case 350:
+                    awardAchievement("We need to go deeper!", kACHIEVEMENTS.DUNGEON_WE_NEED_TO_GO_DEEPER);
+                    break;
             }
             //award checking
             if (dungeons.checkEbonLabyrinthNotAwarded())
                 outputText("<b>New awards are available in 'Questlog' menu!</b>\n\n");
             //cleared message
             //check if unlocked
-            if (room == dungeons.clearRoomEL()) { //first time level 300
+            if (room == dungeons.clearRoomEL()) { //first time room 351
                 outputText("\n\nYou notice the familiar patterns in the corridors. Seems like you won't be able to find anything special down there. Or will you? The corridor slowly but inevitably leads you deeper underground, and the monsters slowly become stronger there. You're sure you'll still encounter big ones sometimes, no matter if you're looking forward to it or not. Focusing your attention, you can even hear the faint sounds of water far ahead - could it be that the fountain you just stumbled upon wasn't the only one in the labyrinth?");
                 outputText("\n\nInvestigating your surroundings, you notice a small ladder leading down. You're sure the room below is still a part of the labyrinth, but loud noices warn you that that part is much deeper. The ladder is durable though - you can always return back up... unless you descend even deeper through these intertwined corridors.");
                 outputText("\n\n<b>Labyrinth is (semi-)cleared. Endless mode unlocked!</b>");
@@ -262,73 +331,12 @@ public class EbonLabyrinth extends DungeonAbstractContent {
     public function doSleepEL():void {
         clearOutput();
         if (rand(2) == 0) {
-            eachMinuteCount(15);
+            advanceMinutes(15);
             outputText("You ready your bedroll and go to sleep, keen on continuing your exploration tomorrow. Sadly as you prepare to lay down, a creature from the labyrinth stumbles upon your makeshift camp and you are forced to defend yourself.\n");
             enemySelector(false);
             return;
         }
-        //normal sleep
-        //FUCK, LEARN ARITHMETICS
-        var timeQ:Number = 24 + 6 - model.time.hours;
-        if (player.isGargoyle()) outputText("You sit on your pedestal, your body petrifying like stone as you go to sleep, keen on continuing your exploration tomorrow.\n");
-        else if (player.isAlraune()) outputText("You lie down in your pitcher, dozing off for the night as you close off your petals to sleep.\n");
-        else outputText("You ready your bedroll and go to sleep, keen on continuing your exploration tomorrow.\n");
-        var multiplier:Number = 1.0;
-        var fatRecovery:Number = 20;
-        var hpRecovery:Number = 20;
-        if (player.level >= 24) {
-            fatRecovery += 10;
-            hpRecovery += 10;
-        }
-        if (player.level >= 42) {
-            fatRecovery += 10;
-            hpRecovery += 10;
-        }
-        if (player.hasPerk(PerkLib.SpeedyRecovery)) fatRecovery += 5;
-        if (player.hasPerk(PerkLib.SpeedyRecuperation)) fatRecovery += 10;
-        if (player.hasPerk(PerkLib.SpeedyRejuvenation)) fatRecovery += 20;
-        if (player.hasPerk(PerkLib.ControlledBreath)) fatRecovery *= 1.1;
-        if (player.hasStatusEffect(StatusEffects.BathedInHotSpring)) fatRecovery *= 1.2;
-        if (player.hasPerk(PerkLib.RecuperationSleep)) multiplier += 1;
-        if (player.hasPerk(PerkLib.RejuvenationSleep)) multiplier += 2;
-        if (flags[kFLAGS.HUNGER_ENABLED] > 0) {
-            if (player.hunger < 25) {
-                outputText("\nYou have difficulty sleeping as your stomach is growling loudly.\n");
-                multiplier *= 0.5;
-            }
-        }
-        //Marble withdrawl
-        if(player.hasStatusEffect(StatusEffects.MarbleWithdrawl)) {
-            outputText("\nYour sleep is very troubled, and you aren't able to settle down. You get up feeling tired and unsatisfied, always thinking of Marble's milk.\n");
-            multiplier *= 0.5;
-            player.addCurse("tou", 0.1, 2);
-            player.addCurse("int", 0.1, 2);
-        }
-        //Mino withdrawal
-        else if(flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] == 3) {
-            outputText("\nYou spend much of the night tossing and turning, aching for a taste of minotaur cum.\n");
-            multiplier *= 0.75;
-        }
-        //Bee cock
-        if (player.hasCock() && player.cocks[0].cockType == CockTypesEnum.BEE) {
-            outputText("\nThe desire to find the bee girl that gave you this cursed [cock] and have her spread honey all over it grows with each passing minute\n");
-        }
-        //Starved goo armor
-        if (player.armor == armors.GOOARMR && flags[kFLAGS.VALERIA_FLUIDS] <= 0) {
-            outputText("\nYou feel the fluid-starved goo rubbing all over your groin as if Valeria wants you to feed her.\n");
-        }
-        HPChange((timeQ * hpRecovery * multiplier), false);
-        fatigue( -(timeQ * fatRecovery * multiplier));
-        model.time.hours += timeQ;
-        SceneLib.combat.regeneration1(false);
-        if (player.hasPerk(PerkLib.JobSoulCultivator)) SceneLib.combat.soulforceregeneration1(false);
-        if (player.hasPerk(PerkLib.JobSorcerer)) SceneLib.combat.manaregeneration1(false);
-        SceneLib.combat.wrathregeneration1(false);
-        SceneLib.combat.fatigueRecovery1(false);
-        if (model.time.hours > 23) {
-            model.time.hours -= 24;
-            model.time.days++;
-        }
+        camp.cheatSleepUntilMorning(); //Let's not overcomplicate it, okay?
         doNext(playerMenu);
     }
 
@@ -340,12 +348,13 @@ public class EbonLabyrinth extends DungeonAbstractContent {
     public function selectEncounter():Boolean {
         //Every 50 levels - boss
         if (room % 50 == 0) {
-            resetEncChance();
+            resetEncChance();/*
             //if not completed - select from tiers
             if (!dungeons.checkEbonLabyrinthClear())
                 bossSelector(room <= 150 ? 1 : 2);
             else//cleared - anything, but avoid making tier2 bosses too weak
-                bossSelector(enemyLevelMod < 3 ? 1 : 0);
+                bossSelector(enemyLevelMod < 3 ? 1 : 0);*/
+			bossSelector(0);
             return true;
         }
         //Every 10 rooms (not boss) - chest
@@ -394,9 +403,10 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         addButton(0, "Dip Item", CelessScene.itemImproveMenu, 1, fountainCorrupt);
         addButton(4, "Back", playerMenu);
     }
-	
+
     private function encountersFountainOfPurity():void {
         player.addStatusValue(StatusEffects.RathazulAprilFool, 3, 1);
+        clearOutput();
         outputText("As you explore the labyrinth you stumble upon what appears to be a room with fountain of purity.\n\n");
         outputText("<b>You've collected a vial from the fountain of purity.</b> It's time to bring it back to Rathazul.\n\n");
         doNext(roomStatic);
@@ -439,16 +449,16 @@ public class EbonLabyrinth extends DungeonAbstractContent {
     //selects an enemy and starts the encounter
     //'print' argument disables printing (used for night ambushes)
     private function enemySelector(print:Boolean = true):void {
-        var choices:Array = [displacerEL, darkSlimeEL, succubusEL, incubusEL, amogusEL, tentabeastEL, minotaurEL];
+        var choices:Array = [displacerEL, darkSlimeEL, succubusEL, incubusEL, amogusEL, tentabeastEL, minotaurEL, mindbreakerEL];
         choices[rand(choices.length)](print);
     }
-    
+
     //==================================================================================================
     //Random enemy attacks (one-liners, not worth moving into classes)
     //==================================================================================================
-    
+
     private function displacerEL(print:Boolean = true):void {
-        
+
         if (print) {
             clearOutput();
             outputText("You turn around the corner and come face to face with a greyish six armed catgirl. She would be terrifying already even without the two tentacles on her back that writhe in excitation. Readying for battle is the best you can do as the beast woman charges you with a gleam of hunger in her feral eyes.");
@@ -457,21 +467,22 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         startCombat(new DisplacerBeast(), true);
     }
     private function darkSlimeEL(print:Boolean = true):void {
-        if (player.isRace(Races.SLIME) || player.isRace(Races.MAGMASLIME) || player.isRace(Races.DARKSLIME)) {
+        if (player.isRace(Races.SLIME, 1, false) || player.isRace(Races.MAGMASLIME, 1, false) || player.isRace(Races.DARKSLIME, 1, false)) {
             if (!print) {
                 minotaurEL(false); //replace - slime won't attack another slime
                 return;
             }
-            spriteSelect(SpriteDb.s_darkgoogirlsprite_16bit);
+            spriteSelect(SpriteDb.s_darkgoogirlsprite);
             clearOutput();
-            outputText("You take the turn at the end of the corridor and run right into a dark slime. For a few second the both of you consider each other before the slime shrugs and simply asks.\n\n");
+            outputText("You take the turn at the end of the corridor and run right into a dark slime. For a few second both of you consider each other before the slime shrugs and simply asks.\n\n");
             outputText("\"<i>No luck finding fluids that way?</i>\"");
             outputText("You didn’t find any and if you did you would have pumped it out until it ran dry.\n\n");
             outputText("\"<i>Well darn, if you spot a fleshling do share!</i>\"");
             outputText("Well that was easy… you can only guess slimes don’t get much out of other slimes’ bodies. You proceed deeper into the labyrinth unhindered, though, you wish you indeed had found someone to milk the fluids off.\n\n");
+            doNext(playerMenu);
         }
         else {
-            spriteSelect(SpriteDb.s_darkgoogirlsprite_16bit);
+            spriteSelect(SpriteDb.s_darkgoogirlsprite);
             if (print) {
                 clearOutput();
                 outputText("As you wander into a new corridor, you come face to face with a purplish jelly-like woman. She giggles upon spotting you, her small, sphere-shaped core emitting an ominous light as she surges toward you with a gooey smile.\n\n");
@@ -516,11 +527,18 @@ public class EbonLabyrinth extends DungeonAbstractContent {
         }
         startCombat(new Minotaur(), true);
     }
+    private function mindbreakerEL(print:Boolean = true):void {
+        if (print) {
+            clearOutput();
+            mindbreakerScene.encounter();
+        }
+        startCombat(new MindbreakerFemale(), true);
+    }
 
     //==================================================================================================
     //Shit
     //==================================================================================================
-	
+
     //rework this to SceneLib, please
     public function defeatedByStrayDemon():void {
         clearOutput();//succubus, incibus or omnibus

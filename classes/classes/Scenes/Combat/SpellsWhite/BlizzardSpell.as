@@ -7,7 +7,7 @@ public class BlizzardSpell extends AbstractWhiteSpell {
 	public function BlizzardSpell() {
 		super(
 			"Blizzard",
-			"Blizzard is a potent ice based defense spell that will reduce power of any fire based attack used against the user.",
+			"Blizzard is a potent ice based defense spell that will reduce the power of any fire based attack used against the user.",
 			TARGET_SELF,
 			TIMING_LASTING,
 			[TAG_BUFF, TAG_ICE]
@@ -47,7 +47,7 @@ public class BlizzardSpell extends AbstractWhiteSpell {
 		var blizzardmagnitude:Number = 0;
 		if (player.hasPerk(PerkLib.ColdMastery) || player.hasPerk(PerkLib.ColdAffinity)) blizzardmagnitude += 2 + player.inte / 10;
 		else blizzardmagnitude += 1 + player.inte / 25;
-		if (player.hasPerk(PerkLib.DefensiveStaffChanneling)) blizzardmagnitude *= 1.1;
+		if (player.hasPerk(PerkLib.DefensiveStaffChanneling) && (player.weapon.isStaffType() || player.weaponOff.isStaffType() || player.weapon.isWandType() || player.weaponOff.isWandType())) blizzardmagnitude *= 1.2;
 		player.createStatusEffect(StatusEffects.Blizzard, Math.round(blizzardmagnitude), 0, 0, 0);
 	}
 }

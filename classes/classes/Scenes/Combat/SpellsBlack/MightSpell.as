@@ -59,15 +59,15 @@ public class MightSpell extends AbstractBlackSpell {
 	public function calcBoost():Number {
 		var MightBoostCap:Number = 1.5;
 		if (player.hasPerk(PerkLib.SelfbuffsProficiency)) {
-			var capB:Number = 1.2;
-			if (player.hasPerk(PerkLib.SelfbuffsProficiencyEx)) capB += 0.8;
+			var capB:Number = 1.3;
+			if (player.hasPerk(PerkLib.SelfbuffsProficiencyEx)) capB += 0.7;
 			if (player.hasPerk(PerkLib.SelfbuffsProficiencySu)) capB *= 5;
 			MightBoostCap *= capB;
 		}
 		MightBoostCap *= player.intStat.core.max;
 		MightBoostCap            = Math.round(MightBoostCap);
 		var MightBoost:Number    = player.intStat.core.value;
-		//MightBoost += Math.round(player.intStat.max * 0.1); - może tylko jak bedzie mieć perk z prestige job: magus / warock / inny związany z spells
+		//MightBoost += Math.round(player.intStat.max * 0.1); - może tylko jak bedzie mieć perk z prestige job: magus / warock / inny związany z spells (maybe only when they have a perk from the prestige job: magus/warlock/another related to spells)
 		if (MightBoost < 10) MightBoost = 10;
 		if (player.hasPerk(PerkLib.JobEnchanter)) MightBoost *= 1.2;
 		MightBoost *= spellModBlack();
@@ -75,7 +75,7 @@ public class MightSpell extends AbstractBlackSpell {
 		return Math.round(MightBoost);
 	}
 	
-	public function calcDuration():Number {
+	override public function calcDuration():int {
 		var MightDuration:Number = 5;
 		MightDuration += combat.magic.perkRelatedDurationBoosting();
 		return MightDuration;
@@ -98,8 +98,8 @@ public class MightSpell extends AbstractBlackSpell {
 			else tempStr = MightBoost;
 			var oldHPratio:Number = player.hp100 / 100;
 			var buffValues:Object = {"tou.mult": tempTou / 100};
-			if (tempInt > 0) buffValues["int.mult"] = Math.min(tempInt / 100, player.intStat.mult.value / 2);
-			if (tempStr > 0) buffValues["str.mult"] = Math.min(tempStr / 100, player.strStat.mult.value / 2);
+			if (tempInt > 0) buffValues["int.mult"] = tempInt / 100;
+			if (tempStr > 0) buffValues["str.mult"] = tempStr / 100;
 			player.buff("Might").setStats(buffValues).combatTemporary(MightDuration);
 			player.HP = oldHPratio * player.maxHP();
 		}

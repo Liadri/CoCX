@@ -7,6 +7,7 @@ import classes.CockTypesEnum;
 import classes.Monster;
 import classes.PerkLib;
 import classes.Scenes.SceneLib;
+import classes.internals.WeightedDrop;
 
 /**
 	 * ...
@@ -31,18 +32,18 @@ import classes.Scenes.SceneLib;
 			this.ballSize = 3;
 			this.hips.type = Hips.RATING_FERTILE;
 			this.butt.type = Butt.RATING_EXPANSIVE;
-			initStrTouSpeInte(210, 210, 120, 120);
-			initWisLibSensCor(120, 140, 40, 100);
+			initStrTouSpeInte(310, 310, 220, 120);
+			initWisLibSensCor(120, 240, 140, 100);
 			this.weaponName = "fists";
-			this.weaponAttack = 30;
+			this.weaponAttack = 100;
 			this.weaponVerb = "punch";
 			this.armorName = "wraps";
-			this.armorDef = 26;
-			this.armorMDef = 6;
-			this.bonusHP = 1800;
-			this.bonusLust = 221;
-			this.gems = 300 + rand(90);
-			this.level = 41;
+			this.armorDef = 120;
+			this.armorMDef = 40;
+			this.bonusHP = 4000;
+			this.bonusLust = 451;
+			this.gems = 600 + rand(90);
+			this.level = 71;
 			this.lustVuln = 0.6;
 			this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
@@ -50,8 +51,9 @@ import classes.Scenes.SceneLib;
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, 41, 0, 0, 0);//v1 = enemy lvl
+			this.createPerk(PerkLib.OverMaxHP, 71, 0, 0, 0);//v1 = enemy lvl
 			this.drop = NO_DROP;
+			drop = new WeightedDrop(consumables.LETH3TE, 1);
 			this.checkMonster();
 		}
 		
@@ -244,7 +246,7 @@ import classes.Scenes.SceneLib;
 			outputText("\n\nFlushing, the demoness whimpers, \"<i>...don't think I can do that again, but I don't think you'll be able to turn me on like that twice!</i>\"");
 			
 			this.lust = 0;
-			player.dynStats("lus", 15);
+			player.takeLustDamage(15, true);
 		}
 		
 		private function healUp():void

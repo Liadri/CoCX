@@ -5,6 +5,8 @@ import classes.Scenes.Areas.Plains.BazaarGatekeeper;
 import classes.Scenes.Places.Bazaar.*;
 import classes.Scenes.SceneLib;
 
+import coc.view.ButtonDataList;
+
 public class Bazaar extends BaseContent {
 // JOEY_OFFERED_MILKER:int = 466;
 // OWN_MAIDEN_BIKINI:int = 770;
@@ -30,33 +32,30 @@ public function findBazaar():void {
 	if(flags[kFLAGS.BAZAAR_ENCOUNTERED] == 0) {
 		flags[kFLAGS.BAZAAR_ENCOUNTERED]++;
 		outputText("Warm, earthy breezes drift by as you explore the wind-blown grasses of the plains.  Though it seems you can see for miles, with the grasses subtly shifting between a few feet and over a dozen feet tall, it's impossible to tell what you'll stumble into next.  You trust your ears and your nose as much as your oft-blocked vision at this point, and before long you catch a whiff of blackened meat and aromatic spices.  There's some kind of camp not far away!\n\n");
-
 		outputText("You raise your [weapon] and cautiously creep through the towering vegetation, trying not to give your position away until you've ascertained just what type of people inhabit this camp.  Bright light flickers through the grass in front of you, and you part it to peek from between the blowing stalks.  There's a ring of brightly colored wagons set up here, with a tall, picketed fence erected around them.  Smoke curls up from the camp's center, twisting in the air like a viper in the grass.  Each of the wagons appears to be expanded, deployed into a small, self-contained structure.  Clearly this is some kind of traveling caravan or bazaar.\n\n");
-
 		outputText("There's only one gap in the fence – a narrow gate watched by a ten-foot tall man with red skin and a pale, almost sky-blue turban.  He has a pair of scimitars that hang from a simple, leather belt.  The crimson-skinned man's clothing is a simple tunic and loose-fitting pants, but neither can conceal his obviously well-muscled frame.  He looks alert and attentive – a good sign since demons would have little need to post guards.");
 	}
-	else {
-		outputText("Once again you smell a campfire through the tall grass, and as you close the distance you hear the familiar sounds of the traveling bazaar.  You peek through the weeds and behold the caravan's gate-keeper - a red-skinned, muscular giant of a man.");
-	}
+	else outputText("Once again you smell a campfire through the tall grass, and as you close the distance you hear the familiar sounds of the traveling bazaar.  You peek through the weeds and behold the caravan's gate-keeper - a red-skinned, muscular giant of a man.");
 	outputText("\n\nDo you approach?");
 	//[YES] [NOOOO]
-	doYesNo(approachBazaarGuard,camp.returnToCampUseOneHour);
+	doYesNo(approachBazaarGuard,explorer.done);
 }
-
-
 
 //[FUCK YES I WILL PUT IT IN YOUR BIZARRE ANUS]
 private function approachBazaarGuard():void {
 	clearOutput();
 	outputText("You step from concealment and walk up to the strange man, calling out in greeting.  He folds his arms across his chest and looks you up and down, peering at you with intense, black eyes.  They aren't solid onyx, but his irises are just as dark as the seemingly bottomless depths of his pupils.  His appraising gaze watches you, unblinking as second after second ticks by.  Just when you start to wonder if he speaks your language, he interrupts you by saying, \"<i>");
-	if(player.cor < 33 - player.corruptionTolerance && flags[kFLAGS.MEANINGLESS_CORRUPTION] <= 0) outputText("Leave at once.  You are not yet ready for the wonders of the Bazaar.");
+	if(player.cor < 33 - player.corruptionTolerance) outputText("Leave at once.  You are not yet ready for the wonders of the Bazaar.");
 	else outputText("Welcome to the Bizarre Bazaar.  Enter, but be mindful of your actions within.");
 	outputText("</i>\"");
-	if(player.cor < 33 - player.corruptionTolerance && flags[kFLAGS.MEANINGLESS_CORRUPTION] <= 0) simpleChoices("FIGHT!",initiateFightGuard, "", null, "", null, "", null, "Leave",camp.returnToCampUseOneHour);
-	else simpleChoices("Enter",enterTheBazaar, "", null, "", null, "", null, "Leave",camp.returnToCampUseOneHour);
+	menu();
+	if (player.cor < 33 - player.corruptionTolerance) addButton(1, "FIGHT!",initiateFightGuard);
+	else addButton(1, "Enter", enterTheBazaar);
+	addButton(3, "Leave", explorer.done);
 }
 
 public function enterTheBazaar():void {
+	explorer.stopExploring();
 	if (model.time.hours == 19 || model.time.hours == 20) {
 		flags[kFLAGS.COUNTDOWN_TO_NIGHT_RAPE]++;
 		if (flags[kFLAGS.COUNTDOWN_TO_NIGHT_RAPE] % 4 == 0 && (player.gender == 1 || (player.gender == 3 && player.mf("m", "f") == "m")) || flags[kFLAGS.LOW_STANDARDS_FOR_ALL]) {
@@ -75,6 +74,7 @@ public function initiateFightGuard():void {
 }
 
 public function winAgainstGuard():void {
+	explorer.stopExploring();
 	clearOutput();
 	outputText("With the gatekeeper defeated, you walk right past the unconscious guard and enter...");
 	cleanupAfterCombat(enterTheBazaarAndMenu);
@@ -86,43 +86,87 @@ public function enterTheBazaarAndMenu(demons:Boolean = true):void {
 	spriteSelect(null);
 	outputText(images.showImage("location-bazaar"));
 	//Make sure flags to allow entrance is set.
-	if(flags[kFLAGS.BAZAAR_ENTERED] == 0) flags[kFLAGS.BAZAAR_ENTERED] = 1;
-	outputText("You breeze past the crimson guard and enter the interior of the Bizarre Bazaar.  The ground is hard-packed, trampled as if walked over by hundreds of hooves, paws, and feet.  A massive bonfire rages in the center of the clearing, crackling and popping as it consumes its fuel gluttonously.  Surrounding the blazing behemoth are tiny, wheeled food-carts with vendors hawking everything from sausage to something called a 'marshmallow'.  Huge wagons ring the clearing, many set up to display exotic wares or services.  You can see everything from dancing centaurs to demons browsing the wares, but it seems an uneasy truce of sorts reigns here.  Then again, maybe the demons have just not had the chance to openly attack this place yet.");
-	outputText("\n\nOne of the wagons proudly proclaims itself to be \"Greta's Garments,\" though both 'G's are emphasized with cute, stylized devil horns, and the 'S' is shaped in the form of a spaded, demonic tail.  Obviously it must some kind of clothing shop.");
-	roxanne.RoxanneAppearance();
-	benoit.setBenoitShop();
-	fapArena.fapAppearance();
-	blackCock.blackCockDescription();
-	//Set menu. The top row is always available.
+	if (flags[kFLAGS.BAZAAR_ENTERED] == 0) flags[kFLAGS.BAZAAR_ENTERED] = 1;
+	if (flags[kFLAGS.THE_TRENCH_ENTERED] == 13) eventLiquidDiamond();
+	else {
+		outputText("You breeze past the crimson guard and enter the interior of the Bizarre Bazaar.  The ground is hard-packed, trampled as if walked over by hundreds of hooves, paws, and feet.  A massive bonfire rages in the center of the clearing, crackling and popping as it consumes its fuel gluttonously.  Surrounding the blazing behemoth are tiny, wheeled food-carts with vendors hawking everything from sausage to something called a 'marshmallow'.  Huge wagons ring the clearing, many set up to display exotic wares or services.  You can see everything from dancing centaurs to demons browsing the wares, but it seems an uneasy truce of sorts reigns here.  Then again, maybe the demons have just not had the chance to openly attack this place yet.");
+		outputText("\n\nOne of the wagons proudly proclaims itself to be \"Greta's Garments,\" though both 'G's are emphasized with cute, stylized devil horns, and the 'S' is shaped in the form of a spaded, demonic tail.  Obviously it must some kind of clothing shop.");
+		roxanne.RoxanneAppearance();
+		benoit.setBenoitShop();
+		fapArena.fapAppearance();
+		blackCock.blackCockDescription();
+		menu();//Set menu. The top row is always available.
+		addButton(0, "Shops", shopMenu);
+		addButton(1, (flags[kFLAGS.FAP_ARENA_RULES_EXPLAINED] > 0 ? "Fap Arena" : "Tent"), fapArena.fapArenaGOOOO);
+		addButton(2, "Food Tent", blackCock.enterTheBlackCock).hint("The incredible smell seems to come from that tent.", "The Black Cock");
+	//	addButton(4, "Back Alley", investigateBackAlley).hint("That back alley looks suspicious. Do you dare investigate?");
+		//Cinnabar
+		if (model.time.hours >= 15 && model.time.hours <= 20) addButton(5, (flags[kFLAGS.CINNABAR_NUMBER_ENCOUNTERS] > 0 ? "Cinnabar" : "Rat"), cinnabar.cinnabarAppearance(false));
+		//Griping Demons
+		if(flags[kFLAGS.BAZAAR_DEMONS_CONVERSATION] == 0 && rand(4) == 0 && demons) {
+			overHearDemonsAboutSyrena();
+			return;
+		}
+		if((flags[kFLAGS.BAZAAR_DEMONS_CONVERSATION] == 1 || flags[kFLAGS.BAZAAR_DEMONS_CONVERSATION] == 2) && demons && rand(10) == 0) {
+			//[Repeat Variant]
+			outputText("\n\n<b>The familiar sounds of the two griping demons can be heard nearby.  Do you listen in again?</b>");
+			addButton(6, "GripingDemons", overHearDemonsAboutSyrena).hint("Overhear the conversation of the two griping demons.", "Griping Demons");
+		}
+		//Lilium
+		if (lilium.LiliumText(false) != null) {
+			addButton(7, (flags[kFLAGS.TIMES_FUCKED_LILIUM] > 0 ? "Lilium" : "Demon"), lilium.LiliumText(false));
+		}
+		//Roxanne
+		addButton(8, (flags[kFLAGS.ROXANNE_MET] > 0 ? "Roxanne" : "Lizans"), (flags[kFLAGS.ROXANNE_MET] > 0 ? roxanne.RoxanneChooseApproachOrRepeat : roxanne.Roxanne1stApproach));
+		//Bimbo Niamh
+		if (flags[kFLAGS.NIAMH_STATUS] == 2 && flags[kFLAGS.NIAMH_MOVED_OUT_COUNTER] == -1) {
+			outputText("\n\nThe sounds of voices raised in song and girlish laughter makes it obvious where Niamh is holding a perpetual party.");
+			addButton(9, "Niamh", SceneLib.telAdre.niamh.bazaarNiamh);
+		}
+		if (flags[kFLAGS.JINX_LVL_UP] < 1) {
+			if (flags[kFLAGS.JINX_LVL_UP] > 0) addButton(10, "Minx", SceneLib.jinxFollower.bazaarEncounters);
+			else addButton(10, "???", SceneLib.jinxFollower.bazaarEncounters);
+		}
+		addButton(14, "Leave", camp.returnToCampUseOneHour);
+	}
+}
+
+private function eventLiquidDiamond():void {
+	outputText("A man seems to be standing on a series of crates in front of a small crowd, holding what looks like a large glass bottle with some sort of sparkly liquid. Is this the ‘Liquid Diamond’ Grayda mentioned? It could be worth an investigation.\n\n");
+	outputText("\"<i>That’s right folks, a potion of eternal youth! Guaranteed to put you back in your prime for the low, low cost of 5000 gems!</i>\" At that mention, the crowd seems to disperse. Leaving only you and the man.\n\n");
+	outputText("\"<i>You there! Are you interested in buying this miracle drink?</i>\"\n\n");
+	outputText("It seems this con artist isn’t very convincing, but you need that bottle regardless of the snake oil salesman’s intentions, so you’ll play along for now. And you give the sleazy man "+(silly() ? "who is obviously voiced by Danny Devito ":"")+"a nice smile and \"<i>yes sir!</i>\"\n\n");
+	outputText("The odd man hops down from the stack of crates, several of his features showing severe taint. \"<i>Excellent! Why don’t you take a sample sniff.</i>\" The man quickly uncorks the bottle before putting it underneath your nose as he tries to hold back a gag from the presumably foul smell.\n\n");
+	outputText("Or at least that’s what you think he’s smelling, but to you, it smells like cherry trees baked into a nice citrus cake. Your daydreaming is interrupted however by another onset of itching assaults your eyes.\n\n");
+	outputText("\"<i>It could be yours! For only 7000 gems.</i>\"\n\n");
+	outputText("7000 gems? That’s 2000 more than he originally offered!\n\n");
+	outputText("\"<i>It’s very obvious this is something you want, and you react uniquely to it, so it’s 7000 gems or nothing.</i>\"\n\n");
+	outputText("Well, it seems like you have a choice to make here; you could either pay him the required amount or tell him you don’t have that many gems on you. However he doesn’t look particularly strong, and you could easily overpower him and flee the scene with the bottle, but you feel like this may come to bite you back later.\n\n");
 	menu();
-	addButton(0, "Shops", shopMenu);
-	addButton(1, (flags[kFLAGS.FAP_ARENA_RULES_EXPLAINED] > 0 ? "Fap Arena" : "Tent"), fapArena.fapArenaGOOOO);
-	addButton(2, "Food Tent", blackCock.enterTheBlackCock).hint("The incredible smell seems to come from that tent.", "The Black Cock");
-//	addButton(4, "Back Alley", investigateBackAlley).hint("That back alley looks suspicious. Do you dare investigate?");
-	//Cinnabar
-	if (model.time.hours >= 15 && model.time.hours <= 20) addButton(5, (flags[kFLAGS.CINNABAR_NUMBER_ENCOUNTERS] > 0 ? "Cinnabar" : "Rat"), cinnabar.cinnabarAppearance(false));
-	//Griping Demons
-	if(flags[kFLAGS.BAZAAR_DEMONS_CONVERSATION] == 0 && rand(4) == 0 && demons) {
-		overHearDemonsAboutSyrena();
-		return;
-	}
-	if((flags[kFLAGS.BAZAAR_DEMONS_CONVERSATION] == 1 || flags[kFLAGS.BAZAAR_DEMONS_CONVERSATION] == 2) && demons && rand(10) == 0) {
-		//[Repeat Variant]
-		outputText("\n\n<b>The familiar sounds of the two griping demons can be heard nearby.  Do you listen in again?</b>");
-		addButton(6, "GripingDemons", overHearDemonsAboutSyrena).hint("Overhear the conversation of the two griping demons.", "Griping Demons");
-	}
-	//Lilium
-	if (lilium.LiliumText(false) != null) {
-		addButton(7, (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00267] > 0 ? "Lilium" : "Demon"), lilium.LiliumText(false));
-	}
-	//Roxanne
-	addButton(8, (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00221] > 0 ? "Roxanne" : "Lizans"), (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00221] > 0 ? roxanne.RoxanneChooseApproachOrRepeat : roxanne.Roxanne1stApproach));
-	//Bimbo Niamh
-	if (flags[kFLAGS.NIAMH_STATUS] > 0 && flags[kFLAGS.NIAMH_MOVED_OUT_COUNTER] == -1) {
-		if (flags[kFLAGS.NIAMH_STATUS] == 2) outputText("\n\nThe sounds of voices raised in song and girlish laughter makes it obvious where Niamh is holding a perpetual party.");
-        addButton(9, "Niamh", SceneLib.telAdre.niamh.bazaarNiamh);
-    }
-	addButton(14,"Leave",camp.returnToCampUseOneHour);
+	addButtonIfTrue(1, "Pay", eventLiquidDiamondPay, "You need 7,000 gems!", player.gems >= 7000);
+	addButton(2, "Don’t Pay", eventLiquidDiamondDontPay);
+	addButton(3, "Steal", eventLiquidDiamondSteal);
+}
+private function eventLiquidDiamondPay():void {
+	outputText("You begrudgingly hand over the required amount of gems, which the man swiftly takes while handing you the bottle quickly muttering something about no refunds before scampering off somewhere else. Hopefully, you never see the scalper again.\n\n");
+	outputText("<b>(Obtained ‘Liquid Diamond’ key item)</b>\n\n");
+	player.gems -= 7000;
+	player.createKeyItem("Liquid Diamond", 0, 0, 0, 0);
+	flags[kFLAGS.THE_TRENCH_ENTERED] = 14;
+	doNext(enterTheBazaarAndMenu);
+}
+private function eventLiquidDiamondDontPay():void {
+	outputText("You tell him that you currently don’t have the right amount of gems for purchase.\n\n");
+	outputText("\"<i>Shame. Come back when you can pay.</i>\"\n\n");
+	flags[kFLAGS.THE_TRENCH_ENTERED] = 13.5;
+	doNext(enterTheBazaarAndMenu);
+}
+private function eventLiquidDiamondSteal():void {
+	outputText("Dropping the friendly act. You viscously growl as you slam your fist into his stomach, and snag the bottle from his now loose hand before turning tail and running as he cries out. Luckily for you it seems no one paid attention to the scene or they simply don’t care, allowing you to get away without incident. You can’t help but feel a little bad about the whole ordeal, but it got you what you desperately needed, and to be fair he was a con artist.\n\n");
+	outputText("<b>(Obtained ‘Liquid Diamond’ key item)</b>\n\n");
+	player.createKeyItem("Liquid Diamond", 0, 0, 0, 0);
+	flags[kFLAGS.THE_TRENCH_ENTERED] = 14;
+	doNext(enterTheBazaarAndMenu);
 }
 
 private function shopMenu():void {
@@ -180,6 +224,8 @@ private function theSlipperySqueeze():void {
 	if(flags[kFLAGS.JOEY_OFFERED_MILKER] > 0 && player.hasKeyItem("Cock Milker") < 0 && player.hasKeyItem("Cock Milker - Installed At Whitney's Farm") < 0)
 		milker = askJoeyAboutOffer;
 	//	[Joey] [Sara] [][] [Leave]
+	if (player.hasKeyItem("Cock Milker - Installed At Whitney's Farm") && !player.hasKeyItem("Cock Milker: Anal Attachment"))
+			milker = askJoeyAboutAttachment;
 
 	//simpleChoices("JoeyMassage",joeyMassage,"Androgyny",androgyny,"Joey'sOffer",milker,"",0,"Leave",2855);
 	menu();
@@ -228,6 +274,28 @@ private function buyCockMilker():void {
 	player.createKeyItem("Cock Milker",0,0,0,0);
 	simpleChoices("JoeyMassage", joeyMassage, "Androgyny", null, "Joey'sOffer", null, "", null, "Leave", enterTheBazaar);
 }
+private function askJoeyAboutAttachment():void {
+	clearOutput();
+	outputText("You ask the effeminate masseuse if he happens to know where you could find an attachment for a Cock Milker, since you now have one installed at the farm.\n\n");
+	outputText("\"<i>Oh hey, I might just have one of those in the back! Let me go check for you.</i>\"\n\n");
+	outputText("He comes back a few minutes later with an anal stimulant attachment for the Cock Milker. \"<i>Is this what you are looking for? I can sell it to you for 200 gems if you want it?</i>\"");
+	if(player.gems < 200) {
+		outputText("\n\n<b>You don't have enough money.</b>");
+		doNext(noMilkerPlzJoey);
+		return;
+	}
+	//[Yes] [No]
+	doYesNo(buyCockMilkerAttachment,noMilkerPlzJoey);
+}
+	private function buyCockMilkerAttachment():void {
+		clearOutput();
+		outputText("\"<i>Fantastic, fantastic!  Here you go!</i>\"  He dumps the atatchment in your arms, taking the gems from you in the same motion.  You hastily begin stuffing the contraption in your pack.  \"<i>Now, don't get too attached.  A machine's never gonna beat the real thing.</i>\"  He flexes his delicate fingers.  \"<i>Speaking of which, need something?</i>\"");
+		outputText("\n\n(<b>Key Item Acquired: Cock Milker: Anal Attachment</b>)");
+		player.gems -= 200;
+		statScreenRefresh();
+		player.createKeyItem("Cock Milker: Anal Attachment",0,0,0,0);
+		simpleChoices("JoeyMassage", joeyMassage, "Androgyny", null, "Joey'sOffer", null, "", null, "Leave", enterTheBazaar);
+	}
 
 private function joeyAndrogyny():void {
 	clearOutput();
@@ -250,14 +318,14 @@ private function joeyAndrogyny():void {
 
 	outputText("Thanking the cute bunny-boy for his help, you hand over the payment and head back to check on camp.");
 	player.createPerk(PerkLib.Androgyny,0,0,0,0);
-	dynStats("lus", 5);
+	dynStats("lus", 5, "scale", false);
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Joey]
 private function joeyMassage():void {
 	clearOutput();
 	if(player.gems < 10) {
-		outputText("Joey frowns when you realize you don't have the 10 gems.  He apologizes, \"<i>I'm sorry, [name] but I can't give freebies - our special potions cost us plenty.");
+		outputText("Joey frowns when you realize you don't have the 10 gems.  He apologizes, \"<i>I'm sorry, [name] but I can't give freebies - our special potions cost us plenty.</i>");
 		doNext(enterTheBazaar);
 		return;
 	}
@@ -279,6 +347,13 @@ private function joeyMassage():void {
 }
 
 private function joeysMassageWifNoExtraJizz():void {
+	sceneHunter.selectGender(
+		curry(joeysMassageWifNoExtraJizzScene, true), null,
+		curry(joeysMassageWifNoExtraJizzScene, false)
+	);
+}
+
+private function joeysMassageWifNoExtraJizzScene(useCock:Boolean):void {
 	clearOutput();
 	//(Continue as NoWang)
 	outputText("The rabbit-eared fem-boy climbs back onto the table and strokes himself a few times over your [ass]; the first drops of his 'special oil' feel hot as they land on the curves of your butt cheeks.  He climbs over you, touching himself just enough to stay hard while his cum-drooling cock stops dripping and starts genuinely leaking.  A long trail of bunny-spunk is dripped onto your [ass] until you're glazed with thick ropes of it.  You spot his discarded thong on the floor and giggle as you feel him flip around to put his cute bunny-butt on your shoulders.  His spunk immediately runs down your spine, even as his hands smear it all over your [skin.type].\n\n");
@@ -296,7 +371,7 @@ private function joeysMassageWifNoExtraJizz():void {
 	outputText("The bed cradles you as you close your eyes and lie back, noting the slight change in darkness beyond your eyelids from Joey's new position.  Spunk begins to rain over your [face], puddling seed around your eyes and forehead before it drips down your cheeks and bubbles on your lips.  You're quickly distracted from the salty, cummy facial when your personal leporid lotion-dispenser ");
 	//(fork to male or genderless, no new PG)
 	//(MALE)
-	if(player.hasCock()) {
+	if(useCock) {
 		outputText("slides his warm, ruby lips over your [cock], licking and slurping the [cockhead] like a treasured candy.  That hot, breathy embrace hugs tight to your urethral bulge, slobbering up the cock-tip.  The flexible, thin rabbit tongue swirls over your cum-slit to lap at the bubbling pre-cum, even as his quaking balls continue to bury your face in bunny-semen.");
 		if(player.cockTotal() > 1) {
 			outputText("  He takes your " + cockDescript(1) + " with his free hand and pulls it over, giving it an affectionate, loving smooch.");
@@ -307,7 +382,7 @@ private function joeysMassageWifNoExtraJizz():void {
 			}
 		}
 		outputText("  A moment later, ");
-		if(player.balls > 0) outputText("his hand firmly rubs your " + sackDescript() + ", and ");
+		if(player.hasBalls()) outputText("his hand firmly rubs your " + sackDescript() + ", and ");
 		outputText("gentle fingertips are probing between your cheeks, rubbing his dripping seed against the pucker of your " + assholeDescript() + ".\n\n");
 	}
 	//(FEM/GENDERLESS)
@@ -317,7 +392,7 @@ private function joeysMassageWifNoExtraJizz():void {
 		outputText(".  He skillfully works a free hand over your slippery butt-cheek, squeezing the supple flesh while he expertly rubs your interior, stroking it with semen-lubed touches.\n\n");
 	}
 	//Fems/Genderless cum+epilogue
-	if(!player.hasCock()) {
+	if(!useCock) {
 		//(Genderless orgasm)
 		if(player.gender == 0) outputText("Though his single finger makes you burn with passion, Joey's second slides effortlessly after it, filling your " + assholeDescript() + " with another of his cum-soaked digits.  His warm jism slides down the crack between the fingers, slowly pooling in your backdoor.  Once you've adjusted, he continues to the massage, stroking and bumping your interior with the confident, practiced strokes of a professional. You pull hard on your tortured " + nippleDescript(0) + "s, egging up the gradual upwelling of pleasure while you lick the bunny-cream from your lips.  A moment later, the no-longer-offending digits press hard on a sensitive spot, and you're arching your back, screaming with pleasure.\n\n");
 		//(Female orgasm)
@@ -355,7 +430,7 @@ private function joeysMassageWithEXTRASpooge():void {
 	if(player.balls == 0) outputText("inside you");
 	else outputText("in your " + ballsDescriptLight());
 	outputText(" that reminds you of the sensation just before orgasm.");
-	if(player.balls > 0) outputText("  They even feel a little bigger.");
+	if(player.hasBalls()) outputText("  They even feel a little bigger.");
 	outputText("\n\n");
 
 	outputText("Joey's fingertips brush along your shaft, squeezing it with tender touches that make it stiffen and thicken.  He starts slowly jacking you off while his other hand traces one of your nipples.  \"<i>We've got to get you nice and hard now so that you can let out all that nice, creamy lotion,</i>\" explains the fem-boy.  You nod in understanding, blushing hard while he fondles " + sMultiCockDesc() + " with soft caresses.  He plays your manhood");
@@ -366,7 +441,7 @@ private function joeysMassageWithEXTRASpooge():void {
 	outputText("You're rolled back on to your front, crushing " + sMultiCockDesc() + " between you and the sheets.  Joey leaps back atop you, straddling your back and facing your [ass], his hands locking onto the steam-moistened cheeks.   He slides forward slightly, placing his hardness between them, and it's then that you notice his discarded thong on the floor.  A moment later the first drops of Joey's own hot seed are dripping over your exposed derrière.  He slides himself through your buns, hotdogging the rapidly-slickening surface of your ass while his hands massage the tense flesh a little more enthusiastically than they ought to.\n\n");
 
 	outputText("Of course you don't complain, not with the growing puddle forming between you and the cum-soaked sheets.  Every time your masseuse shifts, the movement makes you slide in your sticky mess, the cum-lubed friction of the sheets helping the constant jizz-flow to thicken into a steady river of seed.  ");
-	if(player.balls > 0) outputText("Your balls pull and relax and pull tight, bouncing below you over and over, all while working hard to produce more juice for you to gush.  ");
+	if(player.hasBalls()) outputText("Your balls pull and relax and pull tight, bouncing below you over and over, all while working hard to produce more juice for you to gush.  ");
 	outputText("Even though you're draining spunk at an alarming rate, it doesn't feel like a normal orgasm.  There's no wave of pressure and subsequent release, just a constant, pulsing contraction that makes you melt with ever-increasing feelings of satisfaction.\n\n");
 
 	outputText("Joey giggles, turning about to put his lotion-dispenser on the small of your back, and you feel the hot bunny-spoo pour onto you in a wave.   It's gathered up and pushed up your back.  Globs of it roll down your side, sliding over the semi-waterproofed sheets to mix with your growing spunk-lake.  With the slippery-seed aiding Joey's massage, he somehow manages to work out even more of your tension.  By this point your muscles feel like jello melting in the afternoon sun.  You feel like you could melt into your cum, and you sigh in bliss");
@@ -378,7 +453,7 @@ private function joeysMassageWithEXTRASpooge():void {
 	outputText("\n\n");
 
 	outputText("The bunny-boy springs back atop you, landing hard just below your hips.  His dripping seed washes over " + sMultiCockDesc() + ", and the sudden onslaught of fresh, liquid warmth on your groin sets off a small explosion of jism that splatters into your chin, leaving a long trail of slime behind like a snail.  The long-eared girly-boy smiles and shifts to rub his small cock against your [cock], frotting you aggressively while you both spray cum like faucets with the knobs torn off.  You don't mind that he seems to have forgotten the massage, and you run your hands up and down your " + chestDesc() + " to smear the heavy loads ");
-	if (player.hasFur()) outputText("through your fur");
+	if (player.isFurCovered()) outputText("through your fur");
 	else outputText("over your [skin]");
 	outputText(".\n\n");
 
@@ -453,11 +528,11 @@ private function suckOffJoeysGardenHose():void {
 	outputText("\"<i>I'm just having a little fun with the situation,</i>\" you answer while gently pumping the bunny-boy's dick.  He moans beneath your touches, electric shivers of pleasure racing through him as his spurts shoot further and further, finally reaching his face.  In no time, his lips are as pink as his top, with a nice, salty shine.  Joey moans and lands a glob on his forehead.  The next creams his hair.  You gently swat his balls and watch the next shot go past his head to splatter on the side of the counter.  Purring, you muse, \"<i>Oooh, you're getting better at this.</i>\"\n\n");
 	outputText("\"<i>I'm so sorry!</i>\" cries Joey as his hips grind against your hands, \"<i>Something was - ah - wrong wi... with this batch.  I didn't mean for any of this to happen!  I t-think the demons are trying to sabotage my business!</i>\"\n\n");
 	outputText("You sigh at that, but it would make sense.  Even here, under a watchful eye, the demons can't seem to stop their scheming.  You rub Joey's balls as the last of his cum drains from his twitching, unused fuck-stick and stand up, the added weight of his jizz in your belly making it a little difficult.  The bunny-boy keeps moaning and wriggling on the floor, still coming down from his orgasmic high.\n\n");
-	outputText("Pulling him up, you drag the both of you deeper into the trailer to find a shower, where you both clean up with a touch of good-natured teasing.  Once the cute 'trap' and you are free of his goo, you head back to the entrance.\n\n");
+	outputText("Pulling him up, you drag both of you deeper into the trailer to find a shower, where you both clean up with a touch of good-natured teasing.  Once the cute 'trap' and you are free of his goo, you head back to the entrance.\n\n");
 	outputText("\"<i>I cleaned out your balls; you can clean up the floor,</i>\" you joke as you leave, kissing him one last time on the mouth before you go.\n\n");
 	outputText("Joey blushes again and begins looking for a mop.");
 	player.sexReward("cum", "Lips", false);
-	dynStats("lus", 70);
+	dynStats("lus", 70, "scale", false);
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -587,25 +662,25 @@ private function browseDemSocksSon():void {
 	outputText("What type of cock-sock do you want to look at?");
 	//Cock-sock Menu
 	menu();
-	var menuList:Array = [];
+	var bd:ButtonDataList = new ButtonDataList();
 	var cockSocksVariant:Array = ["wool", "alabaster", "viridian", "scarlet", "cobalt", "gilded", "amaranthine", "green", "red", "blue", "cockring"];
-	menuList.push("Wool",curry(cockSockType, 0), "");
-	menuList.push("Alabaster",curry(cockSockType, 1), "");
-	menuList.push("Viridian",curry(cockSockType, 2), "");
-	menuList.push("Scarlet",curry(cockSockType, 3), "");
-	menuList.push("Cobalt",curry(cockSockType, 4), "");
-	menuList.push("Gilded",curry(cockSockType, 5), "");
-	menuList.push("Purple",curry(cockSockType, 6), "");
-	menuList.push("Green", curry(cockSockType, 7), "");
-	menuList.push( "Red", curry(cockSockType, 8), "");
-	menuList.push( "Blue", curry(cockSockType, 9), "");
-	menuList.push("Cockring",curry(cockSockType, 10), "");
-	menuGen(menuList, 0, gretasGarments);
+	bd.add("Wool",curry(cockSockType, 0));
+	bd.add("Alabaster",curry(cockSockType, 1));
+	bd.add("Viridian",curry(cockSockType, 2));
+	bd.add("Scarlet",curry(cockSockType, 3));
+	bd.add("Cobalt",curry(cockSockType, 4));
+	bd.add("Gilded",curry(cockSockType, 5));
+	bd.add("Purple",curry(cockSockType, 6));
+	bd.add("Green", curry(cockSockType, 7));
+	bd.add("Red", curry(cockSockType, 8));
+	bd.add("Blue", curry(cockSockType, 9));
+	bd.add("Cockring",curry(cockSockType, 10));
+	submenu(bd, gretasGarments, 0, false);
 
-	function cockSockType(type:int):void{
+	function cockSockType(cocksock_type:int):void{
 		var cost:int = 0;
 		clearOutput();
-		switch (type) {
+		switch (cocksock_type) {
 			case 0:
 				outputText("You spy a thick, woolen sock sitting on a counter and take it up to Greta.  \"<i>Ah, yes.  That's our basic sock.  Warm and cozy, great for those chilly nights.  That one's a mere 10 gems.  A steal, of course.</i>\"");
 				cost = 10;
@@ -651,18 +726,18 @@ private function browseDemSocksSon():void {
 				cost = 100;
 				break;
 		}
-		prePurchase(type, cost);
+		prePurchase(cocksock_type, cost);
 	}
 
-	function prePurchase(type:int, cost:int):void{
+	function prePurchase(cocksock_type:int, cost:int):void{
 		menu();
-		if (player.gems >= cost) addButton(0, "Buy it!", pickACockForSock, type, cost);
+		if (player.gems >= cost) addButton(0, "Buy it!", pickACockForSock, cocksock_type, cost);
 		else addButtonDisabled(0, "Buy It!", "You can't afford it!");
 		addButton(4,"Back",browseDemSocksSon);
 
 	}
 
-	function pickACockForSock(type:int, cost:int):void {
+	function pickACockForSock(cocksock_type:int, cost:int):void {
 		//Buy Cock-sock
 		clearOutput();
 		outputText("You take the cock-sock over to the counter where Greta sits, knitting even more garments and place down the gems required.  \"<i>Aha, good choice, honey!</i>\" the succubus says, snatching up the money and stashing it away.  \"<i>Now let's get that bad boy fitted on you.</i>\"");
@@ -670,20 +745,20 @@ private function browseDemSocksSon():void {
 		//[If PC only has one cock, jump immediately to Putting It On, else:
 		if(player.cockTotal() == 1) {
 			menu();
-			addButton(0,"Next",lastchance2backout,type, cost);
+			addButton(0,"Next",lastchance2backout,cocksock_type, cost);
 		}
 		else {
 			outputText("\n\nWhich cock would you like to put it on?");
 			var button:int = 0;
 			menu();
 			while(button < player.cockTotal()) {
-				if(player.cocks[button].sock == "") addButton(button,String(button+1),lastchance2backout, type, cost, button);
+				if(player.cocks[button].sock == "") addButton(button,String(button+1),lastchance2backout, cocksock_type, cost, button);
 				button++;
 			}
 		}
 	}
 
-	function lastchance2backout(type:int, cost:int, cockChosen:int = 0):void{
+	function lastchance2backout(cocksock_type:int, cost:int, cockChosen:int = 0):void{
 		flags[kFLAGS.SOCKS_BOUGHT]++;
 		//Putting it On - First Time
 		if(flags[kFLAGS.SOCKS_BOUGHT] == 1) {
@@ -699,13 +774,13 @@ private function browseDemSocksSon():void {
 			outputText("\n\nWell?  Do you want this cock-sock attached to your penis semi-permanently?");
 		}
 		menu();
-		addButton(0,"Yes",cockSockInstall, type, cost, cockChosen);
+		addButton(0,"Yes",cockSockInstall, cocksock_type, cost, cockChosen);
 		addButton(1,"No",noCockSock);
 	}
 
-	function cockSockInstall(type:int, cost:int, cockChosen:int = 0):void{
+	function cockSockInstall(cocksock_type:int, cost:int, cockChosen:int = 0):void{
 		var conflict:Boolean = false;
-		if(cockSocksVariant[type] == "viridian") {
+		if(cockSocksVariant[cocksock_type] == "viridian") {
 			if(!player.hasPerk(PerkLib.LustyRegeneration)) {
 				player.createPerk(PerkLib.LustyRegeneration,0,0,0,0);
 			}
@@ -713,14 +788,15 @@ private function browseDemSocksSon():void {
 				conflict = true;
 			}
 		}
-		if(cockSocksVariant[type] == "cockring") {
+		if(cockSocksVariant[cocksock_type] == "cockring") {
 			if(!player.hasPerk(PerkLib.PentUp)) player.createPerk(PerkLib.PentUp,10,0,0,0);
 			else player.addPerkValue(PerkLib.PentUp,1,5);
+			player.buff("PentUp").setStat("minlustx", player.perkv1(PerkLib.PentUp)*0.01).withText("Pent up");
 		}
 		outputText("You nod to the busty succubus and strip off your [armor], revealing your naked body.  Greta's eyes light up as she looks over your body with barely-contained lust.  Finally her eyes settle onto your " + cockDescript(cockChosen) + ", and she licks her lips.  ");
 		player.gems -= cost;
 		if (!conflict) { // There's no conflict. DO IT!!!
-			player.cocks[cockChosen].sock = cockSocksVariant[type];
+			player.cocks[cockChosen].sock = cockSocksVariant[cocksock_type];
 			statScreenRefresh();
 			outputText("With one hand she lifts your limp cock up, giving it a pleasant little stroke.");
 			outputText("\n\nHer other hand approaches, her thumb, fore- and middle-fingers holding the sock open as she slips it over your " + player.cockHead(cockChosen) + ".  She pulls it snugly into place and then gives your penis a little kiss.  The second her lips make contact with your flesh, a chill runs across your body, followed by a flood of warmth.");
@@ -784,6 +860,7 @@ private function removeTargettedSock(index:int):void {
 	if(extra && storage == "cockring") {
 		if(player.perkv1(PerkLib.PentUp) >= 10) player.addPerkValue(PerkLib.PentUp,1,-5);
 		else player.setPerkValue(PerkLib.PentUp,1,10);
+		player.minLustXStat.addOrReplaceBuff("Pent up", player.perkv1(PerkLib.PentUp)*0.01);
 	}
 	else {
 		if(storage == "gilded") {
@@ -800,6 +877,7 @@ private function removeTargettedSock(index:int):void {
 		}
 		if(storage == "cockring") {
 			player.removePerk(PerkLib.PentUp);
+			player.minLustXStat.removeBuff("PentUp");
 		}
 	}
 	outputText("\n\n\"<i>If you need another one, we've got plenty more for sale.</i>\"");
@@ -827,7 +905,7 @@ private function joeySweetMassage():void {
 	outputText("\n\nJoey hops off of you and you notice his cute femboy feet round the table, heading towards a small counter nearby hosting a large number of bottles.  You hear the sounds of a cork being pulled from one such bottle, followed by the bunny-boy gulping down its contents.  Then, surprisingly, he bends over, letting his thong pool around his ankles and revealing his cute, pink asshole.  He retrieves something else from the table and pulls it into view... a large multihued egg!  Joey places the egg at his butthole, which contracts in anticipation.  Slowly he works it inside, a task that you're sure would put the average anal acrobat to the test, but Joey is clearly no amateur.  The egg disappears completely within a couple minutes, swallowed up by that sweet little pucker.  Joey pulls his thong back up and turns towards you, his modest erection raging right in front of your face.");
 
 	outputText("\n\nRather than the usual stream of off-white jism, what starts pouring out the tip of his cock is a rich brown color.  It's viscous, and when it dribbles down onto the floor it forms a velvety pool.  Your masseuse scoops some of it up with two fingers and slips them into his mouth, closing his eyes as if he's enjoying an incredibly tasty treat.  \"<i>Mmm,</i>\" he moans, \"<i>chocolate.  This is what makes the sweet massage so sweet.  It's just as good as my creamy lotion, and twice as tasty.</i>\"  Joey turns away, retrieving another large egg from the table.  You wonder briefly if he has room for two of the two huge eggs in his ass, before he asks, \"<i>Would you like an egg too?  They don't have anything to do with the massage, but I just </i>love<i> feeling so full, don't you?</i>\"");
-	dynStats("lus", 25);
+	dynStats("lus", 25, "scale", false);
 	//[Yes (gives the chocolate-egg stuffed ass from the Easter bunny)] [No (This just skips the "If Yes" paragraphs)]
 	menu();
 	addButton(0,"Yes",eggsInButtStart,true);
@@ -953,7 +1031,7 @@ private function assaultYoRapistYo():void {
 		//open options [Leave][Abuse ass(70 or more corruption)]
 		menu();
 		addButton(4,"Leave", assaultWinAndLeave);
-		if(player.cor >= 66 - player.corruptionTolerance || flags[kFLAGS.MEANINGLESS_CORRUPTION] > 0) addButton(0,"Abuse Ass",abuseHisAss);
+		if(player.cor >= 66 - player.corruptionTolerance) addButton(0,"Abuse Ass",abuseHisAss);
 	}
 }
 
@@ -989,7 +1067,7 @@ private function abuseHisAss():void {
 	outputText("  \"<i>O-OI!</i>\"  The tiger man shouts out, his head turning to try to see behind him.  With a grin on your lips you grip the hilt of [oneCock] and slap its length over the tiger's rump.  You can see the tint to the tiger man's cheek as he hears and feels your dick smacking his exposed ass.  Pre-cum drips down [oneCock] as you line yourself up, jamming it between the tiger's lovely mounds. He gives a surprised shout as your cockhead presses to his tiny, puckered hole.");
 
 	//Cocksize check
-	//[[If smallest cock is over 16 inches)
+	//(If smallest cock is over 16 inches)
 	if(player.smallestCockLength() >= 16) {
 		outputText("\n\nYour lips part to let out a grunt of frustration.  Your cockhead is unable to break through the tiger man's tight resistance.  His struggles start to die down as [eachCock] continues to drool over his muscled rear.");
 		if(player.cockTotal() == 1) outputText("  You squeeze your [cocks] between his warm ass cheeks, stroking yourself with his exposed bottom.  The tiger whimpers meekly under you.");
@@ -1003,7 +1081,7 @@ private function abuseHisAss():void {
 		if(player.cockTotal() > 1) outputText("  One of your cocks slips into his hot, constricting confines, the remaining lengths pressed fast to the tiger man's rear and leaving glistening trails of eager fluids like markings on a bitch's ass.");
 		else outputText("  Your [cocks] pushes in, your pre-cum-slicked length sliding in with a wet noise.");
 		outputText("  The burly man under you whimpers in protest as you begin to rock against his fine ass.  His firm rear dimples and twitches under your hips, each slam");
-		if(player.balls > 0) outputText(" swatting your [balls] against him,");
+		if(player.hasBalls()) outputText(" swatting your [balls] against him,");
 		outputText(" making him shout out in discomfort.  Your [cocks] stretching him out");
 		if(player.cockTotal() > 1) outputText(" while beating his rear");
 		outputText(".  All his shouting stirs whoever resides in the tent he came out of.");
@@ -1223,13 +1301,5 @@ private function finalGayFinallee(road:int = 0):void {
 		//Time set to morning
 	}
 }
-	//Prisoner mod! Seems like it's unused now...?
-	/*
-	private function investigateBackAlley():void {
-		clearOutput();
-		outputText("Your curiousity draws you halfway down a dark alleyway between two tents. In the gloom ahead you see what appears to be a cage wagon, and hear the sounds of guttural voices engaged in boisterous conversation. Inexplicably you find yourself struck by an unwholesome sense of foreboding. <b>Even from here that cage looks like it is designed to carry people off to somewhere very unpleasant, some place where your life could be turned upside down and the rules you have become accustomed to in this world may no longer apply.</b> You take a long moment to consider turning back. Do you throw caution to the wind and investigate further?");
-        doYesNo(SceneLib.prison.goDirectlyToPrisonDoNotPassGoDoNotCollect200Gems, enterTheBazaarAndMenu);
-    }
-    */
 }
 }

@@ -29,7 +29,7 @@ public function bunnbunbunMeet():void {
 
 		outputText("Even though nearly a minute has passed, the bunny-lass is STILL frozen and staring.  She hasn't done anything since realizing that you're looking at her.  Well, it looks like the ball's in your court.  What do you do?");
 		//[Talk] [Rape Her]
-		simpleChoices("Talk", talkToBunnyBunBun, "Rape Her", rapeBunBun, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
+		simpleChoices("Talk", talkToBunnyBunBun, "Rape Her", rapeBunBun, "", null, "", null, "Leave", explorer.done);
 	}
 	//Met her
 	else {
@@ -47,7 +47,7 @@ public function bunnbunbunMeet():void {
 }
 
 private function sexMenu():void {
-	dynStats("lus", 5+player.lib/20);
+	dynStats("lus", 5 + player.lib / 20, "scale", false);
 	outputText("(If you’re going to have sex with her, which of her body parts will you use?");
 	//texts
 	if (player.cockThatFits(40) >= 0)
@@ -65,7 +65,7 @@ private function sexMenu():void {
 	addButton(3, "Your Ass", bunbunFucksPCInAss);
 	addButtonIfTrue(5, "LayYourEggs", ovipositBunnyEaster, "Req. any ovipositor.", player.canOviposit());
 	addButtonIfTrue(6, "Eggs & Honey", layEggsInBunbuns, "Req. bee ovipositor.", player.canOviposit());
-	addButton(14, "Leave", camp.returnToCampUseOneHour);
+	addButton(14, "Leave", explorer.done);
 }
 
 //[Talk]
@@ -92,7 +92,7 @@ private function rapeBunBun():void {
 	if(player.spe < 60) {
 		outputText("You lunge forward off your [feet], trying to tackle and pin the poor girl, but at the first sign of movement from you, she bounds off in the other direction!  She's hopping so fast there's no way you could possibly catch her, and in a matter of seconds you're left totally alone.  Well, perhaps not TOTALLY alone – there's one small egg nestled in the grass.  It fell from the bunny's basket in her haste to flee!");
 		//(pick and loot random egg)
-		inventory.takeItem(consumables.NPNKEGG, camp.returnToCampUseOneHour);
+		inventory.takeItem(consumables.NPNKEGG, explorer.done);
 	}
 	//[Rape Her Faster]
 	else {
@@ -174,15 +174,15 @@ private function bunbunFucksYourVag():void {
 	outputText("\n\n");
 
 	outputText("You sprawl out, leaking sexual fluids as your womb closes in around the foreign cargo, closing your cervix to hold in both the eggs.  An indeterminate amount of time has passed, but the forced euphoria of your new pregnancy makes it hard to get up just yet.  You see the bunny standing up with her dick finally going limp and no balls to speak of.  She leans down and gives you a kiss on the lips before whispering, \"<i>");
-	if(player.racialScore(Races.BUNNY) < 4) outputText("It's so good to finally think straight!  I don't know why I went into heat right now, but it's so much easier to think now that I've gotten rid of those eggs.  Don't worry, you won't be popping out rabbits since you aren't an easter-bun.  Your body will probably absorb them in a few days.  Just don't be surprised if you feel a little bloated or feel a little weird after.</i>\"\n\n");
+	if(player.racialScore(Races.BUNNY, false) < 4) outputText("It's so good to finally think straight!  I don't know why I went into heat right now, but it's so much easier to think now that I've gotten rid of those eggs.  Don't worry, you won't be popping out rabbits since you aren't an easter-bun.  Your body will probably absorb them in a few days.  Just don't be surprised if you feel a little bloated or feel a little weird after.</i>\"\n\n");
 	//Pregnant already
-	else if(player.pregnancyIncubation > 0) outputText("It's so good to finally think straight!  I don't know why I went into heat right now, but it really is a shame you're pregnant.  Your body will destroy the little eggs before they can even do anything!  Well, at least I feel sooo much better...</i>\"\n\n");
+	else if(!player.canGetPregnant()) outputText("It's so good to finally think straight!  I don't know why I went into heat right now, but it really is a shame you're pregnant.  Your body will destroy the little eggs before they can even do anything!  Well, at least I feel sooo much better...</i>\"\n\n");
 	//Preggers
 	else outputText("It's so good to finally think straight!  I don't know why I went into heat right now, but it feels so good to pour my babies into a nice, ready breeder-mom like yourself.  I bet the kids come out so cute!  Oh, I feel so much better.</i>\"\n\n");
 
 	outputText("She walks away, her puffy tail twitching with the breeze while your eyes drift closed.");
 	//(Easter vag-preg + 8 hours pass)
-	if (player.racialScore(Races.BUNNY) < 4) {
+	if (player.racialScore(Races.BUNNY, false) < 4) {
 		if (player.hasUniquePregnancy()) player.impregnationRacialCheck();
         else player.knockUp(PregnancyStore.PREGNANCY_BUNNY, PregnancyStore.INCUBATION_BUNNY_EGGS);
 	}
@@ -192,6 +192,7 @@ private function bunbunFucksYourVag():void {
 	}
 	player.sexReward("cum","Vaginal");
 	dynStats("lib", 1, "sen", -3);
+	explorer.stopExploring();
 	doNext(camp.returnToCampUseEightHours);
 }
 
@@ -272,7 +273,7 @@ private function bunbunFucksPCInAss():void {
 	if(player.hasVagina()) outputText("  Your " + vaginaDescript(0) + " clenches, empty, drooling, and neglected, wishing it something inside it.");
 	outputText("\n\n");
 
-	outputText("You slide off still-dripping bunny-tool and roll onto your back, panting from the force of your orgasm and remarkably sated.   The eggs inside you don't feel uncomfortable at all, in fact, you barely notice them.  Looking over, you see the rabbit-girl is finally done cumming, though her eyes haven't quite rolled the whole way back down.  Exhausted and filled with pleasant hormones that make it hard to think, the both of you simply lie and rest a bit.\n\n");
+	outputText("You slide off still-dripping bunny-tool and roll onto your back, panting from the force of your orgasm and remarkably sated.   The eggs inside you don't feel uncomfortable at all, in fact, you barely notice them.  Looking over, you see the rabbit-girl is finally done cumming, though her eyes haven't quite rolled the whole way back down.  Exhausted and filled with pleasant hormones that make it hard to think, both of you simply lie and rest a bit.\n\n");
 
 	outputText("An indeterminate amount of time later, the cute bunny-girl is giving you a long, wet kiss on the lips.  She stops to whisper, \"<i>It's so good to finally think straight!  I don't know why I went into heat right now, but it's so much easier to think now that I've gotten rid of those eggs.  Don't worry, I'm sure you'll absorb them in a couple days and be fine.  Just don't be surprised if you feel a little bloated and weird.</i>\"\n\n");
 
@@ -281,6 +282,7 @@ private function bunbunFucksPCInAss():void {
 	player.buttKnockUp(PregnancyStore.PREGNANCY_BUNNY, PregnancyStore.INCUBATION_BUNNY_EGGS, 1, 1);
 	player.sexReward("cum","Anal");
 	dynStats("lib", 1, "sen", 1);
+	explorer.stopExploring();
 	doNext(camp.returnToCampUseEightHours);
 }
 
@@ -315,7 +317,7 @@ private function bunbunGetsFucked():void {
 	if(y != -1) outputText("Her tight asshole slowly loosens around your " + cockDescript(y) + ", and so much lubricant splatters from her cunt with each thrust that the sensations of both your dicks become nigh-identical, save for the tight ring gripping the bottom one.");
 	else {
 		outputText("So much lubricant splatters from her cunt that your thighs");
-		if(player.balls > 0) outputText(", belly, and balls");
+		if(player.hasBalls()) outputText(", belly, and balls");
 		else outputText(" and belly");
 		outputText(" are soon sticky with the stuff, but it only spurs you on to fuck her harder.");
 	}
@@ -330,7 +332,7 @@ private function bunbunGetsFucked():void {
 	outputText("The bunny's convulsions take on a manic, thrashing pace, and before your eyes the base of her swollen cock begins to distend, nearly doubling in width from some internal object.  You wonder how she could enjoy something like that, but maybe her body is built for it?  It slowly works its way up the shaft while your long-eared lover stays locked in orgasm, panting, gasping, and leaking whiter-colored pre-cum that stops the convulsions anywhere it hits.  There must be something in it that forcibly relaxes the muscles, but before you can ponder it further your own climax has arrived.\n\n");
 
 	outputText("You bottom out with brutal force");
-	if(player.balls > 0) outputText(", slapping your balls against her ass");
+	if(player.hasBalls()) outputText(", slapping your balls against her ass");
 	outputText(", as your ");
 	if(player.hasSheath()) outputText("sheath");
 	else outputText("base");
@@ -364,7 +366,7 @@ private function bunbunGetsFucked():void {
 	player.sexReward("vaginalFluids","Dick");
 
 	dynStats("lib", 1, "sen", 1);
-	inventory.takeItem(consumables.NPNKEGG, camp.returnToCampUseOneHour);
+	inventory.takeItem(consumables.NPNKEGG, explorer.done);
 }
 
 private function bunbun69():void {
@@ -386,7 +388,7 @@ private function bunbun69():void {
 			//- Intelligence
 			//+ Lust
 			player.addCurse("int", 2, 2);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 		else {
 			outputText("Without thinking it over too hard beyond 'that sounds hot', you declare your intention to 69 the bunny girl.  She bursts into laughter.  You're a little perturbed by this and make it clear you're quite serious by restating your goal.\n\n");
@@ -404,7 +406,7 @@ private function bunbun69():void {
 			player.addCurse("int", 2, 2);
 			//+ Lust
 			//+ Pink Egg
-			inventory.takeItem(consumables.NPNKEGG, camp.returnToCampUseOneHour);
+			inventory.takeItem(consumables.NPNKEGG, explorer.done);
 		}
 		return;
 	}
@@ -431,7 +433,7 @@ private function bunbun69():void {
 			outputText("The spry bunny starts to make you dizzy and the slapping of her modest B-cups against your " + chestDesc() + " has begun to leave tingling red welts on your sensitive flesh. Wrapping one arm around her waist, you pull her crotch tightly against your face and bury your other hand into her dripping snatch, bunny lips parting like taffy to your forceful grip. Digging in as many as you can fit, you hook your fingers around and drag them out until you find the squirming girl's G-spot. Her frenzied hops cease immediately, and her whole body quivers in your embrace. You congratulate yourself on your quick thinking as her cock pulses in your mouth, the girl's orgasm imminent. To your considerable surprise, however, instead of merely pulsing, her balls begin to swell and one of them pops into her body! You can see an egg-shaped bulge work its way up her abdomen toward her cock, and you quickly try to draw your head back. The bunny's arms shoot to the back of your head and her fingers dig into your hair, trying to force you back down as she moans into your straining inches. You pull against her grip, the egg-shaped bulge of her testicle working its way up her shaft just a bit faster than you can distend it from your gut. Drool-slick flesh expands as the protrusion slips past your lips and just as her cockhead slides against your tongue, her narrow corona swells, dilating obscenely. A hot rush of marshmallow cum erupts in your mouth, gooey strands filling your cheeks, sliding back down your throat, and even bursting from your nostrils in soupy ropes of sugarcoated ejaculate when your attempt to swallow her load closes your esophagus. The girl's testicle plops into your mouth a moment later, and you're relieved to find that it seems to be an egg that's rolling around your tongue.\n\n");
 
 			outputText("Still possessed by the delirious breeding hysteria, the bunny grunts and jams her cock back down your throat, pushing the egg along with it. Your skin mushrooms as the bunny's egg-ball slides down your cum-lubricated neck and tumbles into your belly with an audible, vulgar plop. A feeling of incredible fullness fills you, as if you've just finished eating a small mountain of candy treats. A surge of heat stuffs your belly like a confectionary oven, and the bunny's egg between to bloat, soaking up her cum and your body heat, growing like a baking cake inside you. You become dizzy from the bunny's stuffing and when her sac deflates as the second egg slides into her dick, you shake your head weakly, as if to say you don't want seconds. The girl is too far gone in her wanton ardor to take your motion as anything but encouragement, however, and she nuzzles her nose into your ");
-			if(player.balls > 0) outputText("balls");
+			if(player.hasBalls()) outputText("balls");
 			else outputText("clit");
 			outputText(", whiskers vibrating with a happy little hum, her buck teeth massaging your root enthusiastically, impatient for her Champion-cream filling. Her hands slide from the back of your head, along your neck, down your back, and to your ass, fingers wrapping around to find your " + player.assholeOrPussy() + ". Slipping both middle fingers in, she strokes your ");
 			if(!player.hasVagina()) outputText("prostate");
@@ -462,7 +464,7 @@ private function bunbun69():void {
 				player.tailType = Tail.RABBIT;
 				player.ears.type = Ears.BUNNY;
 			}
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 			player.sexReward("cum","Lips");
 			player.sexReward("vaginalFluids","Lips");
 			player.sexReward("saliva","Dick");
@@ -488,7 +490,7 @@ private function bunbun69():void {
 			outputText("The spry bunny starts to make you dizzy and the slapping of her modest B-cups against your " + chestDesc() + " has begun to leave tingling red welts on your sensitive flesh. Wrapping one arm around her waist, you pull her crotch tightly against your face and bury your other hand into her dripping snatch, bunny lips parting like velvet to your forceful grip. Digging three fingers in, you hook your fingers around and drag them along the girl's quivering walls until her choked squeals tell you that you've found her most sensitive spot. Her gleeful hops cease immediately, and her whole body trembles in your embrace. You congratulate yourself on your quick thinking as her cock pulses in your mouth, the girl's orgasm imminent. To your considerable surprise, however, instead of merely pulsing, her balls begin to swell and one of them pops into her body! You can see an egg-shaped bulge work its way up her abdomen toward her cock, and you quickly try to draw your head back. The bunny's arms shoot to the back of your head and her fingers dig into your hair, trying to force you back down as she moans into your groin. You pull against her grip, the egg-shaped bulge working its way up her shaft just a bit faster than you can distend it from your gut. Drool-slick flesh expands as the protrusion slips past your lips and just as her cockhead slides against your tongue, her narrow corona swells, dilating obscenely. A hot rush of tingling cum erupts in your mouth, gooey strands filling your cheeks, sliding back down your throat, and even bursting from your nostrils in soupy ropes of sticky ejaculate when your attempt to swallow her load closes your esophagus. The girl's load rolls in your mouth for a moment, and you find that the cummy mess seems to have deposited an egg on your tongue!\n\n");
 
 			outputText("Still possessed by the delirious egg-laying hysteria, the bunny grunts and jams her cock back down your throat, pushing the egg along with it. Your skin mushrooms as the bunny's load slides down your cum-lubricated neck and tumbles into your belly with an audible, vulgar plop. A feeling of incredible fullness fills you, as if you've been swallowing spunk and eggs for hours. You become dizzy from the bunny's numbing jizz and when her sac deflates as the second egg slides into her dick, you shake your head weakly, as if to say 'no more.' The girl is too far gone in her wanton ardor to take your motion as anything but encouragement, however, and she nuzzles her nose into your ");
-			if(player.balls > 0) outputText("balls");
+			if(player.hasBalls()) outputText("balls");
 			else if(player.hasVagina()) outputText("clit");
 			else outputText("groin");
 			outputText(", whiskers vibrating with a happy little hum, her buck teeth massaging your root enthusiastically, impatient for her own creamy meal. Her hands slide from the back of your head, along your neck, down your back, and to your ass, fingers wrapping around to find your " + player.assholeOrPussy() + ". Slipping both middle fingers in, she strokes your ");
@@ -522,7 +524,7 @@ private function bunbun69():void {
 				player.tailType = Tail.RABBIT;
 				player.ears.type = Ears.BUNNY;
 			}
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 			player.sexReward("cum","Lips");
 			player.sexReward("vaginalFluids","Lips");
 			player.sexReward("saliva","Dick");
@@ -566,7 +568,7 @@ private function bunbun69():void {
 			player.tailType = Tail.RABBIT;
 			player.ears.type = Ears.BUNNY;
 		}
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 		player.sexReward("cum","Lips");
 		player.sexReward("vaginalFluids","Lips");
 		player.sexReward("saliva","Vaginal");
@@ -621,7 +623,7 @@ public function layEggsInBunbuns():void {
 	outputText("\n\nFinally you find you no longer have any to give to the egg-obsessed rabbit girl, and the ovipositor retracts into its slit.  Tired but blissful, she curls up to slumber, and you leave her to deal with having a stomach chock-full of eggs 'n honey, returning to camp until you once again need a warm body to play host.");
 	player.dumpEggs();
 	player.sexReward("Default","Default",true,false);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 
@@ -676,7 +678,7 @@ public function ovipositBunnyEaster():void {
 	player.dumpEggs();
 	player.orgasm();
 	dynStats("sen", -2);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 //Bunny Girl Eggsplosion
@@ -719,7 +721,7 @@ private function adjathaEggsplosions():void {
 		if(player.cockThatFits(40) >= 0) addButton(2,"Fuck Her",fuckTheEggBoundBun);
 		else outputText("  <b>You're too big to fuck her!</b>");
 	}
-	addButton(14,"Leave",camp.returnToCampUseOneHour);
+	addButton(14,"Leave",explorer.done);
 }
 
 //[Free Her] (Any gender)
@@ -761,8 +763,8 @@ private function freeHerOhGodWhyDidYouDoThis():void {
 
 	outputText("\n\nThe frantic pace of her initial discharge ebbs as her hulking testes visibly shrink.  She leans up against the wobbling factories, resting atop them like they were hefty, liquid pillows.  It'll take her a while to finish emptying herself completely, but for the time being, she seems content.  You give her fluffy tail a playful poof and head back to camp, stooping to retrieve one of the girl's eggs from the ground as you go.\n\n");
 	//[End Encounter, gain neon pink egg]
-	dynStats("lus", 25);
-	inventory.takeItem(consumables.NPNKEGG, camp.returnToCampUseOneHour);
+	dynStats("lus", 25, "scale", false);
+	inventory.takeItem(consumables.NPNKEGG, explorer.done);
 }
 
 //[Fuck Her] (Male/Futa Only)
@@ -815,9 +817,9 @@ private function fuckTheEggBoundBun():void {
 	else outputText("growing larger and larger as cum splatters in thick streams from her saturated pussy. Your seemingly endless gallons of flooding cum wash the remnants of her previous partners away, immersing the caramel woman in the fluid wealth of your liquid possession.");
 	outputText("  No sooner has your spunk taken root inside her, than the bunny's already colossal testes tremble anew.  Before your eyes, they balloon even larger, fattening with the profit of your claim.  You remain inside her a moment longer to marvel at the impossible bulk of her egg-stuffed body, before withdrawing and stepping back to clean yourself off.  Bulbous dollops of spunk bubble from her cunny as she impotently grinds her shaft against the mammoth bulk of her stoppered balls.  Satisfied, you head back to camp, leaving the bunny to the mercies of the next rescuer.");
 	//[End Encounter, corruption up]
-	player.sexReward("Default","Dick",true,false);
+	player.sexReward("no", "Dick");
 	dynStats("cor", 2);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 //[Get Egged] (Female/Futa only)
@@ -918,7 +920,7 @@ private function getEggflated():void {
 	}
 	outputText("Eventually, enough of the eggs melt to let you stand under your own power.  You grab your [armor] but hold off on putting it on until you have a chance to shrink down to a more normal size.  Before you leave, you make sure to remove the rope from her wrists, for when she gathers her orgasm-blasted wits.");
 	//[If full bunny morph, End Encounter. Weight up, sensitivity down, fertility up.]
-	if (player.racialScore(Races.BUNNY) < 4) {
+	if (player.racialScore(Races.BUNNY, false) < 4) {
 		if (player.hasUniquePregnancy()) player.impregnationRacialCheck();
         else player.knockUp(PregnancyStore.PREGNANCY_BUNNY, PregnancyStore.INCUBATION_BUNNY_EGGS);
 	}
@@ -931,6 +933,7 @@ private function getEggflated():void {
 	outputText(player.modTone(0,3));
 	player.sexReward("cum","Vaginal");
 	dynStats("lib", 1, "sen", -3);
+	explorer.stopExploring();
 	doNext(camp.returnToCampUseEightHours);
 }
 	}

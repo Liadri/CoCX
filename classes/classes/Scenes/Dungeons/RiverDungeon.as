@@ -2,36 +2,45 @@
  * Side Dungeon: River Dungeon (Dungeon with multiple floors below He'Xin'Dao)
  * @author Ormael, Liadri
  */
-package classes.Scenes.Dungeons 
+package classes.Scenes.Dungeons
 {
 import classes.CoC;
 import classes.EventParser;
 import classes.GlobalFlags.kFLAGS;
+import classes.ItemType;
 import classes.Items.Shield;
 import classes.Items.Weapon;
 import classes.PerkLib;
+import classes.Scenes.Areas.Ashlands.Cinderbloom;
+import classes.Scenes.Areas.BlightRidge.Omnibus;
+import classes.Scenes.Areas.Bog.Phouka;
+import classes.Scenes.Areas.Forest.AlrauneMaiden;
+import classes.Scenes.Areas.Forest.BeeGirlHuntress;
+import classes.Scenes.Areas.Forest.HornetHuntress;
+import classes.Scenes.Areas.Forest.WaspHuntress;
 import classes.Scenes.Areas.GlacialRift.Yeti;
-import classes.Scenes.Areas.Lake.GreenSlime;
+import classes.Scenes.Areas.HighMountains.Izumi;
 import classes.Scenes.Areas.Mountain.HellHound;
-import classes.Scenes.Dungeons.RiverDungeon.AirElemental;
-import classes.Scenes.Dungeons.RiverDungeon.DarknessElemental;
-import classes.Scenes.Dungeons.RiverDungeon.EarthElemental;
-import classes.Scenes.Dungeons.RiverDungeon.FireElemental;
-import classes.Scenes.Dungeons.RiverDungeon.IceElemental;
-import classes.Scenes.Dungeons.RiverDungeon.LightningElemental;
-import classes.Scenes.Dungeons.RiverDungeon.QuatroElementalBoss;
-import classes.Scenes.Dungeons.RiverDungeon.Vegot;
-import classes.Scenes.Dungeons.RiverDungeon.WaterElemental;
+import classes.Scenes.Areas.Tundra.SnowLily;
+import classes.Scenes.Dungeons.RiverDungeon.*;
+import classes.Scenes.Monsters.AngelLR;
 import classes.Scenes.Monsters.FeralImps;
 import classes.Scenes.Monsters.GolemDummyImproved;
 import classes.Scenes.NPCs.Electra;
+import classes.Scenes.NPCs.Hel;
 import classes.Scenes.SceneLib;
 import classes.StatusEffects;
 import classes.display.SpriteDb;
 
 public class RiverDungeon extends DungeonAbstractContent
 	{
-		public function RiverDungeon() {} //flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] 1 - pok 1 golema, 2 pokonanie obu golemów, 3-6 pokonanie 4 żywiołaków sub bossów, 7 pokonanie chimerycznego żywiołaka, 8 otwarcie drzwi do bossa 3 poziomu, 9 pokonanie bossa 3 poziomu
+		public function RiverDungeon() {}
+		//flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]
+		//1 - pok 1 golema, 2 pokonanie obu golemów
+		//3-6 pokonanie 4 żywiołaków sub bossów, 7 pokonanie chimerycznego żywiołaka
+		//8 otwarcie drzwi do bossa 3 poziomu, 9 pokonanie bossa 3 poziomu
+		//10 oczyszczenie przejścia do bossów 4 poziomu, 11 pokonanie bossów 4 poziomu, 12 oczyszczenie przejścia do schodów do poziomu 5
+		//13 pokonanie bossa 5 poziomu
 		
 		public function enterDungeon():void {
 			inDungeon = true;
@@ -76,9 +85,10 @@ public class RiverDungeon extends DungeonAbstractContent
 					startCombat(new FeralImps(), true);
 				}
 				if (choice == 1) {
-					spriteSelect(SpriteDb.s_green_slime);
-					outputText("A soft shuffling splat catches your attention and you turn around, spotting an amorphous green mass sliding towards you!  Realizing it's been spotted, the ooze's mass surges upwards into a humanoid form with thick arms and wide shoulders.  The beast surges forward to attack!");
-					startCombat(new GreenSlime(), true);
+					//spriteSelect(SpriteDb.);
+					outputText("A soft shuffling splat catches your attention and you turn around, spotting an amorphous red mass sliding towards you!  Realizing it's been spotted, the ooze's mass surges upwards into a humanoid form with thick arms and wide shoulders.  The beast surges forward to attack!");
+					flags[kFLAGS.RED_OOZE_SUBTYPE] = 2;
+					startCombat(new RedOoze(), true);
 				}
 				if (choice == 2) {
 					spriteSelect(SpriteDb.s_hellhound);
@@ -93,24 +103,20 @@ public class RiverDungeon extends DungeonAbstractContent
 		public function defeatedByFeralImp():void {
 			clearOutput();
 			outputText("Your opponent, done toying with your body, carries you all the way back to the dungeon entrance. They toss you onto the ground outside. Guess it's back to square one.\n\n");
-			//cleanupAfterCombat();
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_01_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
-		public function defeatedByGreenSlime():void {
+		public function defeatedByRedOoze():void {
 			clearOutput();
 			outputText("Your opponent, done toying with your body, carries you all the way back to the dungeon entrance. They toss you onto the ground outside. Guess it's back to square one.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_01_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByHellHound():void {
 			clearOutput();
 			outputText("Your opponent, done toying with your body, carries you all the way back to the dungeon entrance. They toss you onto the ground outside. Guess it's back to square one.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_01_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByAetherGolem():void {
 			clearOutput();
@@ -138,14 +144,13 @@ public class RiverDungeon extends DungeonAbstractContent
 			doNext(playerMenu);
 		}
 		public function takeAetherSister1b():void {
-			weapons.AETHERD.useText();
-			player.weapon.removeText();
+			var item:Weapon = player.setWeapon(weapons.AETHERD);
 			cleanupAfterCombat();
 			outputText("You tell the voice to come to you. With a giggle, the gauntlet that was covering the golem's arm moves, tendrils detaching from its previous host. The tendrils entwine, pulling it from the arm, crawling across the floor until it reaches you. The gauntlet's tendrils wrap around your arm, pulling it up and over your arm. \"<i>Let's bust some heads!");
 			if (flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] == 2) outputText("</i>\" After this you hear other voice in your head. \"<i>The Aether twins united. Go go go twins!!!");
 			outputText("</i>\"\n\n");
-			var item:Weapon = player.setWeapon(weapons.AETHERD); //Item is now the player's old weapon
-			if (item == null) doNext(playerMenu);
+			if (item == null) inventory.takeItem(weapons.AETHERD, playerMenu); // failed to equip
+			else if (item.isNothing) doNext(playerMenu); // equip to empty slot
 			else inventory.takeItem(item, playerMenu);
 		}
 		public function takeAetherSister2():void {
@@ -166,14 +171,13 @@ public class RiverDungeon extends DungeonAbstractContent
 			doNext(playerMenu);
 		}
 		public function takeAetherSister2b():void {
-			shields.AETHERS.useText();
-			player.shield.removeText();
+			var item:Shield = player.setShield(shields.AETHERS); //Item is now the player's old shield
 			cleanupAfterCombat();
 			outputText("You tell the voice to come to you. With a giggle, the gauntlet that was covering the golem's arm moves, tendrils detaching from its previous host. The tendrils entwine, pulling it from the arm, crawling across the floor until it reaches you. The gauntlet's tendrils wrap around your arm, pulling it up and over your right arm. \"<i>Let's bust some heads!");
 			if (flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] == 2) outputText("</i>\" After this you hear other voice in your head. \"<i>The Aether twins are united!");
 			outputText("</i>\"\n\n");
-			var item:Shield = player.setShield(shields.AETHERS); //Item is now the player's old shield
-			if (item == null) doNext(playerMenu);
+			if (item == null) inventory.takeItem(shields.AETHERS, playerMenu); // failed to equip
+			else if (item.isNothing) doNext(playerMenu); // equip to empty slot
 			else inventory.takeItem(item, playerMenu);
 		}
 		
@@ -271,30 +275,26 @@ public class RiverDungeon extends DungeonAbstractContent
 		public function defeatedByFireElemental():void {
 			clearOutput();
 			outputText("Your opponent punches you a few more times, then carries you all the way back to the floor entrance. Your flesh sizzles in its grasp, and you groan in pain. It drops your body there, turning back into the dungeon. \n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByWaterElemental():void {
 			clearOutput();
 			outputText("Your opponent punches you few more times, then carries you all the way back to the floor entrance. It drops you there, soaking wet. Guess it's back to square one on this floor.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByAirElemental():void {
 			clearOutput();
 			outputText("Your opponent knocks you to the ground in a stunned heap. It then carries you all the way back to the floor entrance, your [skin] tender from windburn. It tosses you, then returns to the dungeon. \n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByEarthElemental():void {
 			clearOutput();
 			outputText("Your opponent knocks you to the ground in a stunned heap. It carries all the way back to the floor entrance and drops you there, covered in mud. Guess it's back to square one on this floor.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByFireElementalSubBoss():void {
 			clearOutput();
@@ -437,7 +437,11 @@ public class RiverDungeon extends DungeonAbstractContent
 				player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
 				//spriteSelect(SpriteDb.s_green_slime);
 				if (player.hasKeyItem("Key Of Darkness") >= 0 || flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 7) flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] = rand(4);
-				else flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] = rand(5);
+				else {
+					var rdem:Number = rand(5);
+					if (rand(3) > 0) rdem = 4;
+					flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] = rdem;
+				}
 				if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4) {
 					outputText("A soft shuffling sound catches your attention and you turn around, spotting a large, shadowy mass rushing towards you!  When it it almost next to you it starts to morph into a copy of you, made up of an inky, black darkness. nearly nine feet tall, the creature seems to draw in light, casting a dark shadow through the hallway.");
 					outputText("As you strain to see this blackened doppelganger, it lurches toward you!");
@@ -446,7 +450,10 @@ public class RiverDungeon extends DungeonAbstractContent
 				startCombat(new DarknessElemental(), true);
 				//doNext(playerMenu);
 			}
-			else player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
+			else {
+				player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
+				if (player.hasKeyItem("Key Of Darkness") < 0 || flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] <= 7) outputText("\n\n<b>High chance to find Unique Darkness Elemental</b>\n\n");
+			}
 		}
 		
 		public function defeatVegot():void {
@@ -466,37 +473,32 @@ public class RiverDungeon extends DungeonAbstractContent
 		public function defeatedByIceElemental():void {
 			clearOutput();
 			outputText("Your opponent punches you a few more times, then carries you all the way back to the floor entrance. It drops you by the entrance, shivering from its icy touch.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_03_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByLightningElemental():void {
 			clearOutput();
 			outputText("Your opponent punches you a few more times, then carries you all the way back to the floor entrance. It drops you by the entrance, sparks playing across your [skin], your fingers numb from the creature's touch. \n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_03_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByDarknessElemental():void {
 			clearOutput();
 			outputText("Your opponent punches you a few more times, then carries you all the way back to the floor entrance. It drops you by the entrance. You can barely see, your eyes struggling after being handled by that blob of black darkness. You shudder, barely able to see. \n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_03_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByYeti():void {
 			clearOutput();
-			outputText("Placeholder Bad End.\n\n");
-			inDungeon = true;
+			outputText("As you fall on the ground you barely get a glimpse of the Yeti grabbing a rock and dropping it on your head. When you wake up you are back at the entrance of the dungeon. Guess this could've gone worse but now you have to do the whole thing all over again.\n\n");
 			dungeonLoc = DUNGEON_RIVER_FLOOR_03_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByRaiju():void {
 			clearOutput();
-			outputText("Placeholder Bad End.\n\n");
-			inDungeon = true;
+			outputText("As you fall on the ground you barely get a glimpse of the Yeti charging a lightning around her hand and dropping it on your head. When you wake up you are back at the entrance of the dungeon. Guess this could've gone worse but now you have to do the whole thing all over again.\n\n");
 			dungeonLoc = DUNGEON_RIVER_FLOOR_03_ROOM_01;
-			playerMenu();
+			cleanupAfterCombat();
 		}
 		public function defeatedByDarknessElementalSubBoss():void {
 			clearOutput();
@@ -544,40 +546,356 @@ public class RiverDungeon extends DungeonAbstractContent
 			doNext(playerMenu);
 		}
 		
-		/*public function defeatedBy():void {
-			clearOutput();
-			outputText("Placeholder Bad End.\n\n");
-			inDungeon = true;
-			dungeonLoc = ;starting for each floor room
-			playerMenu();
+		private function encountersRuletteD():void {
+			if (encountersRulette()) {
+				var reset:Number = 10;
+				var reset00:Number = 6;
+				reset -= player.statusEffectv1(StatusEffects.RiverDungeonA);
+				player.addStatusValue(StatusEffects.RiverDungeonA, 1, reset);
+				player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				if (flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 1) reset00 -= 1;
+				var choice:Number = rand(reset00);
+				if (choice == 0) {
+					//spriteSelect(SpriteDb.s_green_slime);
+					outputText("A soft shuffling splat catches your attention and you turn around, spotting an amorphous red mass sliding towards you!  Realizing it's been spotted, the ooze's mass surges upwards into a humanoid form with thick arms and wide shoulders.  Then you notice it's covered with nearly blending with rest of it skin purple glowing veins.  The beast surges forward to attack!");
+					flags[kFLAGS.RED_OOZE_SUBTYPE] = 1;
+					startCombat(new RedOoze(), true);
+				}
+				if (choice == 1) {
+					//spriteSelect(SpriteDb.s_green_slime);
+					outputText("As you’re wandering through the passage a flickering light off in the distance catches your eye.  Realizing it's been spotted, the light starty to dash toward you.\n\nYour attacker seems to melt, then reforms, becoming a five inch tall mist phouka.  His skin and wings are coal black covered by many glowingh vein-like things, and his eyes are purple and shiny like those of a cat.  He isn't wearing any clothes, and a fully erect cock almost an inch long juts out of his groin.  Apart from that and a lack of breasts, his body looks feminine, much like the faeries of the woods.\n\nThe mist phouka leers at you, clearly deciding what he wants to do next.  Not longh after it decides as he surges forward to attack!");
+					startCombat(new Phouka("mist phouka"), true);
+				}
+				if (choice == 2) {
+					//spriteSelect(SpriteDb.s_green_slime);
+					outputText("As you’re wandering through the passage, from the room ahead comes out a purple skinned person.  And it even have whole body covered with some sort of neon markings that glow with similar purple hue.  At first glance, it seems to be a female person.  When she approaches closer, despite rags covering some of her body you notice a demonic cock hanging free.  \"<i>I can feel lack of mist in you.  Let me help you!</i>\" she directly commands yet still using a gentle feminine voice.  Look like there is no way around it, you ready your [weapon] for the fight.");
+					startCombat(new Omnibus(), true);
+				}
+				if (choice == 3) {
+					spriteSelect(SpriteDb.s_hel_sprite);
+					outputText("As you wander the dungeon you are suddenly surprised as a shimmering purple light rush at you at increasing speed. Before you can figure out what is going on a bloodcrazed lizard girl with a curved sword charge at you her eyes glimmering with uncontained rage.");
+					startCombat(new Hel(), true);
+				}
+				if (choice == 4) {
+					//spriteSelect(SpriteDb.s_electra);
+					outputText("A loud sound attract your attention and you turn around, spotting large oni covered with purple glowing lines walking slowly towards you.  Sounds you heard moment before resounds again and it's caused by her simply walking ahead.  No way around it, you ready your [weapon] for the fight.");
+					startCombat(new Izumi(), true);
+				}
+				if (choice == 5) {
+					//spriteSelect(SpriteDb.s_electra);
+					outputText("As you’re wandering through the passage you suddenly hear sound of many wings flapping.  Turning around you notice an angel accompanied by two angeloids flying toward you. They're closing in with supernatural speed, and before you can take more than a few steps, they're surrounding you. \"<i>Don't be afraid of the Mist!!!</i>\"  No way around it, you ready your [weapon] for the fight.");
+					startCombat(new AngelLR(), true);
+				}
+				//doNext(playerMenu);
+			}
+			else player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
 		}
-		public function defeatedBy():void {
+		public function defeatTwinBosses():void {
 			clearOutput();
-			outputText("Placeholder Bad End.\n\n");
-			inDungeon = true;
-			dungeonLoc = ;starting for each floor room
-			playerMenu();
+			outputText("Both of the odd Kitsune-Onis fall, unable to continue the fight. As they do, you hear an odd sound, like the grinding of gears. Looking up at you, the two defeated people shudder, their whole bodies vibrating.\n\n");
+			outputText("<i>TICK.</i>\n\n");
+			outputText("The next moment, wounds open up on them, as if cut by a sword. The wounds you KNOW you inflicted are gone. Suddenly, they shake again, unnaturally fast.\n\n");
+			outputText("<i>TOCK.</i>\n\n");
+			outputText("The next instant, they’re uninjured, jerking themselves off while trying to hide themselves with their many tails.\n\n");
+			outputText("<i>TICK.</i>\n\n");
+			outputText("They’re bruised now, as if pummelled by tiny fists. One keels over and retches.\n\n");
+			outputText("<i>TOCK.</i>\n\n");
+			outputText("And now they’re surrounded by golems…No, skeletons…No…Your head begins to split, and you <i>feel</i> countless injuries pressing in on you. Your body seems fluid, limbs, horns and features passing in an agonizing, dizzying blur. You close your eyes, screaming in silence as your mouth changes thousands of times…\n\n");
+			outputText("<i>DING.</i> A reverberating sound, like the chime of a clock. The pain is gone, and the two defeated Kitsune-Onis are at your feet, like before. In the moment you need to collect your thoughts, two identical doors open, in the middle of the empty room. They walk…backwards? Out of the portal.\n\n");
+			outputText("\"<i>Always too early</i>\", one of the Onis jokes, despite the state he’s in. As the newcomers approach, your body suddenly feels sluggish, your [legs] barely responding to your commands. You try to lunge at the beaten Onis, but you’re too late, all but freezing in place.\n\n");
+			outputText("<i>TICK.</i>\n\n");
+			outputText("The newcomers walk backwards, past the Onis you just defeated. One even passes <i>through</i> you, leaving you chilled where your bodies touched.\n\n");
+			outputText("\"<i>?od su evah uoy dluow tahW</i>\" One says, facing the Onis. Suddenly, the Oni simply…vanishes, body reappearing in a slightly different place, uninjured, as if they’d never even met you…Wait…They almost look… <i>Younger.</i>\n\n");
+			outputText("<i>TOCK.</i>\n\n");
+			outputText("\"<i>.stops lausu eht ni snoissessop rieht evaeL .sdnecsA ohw eno eht rof ecalp siht eraperP .htiw tlaed neeb ydaerla evah srerutnevda ehT</i>\"\n\n");
+			outputText("The other newcomer speaks. \"<i>?erefretni yehT fi tahw dnA</i>\"\n\n");
+			outputText("<i>TICK.</i>\n\n");
+			outputText("The second Oni gives you a smirk before vanishing, reappearing in this…Extremely odd conversation.\n\n");
+			outputText("\"<i>.deraperp eb tsum sdnecsA ohW enO ehT .nac ew lla enod evah ll'eW</i>\"\n\n");
+			outputText("<i>TOCK.</i>\n\n");
+			outputText("Suddenly released, you feel yourself lunge forward, as if your body had suddenly caught up with all the commands you’d been giving it for the past few seconds. Despite your clumsy rush, you grab nothing but air, as the Onis, the newcomers, the portals and even the mess from your fight just…begin to vanish.\n\n");
+			outputText("The Onis look at you with mild contempt as they fade away, leaving you alone in the restored room. The ticking stops, fading away with them.\n\n");
+			outputText("You feel slightly dizzy, disoriented from the sudden, rapid changes. You flex a muscle that you recall having, and nothing happens. You shake yourself off, collecting your thoughts, and slowly the nausea, the feeling of <i>otherness</i> fades, leaving you…You’re not sure how to feel about this.\n\n");
+			outputText("You’ve…Won, you suppose. The dungeon’s depths are open to you now.\n\n");
+			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]++;
+			cleanupAfterCombat();
+			doNext(playerMenu);
 		}
-		public function defeatedBy<Boss enemy>():void {
+		public function defeatedByRedMistOoze():void {
 			clearOutput();
-			outputText("Placeholder Bad End.\n\n");
+			outputText("Your opponent, done toying with your body, carries you all the way back to the dungeon entrance. They toss you onto the ground outside. Guess it's back to square one.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			cleanupAfterCombat();
+		}
+		public function defeatedByMistPhouka():void {
+			clearOutput();
+			outputText("Your opponent, done toying with your body, carries you all the way back to the dungeon entrance. They toss you onto the ground outside. Guess it's back to square one.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			cleanupAfterCombat();
+		}
+		public function defeatedByMistOmnibus():void {
+			clearOutput();
+			outputText("Your opponent, done toying with your body, carries you all the way back to the dungeon entrance. They toss you onto the ground outside. Guess it's back to square one.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			cleanupAfterCombat();
+		}
+		public function defeatedByMistSalamander():void {
+			clearOutput();
+			outputText("Your opponent punches you a few more times, then carries you all the way back to the floor entrance. Your flesh sizzles in its grasp, and you groan in pain. It drops your body there, turning back into the dungeon.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			cleanupAfterCombat();
+		}
+		public function defeatedByMistOni():void {
+			clearOutput();
+			outputText("Your opponent punches you a few more times, then carries you all the way back to the floor entrance. It drops your body there, turning back into the dungeon.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			cleanupAfterCombat();
+		}
+		public function defeatedByLowRankMistAngel():void {
+			clearOutput();
+			outputText("Your opponent shoot you a few more times, then carries you all the way back to the floor entrance. It drops your body there, turning back into the dungeon.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			cleanupAfterCombat();
+		}
+		public function almostdefeatedByTwinBosses():void {
+			clearOutput();
+			outputText("You turn, attempting to flee from this odd chamber, and these equally enigmatic foes!\n\n");
+			outputText("You realise a few steps in that they aren’t even attempting to stop you. One simply turns, slamming his spiked club into one of the room’s supporting pillars. Immediately the room rumbles, and you flee outside.\n\n");
+			outputText("\"<i>Leaving already?</i>\" He calls, moving to the next pillar. The air seems to shudder and shake around you, as the rock begins to fall, seemingly starting to bury them both. As the entrance to the passageway is filling with rocks, you hear the other Oni’s voice calling out to you.\n\n");
+			outputText("\"<i>Bring another of the crystals!</i>\"\n\n");
+			outputText("The sound of the falling rocks suddenly stops, as if those stones had never moved in the first place.\n\n");
+			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]--;
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_05;
+			cleanupAfterCombat();
+		}
+		public function defeatedByTwinBosses():void {
+			clearOutput();
+			outputText("You collapse, your "+(player.HP <= player.minHP()?"wounds":"lust")+" burdening your body too much to continue.\n\n");
+			outputText("You hear an echoing ringing through your ears, like the bell of a massive alarm clock. The two odd creatures start to walk towards you, but you notice that they walk unevenly, their footsteps echoing out of synch with their movements. Your head begins to pound, and they stand over you. One of them looks down with…a wistful expression? Like they know you from somewhere. The other seems indifferent, scowling slightly.\n\n");
+			outputText("\"<i>Every battle you’ve fought, loss or victory, was to bring you here.</i>\" The indifferent one says simply. Behind them, a violet portal opens, swirling violently…or is that your head? That ticking noise is starting up again, and to your shock, two new forms walk backwards, out of the portal.\n\n");
+			outputText("The wistful one speaks, placing a cool hand on your forehead. \"<i>Try not to resent us, champion. From the beginning, you were fated to come here.</i>\" You blink, trying to shake the disorientation. These beings…Their outlines are blurring, and you can see…Is that them? Back behind the ones speaking to you, outlines starting from where they were, and rapidly flitting to their current places. The two other beings from the portal slowly walk backwards, vanishing into another pair of portals.\n\n");
+			outputText("\"<i>You’ll be the one to make this right.</i>\" The scowling one says, fox-tails lashing behind him. \"<i>In the…Future?</i>\" He looks at the other, who shakes his head. \"<i>The past, then.</i>\" You begin to see an outline…of You. Fighting the two beings…But it plays out differently. This you looks different, and you…never dodged that way before! You close your eyes, and the world feels like you’re on a boat in a violently thrashing ocean.\n\n");
+			outputText("The wistful one winces. \"<i>I hate this part</i>\", he says simply, as the scowling one steps towards you, raising his Tetsubo.\n\n");
+			outputText("\"<i>We’ll meet again</i>\", the scowling one says, swinging his club down. You see stars…and your consciousness fades.\n\n");
 			//[GAME OVER]
 			EventParser.gameOver();
 		}
 		
-		public function defeat():void {
+		private function encountersRuletteE1():void {
+			if (encountersRulette()) {
+				var reset:Number = 10;
+				var reset00:Number = 3;
+				reset -= player.statusEffectv1(StatusEffects.RiverDungeonA);
+				player.addStatusValue(StatusEffects.RiverDungeonA, 1, reset);
+				player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				if (flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 1) reset00 -= 1;
+				var choice:Number = rand(reset00);
+				if (choice == 0) {
+					spriteSelect(SpriteDb.s_bee_girl);
+					outputText("As you approach the nearby glade, a sweet scent wafts into your nose. Tantalizing, teasing, alluring. As you sniff the air, you find yourself following it, as if an invisible hand is pulling you toward its origin.  Little do you know, that is essentially what's happening. The further and further you go, the more heavy the scent grows, as well as a sound. A sound of a buzz, but not in a maddening tone, as if someone is humming. It's a lovely tune, one that would stick in the back of the mind, but not in a bad way.\n\n");
+					outputText("That's when she comes into view.  A great woman, yellow and black, a Bee-like handmaiden would be the best comparison.  She sits atop a great flower while humming her tune, happily picking the petals off of another flower.  Her body is thin, save her abdomen.  Her head is more humanoid than bee, with black eyes, floppy antennae, and luscious black lips that glimmer wetly in the light. Her body covers nearly not visible network of faint purple vein-like lines.\n\n");
+					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GIANTBEES);
+					startCombat(new BeeGirlHuntress(), true);
+				}
+				if (choice == 1) {
+					spriteSelect(SpriteDb.s_alraune);
+					outputText("As you wander the cavern, you come across a rather large flower, easily twice your size. You ponder how plants even manage to grow this big even on Mareth. The flower has pink petals and a pitcher-like center. While you are busy examining it, several large vines surge out at you, binding your arms and legs and reeling you toward the flower as it opens up, revealing a beautiful woman with light green skin marked by many of purple lines and deep green eyes.\n\n");
+					outputText("\"<i>Mmmmmm such a nice catch... Come closer into my pitcher.</i>\"\n\n");
+					outputText("There's no way you will let this thing pull you in!\n\n");
+					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_ALRAUNE);
+					startCombat(new AlrauneMaiden(), true);
+				}
+				if (choice == 2) {
+					//spriteSelect(SpriteDb.s_electra);
+					outputText("As you’re wandering through the cavern you suddenly hear sound of many wings flapping.  Turning around you notice an angel accompanied by four angeloids flying toward you. They're closing in with supernatural speed, and before you can take more than a few steps, they're surrounding you. \"<i>Don't be afraid of the Mist!!!</i>\"  No way around it, you ready your [weapon] for the fight.");
+					startCombat(new MistAngelMR(), true);
+				}
+				//doNext(playerMenu);
+			}
+			else player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
+		}
+		private function ConstantHeatConditions():void {
+			if (!player.hasPerk(PerkLib.FireAffinity) && !player.hasPerk(PerkLib.FireShadowAffinity) && !player.hasPerk(PerkLib.AffinityIgnis)) player.createStatusEffect(StatusEffects.ConstantHeatConditions,1,0,0,0);
+		}
+		private function encountersRuletteE2():void {
+			if (encountersRulette()) {
+				var reset:Number = 10;
+				var reset00:Number = 3;
+				reset -= player.statusEffectv1(StatusEffects.RiverDungeonA);
+				player.addStatusValue(StatusEffects.RiverDungeonA, 1, reset);
+				player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				if (flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 1) reset00 -= 1;
+				var choice:Number = rand(reset00);
+				if (choice == 0) {
+					//spriteSelect(SpriteDb.s_bee_girl);
+					outputText("As you approach the nearby glade, a sweet scent wafts into your nose. Tantalizing, teasing, alluring. As you sniff the air, you find yourself following it, as if an invisible hand is pulling you toward its origin.  Little do you know, that is essentially what's happening. The further and further you go, the more heavy the scent grows, as well as a sound. A sound of a buzz, but not in a maddening tone, as if someone is humming. It's a lovely tune, one that would stick in the back of the mind, but not in a bad way.\n\n");
+					outputText("That's when she comes into view.  A great woman, yellow and black, a Wasp-like handmaiden would be the best comparison.  She sits atop a great flower while humming her tune, happily picking the petals off of another flower.  Her body is thin and lithe.  Her head is more humanoid than wasp, with black eyes, floppy antennae, and luscious black lips that glimmer wetly in the light. Her body covers nearly not visible network of faint purple vein-like lines.\n\n");
+					//camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GIANTBEES);
+					ConstantHeatConditions();
+					startCombat(new WaspHuntress(), true);
+				}
+				if (choice == 1) {
+					spriteSelect(SpriteDb.s_cinderbloom);
+					outputText("As you wander the cavern, you come across a rather large flower growing in the ashes. You ponder how plants even manage to grow in this inhospitable landscape. The flower has petals the same color as lava, and a pitcher like center. While you are busy examining it, large vines surge out at you, binding your arms and legs and reeling you toward the flower as it opens up, revealing a beautiful woman with chocolate skin marked by many of purple lines and deep red eyes.\n\n");
+					outputText("\"<i>Mmmmmm such a nice catch... Come closer into my pitcher.</i>\"\n\n");
+					outputText("There's no way you will let this thing pull you in!\n\n");
+					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_ALRAUNE);
+					ConstantHeatConditions();
+					startCombat(new Cinderbloom(), true);
+				}
+				if (choice == 2) {
+					//spriteSelect(SpriteDb.s_electra);
+					outputText("As you’re wandering through the cavern you suddenly hear sound of many wings flapping.  Turning around you notice an angel accompanied by four angeloids flying toward you. They're closing in with supernatural speed, and before you can take more than a few steps, they're surrounding you. \"<i>Don't be afraid of the Mist!!!</i>\"  No way around it, you ready your [weapon] for the fight.");
+					ConstantHeatConditions();
+					startCombat(new MistAngelMR(), true);
+				}
+				//doNext(playerMenu);
+			}
+			else player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
+		}
+		private function SubZeroConditions():void {
+			if (!player.hasPerk(PerkLib.ColdAffinity)) player.createStatusEffect(StatusEffects.SubZeroConditions,1,0,0,0);
+		}
+		private function encountersRuletteE3():void {
+			if (encountersRulette()) {
+				var reset:Number = 10;
+				var reset00:Number = 3;
+				reset -= player.statusEffectv1(StatusEffects.RiverDungeonA);
+				player.addStatusValue(StatusEffects.RiverDungeonA, 1, reset);
+				player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				if (flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 1) reset00 -= 1;
+				var choice:Number = rand(reset00);
+				if (choice == 0) {
+					//spriteSelect(SpriteDb.s_green_slime);//hornet
+					outputText("As you approach the nearby glade, a sweet scent wafts into your nose. Tantalizing, teasing, alluring. As you sniff the air, you find yourself following it, as if an invisible hand is pulling you toward its origin.  Little do you know, that is essentially what's happening. The further and further you go, the more heavy the scent grows, as well as a sound. A sound of a buzz, but not in a maddening tone, as if someone is humming. It's a lovely tune, one that would stick in the back of the mind, but not in a bad way.\n\n");
+					outputText("That's when she comes into view.  A great woman, white and black, a Bee-like handmaiden would be the best comparison.  She sits atop a great flower while humming her tune, happily picking the petals off of another flower.  Her body is "+(silly()?"EXTRA THICC":"robust")+".  Her head is more humanoid than hornet, with black eyes, floppy antennae, and luscious black lips that glimmer wetly in the light. Her body covers nearly not visible network of faint purple vein-like lines.\n\n");
+					//camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GIANTBEES);
+					SubZeroConditions();
+					startCombat(new HornetHuntress(), true);
+				}
+				if (choice == 1) {
+					spriteSelect(SpriteDb.s_snow_lily);
+					outputText("As you wander the cavern, you come across a rather large flower growing in the snow. You ponder how plants even manage to grow in this cold landscape. The flower has petals the same color as the snow and a pitcher like center. While you are busy examining it, large vines surge out at you, binding your arms and legs and reeling you toward the flower as it opens up, revealing a beautiful woman with sky blue skin marked by many of purple lines and light blue eyes.\n\n");
+					outputText("\"<i>Mmmmmm such a nice catch... Come closer into my pitcher.</i>\"\n\n");
+					outputText("There's no way you will let this thing pull you in!\n\n");
+					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_ALRAUNE);
+					SubZeroConditions();
+					startCombat(new SnowLily(), true);
+				}
+				if (choice == 2) {
+					//spriteSelect(SpriteDb.s_electra);
+					outputText("As you’re wandering through the cavern you suddenly hear sound of many wings flapping.  Turning around you notice an angel accompanied by four angeloids flying toward you. They're closing in with supernatural speed, and before you can take more than a few steps, they're surrounding you. \"<i>Don't be afraid of the Mist!!!</i>\"  No way around it, you ready your [weapon] for the fight.");
+					SubZeroConditions();
+					startCombat(new MistAngelMR(), true);
+				}
+				//doNext(playerMenu);
+			}
+			else player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
+		}
+		private function ConstantHeatAndSubZeroConditions():void {
+			if (!player.hasPerk(PerkLib.FireAffinity) && !player.hasPerk(PerkLib.FireShadowAffinity) && !player.hasPerk(PerkLib.AffinityIgnis)) player.createStatusEffect(StatusEffects.ConstantHeatConditions,2,0,0,0);
+			if (!player.hasPerk(PerkLib.ColdAffinity)) player.createStatusEffect(StatusEffects.SubZeroConditions,2,0,0,0);
+		}
+		private function encountersRuletteE2and3():void {
+			if (encountersRulette()) {
+				var reset:Number = 10;
+				var reset00:Number = 5;
+				reset -= player.statusEffectv1(StatusEffects.RiverDungeonA);
+				player.addStatusValue(StatusEffects.RiverDungeonA, 1, reset);
+				player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				if (flags[kFLAGS.ANGELIC_FRACTION_TOGGLE] == 1) reset00 -= 1;
+				var choice:Number = rand(reset00);
+				if (choice == 0) {
+					//spriteSelect(SpriteDb.s_bee_girl);
+					outputText("As you approach the nearby glade, a sweet scent wafts into your nose. Tantalizing, teasing, alluring. As you sniff the air, you find yourself following it, as if an invisible hand is pulling you toward its origin.  Little do you know, that is essentially what's happening. The further and further you go, the more heavy the scent grows, as well as a sound. A sound of a buzz, but not in a maddening tone, as if someone is humming. It's a lovely tune, one that would stick in the back of the mind, but not in a bad way.\n\n");
+					outputText("That's when she comes into view.  A great woman, yellow and black, a Wasp-like handmaiden would be the best comparison.  She sits atop a great flower while humming her tune, happily picking the petals off of another flower.  Her body is thin and lithe.  Her head is more humanoid than wasp, with black eyes, floppy antennae, and luscious black lips that glimmer wetly in the light. Her body covers nearly not visible network of faint purple vein-like lines.\n\n");
+					//camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GIANTBEES);
+					ConstantHeatAndSubZeroConditions();
+					startCombat(new WaspHuntress(), true);
+				}
+				if (choice == 1) {
+					spriteSelect(SpriteDb.s_cinderbloom);
+					outputText("As you wander the cavern, you come across a rather large flower growing in the ashes. You ponder how plants even manage to grow in this inhospitable landscape. The flower has petals the same color as lava, and a pitcher like center. While you are busy examining it, large vines surge out at you, binding your arms and legs and reeling you toward the flower as it opens up, revealing a beautiful woman with chocolate skin marked by many of purple lines and deep red eyes.\n\n");
+					outputText("\"<i>Mmmmmm such a nice catch... Come closer into my pitcher.</i>\"\n\n");
+					outputText("There's no way you will let this thing pull you in!\n\n");
+					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_ALRAUNE);
+					ConstantHeatAndSubZeroConditions();
+					startCombat(new Cinderbloom(), true);
+				}
+				if (choice == 2) {
+					//spriteSelect(SpriteDb.s_green_slime);//hornet
+					outputText("As you approach the nearby glade, a sweet scent wafts into your nose. Tantalizing, teasing, alluring. As you sniff the air, you find yourself following it, as if an invisible hand is pulling you toward its origin.  Little do you know, that is essentially what's happening. The further and further you go, the more heavy the scent grows, as well as a sound. A sound of a buzz, but not in a maddening tone, as if someone is humming. It's a lovely tune, one that would stick in the back of the mind, but not in a bad way.\n\n");
+					outputText("That's when she comes into view.  A great woman, white and black, a Bee-like handmaiden would be the best comparison.  She sits atop a great flower while humming her tune, happily picking the petals off of another flower.  Her body is "+(silly()?"EXTRA THICC":"robust")+".  Her head is more humanoid than hornet, with black eyes, floppy antennae, and luscious black lips that glimmer wetly in the light. Her body covers nearly not visible network of faint purple vein-like lines.\n\n");
+					//camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GIANTBEES);
+					ConstantHeatAndSubZeroConditions();
+					startCombat(new HornetHuntress(), true);
+				}
+				if (choice == 3) {
+					spriteSelect(SpriteDb.s_snow_lily);
+					outputText("As you wander the cavern, you come across a rather large flower growing in the snow. You ponder how plants even manage to grow in this cold landscape. The flower has petals the same color as the snow and a pitcher like center. While you are busy examining it, large vines surge out at you, binding your arms and legs and reeling you toward the flower as it opens up, revealing a beautiful woman with sky blue skin marked by many of purple lines and light blue eyes.\n\n");
+					outputText("\"<i>Mmmmmm such a nice catch... Come closer into my pitcher.</i>\"\n\n");
+					outputText("There's no way you will let this thing pull you in!\n\n");
+					camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_ALRAUNE);
+					ConstantHeatAndSubZeroConditions();
+					startCombat(new SnowLily(), true);
+				}
+				if (choice == 4) {
+					//spriteSelect(SpriteDb.s_electra);
+					outputText("As you’re wandering through the cavern you suddenly hear sound of many wings flapping.  Turning around you notice an angel accompanied by four angeloids flying toward you. They're closing in with supernatural speed, and before you can take more than a few steps, they're surrounding you. \"<i>Don't be afraid of the Mist!!!</i>\"  No way around it, you ready your [weapon] for the fight.");
+					ConstantHeatAndSubZeroConditions();
+					startCombat(new MistAngelMR(), true);
+				}
+				//doNext(playerMenu);
+			}
+			else player.addStatusValue(StatusEffects.RiverDungeonA, 1, 10);
+		}
+		public function defeatPlantAngel():void {
 			clearOutput();
-			outputText("Placeholder Good End.\n\n");
+			outputText("The rings finally stop spinning, the locusts’ humming dims. The angel crashes to the ground, roots no longer moving. The farmer raises his rake, ready to bring it down on the Angel’s eye, but you put a hand in front of him.\n\n");
+			outputText("\"<i>Very good, very good.</i>\" The angel’s unmoving, but you can hear its voice in your head. \"<i>Your purpose has been fulfilled, ascendant. You may return.</i>\" You nod, and the farmer blinks, looking at you. \"<i>What? What is the meaning of this?!</i>\"\n\n");
+			outputText("\"<i>All will be revealed in time, friend.</i>\" The angel’s rings begin to move again, and he brandishes his rake.\n\n");
+			outputText("\"<i>No. You will tell me now, beast. Why have you come here? And who is this warrior?!</i>\"\n\n");
+			outputText("\"<i>They are here to learn.</i>\" You swear the angel’s voice is…amused. \"<i>Learn of their…Roots.</i>\"\n\n");
+			outputText("\"<i>And my home?! What business do you have, harming the livelihoods of my people? Give me a good reason not to rip your eye out!</i>\"\n\n");
+			outputText("\"<i>Because you want to know what you’ve become. You feel stronger, faster. Your heart beats faster, your eyes see better. You want to know what power you’ve stumbled onto.</i>\" This stays his hand, and he steps back.\n\n");
+			outputText("\"<i>...You…Can teach me?</i>\"\n\n");
+			outputText("\"<i>I can, and will. And in time, your power will be learned, improved upon…But only by the few. The soul is powerful, but to even begin to use it, as you have…Your Dao Heart must be Firm.</i>\"\n\n");
+			outputText("The world begins to blur around you, and you cry out. You want to stay, and see what becomes of this! As darkness envelopes your vision, you hear the last of the locusts' wings still.\n\n");
+			outputText("You’re back in the ruins, the golden statue of the angel no longer a menacing, imposing figure in your mind. The locusts are gone, the stairs ancient, but pristine. The roots you fled from…It’s like they were never there. The angel statue glows, and the purple mist recedes.\n\n");
+			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]++;
 			cleanupAfterCombat();
 			doNext(playerMenu);
 		}
-		public function defeat<Boss enemy>():void {
+		public function defeatedByPlantWomen():void {
 			clearOutput();
-			outputText("Placeholder Good End.\n\n");
+			outputText("Your opponent strangle you a few more times until you pass out. You regain consciousness few minutes later at the floor entrance. Also did your body just been smeared here and there with... honey?\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_13;
+			cleanupAfterCombat();
+		}
+		public function defeatedByStingerWomen():void {
+			clearOutput();
+			outputText("Your opponent stabs you with her stinger a few more times until you pass out. You regain consciousness few minutes later at the floor entrance all smeared with honey.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_13;
+			cleanupAfterCombat();
+		}
+		public function defeatedByMidRankMistAngel():void {
+			clearOutput();
+			outputText("Your opponent shoot you a few more times, then carries you all the way back to the floor entrance. It drops your body there, turning back into the dungeon.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_13;
+			cleanupAfterCombat();
+		}
+		public function defeatedByPlantAngel():void {
+			clearOutput();
+			outputText("The angel’s too powerful for you, and as you fall, you feel the insects crawling over your [skin], biting, stinging…For a few moments, you can’t feel anything, your mind…<i>floating</i>. The insects’ whirring and clicking fades, your vision fading to nothing. You begin to panic, but a dismissive, almost disgusted emotion hits you. A single eye fills your mind, and as you reel, a voice, deep and thrumming, speaks to you.\n\n");
+			outputText("\"<i>.seitiliba ruoy detamitserevo I ylraelC .neppah ot desoppus ton saw sihT</i>\"\n\n");
+			outputText("Before you can respond, you feel the dismissive emotion, like a slap in the face. You feel a burning need to meditate, work out, train…To get <i>stronger</i>.\n\n");
+			outputText("\"<i>.mrof tnerruc ruoy ni doog yna ydobon od lliw uoY .tnadnecsa ,kaew er’uoY .deraperp retteb er’uoy nehw em ot kcab emoC</i>\"\n\n");
+			outputText("You feel…Pain. A dizzying, slap to your mind that crushes any attempt at thought…And you groan, pulling your head off the rough stone of the dungeon. Your body is covered in small bites and scratches, and the angel statue now glows with a red energy. Touching it again for right now seems to be a bad idea. Maybe you should come back later.\n\n");
+			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] += 0.8;
 			cleanupAfterCombat();
 			doNext(playerMenu);
-		}*/
-		
+		}
+
 		//Rooms
 		public function roomA01():void {
 			dungeonLoc = DUNGEON_RIVER_FLOOR_01_ROOM_01;
@@ -588,7 +906,7 @@ public class RiverDungeon extends DungeonAbstractContent
 			outputText("You run into an old campsite. By the looks of it an adventurer must have rested there, through the fire's long dead. It died a month ago, from what you can tell. What a peculiar fire too, just who the hell would grab bones, set them in a stone circle and then impale a skull on a rusty longsword before setting fire to it?");
 			dungeons.setDungeonButtonsRD(null, null, null, roomA02);
 			addButton(0, "Teleport C.", teleportCircleFloor1);
-			if (flags[kFLAGS.NEISA_AFFECTION] < 10 && flags[kFLAGS.NEISA_FOLLOWER] < 4) addButtonDisabled(10, "Up", "You would leave now but you have yet to find enough to pay Neisa."); 
+			if (flags[kFLAGS.NEISA_AFFECTION] < 10 && flags[kFLAGS.NEISA_FOLLOWER] < 4) addButtonDisabled(10, "Up", "You would leave now but you have yet to find enough to pay Neisa.");
 			else addButton(10, "Up", exitDungeon);
 		}
 		public function roomA02():void {
@@ -636,7 +954,10 @@ public class RiverDungeon extends DungeonAbstractContent
 			outputText("<b><u></u>Underground Passage</b>\n");
 			outputText("Small Bats fly out as you walk by above your head hangs some large stalactites. It would be most unfortunate if one of these was to randomly fall down and run you through.");
 			dungeons.setDungeonButtonsRD(roomA05, null, null, null);
-			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 1) addButton(11, "Down", roomB01);
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 1) {
+				if (flags[kFLAGS.NEISA_FOLLOWER] >= 3) addButton(11, "Down", roomB01);
+				else addButtonDisabled(11, "Down", "You still need to find enough (two piles) of treasure to pay back shield maiden for help to get into this dungeon. Maybe search again whole floor carefully?");
+			}
 			else addButtonDisabled(11, "Down", "You still need to beat the guardians of this floor to descend into lower strata of the dungeon.");
 		}
 		public function roomA07():void {
@@ -1004,8 +1325,8 @@ public class RiverDungeon extends DungeonAbstractContent
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_21;
 			clearOutput();
 			if (player.statusEffectv2(StatusEffects.RivereDungeonIB) == 0) {
-				outputText("A soft warble emanates from nearby, it sounds much like rolling waves, quickly approaching. You notice a large sphere of water rolling toward you.  It bounces, the ball jiggling with each hop before it quickly begins to take form.  ");
-				outputText("The body of water quickly coalesces into a humanoid form with clear masculine features.  Thje Undine focuses its attention on you, still dripping with water before it shifts aggressively, prepared to attack. It's a fight!");
+				outputText("A soft warble emanates from nearby; it sounds much like rolling waves, quickly approaching. You notice a large sphere of water rolling toward you.  It bounces, the ball jiggling with each hop before it quickly begins to take form.  ");
+				outputText("The body of water quickly coalesces into a humanoid form with clear masculine features.  The Undine focuses its attention on you, still dripping with water, before it shifts aggressively, prepared to attack. It's a fight!");
 				if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
 				flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] = 4;
 				startCombat(new WaterElemental(), true);
@@ -1272,8 +1593,7 @@ public class RiverDungeon extends DungeonAbstractContent
 			outputText("<b><u></u>Underground Passage</b>\n");
 			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
 			dungeons.setDungeonButtonsRD(roomC15, null, null, null);
-			//if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButton(11, "Down", roomD01);
-			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButtonDisabled(11, "Down", "Due to the interference of unknown power/being there is erected magic barrier that blocks any attempts to travel toward 4th floor.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButton(11, "Down", roomD07);
 			else addButtonDisabled(11, "Down", "You still need to beat guardian of this floor to descend into lower strata of the dungeon.");
 		}
 		public function roomC21():void {
@@ -1432,20 +1752,666 @@ public class RiverDungeon extends DungeonAbstractContent
 			outputText("The walls to the manor have paintings depicting a battle between a man and his foes, the monsters range in size from humans to giants. It's difficult to distinguish what exactly the paintings were, they have long been worn from time and gently torn from the walls.");
 			dungeons.setDungeonButtonsRD(null, roomC33, null, roomC30);
 		}
-		/*
 		public function roomD01():void {
-			dungeonLoc = DUNGEON_FACTORY_BREAK_ROOMxx;
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_01;//boss room
 			clearOutput();
-			encountersRuletteC();
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] == 10) {
+				outputText("The heartbeat you’ve been hearing throughout the dungeon is even louder now, echoing through the passage. As you enter, the sound suddenly changes, like…it’s reversed. The purple veins on the ceiling are flowing backwards.\n\n");
+				outputText("Something about this place is wrong, but you’ve come too far to back down now. You enter the room, raising your [weapon].\n\n");
+				outputText("Two portals are the first thing you notice, spiralling purple, hovering over two cylindrical, steel podiums. In unison, two beings walk through the portals, looking calmly down at you, as if they knew you’d be there.\n\n");
+				outputText("The beings look like an odd cross between Kitsune and Oni, with 5 fox-tails swishing behind each. They both hold tetsubos, looking down at you with an odd familiarity. Purple mist seems to emanate from their bodies, which for some reason, doesn’t obscure them from your gaze.\n\n");
+				outputText("\"<i>You’re late.</i>\" You ready your [weapon], since everything else in this place seems to fight, but the smaller Oni looks at the other in confusion.\n\n");
+				outputText("\"<i>No. They’re early.</i>\" The larger one smacks his head, looking down at you with annoyance. In unison, they step down from their podiums, their odd weapons suddenly blazing into violet fire.\n\n");
+				outputText("\"<i>It matters not. This was fated to occur.</i>\" The larger of the two runs towards you, the smaller dashing to one side, ready to flank you. It’s a fight!\n\n");
+				if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				startCombat(new TwinBosses(), true);
+			}
+			else if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Room</b>\n");
+			outputText("In this room, the stone appears to have been worn away, and more of the pulsing, purple structures are laid bare. They pulsate visibly now, the light ebbing and flowing as they move. You feel your [skin] crawling with each pulse, an involuntary shiver running up your spine. At the end of this room, there appears to be some kind of circular structure, grown into the wall from the pulsing purple...stuff. The circle itself writhes with each pulse, sending the light from before out...It emits a squishing, wet sound with each pulse, not unlike a heartbeat.\n\nWhatever this place is...you seem to have found the literal heart of it.");
+			dungeons.setDungeonButtonsRD(null, roomD05, null, null);
+		}
+		public function roomD02():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_02;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Several jagged rocks litter the path, revealing visible senescence. How long has it been since people have ventured down here, or perhaps nobody bothers to care for this place. The rumbling and clacking of rocks continues as you cautiously make way through the sharp turns and walls of dirt hide danger behind every corner.\n\nStringy lights are visible within the floor and walls of this place, emitting a purple glow as it pulsates in a steady rhythm, like a beating heart.");
+			dungeons.setDungeonButtonsRD(null, roomD06, roomD03, null);
+		}
+		public function roomD03():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_03;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The corridor is made of a smooth, natural looking stone, almost like the wall had been carved by water, the passages twisting and turning.\n\nThe place feels like it should be pitch-dark, but there's enough light to see, an eerie purple light coming from thin streaks, placed seemingly at random on the walls, floor and ceiling. As you move across them, the purple lines have slightly more give to them than the stone. It makes your [skin] crawl, treading on that odd material.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 11) dungeons.setDungeonButtonsRD(null, null, roomD04, roomD02);
+			else {
+				dungeons.setDungeonButtonsRD(null, null, null, roomD02);
+				if (player.hasKeyItem("Black Crystal") >= 0) addButton(10, "West", useBlackCrystalRe).hint("Would you like to use Black Crystal here?");
+				else addButtonDisabled(10, "West", "There are massive rumble that even with any previous visitors attempts seems to be not clearable. Looking like whole celling just caved in and blocked passage to room behind it. So how could you go to check what is on the other end of passage? Maybe somewhere on this floor you can find the solution? You also feel lingering aura of floor boss here suggesting even with correct solution boss itself could interfere with attempts to clear this rumble...");
+			}
+		}
+		public function roomD04():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_04;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Many fine pebbles coat your path, crunching softly beneath your presence. The dilapidated walls are sloughing off pebbles seemingly in response to each movement you make, causing faint echoes to ring all around you.\n\nVeins of purple lights mark the ground beneath you, breathing in and out with a faint glow almost as if it were alive, beating like a living heart.");
+			dungeons.setDungeonButtonsRD(null, null, null, roomD03);
+			addButton(10, "Down", roomE13);
+		}
+		public function roomD05():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_05;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The underground passage is cramped and claustrophobic, countless craggy pebbles and sharp rocks line the floor, clacking around as you move about. The walls of dirt seem to close in as you maneuver about. Sharp, glowing streaks of purple pulsate within your path, seemingly fading in and out of sight. The rhythmic lights appears to mock the beating of a heart...");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 9) dungeons.setDungeonButtonsRD(roomD01, roomD08, null, null);
+			else {
+				dungeons.setDungeonButtonsRD(null, roomD08, null, null);
+				if (player.hasKeyItem("Black Crystal") >= 0) addButton(6, "North", useBlackCrystal).hint("Would you like to use Black Crystal here?");
+				else addButtonDisabled(6, "North", "There are massive rumble that even with any previous visitors attempts seems to be not clearable. Looking like whole celling just caved in and blocked passage to room behind it. So how could you go to check what is on the other end of passage? Maybe somewhere on this floor you can find the solution?");
+			}
+		}
+		public function roomD06():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_06;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The corridor is made of a smooth, natural looking stone, almost like the wall had been carved by water, the passages twisting and turning.\n\nThe place feels like it should be pitch-dark, but there's enough light to see, an eerie purple light coming from thin streaks, placed seemingly at random on the walls, floor and ceiling. As you move across them, the purple lines have slightly more give to them than the stone. It makes your [skin] crawl, treading on that odd material.");
+			dungeons.setDungeonButtonsRD(roomD02, roomD11, null, null);
+		}
+		public function roomD07():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("As you enter into the corridor, you hear a wet, unnatural crashing sound behind you, like wet flesh against stone. You whip around, only to see a stone wall, shot through with veins of purple, where the entrance once was. Judging from the distance, the stone is at least seven feet thick. Only one way forward, now.");
+			dungeons.setDungeonButtonsRD(null, null, roomD08, null);
+			addButton(0, "Teleport C.", teleportCircleFloor4);
+			addButton(12, "Up", roomC20);
+		}
+		public function roomD08():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_08;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Many fine pebbles coat your path, crunching softly beneath your presence. The dilapidated walls are sloughing off pebbles seemingly in response to each movement you make, causing faint echoes to ring all around you.\n\nVeins of purple lights mark the ground beneath you, breathing in and out with a faint glow almost as if it were alive, beating like a living heart.");
+			dungeons.setDungeonButtonsRD(roomD05, null, roomD09, roomD07);
+		}
+		public function roomD09():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_09;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Room</b>\n");
+			outputText("The corridor opens into a smooth, cavelike room. The purple lines you saw before appear to protrude from the ceiling, giving more light to the room...The light flickers twice, darkness pulsing around the room before returning to where you first saw it. Is it just your imagination, or are those purple lines...moving?");
+			dungeons.setDungeonButtonsRD(null, roomD13, roomD10, roomD08);
+		}
+		public function roomD10():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_10;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The underground passage is cramped and claustrophobic, countless craggy pebbles and sharp rocks line the floor, clacking around as you move about. The walls of dirt seem to close in as you maneuver about. Sharp, glowing streaks of purple pulsate within your path, seemingly fading in and out of sight. The rhythmic lights appears to mock the beating of a heart...");
+			dungeons.setDungeonButtonsRD(null, null, roomD11, roomD09);
+		}
+		public function roomD11():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_11;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Room</b>\n");
+			outputText("The corridor opens into a smooth, cavelike room. The purple lines you saw before appear to protrude from the ceiling, giving more light to the room...The light flickers twice, darkness pulsing around the room before returning to where you first saw it. Is it just your imagination, or are those purple lines...moving?");
+			dungeons.setDungeonButtonsRD(roomD06, roomD14, null, roomD10);
+		}
+		public function roomD12():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_12;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("In this room, the stone appears to have been worn away, and more of the pulsing, purple structures are laid bare. They pulsate visibly now, the light ebbing and flowing as they move. You feel your [skin] crawling with each pulse, an involuntary shiver running up your spine. At the end of this room, there appears to be some kind of circular structure, grown into the wall from the pulsing purple...stuff. The circle itself writhes with each pulse, sending the light from before out...It emits a squishing, wet sound with each pulse, not unlike a heartbeat.");
+			dungeons.setDungeonButtonsRD(null, roomD16, null, null);
+			if (anvilMaterialsCheck()) addButton(0, "Anvil", anvilUncrafting).hint("Now you have needed materials. Do you uncraft them?");
+			else addButtonDisabled(0, "Anvil", "Would you kindly find the materials first?");
+			addButton(1, "BP's", anvilMaterialsList).hint("Can't be more obvious what it's does it?");
+		}
+		public function roomD13():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_13;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The underground passage is cramped and claustrophobic, countless craggy pebbles and sharp rocks line the floor, clacking around as you move about. The walls of dirt seem to close in as you maneuver about. Sharp, glowing streaks of purple pulsate within your path, seemingly fading in and out of sight. The rhythmic lights appears to mock the beating of a heart...");
+			dungeons.setDungeonButtonsRD(roomD09, roomD19, null, null);
+		}
+		public function roomD14():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_14;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Several jagged rocks litter the path, revealing visible senescence. How long has it been since people have ventured down here, or perhaps nobody bothers to care for this place. The rumbling and clacking of rocks continues as you cautiously make way through the sharp turns and walls of dirt hide danger behind every corner.\n\nStringy lights are visible within the floor and walls of this place, emitting a purple glow as it pulsates in a steady rhythm, like a beating heart.");
+			dungeons.setDungeonButtonsRD(roomD11, null, roomD15, null);
+		}
+		public function roomD15():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_15;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Room</b>\n");
+			outputText("The corridor opens into a smooth, cavelike room. The purple lines you saw before appear to protrude from the ceiling, giving more light to the room...The light flickers twice, darkness pulsing around the room before returning to where you first saw it. Is it just your imagination, or are those purple lines...moving?");
+			dungeons.setDungeonButtonsRD(null, roomD21, roomD16, roomD14);
+		}
+		public function roomD16():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_16;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Several jagged rocks litter the path, revealing visible senescence. How long has it been since people have ventured down here, or perhaps nobody bothers to care for this place. The rumbling and clacking of rocks continues as you cautiously make way through the sharp turns and walls of dirt hide danger behind every corner.\n\nStringy lights are visible within the floor and walls of this place, emitting a purple glow as it pulsates in a steady rhythm, like a beating heart.");
+			dungeons.setDungeonButtonsRD(roomD12, null, null, roomD15);
+		}
+		public function roomD17():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_17;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The corridor is made of a smooth, natural looking stone, almost like the wall had been carved by water, the passages twisting and turning.\n\nThe place feels like it should be pitch-dark, but there's enough light to see, an eerie purple light coming from thin streaks, placed seemingly at random on the walls, floor and ceiling. As you move across them, the purple lines have slightly more give to them than the stone. It makes your [skin] crawl, treading on that odd material.");
+			dungeons.setDungeonButtonsRD(null, null, roomD18, null);
+		}
+		public function roomD18():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_18;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Several jagged rocks litter the path, revealing visible senescence. How long has it been since people have ventured down here, or perhaps nobody bothers to care for this place. The rumbling and clacking of rocks continues as you cautiously make way through the sharp turns and walls of dirt hide danger behind every corner.\n\nStringy lights are visible within the floor and walls of this place, emitting a purple glow as it pulsates in a steady rhythm, like a beating heart.");
+			dungeons.setDungeonButtonsRD(null, roomD22, roomD19, roomD17);
+		}
+		public function roomD19():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_19;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Room</b>\n");
+			outputText("The corridor opens into a smooth, cavelike room. The purple lines you saw before appear to protrude from the ceiling, giving more light to the room...The light flickers twice, darkness pulsing around the room before returning to where you first saw it. Is it just your imagination, or are those purple lines...moving?");
+			dungeons.setDungeonButtonsRD(roomD13, null, roomD20, roomD18);
+		}
+		public function roomD20():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_20;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Several jagged rocks litter the path, revealing visible senescence. How long has it been since people have ventured down here, or perhaps nobody bothers to care for this place. The rumbling and clacking of rocks continues as you cautiously make way through the sharp turns and walls of dirt hide danger behind every corner.\n\nStringy lights are visible within the floor and walls of this place, emitting a purple glow as it pulsates in a steady rhythm, like a beating heart.");
+			dungeons.setDungeonButtonsRD(null, roomD23, null, roomD19);
+		}
+		public function roomD21():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_21;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Many fine pebbles coat your path, crunching softly beneath your presence. The dilapidated walls are sloughing off pebbles seemingly in response to each movement you make, causing faint echoes to ring all around you.\n\nVeins of purple lights mark the ground beneath you, breathing in and out with a faint glow almost as if it were alive, beating like a living heart.");
+			dungeons.setDungeonButtonsRD(roomD15, roomD25, null, null);
+		}
+		public function roomD22():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_22;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The corridor is made of a smooth, natural looking stone, almost like the wall had been carved by water, the passages twisting and turning.\n\nThe place feels like it should be pitch-dark, but there's enough light to see, an eerie purple light coming from thin streaks, placed seemingly at random on the walls, floor and ceiling. As you move across them, the purple lines have slightly more give to them than the stone. It makes your [skin] crawl, treading on that odd material.");
+			dungeons.setDungeonButtonsRD(roomD18, null, null, null);
+		}
+		public function roomD23():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_23;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Many fine pebbles coat your path, crunching softly beneath your presence. The dilapidated walls are sloughing off pebbles seemingly in response to each movement you make, causing faint echoes to ring all around you.\n\nVeins of purple lights mark the ground beneath you, breathing in and out with a faint glow almost as if it were alive, beating like a living heart.");
+			dungeons.setDungeonButtonsRD(roomD20, null, roomD24, null);
+		}
+		public function roomD24():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_24;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The underground passage is cramped and claustrophobic, countless craggy pebbles and sharp rocks line the floor, clacking around as you move about. The walls of dirt seem to close in as you maneuver about. Sharp, glowing streaks of purple pulsate within your path, seemingly fading in and out of sight. The rhythmic lights appears to mock the beating of a heart...");
+			dungeons.setDungeonButtonsRD(null, null, roomD25, roomD23);
+		}
+		public function roomD25():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_25;
+			clearOutput();
+			encountersRuletteD();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Several jagged rocks litter the path, revealing visible senescence. How long has it been since people have ventured down here, or perhaps nobody bothers to care for this place. The rumbling and clacking of rocks continues as you cautiously make way through the sharp turns and walls of dirt hide danger behind every corner.\n\nStringy lights are visible within the floor and walls of this place, emitting a purple glow as it pulsates in a steady rhythm, like a beating heart.");
+			dungeons.setDungeonButtonsRD(roomD21, null, null, roomD24);
+		}
+		public function roomE01():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_01;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The space around this floor is decorated in array of floral herbs that bloom in a wild variety of colors. Each flower shares the same large, bulbous stamen, yet the petals of each one have a unique shape and color to them.\n\n");
+			outputText("The ground squelches softly beneath your body as you move. Bits of pollen float in the air while also giving a slightly sticky feel to the place.\n\n");
+			outputText("The sweet aroma is impossible to ignore, much like honey.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, null, roomE02);
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12) addButton(10, "Down", roomF01);
+			else addButtonDisabled(10, "Down", "Staircase is blocked by impenetrable thorn wall. Maybe go check floor boss first to do something about this wall?");
+		}
+		public function roomE02():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_02;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The sweet smell is stronger over here, there are honeycombs that cluster along the walls as the flowers bloom more around them. There's a faint buzzing nearby, whatever is pollinating these plants may be getting closer.\n\n");
+			outputText("The wall is coated in honey, perhaps it'd be unwise to touch it.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE01, roomE03);
+		}
+		public function roomE03():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_03;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Rays of light shine from a source between the cracks that you cannot see. The blooming flowers face the shine intently, as if opening up their petals to welcome in the light so they can synthesize.\n\n");
+			outputText("The flowers move almost as if they were sentient beings, quickly folding as the light passes away only to open up again as more light draws in.\n\n");
+			dungeons.setDungeonButtonsRD(null, roomE07, roomE02, null);
+		}
+		public function roomE04():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_04;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Rays of light shine from a source between the cracks that you cannot see. The blooming flowers face the shine intently, as if opening up their petals to welcome in the light so they can synthesize.\n\n");
+			outputText("The flowers move almost as if they were sentient beings, quickly folding as the light passes away only to open up again as more light draws in.\n\n");
+			dungeons.setDungeonButtonsRD(null, roomE09, null, roomE05);
+		}
+		public function roomE05():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_05;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The sweet smell is stronger over here, there are honeycombs that cluster along the walls as the flowers bloom more around them. There's a faint buzzing nearby, whatever is pollinating these plants may be getting closer.\n\n");
+			outputText("The wall is coated in honey, perhaps it'd be unwise to touch it.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE04, roomE06);
+		}
+		public function roomE06():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_06;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The space around this floor is decorated in array of floral herbs that bloom in a wild variety of colors. Each flower shares the same large, bulbous stamen, yet the petals of each one have a unique shape and color to them.\n\n");
+			outputText("The ground squelches softly beneath your body as you move. Bits of pollen float in the air while also giving a slightly sticky feel to the place.\n\n");
+			outputText("The sweet aroma is impossible to ignore, much like honey.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE05, null);
+		}
+		public function roomE07():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_07;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Rays of light shine from a source between the cracks that you cannot see. The blooming flowers face the shine intently, as if opening up their petals to welcome in the light so they can synthesize.\n\n");
+			outputText("The flowers move almost as if they were sentient beings, quickly folding as the light passes away only to open up again as more light draws in.\n\n");
+			dungeons.setDungeonButtonsRD(roomE03, roomE11, null, roomE08);
+		}
+		public function roomE08():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_08;
+			clearOutput();
+			encountersRuletteE1();//1st slab for boss summon
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The space around this floor is decorated in array of floral herbs that bloom in a wild variety of colors. Each flower shares the same large, bulbous stamen, yet the petals of each one have a unique shape and color to them.\n\n");
+			outputText("The ground squelches softly beneath your body as you move. Bits of pollen float in the air while also giving a slightly sticky feel to the place.\n\n");
+			outputText("The sweet aroma is impossible to ignore, much like honey.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE07, roomE09);
+		}
+		public function roomE09():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_09;
+			clearOutput();
+			encountersRuletteE1();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The sweet smell is stronger over here, there are honeycombs that cluster along the walls as the flowers bloom more around them. There's a faint buzzing nearby, whatever is pollinating these plants may be getting closer.\n\n");
+			outputText("The wall is coated in honey, perhaps it'd be unwise to touch it.\n\n");
+			dungeons.setDungeonButtonsRD(roomE04, roomE12, roomE08, null);
+		}
+		public function roomE10():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_10;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are completely still. Dewdrops along the petals crystalize quickly into small flakes of ice that slowly peter away, dropping off of the flowers like snowfall. The honey along the walls are solid and dense, still liquid, but as motionless as the flowers.\n\n");
+			outputText("The chilly air is pervasive, almost enough to freeze any moisture in the air, bearable, but not the most welcome feeling.\n\n");
+			dungeons.setDungeonButtonsRD(null, roomE14, null, null);
+		}
+		public function roomE11():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_11;
+			clearOutput();
+			if (rand(2) == 0) encountersRuletteE1();
+			else encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are completely still. Dewdrops along the petals crystalize quickly into small flakes of ice that slowly peter away, dropping off of the flowers like snowfall. The honey along the walls are solid and dense, still liquid, but as motionless as the flowers.\n\n");
+			outputText("The chilly air is pervasive, almost enough to freeze any moisture in the air, bearable, but not the most welcome feeling.\n\n");
+			dungeons.setDungeonButtonsRD(roomE07, roomE16, null, null);
+		}
+		public function roomE12():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_12;
+			clearOutput();
+			if (rand(2) == 0) encountersRuletteE1();
+			else encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are wilting slightly, petals falling off in a slow cascade as the stems shift up and down in a steady, gentle manner as if the flora was breathing heavily. The honey around you runs quickly as if it were melting off the wall.\n\n");
+			outputText("The unwelcoming heat is almost enough to cause blisters, bearable, but noticeably uncomfortable with the shift in temperature.\n\n");
+			dungeons.setDungeonButtonsRD(roomE09, roomE17, null, null);
+		}
+		public function roomE13():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_13;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are wilting slightly, petals falling off in a slow cascade as the stems shift up and down in a steady, gentle manner as if the flora was breathing heavily. The honey around you runs quickly as if it were melting off the wall.\n\n");
+			outputText("The unwelcoming heat is almost enough to cause blisters, bearable, but noticeably uncomfortable with the shift in temperature.\n\n");
+			dungeons.setDungeonButtonsRD(null, roomE19, null, null);
+			addButton(0, "Teleport C.", teleportCircleFloor5);
+			addButton(12, "Up", roomD04);
+		}
+		public function roomE14():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_14;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The ceiling in this room has cracked, and occasional droplets of moisture fall from the floor above. The droplets freeze when they hit the floor, adding to the forming of icicles. Each time a droplet lands, the icy spike grows, ever so slightly. A few icy spikes have reached the ceiling, water pressure within slowly building.\n\n");
+			outputText("A few hives have survived in this room, clustered around the scant warmth provided by the cracks. Two trees, covered in small white flowers, stand near the middle of the room, providing the small hives with their only source of nectar.\n\n");
+			dungeons.setDungeonButtonsRD(roomE10, roomE20, null, roomE15);
+		}
+		public function roomE15():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_15;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Your breath freezes over as you enter the room, sending a visible puff of frozen air into the room with each breath you take. A row of saplings, covered in frost, line each side of the room. You hear a faint, uneven buzzing from a few of the trees. With a few seconds of effort, you can tell that the hives have been built among the roots. There’s a small amount of honey, frozen solid, dripping from a few points on the ceiling…But you can tell that those hives have been long dead.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE14, roomE16);
+		}
+		public function roomE16():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_16;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The ceiling in this room has cracked, and occasional droplets of moisture fall from the floor above. The droplets freeze when they hit the floor, adding to the forming of icicles. Each time a droplet lands, the icy spike grows, ever so slightly. A few icy spikes have reached the ceiling, water pressure within slowly building.\n\n");
+			outputText("A few hives have survived in this room, clustered around the scant warmth provided by the cracks. Two trees, covered in small white flowers, stand near the middle of the room, providing the small hives with their only source of nectar.\n\n");
+			dungeons.setDungeonButtonsRD(roomE11, roomE21, roomE15, null);
+		}
+		public function roomE17():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_17;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("This room is…odd. The floor is made from an almost alien, sticky stone with a thin layer of waxy crust that peels away when you step on it. The honey that flows from the walls collects on the floor. As you step into the room, you feel a sudden vibration under your feet, and the floor erupts in the middle of the room. It sends shards of the odd stone around the room, along with sickly sweet scent. As you watch, honey flows across the floor, dousing the flame.\n\n");
+			dungeons.setDungeonButtonsRD(roomE12, roomE23, null, roomE18);
+		}
+		public function roomE18():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_18;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("In this room, a single, charred tree stands, its blackened branches spreading from the centre to the four corners of the room. Honey flows like water, from the combs on the walls, down the branches, to the trunk itself. Where the honey flows, the tree seems to have been less harmed, and flowers grow on the branches.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE17, roomE19);
+		}
+		public function roomE19():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_19;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("This room is…odd. The floor is made from an almost alien, sticky stone with a thin layer of waxy crust that peels away when you step on it. The honey that flows from the walls collects on the floor. As you step into the room, you feel a sudden vibration under your feet, and the floor erupts in the middle of the room. It sends shards of the odd stone around the room, along with sickly sweet scent. As you watch, honey flows across the floor, dousing the flame.\n\n");
+			dungeons.setDungeonButtonsRD(roomE13, roomE24, roomE18, null);
+		}
+		public function roomE20():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_20;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are completely still. Dewdrops along the petals crystalize quickly into small flakes of ice that slowly peter away, dropping off of the flowers like snowfall. The honey along the walls are solid and dense, still liquid, but as motionless as the flowers.\n\n");
+			outputText("The chilly air is pervasive, almost enough to freeze any moisture in the air, bearable, but not the most welcome feeling.\n\n");
+			dungeons.setDungeonButtonsRD(roomE14, roomE25, null, null);
+		}
+		public function roomE21():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_21;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are completely still. Dewdrops along the petals crystalize quickly into small flakes of ice that slowly peter away, dropping off of the flowers like snowfall. The honey along the walls are solid and dense, still liquid, but as motionless as the flowers.\n\n");
+			outputText("The chilly air is pervasive, almost enough to freeze any moisture in the air, bearable, but not the most welcome feeling.\n\n");
+			dungeons.setDungeonButtonsRD(roomE16, null, null, roomE22);
+		}
+		public function roomE22():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_22;
+			clearOutput();
+			encountersRuletteE2and3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The walls flicker from a soft, glowing orange to a pale lavender as you advance your step. It's as if the air has completely changed, separate between this hall. In two places at once, you could be sweating and shivering.\n\n");
+			outputText("The flowers on the warm side are wilting and moving with slow, deliberate motions, but the flowers on the cooler side are motionless as flakes of ice dance around the leaves.\n\n");
+			outputText("It's a strange feeling with how quickly the temperature shifts at this place.\n\n");
+			dungeons.setDungeonButtonsRD(null, roomE26, roomE21, roomE23);
+		}
+		public function roomE23():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_23;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are wilting slightly, petals falling off in a slow cascade as the stems shift up and down in a steady, gentle manner as if the flora was breathing heavily. The honey around you runs quickly as if it were melting off the wall.\n\n");
+			outputText("The unwelcoming heat is almost enough to cause blisters, bearable, but noticeably uncomfortable with the shift in temperature.\n\n");
+			dungeons.setDungeonButtonsRD(roomE17, null, roomE22, null);
+		}
+		public function roomE24():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_24;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The flowers around your feet are wilting slightly, petals falling off in a slow cascade as the stems shift up and down in a steady, gentle manner as if the flora was breathing heavily. The honey around you runs quickly as if it were melting off the wall.\n\n");
+			outputText("The unwelcoming heat is almost enough to cause blisters, bearable, but noticeably uncomfortable with the shift in temperature.\n\n");
+			dungeons.setDungeonButtonsRD(roomE19, roomE27, null, null);
+		}
+		public function roomE25():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_25;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The ceiling in this room has cracked, and occasional droplets of moisture fall from the floor above. The droplets freeze when they hit the floor, adding to the forming of icicles. Each time a droplet lands, the icy spike grows, ever so slightly. A few icy spikes have reached the ceiling, water pressure within slowly building.\n\n");
+			outputText("A few hives have survived in this room, clustered around the scant warmth provided by the cracks. Two trees, covered in small white flowers, stand near the middle of the room, providing the small hives with their only source of nectar.\n\n");
+			dungeons.setDungeonButtonsRD(roomE20, roomE28, null, null);
+		}
+		public function roomE26():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_26;
+			clearOutput();
+			encountersRuletteE2and3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The walls flicker from a soft, glowing orange to a pale lavender as you advance your step. It's as if the air has completely changed, separate between this hall. In two places at once, you could be sweating and shivering.\n\n");
+			outputText("The flowers on the warm side are wilting and moving with slow, deliberate motions, but the flowers on the cooler side are motionless as flakes of ice dance around the leaves.\n\n");
+			outputText("It's a strange feeling with how quickly the temperature shifts at this place.\n\n");
+			dungeons.setDungeonButtonsRD(roomE22, roomE30, null, null);
+		}
+		public function roomE27():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_27;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Your breath freezes over as you enter the room, sending a visible puff of frozen air into the room with each breath you take. A row of saplings, covered in frost, line each side of the room. You hear a faint, uneven buzzing from a few of the trees. With a few seconds of effort, you can tell that the hives have been built among the roots. There’s a small amount of honey, frozen solid, dripping from a few points on the ceiling…But you can tell that those hives have been long dead.\n\n");
+			dungeons.setDungeonButtonsRD(roomE24, roomE32, null, null);
+		}
+		public function roomE28():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_28;
+			clearOutput();
+			encountersRuletteE3();//3rd slab for boss summon
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The ceiling in this room has cracked, and occasional droplets of moisture fall from the floor above. The droplets freeze when they hit the floor, adding to the forming of icicles. Each time a droplet lands, the icy spike grows, ever so slightly. A few icy spikes have reached the ceiling, water pressure within slowly building.\n\n");
+			outputText("A few hives have survived in this room, clustered around the scant warmth provided by the cracks. Two trees, covered in small white flowers, stand near the middle of the room, providing the small hives with their only source of nectar.\n\n");
+			dungeons.setDungeonButtonsRD(roomE25, null, null, roomE29);
+		}
+		public function roomE29():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_29;
+			clearOutput();
+			encountersRuletteE3();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Your breath freezes over as you enter the room, sending a visible puff of frozen air into the room with each breath you take. A row of saplings, covered in frost, line each side of the room. You hear a faint, uneven buzzing from a few of the trees. With a few seconds of effort, you can tell that the hives have been built among the roots. There’s a small amount of honey, frozen solid, dripping from a few points on the ceiling…But you can tell that those hives have been long dead.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, roomE28, null);
+		}
+		public function roomE30():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_30;
+			clearOutput();
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] == 12) {
+				outputText("As you enter the central chamber of the fifth floor, you hear a flat, almost mechanical buzzing from behind you. You turn your head, to see a swarm of locusts, each nearly the size of your fist, fly past you into the room. Those that hit you…vanish into light purple mist. Despite feeling no impact, you stagger, your chest tightening. You feel yourself drawn into the center, almost forced in by another wave of those odd mist-locusts.\n\n");
+				outputText("The room is large, with jagged stone stairs leading up from every side, into a raised dais in the center. As you shake yourself, the mist suddenly pooling behind you in a malevolent purple mist, you notice bugs, of all shapes and forms, crawling from small holes in the walls. Termites, spiders, flies, beetles…You can’t keep track of them all, the insects forming a single, writhing mass as they get closer to your feet.\n\n");
+				outputText("Filled with a sudden repulsion, you shakily climb the stairs, and as you do so, roots smash their way through the stone of the stairs, trying to bind your [legs] to the ground. Dodging the sudden onslaught of plants, you make your way up the rapidly splintering stairs…\n\n");
+				outputText("A floating gold idol floats above the raised dais…An otherworldly shape, rendered in natural-looking gold. Rings of what look like wood, covered in what look to be the eyes of insects. You hear a ringing in your ears, quickly rising to an extremely painful whine. Your breathing slows, your [chest] heaving as the roots rise in a cage around you. ");
+				outputText("The bugs crawl between the root-bars, and you feel the cold of the mists as it stifles your vision. The glowing gold of the idol shines, but it feels like tiny legs crawling across your [skin]. The wheels begin to turn, and from behind it, small wings, not unlike the locusts, unfurl.\n\n");
+				outputText("You instinctively curl yourself in as the whispering, hissing legs and wings of the insects draw in, the roots under you grinding the unstable stone footing into sand. The idol’s glow is all your [eyes] can pick up now, the insects and roots blocking out any light. Beyond the skittering, through the agonising ringing…You think you can pick something out.\n\n");
+				outputText("\"<i>.peed nur swodahs dna ,smrof ruoloc on ,etihw dna kcalB fo dlrow a nI .hself edam nis dna eutriv ,semertxe eht raeF .thgiL eht raeF .krad eht raeF</i>\"\n\n");
+				outputText("\"<i>.htaed rieht dna...efil rieht fo tcapmi eht ssentiW .noisnecsa tsrif eht oT .dednecsa gnuoy ,kcab oG</i>\"\n\n");
+				outputText("You close your eyes, the cacophony overwhelming…And suddenly, there is silence. Wind rustles, and you hear the soft shiver of leaves in the fall. You open your eyes and stand, looking around you.\n\n");
+				outputText("You’re on a small hill, overlooking a sizable farm, irrigated by the gurgling river. A dozen or so people are hard at work, conical hats shielding them from the harsh sun above. A few channels have been dug, bringing the water further in, and you notice that several crops are being grown. By the river is a flooded plain, perfect for rice, with wheat and other grains further in. A few people are hard at work by the river, hauling a net full of fish to shore.\n\n");
+				outputText("The place seems…eerily familiar. The shape of the river, the style of the few buildings you can see…The air is clean, cleaner than you’ve felt since coming to Mareth…But the entire place feels off…Like there’s something in the air.\n\n");
+				outputText("A bell tolls from the middle of the buildings…A bell you’ve seen before. It sat in the center of…He Din Xiao! Now that you’ve seen that, it all comes together. The river, the single bridge crossing it…But it’s far smaller, and you don’t see any of the flying swords. Where the arena usually is, there’s a field of vegetables, and there’s only a single shop in the middle of town.\n\n");
+				outputText("Before you can do much more than look around, you hear a buzzing. <i>familiar</i> buzzing. From the East, you can see a cloud gathering. A veritable storm of insects, large enough to cover parts of the sky, make their way toward the crops.\n\n");
+				outputText("The farmers see the swarm coming, and most immediately panic, dropping their tools and fleeing. Only a few even try to stay, batting at the locusts with their rakes, but they quickly lose heart, leaving a single farmer standing alone in the field. He’s faster than his fellows, and each swipe of his rake scatters dozens of locusts to the ground. He stands firm, picking up speed as the swarm scatters before him…only to encircle him.\n\n");
+				outputText("Struck by a sudden urge, you start to move, running towards the embattled farmer. You see his rake swipe out, again and again, but as you get closer, the swarm splits in front of you. The wind suddenly picks up, and you flatten to the ground as the locusts are blasted back, just like in the temple.\n\n");
+				outputText("The farmer’s eyes are alight with a silver glow, and as he sees you, the man blinks, confused to see you. He’s human, in his mid-20s, short black hair back in a practical ponytail. He wears a robe and wooden sandals, but as you swipe some locusts away, he simply nods, swinging his rake like a spear.\n\n");
+				outputText("After a few moments, the locusts fall back, the buzzing slowing. You breathe a sigh of relief…and see why they flew away. It’s…Some kind of insect-plant…angel? It’s giant, rings of wood orbiting a blackened insect eye. It… <i>sees</i> you. You get the feeling you shouldn’t be here. You hear a ticking sound, the place blurring around you…And the farmer puts his hand on your shoulder, and the world solidifies. You feel more…grounded. Silver light trails from the farmer’s eyes, and he glares down the insect-angel.\n\n");
+				outputText("\"<i>I don’t know who you are…But this thing cannot be allowed to enter.</i>\" His voice, deep and steady, belies the nervousness you see in his eyes. \"<i>And I don’t know what is happening to me. Please help us, traveller.</i>\"\n\n");
+				outputText("You ready your [weapon], standing beside the young farmer as the angel bears down upon you both!\n\n");
+				if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.createStatusEffect(StatusEffects.ThereCouldBeOnlyOne, 0, 0, 0, 0);
+				startCombat(new Demetrial(), true);
+			}
+			else if (!player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) encountersRuletteE2and3();//altair to summon floor boss
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("The walls flicker from a soft, glowing orange to a pale lavender as you advance your step. It's as if the air has completely changed, separate between this hall. In two places at once, you could be sweating and shivering.\n\n");
+			outputText("The flowers on the warm side are wilting and moving with slow, deliberate motions, but the flowers on the cooler side are motionless as flakes of ice dance around the leaves.\n\n");
+			outputText("It's a strange feeling with how quickly the temperature shifts at this place.\n\n");
+			dungeons.setDungeonButtonsRD(roomE26, null, null, null);
+		}
+		public function roomE31():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_31;
+			clearOutput();
+			encountersRuletteE2();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("In this room, a single, charred tree stands, its blackened branches spreading from the centre to the four corners of the room. Honey flows like water, from the combs on the walls, down the branches, to the trunk itself. Where the honey flows, the tree seems to have been less harmed, and flowers grow on the branches.\n\n");
+			dungeons.setDungeonButtonsRD(null, null, null, roomE32);
+		}
+		public function roomE32():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_32;
+			clearOutput();
+			encountersRuletteE2();//2nd slab for boss summon
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("This room is…odd. The floor is made from an almost alien, sticky stone with a thin layer of waxy crust that peels away when you step on it. The honey that flows from the walls collects on the floor. As you step into the room, you feel a sudden vibration under your feet, and the floor erupts in the middle of the room. It sends shards of the odd stone around the room, along with sickly sweet scent. As you watch, honey flows across the floor, dousing the flame.\n\n");
+			dungeons.setDungeonButtonsRD(roomE27, null, roomE31, null);
+		}
+		public function roomF01():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_01;
+			clearOutput();
+			//encountersRuletteF();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
+			dungeons.setDungeonButtonsRD(null, null, null, null);
+			addButton(0, "Teleport C.", teleportCircleFloor6);
+			addButton(12, "Up", roomE01);
+		}
+		/*
+		public function roomF02():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_02;
+			clearOutput();
+			encountersRuletteF();
 			if (CoC.instance.inCombat) return;
 			outputText("<b><u></u>Underground Passage</b>\n");
 			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
 			dungeons.setDungeonButtonsRD(null, null, null, null);
 		}
-		public function roomD02():void {
-			dungeonLoc = DUNGEON_FACTORY_BREAK_ROOMxx;
+		public function roomF03():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_03;
 			clearOutput();
-			encountersRuletteC();
+			encountersRuletteF();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
+			dungeons.setDungeonButtonsRD(null, null, null, null);
+		}
+		public function roomF04():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_04;
+			clearOutput();
+			encountersRuletteF();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
+			dungeons.setDungeonButtonsRD(null, null, null, null);
+		}
+		public function roomF05():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_05;
+			clearOutput();
+			encountersRuletteF();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
+			dungeons.setDungeonButtonsRD(null, null, null, null);
+		}
+		public function roomF06():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_06;
+			clearOutput();
+			encountersRuletteF();
+			if (CoC.instance.inCombat) return;
+			outputText("<b><u></u>Underground Passage</b>\n");
+			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
+			dungeons.setDungeonButtonsRD(null, null, null, null);
+		}
+		public function roomF07():void {
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_04;
+			clearOutput();
+			encountersRuletteF();
 			if (CoC.instance.inCombat) return;
 			outputText("<b><u></u>Underground Passage</b>\n");
 			outputText("Roiling Mist covers your surroundings, making you unable to see anything past a few feet.");
@@ -1491,15 +2457,165 @@ public class RiverDungeon extends DungeonAbstractContent
 			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]++;
 			doNext(roomC32);
 		}
+		private function anvilMaterialsCheck():Boolean {
+			return ((player.hasItem(useables.PCSHARD, 6)) ||
+					/*(player.hasItem(useables.PCSHARD, 3) && player.hasItem(useables.SRESIDUE, 3)) ||*/
+					(player.hasItem(useables.RED_GEL, 1) && player.hasItem(consumables.CHOCBOX, 1) && player.hasItem(consumables.LETHITE, 1) && player.hasItem(consumables.SALAMFW, 1) && player.hasItem(useables.SRESIDUE, 1) && player.hasItem(consumables.ONISAKE, 1)));
+		}
+		private function anvilMaterialsList():void {
+			clearOutput();
+			outputText("<b>BP's</b>:");
+			outputText("\n<i>-1x clump of red gel + 1x box of chocolate + 1x chunk of lethicite + 1x hip flask of Salamander Firewater + 1x Soul Residue + 1x bottle of Onikiri Sake</i>");
+			//outputText("\n<i>-3x purple crystal shards + 3x Soul Residues</i>");
+			outputText("\n<i>-6x purple crystal shards</i>");
+			doNext(roomD12);
+		}
+		private function anvilUncrafting():void {
+			clearOutput();
+			menu();
+			if (player.hasItem(useables.PCSHARD, 6)) addButton(0, "???", anvilUncrafting2, 2).hint("Purple Crystal");
+			//if (player.hasItem(useables.PCSHARD, 3) && player.hasItem(useables.SRESIDUE, 3)) addButton(1, "???", anvilUncrafting2, 3).hint("Large Purple Soul Crystal Shard");
+			if (player.hasItem(useables.RED_GEL, 1) && player.hasItem(consumables.CHOCBOX, 1) && player.hasItem(consumables.LETHITE, 1) && player.hasItem(consumables.SALAMFW, 1) && player.hasItem(useables.SRESIDUE, 1) && player.hasItem(consumables.ONISAKE, 1)) {
+				if (player.hasKeyItem("Black Crystal") >= 0) addButtonDisabled(7, "Black Crystal", "You can't craft 2nd one until you use the one you have.");
+				else addButton(7, "Black Crystal", anvilUncrafting2, 1);
+			}
+			addButton(14, "Back", roomD12);
+		}
+		private function anvilUncrafting2(type:Number = 0):void {
+			clearOutput();
+			var mainitem:String = "item";
+			var splititems:String = "six small item";
+			var item:ItemType;
+			if (type == 1) {
+				player.destroyItems(useables.RED_GEL, 1);
+				player.destroyItems(consumables.CHOCBOX, 1);
+				player.destroyItems(consumables.LETHITE, 1);
+				player.destroyItems(consumables.SALAMFW, 1);
+				player.destroyItems(useables.SRESIDUE, 1);
+				player.destroyItems(consumables.ONISAKE, 1);
+				player.createKeyItem("Black Crystal", 0, 0, 0, 0);
+				mainitem = "Black Crystal";
+				splititems = "clump of red gel, box of chocolate, chunk of lethicite, hip flask of Salamander Firewater, Soul Residue and bottle of Onikiri Sake";
+			}
+			if (type == 2) {
+				player.destroyItems(useables.PCSHARD, 6);
+				mainitem = "Purple Crystal";
+				splititems = "six small Purple Crystal Shards";
+				item = useables.PCRYSTA;
+			}
+			if (type == 3) {
+				player.destroyItems(useables.PCSHARD, 3);
+				player.destroyItems(useables.SRESIDUE, 3);
+				mainitem = "Large Purple Soul Crystal Shard";
+				splititems = "three small Purple Crystal Shards and Soul Residues";
+				item = useables.LPSCSHA;
+			}
+			outputText("Gathering the "+splititems+", you place them on the center of the anvil, reaching to the hammer. The anvil seems to be altering the flow of time in the thick mist around you as you raise the tool, focusing your intents before you smash them with the hammer. All six of the scattered pieces immediately coalesce, reforming a larger whole as "+mainitem+" returns to what it was before it shattered. Putting the hammer away, you reach toward the single piece to stow in your bag. ");
+			if (mainitem == "Black Crystal") outputText("<b>You have gained Key Item: Black Crystal</b>");
+			if (mainitem == "Black Crystal") doNext(anvilUncrafting);
+			else inventory.takeItem(item, anvilUncrafting);
+		}
+		private function useBlackCrystal():void {
+			clearOutput();
+			outputText("You approach the ceiling-high pile of rubble blocking your path. Taking the Black crystal from your pocket, you throw it at the top of the pile. The crystal shatters, the sound far louder than it has any right to be, echoing through the cavern. Black liquid pours from the point of impact, spreading down, seeping into the displaced stone below. Your [hair] stands on end, as static fills the air, white sparks popping from the black liquid.\n\n");
+			outputText("<i>Tick…</i> The sound echoes, far louder than the shattering before. The stone rumbles, quivering slightly.\n\n");
+			outputText("<i>Tock…</i> The stone begins to rise, slowly at first.\n\n");
+			outputText("<i>Tick…</i> The stone leaps skyward, merging seamlessly with the ceiling above it. The ticking sounds get faster and faster, the cacophony of falling stone echoing in reverse, an unnatural sound that makes your [skin] crawl. You close your eyes instinctively as a stone from the other side of the cavern shoots into the pile, narrowly missing your head.\n\n");
+			outputText("<i>Tock. Tick. Tock. TICKTOCKTICKTOCKTICKTOCK</i>\n\n");
+			outputText("...\n\n");
+			outputText("Silence fills the cave. You open your [eyes]. A black and white tiled room is on the other side of where that stone had once been. The ceiling is pristine, like it had never collapsed at all. Your path forward is clear.\n\n");
+			if (player.hasKeyItem("Black Crystal") >= 0) player.removeKeyItem("Black Crystal");
+			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]++;
+			doNext(roomD05);
+		}
+		private function useBlackCrystalRe():void {
+			clearOutput();
+			outputText("You approach the ceiling-high pile of rubble blocking your path. Taking the Black crystal from your pocket, you throw it at the top of the pile. The crystal shatters, the sound far louder than it has any right to be, echoing through the cavern. Black liquid pours from the point of impact, spreading down, seeping into the displaced stone below. Your [hair] stands on end, as static fills the air, white sparks popping from the black liquid.\n\n");
+			outputText("<i>Tick…</i> The sound echoes, far louder than the shattering before. The stone rumbles, quivering slightly.\n\n");
+			outputText("<i>Tock…</i> The stone begins to rise, slowly at first.\n\n");
+			outputText("<i>Tick…</i> The stone leaps skyward, merging seamlessly with the ceiling above it. The ticking sounds get faster and faster, the cacophony of falling stone echoing in reverse, an unnatural sound that makes your [skin] crawl. You close your eyes instinctively as a stone from the other side of the cavern shoots into the pile, narrowly missing your head.\n\n");
+			outputText("<i>Tock. Tick. Tock. TICKTOCKTICKTOCKTICKTOCK</i>\n\n");
+			outputText("...\n\n");
+			outputText("Silence fills the cave. You open your [eyes]. A black and white tiled room is on the other side of where that stone had once been. The ceiling is pristine, like it had never collapsed at all. Your path forward is clear.\n\n");
+			if (player.hasKeyItem("Black Crystal") >= 0) player.removeKeyItem("Black Crystal");
+			flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS]++;
+			doNext(roomD03);
+		}
+		public function dishHelperTB():void {
+			menu();
+			if (flags[kFLAGS.PLAYER_COMPANION_1] != "") addButton(0, "1st", dishHelperTB2, 1).hint("Ask your first henchman to deal with it.");
+			if (flags[kFLAGS.PLAYER_COMPANION_2] != "") addButton(1, "2nd", dishHelperTB2, 2).hint("Ask your second henchman to deal with it.");
+		}
+		public function dishHelperTB2(henchman:Number = 0):void {
+			clearOutput();
+			player.createStatusEffect(StatusEffects.MinoKing,henchman,0,0,0);
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Neisa")) {
+				outputText("You tell Neisa you need her to keep the suspended onisune from recovering!\n\n");
+				outputText("Neisa nods, \"<i>A great stratagem, leave it to me!</i>\" She raises her shield before charging at onisune, repeatedly bashing it with her shield to keep them out of the fight.\n\n");
+				if (silly()) outputText("She speaks through her exertion, \"<i>Stop resisting! I said stop resisting! You onisunes think you’re so high and mighty, just above the law don’t you?!</i>\"\n\n");
+				else outputText("She speaks through her exertion, \"<i>I need you to stay down!</i>\"\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Etna") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Etna")) {
+				outputText("You tell Etna you need her to keep the suspended onisune from recovering!\n\n");
+				outputText("Etna smirks, \"<i>Hmm, how long can an onisune last against my tail? Time to find out!</i>\"\n\n");
+				outputText("Wasting no time, The manticore leaps with a hungry lunge, diving at onisune as she quickly wraps her tail around them to keep them out of the fight.\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Aurora") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Aurora")) {
+				outputText("You tell Aurora you need her to keep the suspended onisune from recovering!\n\n");
+				outputText("Aurora nods, raising her wings before swooping down onto onisune, pinning them beneath her stone frame, keeping them out of the fight.\n\n");
+				outputText("\"<i>Prevention is the best method to stop danger, now, let’s put a halt to this nuisance.</i>\"\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Alvina") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Alvina")) {
+				outputText("You tell Alvina you need her to handle one of the onisunes before you.\n\n");
+				outputText("Alvina rolls her eyes, \"<i>Oh, why, of course… Leave me to do the dirty work.</i>\"\n\n");
+				outputText("She sets down her scythe before drawing somatic symbols with a single finger. Onisune is imprisoned in shadowy chains as they’re thrust into the ground.\n\n");
+				outputText("A faint grin curls up her face, \"<i>It’s so easy to keep them locked down…</i>\"\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Mitzi") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Mitzi")) {
+				outputText("You tell Mitzi and her daughters that you need them to keep the suspended onisune from recovering!\n\n");
+				outputText("Mitzi raises her fist as her several daughters cheer, \"<i>Let’s get that bitch!</i>\"\n\n");
+				outputText("Furxia, Lidea, Mitzi and Roxy rush onisune, trapping them within their onslaught as they try to keep it pinned and out of the fight.\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Excellia") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Excellia")) {
+				outputText("You tell Excellia you need her to keep the suspended onisune from recovering!\n\n");
+				outputText("Excellia rolls her shoulders briefly, \"<i>I can handle that easily.</i>\" Without further hesitation, she rushes in, using the weight of her body to smash into onisune and keep them out of the fight.\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Amily") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Amily")) {
+				outputText("You tell Amily you need her to keep the suspended onisune from recovering!\n\n");
+				outputText("Amily nods before coating a dagger in some poison, \"<i>A little more paralytic poison should do the trick…</i>\"\n\n");
+				outputText("Amily quickly rushes to onisune before driving her dagger into them to keep them out of the fight. \"<i>Now I just need to make sure they don’t get up… Let’s hope I have enough to last.</i>\"\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Zenji") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Zenji")) {
+				outputText("You tell Zenji you need him to keep the suspended onisune from recovering!\n\n");
+				outputText("Zenji nods, \"<i>Leave it to me, champion!</i>\"\n\n");
+				outputText("He readies his spear before pouncing on onisune, smacking them with the blunt side of his spear to keep them out of the fight.\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Kiha") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Kiha")) {
+				outputText("You tell Kiha you need her to keep the suspended onisune from recovering!\n\n");
+				outputText("She scoffs teasingly, \"<i>Oh, an idiot like you can’t manage against multiple foes? Yeah, don’t worry, I’ll totally take care of it.</i>\" Axe in hand, Kiha charges at onisune, bashing it with the blunt side of her axe to keep them out of the fight.\n\n");
+			}
+			if ((henchman == 1 && flags[kFLAGS.PLAYER_COMPANION_1] == "Tyrantia") || (henchman == 2 && flags[kFLAGS.PLAYER_COMPANION_2] == "Tyrantia")) {
+				outputText("You notice the onisunes eyeing your Drider giantess, disgust all over their expressions. In response, you can <i>feel</i> her aura thickening, her eyes narrowing.\n\n");
+				outputText("\"<i>What?!</i>\" She demands, the hairs on her legs standing straight up. \"<i>WHAT?!</i>\"\n\n");
+				outputText("You point at onisune, telling your Amazoness that you need her to keep him down, so you can focus on the other.\n\n");
+				outputText("\"<i>Oh…I am all OVER that.</i>\" Tyrantia lets out a guttural roar, shooting a glob of her “webbing” at onisune. He dodges, but her black and pink aura flares, and she rushes in, black aura hiding the onisune’s light from your view.\n\n");
+			}
+			SceneLib.combat.enemyAIImpl();
+		}
 		private function teleportCircleFloor1():void {
 			menu();
 			addButtonDisabled(0, "Floor 1", "You're currently at Floor 1.");
-			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 1) addButton(1, "Floor 2", teleportToFloor2);
-			else addButtonDisabled(1, "Floor 2", "You still need to beat guardians of floor 1 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 1 && flags[kFLAGS.NEISA_FOLLOWER] >= 3) addButton(1, "Floor 2", teleportToFloor2);
+			else addButtonDisabled(1, "Floor 2", "You still need to beat guardians of floor 1 to use this teleport option. Also need to be able to leave dungeon at any time (paying back shield maiden for her help).");
 			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 6) addButton(2, "Floor 3", teleportToFloor3);
 			else addButtonDisabled(2, "Floor 3", "You still need to beat guardian of floor 2 to use this teleport option.");
-			/*if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButton(4, "Floor 4", teleportToFloor4);
-			else addButtonDisabled(3, "Floor 4", "You still need to beat guardian of floor 3 to use this teleport option.");*/
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButton(3, "Floor 4", teleportToFloor4);
+			else addButtonDisabled(3, "Floor 4", "You still need to beat guardian of floor 3 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 11) addButton(4, "Floor 5", teleportToFloor5);
+			else addButtonDisabled(4, "Floor 5", "You still need to beat guardians of floor 4 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12) addButton(5, "Floor 6", teleportToFloor6);
+			else addButtonDisabled(5, "Floor 6", "You still need to beat guardian of floor 5 to use this teleport option.");
+			//7
 			addButton(14, "Back", roomA01);
 		}
 		private function teleportCircleFloor2():void {
@@ -1508,7 +2624,13 @@ public class RiverDungeon extends DungeonAbstractContent
 			addButtonDisabled(1, "Floor 2", "You're currently at Floor 2.");
 			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 6) addButton(2, "Floor 3", teleportToFloor3);
 			else addButtonDisabled(2, "Floor 3", "You need to beat the guardian of floor 2 to use this teleport.");
-			//floor 4
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButton(3, "Floor 4", teleportToFloor4);
+			else addButtonDisabled(3, "Floor 4", "You still need to beat guardian of floor 3 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 11) addButton(4, "Floor 5", teleportToFloor5);
+			else addButtonDisabled(4, "Floor 5", "You still need to beat guardians of floor 4 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12) addButton(5, "Floor 6", teleportToFloor6);
+			else addButtonDisabled(5, "Floor 6", "You still need to beat guardian of floor 5 to use this teleport option.");
+			//7
 			addButton(14, "Back", roomB01);
 		}
 		private function teleportCircleFloor3():void {
@@ -1516,52 +2638,96 @@ public class RiverDungeon extends DungeonAbstractContent
 			addButton(0, "Floor 1", teleportToFloor1);
 			addButton(1, "Floor 2", teleportToFloor2);
 			addButtonDisabled(2, "Floor 3", "You're currently at Floor 3.");
-			//floor 4
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8) addButton(3, "Floor 4", teleportToFloor4);
+			else addButtonDisabled(3, "Floor 4", "You still need to beat guardian of floor 3 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 11) addButton(4, "Floor 5", teleportToFloor5);
+			else addButtonDisabled(4, "Floor 5", "You still need to beat guardians of floor 4 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12) addButton(5, "Floor 6", teleportToFloor6);
+			else addButtonDisabled(5, "Floor 6", "You still need to beat guardian of floor 5 to use this teleport option.");
+			//7
 			addButton(14, "Back", roomC01);
-		}/*
+		}
 		private function teleportCircleFloor4():void {
 			menu();
 			addButton(0, "Floor 1", teleportToFloor1);
 			addButton(1, "Floor 2", teleportToFloor2);
 			addButton(2, "Floor 3", teleportToFloor3);
 			addButtonDisabled(3, "Floor 4", "You're currently at Floor 4.");
-			addButton(14, "Back", roomD01);
-		}*/
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 11) addButton(4, "Floor 5", teleportToFloor5);
+			else addButtonDisabled(4, "Floor 5", "You still need to beat guardians of floor 4 to use this teleport option.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12) addButton(5, "Floor 6", teleportToFloor6);
+			else addButtonDisabled(5, "Floor 6", "You still need to beat guardian of floor 5 to use this teleport option.");
+			//7
+			addButton(14, "Back", roomD07);
+		}
 		private function teleportCircleFloor5():void {
-			
+			menu();
+			addButton(0, "Floor 1", teleportToFloor1);
+			addButton(1, "Floor 2", teleportToFloor2);
+			addButton(2, "Floor 3", teleportToFloor3);
+			addButton(3, "Floor 4", teleportToFloor4);
+			addButtonDisabled(4, "Floor 5", "You're currently at Floor 5.");
+			if (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12) addButton(5, "Floor 6", teleportToFloor6);
+			else addButtonDisabled(5, "Floor 6", "You still need to beat guardian of floor 5 to use this teleport option.");
+			//7
+			addButton(14, "Back", roomE13);
 		}
 		private function teleportCircleFloor6():void {
-			
+			menu();
+			addButton(0, "Floor 1", teleportToFloor1);
+			addButton(1, "Floor 2", teleportToFloor2);
+			addButton(2, "Floor 3", teleportToFloor3);
+			addButton(3, "Floor 4", teleportToFloor4);
+			addButton(4, "Floor 5", teleportToFloor5);
+			addButtonDisabled(5, "Floor 6", "You're currently at Floor 6.");
+			//7
+			addButton(14, "Back", roomE13);
 		}
 		private function teleportCircleFloor7():void {
-			
+			menu();
+			addButton(0, "Floor 1", teleportToFloor1);//02-04-06->09
+			addButton(1, "Floor 2", teleportToFloor2);//12-14-16-18->21->24
+			addButton(2, "Floor 3", teleportToFloor3);//26-28-30-32-34->37->40
+			addButton(3, "Floor 4", teleportToFloor4);//42-44-46-48-50-52->55
+			addButton(4, "Floor 5", teleportToFloor5);//58-60-62-64-66-68-70->73
+			addButton(5, "Floor 6", teleportToFloor6);//76-78-80-82-84-86-88-90->93
+			addButtonDisabled(6, "Floor 7", "You're currently at Floor 7.");//96
+			addButton(14, "Back", roomE13);
 		}
 		private function teleportToFloor1():void {
 			clearOutput();
 			outputText("A circle of energy slowly emerges, wrapping around your team. Magic surges as your vision blurs. In nearly an instant, you're transported to the first floor.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_01_ROOM_01;
 			playerMenu();
 		}
 		private function teleportToFloor2():void {
 			clearOutput();
 			outputText("A circle of energy slowly emerges, wrapping around your team. Magic surges as your vision blurs. In nearly an instant, you're transported to the second floor.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_02_ROOM_01;
 			playerMenu();
 		}
 		private function teleportToFloor3():void {
 			clearOutput();
 			outputText("A circle of energy slowly emerges, wrapping around your team. Magic surges as your vision blurs. In nearly an instant, you're transported to the third floor.\n\n");
-			inDungeon = true;
 			dungeonLoc = DUNGEON_RIVER_FLOOR_03_ROOM_01;
 			playerMenu();
 		}
 		private function teleportToFloor4():void {
 			clearOutput();
 			outputText("A circle of energy slowly emerges, wrapping around your team. Magic surges as your vision blurs. In nearly an instant, you're transported to the fourth floor.\n\n");
-			inDungeon = true;
-			//dungeonLoc = ;
+			dungeonLoc = DUNGEON_RIVER_FLOOR_04_ROOM_07;
+			playerMenu();
+		}
+		private function teleportToFloor5():void {
+			clearOutput();
+			outputText("A circle of energy slowly emerges, wrapping around your team. Magic surges as your vision blurs. In nearly an instant, you're transported to the fifth floor.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_05_ROOM_13;
+			playerMenu();
+		}
+		private function teleportToFloor6():void {
+			clearOutput();
+			outputText("A circle of energy slowly emerges, wrapping around your team. Magic surges as your vision blurs. In nearly an instant, you're transported to the sixth floor.\n\n");
+			dungeonLoc = DUNGEON_RIVER_FLOOR_06_ROOM_01;
 			playerMenu();
 		}
 	}

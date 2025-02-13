@@ -13,11 +13,11 @@ public class WaterSphereSpell extends AbstractGreySpell {
 		super(
 			ex ? "Water Sphere (Ex)" : "Water Sphere",
 			ex ?
-				"Condense part of the the ambivalent moisture into wrath-enpowered water spheres to attack your enemies."
-				: "Condense part of the the ambivalent moisture into spheres water to attack your enemies.",
+				"Condense part of the ambient moisture into wrath-empowered water spheres to attack your enemies."
+				: "Condense part of the ambient moisture into spheres water to attack your enemies.",
 			TARGET_ENEMY,
 			TIMING_INSTANT,
-			[TAG_DAMAGING, TAG_WATER, TAG_AOE]
+			[TAG_DAMAGING, TAG_WATER, TAG_AOE, TAG_TIER1]
 		);
 		baseManaCost = 200;
 		if (ex) baseWrathCost = 100;
@@ -38,7 +38,15 @@ public class WaterSphereSpell extends AbstractGreySpell {
 	}
 	
 	override public function calcCooldown():int {
-		return spellGreyCooldown();
+		var calcC:int = 0;
+		calcC += spellGreyCooldown();
+		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 18) {
+			if (player.level < 6) calcC -= 1;
+			if (player.level < 12) calcC -= 1;
+			calcC -= 1;
+			if (calcC < 0) calcC = 0;
+		}
+		return calcC;
 	}
 	
 	public function calcDamage(monster:Monster, randomize:Boolean = true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)

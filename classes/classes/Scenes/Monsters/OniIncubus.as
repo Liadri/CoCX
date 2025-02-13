@@ -2,9 +2,9 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Monsters 
+package classes.Scenes.Monsters
 {
-	
+
 import classes.*;
 import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
@@ -17,8 +17,7 @@ import classes.internals.*;
 		public function oniHypermode():void {
 			if (hasStatusEffect(StatusEffects.Uber)) {
 				removeStatusEffect(StatusEffects.Uber);
-				if (hasStatusEffect(StatusEffects.Stunned) || hasStatusEffect(StatusEffects.FrozenSolid) || hasStatusEffect(StatusEffects.StunnedTornado) || hasStatusEffect(StatusEffects.Fear) || hasStatusEffect(StatusEffects.Constricted) || hasStatusEffect(StatusEffects.ConstrictedScylla) || hasStatusEffect(StatusEffects.ConstrictedWhip) || hasStatusEffect(StatusEffects.GooEngulf)
-				|| hasStatusEffect(StatusEffects.EmbraceVampire) || hasStatusEffect(StatusEffects.Pounce)) {
+				if (monsterIsStunned() || monsterIsConstricted() || hasStatusEffect(StatusEffects.Fear)) {
 					outputText(short+" reels in frustration as his concentration breaks under your assaults.\n\n");
 				}
 				else {
@@ -88,7 +87,7 @@ import classes.internals.*;
 			SceneLib.chichiScene.chichiSex5();
 		}
 		
-		public function OniIncubus() 
+		public function OniIncubus()
 		{
 			if (flags[kFLAGS.CHI_CHI_FOLLOWER] == 4) {
 				this.a = "";
@@ -96,7 +95,7 @@ import classes.internals.*;
 				this.imageName = "chonlao";
 				this.long = "If you thought Oni were immune to demonic corruption, Chon Lao the Ushi Oni is the proof that they are not. The man is easily 10 feet tall and just as strong, if not stronger than, Izumi. Massive horns dot his forehead, with 2 larger ones crowning the side like the head of a bull, and the massive 36 inches of man meat pulsing under his pants would scare the hell out of any normal woman. He glares at you, as if preparing to squash a bug.";
 				initStrTouSpeInte(385, 275, 205, 170);
-				initWisLibSensCor(170, 90, 55, 15);
+				initWisLibSensCor(170, 90, 55, 100);
 				this.weaponAttack = 80;
 				this.armorDef = 23;
 				this.armorMDef = 16;
@@ -117,7 +116,7 @@ import classes.internals.*;
 			this.tallness = 120;
 			this.hips.type = Hips.RATING_AVERAGE;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			this.hairColor = "golden";
 			this.hairLength = 25;
 			this.weaponName = "fist";
@@ -125,7 +124,6 @@ import classes.internals.*;
 			this.armorName = "pants";
 			this.lust = 10;
 			this.lustVuln = 0.33;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.gems = 50 + rand(50);
 			this.drop = new ChainedDrop().add(necklaces.OBNECK,1/5)
 					.elseDrop(consumables.ONISAKE);

@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -37,7 +37,7 @@ import classes.internals.*;
 			return str;
 		}
 		
-		public function Aria() 
+		public function Aria()
 		{
 			this.a = "the ";
 			this.short = "Melkie huntress";
@@ -45,10 +45,10 @@ import classes.internals.*;
 			//if (flags[kFLAGS.CEANI_LVL_UP] == 5) {
 				//this.level = 74;
 				//initStrTouSpeInte(340, 360, 260, 210);
-				//initWisLibSensCor(210, 210, 80, 50);
+				//initWisLibSensCor(210, 210, 80, 0);
 				this.level = 37;
 				initStrTouSpeInte(170, 180, 130, 105);
-				initWisLibSensCor(105, 105, 40, 50);
+				initWisLibSensCor(105, 105, 40, 0);
 				this.weaponAttack = 56;
 				this.armorDef = 15;
 				this.armorMDef = 15;
@@ -62,7 +62,7 @@ import classes.internals.*;
 			this.tallness = 132;
 			this.hips.type = Hips.RATING_CURVY + 2;
 			this.butt.type = Butt.RATING_LARGE + 1;
-			this.skinTone = "black with a white underside";
+			this.bodyColor = "black with a white underside";
 			this.hairColor = "blond";
 			this.hairLength = 13;
 			this.weaponName = "harpoon";
@@ -72,7 +72,6 @@ import classes.internals.*;
 			this.bonusLust = 182;
 			this.lust = 30;
 			this.lustVuln = .8;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 50;
 			this.drop = new ChainedDrop().
 				//	add(armors.INDESSR,1/10).

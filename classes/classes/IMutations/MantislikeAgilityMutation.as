@@ -7,45 +7,31 @@ package classes.IMutations
 import classes.PerkClass;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class MantislikeAgilityMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Mantislike Agility";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Your agility is increased, and can be even further boosted if you have natural armour or thick skin.";
+                descS += "Your agility is increased, and can be even further boosted if you have natural armour or thick skin";
             }
             if (pTier >= 3){
-                descS += ", (+30% max core spe as phantom spe)";
+                descS += ", +30% max core spe as phantom spe";
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Mantislike Agility" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -63,15 +49,13 @@ public class MantislikeAgilityMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             return pBuffs;
         }
 
         public function MantislikeAgilityMutation() {
-            super("Mantislike Agility IM", "Mantislike Agility", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_MUSCLE, 3);
         }
 
     }

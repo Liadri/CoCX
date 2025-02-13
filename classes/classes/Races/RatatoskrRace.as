@@ -1,13 +1,38 @@
 package classes.Races {
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 
 public class RatatoskrRace extends Race{
 	public static const RatatoskrHairColors:/*String*/Array = ["brown", "light brown", "caramel", "chocolate", "russet"];
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
 	
 	public function RatatoskrRace(id:int) {
-		super("Ratatoskr", id);
+		super("Ratatoskr", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -24,13 +49,12 @@ public class RatatoskrRace extends Race{
 				.noWings(+1)
 				.noRearBody(+1)
 				.hairType(Hair.RATATOSKR, +1)
-				.hairColor(ANY(RatatoskrHairColors), +1)
+				.hairColor1(ANY(RatatoskrHairColors), +1)
 				.skinCoatType(Skin.FUR, +1)
-				.skinCoatColor(ANY(RatatoskrHairColors), +1)
+				.furColor1(ANY(RatatoskrHairColors), +1)
 				.height(LESS_THAN(48), +1);
-		//if (hasPerk(PerkLib.RatatoskrsDescendant) || hasPerk(PerkLib.BloodlineRatatoskr))
-		//	ratatoskrCounter += increaseFromBloodlinePerks();
 		
+		addBloodline(PerkLib.RatatoskrsDescendant, PerkLib.BloodlineRatatoskr);
 		addMutation(IMutationsLib.RatatoskrSmartsIM);
 		
 		buildTier(12, "squirrel")

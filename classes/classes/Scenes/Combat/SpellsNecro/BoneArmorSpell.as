@@ -25,14 +25,17 @@ public class BoneArmorSpell extends AbstractNecroSpell {
 	}
 	
 	override public function demonBonesCost():int {
-		return 10;
+		var calcDBC:int = 10;
+		if (player.hasPerk(PerkLib.HyperCasting)) calcDBC -= 2;
+		if (player.hasStatusEffect(StatusEffects.BonusEffectsNecroSet) && player.statusEffectv3(StatusEffects.BonusEffectsNecroSet) > 0) calcDBC -= 2;
+		return calcDBC;
 	}
 	
 	override public function isActive():Boolean {
 		return player.hasStatusEffect(StatusEffects.BoneArmor);
 	}
 	
-	public function calcDuration():int {
+	override public function calcDuration():int {
 		var duration:Number = 5;
 		duration *= boneSoulBonus(demonBonesCost());
 		return Math.floor(duration);
@@ -43,6 +46,7 @@ public class BoneArmorSpell extends AbstractNecroSpell {
 			outputText("You animate a set of bones to fly around you, deflecting incoming attacks.\n\n");
 		}
 		var dura:int = calcDuration();
+		consumeBones(demonBonesCost());
 		player.createStatusEffect(StatusEffects.BoneArmor,dura,0,0,0);
 	}
 }

@@ -1,16 +1,41 @@
 package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
+import classes.GeneticMemories.RaceMem;
 import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
 import classes.Race;
 import classes.lists.BreastCup;
 
 public class FairyRace extends Race {
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Elf",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Elven",
+        /*Eyes*/		"Fairy",
+        /*Face*/		"Fairy",
+        /*Gills*/		"Human",
+        /*Hair*/		"Fairy",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Elf",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Elf",
+        /*Wings*/		"Fairy",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Fairy"];
+
 	public function FairyRace(id:int) {
-		super("Fairy", id);
-		chimeraTier = 0;
-		grandChimeraTier = 0;
+		super("Fairy", id, RaceBody);
+		mutationThreshold = 9;
 	}
 	
 	public override function setup():void {
@@ -30,14 +55,25 @@ public class FairyRace extends Race {
 						function (body:BodyData):Boolean {
 							return body.player.skinType == Skin.PLAIN && body.skinBaseAdj == "flawless"
 						}, +1)
-				.hasPerk(PerkLib.TransformationImmunityFairy, +5);
-		addScoresAfter(1)
+				.hasPerk(PerkLib.TransformationImmunity2, +5)
 				.skinPlainOnly(+1)
 				.noCock(+1);
 		
 		addMutation(IMutationsLib.FeyArcaneBloodstreamIM, +3);
 		
-		buildTier(23, "great fairy")
+		buildTier(15, "Half fairy")
+				.buffs({
+					"str.mult": -0.10,
+					"tou.mult": -0.05,
+					"spe.mult": +0.80,
+					"int.mult": +0.80,
+					"wis.mult": +0.60,
+					"sens": +10
+				})
+				.end();
+
+		buildTier(23, "Great Fairy")
+                .requirePerk(PerkLib.TransformationImmunity2)
 				.buffs({
 					"str.mult": -0.20,
 					"tou.mult": -0.10,
@@ -48,7 +84,8 @@ public class FairyRace extends Race {
 				})
 				.end();
 		
-		buildTier(26, "noble fairy")
+		buildTier(26, "Noble Fairy")
+				.requirePreviousTier()
 				.buffs({
 					"str.mult": -0.20,
 					"tou.mult": -0.10,
@@ -59,7 +96,8 @@ public class FairyRace extends Race {
 				})
 				.end();
 		
-		buildTier(29, "fairy queen")
+		buildTier(29, "Fairy Queen")
+                .requirePreviousTier()
 				.buffs({
 					"str.mult": -0.20,
 					"tou.mult": -0.10,
@@ -71,6 +109,7 @@ public class FairyRace extends Race {
 				.end();
 		
 		buildTier(32, "Titania")
+                .requirePreviousTier()
 				.buffs({
 					"str.mult": -0.20,
 					"tou.mult": -0.10,

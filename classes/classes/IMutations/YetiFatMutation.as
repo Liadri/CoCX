@@ -7,17 +7,22 @@ package classes.IMutations
 import classes.PerkClass;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class YetiFatMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Yeti Fat";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
+			var pDR:int = 5;
+			if (pTier >= 2) pDR += 10;
+			if (pTier >= 3) pDR += 20;
             if (pTier >= 1){
-                descS += "Gain damage reduction against attacks, increase strength of yeti ice breath by 50%";
+                descS += "Gain damage reduction (" + pDR + "%) against attacks, increase strength of yeti ice breath by 50%";
             }
             if (pTier >= 2){
                 descS += ", potency of Big Hand and Feet by 50%";
@@ -29,26 +34,10 @@ public class YetiFatMutation extends IMutationPerkType
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Yeti Fat" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -65,15 +54,16 @@ public class YetiFatMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
+            if (pTier == 1) pBuffs['tou.mult'] = 0.05;
+            if (pTier == 2) pBuffs['tou.mult'] = 0.15;
+            if (pTier == 3) pBuffs['tou.mult'] = 0.3;
             return pBuffs;
         }
 
         public function YetiFatMutation() {
-            super("Yeti Fat IM", "Yeti Fat", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_FAT, 3);
         }
     }
 }

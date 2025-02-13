@@ -11,7 +11,23 @@ import classes.internals.WeightedDrop;
 
 public class Akbal extends Monster
 	{
-
+		override public function midDodge():void{
+			outputText("Akbal moves like lightning, weaving in and out of your furious strikes with the speed and grace befitting his jaguar body.\n");
+		}
+		// Akbal now actually immune to blind
+		override protected function handleBlind():Boolean{
+			return true;
+		}
+		// Compromise to preserve content even if attack dodged not necessarily fire
+		override protected function outputPlayerDodged(dodge:int):void{
+			outputText("Akbal releases an ear-splitting roar, hurling a torrent of emerald green flames towards you.\n");
+			if (player.spe - spe < 8)
+				outputText("You narrowly avoid " + a + short + "'s fire!");
+			else if (player.spe - spe >= 8 && player.spe - spe < 20)
+				outputText("You dodge " + a + short + "'s fire with superior quickness!");
+			else if (player.spe - spe >= 20)
+				outputText("You deftly avoid " + a + short + "'s slow fire-breath.");
+		}
 		override public function eAttack():void
 		{
 			//Chances to miss:
@@ -19,26 +35,6 @@ public class Akbal extends Monster
 			//Blind dodge change
 			if (hasStatusEffect(StatusEffects.Blind)) {
 				outputText(capitalA + short + " seems to have no problem guiding his attacks towards you, despite his blindness.\n");
-			}
-			//Determine if dodged!
-			if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) {
-				if (player.spe - spe < 8)
-					outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!");
-				if (player.spe - spe >= 8 && player.spe - spe < 20)
-					outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!");
-				if (player.spe - spe >= 20)
-					outputText("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".");
-				return;
-			}
-			//Determine if evaded
-			if (player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.");
-				return;
-			}
-			//Determine if flexibilitied
-			if (player.hasPerk(PerkLib.Flexibility) && rand(100) < 10) {
-				outputText("Using your cat-like agility, you twist out of the way of " + a + short + "'s attack.");
-				return;
 			}
 			//Determine damage - str modified by enemy toughness!
 			//*Normal Attack A - 
@@ -96,7 +92,7 @@ public class Akbal extends Monster
 				outputText("You hear whispering in your head. Akbal begins speaking to you as he circles you, telling all the ways he'll dominate you once he beats the fight out of you.");
 				var lustattack1:Number = 9 + rand(9);
 				if (flags[kFLAGS.AKBAL_LVL_UP] >= 1) lustattack1 += flags[kFLAGS.AKBAL_LVL_UP] + rand(flags[kFLAGS.AKBAL_LVL_UP]);
-				player.dynStats("lus", lustattack1);
+				player.takeLustDamage(lustattack1, true);
 				player.createStatusEffect(StatusEffects.Whispered,0,0,0,0);
 			}
 			//Continuous Lust Attack - 
@@ -105,7 +101,7 @@ public class Akbal extends Monster
 				outputText("The whispering in your head grows, many voices of undetermined sex telling you all the things the demon wishes to do to you. You can only blush.");
 				var lustattack2:Number = 12 + rand(12);
 				if (flags[kFLAGS.AKBAL_LVL_UP] >= 1) lustattack2 += 3 + flags[kFLAGS.AKBAL_LVL_UP] + rand(flags[kFLAGS.AKBAL_LVL_UP]);
-				player.dynStats("lus", lustattack2);
+				player.takeLustDamage(lustattack2, true);
 			}
 		}
 		
@@ -124,43 +120,18 @@ public class Akbal extends Monster
 			{
 				outputText("Akbal releases an ear-splitting roar, hurling a torrent of emerald green flames towards you.\n");
 				//(high HP damage)
-				//Determine if dodged!
-				if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80)
-				{
-					if (player.spe - spe < 8)
-						outputText("You narrowly avoid " + a + short + "'s fire!");
-					if (player.spe - spe >= 8 && player.spe - spe < 20)
-						outputText("You dodge " + a + short + "'s fire with superior quickness!");
-					if (player.spe - spe >= 20)
-						outputText("You deftly avoid " + a + short + "'s slow fire-breath.");
-					return;
-				}
-				//Determine if evaded
-				if (player.hasPerk(PerkLib.Evade) && rand(100) < 20)
-				{
-					outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s fire-breath.");
-					return;
-				}
-				//Determine if flexibilitied
-				if (player.hasPerk(PerkLib.Flexibility) && rand(100) < 10)
-				{
-					outputText("Using your cat-like agility, you contort your body to avoid " + a + short + "'s fire-breath.");
-					return;
-				}
 				if (player.hasStatusEffect(StatusEffects.Blizzard)) {
 					player.addStatusValue(StatusEffects.Blizzard, 1, -1);
 					var damage2:int = inte / 4;
 					if (flags[kFLAGS.AKBAL_LVL_UP] >= 1) damage2 *= (1 + (flags[kFLAGS.AKBAL_LVL_UP] * 0.1));
-					damage2 = Math.round(damage2);
 					outputText("Surrounding your blizzard absorbed huge part of the attack at the price of loosing some of it protective power.\n");
 					outputText("You are burned badly by the flames! ");
-					damage2 = player.takeFireDamage(damage2, true);
+					player.takeFireDamage(damage2, true);
 					return;
 				}
 				var damage:int = inte;
-				damage = Math.round(damage);
 				outputText("You are burned badly by the flames! ");
-				damage = player.takeFireDamage(damage, true);
+				player.takeFireDamage(damage, true);
 			}
 		}
 		
@@ -184,14 +155,14 @@ public class Akbal extends Monster
 			var addIntWis:int = (mod <= 4) ? mod * 19 : 4*19 + (mod - 4) * 9;
 			trace("Akbal Constructor!");
 			//New levelling
-			initStrTouSpeInte(61 + mod*13, 89 + mod*20, 75 + mod*15, 126 + addIntWis); //int might be too much, but it's scalable now
-			initWisLibSensCor(85 + addIntWis, 80 + mod*17, 50 + mod*10, 100); //wis too
-			this.weaponAttack = 17 + mod*3;
-			this.armorDef = 10 + mod*2;
-			this.armorMDef = 20 + mod*4;
-			this.bonusHP = 100 + mod*100;
-			this.bonusLust = 150 + mod*33;
-			this.level = 20 + mod*6;
+			initStrTouSpeInte(161 + mod*26, 189 + mod*40, 175 + mod*30, 226 + addIntWis*2); //int might be too much, but it's scalable now
+			initWisLibSensCor(185 + addIntWis*2, 180 + mod*34, 150 + mod*20, 100); //wis too
+			this.weaponAttack = 17 + mod*6;
+			this.armorDef = 50 + mod*4;
+			this.armorMDef = 100 + mod*8;
+			this.bonusHP = 200 + mod*200;
+			this.bonusLust = 362 + mod*60;
+			this.level = 32 + mod*6;
 			this.additionalXP = 50 + mod*50;
 			//
 			this.a = "";
@@ -221,7 +192,6 @@ public class Akbal extends Monster
 			this.armorName = "shimmering pelt";
 			this.lust = 30;
 			this.lustVuln = 0.8;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.gems = 40;
 			this.drop = new WeightedDrop().
 					add(consumables.INCUBID,4).
@@ -229,16 +199,16 @@ public class Akbal extends Monster
 					add(consumables.AKBALSL,2).
 					add(weapons.PIPE,1);
 			this.abilities = [
-				{call: eAttack(), type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY]},
+				{call: eAttack, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY]},
 				{call: akbalLustAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[]},
 				{call: akbalSpecial, type: ABILITY_MAGIC, range: RANGE_RANGED, tags:[TAG_FIRE]},
 				{call: akbalHeal, type: ABILITY_MAGIC, range: RANGE_SELF, tags:[TAG_HEAL]},
 			];
 			this.tailType = Tail.CAT;
-			this.createPerk(PerkLib.FireVulnerability, 0, 0, 0, 0);
+			this.createPerk(PerkLib.IceVulnerability, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, (20 + mod*6), 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxHP, (32 + mod*6), 0, 0, 0);
 			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			if (flags[kFLAGS.AKBAL_LVL_UP] >= 1) this.createPerk(PerkLib.JobRanger, 0, 0, 0, 0);
 			if (flags[kFLAGS.AKBAL_LVL_UP] >= 2) this.createPerk(PerkLib.JobRogue, 0, 0, 0, 0);

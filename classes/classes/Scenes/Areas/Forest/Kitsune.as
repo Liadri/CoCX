@@ -15,12 +15,12 @@ public class Kitsune extends Monster
 		// Combat Abilities:
 		// the kitsune are an almost purely magical mob, relying mainly on tease attacks and spells that raise lust.
 		//Entwine:
-		private function kitsuneEntwine():void
+		protected function kitsuneEntwine():void
 		{
 			outputText("The kitsune closes in on you with a mischievous glint in her eyes.  You raise your guard, keeping your eyes trained on her to ensure that she doesn't try to pull anything.  Suddenly, you feel something coiling around your [leg], and let out a yelp as you are suddenly lifted into the air, entangled in the kitsune's tails!");
 			outputText("\n\nYour limbs are bound tightly while coils of delightfully soft fur caress you on all sides.  You can do little besides struggle against your furry bonds as the constant writhing of her tails sends shudders flying up and down your spine.");
-			createStatusEffect(StatusEffects.PCTailTangle, 0, 0, 0, 0);
-			player.dynStats("lus", 10 + player.effectiveSensitivity() / 8);
+			player.createStatusEffect(StatusEffects.KitsuneTailTangle, 0, 0, 0, 0);
+			player.takeLustDamage(10 + player.effectiveSensitivity() / 8, true);
 		}
 
 		//Struggle - event 5077 in Combat.as
@@ -30,16 +30,16 @@ public class Kitsune extends Monster
 			//Struggle:
 			outputText("You struggle against the kitsune's tails with all your might, desperately trying to free yourself before she has her way with you.");
 			//Success
-			if ((rand(20) + player.str / 20 + statusEffectv1(StatusEffects.PCTailTangle) >= 12) || player.hasPerk(PerkLib.FluidBody)) {
+			if ((rand(20) + player.str / 20 + player.statusEffectv1(StatusEffects.KitsuneTailTangle) >= 12) || player.hasPerk(PerkLib.FluidBody)) {
 				outputText("  Summoning up reserves of strength you didn't know you had, you wrench yourself free of her tails, pushing her away.\n\n");
-				removeStatusEffect(StatusEffects.PCTailTangle);
+				player.removeStatusEffect(StatusEffects.KitsuneTailTangle);
 			}
 			//Failure - +5-10 LUST
 			else {
 				outputText("  Despite your valiant efforts, your wriggling only serves to get you deeper entangled in the fluffy tails, eliciting an amused giggle from the kitsune.");
 				outputText("\n\nShe licks her lips, running her hands along you wherever she can find exposed flesh.  Her fingertips leave small trails of dazzling blue that make you flush with lust - you must escape her grasp soon or else you will be like putty in her hands!");
-				player.dynStats("lus", 5 + player.effectiveSensitivity() / 10);
-				addStatusValue(StatusEffects.PCTailTangle, 1, 3);
+				player.takeLustDamage(5 + player.effectiveSensitivity() / 10, true);
+				player.addStatusValue(StatusEffects.KitsuneTailTangle, 1, 3);
 			}
 		}
 
@@ -49,11 +49,11 @@ public class Kitsune extends Monster
 			outputText("Happily, you slump deeper into the fluffy tails, eliciting an amused giggle from the kitsune.");
 			if (EngineCore.silly()) outputText("  You're so glad you got to touch fluffy tail.");
 			outputText("\n\nShe licks her lips, running her hands along you wherever she can find exposed flesh.  Her fingertips leave small trails of dazzling blue that make you flush with lust - you must escape her grasp soon or else you will be like putty in her hands!");
-			player.dynStats("lus", 5 + player.effectiveSensitivity() / 10);
+			player.takeLustDamage(5 + player.effectiveSensitivity() / 10, true);
 		}
 
 		//Fox Fire
-		private function foxFireAttack():void
+		protected function foxFireAttack():void
 		{
 			outputText("The kitsune makes a small circle in the air with her fingers, conjuring up a pale blue flame into her palm with the sound of flint striking against steel.  Pursing her lips, she blows it toward you with a kiss.");
 			var damage:int = this.inte + this.wis + rand(20);
@@ -67,7 +67,7 @@ public class Kitsune extends Monster
 			}
 			damage = Math.round(damage);
 			damage = player.takeFireDamage(damage, true);
-			player.dynStats("lus", 15 + player.effectiveSensitivity() / 10);
+			player.takeLustDamage(15 + player.effectiveSensitivity() / 10, true);
 		}
 
 //Illusion: - Raises enemy evasion, but can be resisted.
@@ -82,7 +82,10 @@ public class Kitsune extends Monster
 			else resist = 30;
 			if (player.hasPerk(PerkLib.Whispered)) resist += 20;
 			if ((player.hasPerk(PerkLib.HistoryReligious) || player.hasPerk(PerkLib.PastLifeReligious)) && player.cor < 20) resist += 20 - player.cor;
-			if (rand(100) < resist) {
+			if (player.hasPerk(PerkLib.TrueSeeing)) {
+				outputText("\n\nHowever, your magical sight allows you to quickly resist her illusions!");
+			}
+			else if (rand(100) < resist) {
 				outputText("\n\nThe kitsune seems to melt away before your eyes for a moment, as though the edges of reality are blurring around her.  You tighten your focus, keeping your eyes trained on her, and she suddenly reels in pain, clutching her forehead as she is thrust back into view.  She lets out a frustrated huff of disappointment, realizing that you have resisted her illusions.");
 			}
 			else {
@@ -93,7 +96,7 @@ public class Kitsune extends Monster
 
 //Seal: - cancels and disables whatever command the player uses this round. Lasts 3 rounds, cannot seal more than one command at a time.
 //PCs with "Religious" background and < 20 corruption have up to 20% resistance to sealing at 0 corruption, losing 1% per corruption.
-		private function kitsuneSealAttack():void
+		protected function kitsuneSealAttack():void
 		{
 			var resist:int = 0;
 			if (player.inte < 30) resist = Math.round(player.inte);
@@ -158,15 +161,28 @@ public class Kitsune extends Monster
 			else if (select == 2) outputText("Turning her back to you, the kitsune fans out her tails, peering back as she lifts the hem of her robe to expose her plump hindquarters.  Her tails continually shift and twist, blocking your view, but it only serves to make you want it even <i>more</i>, licking your lips in anticipation.");
 			//Redhead only:
 			else outputText("The kitsune sways her hips enticingly as she appears in front of you abruptly, rubbing up against your side.  Her teasing caresses make you shiver with arousal, and you can feel something thick and warm pressing against your [hips].  She gives you a wry grin as she breaks away from you, sporting an obvious tent in her robes.  \"<i>Just you wait...</i>\"");
-			player.dynStats("lus", 5 + player.effectiveSensitivity() / 7);
+			player.takeLustDamage(5 + player.effectiveSensitivity() / 7, true);
 		}
 
+	override public function preAttackSeal():Boolean
+	{
+		if (player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 0) {
+			outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The kitsune's seals have made normal melee attacks impossible!  Maybe you could try something else?\n\n");
+			// enemyAI();
+			return false;
+		}
+		else return true;
+	}
+
+	override public function midDodge():void{
+		outputText("You swing your [weapon] ferociously, confident that you can strike a crushing blow.  To your surprise, you stumble awkwardly as the attack passes straight through her - a mirage!  You curse as you hear a giggle behind you, turning to face her once again.\n\n");
+	}
 		override protected function performCombatAction():void
 		{
 			var moves:Array = [foxFireAttack, foxFireAttack, kitSuneTeases, kitSuneTeases];
 			if (!player.hasStatusEffect(StatusEffects.Sealed)) moves.push(kitsuneSealAttack);
 			if (!player.hasStatusEffect(StatusEffects.Sealed)) moves.push(kitsuneSealAttack);
-			if (!hasStatusEffect(StatusEffects.PCTailTangle)) moves.push(kitsuneEntwine);
+			if (!player.hasStatusEffect(StatusEffects.KitsuneTailTangle)) moves.push(kitsuneEntwine);
 			if (!hasStatusEffect(StatusEffects.Illusion)) moves.push(illusionKitsuneAttack);
 			moves[rand(moves.length)]();
 		}
@@ -213,44 +229,48 @@ public class Kitsune extends Monster
 				this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.MET_KITSUNES] < 2) {
-				initStrTouSpeInte(35, 55, 110, 105);
-				initWisLibSensCor(110, 60, 65, 45);
-				this.weaponAttack = 8;
-				this.armorDef = 5;
-				this.armorMDef = 30;
-				this.bonusHP = 120;
-				this.bonusLust = 144;
-				this.level = 19;
+				initStrTouSpeInte(130, 155, 325, 315);
+				initWisLibSensCor(325, 140, 150, -60);
+				this.weaponAttack = 16;
+				this.armorDef = 25;
+				this.armorMDef = 150;
+				this.tailCount = 4;
+				this.bonusHP = 250;
+				this.bonusLust = 327;
+				this.level = 37;
 			}
 			if (flags[kFLAGS.MET_KITSUNES] == 2) {
-				initStrTouSpeInte(50, 75, 140, 130);
-				initWisLibSensCor(135, 80, 75, 45);
-				this.weaponAttack = 9;
-				this.armorDef = 6;
-				this.armorMDef = 36;
-				this.bonusHP = 130;
-				this.bonusLust = 180;
-				this.level = 25;
+				initStrTouSpeInte(160, 195, 360, 350);
+				initWisLibSensCor(365, 170, 180, -60);
+				this.weaponAttack = 20;
+				this.armorDef = 30;
+				this.armorMDef = 180;
+				this.tailCount = 5;
+				this.bonusHP = 300;
+				this.bonusLust = 393;
+				this.level = 43;
 			}
 			if (flags[kFLAGS.MET_KITSUNES] == 3) {
-				initStrTouSpeInte(65, 95, 170, 155);
-				initWisLibSensCor(160, 100, 85, 45);
-				this.weaponAttack = 10;
-				this.armorDef = 7;
-				this.armorMDef = 42;
-				this.bonusHP = 140;
-				this.bonusLust = 216;
-				this.level = 31;
+				initStrTouSpeInte(190, 235, 395, 385);
+				initWisLibSensCor(405, 200, 210, -60);
+				this.weaponAttack = 24;
+				this.armorDef = 35;
+				this.armorMDef = 210;
+				this.tailCount = 5;
+				this.bonusHP = 350;
+				this.bonusLust = 459;
+				this.level = 49;
 			}
 			if (flags[kFLAGS.MET_KITSUNES] == 4) {
-				initStrTouSpeInte(80, 115, 200, 180);
-				initWisLibSensCor(185, 120, 95, 45);
-				this.weaponAttack = 11;
-				this.armorDef = 8;
-				this.armorMDef = 48;
-				this.bonusHP = 150;
-				this.bonusLust = 252;
-				this.level = 37;
+				initStrTouSpeInte(220, 275, 430, 420);
+				initWisLibSensCor(445, 230, 240, -60);
+				this.weaponAttack = 28;
+				this.armorDef = 40;
+				this.armorMDef = 240;
+				this.tailCount = 6;
+				this.bonusHP = 400;
+				this.bonusLust = 525;
+				this.level = 55;
 			}
 			this.createVagina(false, VaginaClass.WETNESS_SLICK, VaginaClass.LOOSENESS_NORMAL);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 20, 0, 0, 0);
@@ -261,7 +281,7 @@ public class Kitsune extends Monster
 			this.tallness = rand(24) + 60;
 			this.hips.type = Hips.RATING_AMPLE;
 			this.butt.type = Butt.RATING_AVERAGE + 1;
-			this.skinTone = "pale";
+			this.bodyColor = "pale";
 			this.skin.base.pattern = Skin.PATTERN_MAGICAL_TATTOO;
 			this.hairColor = hairColor;
 			this.hairLength = 13 + rand(20);
@@ -270,12 +290,15 @@ public class Kitsune extends Monster
 			this.armorName = "skin";
 			this.lust = 20;
 			this.lustVuln = 0.9;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.gems = rand(20) + 20;
 			this.drop = new WeightedDrop().
 					add(armors.ARCBANG,1).
 					add(consumables.FOXJEWL,4);
 			this.tailType = Tail.FOX;
+			if (flags[kFLAGS.MET_KITSUNES] >= 2) this.createPerk(PerkLib.EpicWisdom, 0, 0, 0, 0);
+			if (flags[kFLAGS.MET_KITSUNES] >= 3) this.createPerk(PerkLib.EpicIntelligence, 0, 0, 0, 0);
+			if (flags[kFLAGS.MET_KITSUNES] >= 4) this.createPerk(PerkLib.LegendaryWisdom, 0, 0, 0, 0);
+			if (flags[kFLAGS.MET_KITSUNES] >= 5) this.createPerk(PerkLib.LegendaryIntelligence, 0, 0, 0, 0);
 			checkMonster();
 		}
 

@@ -11,10 +11,10 @@ import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.Monsters.AbstractSuccubus;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
-import classes.Scenes.Dungeons.DungeonAbstractContent;
 
 use namespace CoC;
 	
@@ -22,19 +22,40 @@ use namespace CoC;
 	{
 		override public function defeated(hpVictory:Boolean):void
 		{
-			game.flags[kFLAGS.DEMONS_DEFEATED]++;
-			SceneLib.defiledravine.demonScene.defeatOmnibus();
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) cleanupAfterCombat();
+			else {
+				game.flags[kFLAGS.DEMONS_DEFEATED]++;
+				SceneLib.defiledravine.demonScene.defeatOmnibus();
+			}
 		}
 		
 		override public function won(hpVictory:Boolean,pcCameWorms:Boolean):void
 		{
-			if (inDungeon) SceneLib.dungeons.ebonlabyrinth.defeatedByStrayDemon();
-			else SceneLib.dungeons.factory.doLossIncubus(false); //it's alright, the scene uses [themonster] and [monster he] to specify.
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) SceneLib.dungeons.riverdungeon.defeatedByMistOmnibus();
+			else {
+				if (inDungeon) SceneLib.dungeons.ebonlabyrinth.defeatedByStrayDemon();
+				else SceneLib.dungeons.factory.doLossIncubus(false); //it's alright, the scene uses [themonster] and [monster he] to specify.
+			}
 		}
 		
 		public function Omnibus()
 		{
-			if (inDungeon) { //EL check
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
+				this.short = "mist omnibus";
+				initStrTouSpeInte(440, 360, 330, 280);
+				initWisLibSensCor(280, 300, 150, 100);
+				this.weaponAttack = 78;
+				this.armorDef = 72;
+				this.armorMDef = 12;
+				this.bonusHP = 1550;
+				this.bonusLust = 498;
+				this.level = 48;
+				this.additionalXP = 300;
+			    this.gems = rand(40) + 50;
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
+				this.createPerk(PerkLib.OverMaxHP, 49, 0, 0, 0);
+			}
+			else if (inDungeon) { //EL check
 				this.short = "stray omnibus";
                 var mod:int = SceneLib.dungeons.ebonlabyrinth.enemyLevelMod;
                 initStrTouSpeInte(280 + 12*mod, 245 + 15*mod, 210 + 15*mod, 175 + 5*mod);
@@ -45,8 +66,8 @@ use namespace CoC;
                 this.bonusHP = 1150 + 1150*mod;
                 this.bonusLust = 336 + 18*mod;
                 this.level = 63 + 5*mod;
-                this.additionalXP = int(700 * Math.exp(0.3*mod));
-                this.gems = int((80 + rand(40)) * Math.exp(0.3*mod));
+				this.gems = mod > 20 ? 0 : Math.floor((80 + rand(40)) * Math.exp(0.3*mod));
+				this.additionalXP = mod > 20 ? 0 : Math.floor(700 * Math.exp(0.3*mod));
 				this.createPerk(PerkLib.OverMaxHP, (63 + 5*mod), 0, 0, 0);
 			}
 			else {
@@ -65,8 +86,10 @@ use namespace CoC;
 			}
 			this.a = "the ";
 			this.imageName = "omnibus";
-			this.long = "She stands about six feet tall and is hugely voluptuous, her impressive breasts wobble delightfully as she moves.  Her hips flare out into an exaggerated hourglass shape, with a long tail tipped with a fleshy arrow-head spade that waves above her spankable butt.  She is wearing rags that cover only a tiny fraction of her body, concealing just her naughty bits to make the whole display more erotic.  Her crotch is a combination of both genders – a drooling cunt topped with a thick demonic shaft, sprouting from where a clit should be.  She's using a leather whip as a weapon.";
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) this.long = "She stands about six feet tall and is hugely voluptuous, her impressive breasts wobble delightfully as she moves.  Her hips flare out into an exaggerated hourglass shape, with a long tail tipped with a fleshy arrow-head spade that waves above her spankable butt.  She is wearing rags that cover only a tiny fraction of her glowing vein covered body, concealing just her naughty bits to make the whole display more erotic.  Her crotch is a combination of both genders – a drooling cunt topped with a thick demonic shaft, sprouting from where a clit should be.  She's using a leather whip as a weapon.";
+			else this.long = "She stands about six feet tall and is hugely voluptuous, her impressive breasts wobble delightfully as she moves.  Her hips flare out into an exaggerated hourglass shape, with a long tail tipped with a fleshy arrow-head spade that waves above her spankable butt.  She is wearing rags that cover only a tiny fraction of her body, concealing just her naughty bits to make the whole display more erotic.  Her crotch is a combination of both genders – a drooling cunt topped with a thick demonic shaft, sprouting from where a clit should be.  She's using a leather whip as a weapon.";
 			// this.plural = false;
+			this.flyer = true;
 			this.createCock(10,1.5,CockTypesEnum.DEMON);
 			this.balls = 0;
 			this.ballSize = 0;
@@ -81,23 +104,33 @@ use namespace CoC;
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE + 1;
 			this.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-			this.skinTone = "purple";
+			this.bodyColor = "purple";
 			this.hairColor = "black";
 			this.hairLength = 13;
 			this.weaponName = "whip";
 			this.weaponVerb="whipping";
-			this.weaponPerk = "";
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
 			this.lust = 30;
 			this.lustVuln = .5;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.drop = new WeightedDrop().
-					add(consumables.BIMBOLQ, 1).
-					add(consumables.BROBREW, 1).
-					add(weapons.WHIP, 2).
-					add(consumables.SUCMILK, 12).
-					add(consumables.INCUBID, 12);
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
+				this.drop = new WeightedDrop().
+						add(weapons.WHIP, 2).
+						add(consumables.LETHITE, 5).
+						add(useables.PCSHARD, 5);
+			}
+			else {
+				this.drop = new WeightedDrop().
+						add(consumables.BIMBOLQ, 1).
+						add(consumables.BROBREW, 1).
+						add(weapons.WHIP, 2).
+						add(consumables.SUCMILK, 12).
+						add(consumables.INCUBID, 12);
+			}
 			this.wings.type = Wings.BAT_LIKE_TINY;
 			this.wings.desc = "tiny hidden";
 			this.tailType = Tail.DEMONIC;

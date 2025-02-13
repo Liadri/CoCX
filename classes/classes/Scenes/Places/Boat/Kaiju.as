@@ -48,7 +48,7 @@ public class Kaiju extends AbstractLakeContent {
 	private function noMeetingKaijus():void {
 		clearOutput();
 		outputText("You continue rowing on, away from the hilly island.");
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	private function meetDatKaijuYo():void {
@@ -97,7 +97,7 @@ public class Kaiju extends AbstractLakeContent {
 			outputText("Perhaps not the smartest thing to do towards such a giant, you decide to mock her obvious insecurities over her body image.  The word 'fat' barely has time to leave your lips when in a rage she puffs up her lips and blows, sending you and your boat racing through the lake out of sight.  Sometime later the boat crashes back on shore, your hair and nerves a little windswept from the fast ride.");
 			//[Giant turtle no longer encounter-able]
 			flags[kFLAGS.KAIJU_DISABLED] = 1;
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 	}
 
@@ -108,9 +108,9 @@ public class Kaiju extends AbstractLakeContent {
 		fatigue(30, USEFATG_MAGIC);
 		outputText("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers, and the green girl's finger is enveloped in a flash of white flames!  She drops you back into the boat as she cries out and plunges her hand into the lake water.  \"<i>Ow! That was so mean!</i>\" she says before placing her singed finger into her mouth and sucking on it.  It doesn't take too long before her natural reflex to pain becomes clouded by her unnatural lust, and she begins sucking on her finger erotically, her other hand reaching for her cock and pussy.  She seems to have lost interest in you as she tries to bring herself to orgasm.  You take this opportunity to quietly sneak away.");
 		//[Lust is increased and giant turtle girl is no longer encounter-able][End whitefire scene]
-		dynStats("lus", 15);
+		dynStats("lus", 15, "scale", false);
 		flags[kFLAGS.KAIJU_DISABLED] = 1;
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If no] (Scene returns to regular blowjob/urethral insertion scene.)
@@ -128,7 +128,7 @@ public class Kaiju extends AbstractLakeContent {
 		//[Corruption increases slightly and giant turtle girl is no longer encounter-able]
 		dynStats("lus", 50, "cor", 1);
 		flags[kFLAGS.KAIJU_DISABLED] = 1;
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If compliment]
@@ -149,7 +149,7 @@ public class Kaiju extends AbstractLakeContent {
 		clearOutput();
 		kaijuSprite();
 		outputText("You cry out and wave the inquisitive hand away.  You tell her that you mean no offense, but at such a size and strength disparity you are afraid of what a grip from such a woman could do accidentally.  She seems a bit saddened at that, but makes no further attempt to grab you.");
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If let her]
@@ -178,10 +178,10 @@ public class Kaiju extends AbstractLakeContent {
 		function dickF():void {
 			outputText("\n\nShe brings you up to her nipple, letting your throbbing erection");
 			if(player.cockTotal() > 1) outputText("s");
-			if(player.balls > 0) outputText(" and [balls]");
+			if(player.hasBalls()) outputText(" and [balls]");
 			outputText(" rest on her perky pink naughty bit.  She coos in delight as her hand slowly rubs your private parts along her firm nipple.  She begins to bounce ever so slightly, which at her size means a verifiable mountain of boob begins smacking heavily against your lower body.  \"<i>Oh yes,</i>\" she says, moaning in ecstasy, \"<i>fuck my breast!</i>\"  You don't really seem to have a choice in the matter as she picks up the pace, almost violently slamming you against her smooth green skin and stiff pink nipple.  Despite the relatively soft flesh of her mammary, it is still hundreds of pounds of tit flesh.  As if unsatisfied with just smothering you in boob she takes one green pinkie finger and begins to spank you in a manner she probably believes to be quite soft but lands quite hard on your [butt].  A small number of spankings begin to leave your ass red and tingling, each strike pushing your [cocks] further into her soft breast and firm nipple.  \"<i>Please, cum on me!</i>\" she commands, and almost as if on cue your body obeys, jizz flying and coating her breast with as much sperm as your body can produce.");
-			if(player.balls > 0) outputText("  Your [balls] begin to ache as you slowly empty your load onto green flesh.");
-			player.sexReward("Default","Dick",true,false);
+			if(player.hasBalls()) outputText("  Your [balls] begin to ache as you slowly empty your load onto green flesh.");
+			player.sexReward("no", "Dick");
 			sharedEnd();
 		}
 		//[if player has vagina]
@@ -204,7 +204,7 @@ public class Kaiju extends AbstractLakeContent {
 			//[Giant turtle girl now encounter-able at Boat and Swamp, corruption increases slightly]
 			if (repeat) flags[kFLAGS.KAIJU_BAD_END_COUNTER]++;
 			else dynStats("cor", 1);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 	}
 
@@ -224,7 +224,7 @@ public class Kaiju extends AbstractLakeContent {
 
 		outputText("\n\nShe begins to push you towards her gargantuan slit as she spreads her legs.  \"<i>Now don't worry about protection, no normal sperm can hope to break through the above average walls of my eggs.  So you just relax and enjoy the fuck,</i>\" she tells you before plopping you head first past the lips and into the slick, warm walls of her mammoth cunt.  You are given a moment to examine your surroundings.  At first there's a small rising fear of claustrophobia, but it quickly passes, and you begin inhaling her scent, and the warm fluids of her sex seep into your " + player.skinFurScales() + ".  Obviously her corrupt twat juices double as an aphrodisiac.  Beginning to feel lusty, you notice her vaginal muscles tightening around you, gently squeezing and releasing you as if you were receiving a full body massage.  It's actually rather pleasant in here, albeit strange.");
 		//[Lust increases]
-		dynStats("lus", 33);
+		dynStats("lus", 33, "scale", false);
 
 		outputText("\n\nShe still has your [leg] held gently between two fingers, and she begins to steadily push you deeper and deeper inside her wet honeypot, coating you liberally in more of the lust inducing wetness.  \"<i>Oh that's it baby, slow and steady wins the race,</i>\" she moans, her voice sounding muffled from where you are.  Her vaginal walls continue their rhythmic massage of your body, relaxing your own muscles as the tension of your adventures seem to evaporate.");
 		//[If PC has breasts]
@@ -278,7 +278,7 @@ public class Kaiju extends AbstractLakeContent {
 		outputText("\n\nYou wave goodbye to the giant green girl as you begin to row away.");
 		//[Corruption increases, giant turtle girl now encounter-able at Boat and Swamp]
 		dynStats("cor", 1);
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//Second/Repeatable encounter/s at Boat
@@ -315,7 +315,7 @@ public class Kaiju extends AbstractLakeContent {
 		outputText("Her moist pussy is large and pink while a steady stream of feminine slime leaks from it, soaking her green thighs.  \"<i>But you aren’t intimidated by all this, are you?</i>\" she continues, gently picking you up in her tremendous hand.  Though you imagine it would be difficult for such large fingers to nimbly handle the clasps and straps of normal size clothing, she soon has you naked.  \"<i>Now let’s fuck!</i>\"");
 
 		outputText("\n\nShe begins to push you towards her gargantuan slit as she spreads her legs.  \"<i>Now don't worry about protection, no normal sperm can hope to break through the above average walls of my eggs.  So you just relax and enjoy the fuck,</i>\" she tells you before plopping you head first past the lips and into the slick, warm walls of her mammoth cunt.  You are given a moment to examine your surroundings.  At first there's a small rising fear of claustrophobia, but it quickly passes, and as you begin inhaling her scent, the warm fluids of her sex seeps into your " + player.skinFurScales() + ".  Obviously her corrupt twat juices double as an aphrodisiac.  Beginning to feel lusty, you notice her vaginal muscles tightening around you, gently squeezing and releasing you as if you were receiving a full body massage.  It's actually rather pleasant in here, albeit strange.");
-		dynStats("lus", 33);
+		dynStats("lus", 33, "scale", false);
 
 		outputText("\n\nShe still has your [leg] held gently between two fingers, and she begins to steadily push you deeper and deeper inside her wet honeypot, coating you liberally in more of the lust inducing wetness.  \"<i>Oh that's it baby, slow and steady wins the race,</i>\" she moans, her voice sounding muffled from where you are.  Her vaginal walls continue their rhythmic massage of your body, relaxing your own muscles as the tension of your adventures seem to evaporate.");
 		//[If PC has breasts]
@@ -376,7 +376,7 @@ public class Kaiju extends AbstractLakeContent {
 		//[Corruption increases]
 		flags[kFLAGS.KAIJU_BAD_END_COUNTER]++;
 		dynStats("cor", 1);
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If Urethra Fuck]
@@ -411,7 +411,7 @@ public class Kaiju extends AbstractLakeContent {
 		flags[kFLAGS.KAIJU_BAD_END_COUNTER]++;
 		player.sexReward("cum");
 		dynStats("cor", 1);
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If Leave]
@@ -419,7 +419,7 @@ public class Kaiju extends AbstractLakeContent {
 		clearOutput();
 		kaijuSprite();
 		outputText("You politely decline any options and bid the green girl goodbye as you row away.");
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If Talk]
@@ -461,8 +461,8 @@ public class Kaiju extends AbstractLakeContent {
 			outputText("\n\nShe sighs, the conversation seeming to be at an end.");
 			flags[kFLAGS.KAIJU_TALK_CYCLE] = 0;
 		}
-		doNext(camp.returnToCampUseOneHour);
-		player.trainStat("int", 1, 50);
+		endEncounter();
+		player.trainStat("int", 1, player.trainStatCap("int",50));
 	}
 
 	//[If Peek]
@@ -482,7 +482,7 @@ public class Kaiju extends AbstractLakeContent {
 		else outputText("\n\nHer other hand darts away from her breasts to her now throbbing cock, slowly stroking it and squeezing it tightly");
 		outputText(".  She pumps her clenched fist furiously as deep into herself as she can reach, going faster and faster as she quickly reaches orgasm, her pussy juices squirting out around her fist, soaking her forearm in the feminine fluid.  She slowly pulls her hand out with an audible 'Plop' and brings both hands back to her breasts, massaging her giant sized fuck pillows until two thick steady streams of milk begin flowing out her nipples and down her breasts.");
 		//[Lust is increased]
-		dynStats("lus", 10+player.lib/3);
+		dynStats("lus", 10+player.lib/3, "scale", false);
 		//[If Venus is corrupt/herm]
 		if(kaijuCock()) {
 			outputText("\n\nThough she appears to be ending the show, you know you can encourage her to go even further.  Do you egg her on?");
@@ -504,7 +504,7 @@ public class Kaiju extends AbstractLakeContent {
 		outputText("You make your appreciation of her exhibition known, indicating that you would like her to continue on.  Smiling at your suggestion, and more than willing to give an encore performance, she brings her hands down to her trembling cock, slowly tracing a finger up the length of her shaft before grabbing onto it with one hand while the other begins to rub the tip of the head with her palm.  Her hand, still slick with her own cunt juice, slides easily across her cock.  She begins to moan again, even more lewdly than last time.  Her hips begin to buck as she practically begins to fuck her hand.  Beads of precum begin to bubble up from her cock head, and she quickly wipes it on the palm of her free hand before bringing it towards her face to lick the mess off her palm, her body trembling from the sheer delight of drinking her own pre.  \"<i>Oh that's good!</i>\" she pants, bringing her hand back down to begin stroking her throbbing dick with both hands.  \"<i>Please, please watch me cum!</i>\" the giantess begs of you as she goes into high gear, giving her cock everything she's got left.  It isn't much longer before she erupts like a geyser, spraying hermy turtle girl cum high into the air, only for it to rain back down on the green girl.  Her hands begin to slide across her torso, gently massaging the sperm into her skin.");
 		//[Increase lust further, end corrupt/herm scene]
 		dynStats("lib", 1, "lus", 33);
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[If no] (Skip corrupt/herm scene)
@@ -514,7 +514,7 @@ public class Kaiju extends AbstractLakeContent {
 		outputText("\"<i>My goodness, it's so much better with a captivated audience!</i>\" she says, breathing heavily.  You thank her for the show as she places you back into your boat and giving it a push.  You row away, considering perhaps coming back for another show.");
 		//[Libido is increased by 1]
 		dynStats("lib", 1);
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//One off scenes
@@ -542,7 +542,7 @@ public class Kaiju extends AbstractLakeContent {
 		clearOutput();
 		kaijuSprite();
 		outputText("You shake your head no, politely responding that you do not want to get her off right now.  \"<i>Oh, okay. I understand,</i>\" the giantess states, looking somewhat crestfallen.  You row away, leaving her and her new addition to themselves for the time being.");
-		doNext(recalling ? recallWakeUp : camp.returnToCampUseOneHour);
+		doNext(recalling ? recallWakeUp : explorer.done);
 	}
 
 	//[If Mock]
@@ -553,7 +553,7 @@ public class Kaiju extends AbstractLakeContent {
 
 		outputText("\n\nShe begins to move her hand back and forth, slowly sliding you against the bottom of her green shaft.  Though the mammoth penis resting on you is heavy and you are squeezed tightly against it, you are seemingly in no danger of being crushed as she strokes her massive herm meat-pole from top to bottom.  You can actually smell the salty pre forming at her tip.  ");
 		//[If player has balls of grapefruit size or larger]
-		if(player.balls > 0 && player.ballSize >= 6) outputText("Your [balls] rest on the hermaphrodite's hand, bouncing loudly with each thunderous stroke from the speed and force she is employing to get herself off.  ");
+		if(player.hasBalls() && player.ballSize >= 6) outputText("Your [balls] rest on the hermaphrodite's hand, bouncing loudly with each thunderous stroke from the speed and force she is employing to get herself off.  ");
 		//[end balls] [If player has cock]
 		if(player.hasCock()) outputText("You can feel your [armor] getting tighter as [eachCock] begins to stiffen under your clothing from all the constant pressure of the cock squeezing down on your member.  ");
 		//[If player has vagina]
@@ -575,7 +575,7 @@ public class Kaiju extends AbstractLakeContent {
 			player.sexReward("cum", "Default");
 			dynStats("cor", 1);
 			flags[kFLAGS.KAIJU_DISABLED] = 1;
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 	}
 
@@ -608,7 +608,7 @@ public class Kaiju extends AbstractLakeContent {
 		else {
 			player.sexReward("cum", "Default");
 			dynStats("cor", 1);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 	}
 
@@ -640,7 +640,7 @@ public class Kaiju extends AbstractLakeContent {
 
 		outputText("\n\n\"<i>Oh don’t look so concerned, I know it can’t fit in you.  Well, not without some major corrupt magic on my part and a crazy willingness on your part, but we could always discuss that later.  But how about a little urethra play?  I’ve seen a minotaur stick a pinkie finger in his cock before, I think you’ll fit.</i>\"");
 		//now to regular urethra scene
-		doNext(curry(urethraFuckDatGiantCock, true));
+		doNext(urethraFuckDatGiantCock, true);
 	}
 
 	//Improved Bad End
@@ -671,7 +671,7 @@ public class Kaiju extends AbstractLakeContent {
 		clearOutput();
 		kaijuSprite();
 		outputText("Flapping your wings at max speed you beat a hasty retreat!");
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 
 	//[End wings]

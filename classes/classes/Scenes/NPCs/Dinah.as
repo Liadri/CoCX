@@ -44,37 +44,48 @@ import classes.internals.*;
 		}
 		public function soulskillCostManyBirds():Number {
 			var cost:Number = 10;
-			if (hasPerk(PerkLib.DaoistCultivator)) cost -= 1;
+			if (hasPerk(PerkLib.DaoistApprenticeStage)) cost -= 1;
+			if (hasPerk(PerkLib.DaoistWarriorStage)) cost -= 1;
+			if (hasPerk(PerkLib.DaoistElderStage)) cost -= 1;
 			return cost;
 		}
 		public function soulskillCostHailofBlades():Number {
 			var cost:Number = 50;
-			if (hasPerk(PerkLib.DaoistCultivator)) cost -= 5;
+			if (hasPerk(PerkLib.DaoistApprenticeStage)) cost -= 5;
+			if (hasPerk(PerkLib.DaoistWarriorStage)) cost -= 5;
+			if (hasPerk(PerkLib.DaoistElderStage)) cost -= 5;
 			return cost;
 		}
 		public function soulskillCostGrandioseHailofBlades():Number {
 			var cost:Number = 200;
-			if (hasPerk(PerkLib.DaoistCultivator)) cost -= 20;
+			if (hasPerk(PerkLib.DaoistApprenticeStage)) cost -= 20;
+			if (hasPerk(PerkLib.DaoistWarriorStage)) cost -= 20;
+			if (hasPerk(PerkLib.DaoistElderStage)) cost -= 20;
 			return cost;
 		}
 		
 		public function SoulskillMod():Number {
 			var mod1:Number = 1;
-			if (hasPerk(PerkLib.DaoistCultivator)) mod1 += .2;
 			if (hasPerk(PerkLib.DaoistApprenticeStage)) {
-				if (hasPerk(PerkLib.SoulApprentice)) mod1 += .4;
-				if (hasPerk(PerkLib.SoulPersonage)) mod1 += .4;
-				if (hasPerk(PerkLib.SoulWarrior)) mod1 += .4;
+				if (hasPerk(PerkLib.SoulApprentice)) mod1 += .3;
+				if (hasPerk(PerkLib.SoulPersonage)) mod1 += .3;
+				if (hasPerk(PerkLib.SoulWarrior)) mod1 += .3;
 			}
 			if (hasPerk(PerkLib.DaoistWarriorStage)) {
 				if (hasPerk(PerkLib.SoulSprite)) mod1 += .6;
 				if (hasPerk(PerkLib.SoulScholar)) mod1 += .6;
-				if (hasPerk(PerkLib.SoulElder)) mod1 += .6;
+				if (hasPerk(PerkLib.SoulGrandmaster)) mod1 += .6;
+			}
+			if (hasPerk(PerkLib.DaoistElderStage)) {
+				if (hasPerk(PerkLib.SoulElder)) mod1 += 1;
+				if (hasPerk(PerkLib.SoulExalt)) mod1 += 1;
 			}
 			return mod1;
 		}
 		public function SpellMod():Number {
 			var mod2:Number = 1;
+			if (hasPerk(PerkLib.Archmage)) mod2 += .3;
+			if (hasPerk(PerkLib.GrandArchmage)) mod2 += .4;
 			if (hasPerk(PerkLib.GrandMage)) mod2 += .3;
 			if (hasPerk(PerkLib.Channeling)) mod2 += .2;
 			if (hasPerk(PerkLib.Mage)) mod2 += .1;
@@ -174,16 +185,14 @@ import classes.internals.*;
 		public function castArouseDinah():void {
 			outputText("Dinah makes a series of arcane gestures, drawing on her lust to inflict it upon you! ");
 			var lustDamage:int = (inte / 5) + rand(10);
-			lustDamage = lustDamage * (EngineCore.lustPercent() / 100);
-			player.dynStats("lus", lustDamage, "scale", false);
-			outputText(" <b>(<font color=\"#ff00ff\">" + (Math.round(lustDamage * 10) / 10) + "</font>)</b>");
+			player.takeLustDamage(lustDamage, true);
 			mana -= spellCostArouse();
 			flags[kFLAGS.DINAH_SPELLS_CASTED]++;
 		}
 		public function castHealDinah():void {
 			outputText("Dinah focuses on her body and her desire to end pain, trying to draw on her arousal without enhancing it.");
 			var temp:int = int((inte / (2 + rand(3))) * (maxHP() / 50));
-			outputText("She flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+			outputText("She flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 			addHP(temp);
 			mana -= spellCostHeal();
 			flags[kFLAGS.DINAH_SPELLS_CASTED]++;
@@ -203,13 +212,17 @@ import classes.internals.*;
 			var firedamage:int = (inte * 0.45) + rand(10);
 			firedamage = Math.round(firedamage);
 			player.takeFireDamage(firedamage, true);
-			if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
-			else player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			if (!player.immuneToBurn()) {
+				if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
+				else player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			}
 			var physdamage:Number = 0;
 			physdamage += eBaseDamage();
 			player.takePhysDamage(physdamage, true);
-			if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
-			else player.createStatusEffect(StatusEffects.Hemorrhage,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+			if (!player.immuneToBleed()) {
+				if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
+				else player.createStatusEffect(StatusEffects.Hemorrhage, SceneLib.combat.debuffsOrDoTDuration(3), 0.05, 0, 0);
+			}
 			outputText(" Reeling in pain you begin to bleed and burn at the same time.");
 		}
 		
@@ -337,10 +350,7 @@ import classes.internals.*;
 				player.removeStatusEffect(StatusEffects.CampSparingDinah);
 				SceneLib.dinahScene.DinahLostSparring();
 			}
-			else {
-				cleanupAfterCombat();
-				SceneLib.dinahScene.DinahMainMenu();
-			}
+			else SceneLib.dinahScene.DinahLostSupriseAttack();
 		}
 
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
@@ -349,10 +359,7 @@ import classes.internals.*;
 				player.removeStatusEffect(StatusEffects.CampSparingDinah);
 				SceneLib.dinahScene.DinahWonSparring();
 			}
-			else {
-				cleanupAfterCombat();
-				SceneLib.dinahScene.DinahMainMenu();
-			}
+			else SceneLib.dinahScene.DinahWonSupriseAttack();
 		}
 		
 		public function Dinah() 
@@ -360,13 +367,13 @@ import classes.internals.*;
 			if (flags[kFLAGS.DINAH_LVL_UP] < 1) {
 				this.a = "the ";
 				this.short = "cat";
-				this.long = "You are fighting a cat-morph. She would looks quite averange if not for black stripes on purple fur.";
+				this.long = "You are fighting a cat-morph. She would looks quite average if not for black stripes on purple fur.";
 				this.createVagina(false, VaginaClass.WETNESS_WET, VaginaClass.LOOSENESS_NORMAL);
 				this.createStatusEffect(StatusEffects.BonusVCapacity, 40, 0, 0, 0);
 				this.tallness = 5*12+10;
 				this.hairLength = 7;
 				initStrTouSpeInte(20, 20, 20, 60);
-				initWisLibSensCor(30, 20, 20, 50);
+				initWisLibSensCor(30, 20, 20, 0);
 				this.weaponAttack = 5;
 				this.armorDef = 3;
 				this.armorMDef = 6;
@@ -390,7 +397,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 1) {
 				initStrTouSpeInte(30, 25, 60, 80);
-				initWisLibSensCor(40, 40, 30, 50);
+				initWisLibSensCor(40, 40, 30, 0);
 				this.weaponAttack = 10;
 				this.armorDef = 40;
 				this.armorMDef = 30;
@@ -401,7 +408,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 2) {
 				initStrTouSpeInte(40, 30, 100, 100);
-				initWisLibSensCor(50, 60, 40, 50);
+				initWisLibSensCor(50, 60, 40, 0);
 				this.weaponAttack = 20;
 				this.armorDef = 42;
 				this.armorMDef = 32;
@@ -412,7 +419,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 3) {
 				initStrTouSpeInte(50, 35, 140, 120);
-				initWisLibSensCor(60, 80, 50, 50);
+				initWisLibSensCor(60, 80, 50, 0);
 				this.weaponAttack = 30;
 				this.armorDef = 44
 				this.armorMDef = 33;
@@ -423,7 +430,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 4) {
 				initStrTouSpeInte(60, 40, 180, 140);
-				initWisLibSensCor(70, 100, 60, 50);
+				initWisLibSensCor(70, 100, 60, 0);
 				this.weaponAttack = 40;
 				this.armorDef = 46;
 				this.armorMDef = 35;
@@ -434,7 +441,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 5) {
 				initStrTouSpeInte(70, 45, 220, 160);
-				initWisLibSensCor(80, 120, 70, 50);
+				initWisLibSensCor(80, 120, 70, 0);
 				this.weaponAttack = 50;
 				this.armorDef = 48;
 				this.armorMDef = 36;
@@ -445,7 +452,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 6) {
 				initStrTouSpeInte(80, 50, 260, 180);
-				initWisLibSensCor(90, 140, 80, 50);
+				initWisLibSensCor(90, 140, 80, 0);
 				this.weaponAttack = 60;
 				this.armorDef = 50;
 				this.armorMDef = 38;
@@ -456,7 +463,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 7) {
 				initStrTouSpeInte(90, 55, 300, 200);
-				initWisLibSensCor(100, 160, 90, 50);
+				initWisLibSensCor(100, 160, 90, 0);
 				this.weaponAttack = 70;
 				this.armorDef = 52;
 				this.armorMDef = 39;
@@ -467,7 +474,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 8) {
 				initStrTouSpeInte(100, 60, 340, 220);
-				initWisLibSensCor(110, 180, 100, 50);
+				initWisLibSensCor(110, 180, 100, 0);
 				this.weaponAttack = 75;
 				this.armorDef = 54;
 				this.armorMDef = 40;
@@ -478,7 +485,7 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] == 9) {
 				initStrTouSpeInte(110, 65, 380, 240);
-				initWisLibSensCor(120, 200, 110, 50);
+				initWisLibSensCor(120, 200, 110, 0);
 				this.weaponAttack = 80;
 				this.armorDef = 56;
 				this.armorMDef = 41;
@@ -497,22 +504,24 @@ import classes.internals.*;
 			this.weaponName = "claws";
 			this.weaponVerb = "slash";
 			this.lust = 30;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 0;
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 1 && flags[kFLAGS.DINAH_LVL_UP] < 4) {
 				this.lustVuln = .9;
 				this.createStatusEffect(StatusEffects.EvasiveTeleport, 40, 0, 0, 0);
-				this.drop = new WeightedDrop(consumables.BAGOCA1, 1);
+				this.drop = new WeightedDrop().add(consumables.MADMENK, 1)
+					.add(consumables.BAGOCA1, 5);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 4 && flags[kFLAGS.DINAH_LVL_UP] < 7) {
 				this.lustVuln = .8;
 				this.createStatusEffect(StatusEffects.EvasiveTeleport, 70, 0, 0, 0);
-				this.drop = new WeightedDrop(consumables.BAGOCA2, 1);
+				this.drop = new WeightedDrop().add(consumables.MADMENK, 1)
+					.add(consumables.BAGOCA2, 5);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 7 && flags[kFLAGS.DINAH_LVL_UP] < 10) {
 				this.lustVuln = .7;
 				this.createStatusEffect(StatusEffects.EvasiveTeleport, 100, 0, 0, 0);
-				this.drop = new WeightedDrop(consumables.BAGOCA3, 1);
+				this.drop = new WeightedDrop().add(consumables.MADMENK, 1)
+					.add(consumables.BAGOCA3, 5);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 10 && flags[kFLAGS.DINAH_LVL_UP] < 12) {
 				this.lustVuln = .6;
@@ -536,51 +545,51 @@ import classes.internals.*;
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 2) {
 				this.createPerk(PerkLib.ManaAffinityI, 0, 0, 0, 0);
-				this.createPerk(PerkLib.DaoistCultivator, 0, 0, 0, 0);
+				this.createPerk(PerkLib.DaoistApprenticeStage, 0, 0, 0, 0);
 				this.createPerk(PerkLib.SoulApprentice, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 3) {
 				this.createPerk(PerkLib.HalfStepToImprovedSpirituality, 0, 0, 0, 0);
-				this.createPerk(PerkLib.DaoistApprenticeStage, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulPersonage, 0, 0, 0, 0);
 				this.createPerk(PerkLib.Lifeline, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 4) {
 				this.createPerk(PerkLib.MindOverBodyI, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulPersonage, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulWarrior, 0, 0, 0, 0);
 				this.createPerk(PerkLib.InsightfulResourcesI, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 5) {
-				this.createPerk(PerkLib.SoulWarrior, 0, 0, 0, 0);
+				this.createPerk(PerkLib.JobEnchanter, 0, 0, 0, 0);
 				this.createPerk(PerkLib.Spellpower, 0, 0, 0, 0);
 				this.createPerk(PerkLib.ImprovedSpirituality, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 6) {
 				this.createPerk(PerkLib.SoulSprite, 0, 0, 0, 0);
 				this.createPerk(PerkLib.EpicSpeed, 0, 0, 0, 0);
-				this.createPerk(PerkLib.JobEnchanter, 0, 0, 0, 0);
+				this.createPerk(PerkLib.Channeling, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 7) {
 				this.createPerk(PerkLib.DaoistWarriorStage, 0, 0, 0, 0);
 				this.createPerk(PerkLib.EpicIntelligence, 0, 0, 0, 0);
-				this.createPerk(PerkLib.Channeling, 0, 0, 0, 0);
+				this.createPerk(PerkLib.Mage, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.DINAH_LVL_UP] >= 8) {
 				this.createPerk(PerkLib.SoulScholar, 0, 0, 0, 0);
 				this.createPerk(PerkLib.EpicWisdom, 0, 0, 0, 0);
-				this.createPerk(PerkLib.Mage, 0, 0, 0, 0);
-			}
-			if (flags[kFLAGS.DINAH_LVL_UP] >= 9) {
-				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
-				this.createPerk(PerkLib.HalfStepToAdvancedSpirituality, 0, 0, 0, 0);
 				this.createPerk(PerkLib.GrandMage, 0, 0, 0, 0);
 			}
-			/*if (flags[kFLAGS.DINAH_LVL_UP] >= 10) {
-				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
+			if (flags[kFLAGS.DINAH_LVL_UP] >= 9) {
+				this.createPerk(PerkLib.SoulGrandmaster, 0, 0, 0, 0);
+				this.createPerk(PerkLib.HalfStepToAdvancedSpirituality, 0, 0, 0, 0);
+				this.createPerk(PerkLib.Archmage, 0, 0, 0, 0);
 			}
-			if (flags[kFLAGS.DINAH_LVL_UP] >= 11) x
-			if (flags[kFLAGS.DINAH_LVL_UP] >= 12) x*/
+			if (flags[kFLAGS.DINAH_LVL_UP] >= 10) {
+				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
+				this.createPerk(PerkLib.DaoistElderStage, 0, 0, 0, 0);
+				this.createPerk(PerkLib.GrandArchmage, 0, 0, 0, 0);
+			}
+			//if (flags[kFLAGS.DINAH_LVL_UP] >= 11) x
+			//if (flags[kFLAGS.DINAH_LVL_UP] >= 12) x
 			checkMonster();
 		}
 	}

@@ -2,7 +2,6 @@
 import classes.*;
 import classes.BodyParts.Tail;
 import classes.GlobalFlags.kFLAGS;
-import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
 
 public class MinotaurMobScene extends BaseContent implements TimeAwareInterface {
@@ -41,6 +40,11 @@ public class MinotaurMobScene extends BaseContent implements TimeAwareInterface 
 				trace("MINO KID GROWN");
 				flags[kFLAGS.MINOTAUR_SONS_GROW_COUNTDOWN] = 30;
 			}
+			//Lower sons population by 1 every fourth day once population gets high
+			if (flags[kFLAGS.MINOTAUR_SONS_TRIBE_SIZE] > 10 && model.time.hours > 23 && model.time.days % 4 == 0) {
+				if (flags[kFLAGS.MINO_SONS_LVL_UP] > 0) flags[kFLAGS.MINO_SONS_LVL_UP]--;
+				flags[kFLAGS.MINOTAUR_SONS_TRIBE_SIZE]--;
+			}
 			return false;
 		}
 
@@ -52,13 +56,8 @@ public class MinotaurMobScene extends BaseContent implements TimeAwareInterface 
 public function meetMinotaurSons():void {
 	clearOutput();
 	spriteSelect(SpriteDb.s_minotaurSons);
-	dynStats("lus", 10);
+	dynStats("lus", 10, "scale", false);
 	flags[kFLAGS.MINOTAUR_SONS_TIMES_MET]++;
-	if (player.hasPerk(PerkLib.SoulSense) && flags[kFLAGS.SOUL_SENSE_MINOTAUR_SONS] < 2) flags[kFLAGS.SOUL_SENSE_MINOTAUR_SONS]++;
-	if (flags[kFLAGS.SOUL_SENSE_MINOTAUR_SONS] == 2) {
-		flags[kFLAGS.SOUL_SENSE_MINOTAUR_SONS]++;
-		outputText("\n\n<b>You have met them enough times to be able to find them in the future when using soul sense. (Removes Minotaur Sons from high mountains explore encounters pool!)</b>\n\n");
-	}
 	//First Meeting
 	if(flags[kFLAGS.MINOTAUR_SONS_TIMES_MET] == 1) {
 		//(Non-Addicted)
@@ -122,13 +121,13 @@ public function meetMinotaurSons():void {
 				else if(player.wetness() <= 4) outputText("A steady flow of your juices soaks your [legs] almost immediately, just from the scent invading your nostrils.");
 				else outputText("A flood of wetness soaks your [armor] and [legs] with feminine drool almost immediately as your body reflects the obscene lust coursing through your veins. This could be a bit difficult.");
 				outputText("\n\nThe largest folds his arms across his broad, well-defined chest and smirks before grunting, \"<i>");
-				if (player.pregnancyIncubation > 0 && player.pregnancyIncubation <= 216 && player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR) outputText("Pregnant with another brother for us, and already you come back for more?");
-				else if(player.pregnancyIncubation > 0 && player.pregnancyIncubation <= 216) outputText("Huh... Looks like Mommy couldn't keep her legs closed, and she got knocked up by some vermin.  You're such a disappointment to your beloved family.  Don't worry, though, mom, we'll still fuck you.");
+				if (player.hasVisiblePregnancy() && (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR || player.pregnancy2Type == PregnancyStore.PREGNANCY_MINOTAUR)) outputText("Pregnant with another brother for us, and already you come back for more?");
+				else if(player.hasVisiblePregnancy()) outputText("Huh... Looks like Mommy couldn't keep her legs closed, and she got knocked up by some vermin.  You're such a disappointment to your beloved family.  Don't worry, though, mom, we'll still fuck you.");
 				else outputText("Hey mom, come back, so we could all have another whack at you?  We could use another brother.");
 				outputText("</i>\"\n\n");
 
 				outputText("\"<i>Nah, she's just back to finish getting addicted, aren't you mother-dear?  You came back to visit your sons and guzzle our cum until you're scooping the dregs of it from your ");
-				if(player.pregnancyIncubation == 0 || player.pregnancyIncubation > 216) outputText("soon-to-be ");
+				if(!player.isPregnant() || player.hasNonVisiblePregnancy()) outputText("soon-to-be ");
 				outputText("knocked up puss,</i>\" taunts another minotaur.\n\n");
 
 				outputText("The runt of the litter lurks in the back, stroking himself while whining and plaintively muttering for his turn.  It would be pathetic if you couldn't smell the pre-cum he's dripping from all the way over here.\n\n");
@@ -144,8 +143,8 @@ public function meetMinotaurSons():void {
 				outputText("  You absentmindedly tweak your nipple and lick your lips in anticipation.\n\n");
 
 				outputText("The largest folds his arms across his broad, well-defined chest and smirks before grunting, \"<i>");
-				if(player.pregnancyIncubation > 0 && player.pregnancyIncubation <= 216 && player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR) outputText("Pregnant with another brother for us, and you're already back for another fix?  Why even leave in the first place?");
-				else if(player.pregnancyIncubation > 0 && player.pregnancyIncubation <= 216) outputText("Huh... you couldn't keep your legs closed, eh, mom?  Looks like you're all knocked up with vermin, too!  You're a disappointment to our family... don't worry, though, we'll still give you a fix.");
+				if(player.hasVisiblePregnancy() && (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR || player.pregnancy2Type == PregnancyStore.PREGNANCY_MINOTAUR)) outputText("Pregnant with another brother for us, and you're already back for another fix?  Why even leave in the first place?");
+				else if(player.hasVisiblePregnancy()) outputText("Huh... you couldn't keep your legs closed, eh, mom?  Looks like you're all knocked up with vermin, too!  You're a disappointment to our family... don't worry, though, we'll still give you a fix.");
 				else outputText("Hey, mom!  You came back, so we could have another go at knocking you up?  Heh.  Knowing you, you're probably just here for another cum fix.</i>\"\n\n");
 
 				outputText("\"<i>Dear brother, how could you say such slanderous things about our mother?  She's a beautiful and wondrous cum-dump – a veritable saint of semen-swallowing,</i>\" taunts the next-largest minotaur.  \"<i>The only question we should be asking is if she's going to put her rump in the air like a good bitch, or make us work for it.</i>\"\n\n");
@@ -170,8 +169,8 @@ public function meetMinotaurSons():void {
 				outputText("While exploring, you once again manage to stumble into your sons' territory.  You can practically see the musk, hanging so heavily in the air that it could be cut with a blade.  Somewhere in the distance, grunts and moos of pleasure ring out, echoing off the rocky cliff-sides.  Clearly one of your boys has found a willing female to expand the tribe with, and they seem to be procreating with rabid enthusiasm, from the sounds you're hearing.  You find yourself starting to envision big, strong hands, squeezing your hips and guiding you onto a fat shaft to be mounted and bred.\n\n");
 
 				outputText("A bemused snort rouses you from the day-dream, and you're now face-to-face with the largest of your sons once again.  He sneers and grunts, \"<i>Hey Mom... ");
-				if (player.pregnancyIncubation == 0 || player.pregnancyIncubation > 216) outputText("Come back to add to the tribe?");
-				else if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR) outputText("Come back to show off the lil' bro yer growin'?");
+				if (!player.isPregnant() || player.hasNonVisiblePregnancy()) outputText("Come back to add to the tribe?");
+				else if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR || player.pregnancy2Type == PregnancyStore.PREGNANCY_MINOTAUR) outputText("Come back to show off the lil' bro yer growin'?");
 				else outputText("Come back to see some real studs after letting a weakling knock you up?");
 				outputText("</i>\"  Your cheeks color from the lewd suggestions, his words bringing up the pleasurable memories of the numerous, cunt-filling minotaur-breedings you've been subjected to.\n\n");
 
@@ -193,8 +192,8 @@ public function meetMinotaurSons():void {
 			else {
 				outputText("While exploring, you once again manage to stumble into your sons' territory.  You can practically see the musk, hanging so heavily in the air that it could be cut with a blade.  Somewhere in the distance, grunts and moos of pleasure are ringing out, echoing off the rocky cliff-sides.  Clearly one of your boys has found a willing female to expand the tribe with, and they seem to be procreating with rabid enthusiasm from the sounds you're hearing.  You find yourself starting to imagine the scene, envisioning the big, strong hands squeezing your hips and guiding you onto a fat shaft to be mounted.  Shivering a little in anticipation, you wonder just how you'll get your next dose of cum.\n\n");
 				outputText("A bemused snort rouses you from the daydream, and you come face to face with the largest of your sons once again.  He smirks and grunts, \"<i>Hey Mom.  ");
-				if (player.pregnancyIncubation == 0 || player.pregnancyIncubation > 216) outputText("Come for a baby? Or do you just want to be spunk-stuffed?");
-				else if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR) outputText("Come back for some more spunk? I bet your next son comes out as a spooge-slurping minitaur.  We could use another cock-sleeve around here.");
+				if (!player.isPregnant() || player.hasNonVisiblePregnancy()) outputText("Come for a baby? Or do you just want to be spunk-stuffed?");
+				else if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR || player.pregnancy2Type == PregnancyStore.PREGNANCY_MINOTAUR) outputText("Come back for some more spunk? I bet your next son comes out as a spooge-slurping minitaur.  We could use another cock-sleeve around here.");
 				else outputText("Come back to see some real studs after letting a weakling knock you up?  Don't fret, we'll make you forget all about it.");
 				outputText("</i>\"  Your cheeks color from the lewd suggestions, his words bringing up the pleasurable memories of drug-fueled sexual orgies with beasts just like these.\n\n");
 
@@ -247,7 +246,7 @@ private function runFromMinotaurs():void {
 	//ESCAPE!
 	if((player.canFly() && player.spe > rand(40)) || (!player.canFly() && player.spe > rand(60))) {
 		outputText("A furry arm nearly catches your [leg], but you slip free and quickly escape your lusty brood.");
-		doNext(camp.returnToCampUseOneHour);
+		endEncounter();
 	}
 	//FAIL:
 	else {
@@ -265,8 +264,8 @@ private function fightOTaurs():void {
 
 //[Submit]
 private function submitToMinotaurMob():void {
-	player.lust = player.maxLust();
-	dynStats("lus", 1);
+	player.lust = player.maxOverLust();
+	dynStats("lus", 1, "scale", false);
 	minotaurDeFeet();
 	spriteSelect(SpriteDb.s_minotaurSons);
 }
@@ -291,11 +290,11 @@ internal function minotaurDeFeet():void {
 		outputText("The beast-men remove their terribly-tended loincloths and discard them, though one smears his over your face before he tosses it aside, the musky aroma sending your body into overdrive.\n\n");
 	}
 	if(flags[kFLAGS.MINOTAUR_SONS_TRIBE_SIZE] >= 25 && player.minotaurNeed()) minotaurGangBadEnd();
-	else if(player.pregnancyIncubation > 0 && player.pregnancyIncubation <= 216) {
+	else if(player.hasVisiblePregnancy()) {
 		sceneHunter.print("BE check failed: cum addict and BIG (25) tribe.");
 		sceneHunter.print("Fork: pregnancy stages, border - 120, your - " + player.pregnancyIncubation);
-		if(player.pregnancyIncubation > 120) analSpearSemiPregMinotaurGangbang();
-		else loseToMinoMobVeryPregnant();
+		if(player.hasVeryVisiblePregnancy()) loseToMinoMobVeryPregnant();
+		else analSpearSemiPregMinotaurGangbang();
 	}
 	else {
 		sceneHunter.print("BE check failed: cum addict and BIG (25) tribe.");
@@ -367,8 +366,8 @@ private function nonAddictMinotaurGangBang():void {
 	outputText("They part your flesh with ease, sheathing themselves deeply in your body and rubbing against each other through the narrow divide inside you.  Your asshole tingles, actually finding more pleasure from the act than your suddenly-stretched vagina thanks to the more comfortable pole residing in its depths.  They go deeper and deeper, until the stud supporting you is pushing on your distended cervix while his sheath bunches up against your outer lips.\n\n");
 
 	outputText("\"<i>Fuck, Mom, your pussy is great!  ");
-	if (player.pregnancyIncubation == 0 || player.pregnancyIncubation > 216) outputText("I hope you don't mind me making another brother.");
-	else if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR) outputText("I hope you don't mind me saying hi to my little brother.");
+	if (player.hasVisiblePregnancy()) outputText("I hope you don't mind me making another brother.");
+	else if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR || player.pregnancy2Type == PregnancyStore.PREGNANCY_MINOTAUR) outputText("I hope you don't mind me saying hi to my little brother.");
 	else outputText("I hope you come back after you pop out this vermin, so we can give you a real baby!");
 	outputText("I can feel it coming, are you ready, Ma?</i>\" asks the beast-man.  You nod enthusiastically, rocking back and forth while the minitaur clutches your [butt] and fucks your stationary form.\n\n");
 
@@ -412,6 +411,7 @@ private function nonAddictMinotaurGangBang():void {
     if (CoC.instance.inCombat) cleanupAfterCombat();
     else {
 		outputText("\n\n");
+		explorer.stopExploring();
 		inventory.takeItem(ItemType.lookupItem(flags[kFLAGS.BONUS_ITEM_AFTER_COMBAT_ID]), camp.returnToCampUseEightHours);
 	}
 }
@@ -504,6 +504,7 @@ private function loseToMinoMobVeryPregnant():void {
 	player.sexReward("cum","Vaginal");
 	dynStats("spe", -.5, "int", -.5, "lib", .5, "sen", .5, "cor", 1);
 	player.minoCumAddiction(15);
+	explorer.stopExploring();
     if (CoC.instance.inCombat) cleanupAfterCombat();
     else doNext(camp.returnToCampUseEightHours);
 }
@@ -524,7 +525,7 @@ private function analSpearSemiPregMinotaurGangbang():void {
 	if(flags[kFLAGS.MINOTAUR_SONS_TRIBE_SIZE] >= 20) outputText("to make the tribe even bigger");
 	else outputText("more brothers");
 	outputText(", don't you?</i>\"  The relatively tiny minitaur flinches as he finishes, expecting a backhand from one of his elder siblings.  Surprisingly, no blow comes.  The biggest one exhales, the deep voice sounding more like a landslide than a breath.  He admits, \"<i>I should ream your ass for interrupting me, but you're right.  Mom's puss is off limits boys, we won't damage ");
-	if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR) outputText("our little brother");
+	if (player.pregnancyType == PregnancyStore.PREGNANCY_MINOTAUR || player.pregnancy2Type == PregnancyStore.PREGNANCY_MINOTAUR) outputText("our little brother");
 	else outputText("her baby-maker");
 	outputText(".</i>\"\n\n");
 
@@ -608,6 +609,7 @@ private function analSpearSemiPregMinotaurGangbang():void {
 	player.sexReward("cum","Vaginal");
 	dynStats("spe", -.5, "int", -.5, "lib", .5, "sen", .5, "cor", 1);
 	player.minoCumAddiction(15);
+	explorer.stopExploring();
     if (CoC.instance.inCombat) cleanupAfterCombat();
     else doNext(camp.returnToCampUseEightHours);
 }
@@ -623,27 +625,34 @@ internal function victoryMinotaurGang():void {
 	else outputText("The last minotaur sinks to his knees, pulling aside his loincloth with thread-rending strength to expose the pulsating, needy shaft to the air.  He begins to masturbate himself just like his brother, spilling his pre-seed over the ground into the messy, growing puddle.  The smell hangs thick in the air, but you've won and kept enough of your wits about you to walk away if you want.\n\n");
 	//+lust regardless
 	if(player.lust < 33) player.lust = 33;
-	else dynStats("lus", 20);
-	dynStats("lus", 1);
+	else dynStats("lus", 20, "scale", false);
+	dynStats("lus", 1, "scale", false);
 	outputText("Your body is burning up, buzzing with growing lust from the obscenity going on a few feet away from you.  What do you do?");
+	if (flags[kFLAGS.SPARRABLE_NPCS_TRAINING] == 2 && flags[kFLAGS.MINOTAUR_SONS_TRIBE_SIZE] >= 3) {
+		if (flags[kFLAGS.MINO_SONS_DEFEATS_COUNTER] >= 1) flags[kFLAGS.MINO_SONS_DEFEATS_COUNTER]++;
+		else flags[kFLAGS.MINO_SONS_DEFEATS_COUNTER] = 1;
+		//level up
+		if (flags[kFLAGS.MINO_SONS_LVL_UP] < 10 && flags[kFLAGS.MINO_SONS_DEFEATS_COUNTER] >= flags[kFLAGS.MINO_SONS_LVL_UP] + 1) {
+			flags[kFLAGS.MINO_SONS_DEFEATS_COUNTER] = 0;
+			++flags[kFLAGS.MINO_SONS_LVL_UP];
+		}
+	}
 	victorySexMenu();
 }
 public function victorySexMenu():void {
-
 	menu();
 	addButton(0, "Gangbang", victoryAllThePenetrationsMinotaurGangBang);
 	addButtonIfTrue(1, "Tit-Fuck", victoryMinotaurGangTitFuck,
 		"Req. at least " + Appearance.breastCup(6), player.biggestTitSize() >= 6);
 	addButtonIfTrue(2, "Nipple-Fuck", victoryBJNippleFuckMinotaurGang,
 		"No nipplecunts.", player.hasFuckableNipples());
-	addButton(3, "Get Licked", curry(forceMinitaurToGiveOral, 0),
+	addButtonIfTrue(3, "Get Licked", curry(forceMinitaurToGiveOral, 0),
 		"Req. a vagina", player.hasVagina());
-	addButton(4, "Get Sucked", curry(forceMinitaurToGiveOral, 1),
+	addButtonIfTrue(4, "Get Sucked", curry(forceMinitaurToGiveOral, 1),
 		"Req. a cock", player.hasCock());
 	addButton(5, "Discipline", disciplineEldestMinotaurSon);
-	SceneLib.uniqueSexScene.pcUSSPreChecksV2(victorySexMenu);
 	addButton(14, "Leave", cleanupAfterCombat);
-	}
+}
 //*[Victory Tit-Fuck] (for only the fattest of fat bitch titties)
 private function victoryMinotaurGangTitFuck():void {
 	clearOutput();
@@ -748,7 +757,7 @@ private function victoryMinotaurGangTitFuck():void {
     if (CoC.instance.inCombat) cleanupAfterCombat();
     else {
 		outputText("\n\n");
-		inventory.takeItem(ItemType.lookupItem(flags[kFLAGS.BONUS_ITEM_AFTER_COMBAT_ID]), camp.returnToCampUseOneHour);
+		inventory.takeItem(ItemType.lookupItem(flags[kFLAGS.BONUS_ITEM_AFTER_COMBAT_ID]), explorer.done);
 	}
 }
 
@@ -757,7 +766,7 @@ private function victoryAllThePenetrationsMinotaurGangBang():void {
 	clearOutput();
 	spriteSelect(SpriteDb.s_minotaurSons);
 	outputText("Deciding you wanted the same thing as your sons, you strip out of your [armor] and instruct the horny, defeated minotaurs to shed what's left of their loincloths.  They obey");
-	if(monster.lust >= monster.maxLust()) outputText(" nearly instantly, too aroused to turn down the idea of their mother doing ANYTHING with their hard shafts.");
+	if(monster.lust >= monster.maxOverLust()) outputText(" nearly instantly, too aroused to turn down the idea of their mother doing ANYTHING with their hard shafts.");
 	else outputText(" somewhat sluggishly as they work to get nude for you, despite their wounds.  As they finish, they start to move a bit faster, recovering from the battle quicker than you would have thought.");
 	outputText("  You saunter over to the closest cock and admire the twitching hardness of it, caressing the somewhat equine shaft with gentle touches as you position yourself squarely above it.\n\n");
 
@@ -844,7 +853,7 @@ private function victoryAllThePenetrationsMinotaurGangBang():void {
 	player.minoCumAddiction(20);
     if (CoC.instance.inCombat)
         cleanupAfterCombat();
-	else doNext(camp.returnToCampUseOneHour);
+	else endEncounter();
 }
 
 //*[Victory - Make minitaur oral (M/F/H)]
@@ -872,7 +881,7 @@ private function forceMinitaurToGiveOral(choice:Number = 0):void {
 		}
 		//ELSE
 		else {
-			if(player.balls > 0) outputText("lift your balls and ");
+			if(player.hasBalls()) outputText("lift your balls and ");
 			outputText("spread your " + vaginaDescript() + " wide with your fingers, exposing the glistening pinkness of your womanhood.");
 		}
 		outputText("  Your " + clitDescript() + " slowly peeks out from its hood");
@@ -919,7 +928,7 @@ private function forceMinitaurToGiveOral(choice:Number = 0):void {
 		outputText("  His big brown eyes meet yours as he opens his muzzle and lets the full length of his tongue flop free.  It's roughly a foot and a half long fully extended, and " + sMultiCockDesc() + " twitches as you imagine what it must feel like.  Thankfully, he does not keep you waiting long.\n\n");
 
 		outputText("The serpent-like tongue snakes ");
-		if(player.balls > 0) outputText("around your " + sackDescript() + " before curling ");
+		if(player.hasBalls()) outputText("around your " + sackDescript() + " before curling ");
 		outputText("around the base of your [cocks].  It circles up ");
 		if(player.cockTotal() > 1) outputText("a");
 		else outputText("the");
@@ -960,7 +969,7 @@ private function forceMinitaurToGiveOral(choice:Number = 0):void {
 	dynStats("sen", -1);
     if (CoC.instance.inCombat)
         cleanupAfterCombat();
-	else doNext(camp.returnToCampUseOneHour);
+	else endEncounter();
 }
 
 //*[Victory- BJ + Nipplefucking] (boring, samey, not actually punishment again, could have been shoving very long nipples into urethras) (edited)
@@ -1027,7 +1036,7 @@ private function victoryBJNippleFuckMinotaurGang():void {
 	player.minoCumAddiction(10);
     if (CoC.instance.inCombat)
         cleanupAfterCombat();
-	else doNext(camp.returnToCampUseOneHour);
+	else endEncounter();
 }
 
 //Bad End Scene:
@@ -1060,7 +1069,7 @@ private function minotaurGangBadEnd():void {
 
 	outputText("The minitaur looks down at you with a thankful expression on his monstrous muzzle.  The image is only broken by the lusty way he lets his tongue hang from his mouth as he mounts you, a few drops of saliva falling as he forgets himself in the passion of taking you.  A tiny rivulet of his constant, dripping pre-seed escapes from around his girth as he pushes in, finally butting his tip at your cervix, the slack skin of his sheath seeming to caress your labia and clitoris.  You squeal in happiness, feeling warmth spread outward from your pussy as more of his essence dribbles inside of you.\n\n");
 
-	outputText("Already experiencing a pleasant buzz and tingle, you grab his hips and throw yourself against him, bouncing the both of you in the pillowy room, grunts and moans of passion teasing the other girls as you're fucked with wild abandon by one they crave.  Your " + vaginaDescript() + " is like a furnace of lust, the fires of need inside only growing hotter with every stroke of wonderful minotaur-cock.  Panting, the smallest of your beast-men does his best to fuck you, and though his member is nowhere near as large as his brother's swollen shafts, the thick, pent-up drugs he's dripping into your uterus are keeping you so close the edge.\n\n");
+	outputText("Already experiencing a pleasant buzz and tingle, you grab his hips and throw yourself against him, bouncing both of you in the pillowy room, grunts and moans of passion teasing the other girls as you're fucked with wild abandon by one they crave.  Your " + vaginaDescript() + " is like a furnace of lust, the fires of need inside only growing hotter with every stroke of wonderful minotaur-cock.  Panting, the smallest of your beast-men does his best to fuck you, and though his member is nowhere near as large as his brother's swollen shafts, the thick, pent-up drugs he's dripping into your uterus are keeping you so close the edge.\n\n");
 
 	outputText("You feel like you're floating, cushioned in a bed of clouds with every nerve firing off nothing but pleasure and happiness.  There's a wet, slap-slap-slap nagging at you, but you close your eyes and forget it, letting your fingers play across your " + chestDesc() + " to ");
 	if(player.hasFuckableNipples()) outputText("slide inside your nipple-cunts and finger your chest pussies in a small approximation of what's happening below.");
@@ -1069,7 +1078,7 @@ private function minotaurGangBadEnd():void {
 	outputText("  Moaning like a whore, you gasp and pant under your bovine lover, lost to the world and nearly screaming in delight each time your " + vaginaDescript(0) + " contracts around its invader.  Your eyes roll back, and you howl, finally obtaining the climax you've desired.  The knowledge that it's your son's rough fucking that's getting you off only makes the orgasm stronger.  Realizing you'll never leave this place, you accept your fate and let your body tell you what to do, and for now, what it wants to do is keep cumming.\n\n");
 
 	outputText("The rhythmic contractions around his rod set off the minitaur.  His heavy balls bounce against your body as they churn and jiggle, pumping an obscene amount of cum through the thick cock lodged in your twat.  You can feel his flare straining at your cervix, the urethra pumping a torrent of spooge ");
-	if(player.pregnancyIncubation == 0) outputText("inside your empty womb");
+	if(player.canGetPregnant()) outputText("inside your empty womb");
 	else outputText("against the plugged entrance of your pregnant womb");
 	outputText(", releasing so much that a squirt of it escapes to run down your [leg].  That was just the first spurt!  The second burst of semen fills every nook and cranny of your " + vaginaDescript() + ", your entrance turning to a frothy mess of white goo and slippery lady-spunk.  The pent-up pecker keeps flexing in orgasm, firing jet after jet of narcotic cream into your semen-spurting box, the pillows under you quickly soaking up the excess, addictive jizz.\n\n");
 

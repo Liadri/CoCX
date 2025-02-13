@@ -5,7 +5,7 @@ import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.BodyParts.Horns;
 import classes.BodyParts.Tail;
-import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.SceneLib;
 import classes.internals.WeightedDrop;
 
@@ -16,7 +16,7 @@ public class DemonPackDesert extends Monster
 		{
 			if (hpVictory) {
 				outputText("You strike out and the last of the demons tumbles to the ground with a thud. You stand there for a second surrounded by dead or unconscious demons feeling like a god of battle. Then you realize that if a god of battle does exist he lives on a demonic plane like this, so to avoid insulting him you take your hands off your hips and your [legs] off the head of the demon leader before you start to search the bodies.", true);
-				player.dynStats("lus", 1);
+				player.dynStats("lus", 1, "scale", false);
 			} else {
 				outputText("The demons stop attacking, and reach out to touch your body. Some are already masturbating like it's the only thing in the world and you know that right now, if you wanted to, you could make each and every one of them fuck you.");
 			}
@@ -68,14 +68,14 @@ public class DemonPackDesert extends Monster
 		}
 
 
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			outputText("\n");
 			if(lustDelta == 0) outputText("\n" + capitalA + short + " seems unimpressed.");
 			else if(lustDelta > 0 && lustDelta < 5) outputText("The demons lessen somewhat in the intensity of their attack, and some even eye up your assets as they strike at you.");
 			else if(lustDelta >= 5 && lustDelta < 10) outputText("The demons are obviously steering clear from damaging anything you might use to fuck and they're starting to leave their hands on you just a little longer after each blow. Some are starting to cop quick feels with their other hands and you can smell the demonic lust of a dozen bodies on the air.");
 			else if(lustDelta >= 10) outputText("The demons are less and less willing to hit you and more and more willing to just stroke their hands sensuously over you. The smell of demonic lust is thick on the air and part of the group just stands there stroking themselves openly.");
-			applyTease(lustDelta);
+			applyTease(lustDelta, display, aura);
 		}
 
 		public function DemonPackDesert()
@@ -102,23 +102,26 @@ public class DemonPackDesert extends Monster
 			this.tallness = rand(8) + 70;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			this.hairColor = "black";
 			this.hairLength = 15;
-			initStrTouSpeInte(50, 30, 10, 5);
-			initWisLibSensCor(5, 50, 70, 100);
+			initStrTouSpeInte(110, 70, 20, 7);
+			initWisLibSensCor(7, 100, 120, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 5;
+			this.weaponAttack = 50;
 			this.armorName = "demonic skin";
-			this.armorDef = 5;
-			this.armorMDef = 1;
+			this.armorDef = 50;
+			this.armorMDef = 10;
 			this.bonusHP = 20;
-			this.bonusLust = 129;
+			this.bonusLust = 236;
 			this.lust = 30;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.level = 9;
+			this.level = 16;
 			this.gems = rand(30)+20;
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
 			this.drop = new WeightedDrop().addMany(1,
 							consumables.SUCMILK,
 							consumables.INCUBID,
@@ -134,7 +137,7 @@ public class DemonPackDesert extends Monster
 			this.horns.count = 2;
 			this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, 9, 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxHP, 16, 0, 0, 0);
 			checkMonster();
 		}
 

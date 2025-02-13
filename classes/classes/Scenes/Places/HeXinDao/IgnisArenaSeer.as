@@ -2,7 +2,7 @@
  * ...
  * @author Zevos
  */
-package classes.Scenes.Places.HeXinDao 
+package classes.Scenes.Places.HeXinDao
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -42,18 +42,18 @@ public class IgnisArenaSeer extends Monster
 			outputText(" ");
 			var lustDmg:Number = player.lustVuln * ((this.inte / 10) + rand(player.lib + player.cor) / 5);
 			lustDmg = Math.round(lustDmg);
-			player.dynStats("lus", lustDmg, "scale", false);
+			player.takeLustDamage(lustDmg, true);
 			if (!hasStatusEffect(StatusEffects.IgnisCounter)) createStatusEffect(StatusEffects.IgnisCounter, 1, 0, 0, 0);
 			else addStatusValue(StatusEffects.IgnisCounter, 1, 1);
 		}
 		
 		public function IgnisCastsComet():void {
 			outputText("Ignis raises a hand, focusing with intensity.  From above comes a crystalline meteor, which you barely manage to dodge.  The crystal shatters upon contact with the ground, sending a shower of splinters that you cannot avoid. ");
-			if (player.armorName == "Drider-weave Armor" || player.armorPerk == "Heavy" || player.armorPerk == "Light Ayo" || player.armorPerk == "Heavy Ayo" || player.armorPerk == "Ultra Heavy Ayo") outputText("Thankfully, your armor manages to absorb most of the impact. ");
+			if (player.isInHeavyArmor() || player.isInAyoArmor()) outputText("Thankfully, your armor manages to absorb most of the impact. ");
 			var damage:Number = 0;
 			damage += inteligencescalingbonus();
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			if (player.armorPerk != "Heavy" && player.armorPerk != "Light Ayo" && player.armorPerk != "Heavy Ayo" && player.armorPerk != "Ultra Heavy Ayo") damage *= 2;
 			damage = Math.round(damage);
 			player.takeMagicDamage(damage, true);
@@ -93,7 +93,7 @@ public class IgnisArenaSeer extends Monster
 					"Ignis’ left hand is lit up by an aura of blue flames, ready to flare up into gouts of foxfire at a moment’s notice. In his right hand is his metal staff, foxfire burning at it’s tip.";
 		}
 		
-		public function IgnisArenaSeer() 
+		public function IgnisArenaSeer()
 		{
 			this.a = "";
 			this.short = "Ignis, the Seer of the Arena";
@@ -112,11 +112,11 @@ public class IgnisArenaSeer extends Monster
 			this.tallness = rand(24) + 60;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "white";
+			this.bodyColor = "white";
 			this.hairColor = "silver";
 			this.hairLength = 13 + rand(20);
 			initStrTouSpeInte(45, 75, 180, 160);
-			initWisLibSensCor(160, 70, 85, 45);
+			initWisLibSensCor(160, 70, 85, -10);
 			this.weaponName = "staff";
 			this.weaponVerb="smack";
 			this.weaponAttack = 8;
@@ -127,8 +127,7 @@ public class IgnisArenaSeer extends Monster
 			this.bonusLust = 200;
 			this.lust = 20;
 			this.lustVuln = 0.9;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
-			this.level = 45;//mają wtedy tylko 2 ogony ale z czasem jak PC też rośnie w siłe z lvl-em bdą mieć awans to lvl może 18-20 i trzeci ogon plus wzmocnienie statów itp.
+			this.level = 45;//mają wtedy tylko 2 ogony ale z czasem jak PC też rośnie w siłe z lvl-em bdą mieć awans to lvl może 18-20 i trzeci ogon plus wzmocnienie statów itp. (At that time, they have only 2 tails, but as the player character (PC) also grows in strength with levels, they will advance to around level 18-20 and gain a third tail along with enhanced stats, etc.)
 			this.gems = rand(20) + 20;
 			if (flags[kFLAGS.IGNIS_ARENA_SEER] < 3) {
 			this.drop = new ChainedDrop()

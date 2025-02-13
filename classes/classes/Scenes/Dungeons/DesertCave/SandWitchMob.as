@@ -67,19 +67,19 @@ public class SandWitchMob extends Monster
 					outputText("\n\nThey crawl up your [legs].  You try to swat them all off, but there are too many.");
 					//If PC has 1 cock:
 					if(player.cockTotal() == 1) outputText("  A stone crawls onto your [cock].");
-					//[If PC has multi-cocks: 
+					//[If PC has multi-cocks:
 					if(player.cockTotal() > 1) outputText("  A bunch of the stones crawl onto your [cocks].");
 					if(player.hasCock()) bonus++;
 					//[If PC has cunt]
 					if(player.hasVagina()) {
 						outputText("  One stone slides up your inner thigh");
-						if(player.balls > 0) outputText(" behind your [sack]");
+						if(player.hasBalls()) outputText(" behind your [sack]");
 						outputText(" and pops itself right into your [vagina]");
 						if(player.hasVirginVagina()) outputText(", robbing you of your virginity as a trickle of blood runs down your [leg].");
 						bonus++;
 					}
 					//[If PC has balls:
-					if(player.balls > 0) {
+					if(player.hasBalls()) {
 						outputText("  A small set of stones settle on your [balls].");
 						bonus++;
 					}
@@ -105,7 +105,7 @@ public class SandWitchMob extends Monster
 					
 				}
 				player.createStatusEffect(StatusEffects.LustStones,bonus,0,0,0);
-				player.dynStats("lus", bonus * 2 + 5 + player.effectiveSensitivity()/7);
+				player.takeLustDamage(bonus * 2 + 5 + player.effectiveSensitivity()/7, true);
 			}
 			//[If attack misses]
 			else {
@@ -119,7 +119,7 @@ public class SandWitchMob extends Monster
 		public function drankSomeMialk():void {
 			outputText("One of the blonde beauties turns to another and asks, \"<i>A drink, sister?  Fighting this intruder has given me a powerful thirst.</i>\"  The other woman wordlessly opens her robe, baring her breasts, exposing four heaving, milk-fueled mounds to the air before the other woman claims a nipple for herself.  Three others crowd in on the exposed teats, their rumps shaking contentedly as they grab a quick snack.");
 			outputText("\n\nAfter wiping the excess from their lips, they close their robes and resume a fighting stance, seeming healthier than before.");
-			player.dynStats("lus", 4 + player.lib/10);
+			player.takeLustDamage(4 + player.lib/10, true);
 			//+ 30 HP, +light lust damage to PC and mob
 			addHP(30);
 		}
@@ -165,29 +165,28 @@ public class SandWitchMob extends Monster
 			this.tallness = rand(12) + 55;
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "bronzed";
+			this.bodyColor = "bronzed";
 			this.hairColor = "sandy-blonde";
 			this.hairLength = 15;
-			initStrTouSpeInte(30, 45, 35, 45);
-			initWisLibSensCor(45, 55, 40, 30);
+			initStrTouSpeInte(75, 114, 95, 110);
+			initWisLibSensCor(110, 55, 100, -40);
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
-			this.weaponAttack = 1;
-			this.weaponPerk = "";
+			this.weaponAttack = 5;
 			this.weaponValue = 150;
 			this.armorName = "robes";
-			this.armorDef = 2;
-			this.armorMDef = 10;
+			this.armorDef = 20;
+			this.armorMDef = 100;
 			this.armorPerk = "";
 			this.armorValue = 5;
-			this.bonusHP = 100;
-			this.bonusLust = 102;
+			this.bonusHP = 200;
+			this.bonusLust = 169;
 			this.lust = 30;
 			this.lustVuln = .5;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.level = 7;
+			this.level = 14;
 			this.gems = rand(20) + 15;
 			this.drop = NO_DROP;
+			this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
 			checkMonster();
 

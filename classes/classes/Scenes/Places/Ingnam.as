@@ -2,10 +2,7 @@
 package classes.Scenes.Places
 {
 import classes.*;
-import classes.BodyParts.Ears;
-import classes.BodyParts.Horns;
 import classes.GlobalFlags.*;
-import classes.Items.*;
 import classes.Scenes.Places.Ingnam.*;
 import classes.Scenes.SceneLib;
 import classes.Scenes.Soulforce;
@@ -14,16 +11,17 @@ import coc.view.MainView;
 
 public class Ingnam extends BaseContent
 	{
+		public var ingramTavern:IngramTavern = new IngramTavern();
 		public var ingnamFarm:IngnamFarm = new IngnamFarm();
 		public var thiefScene:ThiefScene = new ThiefScene();
 		public var soulforce:Soulforce = new Soulforce();
-		
-		public function get inIngnam():Boolean { return flags[kFLAGS.IN_INGNAM] > 0; }
-		
+
+		public function get inIngnam():Boolean { return flags[kFLAGS.IN_INGNAM]; }
+
 		public function Ingnam()
 		{
 		}
-		
+
 		//Main Ingnam menu.
 		public function menuIngnam():void {
 			//Force autosave
@@ -31,7 +29,7 @@ public class Ingnam extends BaseContent
 			{
 				trace("Autosaving to slot: " + player.slotName);
 
-			CoC.instance.saves.saveGame(player.slotName);
+			CoC.instance.saves.saveGameToSharedObject(player.slotName);
             }
 			//Banished to Mareth.
 			if (model.time.days >= 0 && flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] <= 0) {
@@ -63,7 +61,7 @@ public class Ingnam extends BaseContent
 			addButton(0, "Explore", exploreIngnam);
 			addButton(1, "Shops", menuShops);
 			addButton(2, "Temple", menuTemple);
-			addButton(3, "Inn", menuTavern);
+			addButton(3, "Inn", ingramTavern.menuTavern);
 			addButton(4, "Farm", ingnamFarm.menuFarm);
 			if (flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] > 0) addButton(5, "Return2Camp", returnToMareth);
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] > 0 && inventory.showStash() && flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] <= 0) addButton(6, "Stash", inventory.stash);
@@ -74,8 +72,7 @@ public class Ingnam extends BaseContent
 					removeButton(0);
 					removeButton(4);
 				}
-				addButton(8, "Masturbate", SceneLib.masturbation.masturbateMenu);
-				if ((((player.hasPerk(PerkLib.HistoryReligious) || player.hasPerk(PerkLib.PastLifeReligious)) && player.cor <= 66) || (player.hasPerk(PerkLib.Enlightened) && player.cor < 10)) && !(player.hasStatusEffect(StatusEffects.Exgartuan) && player.statusEffectv2(StatusEffects.Exgartuan) == 0)) addButton(8, "Meditate", SceneLib.masturbation.masturbateMenu);
+				SceneLib.masturbation.masturButton(8);
 			}
 			//Show wait/rest/sleep depending on conditions.
 			addButton(9, "Wait", SceneLib.camp.doWait);
@@ -89,7 +86,7 @@ public class Ingnam extends BaseContent
             }
 			if (player.hasPerk(PerkLib.JobSoulCultivator)) addButton(10, "Soulforce", soulforce.accessSoulforceMenu).hint("Spend some time on the cultivation or spend some of the soulforce.");
 		}
-		
+
 		//The end of prologue, starts the game.
 		public function getBanishedToMareth():void {
 			var hasWeapon:Boolean = false;
@@ -100,33 +97,33 @@ public class Ingnam extends BaseContent
 			flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] = 1;
 			doNext(CoC.instance.charCreation.arrival);
 		}
-		
+
 		public function returnToMareth():void {
 			clearOutput();
 			outputText("You make your journey to Mount Ilgast, walk through the portal back to Mareth and return to your camp.");
 			flags[kFLAGS.IN_INGNAM] = 0;
 			doNext(camp.returnToCampUseOneHour);
 		}
-		
+
 		public function returnToIngnam():void {
 			clearOutput();
 			outputText("You enter the portal and make your return to Ingnam, thanks to the debug powers.");
 			flags[kFLAGS.IN_INGNAM] = 1;
 			doNext(camp.returnToCampUseOneHour);
 		}
-		
+
 		//Explore Ingnam
 		public function exploreIngnam():void {
 			hideMenus();
 			clearOutput();
 			if (rand(4) == 0) {
 				outputText("You explore the village of Ingnam for a while but you don't find anything interesting.");
-				eachMinuteCount(15);
+				advanceMinutes(15);
 				doNext(camp.doCamp);
 			}
 			else thiefScene.encounterThief();
 		}
-		
+
 		//Shopping time!
 		public function menuShops():void {
 			hideMenus();
@@ -140,12 +137,12 @@ public class Ingnam extends BaseContent
 			addButton(4, "Black Market", shopBlackMarket);
 			addButton(14, "Back", menuIngnam);
 		}
-		
+
 		public function shopBlacksmith():void {
 			clearOutput();
 			outputText("You enter the armor shop, noting the sign depicting armors. Some armor is proudly displayed on racks. You can hear the sound of hammering although it stops shortly after you enter. The local blacksmith, Ben, comes from the rear door, stepping up to the counter as he wipes the sweat from his brow, face red from the heat of his forge. \"<i>Welcome to my shop. Are you in need of protection? Or something sharp?</i>\"");
 			if (flags[kFLAGS.INGNAM_WEAPONSMITH_TALKED] <= 0 && flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] <= 0) {
-				outputText("\n\n\Before you can get a word in Ben lets out an exasperated sigh \"<i>Ah, just forget about…</i>\"");
+				outputText("\n\nBefore you can get a word in Ben lets out an exasperated sigh \"<i>Ah, just forget about…</i>\"");
 				outputText("\n\nYou crook an eyebrow questioningly at the blacksmith. Ben then realizes his blunder.");
 				outputText("\n\n\"<i>Ah, well it’s just… You’re the new Champion, right? None of the people I’ve seen who get sent to the portal brought a weapon and you would waste some gems. Still, if you want to train with weapons, you can go ahead and buy them. A little preparation never hurt anyone.</i>\" the blacksmith says.");
 				flags[kFLAGS.INGNAM_WEAPONSMITH_TALKED] = 1;
@@ -153,50 +150,51 @@ public class Ingnam extends BaseContent
 			outputText("\n\n<b><u>Blacksmith's pricings</u></b>");
 			menu();
 			if (player.hasPerk(PerkLib.HistoryFighter) || player.hasPerk(PerkLib.PastLifeFighter)) { //20% discount for History: Fighter
-				addShopItem(weapons.DAGGER, 48, 1);
-				addShopItem(weapons.PIPE, 40, 1);
-				addShopItem(weapons.SPEAR, 140, 1);
-				addShopItem(weapons.KATANA, 200, 1);
-				addShopItem(weapons.MACE, 80, 1);
+				addShopItem(weapons.DAGGER, 160, 1);
+				addShopItem(weapons.PIPE, 120, 1);
+				addShopItem(weapons.SPEAR, 480, 1);
+				addShopItem(weapons.KATANA, 720, 1);
+				addShopItem(weapons.MACE, 400, 1);
 			}
 			else {
-				addShopItem(weapons.DAGGER, 60, 1);
-				addShopItem(weapons.PIPE, 50, 1);
-				addShopItem(weapons.SPEAR, 175, 1);
-				addShopItem(weapons.KATANA, 250, 1);
-				addShopItem(weapons.MACE, 100, 1);
+				addShopItem(weapons.DAGGER, 200, 1);
+				addShopItem(weapons.PIPE, 150, 1);
+				addShopItem(weapons.SPEAR, 600, 1);
+				addShopItem(weapons.KATANA, 900, 1);
+				addShopItem(weapons.MACE, 500, 1);
 			}
 			if (player.hasPerk(PerkLib.HistorySmith) || player.hasPerk(PerkLib.PastLifeSmith)) { //20% discount for History: Smith perk
-				addShopItem(armors.LEATHRA, 40, 2);
-				addShopItem(armors.FULLCHN, 120, 2);
-				addShopItem(armors.SCALEML, 288, 2);
+				addShopItem(armors.LEATHRA, 120, 2);
+				addShopItem(armors.FULLCHN, 360, 2);
+				addShopItem(armors.SCALEML, 800, 2);
 			}
 			else {
-				addShopItem(armors.LEATHRA, 50, 2);
-				addShopItem(armors.FULLCHN, 150, 2);
-				addShopItem(armors.SCALEML, 360, 2);
+				addShopItem(armors.LEATHRA, 150, 2);
+				addShopItem(armors.FULLCHN, 450, 2);
+				addShopItem(armors.SCALEML, 1000, 2);
 			}
+			addShopItem(weapons.A_WAND, 225, 2);
 			addButton(14, "Leave", menuShops);
 		}
-		
+
 		public function shopTailor():void {
 			clearOutput();
 			outputText("You enter the tailor’s. The interior is laden with mannequins wearing half-finished works. Clothes are displayed on racks without obvious flaws. A fastidious, well-groomed young man with an immaculate blue three-piece suit topped with a measuring tape draping around his collar stands behind the counter and smiles at you with deference.");
 			outputText("\n\n\"<i>Welcome to my shop. Do you need to get outfitted?</i>\" he says pulling keenly at the measuring tape draping his shoulders.");
 			outputText("\n\n<b><u>Tailor shop pricings</u></b>");
 			menu();
-			addShopItem(armors.C_CLOTH, 10, 3);
+			addShopItem(armors.C_CLOTH, 15, 3);
 			addShopItem(armors.ADVCLTH, 75, 3);
-			addShopItem(armors.CLSSYCL, 100, 3);
+			addShopItem(armors.CLSSYCL, 60, 3);
 			addShopItem(armors.TUBETOP, 40, 3);
-			addShopItem(armors.OVERALL, 30, 3);
-			addShopItem(armors.M_ROBES, 75, 3);
-			addShopItem(armors.LTHRPNT, 200, 3);
-			addShopItem(armors.RBBRCLT, 500, 3);
-			addShopItem(armors.T_BSUIT, 650, 3);
+			addShopItem(armors.OVERALL, 40, 3);
+			addShopItem(armors.M_ROBES, 40, 3);
+			addShopItem(armors.LTHRPNT, 30, 3);
+			addShopItem(armors.RBBRCLT, 225, 3);
+			addShopItem(armors.T_BSUIT, 75, 3);
 			addButton(14, "Leave", menuShops);
 		}
-		
+
 		public function shopAlchemist():void {
 			clearOutput();
 			if (flags[kFLAGS.INGNAM_ALCHEMIST_TALKED] <= 0) {
@@ -229,7 +227,7 @@ public class Ingnam extends BaseContent
 			}
 			addButton(14, "Leave", menuShops);
 		}
-		
+
 		public function shopTradingPost():void {
 			clearOutput();
 			outputText("The trading post is one of the larger buildings in the village, with its porch covered in barrels filled with pickled goods, preserved delicacies and dried goods, from the humble local farm to exotic faraway lands. The interior is packed with crowded shelves that boast a variety of goods, all arranged neatly on shelves.");
@@ -241,7 +239,7 @@ public class Ingnam extends BaseContent
 			addShopItem(consumables.AGILI_E, 12, 5);
 			addShopItem(consumables.SMART_T, 30, 5);
 			addShopItem(consumables.INCOINS, 30, 5);
-			addShopItem(consumables.FISHFIL, 5, 5);
+			addShopItem(consumables.FISHFIL, 10, 5);
 			addShopItem(consumables.H_PILL, 10, 5);
 			addButton(10, "Sell", sellAtTradingPost);
 			addButton(14, "Leave", menuShops);
@@ -271,33 +269,69 @@ public class Ingnam extends BaseContent
 						totalItems += player.itemSlots[slot].quantity;
 					}
 				}
-				addButton(13, "Prev", sellAtTradingPost, page - 1);
+				addButton(12, "Prev", sellAtTradingPost, page - 1);
+				if (inventory.getMaxSlots() > 20) addButton(13, "Next", sellAtTradingPost, page + 1);
 			}
-			if (totalItems > 1) addButton(12, "Sell All", shopTradingPostSellAll);
+			if (page == 3) {
+				for (slot = 20; slot < 30; slot++) {
+					if (player.itemSlots[slot].quantity > 0 && player.itemSlots[slot].itype.value >= 1) {
+						outputText("\n" + int(player.itemSlots[slot].itype.value / 3) + " gems for " + player.itemSlots[slot].itype.longName + ".");
+						addButton(slot-20, (player.itemSlots[slot].itype.shortName + " x" + player.itemSlots[slot].quantity), shopTradingPostSell, slot);
+						totalItems += player.itemSlots[slot].quantity;
+					}
+				}
+				addButton(12, "Prev", sellAtTradingPost, page - 1);
+				if (inventory.getMaxSlots() > 30) addButton(13, "Next", sellAtTradingPost, page + 1);
+			}
+			if (page == 4) {
+				for (slot = 30; slot < 40; slot++) {
+					if (player.itemSlots[slot].quantity > 0 && player.itemSlots[slot].itype.value >= 1) {
+						outputText("\n" + int(player.itemSlots[slot].itype.value / 3) + " gems for " + player.itemSlots[slot].itype.longName + ".");
+						addButton(slot-30, (player.itemSlots[slot].itype.shortName + " x" + player.itemSlots[slot].quantity), shopTradingPostSell, slot);
+						totalItems += player.itemSlots[slot].quantity;
+					}
+				}
+				addButton(12, "Prev", sellAtTradingPost, page - 1);
+				if (inventory.getMaxSlots() > 40) addButton(13, "Next", sellAtTradingPost, page + 1);
+			}
+			if (page == 5) {
+				for (slot = 40; slot < 50; slot++) {
+					if (player.itemSlots[slot].quantity > 0 && player.itemSlots[slot].itype.value >= 1) {
+						outputText("\n" + int(player.itemSlots[slot].itype.value / 3) + " gems for " + player.itemSlots[slot].itype.longName + ".");
+						addButton(slot-40, (player.itemSlots[slot].itype.shortName + " x" + player.itemSlots[slot].quantity), shopTradingPostSell, slot);
+						totalItems += player.itemSlots[slot].quantity;
+					}
+				}
+				addButton(12, "Prev", sellAtTradingPost, page - 1);
+			}
+			if (totalItems > 1) addButton(11, "Sell All", shopTradingPostSellAll);
 			addButton(14, "Back", shopTradingPost);
 		}
 		private function shopTradingPostSell(slot:int):void {
+			var itemValueOrgin:Number = player.itemSlots[slot].itype.value;
 			var itemValue:int = int(player.itemSlots[slot].itype.value / 3);
 			clearOutput();
-			if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+			if (shiftKeyDown) {
 				if (itemValue == 0)
 					outputText("You hand over " + num2Text(player.itemSlots[slot].quantity) + " " +  player.itemSlots[slot].itype.shortName + " to trader.  He shrugs and says, \"<i>Well ok, it isn't worth anything, but I'll take it.</i>\"");
 				else outputText("You hand over " + num2Text(player.itemSlots[slot].quantity) + " " +  player.itemSlots[slot].itype.shortName + " to trader.  He nervously pulls out " + num2Text(itemValue * player.itemSlots[slot].quantity)  + " gems and drops them into your waiting hand.");
 				while (player.itemSlots[slot].quantity > 0){
 					player.itemSlots[slot].removeOneItem();
-					if (player.hasPerk(PerkLib.Greedy)) itemValue *= 2;
+					if (player.hasPerk(PerkLib.Greedy)) {
+						itemValue *= 2;
+						if (itemValue > itemValueOrgin) itemValue = itemValueOrgin;
+					}
 					player.gems += itemValue;
 				}
 			}
 			else {
 				if (player.hasPerk(PerkLib.Greedy)) itemValue *= 2;
 				if (player.hasPerk(PerkLib.TravelingMerchantOutfit)) itemValue *= 2;
-				if (itemValue == 0)
-				outputText("You hand over " + player.itemSlots[slot].itype.longName + " to trader.  He shrugs and says, \"<i>Well ok, it isn't worth anything, but I'll take it.</i>\"");
+				if (itemValue > itemValueOrgin) itemValue = itemValueOrgin;
+				if (itemValue == 0) outputText("You hand over " + player.itemSlots[slot].itype.longName + " to trader.  He shrugs and says, \"<i>Well ok, it isn't worth anything, but I'll take it.</i>\"");
 				else outputText("You hand over " + player.itemSlots[slot].itype.longName + " to trader.  He nervously pulls out " + num2Text(itemValue) + " gems and drops them into your waiting hand.");
 				player.itemSlots[slot].removeOneItem();
-				if (itemValue != 0 && player.hasPerk(PerkLib.Greedy) || player.hasPerk(PerkLib.TravelingMerchantOutfit)) outputText("Thanks to a little magic and a lot of hard bargaining you managed to sell your item for double the amount.");
-				if (itemValue != 0 && player.hasPerk(PerkLib.Greedy) && player.hasPerk(PerkLib.TravelingMerchantOutfit)) outputText("Thanks to a little magic and a lot of hard bargaining you managed to sell your item for four times the amount.");
+				if (itemValue != 0 && player.hasPerk(PerkLib.Greedy) || player.hasPerk(PerkLib.TravelingMerchantOutfit)) outputText("Thanks to a little magic and a lot of hard bargaining you managed to sell your item for more than normal.");
 				player.gems += itemValue;
 			}
 			statScreenRefresh();
@@ -307,22 +341,20 @@ public class Ingnam extends BaseContent
 		private function shopTradingPostSellAll():void {
 			var itemValue:int = 0;
 			clearOutput();
-			for (var slot:int = 0; slot < 20; slot++) {
+			for (var slot:int = 0; slot < 50; slot++) {
 				if (player.itemSlots[slot].quantity > 0 && player.itemSlots[slot].itype.value >= 1) {
 					itemValue += player.itemSlots[slot].quantity * int(player.itemSlots[slot].itype.value / 2);
 					player.itemSlots[slot].quantity = 0;
 				}
 			}
-			if (player.hasPerk(PerkLib.Greedy)) itemValue *= 2;
-			if (player.hasPerk(PerkLib.TravelingMerchantOutfit)) itemValue *= 2;
+			if (player.hasPerk(PerkLib.Greedy) || player.hasPerk(PerkLib.TravelingMerchantOutfit)) itemValue *= 2;
 			outputText("You lay out all the items you're carrying on the counter in front of trader.  He examines them all and nods.  Nervously, he pulls out " + num2Text(itemValue) + " gems and drops them into your waiting hand.");
-			if (player.hasPerk(PerkLib.Greedy) || player.hasPerk(PerkLib.TravelingMerchantOutfit)) outputText("Thanks to a little magic and a lot of hard bargaining you managed to sell your item for double the amount.");
-			if (player.hasPerk(PerkLib.Greedy) && player.hasPerk(PerkLib.TravelingMerchantOutfit)) outputText("Thanks to a little magic and a lot of hard bargaining you managed to sell your item for four times the amount.");
+			if (player.hasPerk(PerkLib.Greedy) || player.hasPerk(PerkLib.TravelingMerchantOutfit)) outputText("Thanks to a little magic and a lot of hard bargaining you managed to sell your item for more than normal.");
 			player.gems += itemValue;
 			statScreenRefresh();
 			doNext(sellAtTradingPost);
 		}
-		
+
 		public function shopBlackMarket():void {
 			clearOutput();
 			if (flags[kFLAGS.INGNAM_BLACKMARKET_TALKED] <= 0) {
@@ -347,7 +379,7 @@ public class Ingnam extends BaseContent
 			addShopItem(consumables.RINGFIG, 75, 6);
 			addButton(14, "Leave", menuShops);
 		}
-		
+
 		//Transaction for buying items.
 		public function transactionItemConfirmation(item:ItemType, price:int, shop:int):void {
 			clearOutput();
@@ -397,7 +429,7 @@ public class Ingnam extends BaseContent
 			else if (shop == 6) shopBlackMarket();
 			else shopBlackMarket();
 		}
-		
+
 		public function addShopItem(item:ItemType, price:int, shop:int):void {
 			outputText("\n" + capitalizeFirstLetter(item.longName) + " - " + price + " gems");
 			var button:int = 0;
@@ -406,7 +438,7 @@ public class Ingnam extends BaseContent
 			}
 			addButton(button, item.shortName, transactionItemConfirmation, item, price, shop);
 		}
-		
+
 		//Temple
 		public function menuTemple():void {
 			hideMenus();
@@ -419,267 +451,7 @@ public class Ingnam extends BaseContent
 			addButton(0, "Meditate", SceneLib.masturbation.meditate);
 			addButton(14, "Leave", menuIngnam);
 		}
-		
-		//Tavern
-		public function menuTavern():void {
-			hideMenus();
-			clearOutput();
-			outputText(images.showImage("location-ingnam-inn"));
-			outputText("The inn is a cozy little nook that exudes a warm and welcoming air. You see several guardsmen roaring with laughter over a few steins and a hand of cards, and some townsfolk chatting about random topics. The innkeeper stands behind the polished wooden counter, serving beverages to his patrons and cleaning up spilled drinks.");
-			if (flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] > 0 && flags[kFLAGS.INGNAM_GREETED_AFTER_LONGTIME] <= 0) {
-				welcomeBack();
-			}
-			if ((player.ears.type > 0 && player.ears.type != flags[kFLAGS.INGNAM_EARS_LAST_TYPE] && flags[kFLAGS.INGNAM_EARS_FREAKOUT] <= 0) || (player.tailType > 0 && player.tailType != flags[kFLAGS.INGNAM_TAIL_LAST_TYPE] && flags[kFLAGS.INGNAM_TAIL_FREAKOUT] <= 0) && flags[kFLAGS.INGNAM_PROLOGUE_COMPLETE] <= 0) {
-				appearanceFreakout();
-				return;
-			}
-			menu();
-			addButton(0, "Order Drink", orderDrink).hint("Buy some refreshing beverages.");
-			addButton(1, "Order Food", orderFood).hint("Buy some food" + (flags[kFLAGS.HUNGER_ENABLED] > 0 && player.hunger < 50 ? " and curb that hunger of yours!": ".") + "");
-			if (flags[kFLAGS.INGNAM_RUMORS] < 3) addButton(2, "Stories", hearRumors).hint("Hear the stories the innkeeper has to offer.");
-			//if (player.hasPerk(PerkLib.HistoryWhore)) addButton(5, "Prostitute", whoreForGems).hint("Seek someone who's willing to have sex with you for profit.");
-			addButton(14, "Leave", menuIngnam);
-		}
-		
-		public function welcomeBack():void {
-			clearOutput();
-			outputText("The innkeeper looks at you and says, \"<i>Welcome back! I've missed you! How did your adventures go?</i>\"");
-			outputText("\n\nYou tell the innkeeper about your adventures and how you've met various denizens in Mareth.\n\n");
-			if (flags[kFLAGS.TIMES_TRANSFORMED] <= 0) outputText("The innkeeper looks at you in awe and says, \"<i>Wow, you haven't changed at all! How did you manage to stay in that strange realm for years and still be normal?</i>\"");
-			else if (player.race() == "human") {
-				outputText("The innkeeper looks at you and says, \"<i>I can see that you have changed a bit.</i>\" ");
-			}
-			else {
-				outputText("The innkeeper looks at you and says, \"<i>I can see that you have changed quite a lot! Back then, before you left, you were a human. Now look at yourself!</i>\"");
-			}
-			if (player.horns.count > 0 && player.horns.type > 0) {
-				outputText("\n\n\"<i>Are these " + (player.horns.type == Horns.ANTLERS ? "antlers" : "horns") + "? I can imagine they must be real,</i>\" The innkeeper says before touching your [horns]. You can already feel his fingers rubbing against your [horns]. \"<i>Yes, they're real and I think you look better,</i>\" he says. You thank him for complimenting on your horns.");
-			}
-			if (player.wings.type > 0) {
-				outputText("\n\nNext, he looks at your wings that sprout from your back and says, \"<i>Wings? I've never seen a person with wings before!</i>\" ");
-				if (player.canFly()) outputText("You tell him that you can fly. To demonstrate, you guide the innkeeper outside and you grit your teeth with effort as you flap your wings and you finally launch off from the ground and fly around the town! The people of Ingnam, including your family and friends, look at you in shock and some even say, \"<i>" + player.mf("He", "She") + " can fly!</i>\"");
-			}
-			outputText("\n\nPLACEHOLDER.");
-			flags[kFLAGS.INGNAM_GREETED_AFTER_LONGTIME] = 1;
-			doNext(menuTavern);
-		}
-		
-		public function appearanceFreakout():void {
-			clearOutput();
-			outputText("The innkeeper stands up to see that there's something unusual with your appearance.");
-			if (player.ears.type > 0) {
-				if (player.ears.type == Ears.HORSE) {
-					outputText("\n\nHe says, \"<i>Your ears... They look different! They look like horse's! I have no idea how your ears changed.</i>\"");
-				}
-				if (player.ears.type == Ears.DOG) {
-					outputText("\n\nHe says, \"<i>Your ears... They look like dog's! I have no idea how your ears changed.</i>\"");
-				}
-				if (player.ears.type == Ears.CAT) {
-					outputText("\n\nHe says, \"<i>Your ears... They look like cat's! I have no idea how your ears changed but other than that, you look much cuter with cat ears!</i>\" He walks over to you and scratch your cat-ears. \"<i>They look and feel so real,</i>\" he says.");
-				}
-				flags[kFLAGS.INGNAM_EARS_LAST_TYPE] = player.ears.type;
-				flags[kFLAGS.INGNAM_EARS_FREAKOUT] = 1;
-			}
-			if (player.ears.type > 0 && player.tailType > 0 && player.hasLongTail()) outputText("Next, he walks behind you, taking a glance at your tail.");
-			if (player.tailType > 0) {
-				if (player.hasLongTail()) {
-					outputText("\n\nHe says with a surprised look, \"<i>You have a tail now? Are you sure this is fake?</i>\" You tell him that your tail is not fake; it's real. \"<i>Prove it,</i>\" he says as he tugs your tail. Ouch! That hurts! \"<i>Sorry about that,</i>\" he says, \"<i>but that tail definitely looks and feels real! I think your tail does look nice.</i>\"");
-					outputText("\n\nYou wag your tail and thank him for the compliment and he walks behind the counter.");
-				}
-				flags[kFLAGS.INGNAM_TAIL_LAST_TYPE] = player.tailType;
-				flags[kFLAGS.INGNAM_TAIL_FREAKOUT] = 1;
-			}
-			doNext(menuTavern);
-		}
 
-		
-		public function orderDrink():void {
-			clearOutput();
-			outputText("What kind of drink would you like?");
-			outputText("\n\n<b><u>Pricings</u></b>");
-			outputText("\n5 gems - Beer");
-			outputText("\n2 gems - Milk");
-			outputText("\n3 gems - Root Beer");
-
-			menu();
-			addButton(0, "Beer", buyBeer);
-			addButton(1, "Milk", buyMilk);
-			addButton(2, "Root Beer", buyRootBeer);
-			addButton(14, "Back", menuTavern);
-		}
-		
-		public function buyBeer():void {
-			clearOutput();
-			if (player.gems < 5) {
-				outputText("You don't have enough gems for that.");
-				doNext(orderDrink);
-				return;
-			}
-			player.gems -= 5;
-			outputText("\"<i>I'd like a glass of beer please,</i>\" you say. You hand over the five gems to the innkeeper and he pours you a glass of beer.");
-			outputText("\n\nYou kick back and drink the beer slowly. ");
-			dynStats("lus", 20);
-			player.refillHunger(10);
-			if (!player.hasStatusEffect(StatusEffects.Drunk)) {
-				player.createStatusEffect(StatusEffects.Drunk, 2, 1, 1, 0);
-				dynStats("str", 0.1);
-				player.addCurse("inte", 0.5, 1);
-				dynStats("lib", 0.25);
-			}
-			else {
-				player.addStatusValue(StatusEffects.Drunk, 2, 1);
-				if (player.statusEffectv1(StatusEffects.Drunk) < 2) player.addStatusValue(StatusEffects.Drunk, 1, 1);
-				if (player.statusEffectv2(StatusEffects.Drunk) == 2) {
-					outputText("\n\n<b>You feel a bit drunk. Maybe you should cut back on the beers?</b>");
-				}
-				//Get so drunk you end up peeing! Genderless can still urinate.
-				if (player.statusEffectv2(StatusEffects.Drunk) >= 3) {
-					outputText("\n\nYou feel so drunk. Your vision is blurry and you realize something's not feeling right. Gasp! You have to piss like a racehorse! You stumble toward the back door and go outside. ");
-					if (player.hasVagina() && !player.hasCock()) outputText("You open up your [armor] and squat down while you release your pressure onto the ground. ");
-					else outputText("You open up your [armor] and lean against the wall using one of your arms for support while you release your pressure onto the wall. ");
-					outputText("It's like as if the floodgate has opened! ");
-					awardAchievement("Urine Trouble", kACHIEVEMENTS.GENERAL_URINE_TROUBLE, true, true, false);
-					awardAchievement("Smashed", kACHIEVEMENTS.GENERAL_SMASHED, true, true, false);
-					outputText("\n\nIt seems to take forever but it eventually stops. You look down to see that your urine has been absorbed into the ground. You close up your [armor] and head back inside.");
-					player.removeStatusEffect(StatusEffects.Drunk);
-					cheatTime(1/12);
-				}
-			}
-			cheatTime(1/12);
-			doNext(menuTavern);
-		}
-		public function buyMilk():void {
-			clearOutput();
-			if (player.gems < 2) {
-				outputText("You don't have enough gems for that.");
-				doNext(orderDrink);
-				return;
-			}
-			player.gems -= 2;
-			outputText("\"<i>I'd like a glass of milk please,</i>\" you say. You hand over the two gems to the innkeeper and he pours you a glass of milk.");
-			outputText("\n\nYou drink the cup of milk. You feel calm and refreshed. ");
-			fatigue(-15);
-			HPChange(player.maxHP() / 4, false);
-			player.refillHunger(10);
-			cheatTime(1/12);
-			doNext(menuTavern);
-		}
-		public function buyRootBeer():void {
-			clearOutput();
-			if (player.gems < 3) {
-				outputText("You don't have enough gems for that.");
-				doNext(orderDrink);
-				return;
-			}
-			player.gems -= 3;
-			outputText("\"<i>I'd like a glass of root beer please,</i>\" you say. You hand over the three gems to the innkeeper and he pours you a glass of root beer.");
-			outputText("\n\nYou drink the cup of root beer. Refreshing! ");
-			fatigue(-15);
-			HPChange(player.maxHP() / 4, false);
-			player.refillHunger(10);
-			cheatTime(1/12);
-			doNext(menuTavern);
-		}
-		
-		public function orderFood():void { //Order food, because you need to be able to fill hunger.
-			clearOutput();
-			outputText("You take a seat and look at the menu. What would you like?");
-			outputText("\n\n<b><u>Pricings</u></b>");
-			outputText("\n5 gems - Sandwich");
-			outputText("\n3 gems - Soup");
-			outputText("\n5 gems - Hard biscuits (Packed)");
-			outputText("\n20 gems - Trail mix (Packed)");
-			menu();
-			addButton(0, "Sandwich", buySandwich);
-			addButton(1, "Soup", buySoup);
-			addButton(2, "Biscuits", buyHardBiscuits);
-			addButton(3, "Trail Mix", buyTrailMix);
-			addButton(14, "Back", menuTavern);
-		}
-		
-		public function buySandwich():void { //Eat sandwich, refill hunger. The reason it's ambiguous is to let you imagine what sandwich you're eating.
-			clearOutput();
-			if (player.gems < 5) {
-				outputText("You don't have enough gems for that.");
-				doNext(orderDrink);
-				return;
-			}
-			player.gems -= 5;
-			outputText("You tell the innkeeper that you would like a sandwich and toss five gems at him. \"<i>Certainly, " + player.mf("sir", "madam") + ",</i>\" he says as he quickly grabs a plate and assembles a sandwich. Hey, it's your favorite type!");
-			outputText("\n\nYou eat the sandwich. Delicious!");
-			HPChange(player.maxHP() / 3, false);
-			player.refillHunger(25);
-			cheatTime(1/12);
-			doNext(menuTavern);
-		}
-		
-		public function buySoup():void { //Eat soup. Again, it's vague to let you imagine what soup you're eating.
-			clearOutput();
-			if (player.gems < 3) {
-				outputText("You don't have enough gems for that.");
-				doNext(orderDrink);
-				return;
-			}
-			player.gems -= 3;
-			outputText("You tell the innkeeper that you would like a bowl of soup and toss three gems at him. \"<i>Certainly, " + player.mf("sir", "madam") + ",</i>\" he says as he grabs a bowl and fills it with steaming soup. Hey, it's your favorite type!");
-			outputText("\n\nYou take one spoonful at a time, blowing to make sure the soup isn't too hot. You eventually finish the soup. Delicious!");
-			HPChange(player.maxHP() / 3, false);
-			player.refillHunger(20);
-			cheatTime(1/12);
-			doNext(menuTavern);
-		}
-		
-		private function buyHardBiscuits():void {
-			clearOutput();
-			if(player.gems < 5) {
-				outputText("You can't afford one of those!");
-				doNext(orderFood);
-				return;
-			}
-			outputText("You pay five gems for a pack of hard biscuits.  ");
-			player.gems -= 5;
-			statScreenRefresh();
-			inventory.takeItem(consumables.H_BISCU, orderFood);
-		}
-
-		private function buyTrailMix():void {
-			clearOutput();
-			if (player.gems < 20) {
-				outputText("You can't afford one of those!");
-				doNext(orderFood);
-				return;
-			}
-			outputText("You pay twenty gems for a pack of trail mix.  ");
-			player.gems -= 20;
-			statScreenRefresh();
-			inventory.takeItem(consumables.TRAILMX, orderFood);
-		}
-		
-		public function hearRumors():void { //Hear rumors. Will be altered after defeating Lethice so he will say "Welcome back".
-			clearOutput();
-			var rumor:int = rand(4);
-			outputText("You ask the innkeeper if he has anything special to tell you.");
-			if (flags[kFLAGS.INGNAM_RUMORS] == 0) {
-				outputText("\n\nHe nods and says, \"<i>Let me tell you. You know what happens to the so-called 'champions'?</i>\" ");
-				outputText("\n\nYou nod in response and he continues, \"<i>Well... Nobody ever came back. I've seen twenty people depart over the course of my career. Twenty years. None of them ever returned. Who knows what happened to them? Some say they're abducted by an evil presence as soon as they set foot into the portal.</i>\"");
-				outputText("\n\nHe looks at you and sniffles. \"<i>Truth be told, you're going to be the Champion of Ingnam. You will be sent to the so-called 'portal' that is supposedly located in Mount Ilgast. I will miss your patronage at the inn. You're still welcome anytime.</i>\"");
-				flags[kFLAGS.INGNAM_RUMORS] = 1;
-			}
-			else if (flags[kFLAGS.INGNAM_RUMORS] == 1) {
-				outputText("\n\nHe nods and says, \"<i>You know Mount Ilgast?</i>\" ");
-				outputText("\n\nYou nod in response and he continues, \"<i>Before I began my work as an innkeeper, I was an adventurer. I've explored Mount Ilgast once. There was something glowing. It's a portal but it's no ordinary portal. Even stranger was that there was something stirring in my groin. Honestly, I swear I never felt that sensation before. I winded up masturbating at the cave entrance just because of that warmth. As soon as I go near the portal, the warm sensation came back again. It's just strange, really strange. So I've hurried back to Ingnam and never visited the mountain again.</i>\"");
-				outputText("\n\nYou thank him for telling you.");
-				flags[kFLAGS.INGNAM_RUMORS] = 2;
-			}
-			else if (flags[kFLAGS.INGNAM_RUMORS] == 2) {
-				outputText("\n\n\"He nods and says, \"<i>Do you want to know something special?</i>\" You nod in response before he continues, \"<i>One time I saw a man with cat ears and a tail. I thought they were just accessories, but he insisted it was real. I tugged on his ears, and it was... real. I thought he used a lot of glue, but he insisted that it was real. His ears do feel real. His tail even swished from side to side like it was an actual cat tail. He told me about something called 'Whisker Fruit' or something. So I guess that the food in the so-called 'demon realm' can change you.</i>");
-				outputText("\n\nYou ask him if he has some tips for you. He nods as he speaks, \"<i>Yes. If I were you, I would eat them only as last resort. Even food that could transform you can make the difference between life and death.</i>\" You thank him for the advice.");
-				outputText("\n\n\"<i>You're welcome. I have nothing left to tell you but you're always welcome,</i>\" he replies.");
-				flags[kFLAGS.INGNAM_RUMORS] = 3; //Finished
-			}
-			doNext(camp.returnToCampUseOneHour);
-		}
-		
 	}
 
 }

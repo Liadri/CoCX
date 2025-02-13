@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -55,7 +55,7 @@ use namespace CoC;
 			damage = Math.round(damage);
 			player.takePhysDamage(damage, true);
 			createStatusEffect(StatusEffects.AbilityCooldown1, 4, 0, 0, 0);
-			outputText("Aurora flaps her huge bat wings at you trying to knock you down. You’re thrown to the ground. <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
+			outputText("Aurora flaps her huge bat wings at you trying to knock you down. You’re thrown to the ground. <b>([font-damage]" + damage + "[/font])</b>");
 			if (crit) outputText(" <b>*Critical Hit!*</b>");
 			if (!player.hasPerk(PerkLib.Resolute)) player.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
 			if (player.hasPerk(PerkLib.Resolute)) outputText(" You’re thankfully to resilient to be stunned by such attacks and remain standing.");
@@ -445,11 +445,11 @@ use namespace CoC;
 			SceneLib.auroraFollower.AuroraWonSparring();
 		}
 		
-		public function Aurora() 
+		public function Aurora()
 		{
 			if (flags[kFLAGS.AURORA_LVL] == 1) {
 				initStrTouSpeInte(10, 300, 30, 80);
-				initWisLibSensCor(80, 20, 10, 50);
+				initWisLibSensCor(80, 20, 10, 0);
 				this.weaponAttack = 5;
 				this.armorDef = 105;
 				this.armorMDef = 105;
@@ -459,7 +459,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 2) {
 				initStrTouSpeInte(50, 300, 80, 85);
-				initWisLibSensCor(85, 30, 15, 50);
+				initWisLibSensCor(85, 30, 15, 0);
 				this.weaponAttack = 9;
 				this.armorDef = 105;
 				this.armorMDef = 105;
@@ -469,7 +469,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 3) {
 				initStrTouSpeInte(90, 320, 130, 90);
-				initWisLibSensCor(90, 40, 20, 50);
+				initWisLibSensCor(90, 40, 20, 0);
 				this.weaponAttack = 15;
 				this.armorDef = 112;
 				this.armorMDef = 112;
@@ -479,7 +479,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 4) {
 				initStrTouSpeInte(130, 320, 180, 95);
-				initWisLibSensCor(95, 50, 25, 50);
+				initWisLibSensCor(95, 50, 25, 0);
 				this.weaponAttack = 23;
 				this.armorDef = 112;
 				this.armorMDef = 112;
@@ -489,7 +489,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 5) {
 				initStrTouSpeInte(170, 340, 230, 100);
-				initWisLibSensCor(100, 60, 30, 50);
+				initWisLibSensCor(100, 60, 30, 0);
 				this.weaponAttack = 33;
 				this.armorDef = 119;
 				this.armorMDef = 119;
@@ -499,7 +499,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 6) {
 				initStrTouSpeInte(210, 340, 280, 105);
-				initWisLibSensCor(105, 70, 35, 50);
+				initWisLibSensCor(105, 70, 35, 0);
 				this.weaponAttack = 45;
 				this.armorDef = 119;
 				this.armorMDef = 119;
@@ -509,7 +509,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 7) {
 				initStrTouSpeInte(250, 360, 330, 110);
-				initWisLibSensCor(110, 80, 40, 50);
+				initWisLibSensCor(110, 80, 40, 0);
 				this.weaponAttack = 59;
 				this.armorDef = 126;
 				this.armorMDef = 126;
@@ -519,7 +519,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 8) {
 				initStrTouSpeInte(290, 360, 380, 115);
-				initWisLibSensCor(115, 90, 45, 50);
+				initWisLibSensCor(115, 90, 45, 0);
 				this.weaponAttack = 75;
 				this.armorDef = 126;
 				this.armorMDef = 126;
@@ -529,7 +529,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 9) {
 				initStrTouSpeInte(330, 380, 430, 120);
-				initWisLibSensCor(120, 100, 50, 50);
+				initWisLibSensCor(120, 100, 50, 0);
 				this.weaponAttack = 93;
 				this.armorDef = 133;
 				this.armorMDef = 133;
@@ -539,7 +539,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 10) {
 				initStrTouSpeInte(333, 386, 439, 121);
-				initWisLibSensCor(128, 115, 54, 50);
+				initWisLibSensCor(128, 115, 54, 0);
 				this.weaponAttack = 97;
 				this.armorDef = 135;
 				this.armorMDef = 135;
@@ -551,7 +551,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 11) {
 				initStrTouSpeInte(336, 392, 448, 122);
-				initWisLibSensCor(136, 130, 58, 50);
+				initWisLibSensCor(136, 130, 58, 0);
 				this.weaponAttack = 101;
 				this.armorDef = 137;
 				this.armorMDef = 137;
@@ -563,7 +563,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 12) {
 				initStrTouSpeInte(339, 398, 457, 123);
-				initWisLibSensCor(144, 145, 62, 50);
+				initWisLibSensCor(144, 145, 62, 0);
 				this.weaponAttack = 105;
 				this.armorDef = 139;
 				this.armorMDef = 139;
@@ -575,7 +575,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.AURORA_LVL] == 13) {
 				initStrTouSpeInte(342, 404, 466, 124);
-				initWisLibSensCor(152, 160, 66, 50);
+				initWisLibSensCor(152, 160, 66, 0);
 				this.weaponAttack = 109;
 				this.armorDef = 141;
 				this.armorMDef = 141;
@@ -603,19 +603,18 @@ use namespace CoC;
 			this.tallness = 108;//9 feet
 			this.hips.type = Hips.RATING_CURVY + 4;
 			this.butt.type = Butt.RATING_EXPANSIVE + 1;
-			this.skinTone = "turquoise";
+			this.bodyColor = "turquoise";
 			this.hairColor = "navy blue";
 			this.hairLength = 20;
 			this.weaponName = "claws";
 			this.weaponVerb = "claw-slash";
 			this.armorName = "stone skin";
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 0;
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyConstructType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Sentience, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobSoulCultivator, 0, 0, 0, 0);
-			this.createPerk(PerkLib.BodyCultivator, 0, 0, 0, 0);
+			this.createPerk(PerkLib.FleshBodyApprenticeStage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.UnlockArdor, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobBeastWarrior, 0, 0, 0, 0);
 			if (flags[kFLAGS.AURORA_LVL] >= 2) {
@@ -627,60 +626,60 @@ use namespace CoC;
 				this.createPerk(PerkLib.BasicSelfControl, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 3) {
-				this.createPerk(PerkLib.FleshBodyApprenticeStage, 0, 0, 0, 0);
-				this.createPerk(PerkLib.ClawTraining, 0, 0, 0, 0);
+				this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
+				this.createPerk(PerkLib.WeaponClawsClawTraining, 0, 0, 0, 0);
 				this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 4) {
 				this.createPerk(PerkLib.SoulPersonage, 0, 0, 0, 0);
 				this.createPerk(PerkLib.FeralArmor, 0, 0, 0, 0);
-				this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
+				this.createPerk(PerkLib.HalfStepToImprovedSelfControl, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 5) {//lvl 25
 				this.createPerk(PerkLib.SoulWarrior, 0, 0, 0, 0);
-				this.createPerk(PerkLib.ExtraClawAttack, 0, 0, 0, 0);
-				this.createPerk(PerkLib.HalfStepToImprovedSelfControl, 0, 0, 0, 0);
+				this.createPerk(PerkLib.WeaponClawsExtraClawAttack, 0, 0, 0, 0);
+				this.createPerk(PerkLib.GoliathI, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 6) {//lvl 31
 				this.createPerk(PerkLib.HclassHeavenTribulationSurvivor, 0, 0, 0, 0);
 				this.createPerk(PerkLib.SoulSprite, 0, 0, 0, 0);
-				this.createPerk(PerkLib.GoliathI, 0, 0, 0, 0);
+				this.createPerk(PerkLib.FleshBodyWarriorStage, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 7) {//lvl 37
-				this.createPerk(PerkLib.FleshBodyWarriorStage, 0, 0, 0, 0);
-				this.createPerk(PerkLib.MultiClawAttack, 0, 0, 0, 0);
+				this.createPerk(PerkLib.EpicToughness, 0, 0, 0, 0);
+				this.createPerk(PerkLib.WeaponClawsMultiClawAttack, 0, 0, 0, 0);
 				this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 8) {//lvl 43
 				this.createPerk(PerkLib.SoulScholar, 0, 0, 0, 0);
-				this.createPerk(PerkLib.EpicToughness, 0, 0, 0, 0);
+				this.createPerk(PerkLib.CheetahI, 0, 0, 0, 0);
 				this.createPerk(PerkLib.ImprovedSelfControl, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 9) {//lvl 49
-				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
-				this.createPerk(PerkLib.ClawingFlurry, 0, 0, 0, 0);
-				this.createPerk(PerkLib.CheetahI, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulGrandmaster, 0, 0, 0, 0);
+				this.createPerk(PerkLib.WeaponClawsClawingFlurry, 0, 0, 0, 0);
+				this.createPerk(PerkLib.EpicSpeed, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 10) {//lvl 55
 				this.createPerk(PerkLib.GclassHeavenTribulationSurvivor, 0, 0, 0, 0);
-				this.createPerk(PerkLib.SoulExalt, 0, 0, 0, 0);
-				this.createPerk(PerkLib.EpicSpeed, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
+				this.createPerk(PerkLib.FleshBodyElderStage, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 11) {//lvl 61
-				this.createPerk(PerkLib.FleshBodyElderStage, 0, 0, 0, 0);
+				//this.createPerk(PerkLib., 0, 0, 0, 0);
 				this.createPerk(PerkLib.EpicStrength, 0, 0, 0, 0);
 				this.createPerk(PerkLib.HalfStepToAdvancedSelfControl, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 12) {//lvl 67
-				this.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulExalt, 0, 0, 0, 0);
 				this.createPerk(PerkLib.EpicLibido, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.AURORA_LVL] >= 13) {//lvl 73
-				this.createPerk(PerkLib.SoulTyrant, 0, 0, 0, 0);
+				this.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
 				this.createPerk(PerkLib.AdvancedSelfControl, 0, 0, 0, 0);
 			}
 			//prestige job sentinel? next step after epic tou/spe/str/lib?
 			checkMonster();
-		}	
+		}
 	}
 }

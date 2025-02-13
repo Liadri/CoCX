@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created by aimozg on 06.01.14.
  */
 package classes.Scenes.Areas
@@ -10,12 +10,15 @@ import classes.BodyParts.Tail;
 import classes.BodyParts.Tongue;
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.API.Encounters;
+import classes.Scenes.API.ExplorationEntry;
 import classes.Scenes.API.FnHelpers;
 import classes.Scenes.API.GroupEncounter;
+import classes.Scenes.API.SimpleEncounter;
+import classes.Scenes.Areas.HighMountains.*;
 import classes.Scenes.Areas.Mountain.*;
-import classes.Scenes.Holidays;
-import classes.Scenes.Monsters.DarkElfScene;
+import classes.Scenes.Monsters.LightElfScene;
 import classes.Scenes.NPCs.DivaScene;
+import classes.Scenes.NPCs.EtnaFollower;
 import classes.Scenes.Places.Mindbreaker;
 import classes.Scenes.Quests.UrtaQuest.MinotaurLord;
 import classes.Scenes.SceneLib;
@@ -29,241 +32,689 @@ public class Mountain extends BaseContent
 		public var lactabovinaScene:LactaBovinaScene = new LactaBovinaScene();
 		public var wormsScene:WormsScene = new WormsScene();
 		public var salon:Salon = new Salon();
-		public var darkelfScene:DarkElfScene = new DarkElfScene();
+		public var lightelfScene:LightElfScene = new LightElfScene();
+		public var minotaurMobScene:MinotaurMobScene = new MinotaurMobScene();
+		public var minervaScene:MinervaScene = new MinervaScene();
+		public var izumiScenes:IzumiScene = new IzumiScene();
+		public var basiliskScene:BasiliskScene = new BasiliskScene();
+		public var harpyScene:HarpyScene = new HarpyScene();
+		
+		
+		
+		public const areaLevelHills:int = 20;
+		public function isDiscoveredHills():Boolean {
+			return SceneLib.exploration.counters.hills > 0;
+		}
+		public function canDiscoverHills():Boolean {
+			return !isDiscoveredHills() && adjustedPlayerLevel() >= areaLevelHills && SceneLib.battlefiledboundary.isDiscovered();
+		}
+		public function timesExploredHills():int {
+			return SceneLib.exploration.counters.hills;
+		}
+		public function discoverHills():void {
+			SceneLib.exploration.counters.hills = 1;
+			clearOutput();
+			outputText("As you walk the large open wasteland of Mareth you begin to notice an elevation in the ground. Far in the distance you can see a mountain chain but from where you stand is a hillside. Well you got tired of the monotony of the flat land anyway maybe going up will yield new interesting discoveries.\n\n<b>You found the Hills!</b>");
+			endEncounter();
+		}
+		
+		
+		public const areaLevelLow:int = 32;
+		public function isDiscoveredLow():Boolean {
+			return SceneLib.exploration.counters.mountainsLow > 0;
+		}
+		public function canDiscoverLow():Boolean {
+			return !isDiscoveredLow() && adjustedPlayerLevel() >= areaLevelLow;
+		}
+		public function timesExploredLow():int {
+			return SceneLib.exploration.counters.mountainsLow;
+		}
+		
+		public const areaLevelMid:int = 51;
+		public function isDiscoveredMid():Boolean {
+			return SceneLib.exploration.counters.mountainsMid > 0;
+		}
+		public function canDiscoverMid():Boolean {
+			return !isDiscoveredMid() && adjustedPlayerLevel() >= areaLevelMid;
+		}
+		public function timesExploredMid():int {
+			return SceneLib.exploration.counters.mountainsMid;
+		}
 		
 		public function Mountain()
 		{
 			onGameInit(init);
 		}
-		private var explorationEncounter:GroupEncounter = null;
+		//Hills: lvl 23-30
+		//Low Mountains: lvl 35-49
+		//Mountains: lvl 54-74
+		private var _hillsEncounter:GroupEncounter = null;
+		private var _lowmountainEncounter:GroupEncounter = null;
+		private var _midMountainEncounter:GroupEncounter = null;
+		public function get hillsEncounter():GroupEncounter {
+			return _hillsEncounter;
+		}
+		public function get lowMountainEncounter():GroupEncounter {
+			return _lowmountainEncounter;
+		}
+		public function get midMountainEncounter():GroupEncounter {
+			return _midMountainEncounter;
+		}
 		private function init():void {
-			const fn:FnHelpers = Encounters.fn;
-			explorationEncounter =
-					Encounters.group(/*game.commonEncounters.withImpGob,*/{
-						//General Golems, Goblin and Imp Encounters
-						name: "common",
-						call: SceneLib.exploration.genericGolGobImpEncounters
-					}, {
-						//Helia monogamy fucks
-						name  : "helcommon",
-						call  : SceneLib.helScene.helSexualAmbush,
-						chance: 0.2,
-						when  : SceneLib.helScene.helSexualAmbushCondition
-					}, {
-						name  : "etna",
-						when  : function():Boolean {
-							return flags[kFLAGS.ETNA_FOLLOWER] < 1
-								   && flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2
-								   && !player.hasStatusEffect(StatusEffects.EtnaOff)
-								   && (player.level >= 20);
-						},
-						chance: 0.5,
-						call  : SceneLib.etnaScene.repeatYandereEnc
-					}, {
-						name  : "alvina1",
-						when  : function():Boolean {
-							return flags[kFLAGS.ALVINA_FOLLOWER] == 8;
-						},
-						chance: 0.5,
-						call  : SceneLib.alvinaFollower.alvinaSecondEncounter
-					}, {
-						name  : "alvina2",
-						when  : function():Boolean {
-							return flags[kFLAGS.ALVINA_FOLLOWER] == 9
-								   && flags[kFLAGS.LETHICE_DEFEATED] > 0
-								   && !player.hasStatusEffect(StatusEffects.LethiceRedemed);
-						},
-						chance: 0.5,
-						call  : SceneLib.alvinaFollower.alvinaSecondBonusEncounter
-					}, {
-						name: "salon",
-						when: fn.not(salon.isDiscovered),
-						call: salon.hairDresser
-					},{
-						/* [INTERMOD: Revamp]
-						name: "mimic",
-						when: fn.ifLevelMin(3),
-						call: curry(game.mimicScene.mimicTentacleStart,2)
-					},{
-						*/
-						name: "highmountains",
-						when: function ():Boolean {
-							return !SceneLib.highMountains.isDiscovered()
-								   && ((player.level + combat.playerLevelAdjustment()) >= 15)
-						},
-						call: SceneLib.highMountains.discover,
-						chance: Encounters.ALWAYS
-					},{
-						name: "snowangel",
-						when: function():Boolean {
-							return isHolidays()
-								   && player.gender > 0
-								   && flags[kFLAGS.GATS_ANGEL_DISABLED] == 0
-								   && flags[kFLAGS.GATS_ANGEL_GOOD_ENDED] == 0
-								   && (flags[kFLAGS.GATS_ANGEL_QUEST_BEGAN] > 0
-								   && player.hasKeyItem("North Star Key") < 0)
-						},
-						call: Holidays.gatsSpectacularRouter
-					},{
-						name:"jackfrost",
-						when: function ():Boolean {
-							return isHolidays() && flags[kFLAGS.JACK_FROST_YEAR] < date.fullYear;
-						},
-						call: Holidays.meetJackFrostInTheMountains
-					},{
-						name:"hellhound",
-						call:hellHoundScene.hellhoundEncounter,
-						mods:[SceneLib.exploration.furriteMod]
-					},{
-						name:"infhhound",
-						when: function():Boolean {
-							return player.hasStatusEffect(StatusEffects.WormsOn);
-						},
-						chance:function ():Number {
-							return player.hasStatusEffect(StatusEffects.WormsHalf) ? 0.25 : 0.5;
-						},
-						call:infestedHellhoundScene.infestedHellhoundEncounter,
-						mods:[SceneLib.exploration.furriteMod]
-					},{
-						name:"worms1",
-						when: function():Boolean {
-							return !player.hasStatusEffect(StatusEffects.WormsOn)
-								   && !player.hasStatusEffect(StatusEffects.WormsOff);
-						},
-						call: wormsScene.wormToggle
-					},{
-						name:"worms2",
-						chance: function ():Number {
-							return player.hasStatusEffect(StatusEffects.WormsHalf) ? 0.5 : 1;
-						},
-						when: function ():Boolean {
-							return player.hasStatusEffect(StatusEffects.WormsOn)
-								&& !player.hasStatusEffect(StatusEffects.Infested)
-								&& !player.isGargoyle();
-						},
-						call: wormsScene.wormEncounter
-					},{
-						name:"minotaur",
-						chance:minotaurChance,
-						call:minotaurRouter,
-						mods:[SceneLib.exploration.furriteMod]
-					},{
-						name:"lacta_bovina",
-						chance:0.7,
-						call:lactabovinaScene.lactaBovinaInto,
-						mods:[SceneLib.exploration.furriteMod]
-					},{
-						name:"factory",
-						when:function():Boolean {
-							return flags[kFLAGS.MARAE_QUEST_START] >= 1 && flags[kFLAGS.FACTORY_FOUND] <= 0;
-						},
-						call: SceneLib.dungeons.factory.enterDungeon
-					},{
-						name:"ceraph",
-						chance:0.7,
-						when:function ():Boolean {
-							return !SceneLib.ceraphFollowerScene.ceraphIsFollower()
-									/* [INTERMOD:8chan]
-									&& flags[kFLAGS.CERAPH_KILLED] == 0
-									 */
-									/*&& game.fetishManager.compare(FetishManager.FETISH_EXHIBITION)*/;
-						},
-						call:ceraphFn,
-						mods:[fn.ifLevelMin(2)]
-					},{
-						name:"hhound_master",
-						chance:2,
-						when:function():Boolean {
-							//Requires canine face, [either two dog dicks, or a vag and pregnant with a hellhound], at least two other hellhound features (black fur, dog legs, dog tail), and corruption >=60.
-							var check1:Boolean = player.faceType == Face.DOG && player.cor >= 60;
-							var check2:Boolean = player.dogCocks() >= 2
-												 || (player.hasVagina() && player.pregnancyType == PregnancyStore.PREGNANCY_HELL_HOUND);
-							var check3:int = (player.tail.type == Tail.DOG ? 1 : 0) +
-											 (player.lowerBody == LowerBody.DOG ? 1 : 0) +
-											 (player.hairColor == "midnight black" ? 1 : 0);
-							var check4a:Boolean = flags[kFLAGS.HELLHOUND_MASTER_PROGRESS] == 0;
-							var check4b:Boolean = flags[kFLAGS.HELLHOUND_MASTER_PROGRESS] == 1
-												  && player.hasKeyItem("Marae's Lethicite") >= 0
-												  && player.keyItemvX("Marae's Lethicite", 1) > 0;
-							return flags[kFLAGS.HELLHOUND_MASTER_PROGRESS] < 3
-								   && check1 && check2 && check3 && (check4a || check4b);
-						},
-						call:hellHoundScene.HellHoundMasterEncounter
-					}, {
-						name: "electra",
-						when: function ():Boolean {
-							return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && !player.hasStatusEffect(StatusEffects.ElectraOff);
-						},
-						chance:0.5,
-						call: function ():void {
-							if (flags[kFLAGS.ELECTRA_AFFECTION] < 2) SceneLib.electraScene.firstEnc();
-							else {
-								if (flags[kFLAGS.ELECTRA_AFFECTION] == 100) {
-									if (flags[kFLAGS.ELECTRA_FOLLOWER] == 1) SceneLib.electraScene.ElectraRecruitingAgain();
-									else SceneLib.electraScene.ElectraRecruiting();
-								}
-								else SceneLib.electraScene.repeatMountainEnc();
-							}
+            const fn:FnHelpers    = Encounters.fn;
+			_hillsEncounter       = Encounters.group("hills",
+					SceneLib.exploration.commonEncounters.withChanceFactor(0.025),
+					SceneLib.exploration.angelEncounters.wrap(fn.ifLevelMin(5), [0.0125]),
+			{
+				//Helia monogamy fucks
+				name  : "helcommon",
+				label : "Helia",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				call  : SceneLib.helScene.helSexualAmbush,
+				chance: mountainChance,
+				when  : SceneLib.helScene.helSexualAmbushCondition
+			}, {
+				name  : "etna",
+				label : "Etna",
+				kind  : 'npc',
+				unique: true,
+				when  : function():Boolean {
+					return (flags[kFLAGS.ETNA_FOLLOWER] < 1 || EtnaFollower.EtnaInfidelity == 2)
+						   && !player.hasStatusEffect(StatusEffects.EtnaOff);
+				},
+				chance: mountainChance,
+				call  : function ():void {
+					if (flags[kFLAGS.ETNA_AFFECTION] < 2) SceneLib.etnaScene.firstEnc();
+					else if (flags[kFLAGS.ETNA_TALKED_ABOUT_HER] == 2) SceneLib.etnaScene.repeatYandereEnc();
+					else SceneLib.etnaScene.repeatEnc();
+				}
+			}, {
+				name  : "etna1",
+				label : "Etna",
+				kind  : 'npc',
+				unique: true,
+				when  : function():Boolean {
+					return (flags[kFLAGS.ETNA_FOLLOWER] >= 2 && EtnaFollower.EtnaInfidelity == 0)
+						   && !player.hasStatusEffect(StatusEffects.EtnaOff);
+				},
+				chance: mountainChance,
+				call  : function ():void {
+					 SceneLib.etnaScene.etnaInfidelityEncounter();
+				}
+			}, {
+				name  : "etna2",
+				label : "Etna",
+				kind  : 'npc',
+				unique: true,
+				when  : function():Boolean {
+					return (flags[kFLAGS.ETNA_FOLLOWER] >= 2 && EtnaFollower.EtnaInfidelity == 1)
+						   && !player.hasStatusEffect(StatusEffects.EtnaOff);
+				},
+				chance: 0.5,
+				call  : function ():void {
+					 SceneLib.etnaScene.etnaInfidelityEncounterRepeat();
+				}
+			}, {
+				name  : "alvina1",
+				label : "Alvina",
+				kind  : 'npc',
+				unique: true,
+				when  : function():Boolean {
+					return flags[kFLAGS.ALVINA_FOLLOWER] == 8;
+				},
+				chance: mountainChance,
+				call  : SceneLib.alvinaFollower.alvinaSecondEncounter
+			}, {
+				name  : "alvina2",
+				label : "Alvina",
+				kind  : 'npc',
+				unique: true,
+				when  : function():Boolean {
+					return flags[kFLAGS.ALVINA_FOLLOWER] == 9
+						   && flags[kFLAGS.LETHICE_DEFEATED] > 0
+						   && !player.hasStatusEffect(StatusEffects.LethiceRedemed);
+				},
+				chance: mountainChance,
+				call  : SceneLib.alvinaFollower.alvinaSecondBonusEncounter
+			}, {
+				name: "lowmountains",
+				label : "New Area",
+				kind  : 'place',
+				unique: true,
+				when: canDiscoverLow,
+				call: discoverLM,
+				chance: Encounters.ALWAYS
+			},{
+				name: "minomob",
+				label : "Mino Mob",
+				kind : 'monster',
+				night : false,
+				when: function ():Boolean {
+					return flags[kFLAGS.MINOTAUR_SONS_TRIBE_SIZE] >= 3 && player.hasVagina();
+				},
+				call: minotaurMobScene.meetMinotaurSons,
+				mods: [SceneLib.exploration.furriteMod]
+			}, {
+				name:"minotaur",
+				label : "Minotaur",
+				kind : 'monster',
+				night : false,
+				chance:minotaurChance,
+				call:minotaurRouter,
+				mods:[SceneLib.exploration.furriteMod]
+			},{
+				name:"lacta_bovina",
+				label : "Lacta Bovina",
+				kind : 'monster',
+				night : false,
+				chance:0.7,
+				call:lactabovinaScene.lactaBovinaInto,
+				mods:[SceneLib.exploration.furriteMod]
+			},{
+				name:"factory",
+				label : "Factory",
+				kind  : 'place',
+				unique: true,
+				when:function():Boolean {
+					return flags[kFLAGS.MARAE_QUEST_START] >= 0.5 && flags[kFLAGS.FACTORY_FOUND] <= 0;
+				},
+				call: SceneLib.dungeons.factory.enterDungeon
+			},{
+				name:"ceraph",
+				label : "Ceraph",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				chance: mountainChance,
+				when:function ():Boolean {
+					return !SceneLib.ceraphFollowerScene.ceraphIsFollower() && !player.hasStatusEffect(StatusEffects.CeraphOff);
+				},
+				call:ceraphFn,
+				mods:[fn.ifLevelMin(2)]
+			}, {
+				name: "lactoblasters",
+				label : "Gun Parts",
+				kind  : 'item',
+				unique: true,
+				when: function ():Boolean {
+					return player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns5) && player.statusEffectv3(StatusEffects.TelAdreTripxiGuns2) == 0 && player.hasKeyItem("Lactoblasters") < 0;
+				},
+				chance: 30,
+				call: partsofLactoBlasters
+			}, {
+				name: "ted",
+				label : "Dragon-Boy",
+				kind  : 'npc',
+				unique: true,
+				call: SceneLib.tedScene.introPostHiddenCave,
+				when: SceneLib.tedScene.canEncounterTed
+			}, {
+				name:"hikeh",
+				label : "Hike",
+				chance:0.2,
+				kind:'walk',
+				call:hikeh
+			}, {
+				name: "mimic",
+				label : "Mimic",
+				kind : 'monster',
+				chance:0.1,
+				call: curry(SceneLib.mimicScene.mimicTentacleStart,2)
+			}, {
+				name: "demonProjects",
+				label : "DemLab Subject",
+				kind  : 'monster',
+				chance: 0.2,
+				when: function ():Boolean {
+					return SceneLib.exploration.demonLabProjectEncountersEnabled();
+				},
+				call: SceneLib.exploration.demonLabProjectEncounters
+			});
+			_lowmountainEncounter = Encounters.group("low mountains",
+					SceneLib.exploration.commonEncounters.withChanceFactor(0.025), {
+				//Helia monogamy fucks
+				name  : "helcommon",
+				label : "Helia",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				call  : SceneLib.helScene.helSexualAmbush,
+				chance: mountainChance,
+				when  : SceneLib.helScene.helSexualAmbushCondition
+			}, {
+				name: "salon",
+				label : "Salon",
+				kind  : 'place',
+				unique: true,
+				when: fn.not(salon.isDiscovered),
+				call: salon.hairDresser
+			},{
+				name: "mountains",
+				label : "New Area",
+				kind  : 'place',
+				unique: true,
+				when: canDiscoverMid,
+				call: discoverM,
+				chance: Encounters.ALWAYS
+			},{
+				name: "snowangel",
+				label : "Snow Angel",
+				kind  : 'event',
+				unique: true,
+				when: function():Boolean {
+					return isChristmas()
+						   && player.gender > 0
+						   && flags[kFLAGS.GATS_ANGEL_DISABLED] == 0
+						   && flags[kFLAGS.GATS_ANGEL_GOOD_ENDED] == 0
+						   && (flags[kFLAGS.GATS_ANGEL_QUEST_BEGAN] > 0
+						   && player.hasKeyItem("North Star Key") < 0)
+				},
+				call: SceneLib.holidays.gatsSpectacularRouter
+			},{
+				name:"jackfrost",
+				label : "Jack Frost",
+				kind  : 'event',
+				unique: true,
+				when: function ():Boolean {
+					return isChristmas() && flags[kFLAGS.JACK_FROST_YEAR] < date.fullYear;
+				},
+				call: SceneLib.holidays.meetJackFrostInTheMountains
+			},{
+				name:"hellhound",
+				label : "Hellhound",
+				kind  : 'monster',
+				call:hellHoundScene.hellhoundEncounter,
+				mods:[SceneLib.exploration.furriteMod]
+			},{
+				name:"infhhound",
+				label : "Inf. Hellhound",
+				kind  : 'monster',
+				when: function():Boolean {
+					return player.hasStatusEffect(StatusEffects.WormsOn);
+				},
+				chance:function ():Number {
+					return player.hasStatusEffect(StatusEffects.WormsHalf) ? 0.25 : 0.5;
+				},
+				call:infestedHellhoundScene.infestedHellhoundEncounter,
+				mods:[SceneLib.exploration.furriteMod]
+			},{
+				name:"worms1",
+				label : "Worms",
+				kind  : 'monster',
+				when: function():Boolean {
+					return !player.hasStatusEffect(StatusEffects.WormsOn)
+						   && !player.hasStatusEffect(StatusEffects.WormsOff);
+				},
+				call: wormsScene.wormToggle
+			},{
+				name:"worms2",
+				label : "Worms",
+				kind  : 'monster',
+				chance: function ():Number {
+					return player.hasStatusEffect(StatusEffects.WormsHalf) ? 0.5 : 1;
+				},
+				when: function ():Boolean {
+					return player.hasStatusEffect(StatusEffects.WormsOn)
+						&& !player.hasStatusEffect(StatusEffects.Infested)
+						&& !player.isGargoyle();
+				},
+				call: wormsScene.wormEncounter
+			},{
+				name:"hhound_master",
+				label : "Hellhound Master",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				chance:2,
+				when:function():Boolean {
+					//Requires canine face, [either two dog dicks, or a vag and pregnant with a hellhound], at least two other hellhound features (black fur, dog legs, dog tail), and corruption >=60.
+					var check1:Boolean = player.faceType == Face.DOG && player.cor >= 60;
+					var check2:Boolean = player.dogCocks() >= 2
+										 || (player.hasVagina() && (player.pregnancyType == PregnancyStore.PREGNANCY_HELL_HOUND || player.pregnancy2Type == PregnancyStore.PREGNANCY_HELL_HOUND));
+					var check3:int = (player.tail.type == Tail.DOG ? 1 : 0) +
+									 (player.lowerBody == LowerBody.DOG ? 1 : 0) +
+									 (player.hairColor == "midnight black" ? 1 : 0);
+					var check4a:Boolean = flags[kFLAGS.HELLHOUND_MASTER_PROGRESS] == 0;
+					var check4b:Boolean = flags[kFLAGS.HELLHOUND_MASTER_PROGRESS] == 1
+										  && player.hasKeyItem("Marae's Lethicite") >= 0
+										  && player.keyItemvX("Marae's Lethicite", 1) > 0;
+					return flags[kFLAGS.HELLHOUND_MASTER_PROGRESS] < 3
+						   && check1 && check2 && check3 && (check4a || check4b);
+				},
+				call:hellHoundScene.HellHoundMasterEncounter
+			}, {
+				name: "electra",
+				label : "Electra",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function ():Boolean {
+					return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && !player.hasStatusEffect(StatusEffects.ElectraOff);
+				},
+				chance: mountainChance,
+				call: function ():void {
+					if (flags[kFLAGS.ELECTRA_AFFECTION] < 2) SceneLib.electraScene.firstEnc();
+					else {
+						if (flags[kFLAGS.ELECTRA_AFFECTION] == 100) {
+							if (flags[kFLAGS.ELECTRA_FOLLOWER] == 1) SceneLib.electraScene.ElectraRecruitingAgain();
+							else SceneLib.electraScene.ElectraRecruiting();
 						}
-					}, {
-						name: "diva",
-						when: function():Boolean {
-							return flags[kFLAGS.FACTORY_SHUTDOWN] > 0 && DivaScene.instance.status >= 0 && !player.hasStatusEffect(StatusEffects.DivaOff);
-						},
-						call: DivaScene.encounter
-					},{
-						name: "quarry",
-						when: function():Boolean {
-							return player.statusEffectv2(StatusEffects.ResourceNode1) < 5;
-						},
-						chance: 4,
-						call: camp.cabinProgress.quarrySite
-					},{
-						name: "darkelf",
-						call: darkelfScene.introDarkELfScout
-					},{
-						name: "derpnade launcher",
-						when: function ():Boolean {
-							return player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns5) && player.statusEffectv2(StatusEffects.TelAdreTripxiGuns5) == 0 && player.hasKeyItem("Derpnade Launcher") < 0;
-						},
-						chance: 30,
-						call: partsofDerpnadeLauncher
-					}, {
-						name: "lactoblasters",
-						when: function ():Boolean {
-							return player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns5) && player.statusEffectv3(StatusEffects.TelAdreTripxiGuns2) == 0 && player.hasKeyItem("Lactoblasters") < 0;
-						},
-						chance: 30,
-						call: partsofLactoBlasters
-					}, {
-						name: "ted",
-						call: SceneLib.tedScene.introPostHiddenCave,
-						when: SceneLib.tedScene.canEncounterTed
-					}, {
-						name  : "mindbreaker",
-						call  : SceneLib.mindbreaker.findMindbreaker,
-						chance: 0.50,
-						when  : function ():Boolean {
-							return Mindbreaker.MindBreakerQuest == Mindbreaker.QUEST_STAGE_NOT_STARTED && player.level >= 10 && !player.blockingBodyTransformations()
+						else SceneLib.electraScene.repeatMountainEnc();
+					}
+				}
+			}, {
+				name: "diva",
+				label : "Diva",
+				kind  : 'npc',
+				unique: true,
+				when: function():Boolean {
+					return flags[kFLAGS.FACTORY_SHUTDOWN] > 0 && DivaScene.instance.status >= 0 && !player.hasStatusEffect(StatusEffects.DivaOff);
+				},
+				chance: mountainChance,
+				call: DivaScene.instance.encounter
+			},{
+				name: "quarry",
+				label : "Quarry",
+				kind  : 'place',
+				when: function():Boolean {
+					return player.statusEffectv2(StatusEffects.ResourceNode1) < 5;
+				},
+				chance: 4,
+				call: camp.cabinProgress.quarrySite
+			},{
+				name: "lightelf",
+				label : "Light Elf",
+				kind : 'monster',
+				call: lightelfScene.introLightELfScout
+			},{
+				name: "derpnade launcher",
+				label : "Gun Parts",
+				kind  : 'item',
+				unique: true,
+				when: function ():Boolean {
+					return player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns5) && player.statusEffectv2(StatusEffects.TelAdreTripxiGuns5) == 0 && player.hasKeyItem("Derpnade Launcher") < 0;
+				},
+				chance: 30,
+				call: partsofDerpnadeLauncher
+			}, {
+				name: "ted",
+				label : "Dragon-Boy",
+				kind  : 'npc',
+				unique: true,
+				call: SceneLib.tedScene.introPostHiddenCave,
+				when: SceneLib.tedScene.canEncounterTed
+			}, {
+				name  : "mindbreaker",
+				label : "Mindbreakers Cave",
+				kind  : 'place',
+				unique: true,
+				call  : SceneLib.mindbreaker.findMindbreaker,
+				chance: findMindbreakerChance,
+				when  : function ():Boolean {
+					return Mindbreaker.MindBreakerQuest == Mindbreaker.QUEST_STAGE_NOT_STARTED && !player.blockingBodyTransformations()
+				}
+			}, {
+				name  : "mindbreaker",
+				label : "Mindbreakers Cave",
+				kind  : 'npc',
+				unique: true,
+				call  : SceneLib.mindbreaker.findMindbreakerAgain,
+				chance: findMindbreakerChance,
+				when  : function ():Boolean {
+					return Mindbreaker.MindBreakerQuest == Mindbreaker.QUEST_STAGE_METMB && !player.blockingBodyTransformations()
+				}
+			}, {
+				name:"hike",
+				label : "Hike",
+				kind  : 'walk',
+				chance:0.2,
+				call:hike
+			}, {
+				name: "mimic",
+				label : "Mimic",
+				kind : 'monster',
+				chance:0.1,
+				when: fn.ifLevelMin(3),
+				call: curry(SceneLib.mimicScene.mimicTentacleStart,2)
+			}, {
+				name: "harpychicken",
+				label : "Harpy Chicken",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function ():Boolean {
+					return (player.hasItem(consumables.OVIELIX) || flags[kFLAGS.TIMES_MET_CHICKEN_HARPY] <= 0)
+						&& flags[kFLAGS.TIMES_MET_CHICKEN_HARPY] < 2
+				},
+				chance: function ():Number {
+					return player.itemCount(consumables.OVIELIX);
+				},
+				call: chickenHarpy
+			}, {
+				name: "demonProjects",
+				label : "DemLab Subject",
+				kind  : 'monster',
+				chance: 0.2,
+				when: function ():Boolean {
+					return SceneLib.exploration.demonLabProjectEncountersEnabled();
+				},
+				call: SceneLib.exploration.demonLabProjectEncounters
+			});
+			_midMountainEncounter = Encounters.group("mountain", {
+				name: "demonlab",
+				label : "Demon Laboratory",
+				kind  : 'place',
+				unique: true,
+				when: function ():Boolean {
+					return flags[kFLAGS.DEMON_LABORATORY_DISCOVERED] == 0 && player.hasKeyItem("Zetaz's Map") >= 0;
+				},
+				call: SceneLib.dungeons.demonLab.discoverDemonLab
+			},{/*
+				//General Angels, Golems, Goblin and Imp Encounters
+				name: "common",
+				chance: 0.5,
+				call: function ():void{
+					if (rand(2) == 0) SceneLib.exploration.genericGolGobImpEncounters();
+					else SceneLib.exploration.genericAngelsEncounters();
+				}
+			}, {*/
+				//Helia monogamy fucks
+				name  : "helcommon",
+				label : "Helia",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				call  : SceneLib.helScene.helSexualAmbush,
+				chance: mountainChance,
+				when  : SceneLib.helScene.helSexualAmbushCondition
+			}, {
+				name: "highmountains",
+				label : "New Area",
+				kind  : 'place',
+				unique: true,
+				when: function ():Boolean {
+					return !SceneLib.highMountains.isDiscovered()
+						   && ((player.level + combat.playerLevelAdjustment()) >= 55)
+				},
+				call: SceneLib.highMountains.discover,
+				chance: Encounters.ALWAYS
+			},{
+				name: "snowangel",
+				label : "Snow Angel",
+				kind  : 'event',
+				unique: true,
+				when: function():Boolean {
+					return isChristmas()
+						   && player.gender > 0
+						   && flags[kFLAGS.GATS_ANGEL_DISABLED] == 0
+						   && flags[kFLAGS.GATS_ANGEL_GOOD_ENDED] == 0
+						   && (flags[kFLAGS.GATS_ANGEL_QUEST_BEGAN] > 0
+						   && player.hasKeyItem("North Star Key") < 0)
+				},
+				call: SceneLib.holidays.gatsSpectacularRouter
+			},{
+				name:"jackfrost",
+				label : "Jack Frost",
+				kind  : 'event',
+				unique: true,
+				when: function ():Boolean {
+					return isChristmas() && flags[kFLAGS.JACK_FROST_YEAR] < date.fullYear;
+				},
+				call: SceneLib.holidays.meetJackFrostInTheMountains
+			},{
+				name: "electra",
+				label : "Electra",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function ():Boolean {
+					return flags[kFLAGS.ELECTRA_FOLLOWER] < 2 && !player.hasStatusEffect(StatusEffects.ElectraOff);
+				},
+				chance: mountainChance,
+				call: function ():void {
+					if (flags[kFLAGS.ELECTRA_AFFECTION] < 2) SceneLib.electraScene.firstEnc();
+					else {
+						if (flags[kFLAGS.ELECTRA_AFFECTION] == 100) {
+							if (flags[kFLAGS.ELECTRA_FOLLOWER] == 1) SceneLib.electraScene.ElectraRecruitingAgain();
+							else SceneLib.electraScene.ElectraRecruiting();
 						}
-					}, {
-						name  : "mindbreaker",
-						call  : SceneLib.mindbreaker.findMindbreakerAgain,
-						chance: 0.50,
-						when  : function ():Boolean {
-							return Mindbreaker.MindBreakerQuest == Mindbreaker.QUEST_STAGE_METMB && player.level >= 10 && !player.blockingBodyTransformations()
-						}
-					}, {
-						name:"hike",
-						chance:0.2,
-						call:hike
-					})
-			;
+						else SceneLib.electraScene.repeatMountainEnc();
+					}
+				}
+			}, {
+				name: "minerva",
+				label : "Minerva",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function ():Boolean {
+					return flags[kFLAGS.MET_MINERVA] < 4;
+				},
+				call: minervaScene.encounterMinerva
+			}, {
+				name: "izumi",
+				label : "Izumi",
+				kind  : 'npc',
+				unique: true,
+				call: izumiScenes.encounter
+			}, {
+				name: "harpy",
+				label : "Harpy",
+				kind : 'monster',
+				night : false,
+				call: harpyScene.encounter
+			}, {
+				name: "basilisk",
+				label : "Basilisk",
+				kind : 'monster',
+				call: basiliskScene.basiliskGreeting
+			}, {
+				name: "sophie",
+				label : "Sophie",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function ():Boolean {
+					return flags[kFLAGS.SOPHIE_BIMBO_ACCEPTED] <= 0
+						&& flags[kFLAGS.SOPHIE_DISABLED] <= 0
+						&& !SceneLib.sophieFollowerScene.sophieFollower()
+						&& !player.hasStatusEffect(StatusEffects.SophieOff);
+				},
+				chance: mountainChance,
+				call: SceneLib.sophieScene.sophieRouter
+			},{
+				name: "lightelf",
+				label : "Light Elf",
+				kind  : 'monster',
+				call: lightelfScene.introLightELfSlaver
+			}, {/*
+				name: "lactoblasters",
+				when: function ():Boolean {
+					return player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns5) && player.statusEffectv3(StatusEffects.TelAdreTripxiGuns2) == 0 && player.hasKeyItem("Lactoblasters") < 0;
+				},
+				chance: 30,
+				call: partsofLactoBlasters
+			}, {*/
+				name: "ted",
+				label : "Dragon-Boy",
+				kind  : 'npc',
+				unique: true,
+				call: SceneLib.tedScene.introPostHiddenCave,
+				when: SceneLib.tedScene.canEncounterTed
+			}, {
+				name:"hike",
+				label : "Hike",
+				kind  : 'walk',
+				chance:0.2,
+				call:hike
+			}, {
+				name: "harpychicken",
+				label : "Harpy Chicken",
+				kind  : 'npc',
+				unique: true,
+				night : false,
+				when: function ():Boolean {
+					return (player.hasItem(consumables.OVIELIX) || flags[kFLAGS.TIMES_MET_CHICKEN_HARPY] <= 0)
+						&& flags[kFLAGS.TIMES_MET_CHICKEN_HARPY] < 2
+				},
+				chance: function ():Number {
+					return player.itemCount(consumables.OVIELIX);
+				},
+				call: chickenHarpy
+			}, {
+				name: "demonProjects",
+				label : "DemLab Subject",
+				kind  : 'monster',
+				chance: 0.2,
+				when: function ():Boolean {
+					return SceneLib.exploration.demonLabProjectEncountersEnabled();
+				},
+				call: SceneLib.exploration.demonLabProjectEncounters
+			});
+		}
+		public function findMindbreakerChance():Number {
+			var fMC:Number = 5;
+			fMC *= Mindbreaker.MindbreakerEncounterChance;
+			return fMC;
 		}
 		//Explore Mountain
-		public function exploreMountain():void {
-			player.exploredMountain++;
-			explorationEncounter.execEncounter();
+		public function exploreMidMountain():void {
+			explorer.prepareArea(midMountainEncounter);
+			explorer.setTags("mountain","mountainMid");
+			explorer.prompt = "You explore the mountain.";
+			explorer.onEncounter = function(e:ExplorationEntry):void {
+				SceneLib.exploration.counters.mountainsMid++;
+			}
+			explorer.leave.hint("Leave the mountain");
+			explorer.skillBasedReveal(areaLevelMid, timesExploredMid());
+			explorer.doExplore();
+		}
+		public function exploreLowMountain():void {
+			explorer.prepareArea(lowMountainEncounter);
+			explorer.setTags("mountain","mountainLow");
+			explorer.prompt = "You explore the low mountains.";
+			explorer.onEncounter = function(e:ExplorationEntry):void {
+				SceneLib.exploration.counters.mountainsLow++;
+			}
+			explorer.leave.hint("Leave the low mountains");
+			explorer.skillBasedReveal(areaLevelLow, timesExploredLow());
+			explorer.doExplore();
+		}
+		public function exploreHills():void {
+			explorer.prepareArea(hillsEncounter);
+			explorer.soulSenseCheck = function(e:SimpleEncounter):Boolean {
+				return e.getKind() == 'npc' || e.encounterName() == 'minomob';
+			}
+			explorer.setTags("hills");
+			explorer.prompt = "You explore the hills.";
+			explorer.onEncounter = function(e:ExplorationEntry):void {
+				SceneLib.exploration.counters.hills++;
+			}
+			explorer.leave.hint("Leave the hills");
+			explorer.skillBasedReveal(areaLevelHills, timesExploredHills());
+			explorer.doExplore();
 		}
 		public function ceraphFn():void {
 			//Rarer 'nice' Ceraph encounter
@@ -277,6 +728,11 @@ public class Mountain extends BaseContent
 			else SceneLib.ceraphScene.encounterCeraph();
 		}
 
+		public function mountainChance():Number {
+			var temp:Number = 0.5;
+			temp *= player.npcChanceToEncounter();
+			return temp;
+		}
 		public function minotaurChance():Number {
 			if (player.hasPerk(PerkLib.MinotaurCumAddict) || player.hasPerk(PerkLib.LactaBovineImmunity)) return 3;
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] > 0) return 2;
@@ -289,7 +745,7 @@ public class Mountain extends BaseContent
 				minotaurScene.minoAddictionBadEndEncounter();
 			} else {
 				spriteSelect(SpriteDb.s_minotaur);
-				if (!player.hasStatusEffect(StatusEffects.TF2) && player.level <= 1 && player.str <= 40) {
+				if (!player.hasStatusEffect(StatusEffects.TF2) && player.str <= 40) {
 					if (silly()) {
 						//(Ideally, this should occur the first time the player would normally get an auto-rape encounter with the minotaur. The idea is to give a breather encounter to serve as a warning of how dangerous the mountain is)
 						clearOutput();
@@ -310,12 +766,12 @@ public class Mountain extends BaseContent
 						outputText("You stumble in your attempt to escape and realize that you are completely helpless.  The minotaur towers over you and heaves his ax for a <i>coup de grâce</i>.  As he readies the blow, another beast-man slams into him from the side.  The two of them begin to fight for the honor of raping you, giving you the opening you need to escape.  You quietly sneak away while they fight – perhaps you should avoid the mountains for now?\n\n");
 					}
 					player.createStatusEffect(StatusEffects.TF2, 0, 0, 0, 0);
-					doNext(camp.returnToCampUseOneHour);
+					endEncounter();
 					return;
 				}
 				//Mino gangbang
 				if (!player.hasStatusEffect(StatusEffects.MinoPlusCowgirl) || rand(10) == 0) {
-					if (flags[kFLAGS.HAS_SEEN_MINO_AND_COWGIRL] == 1 && player.racialScore(Races.COW) >= 4 && player.lactationQ() >= 200 && player.biggestTitSize() >= 3 && (player.minotaurAddicted() || player.hasPerk(PerkLib.LactaBovineImmunity))) {
+					if (flags[kFLAGS.HAS_SEEN_MINO_AND_COWGIRL] == 1 && player.racialScore(Races.COW, false) >= 4 && player.lactationQ() >= 200 && player.biggestTitSize() >= 3 && (player.minotaurAddicted() || player.hasPerk(PerkLib.LactaBovineImmunity))) {
 						//PC must be a cowmorph (horns, legs, ears, tail, lactating, breasts at least C-cup)
 						//Must be addicted to minocum
 						outputText("As you pass a shadowy cleft in the mountainside, you hear the now-familiar call of a cowgirl echoing from within.  Knowing what's in store, you carefully inch closer and peek around the corner.");
@@ -328,9 +784,7 @@ public class Mountain extends BaseContent
 						outputText(", aching to be filled");
 						if (player.hasCock()) outputText(", while [eachCock] rises to attention, straining at your [armor]");
 						outputText(".");
-
 						outputText("\n\nYou can barely see it from your vantage point, but you can imagine it: the semi-transparent pre-cum dribbling from the minotaur's cumslit, oozing down onto your tongue.  Your entire body shivers at the thought, whether from disgust or desire you aren't sure.  You imagine your lips wrapping around that large equine cock, milking it for all of its delicious cum.  Your body burns hot like the noonday sun at the thought, hot with need, with envy at the cow-girl, but most of all with arousal.");
-
 						outputText("\n\nSnapping out of your imaginative reverie, you turn your attention back to the show. You wonder if you could make your way over there and join them, or if you should simply remain here and watch, as you have in the past.");
 						menu();
 						//[Join] [Watch]
@@ -360,8 +814,13 @@ public class Mountain extends BaseContent
 					return;
 				}
 				//Rare Minotaur Lord
-				if (rand(5) == 0 && player.level >= 10) {
+				if (rand(5) == 0 && (player.level >= 10 || flags[kFLAGS.HARDCORE_MODE] == 1)) {
+					if (player.isRaceCached(Races.CERBERUS)) {
+						minotaurScene.minotaurEncounterAsCerberus(true);
+						return;
+					}
 					clearOutput();
+					sceneHunter.print("Check failed: Cerberus race.");
 					outputText("Minding your own business, you walk along the winding paths.  You take your time to enjoy the view until you see a shadow approaching you.  You turn around to see a minotaur!  However, he is much bigger than the other minotaurs you've seen.  You estimate him to be eleven feet tall and he's wielding a chain-whip.  He's intent on raping you!");
 					startCombat(new MinotaurLord());
 					return;
@@ -372,19 +831,32 @@ public class Mountain extends BaseContent
 		}
 		public function partsofDerpnadeLauncher():void {
 			clearOutput();
-			outputText("As you explore the mountains you run into what appears to be the half buried remains of some old contraption. Wait this might just be what that gun vendor was talking about! You proceed to dig up the items releasing this to indeed be the remains of a broken firearm.\n\n");
+			outputText("As you explore the low mountains you run into what appears to be the half buried remains of some old contraption. Wait this might just be what that gun vendor was talking about! You proceed to dig up the items releasing this to indeed be the remains of a broken firearm.\n\n");
 			outputText("You carefully put the pieces of the Derpnade Launcher in your back and head back to your camp.\n\n");
 			player.addStatusValue(StatusEffects.TelAdreTripxi, 2, 1);
 			player.createKeyItem("Derpnade Launcher", 0, 0, 0, 0);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 		public function partsofLactoBlasters():void {
 			clearOutput();
-			outputText("As you explore the mountains you run into what appears to be the half buried remains of some old contraption. Wait this might just be what that gun vendor was talking about! You proceed to dig up the items releasing this to indeed be the remains of a broken firearm.\n\n");
+			outputText("As you explore the hills you run into what appears to be the half buried remains of some old contraption. Wait this might just be what that gun vendor was talking about! You proceed to dig up the items releasing this to indeed be the remains of a broken firearm.\n\n");
 			outputText("You carefully put the pieces of the Lactoblasters in your back and head back to your camp.\n\n");
 			player.addStatusValue(StatusEffects.TelAdreTripxi, 2, 1);
 			player.createKeyItem("Lactoblasters", 0, 0, 0, 0);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
+		}
+		public function discoverLM():void {
+			clearOutput();
+			outputText("While exploring the hill you come upon a particular trail. It looks to lead deeper into the mountain range. Having met the many unsavory denizens of the hill already you clench your fist ready for a new challenge as you take up the trail toward the mountain. The atmosphere changes quickly as plants become scarcer and rocky formation more common. ");
+			outputText("Caves previously a rare occurrence now are a regular sight. You have found the way to the low mountain range area.\n\n(<b>Low Mountain exploration location unlocked!</b>)");
+			SceneLib.exploration.counters.mountainsLow = 1;
+			endEncounter(60);
+		}
+		public function discoverM():void {
+			clearOutput();
+			outputText("As you explore the low mountain range you hear thunder booming overhead, shaking you out of your thoughts.  High above, dark clouds encircle a distant mountain peak.  You get an ominous feeling in your gut as you gaze up at it. Forward is a path leading deeper higher into the mountains and possibly harder trials.\n\n<b>You've discovered the Mountain!</b>");
+			SceneLib.exploration.counters.mountainsMid = 1;
+			endEncounter(60);
 		}
 		private function hike():void {
 			clearOutput();
@@ -396,7 +868,96 @@ public class Mountain extends BaseContent
 				outputText("During your hike into the mountains, your depraved mind keeps replaying your most obcenely warped sexual encounters, always imagining new perverse ways of causing pleasure.\n\nIt is a miracle no predator picked up on the strong sexual scent you are emitting.");
 				dynStats("tou", .25, "spe", .5, "lib", .25, "lus", player.lib / 10);
 			}
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
+		}
+		private function hikeh():void {
+			clearOutput();
+			if (player.cor < 90) {
+				outputText("Your hike in the hills, while fruitless, reveals pleasant vistas and provides you with good exercise and relaxation.");
+				dynStats("tou", .2, "spe", .4, "lus", player.lib / 12 - 15);
+			}
+			else {
+				outputText("During your hike into the hills, your depraved mind keeps replaying your most obcenely warped sexual encounters, always imagining new perverse ways of causing pleasure.\n\nIt is a miracle no predator picked up on the strong sexual scent you are emitting.");
+				dynStats("tou", .2, "spe", .4, "lib", .2, "lus", player.lib / 12);
+			}
+			endEncounter();
+		}
+		//\"<i>Chicken Harpy</i>\" by Jay Gatsby and not Savin he didn't do ANYTHING
+		//Initial Intro
+		public function chickenHarpy():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_chickenHarpy);
+			if (flags[kFLAGS.TIMES_MET_CHICKEN_HARPY] == 0) {
+				outputText("Taking a stroll along the mountains, you come across a peculiar-looking harpy wandering around with a large wooden cart in tow.  She's far shorter and bustier than any regular harpy you've seen before, reaching barely 4' in height but managing to retain some semblance of their thick feminine asses.  In addition to the fluffy white feathers decorating her body, the bird-woman sports about three more combed back upon her forehead like a quiff, vividly red in color.");
+				outputText("\n\nHaving a long, hard think at the person you're currently making uncomfortable with your observational glare, you've come to a conclusion - she must be a chicken harpy!");
+				outputText("\n\nAs you take a look inside of the cart you immediately spot a large hoard of eggs stacked clumsily in a pile.  The curious collection of eggs come in many colors and sizes, protected by a sheet of strong canvas to keep it all together.");
+				outputText("\n\nThe chicken harpy - rather unnerved by the unflattering narration of her appearance you've accidentally shouted out loud - decides to break the ice by telling you about the cart currently holding your interest.");
+				outputText("\n\n\"<i>Heya traveller, I noticed you were interested in my eggs here - they're not for sale, but perhaps we can come to some sort of agreement?</i>\"");
+				outputText("\n\nYou put a hand to your chin and nod.  You are travelling, that's correct. The chicken harpy takes the gesture as a sign to continue.");
+				outputText("\n\n\"<i>Well you see, these eggs don't really grow from trees - in fact, I've gotta chug down at least two or three ovi elixirs to get a good haul with my body, y'know?  Since it's tough for a lil' gal like me to find a few, I like to trade an egg over for some elixirs to those willing to part with them.</i>\"");
+				outputText("\n\nSounds reasonable enough, you suppose.  Two or three elixirs for an egg? Doable for sure.");
+				outputText("\n\n\"<i>So whaddya say, do y'have any elixirs you can fork over?</i>\"");
+			} else {
+				//Repeat Intro
+				outputText("Taking a stroll along the mountains, you come across a familiar-looking shorty wandering around with a large wooden cart in tow.");
+				outputText("\n\nHaving a long, hard think at the person you're currently making uncomfortable with your observational glare, you've come to a conclusion - she must be the chicken harpy!");
+				outputText("\n\nYou run towards her as she waves a 'hello', stopping the cart to allow you to catch up.  Giving out her usual spiel about the eggs, she giggles and thrusts out a hand.");
+				outputText("\n\n\"<i>Hey sunshine, do y'have any elixirs you can give me today?</i>\"");
+				//[Give Two][Give Three]	[No, I Must Now Return To My People]
+			}
+			flags[kFLAGS.TIMES_MET_CHICKEN_HARPY]++;
+			//[Give Two][Give Three]		[Not Really, No]
+			menu();
+			if (player.hasItem(consumables.OVIELIX, 2)) addButton(0, "Give Two", giveTwoOviElix);
+			if (player.hasItem(consumables.OVIELIX, 3)) addButton(1, "Give Three", giveThreeOviElix);
+			addButton(4, "Leave", leaveChickenx);
+		}
+		//If Give Two
+		public function giveTwoOviElix():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_chickenHarpy);
+			player.consumeItem(consumables.OVIELIX);
+			player.consumeItem(consumables.OVIELIX);
+			outputText("You hand over two elixirs, the harpy more than happy to take them from you.  In return, she unties a corner of the sheet atop the cart, allowing you to take a look at her collection of eggs.");
+			//[Black][Blue][Brown][Pink][Purple]
+			menu();
+			addButton(0, "Black", getHarpyEgg, consumables.BLACKEG);
+			addButton(1, "Blue", getHarpyEgg, consumables.BLUEEGG);
+			addButton(2, "Brown", getHarpyEgg, consumables.BROWNEG);
+			addButton(3, "Pink", getHarpyEgg, consumables.PINKEGG);
+			addButton(4, "Purple", getHarpyEgg, consumables.PURPLEG);
+			addButton(5, "White", getHarpyEgg, consumables.WHITEEG);
+		}
+		//If Give Three
+		public function giveThreeOviElix():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_chickenHarpy);
+			player.consumeItem(consumables.OVIELIX, 3);
+			outputText("You hand over three elixirs, the harpy ecstatic over the fact that you're willing to part with them.  In return, she unties a side of the sheet atop the cart, allowing you to take a look at a large collection of her eggs.");
+			//[Black][Blue][Brown][Pink][Purple]
+			menu();
+			addButton(0, "Black", getHarpyEgg, consumables.L_BLKEG);
+			addButton(1, "Blue", getHarpyEgg, consumables.L_BLUEG);
+			addButton(2, "Brown", getHarpyEgg, consumables.L_BRNEG);
+			addButton(3, "Pink", getHarpyEgg, consumables.L_PNKEG);
+			addButton(4, "Purple", getHarpyEgg, consumables.L_PRPEG);
+			addButton(5, "White", getHarpyEgg, consumables.L_WHTEG);
+		}
+		//All Text
+		public function getHarpyEgg(itype:ItemType):void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_chickenHarpy);
+			flags[kFLAGS.EGGS_BOUGHT]++;
+			outputText("You take " + itype.longName + ", and the harpy nods in regards to your decision.  Prepping her cart back up for the road, she gives you a final wave goodbye before heading back down through the mountains.\n\n");
+			inventory.takeItem(itype, chickenHarpy);
+		}
+		//If No
+		public function leaveChickenx():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_chickenHarpy);
+			outputText("At the polite decline of her offer, the chicken harpy gives a warm smile before picking her cart back up and continuing along the path through the mountains.");
+			outputText("\n\nYou decide to take your own path, heading back to camp while you can.");
+			endEncounter();
 		}
 		private function joinBeingAMinoCumSlut():void
 		{
@@ -406,7 +967,6 @@ public class Mountain extends BaseContent
 			if (player.tallness <= 96) outputText(" despite your immense height");
 			outputText(" as they look you up and down.  The entire area goes silent, even the goblins and the imps that are no doubt watching seem to be holding their breath, wondering what will happen to you.");
 			outputText("\n\nThe minotaur grunts, finally, as if he finds you acceptable, and turns back to the plush ass before him, plowing into it once more.  The cow-girl, however, motions for you to move forward, and latches onto a [nipple] when you do.  Her soft lips encircle your areola, while her tongue dances over the rapidly hardening flesh of your teat.  Your breasts tingle with the slightest bit of suction, making you gasp as small droplets of milk escape your nipple and roll over the cow-girl's tongue.  She sucks more and more, eagerly gulping down your refreshing lactic beverage.");
-
 			outputText("\n\nAll the while the minotaur continues grunting, thrusting his massive member into the woman's hungry cunt.  The two rock back and forth, pushing her face right into your breast before pulling back again.  The cow-girl's legs tremble, and you suddenly find her arm grasping your shoulder for support.  Her other hand drifts down between your own naked legs, ");
 			if (player.hasCock()) {
 				outputText("ignoring your cock");
@@ -420,9 +980,7 @@ public class Mountain extends BaseContent
 			if (player.hasVagina()) outputText("swirls around your clitoris");
 			else outputText("presses against your perineum");
 			outputText(".");
-
 			outputText("\n\nThe broad-shouldered minotaur urges his mate onto her knees while he does the same, his dick never leaving its temporary home.  The cow-girl pulls you along, bringing you to your knees and then onto your back.  You have a moment of sudden modesty as you fold your legs, trying to block your crotch from view.  The bovine woman simply chuckles in between moans and lightly presses your knees apart.  Your legs spread wide, lewdly showing off your nether region to the cow-girl, and anyone else that's watching.");
-
 			outputText("\n\nWithout wasting any time, the girl leans down and");
 			if (player.hasCock()) outputText(", once again ignoring your manhood completely");
 			outputText(", dives tongue first into your wet ");
@@ -432,21 +990,16 @@ public class Mountain extends BaseContent
 			if (player.hasVagina()) outputText("sodden box");
 			else outputText("moist butthole");
 			outputText(".  Any remaining fears of joining this very public sex show are gone, and you wonder why you didn't join in sooner.");
-
 			outputText("\n\nThe tongue lavishes your hole, paying homage to your crotch in the only way it knows how.  Your breath comes shorter while your arms and legs tingle, fingers and toes curling against your will.  The cow-girl laps and licks, her broad mouth muscle slipping in and out, curving in and around to hit every tender part of your insides.  You run your fingers through the woman's long red hair, forcing her head even deeper into your crotch.  With her head down like this, you have an easy view of her ass high up in the air, getting fucked senseless by the minotaur.  Every thrust makes the cow-girl moan into your lap, the added vibrations causing you to squirm even more.");
-
 			outputText("\n\nThe bull thrusts in to the hilt, letting out one final bellow of pleasure.  The cow-girl brings her head up, her mouth and chin slick and dripping with your juices.  She lets out a moo-like bellow along with the minotaur, whose balls churn, no doubt depositing a heavy load of that delicious cum directly into her waiting womb.  You lick your lips, wishing you could just wrap them around that cock right now, to get your fix and feel the blissful sensations of relief run across your body.");
-
 			outputText("\n\nThe girl gibbers incoherently as she slides off the minotaur's still-rigid cock, a small spurt of pearly white spunk running down her thighs.  The minotaur smirks, smacking the cow's ass and casually pushing her to the side.  A goofy grin is plastered on her face, eyes rolled up into their sockets like she's just experienced the most divine fuck imaginable. He then looks you dead in the eyes and says, in a deep, masculine and very dominant voice, \"<i>You get to ride my cock next, cow.</i>\"");
-
 			outputText("\n\nHis rough, strong hands grasp your legs and draw you closer.  You squirm half-heartedly, not really trying to get away.  Though your mind tries to fight it, you know all you really want is that warm, sticky cum inside you one way or another.  You want to be just like the half-unconscious girl beside you, stuffed with cock and turned into this rugged man's breeding bitch.");
-
 			outputText("\n\n\"<i>Eager for a fucking, huh slut?</i>\" he taunts, his turgid member resting along your stomach.  You nod slowly.  You feel a deep burning in your core. You want that cock inside you.  You want to be filled to bursting with this bull's seed, to feel it churn ");
 			if (player.hasVagina()) outputText("within your womb, knocked up by this manly beast");
 			else outputText("within your bowels");
 			outputText(".  \"<i>That's a good slut,</i>\" he grunts, pulling his cock off your belly and rubbing the slick, flat head against your awaiting [vagOrAss].  He teases you with the slight contact until you open your mouth to voice your complaints, then he suddenly thrusts inside.  Any words forming on your tongue fly away, replaced by a whine of relief as your hole gets stretched wide by the invading member.");
-			player.penetrated(player.vagorass,new Minotaur().cocks[0]);
-
+			if (player.hasVagina()) player.cuntChange(new Minotaur().cockArea(0), true);
+			else player.buttChange(new Minotaur().cockArea(0), true);
 			outputText("\n\n\"<i>Ahh, yeah.  That's some good ");
 			if (player.hasVagina()) outputText("cow-pussy");
 			else outputText("ass");
@@ -457,61 +1010,45 @@ public class Mountain extends BaseContent
 			if (player.hasVagina()) outputText("vaginal");
 			else outputText("anal");
 			outputText(" walls.  Biting your lip with barely contained pleasure, you bring your hands to your breasts, playing with your milk-sodden nipples in between each orgasmic thrust of the bull's hips.");
-
 			outputText("\n\nA giggle comes from your side, as you see the cow-girl is back up onto her knees, having recovered from her exalted orgasm.  She crawls forward, kneeling just over your head and leaning in to kiss her minotaur lover.  The two whisper sweet nothings to each other, too vague and indistinct to hear, but it doesn't matter.  All you can focus on is the dick lodged firmly inside of you... that, and the soaking cunt of the cow-girl just inches from your face.  Alabaster droplets drip down her legs, one even landing on your lips.  Before you can stop yourself, you lick them clean, savoring the taste of the second-hand cum.");
-
 			outputText("\n\nSome part of your mind voices a complaint at what comes next, a voice that's quickly squelched inside the addiction-fueled haze of your brain.  You pull your head upwards and extend your tongue, slurping a large glob of cum from the cow-girl's snatch.  There's a surprised yelp from above you, followed by a coo of pleasure.  To your surprise, the cow-girl actually lowers her cunt down onto your face, giggling madly, filling your nostrils with the scent of her muff, with the scent of recent sex.  Not letting this opportunity go to waste, you repay her actions from earlier, slipping your ");
 			if (player.tongue.type == Tongue.SNAKE) outputText("serpentine ");
 			else if (player.tongue.type == Tongue.DEMONIC) outputText("demonic ");
 			else if (player.tongue.type == Tongue.DRACONIC) outputText("draconic ");
 			else if(player.hasLongTongue()) outputText("inhumanly long ");
 			outputText("tongue inside her, eagerly licking out and guzzling down the remnants of the minotaur's present.");
-
 			outputText("\n\nThe minotaur, for his part, is in no rush to give you a cream pie of your own. His thrusts are slow and deliberate, with a rhythm that has you writhing with pleasure.  The three of you moan together like some kind of erotic pyramid.  The bull's assault on your ");
 			if (player.hasVagina()) outputText("womb");
 			else outputText("back door");
 			outputText(" increases slowly, and you can feel your limbs tingling at the prospect of your mino-cum-induced orgasm.");
-
 			outputText("\n\nIt starts in your fingers, where your nerves seethe, gathering up fistfuls of grass like one might grab a sheet.  The heat continues down your arms and strikes your body like a lightning bolt, your belly suddenly spiking up, back arching as the orgasmic thunderstorm rolls over you.  The flames don't stop there, however.  They travel down into your crotch, suddenly lighting up every nerve in your ");
 			if (player.hasVagina()) outputText("[vagina]");
 			else outputText("[asshole]");
 			outputText(" like a Christmas tree.  You're acutely aware of every single movement, every pulse, every little bit of contact between you and the huge cock living inside you.");
-
 			outputText("\n\nYour muscles spasm and clench as the minotaur lets loose a powerful roar.  His own member twitches, suddenly releasing a flood of hot cum into your awaiting ");
 			if (player.hasVagina()) outputText("womb");
 			else outputText("bowels");
 			outputText(".  The moment that long-awaited jism hits your walls, it's like another lightning bolt hits.  It travels up your spine and sets your entire brain aglow.  Ecstasy wrapped in bliss with a side of euphoric rapture consumes your thoughts.  Your vision goes white, pearly white like the seed filling your body, and your lips part as a primal \"<i>moo</i>\" slips out.");
-
 			outputText("\n\nFor the longest time, the only thing your cum-addled mind can think about is cocks and cunts, of pregnant bellies and stomachs filled to capacity.  You mind fills itself with visions of yourself on your knees, servicing this minotaur daily, hoping to please him enough that he might grace your ");
 			if (!player.hasVagina()) outputText("new ");
 			outputText("womb with his divine dick.");
-
 			outputText("\n\nIt takes several minutes for you to come down from this orgasmic high, and when you do, you see your minotaur lover has yet to recover from his.  He lays on his back in the midst of this clearing, his still-rock-hard cock jutting upwards, coating in a mixture of various juices.  The cow-girl sits beside him, carefully licking the towering pillar of cock clean.  You sit up, wobbly and clutch your stomach.  Filled with cum in two ends, you can't help but feel oddly unsatisfied.  Perhaps guzzling down some second-hand cum isn't quite enough to sate your hunger.  Perhaps you need it straight from the tap, as it were.");
-
 			outputText("\n\nYou gingerly sit up, your body still quaking with pleasure.  Every movement sends another luxurious aftershock rippling through your body.  You crawl over to the splayed out minotaur, opposite your cow-girl partner, and join her in licking the man's cock clean.  It takes some work, but soon it glistens in the light of the red sky above you.");
-
 			outputText("\n\nAs if you both possess some kind of bovine telepathy, you both lean forward, wrapping your ");
 			if (player.bRows() > 1) outputText("uppermost ");
 			outputText("breasts around his monolithic shaft.  Your faces meet, and her soft lips press against yours, each of you earnestly pressing your tongues into the other's mouths, swapping the juices you've collected over the past hour or so.  The bull beneath you groans, awakening to the feeling of four breasts surrounding his love muscle.");
-
 			outputText("\n\nThe two of your pump your breasts up and down, your lips barely leaving each other long enough to give his member the occasional kiss, lick or slurp.  Up and down you go, and this time it's the minotaur's body that's wracked with bliss, writhing on the ground.  Milk dribbles from your breasts, coating you, the cow-girl and the minotaur in a fine white sheen and creating a sweet-smelling aroma that permeates the air.");
-
 			outputText("\n\nThe bull groans, biting his lip as a third, and likely final, orgasm rips through him.  His hips buck upwards, his cock flaring up and out of your mammaries.  Ropes of immaculate silver seed jet from his cumslit, arcing up into the air several feet before splattering down on your heads.  Wasting no time, you slip your lips around the flare, gulping down mouthful after mouthful of the sweet man-milk.  Even though it's his third load of the hour, it's just as big as the others, and soon your find you can't swallow any more; your cum-laden belly just won't allow it.");
-
 			outputText("\n\nSadly, you relinquish your hold on his cock and sit back, watching the cow-girl opposite you pick up where you left off, slurping up whatever you missed with a dedicated fervor.");
-
 			outputText("\n\n<b>Now</b> you feel satisfied.  Filled with that precious, precious minotaur spunk in both ends, fresh from the source.  You slump onto your back and drift off into a hazy, bull-filled dream world.");
-
 			outputText("...");
-
 			outputText("\n\nYou awaken several hours later.  The minotaur and the cow-girl are nowhere to be seen, but your [armor] is left neatly folded next to you, along with a small bottle filled with some white liquid, most likely a gift from your \"bull\".");
-
 			outputText("\n\nYou quickly re-dress and head back to camp, spying the occassional goblin or imp scurrying from its hiding spot, no doubt recovering from their own self-inflicted orgasms.");
-			player.orgasm();
+			player.sexReward("cum", "VaginalAnal");
 			dynStats("lib", .5, "sen", -3, "cor", 1);
 			if (flags[kFLAGS.PC_FETISH] > 0) {
 				outputText("  A thrill runs through you.  Even though you were brought to such a satisfying climax, the whole thought that goblins and imps were watching you and getting off on it... it just makes you hornier than you were before.");
-				dynStats("lus=", player.maxLust());
+				dynStats("lus=", player.maxOverLust());
 			}
 			//Chance to impregnate PC, get mino-fix, and maybe relief from feeder perk.
 			player.minoCumAddiction(10);
@@ -525,7 +1062,7 @@ public class Mountain extends BaseContent
 			}
 			//(Acquired minotaur cum!)
 			model.time.hours++;
-			inventory.takeItem(consumables.MINOCUM, camp.returnToCampUseOneHour);
+			inventory.takeItem(consumables.MINOCUM, explorer.done);
 		}
 
 		private function watchAMinoCumSlut():void
@@ -536,7 +1073,7 @@ public class Mountain extends BaseContent
 			outputText("\n\nWith a hearty thrust, the minotaur plunges into the cow-girl's eager fuck-hole, burying himself past one -- two of his oversized cock's three ridge rings.  She screams in half pain, half ecstasy and pushes back, hungry for his full length.  After pulling back only slightly, he pushes deeper, driving every inch of his gigantic dick into his willing partner who writhes in pleasure, impaled exactly as she wanted.");
 			outputText("\n\nThe pair quickly settles into a rhythm, punctuated with numerous grunts, groans, and moans of sexual excess.  To you, it's almost a violent assault sure to leave both of them bruised and sore, but the cow-girl's lolling tongue and expression of overwhelming desire tells you otherwise.  She's enjoying every thrust as well as the strokes, gropes, and seemingly painful squeezes the minotaur's powerful hands deliver to her jiggling ass and ponderous tits.  He's little better, his eyes glazed over with lust as he continues banging the fuck-hole he found and all but mauling its owner.");
 			//[Next]
-			dynStats("lus", 10);
+			dynStats("lus", 10, "scale", false);
 			menu();
 			addButton(0, "Next", watchMinoCumSlutII);
 		}
@@ -547,8 +1084,8 @@ public class Mountain extends BaseContent
 			outputText("They go at it for nearly an hour, oblivious to you watching them, before their intensity heightens as they near orgasm.  The results are almost explosive, both of them crying out as they begin twitching uncontrollably.  Clinging desperately to the cow-girl's ass, the minotaur pumps so much cum into her depths that it begins spurting out.  This accidental lubrication releases his grip, and the pair collapse to the ground.  Yet the minotaur isn't finished, his man-milk spraying into the air almost like his still-erect dick is a hose and splattering down onto both of them.");
 			outputText("\n\nAs you look at the two cum-covered creatures laying there in their exhausted sex-induced stupors, the minotaur's thick horse-cock now slowly deflating, you realize that you've been touching yourself.  You make yourself stop in disgust.");
 			outputText("\n\nOnly now do you notice other faces peeking over ledges and ridges.  You count at least two goblins and one imp who quickly pull back.  From the sounds, they were busy getting themselves off.  Apparently this isn't an uncommon show, and the locals enjoy it immensely.");
-			dynStats("lus", 25);
-			doNext(camp.returnToCampUseOneHour);
+			dynStats("lus", 25, "scale", false);
+			endEncounter();
 		}
 		
 		private function continueMinoVoyeurism():void {
@@ -567,8 +1104,8 @@ public class Mountain extends BaseContent
 			if (player.statusEffectv1(StatusEffects.MinoPlusCowgirl) == 0)
 				outputText("  Apparently this isn't an uncommon show, and the locals enjoy it immensely.");
 			//Lust!
-			dynStats("lus", 5 + player.lib / 20 + player.racialScore(Races.MINOTAUR) + player.racialScore(Races.COW));
-			doNext(camp.returnToCampUseOneHour);
+			dynStats("lus", 5 + player.lib / 20 + player.racialScore(Races.MINOTAUR, false) + player.racialScore(Races.COW, false), "scale", false);
+			endEncounter();
 		}
 	}
 }

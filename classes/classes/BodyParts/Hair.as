@@ -152,7 +152,17 @@ public class Hair extends BodyPart {
 	EnumValue.add(Types, CRAZY, "CRAZY", {
 		name:"crazy",
 		shortDesc: "crazy {hair}",
-		appearanceDesc: "Your wild {hairInfo} is positively crazy, with spiked tips pointing outwards to your sides.",
+		appearanceDescFunc: function(creature: *): String {
+			var desc: String = "Your wild {hairInfo} is positively crazy. They are permanently stuck in a messed up spiky shape";
+
+			if (creature.headjewelryName == "Machinist Goggles" || creature.headjewelryName == "Scanner goggles" || creature.headjewelryName == "S.A Tech Goggles") {
+				desc += ". On top of them is your pair of trusty "+creature.headjewelryName+". You never remove them, even for sex";
+			}
+
+			desc += "."
+
+			return desc;
+		},
 		ignoresStyle: true
 	});
 
@@ -197,59 +207,95 @@ public class Hair extends BodyPart {
 		appearanceDesc: "Your {hairInfo} looks about normal except that they have darker spot reminding of cow fur."
 	});
 
+	public static const DRIPPING:int = 22;
+	EnumValue.add(Types, DRIPPING, "DRIPPING", {
+		name:"dripping",
+		shortDesc: "dripping {hair}",
+		appearanceDesc: "Your {hairInfo} hair looks human at a first glance, but are, in fact, fine tendrils of flesh imitating human hairs, after all this body of yours is but a fleshy tongue mimicking human shape."
+	});
+
+	public static const PEAFOWL:int = 23;
+	EnumValue.add(Types, PEAFOWL, "PEAFOWL", {
+		name:"p.feather",
+		shortDesc: "peafowl feather-{hair}",
+		appearanceDesc: "Your {hairInfo} is made completely out of feathers rather than actual strands. A beautiful crest adorns your head with small feathers that stick straight up, like a Mohawk.",
+		ignoresStyle: true
+	});
+
 	// Additional modifiers for hair descriptions
 	public static var Styles:/*EnumValue*/Array = [];
 
 	public static const PLAIN:int  = 0;
 	EnumValue.add(Styles, PLAIN, "PLAIN", {
+		name: "plain",
 		adjective: ""
 	});
 
 	public static const WILD:int = 1;
 	EnumValue.add(Styles, WILD, "WILD", {
+		name: "wild",
 		adjective: "wild"
 	});
 
 	public static const PONYTAIL:int  = 2;
 	EnumValue.add(Styles, PONYTAIL, "PONYTAIL", {
+		name: "ponytail",
 		adjective: "ponytailed"
 	});
 
 	public static const LONGTRESSES:int  = 3;
 	EnumValue.add(Styles, LONGTRESSES, "LONGTRESSES", {
+		name: "low ponytail",
 		adjective: "low-ponytailed"
 	});
 
 	public static const TWINTAILS:int  = 4;
 	EnumValue.add(Styles, TWINTAILS, "TWINTAILS", {
+		name: "twintails",
 		adjective: "twintailed"
 	});
 
 	public static const DWARVEN:int  = 5;
 	EnumValue.add(Styles, DWARVEN, "DWARVEN", {
+		name: "dwarven",
 		adjective: "Dwarven"
 	});
 
 	public static const SNOWLILY:int  = 6;
 	EnumValue.add(Styles, SNOWLILY, "SNOWLILY", {
+		name: "snowlily",
 		adjective: "snowlily"
 	});
 
 	public static const FOURWIND:int  = 7;
 	EnumValue.add(Styles, FOURWIND, "FOURWIND", {
+		name: "fourwind",
 		adjective: "fourwind"
 	});
 
 	public static const FOURWINDL:int  = 8;
 	EnumValue.add(Styles, FOURWINDL, "FOURWINDL", {
+		name: "long fourwind",
 		adjective: "long fourwind"
 	});
 
 	public static const TAURPONYTAIL:int  = 9;
 	EnumValue.add(Styles, TAURPONYTAIL, "TAURPONYTAIL", {
+		name: "centaur ponytail",
 		adjective: "centaur ponytail"
 	});
 
+	public static const TWINRIBBON:int  = 10;
+	EnumValue.add(Styles, TWINRIBBON, "TWINRIBBON", {
+		name: "twin ribbon",
+		adjective: "twin ribbon"
+	});
+
+	public static const DESERTGRACE:int  = 11;
+	EnumValue.add(Styles, DESERTGRACE, "DESERTGRACE", {
+		name: "desert grace",
+		adjective: "desert grace"
+	});
 
 	public var color:String = "no";
 	public var length:Number = 0.0;
@@ -298,7 +344,7 @@ public class Hair extends BodyPart {
 			if(creature.skinType == Skin.FUR)
 				return "You have no hair, only a thin layer of fur atop of your head.";
 			else {
-				return "You have a completely " + getHairLength(creature) + " head, showing only shiny [skintone] [skin.type].";
+				return "You have a completely " + getHairLength(creature) + " head, showing only shiny [color] [skin.type].";
 			}
 		}
 
@@ -314,7 +360,7 @@ public class Hair extends BodyPart {
 		var hair:String = "hair";
 
 		//If furry and longish hair sometimes call it a mane (50%)
-		if (creature.hasFur() == 1 && creature.hairLength > 3 && rand(2) == 0) {
+		if (creature.isFurCovered() == 1 && creature.hairLength > 3 && rand(2) == 0) {
 			hair = "mane";
 		}
 
@@ -333,7 +379,7 @@ public class Hair extends BodyPart {
 		var hair:String = "hair";
 
 		//If furry and longish hair sometimes call it a mane (50%)
-		if (creature.hasFur() == 1 && creature.hairLength > 3 && rand(2) == 0) {
+		if (creature.isFurCovered() == 1 && creature.hairLength > 3 && rand(2) == 0) {
 			hair = "mane";
 		}
 

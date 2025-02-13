@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 	import classes.*;
 	import classes.BodyParts.Butt;
@@ -25,29 +25,9 @@ package classes.Scenes.NPCs
 		}
 		
 		public function Specials1():void {
-			//Blind dodge change
-			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 2) {
-				outputText("J1c blindly tries to clinch you, but misses completely.\n");
-				return;
-			}
 			//Determine if dodged!
-			if (player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 80) {
+			if (player.getEvasionRoll()) {
 				outputText("J1c tries to clinch you, but you use your speed to keep just out of reach.\n");
-				return;
-			}
-			//Determine if evaded
-			if (player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("J1c tries to clinch you, but she didn't count on your skills in evasion.  You manage to sidestep her at the last second.\n");
-				return;
-			}
-			//("Misdirection"
-			if (player.hasPerk(PerkLib.Misdirection) && rand(100) < 10 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				outputText("J1c ducks and weaves forward to clinch you, but thanks to Raphael's teachings, you're easily able to misguide her and avoid the clumsy grab.\n");
-				return;
-			}
-			//Determine if cat'ed
-			if (player.hasPerk(PerkLib.Flexibility) && rand(100) < 6) {
-				outputText("J1c tries to lock you in a clinch, but your cat-like flexibility makes it easy to twist away from her grab.\n");
 				return;
 			}
 			var damage:Number = Math.round((str + weaponAttack) - rand(player.tou+player.armorDef));
@@ -56,7 +36,7 @@ package classes.Scenes.NPCs
 			if (player.armorDef >= 10 || damage == 0) {
 				//(armor-dependent Health damage, fullplate, chain, scale, and bee chitin armor are unaffected, has a chance to inflict 'Bleed' damage which removes 4-10% of health for the next three turns if successful)
 				outputText("writhe as she painfully drags the sharp end of the metal shards on her golem forearm down your back");
-				player.createStatusEffect(StatusEffects.IzmaBleed,3,0,0,0);
+				if (!player.immuneToBleed()) player.createStatusEffect(StatusEffects.IzmaBleed,3,0,0,0);
 			}
 			else outputText("laugh as her blades scape uselessly at your armor-clad back");
 			outputText(" before breaking her embrace and leaping away. ");
@@ -82,7 +62,7 @@ package classes.Scenes.NPCs
 			}
 		}
 		
-		public function Jeniffer() 
+		public function Jeniffer()
 		{
 			this.a = "the ";
 			if (flags[kFLAGS.JENIFFER_LVL_UP] < 1) {
@@ -92,7 +72,7 @@ package classes.Scenes.NPCs
 				createBreastRow(Appearance.breastCupInverse("A"));
 				this.tallness = 72;
 				initStrTouSpeInte(60, 80, 40, 100);
-				initWisLibSensCor(100, 90, 50, 50);
+				initWisLibSensCor(100, 90, 50, 0);
 				this.weaponName = "spiked fists";
 				this.weaponVerb = "smash";
 				this.weaponAttack = 18;
@@ -109,7 +89,7 @@ package classes.Scenes.NPCs
 				this.long = "You're currently fighting a golemancer controling personaly created golem called J2a. It's twelve feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				this.tallness = 144;
 				initStrTouSpeInte(100, 120, 80, 100);
-				initWisLibSensCor(100, 100, 60, 50);
+				initWisLibSensCor(100, 100, 60, 0);
 				this.weaponAttack = 36;
 				this.armorDef = 100;
 				this.armorMDef = 100;
@@ -123,7 +103,7 @@ package classes.Scenes.NPCs
 				this.long = "You're currently fighting a golemancer controling personaly created golem called J2a. It's fourteen feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				this.tallness = 168;
 				initStrTouSpeInte(120, 140, 100, 100);
-				initWisLibSensCor(100, 110, 70, 50);
+				initWisLibSensCor(100, 110, 70, 0);
 				this.weaponAttack = 44;
 				this.armorDef = 125;
 				this.armorMDef = 125;
@@ -137,7 +117,7 @@ package classes.Scenes.NPCs
 				this.long = "You're currently fighting a golemancer controling personaly created golem called J2a. It's sixteen feet tall with general shape of a female but lacking any fine details. It stone body is covered with soulmetal plates in many placed and it looks like using lance to stab enemies.  Only goblin's head isn't protected showing her green skin, pointed ears, and purple hair.";
 				this.tallness = 192;
 				initStrTouSpeInte(140, 160, 120, 100);
-				initWisLibSensCor(100, 120, 80, 50);
+				initWisLibSensCor(100, 120, 80, 0);
 				this.weaponAttack = 52;
 				this.armorDef = 150;
 				this.armorMDef = 150;
@@ -177,7 +157,7 @@ package classes.Scenes.NPCs
 			this.createStatusEffect(StatusEffects.BonusACapacity,10,0,0,0);
 			this.hips.type = Hips.RATING_BOYISH;
 			this.butt.type = Butt.RATING_BUTTLESS;
-			this.skinTone = "dark green";
+			this.bodyColor = "dark green";
 			this.hairColor = "purple";
 			this.hairLength = 4;
 			this.drop = NO_DROP;

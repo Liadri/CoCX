@@ -56,15 +56,18 @@ public function itemImproveMenuPure():void {
 		[weapons.MASTGLO, weapons.KARMTOU, weapons.YAMARG],
 		[weapons.KATANA, weapons.MASAMUN, weapons.BLETTER],
 		[weapons.W_STAFF, weapons.U_STAFF, weapons.N_STAFF],
-		[weapons.DEMSCYT, weapons.LHSCYTH, null],
+		[weapons.DEMSCYT, weapons.LHSCYTH, weapons.HELRAIS],
 		[weapons.UGATANA, weapons.MOONLIT, weapons.C_BLADE],
 		[weapons.L__AXE, weapons.WG_GAXE, weapons.DE_GAXE],
 		[weapons.SPEAR, weapons.SESPEAR, weapons.DSSPEAR],
 		[weapons.JRAPIER, weapons.Q_GUARD, weapons.B_WIDOW],
 		[weapons.OTETSU, weapons.POCDEST, weapons.DOCDEST],
 		[weapons.BFTHSWORD, weapons.ARMAGED, weapons.CHAOSEA],
+		[weapons.A_WAND, weapons.OCCULUS, weapons.ECLIPSE],
+		[weapons.PFLUTTE, weapons.ELYSIUM, weapons.HELLCAL],
 		[weaponsrange.BOWLONG, weaponsrange.ARTEMIS, weaponsrange.WILDHUN],
 		[weaponsrange.SHUNHAR, weaponsrange.KSLHARP, weaponsrange.LEVHARP],
+		[weaponsrange.SIXSHOT, weaponsrange.GOODSAM, weaponsrange.BADOMEN],
 		[shields.SANCTYN, shields.SANCTYL, shields.SANCTYD],
 		[armors.LMARMOR, armors.BMARMOR, armors.S_ARMOR],
 		[armors.BLKIMONO, armors.IBKIMO, armors.TCKIMO],
@@ -73,7 +76,13 @@ public function itemImproveMenuPure():void {
 		[armors.RKIMONO, armors.IBKIMO, armors.TCKIMO],
 		[armors.WKIMONO, armors.IBKIMO, armors.TCKIMO],
 		[armors.SPKIMO, armors.OEKIMO, armors.OTKIMO],
-		[armors.CTPALAD, null, armors.CTBGUAR]
+		[armors.CTPALAD, armors.CTHPALA, armors.CTBGUAR],
+		[armors.LTHRPNT, null, armors.CGUNSLI],
+		[armors.DEATHPO, null, armors.DEATHPGA],
+		[armors.B_QIPAO, armors.SFLAREQ, null],
+		[armors.G_QIPAO, armors.SFLAREQ, null],
+		[armors.P_QIPAO, armors.SFLAREQ, null],
+		[armors.R_QIPAO, armors.SFLAREQ, null]
 	];
 	clearOutput();
 	outputText("\"<i></i>\"\n\n");
@@ -86,7 +95,7 @@ public function itemImproveMenuPure():void {
 		else {
 			var item:ItemType = improvableItems[i][selectfrom];
 			var from:ItemType = improvableItems[i][0];
-			selectMenu.add(item.id, curry(improveItem, item, from)).disableIf(!player.hasItem(from),"You need a "+from+" as a base to create this item")
+			selectMenu.add(item.id, curry(improveItem, item, from)).disableIf(!player.hasItem(from),"You need "+from.longName+" as a base to create this item")
 			.disableIf(player.keyItemvX("Radiant shard", 1) < 3,"You need at least three radiant shards in order to create this item.")
 			.disableIf(player.gems < 20000,"You need at least 10 000 gems in order to create this item");
 		}

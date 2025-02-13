@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.Explore 
+package classes.Scenes.Explore
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -26,8 +26,7 @@ import classes.internals.*;
 		
 		public function kitsunesoulskillMod():Number {
 			var kmodss:Number = 1;
-			if (hasPerk(PerkLib.DaoistCultivator)) kmodss += .2;
-			if (hasPerk(PerkLib.DaoistApprenticeStage)) kmodss += .4;
+			if (hasPerk(PerkLib.DaoistApprenticeStage)) kmodss += .3;
 			if (hasPerk(PerkLib.DaoistWarriorStage)) kmodss += .6;
 			return kmodss;
 		}
@@ -46,18 +45,18 @@ import classes.internals.*;
 			var lustDmg:Number = player.lustVuln * ((this.inte / 10) + rand(player.lib + player.cor) / 5);
 			lustDmg *= 0.5;
 			lustDmg = Math.round(lustDmg);
-			player.dynStats("lus", lustDmg, "scale", false);
+			player.takeLustDamage(lustDmg, true);
 		}
 		
 		public function KitsuneCastsComet():void {
 			soulforce -= 162;
 			outputText("He raises a hand, focusing with intensity.  From above comes a crystalline meteor, which you barely manage to dodge.  The crystal shatters upon contact with the ground, sending a shower of splinters that you cannot avoid. ");
-			if (player.armorName == "Drider-weave Armor" || player.armorPerk == "Heavy" || player.armorPerk == "Light Ayo" || player.armorPerk == "Heavy Ayo" || player.armorPerk == "Ultra Heavy Ayo") outputText("Thankfully, your armor manages to absorb most of the impact. ");
+			if (player.isInHeavyArmor() || player.isInAyoArmor()) outputText("Thankfully, your armor manages to absorb most of the impact. ");
 			var damage:Number = 0;
 			damage += inteligencescalingbonus();
 			damage *= kitsunesoulskillMod();
 			if (player.hasPerk(PerkLib.FromTheFrozenWaste) || player.hasPerk(PerkLib.ColdAffinity)) damage *= 3;
-			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
+			if (player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) damage *= 0.3;
 			if (player.armorPerk != "Heavy" && player.armorPerk != "Light Ayo" && player.armorPerk != "Heavy Ayo" && player.armorPerk != "Ultra Heavy Ayo") damage *= 2;
 			damage = Math.round(damage);
 			player.takeMagicDamage(damage, true);
@@ -117,7 +116,17 @@ import classes.internals.*;
 				player.removeStatusEffect(StatusEffects.Sealed);
 			}
 		}
-		
+
+		override public function preAttackSeal():Boolean
+		{
+			if (player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 0) {
+				outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The kitsune's seals have made normal melee attacks impossible!  Maybe you could try something else?\n\n");
+				// enemyAI();
+				return false;
+			}
+			else return true;
+		}
+
 		override protected function performCombatAction():void
 		{
 			var choice:Number = rand(4);
@@ -148,7 +157,7 @@ import classes.internals.*;
 					"His left hand is lit up by an aura of blue flames, ready to flare up into gouts of foxfire at a moment’s notice. In his right hand is his metal staff, foxfire burning at it’s tip.";
 		}
 		
-		public function KitsuneElder() 
+		public function KitsuneElder()
 		{
 			this.a = "a ";
 			this.short = "kitsune elder";
@@ -166,11 +175,11 @@ import classes.internals.*;
 			this.tallness = rand(19) + 65;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			this.hairColor = "red";
 			this.hairLength = 13 + rand(15);
 			initStrTouSpeInte(55, 85, 210, 170);
-			initWisLibSensCor(170, 80, 95, 45);
+			initWisLibSensCor(170, 80, 95, -10);
 			this.weaponName = "staff";
 			this.weaponVerb="smack";
 			this.weaponAttack = 8;
@@ -183,7 +192,6 @@ import classes.internals.*;
 			this.bonusSoulforce = 1000;
 			this.lust = 20;
 			this.lustVuln = 0.9;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 55;
 			this.gems = rand(20) + 20;
 			this.drop = NO_DROP;/*
@@ -198,8 +206,7 @@ import classes.internals.*;
 			this.createPerk(PerkLib.SoulWarrior, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulSprite, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulScholar, 0, 0, 0, 0);
-			this.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
-			this.createPerk(PerkLib.DaoistCultivator, 0, 0, 0, 0);
+			this.createPerk(PerkLib.SoulGrandmaster, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DaoistApprenticeStage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DaoistWarriorStage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobSorcerer, 0, 0, 0, 0);
@@ -209,6 +216,6 @@ import classes.internals.*;
 			this.createPerk(PerkLib.Archmage, 0, 0, 0, 0);
 			this.createPerk(PerkLib.GrandArchmage, 0, 0, 0, 0);
 			checkMonster();
-		}	
+		}
 	}
 }

@@ -37,7 +37,7 @@ public class CumWitch extends Monster
 		public function bukkakeAttack():void {
 			//*Cum Witch hikes up her dress and bukkake's at PC.  Large # of chance for 'hits' for low individual damage.  Small reduction to sand witch lust.  Used more at high lust.
 			outputText("The Cum Witch moans and daintily peels her robes away from her swollen cock-flesh.  A bubble of precum pops wetly from her urethra to splatter on the floor as her balls suddenly swell.  You look back up in time to see the telltale glow of magic surrounding her staff, but then she's thrusting her hips at you, lewdly humping the air as she unleashes rope after thick rope of potent jism in your direction!\n");
-			var hits:int = 5 + rand(8);
+			var hits:int = 8 + rand(11);
 			var bonus:int = 0;
 			var damage:int = 0;
 			while (hits > 0) {
@@ -72,7 +72,7 @@ public class CumWitch extends Monster
 				}
 				hits--;
 			}
-			player.dynStats("lus", damage+bonus);
+			player.takeLustDamage(damage+bonus, true);
 		}
 
 		//*Attack: Cum Magic
@@ -80,19 +80,19 @@ public class CumWitch extends Monster
 			//*Used on males only, casts spell that causes balls to temporarily swell and increase lust by a moderate amount.  Unavoidable.
 			outputText("Gesticulating with her free hand, the Cum Witch utters impossible to pronounce words before closing her fingers tightly into a fist.  That same instant, you feel an onset of warmth in your [balls], a spreading heat that makes you tremble with growing lust.  A second later, [eachCock] is throbbing, and a runner of cum trickles from the [cockHead], a hint of your temporarily-enhanced virility.");
 			//(15-30 lust, based on libido)
-			player.dynStats("lus", 5+player.lib/12);
-			player.hoursSinceCum += 100;
+			player.takeLustDamage(10+player.lib/6, true);
+			player.hoursSinceCum += 200;
 		}
 		//*Attack: Cum Hunger
 		//*Used on vagoozles, spell that causes womb to literally thirst for sperm.  Unavoidable moderate lust gain.  Pregnant character's are immune.
 		public function cumHungerAttack():void {
 			outputText("Moaning luridly, the Cum Witch swivels her staff and opens her hand to spread her fingers wide.  At the same time, you feel her magic slam into your midsection, burrowing into your womb.  ");
-			if(player.pregnancyIncubation > 0) {
+			if(!player.canGetPregnant()) {
 				outputText("Yet, whatever she tries to do fails, as her otherworldly conjuration falls apart as soon as soon as it reaches you.");
 				return;
 			}
 			outputText("It worms around your uterus, tickling it faintly before gently kneading your ovaries.  Your [legs] go weak as your womb throbs, hungering for something to fill it.  A trickle of wetness squirts from your [vagina] as the magic fades, and you squirm as your lust rises. If only something would make you pregnant!  Your eyes dart unbidden to the Witch's groin before you yank them away.");
-			player.dynStats("lus", 5+player.lib/12);
+			player.takeLustDamage(10+player.lib/6, true);
 		}
 
 		//*Attack: Gender Confusion
@@ -132,18 +132,18 @@ public class CumWitch extends Monster
 			else {
 				outputText("The Witch smirks, though you're too focused on her cock to see, and she continues, \"<i>Good " + player.mf("boy","girl") + ".  Watch it sway.  You're so focused on my cock now that the world is just falling away around it, sinking into nothingness, leaving only that wonderful cock behind for you to watch.  And since it's filling your view, you can feel it filling your mind as well, can't you?</i>\"");
 				outputText("\n\nYou nod, your view rigidly attached to her equally rigid tool as you utterly and completely fixate on her penis, admiring its curves, its thickness, and the way it seems to pulsate happily for you whenever you look at it just right.  The Witch keeps talking, but it's her dick that's important.  You start to drool as your [skin] flushes and your body heats.  Gods, her cock is gorgeous.  Reaching down, you begin to masturbate without thinking.  You don't know why, but it just feels like the right thing to do.");
-				player.dynStats("lus", 20);
-				if(player.lust < player.maxLust()) outputText("\n\nYou bump against something, startling yourself out of the cocknosis before you can completely fall for it.  Still, you keep seeing her dick every time you close your eyes, and your body is very turned on from how you were touching yourself.");
+				player.takeLustDamage(lib, true);
+				if(player.lust < player.maxOverLust()) outputText("\n\nYou bump against something, startling yourself out of the cocknosis before you can completely fall for it.  Still, you keep seeing her dick every time you close your eyes, and your body is very turned on from how you were touching yourself.");
 				else outputText("\n\nYou play with yourself until you're on the very edge of orgasm.  At that moment, a loud *SNAP* startles you back to wakefulness, and as you look down at the cock bobbing just a few inches away, you realize it's hopeless.  You can't fight this.");
 				outputText("\n\nThe witch smiles knowingly.");
 			}
 		}
 
 		//*Attack: Heal
-		//*Restores one third of her HP.
+		//*Restores 40% of her HP.
 		public function sandWitchCuntHeals():void {
 			outputText("The Witch smirks at you and holds her free hand under her robes.  When she pulls it out, you realize she's gathered a handful of her cum.  She holds it up and exhales over it, the air making a slight whistle as it blows through her parted lips.  The ebony sorceress then smears the goop over her wounds, which seem to drink in the cum and vanish before your eyes.  She scolds, \"<i>Physical damage?  How artless.</i>\"");
-			addHP(maxHP() * 0.33);
+			addHP(maxHP() * 0.4);
 			fatigue += 10;
 		}
 		
@@ -182,23 +182,22 @@ public class CumWitch extends Monster
 			this.tallness = rand(12) + 55;
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "black";
+			this.bodyColor = "black";
 			this.hairColor = "sandy-blonde";
 			this.hairLength = 15;
-			initStrTouSpeInte(50, 60, 45, 85);
-			initWisLibSensCor(90, 55, 40, 30);
+			initStrTouSpeInte(90, 100, 80, 170);
+			initWisLibSensCor(150, 125, 90, -40);
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
-			this.weaponAttack = 2;
+			this.weaponAttack = 4;
 			this.armorName = "robes";
 			this.armorDef = 4;
 			this.armorMDef = 10;
 			this.bonusHP = 150;
-			this.bonusLust = 105;
+			this.bonusLust = 235;
 			this.lust = 30;
 			this.lustVuln = .8;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 10;
+			this.level = 20;
 			this.gems = rand(15) + 5;
 			this.drop = new WeightedDrop().addMany(1,
 					consumables.TSCROLL,
@@ -210,6 +209,7 @@ public class CumWitch extends Monster
 					consumables.RMANUSC,
 					consumables.CRIMS_J,
 					null);
+			if (inDungeon) this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			checkMonster();
 		}
 		

@@ -1,8 +1,12 @@
-package classes.Items.Weapons 
+package classes.Items.Weapons
 {
-	import classes.PerkLib;
+import classes.EventParser;
+import classes.Items.IELib;
+import classes.Items.Weapon;
+import classes.PerkLib;
+import classes.TimeAwareInterface;
 
-	public class UnicornStaff extends WeaponWithPerk
+public class UnicornStaff extends Weapon implements TimeAwareInterface
 	{
 		//Implementation of TimeAwareInterface
         //Recalculate Wizard's multiplier every hour
@@ -20,16 +24,20 @@ package classes.Items.Weapons
         //Normal weapon stuff
 		public function UnicornStaff()
 		{
-			super("U.Staff", "U. Staff", "unicorn staff", "a unicorn staff", "smack", 10, 1600,
-					"This blessed staff is made in pearl-white sandalwood and decorated with a golden spiral pattern, reminiscent of a unicorn’s horn. The magic within seems to greatly enhance the user’s healing spells, not unlike those of the fabled creature that it emulates. Furthermore, the staff allows the user to preserve mana when casting using a minimal ammount of energy on each spell.",
-					"Staff, Spell Cost -50% increases Spellpower based on purity", PerkLib.WizardsFocus, 0.6, 0, 0, 0, "", "Staff"
+			super("U.Staff", "U. Staff", "unicorn staff", "a unicorn staff", "bonk", 23, 3680,
+					"This blessed staff is made in pearl-white sandalwood and decorated with a golden spiral pattern, reminiscent of a unicorn’s horn. The magic within seems to greatly enhance the user’s healing spells, not unlike those of the fabled creature that it emulates. Furthermore, the staff allows the user to preserve mana when casting using a minimal ammount of energy on each spell. (Spell Cost -50%, increases Spellpower based on purity)",
+					WT_STAFF, WSZ_LARGE
 			);
+			withBuff('spellpower', +1.0);
+			withTag(I_LEGENDARY);
+			withEffect(IELib.ScaleAttack_Str, 50)
+			withEffect(IELib.AttackBonus_Cor, -1/10)
+			EventParser.timeAwareClassAdd(this);
 		}
 
 		public function calcWizardsMult():Number {
-			var multadd:Number = 0.6;
-            if (game && game.player)
-                multadd += (100 - game.player.cor) * 0.034;
+			var multadd:Number = 1.0;
+            if (game && game.player) multadd += (100 - game.player.cor) * 0.05;
 			return multadd;
 		}
 
@@ -37,11 +45,12 @@ package classes.Items.Weapons
 
         public function updateWizardsMult():void {
             if (game.player.cor != lastCor) {
-                weapPerk.value1 = calcWizardsMult();
+				_buffs['spellpower'] = calcWizardsMult();
                 if (game.player.weapon == game.weapons.U_STAFF) {
                     //re-requip to update player's perk
-                    playerRemove();
-                    playerEquip();
+	                var slot:int = game.player.slotOfEquippedItem(this);
+                    afterUnequip(false, slot);
+                    afterEquip(false, slot);
                 }
             }
             lastCor = game.player.cor;
@@ -57,16 +66,6 @@ package classes.Items.Weapons
             else
                 return _description;
         }
-
-		override public function get verb():String {
-				return game.player.hasPerk(PerkLib.StaffChanneling) ? "shot" : "smack";
-		}
-
-		override public function canUse():Boolean {
-			if (game.player.level >= 40) return super.canUse();
-			outputText("You try and wield the legendary weapon but to your disapointment the item simply refuse to stay put in your hands. It would seem you yet lack the power and right to wield this item.");
-			return false;
-		}
 
 		override public function get description():String {
 			updateWizardsMult(); //To display *correct* values

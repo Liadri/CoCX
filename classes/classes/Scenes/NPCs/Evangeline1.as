@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -48,7 +48,7 @@ public class Evangeline1 extends Monster
 		SalamanderAdrenalGlands
 		TrachealSystem
 		?DeityJobMunchkin? - tylko czy możliwe skoro nie ma duszy na stałe w ciele wiec nie może nauczyć zostać Soul Cultivator a może w jej wypadku zignorowąć ten wymóg lub wytłumaczyć tym iż jej dusza w lethice może zostać soul cultivator i ona majac odrobine jej ze sobą potrafi w bardzo ograniczonym stopniu używać soulforce...
-		*/	
+		*/
 		public function spellCostChargeWeapon():Number {
 			var cost:Number = 30;
 			if (flags[kFLAGS.EVANGELINE_SPELLS_CASTED] >= 10) cost -= 3;
@@ -127,7 +127,6 @@ public class Evangeline1 extends Monster
 			if (hasPerk(PerkLib.JobSorcerer)) mod += .1;
 			if (hasPerk(PerkLib.Mage)) mod += .2;
 			if (hasPerk(PerkLib.Spellpower)) mod += .2;
-			if (hasPerk(PerkLib.WizardsFocus)) mod += .5;
 			return mod;
 		}
 		
@@ -149,7 +148,7 @@ public class Evangeline1 extends Monster
 		
 		public function BlindSpell():void {
 			outputText("Evangeline glare at you and point at you.  A bright flash erupts before you!\n");
-			if ((player.perkv1(IMutationsLib.GorgonEyesIM) == 0 && rand(100) > 20) && !player.hasPerk(PerkLib.BlindImmunity)) {
+			if ((player.perkv1(IMutationsLib.GorgonEyesIM) == 0 && rand(100) > 20) && !player.isImmuneToBlind()) {
 				player.createStatusEffect(StatusEffects.Blind,2,0,0,0);
 			}
 			else if (player.perkv1(IMutationsLib.GorgonEyesIM) >= 1) {
@@ -198,8 +197,7 @@ public class Evangeline1 extends Monster
 			if(player.lust >= (player.maxLust() * 0.6)) outputText("Your eyes glaze over with desire for a moment.  ");
 			lustDmg *= 0.5;
 			lustDmg = Math.round(lustDmg);
-			player.dynStats("lus", lustDmg, "scale", false);
-			outputText(" <b>(<font color=\"#ff00ff\">" + lustDmg + "</font>)</b>");
+			player.takeLustDamage(lustDmg, true);
 			mana -= spellCostArouse();
 			flags[kFLAGS.EVANGELINE_SPELLS_CASTED]++;
 		}
@@ -214,7 +212,7 @@ public class Evangeline1 extends Monster
 			temp *= SpellMod();
 			temp /= 3;
 			temp = Math.round(temp);
-			outputText("Evangeline flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+			outputText("Evangeline flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 			addHP(temp);
 			mana -= spellCostHeal();
 			flags[kFLAGS.EVANGELINE_SPELLS_CASTED]++;
@@ -305,7 +303,7 @@ public class Evangeline1 extends Monster
 			}
 		}
 		
-		public function Evangeline1() 
+		public function Evangeline1()
 		{
 			this.a = "";
 			this.short = "Evangeline";
@@ -367,40 +365,37 @@ public class Evangeline1 extends Monster
 				this.level = 12;
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 5) {
-				this.long = "You are currently fighting Evangeline, which is a seven and a half feet tall human bimbo. She's wearing practically indecent steel armor and using inscribed spellblade to attack.";
-				initStrTouSpeInte(41, 46, 55, 100);
-				this.weaponName = "inscribed spellblade";
-				this.weaponVerb="slash";
+				initStrTouSpeInte(46, 48, 68, 110);
+				initWisLibSensCor(20, 25, 35, 0);
 				this.weaponAttack = 10;
-				this.armorName = "practically indecent steel armor";
-				this.armorDef = 12;
-				this.armorMDef = 1;
+				this.armorDef = 14;
+				this.armorMDef = 3;
 				this.bonusHP = 240;
 				this.bonusLust = 75;
 				this.lust = 70;
 				this.additionalXP += 40;
-				this.level = 15;
-			}/*
+				this.level = 16;
+			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 6) {
-				this.long = "You are currently fighting Evangeline, which is a seven and a half feet tall human. She's wearing practically indecent steel armor and using inscribed spellblade to attack.";
-				initStrTouSpeInte(32, 32, 45, 100);
+				initStrTouSpeInte(82, 87, 105, 115);
+				initWisLibSensCor(25, 30, 45, 0);
+				this.weaponAttack = 12;
+				this.armorDef = 18;
+				this.armorMDef = 5;
+				this.bonusHP = 360;
+				this.bonusLust = 89;
+				this.additionalXP += 60;
+				this.level = 24;
+			}
+			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 5 || flags[kFLAGS.EVANGELINE_LVL_UP] == 6) {
+				this.long = "You are currently fighting Evangeline, which is a seven and a half feet tall human bimbo. She's wearing practically indecent steel armor and using inscribed spellblade to attack.";
 				this.weaponName = "inscribed spellblade";
 				this.weaponVerb="slash";
-				this.weaponAttack = 9;
 				this.armorName = "practically indecent steel armor";
-				this.armorDef = 11;
-				this.armorMDef = 1;
-				this.bonusHP = 180;
-				this.bonusLust = 32;
-				this.additionalXP += 30;
-				this.level = 12;
-			}*/
-			if (flags[kFLAGS.EVANGELINE_LVL_UP] == 5) {
 				createBreastRow(Appearance.breastCupInverse("E"));
 				this.hips.type = Hips.RATING_CURVY + 2;
 				this.butt.type = Butt.RATING_JIGGLY + 2;
-				initWisLibSensCor(15, 25, 35, 100);
-				this.hairColor = "platinum blonde";
+				this.hairColor = "crimson platinum";
 				this.hairLength = 36;
 				this.lustVuln = .8;
 			}
@@ -408,7 +403,7 @@ public class Evangeline1 extends Monster
 				createBreastRow(Appearance.breastCupInverse("A"));
 				this.hips.type = Hips.RATING_BOYISH;
 				this.butt.type = Butt.RATING_BUTTLESS;
-				initWisLibSensCor(15, 10, 10, 100);
+				initWisLibSensCor(15, 10, 10, 0);
 				this.hairColor = "red";
 				this.hairLength = 6;
 				this.lustVuln = .85;
@@ -423,6 +418,7 @@ public class Evangeline1 extends Monster
 			this.gems = 0;
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EzekielBlessing, 0, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 1) this.createPerk(PerkLib.JobSorcerer, 0, 0, 0, 0);
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 2) {
 				this.createPerk(PerkLib.JobGuardian, 0, 0, 0, 0);
@@ -434,11 +430,18 @@ public class Evangeline1 extends Monster
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 4) {
 				this.createPerk(PerkLib.RefinedBodyI, 0, 0, 0, 0);
-				this.createPerk(PerkLib.WizardsFocus, 0, 0, 0, 0);
+				this.buff("Wizard's Focus").addStat('spellpower', 0.5);
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) {
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
+				this.createPerk(PerkLib.ManaAffinityI, 0, 0, 0, 0);
 			}
 			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 6) {
+				this.createPerk(PerkLib.MindOverBodyI, 0, 0, 0, 0);
+				this.createPerk(PerkLib.JobRogue, 0, 0, 0, 0);
+			}
+			if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 7) {
+				//this.createPerk(PerkLib.EnemyChampionType, 0, 0, 0, 0);
 			}
 			checkMonster();
 		}

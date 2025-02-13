@@ -6,8 +6,33 @@ import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
 import classes.Race;
 public class DogRace extends Race {
-	public function DogRace(id:int) {
-		super("Dog", id);
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
+    public function DogRace(id:int) {
+		super("Dog", id, []);//RaceBody);
 		chimeraTier = 0;
 		grandChimeraTier = 0;
 	}
@@ -21,13 +46,18 @@ public class DogRace extends Race {
 				.hasCockOfType(CockTypesEnum.DOG, +1)
 				.breastRowCount(2, +1)
 				.breastRowCount(3, +2)
-		addScoresAfter(1)
-				.skinCoatType(Skin.FUR, +1);
+				.skinCoatType(Skin.FUR, +1)
+				.customRequirement("","not Cerberus",
+						function (body:BodyData):Boolean {
+							return !(CerberusRace.isCerberus(body));
+						}, 0, -1000);
 		
 		buildTier(4, "dog-morph")
 				.namesMaleFemaleMorphTaur("dog-boy", "dog-girl", "dog-morph", "dog-taur")
 				.buffs({
-					"spe.mult": +0.15,
+					"str.mult": +0.15,
+					"tou.mult": +0.15,
+					"spe.mult": +0.35,
 					"int.mult": -0.05
 				})
 				.end();

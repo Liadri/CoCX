@@ -7,50 +7,49 @@ package classes.IMutations
 import classes.PerkClass;
 import classes.IMutationPerkType;
 import classes.Creature;
+import classes.Races;
 
     public class SlimeMetabolismMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Slime Metabolism";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
+			var pAcc:int = 50;
+			var pAccc:int = 1;
+			if (pTier >= 3) pAcc += 25;
+			if (pTier >= 4) {
+				pAcc += 25;
+				pAccc += 1;
+			}
             if (pTier >= 1){
-                descS += "";
+                descS += "When taking an intake of fluid heal for "+(1+pTier)+"% of your hp, mana and fatigue";
             }
             if (pTier >= 2){
-                descS += ", ";
+                descS += ". Increase all grappling tease damage by " + pAcc + "%";
             }
             if (pTier >= 3){
-                descS += ", ";
+                descS += ". Gain temporary regeneration +" + pAccc + "% after a fluid intake for one hour";
+            }
+            if (pTier >= 3){
+                descS += ". Fluid intake heals all status damage, drains and weakening by 5% per intake";
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Slime Mutation" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
-                    this.requireMetabolismMutationSlot();
+                    this.requireMetabolismMutationSlot()
+                    .requireAnyRace(Races.SLIME, Races.DARKSLIME, Races.MAGMASLIME);
                 }
                 else{
                     var pLvl:int = pTier * 30;
@@ -62,15 +61,17 @@ import classes.Creature;
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
+            if (pTier == 1) pBuffs['lib.mult'] = 0.1;
+            else if (pTier == 2) pBuffs['lib.mult'] = 0.2;
+            else if (pTier == 3) pBuffs['lib.mult'] = 0.4;
+            else if (pTier == 4) pBuffs['lib.mult'] = 0.8;
             return pBuffs;
         }
 
         public function SlimeMetabolismMutation() {
-            super("Slime Metabolism IM", "Slime Metabolism", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_METABOLISM, 4);
         }
         
     }

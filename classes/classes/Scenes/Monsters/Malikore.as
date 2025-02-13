@@ -15,6 +15,7 @@ import classes.BodyParts.Wings;
 import classes.Scenes.SceneLib;
 import classes.Scenes.NPCs.BashemathFollower;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbilities;
 
 use namespace CoC;
 
@@ -34,9 +35,9 @@ use namespace CoC;
 		public function TailSpike():void {
 			outputText("The malikore's tail curls over and shoots a spike at you. The bony spike ");
 			if (rand(100) < (this.spe - player.spe) / 2) {
-				if (player.hasStatusEffect(StatusEffects.WindWall)) {
+				if (CombatAbilities.EAspectAir.isActive()) {
 					outputText("hits wind wall doing no damage to you.");
-					player.addStatusValue(StatusEffects.WindWall,2,-1);
+					CombatAbilities.EAspectAir.advance(true);
 				}
 				else {
 					var tailspikedmg:Number = Math.round(this.str / 12);
@@ -51,7 +52,7 @@ use namespace CoC;
 					else {
 						if (rand(2) == 0) {
 							outputText("a bit more tired");
-							if (player.fatigue + 25 > player.maxFatigue()) player.fatigue = player.maxFatigue();
+							if (player.fatigue + 25 > player.maxOverFatigue()) player.fatigue = player.maxOverFatigue();
 							else player.fatigue += 25;
 						}
 						else {
@@ -61,8 +62,7 @@ use namespace CoC;
 						}
 					}
 					outputText(". You took ");
-					player.dynStats("lus", lustdmg, "scale", false);
-					outputText(" <b>(<font color=\"#ff00ff\">" + lustdmg + "</font>)</b> lust damage!");
+					player.takeLustDamage(lustdmg, true);
 				}
 			}
 			else {
@@ -80,10 +80,9 @@ use namespace CoC;
 			outputText("The flying malikore dives in your direction crashing into you breasts first! For a few seconds you go red in confusion and arousal as your face is lost in her cleavage then she pulls off leaving you dazed and aroused as she readies her next attack!");
 			var boobcrashdmg:Number = Math.round(this.str / 8);
 			var lustdmg:Number = Math.round(this.lib / 3);
-			player.dynStats("lus", lustdmg, "scale", false);
-			outputText(" <b>(<font color=\"#ff00ff\">" + lustdmg + "</font>)</b>");
+			player.takeLustDamage(lustdmg, true);
 			player.takePhysDamage(boobcrashdmg, true);
-			player.createStatusEffect(StatusEffects.Stunned,1,0,0,0);
+			if (!player.hasPerk(PerkLib.Resolute)) player.createStatusEffect(StatusEffects.Stunned,1,0,0,0);
 			removeStatusEffect(StatusEffects.Flying);
 		}
 
@@ -164,11 +163,11 @@ use namespace CoC;
 			this.tallness = 72;
 			this.hips.type = Hips.RATING_CURVY + 3;
 			this.butt.type = Butt.RATING_LARGE + 2;
-			this.skinTone = "light";
+			this.bodyColor = "light";
 			this.hairColor = "red";
 			this.hairLength = 13;
 			initStrTouSpeInte(130, 195, 330, 200);
-			initWisLibSensCor(200, 230, 110, 80);
+			initWisLibSensCor(200, 230, 110, 60);
 			this.weaponAttack = 54;
 			this.weaponName = "claw";
 			this.weaponVerb="claw-slash";
@@ -180,7 +179,6 @@ use namespace CoC;
 			this.lust = 30;
 			this.lustVuln = .8;
 			this.level = 39;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 45 + rand(40);
 			this.drop = new ChainedDrop().
 					add(armors.S_SWMWR,1/12).

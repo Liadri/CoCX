@@ -2,13 +2,39 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 import classes.StatusEffects;
 import classes.VaginaClass;
 
 public class CancerRace extends Race{
-	public function CancerRace(id:int) {
-        super("Cancer", id);
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
+    public function CancerRace(id:int) {
+        super("Cancer", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -29,6 +55,8 @@ public class CancerRace extends Race{
 						}, +1
 						)
 				.biggestTitSize(AT_MOST(3), +1);
+		
+		addBloodline(PerkLib.CancersDescendant, PerkLib.BloodlineCancer);
 		addMutation(IMutationsLib.TwinHeartIM, +2);
 		
 		buildTier(13, "lesser cancer")

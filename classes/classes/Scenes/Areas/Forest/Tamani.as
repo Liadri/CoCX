@@ -12,8 +12,7 @@ import classes.internals.*;
 
 public class Tamani extends Goblin
 	{
-
-				
+		
 		override protected function goblinTeaseAttack():void
 		{
 			if(flags[kFLAGS.TAMANI_TIMES_HYPNOTISED] > 0) {
@@ -79,7 +78,7 @@ public class Tamani extends Goblin
 					outputText("our [cocks] pulses and dribbles pre-cum, aching to do its duty and fire load after load into Tamani's perfect pussy.");
 				}
 			}
-			player.dynStats("lus", (rand(player.lib/5)+3+(flags[kFLAGS.TAMANI_TIMES_HYPNOTISED])));
+			player.takeLustDamage(rand(player.lib/5)+3+(flags[kFLAGS.TAMANI_TIMES_HYPNOTISED]), true);
 		}
 
 		override public function defeated(hpVictory:Boolean):void
@@ -116,6 +115,7 @@ public class Tamani extends Goblin
 		public function Tamani()
 		{
 			super(false);
+			var mod:int = flags[kFLAGS.TAMANI_LVL_UP]; //just to be concise
 			this.a = "";
 			this.short = "Tamani";
 			this.imageName = "tamani";
@@ -130,23 +130,22 @@ public class Tamani extends Goblin
 			this.tallness = 40;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "greenish gray";
+			this.bodyColor = "greenish gray";
 			this.hairColor = "pink and black";
 			this.hairLength = 16;
-			initStrTouSpeInte(37, 58, 55, 62);
-			initWisLibSensCor(60, 64, 65, 50);
+			initStrTouSpeInte(37 + mod*14, 58 + mod*24, 55 + mod*18, 62 + mod*22);
+			initWisLibSensCor(60 + mod*40, 64 + mod*52, 65 + mod*60, 10);
 			this.weaponName = "fists";
 			this.weaponVerb="tiny punch";
-			this.weaponAttack = 1;
+			this.weaponAttack = 2 + mod*4;
 			this.armorName = "leather straps";
-			this.armorDef = 1;
-			this.armorMDef = 1;
-			this.bonusHP = 60;
-			this.bonusLust = 137;
+			this.armorDef = 2 + mod*4;
+			this.armorMDef = 2 + mod*4;
+			this.bonusHP = 120 + mod*20;
+			this.bonusLust = 137 + mod*118;
 			this.lust = 40;
 			this.lustVuln = 0.9;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 8;
+			this.level = 8 + mod*6;
 			this.gems = rand(35) + 10;
 			this.drop = new WeightedDrop().add(consumables.GOB_ALE,4)
 					.addMany(1,
@@ -161,6 +160,27 @@ public class Tamani extends Goblin
 							null);
 			this.special1 = goblinDrugAttack;
 			this.special2 = goblinTeaseAttack;
+			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 1 && flags[kFLAGS.TAMANI_LVL_UP] < 4) this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 1) this.createPerk(PerkLib.JobSeducer, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 2) this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 3) this.createPerk(PerkLib.JobCourtesan, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 4 && flags[kFLAGS.TAMANI_LVL_UP] < 7) this.createPerk(PerkLib.EnemyChampionType, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 4) this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 5) this.createPerk(PerkLib.JobEromancer, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 6) this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 7) {
+				this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
+				this.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
+			}
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 8) this.createPerk(PerkLib.EpicToughness, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 9) this.createPerk(PerkLib.PrestigeJobBindmaster, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 10) this.createPerk(PerkLib.EpicLibido, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 11) this.createPerk(PerkLib.OverMaxLust, (8 + (mod*6)), 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 12) this.createPerk(PerkLib.LegendaryToughness, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 13) this.createPerk(PerkLib.OverMaxHP, (8 + (mod*6)), 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 14) this.createPerk(PerkLib.LegendaryLibido, 0, 0, 0, 0);
+			if (flags[kFLAGS.TAMANI_LVL_UP] >= 15) this.createPerk(PerkLib.DeityJobMunchkin, 0, 0, 0, 0);
 			checkMonster();
 		}
 		

@@ -1,4 +1,5 @@
 package classes.BodyParts {
+import classes.Creature;
 import classes.internals.EnumValue;
 import classes.StatusEffects;
 import classes.PerkLib;
@@ -38,7 +39,7 @@ public class RearBody extends BodyPart {
 	public static const LION_MANE: int = 4;
 	EnumValue.add(Types, LION_MANE, "LION_MANE", {
 		name: "lion mane",
-		appearanceDesc: "Around your neck there is a thick mane of [skin coat.color] fur. It looks great on you."
+		appearanceDesc: "Around your neck there is a thick mane of [fur color] fur. It looks great on you."
 	});
 	public static const BEHEMOTH: int = 5;
 	EnumValue.add(Types, BEHEMOTH, "BEHEMOTH", {
@@ -68,7 +69,7 @@ public class RearBody extends BodyPart {
 	public static const WOLF_COLLAR: int = 10;
 	EnumValue.add(Types, WOLF_COLLAR, "WOLF_COLLAR", {
 		name: "wolf collar",
-		appearanceDesc: "Around your neck, there is a thick coat of [skin coat.color] fur. It looks great on you. That said, you can dismiss every one of your bestial features at any time should the need arise for you to appear human."
+		appearanceDesc: "Around your neck, there is a thick coat of [fur color] fur. It looks great on you. That said, you can dismiss every one of your bestial features at any time should the need arise for you to appear human."
 	});
 	public static const DISPLACER_TENTACLES: int = 11;
 	EnumValue.add(Types, DISPLACER_TENTACLES, "DISPLACER_TENTACLES", {
@@ -160,18 +161,58 @@ public class RearBody extends BodyPart {
 			return desc;
 		}
 	});
-
-	public static const MINDWARP: int = 26;
-	EnumValue.add(Types, MINDWARP, "MINDWARP", {
-		name:"mind warping aura",
-		appearanceDescFunc: function(player: *): String {
-			var desc: String = " The air around you warps and shifts from the mind warping aura your defiled body releases.";
-			return desc;
-		}
+	public static const BEE_HANDMAIDEN: int = 26;
+	EnumValue.add(Types, BEE_HANDMAIDEN, "BEE_HANDMAIDEN", {
+		name: "Hypnotic droning aura",
+		appearanceDesc: "Your wingbeat produces a lulling aura that may entrance aggressors into a more pliant disposition the better the chances for you to deliver your eggs."
+	});
+	public static const HELLHOUND_COLLAR: int = 27;
+	EnumValue.add(Types, HELLHOUND_COLLAR, "HELLHOUND_COLLAR", {
+		name: "hellhound furry neck",
+		appearanceDesc: "Around your neck, there is a thick coat of [fur color] fur."
+	});
+	public static const ABYSSAL_SHARK_FIN: int = 28;
+	EnumValue.add(Types, ABYSSAL_SHARK_FIN, "ABYSSAL_SHARK_FIN", {
+		name: "abyss shark fin",
+		appearanceDesc: "A large, shark-like fin has sprouted between your shoulders, and a second, smaller fin beneath it at the height of your navel. With them, you have much a easier ability to swim around."
+	});
+	public static const ARIGEAN_RED_AURA: int = 29;
+	EnumValue.add(Types, ARIGEAN_RED_AURA, "ARIGEAN_RED_AURA", {
+		name: "arigean aura (R)",
+		appearanceDesc: "A black and red haze is exhaled from your symbiotic partners, sticking close to your form giving you an intimidating aura to help frighten your foes."
+	});
+	public static const ARIGEAN_YELLOW_AURA: int = 30;
+	EnumValue.add(Types, ARIGEAN_YELLOW_AURA, "ARIGEAN_YELLOW_AURA", {
+		name: "arigean aura (Y)",
+		appearanceDesc: "A black and yellow haze is exhaled from your symbiotic partners, sticking close to your form giving you an intimidating aura to help frighten your foes."
+	});
+	public static const ARIGEAN_PINCER_LIMBS: int = 31;
+	EnumValue.add(Types, ARIGEAN_PINCER_LIMBS, "ARIGEAN_PINCER_LIMBS", {
+		name: "An extra pair of pincer like limbs",
+		appearanceDesc: "An extra pair of large black pincer-like limbs sprout from your back, each seems to be adorn in black armor-like skin not unlike that found on your legs. You can’t help but laugh at the thought of crushing the life from your foes with your fearsome claws."
+	});
+	public static const THIRSTY_NECK: int = 32;
+	EnumValue.add(Types, THIRSTY_NECK, "THIRSTY_NECK", {
+		name: "thirsty neck",
+		appearanceDesc: "Your throat is constantly parched, aching for the sweet taste of blood. It’s difficult for you to not go crazy when the liquid is spilled nearby and at time you even fully lose control. The exact spot where your sire has bitten you is still marked by a pair of faint scars, the only wound on your entire body that won’t fully heal no matter how much you try."
+	});
+	public static const MOTH_COLLAR: int = 33;
+	EnumValue.add(Types, MOTH_COLLAR, "MOTH_COLLAR", {
+		name: "moth collar",
+		appearanceDesc: "You have a fluffy collar"
 	});
 
-	public function RearBody() {
-		super(null, null);
+    public static const MINDWARP: int = 34;
+    EnumValue.add(Types, MINDWARP, "MINDWARP", {
+        name:"mind warping aura",
+        appearanceDescFunc: function(player: *): String {
+            var desc: String = " The air around you warps and shifts from the mind warping aura your defiled body releases.";
+            return desc;
+        }
+    });
+
+	public function RearBody(creature:Creature) {
+		super(creature, null);
 	}
 
 	public static function getAppearanceDescription(player: *):String {

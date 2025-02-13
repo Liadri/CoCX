@@ -17,7 +17,7 @@ use namespace CoC;
 	{
 		private function zenjiSpearThrust():void {
 			outputText(""+(this.short == "Zenji" ? "Zenji" : "The troll")+" charges at you with a spear, ");
-			if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) {
+			if (player.speedDodge(this)>0) {
 				if (flags[kFLAGS.ZENJI_PROGRESS] == -1) outputText("you manage to dodge his oncoming attack");
 				else outputText("he misses as you dodge his oncoming attack");
 			}
@@ -38,7 +38,7 @@ use namespace CoC;
 		}
 		private function zenjiFeint():void {
 			outputText(""+(this.short == "Zenji" ? "Zenji" : "The troll")+" charges at you with a spear, but he feints and attempts to bash your face with his tusks");
-			if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) {
+			if (player.speedDodge(this)>0) {
 				if (flags[kFLAGS.ZENJI_PROGRESS] == -1) outputText("but you narrowly manage to avoid his tusks");
 				else outputText(" but you manage to avoid his tusks");
 			}
@@ -90,7 +90,7 @@ use namespace CoC;
 		}
 		private function zenjiPiercingBlow():void {
 			outputText(""+(this.short == "Zenji" ? "Zenji" : "The troll")+" readies himself, aiming, then throws his spear like a javelin");
-			if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) outputText(". You dodge the incoming spear, but you notice "+(this.short == "Zenji" ? "Zenji" : "him")+" charging at you, he rams into your midriff, knocking the wind out of you. You struggle to regain your composure and are having trouble concentrating on spells for a moment.");
+			if (player.speedDodge(this)>0) outputText(". You dodge the incoming spear, but you notice "+(this.short == "Zenji" ? "Zenji" : "him")+" charging at you, he rams into your midriff, knocking the wind out of you. You struggle to regain your composure and are having trouble concentrating on spells for a moment.");
 			else {
 				var damage:Number = 0;
 				var boost:Number = 0.4;
@@ -105,7 +105,7 @@ use namespace CoC;
 					if (damage < player.maxHP() * 0.35) {
 						damage = player.maxHP() * 0.35;
 						player.HP -= damage;
-						outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>");
+						outputText("<b>([font-damage]" + damage + "[/font])</b>");
 					}
 					else damage = player.takePhysDamage(damage, true);
 				}
@@ -175,11 +175,11 @@ use namespace CoC;
 		
 		override public function defeated(hpVictory:Boolean):void
 		{
-			if (flags[kFLAGS.ZENJI_PROGRESS] == 8) SceneLib.zenjiScene.followerZenjiSparZenjiDefeated();
-			else if (flags[kFLAGS.ZENJI_PROGRESS] > 5) SceneLib.zenjiScene.part2TrollEncounterRepeatFightZenjiDefeated();
-			else if (flags[kFLAGS.ZENJI_PROGRESS] == 5) SceneLib.zenjiScene.part2TrollEncounterFirstFightZenjiDefeated();
-			else if (flags[kFLAGS.ZENJI_PROGRESS] == -1) SceneLib.zenjiScene.part1TrollEncounterFightTOTHEDEATHZenjiDefeated();
-			else SceneLib.zenjiScene.part1TrollEncounterFightZenjiDefeated();
+			if (flags[kFLAGS.ZENJI_PROGRESS] == 8) SceneLib.zenjiScene.followerZenjiSparZenjiDefeated(hpVictory);
+			else if (flags[kFLAGS.ZENJI_PROGRESS] > 5) SceneLib.zenjiScene.part2TrollEncounterRepeatFightZenjiDefeated(hpVictory);
+			else if (flags[kFLAGS.ZENJI_PROGRESS] == 5) SceneLib.zenjiScene.part2TrollEncounterFirstFightZenjiDefeated(hpVictory);
+			else if (flags[kFLAGS.ZENJI_PROGRESS] == -1) SceneLib.zenjiScene.part1TrollEncounterFightTOTHEDEATHZenjiDefeated(hpVictory);
+			else SceneLib.zenjiScene.part1TrollEncounterFightZenjiDefeated(hpVictory);
 		}
 		
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
@@ -195,7 +195,7 @@ use namespace CoC;
 		{
 			if (flags[kFLAGS.ZENJI_PROGRESS] >= 1 && (flags[kFLAGS.ZENJI_PROGRESS] < 8 || flags[kFLAGS.ZENJI_PROGRESS] == 10)) {
 				initStrTouSpeInte(145, 140, 135, 125);
-				initWisLibSensCor(135, 20, 40, 0);
+				initWisLibSensCor(135, 20, 40, -100);
 				this.weaponAttack = 50;
 				this.armorDef = 50;
 				this.armorMDef = 200;
@@ -203,7 +203,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.ZENJI_PROGRESS] == -1 || flags[kFLAGS.ZENJI_PROGRESS] == 8 || flags[kFLAGS.ZENJI_PROGRESS] == 9) {
 				initStrTouSpeInte(145, 140, 135, 125);
-				initWisLibSensCor(135, 20, 40, 0);
+				initWisLibSensCor(135, 20, 40, -100);
 				this.weaponAttack = 50;
 				this.armorDef = 50;
 				this.armorMDef = 200;
@@ -236,7 +236,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.ZENJI_PROGRESS] == 5) {
 				initStrTouSpeInte(145, 140, 135, 125);
-				initWisLibSensCor(135, 20, 40, 0);
+				initWisLibSensCor(135, 20, 40, -100);
 				this.weaponAttack = 50;
 				this.armorDef = 50;
 				this.armorMDef = 200;
@@ -275,12 +275,11 @@ use namespace CoC;
 			this.armorName = "green fuzz";
 			this.lust = 0;
 			this.lustVuln = .1;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.gems = rand(10) + 5;
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.RefinedBodyI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
-			this.createPerk(PerkLib.HydraRegeneration, 0.5, 0, 0, 0);
+			this.createPerk(PerkLib.TrollRegeneration, 6, 0, 0, 0);
 			this.createPerk(PerkLib.JobSorcerer, 0, 0, 0, 0);
 			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			if ((flags[kFLAGS.ZENJI_PROGRESS] == 8 || flags[kFLAGS.ZENJI_PROGRESS] == 9) && this.level >= 40) this.createPerk(PerkLib.Resolute, 0, 0, 0, 0);

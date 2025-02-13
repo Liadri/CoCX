@@ -10,8 +10,8 @@ public class Essrayle extends BaseContent{
 	}
 
 //const MET_ESSY:int = 772;
-//const TURNED_DOWN_ESSY_FIRST_MEETING:int = 773;
-//const ACCEPTED_ESSY_FIRST_MEETING:int = 774;
+//const UNKNOWN_FLAG_NUMBER_00773:int = 773;
+//const ESSRAYLE_SEXED:int = 774;
 //const ESSRAYLE_ESCAPED_DUNGEON:int = 863;
 //const TOLD_MOTHER_TO_RELEASE_ESSY:int = 864;
 //const ESSY_DUNGEON_FUCKED:int = 865;
@@ -54,11 +54,11 @@ public function essrayleMeetingI():void {
 		outputText("\n\nEssy smiles, bulb rippling as she nears you again.  \"<i>Say, you're a hero, right?  Do you think you could do a girl a favor?~</i>\"");
 		
 		outputText("\n\nWith the way she moves and seems to saturate the air around with her sexual tension, you're sure that helping her will lead to something sexual.  Do you help her?");
-		dynStats("lus", 5);
+		dynStats("lus", 5, "scale", false);
 		
 	}
 	else {
-		outputText("During your travels through the forest, you stumble upon a familiar face once again.  \"<i>Oh, hello!</i>\ Essrayle cheerily waves to you, causing her ample tits to jiggle slightly.  \"<i>I was wondering if you'd be back.</i>\"  She moves closer, massive melons wobbling mere inches away from you, \"<i>I had a feeling you would though.</i>\"  Cooing warmly, she brushes a lock of hair aside with enough of an exaggerated motion to set the bouncy pair to bobbing.");
+		outputText("During your travels through the forest, you stumble upon a familiar face once again.  \"<i>Oh, hello!</i>\" Essrayle cheerily waves to you, causing her ample tits to jiggle slightly.  \"<i>I was wondering if you'd be back.</i>\"  She moves closer, massive melons wobbling mere inches away from you, \"<i>I had a feeling you would though.</i>\"  Cooing warmly, she brushes a lock of hair aside with enough of an exaggerated motion to set the bouncy pair to bobbing.");
 		outputText("\n\n\"<i>So, did you come back just to say hi, or might there be some other reason?</i>\"  Those slender, green hands fall upon her shapely hips as her gorgeous amethyst eyes peer deeply into yours.  \"<i>If you came to give me a feeding, I simply must thank you this time, I insist.</i>\"  Abruptly, those tits squish against your chest as she leans in close, asking seductively, \"<i>So, feeling up for some gardening?</i>\"");
 	}
 	flags[kFLAGS.MET_ESSY]++;
@@ -68,36 +68,35 @@ public function essrayleMeetingI():void {
 	addButton(2,"No",noPlantsForMe);
 	
 }
- 
+
 //>If No
 private function noPlantsForMe():void {
 	clearOutput();
 	outputText("Essy pouts, ears flattening to the sides a bit.  \"<i>I see,</i>\" she nods, looking at you with thinly masked disappointment.  She seems to instantly put on a false smile and move aside, gesturing to the path ahead with a sweep of the arm.  \"<i>Well, in that case, you must be going somewhere important.  Best not keep you waiting.  I do wish you luck in your adventures!</i>\" She continues to beam as you head on off, leaving her behind you in no time.  Though as you leave, you swear you hear a mumbled, \"<i>Leave it to me to find the prudish ones.</i>\"");
-	flags[kFLAGS.TURNED_DOWN_ESSY_FIRST_MEETING] = 1;
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
- 
+
 //>If Yes
 private function plantsForMe():void {
 	clearOutput();
-	if(flags[kFLAGS.ACCEPTED_ESSY_FIRST_MEETING] == 0) {
-		flags[kFLAGS.ACCEPTED_ESSY_FIRST_MEETING] = 1;
+	if(flags[kFLAGS.ESSRAYLE_SEXED] == 0) {
 		outputText("Essrayle giggles, sending ripples through her ample breasts.  \"<i>Oh, why thank you!  It's nothing major - I doubt it'll be much of a burden to you.  But in my travels, I've grown wilted and depleted of the energy to go on.  I'm soooo hungry!  Would you please-?</i>\"  She leaves the question hanging, looking to you imploringly.  Hastily your hand goes to where your supplies are housed, but you stop as she waves a hand dismissively.  \"<i>No, no, I don't mean biscuits or the like.</i>\"  Confused, you frown, but soften as you feel her hand rest upon your [chest].  \"<i>I require a special kind of food to do what I do, one that won't exhaust your supplies in the least.</i>\"\n\n");
 	}
+	++flags[kFLAGS.ESSRAYLE_SEXED];
 	//(If breasts
 	if(player.biggestTitSize() > 1) outputText("Your nipples stiffen, breasts puffing out with a heated breath");
 	else outputText("You arch your back gently, unconsciously pressing into her slender fingers a bit further");
 	outputText(" as her hand begins to circle your chest.  \"<i>Though you, that's another story.</i>\"  She grins seductively as the air around you seems to thicken with a gentle pink mist.  Out of instinct, you look around, trying to discern the source - could she be one of the demons?");
 	outputText("\n\nAgain you hear Essy's laugh, sweet and playful, feeling her suddenly hug you tight into her ample bosom.  Her skin is so soft, smelling so sweet and rather floral, and those tremendous breasts squish as they cover the lower half of your [face], silencing any protests you might have.  \"<i>Shhh, just relax,</i>\" she coos, a hand caressing your back tenderly, \"<i>just breathe deeply, cutie.</i>\"");
-		
+	
 	outputText("\n\nNot in a position to argue, you take a deep, albeit shaky, breath.  The air smells sweet as well, like you're amidst a sea of wildflowers in full bloom.  Your eyelids flutter gently.  It's so aromatic, so soothing.  Essy smiles to you.  \"<i>That's right, you're safe here, helping Essy out in her need.</i>\"  Taking another deep breath you feel your muscles relaxing, just wanting to get to the next breath as you exhale in order to take in more of the fragrance.");
-		
+	
 	outputText("\n\nShe continues her work, keeping you soothed and at peace as she works.  Her hands steadily remove your [armor], sliding it off of your unyielding body with great ease.  Each piece lands almost silently behind you as it's discarded to the grass until you stand completely naked, just like her.");
-		
+	
 	outputText("\n\n\"<i>Such silly things.  It always puzzles me why you mortals wear so much.</i>\"  Your eyes scan about her body, searching for any clue of demonic nature.  She lacks the horns, her own being more majestic and beautiful than any you've seen, and she lacks the muscles you'd expect from a threat.");
-		
+	
 	outputText("\n\nUpon her back, apparently blooming from it, is a large, pink flower from which streams that pink mist,  blanketing the area.  Abruptly, Essy lifts you up, tilting your head gently as she presses her dainty, green lips to yours.  It doesn't take long before the two of you begin to passionately make out, as if you'd cared for one another for years.  Her tongue pushes into your mouth, feeling unusually soft, a bit ticklish, and tasting of... mint?");
-		
+	
 	outputText("\n\nSlowly, you two separate, Essy sliding her leaf-like tongue over your lips, leaving them with a cool tingle for a time.  \"<i>I'm sooooo hungry... so very, very hungry,</i>\" she whispers to you, her face touching your nose once more.  One of her hands begins to trail down your front, grasping and squeezing your nipples.");
 	
 	//(If breasts present)
@@ -107,7 +106,7 @@ private function plantsForMe():void {
 		outputText(".  You moan, and this only seems to encourage her, as she takes your nipples between thumb and forefinger, twisting and turning them this way and that.  She giggles at how your moans seem to fluctuate by coincidence, continuing to tease them");
 		if(player.bRows() > 1) outputText(", steadily working over the multitude of fleshy mounds on your body");
 		outputText(".");
-		if(player.hasFuckableNipples()) outputText("  Her fingers play with your nipples and press gently to tease at them.  She seems quite surprised as they sink in with minimal effort.  A grin spreads over her face as she begins to steadily thrust those digits in and out of your nipples, fingers swirling about the interiors all the while.");
+		if(player.hasFuckableNipples()) outputText("  Her fingers play with your nipples and press them gently.  She seems quite surprised as they sink in with minimal effort.  A grin spreads over her face as she begins to steadily thrust those digits in and out of your nipples, fingers swirling about the interiors all the while.");
 		outputText("  \"<i>You certainly have a lovely pair, but they could always be better, don't you think?</i>\"");
 		//[Yes] [No]
 		menu();
@@ -126,7 +125,7 @@ private function plantsForMe2(BE:int = 0):void {
 	clearOutput();
 	//Yes
 	if(BE == 1) outputText("Essy grins, nodding.  \"<i>Precisely.  I don't doubt they'll be even more fun given enough exposure here.</i>\"\n\n");
-	 //If No= 
+	 //If No=
 	 else if(BE == 2) outputText("\"<i>Heh, suit yourself.</i>\"\n\n");
 
 	//Regardless of tit forks, merge back in to this
@@ -228,7 +227,7 @@ private function plantsForMe2(BE:int = 0):void {
 	player.sexReward("milk");
 	dynStats("lib", 1);
 	//Slimefeed!
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 
@@ -261,7 +260,7 @@ public function approachTrappedEssy():void {
 	else {
 		outputText("Essrayle sits here in her pot just like you left her.  She seems to be a bit out of it once more, not realizing you're there.  Her heavy breasts jiggle and ripple with the least amount of movement, apparently drawing nutrients from her soil to refill themselves.  Just watching the oblivious girl pant and swell with bovine surplus is oddly arousing, and having sampled her sap already... no wonder the sand witches keep her here.  Judging by the steady leak coming from her four breasts, it seems likely the ethereal hands have recently given her a good milking, but you're sure she wouldn't mind a more personal touch.");
 	}
-	dynStats("lus", 10+player.lib/10);
+	dynStats("lus", 10+player.lib/10, "scale", false);
 	menu();
 	//Option: [Feed her] [leave]
 	if(player.gender > 0) addButton(0,"Feed Her",feedTrappedEssy);
@@ -300,7 +299,7 @@ private function hasCockFeedEssy(newPage:Boolean = true):void {
 	if(player.biggestCockLength() < 20) outputText("her lower pair of wobbling udders");
 	else outputText("both sets of milk-bloated breasts");
 	outputText(" faster and faster, the hot slapping of her bountiful bosom against your [cock]");
-	if(player.balls > 0) outputText(" and your swollen, heavy balls against her fecund belly");
+	if(player.hasBalls()) outputText(" and your swollen, heavy balls against her fecund belly");
 	outputText(" setting an inspiring drum beat to your feverish pace.");
 
 	outputText("\n\nIt doesn't take long before the gushing, milky embrace of Essy's flowering breasts coaxes you to paint the green girl's emerald flesh white with your ivory seed.  As you cum, her shuddering udders seem to experience their own release, massive teats bulging between your fingers as they swell with a tremendous, liquid weight.  Then, in a strangely synchronized discharge, surging gouts of milky sap shower out in pressured geysers that rain down around the two of you in a sticky deluge of rich passion.  The floor teems with sprouting undergrowth while the plant girl's shapely ass jiggles with orgasmic delight as the soil she's planted in turns a deep black, instantly enriched by her fertile cream.");
@@ -374,13 +373,14 @@ private function acceptEssyPrizes():void {
 	outputText("\n\nShe hurries out of the glade, a rather impressive feat for one with such an over-burdened bust, much less a bulb for legs!  Just as you're getting bored, she finally returns, bouncing into sight with a giddy air.  \"<i>Sorry!</i>\" she giggles, licking some pale, creamy fluid from her lips, \"<i>I had to do a bit of negotiation.</i>\"  She settles back next to you once more and produces a small scroll, opening it up and chanting in the tongue of the sand witches.");
 	
 	outputText("\n\n\"<i>Ytnuob ruoy htiw sdnas eht doolf. Edit yklim eht wolf tel!</i>\"");
-			   
+	
 	outputText("\n\nYou feel a sweltering heat fall over you. With a sudden urge you thrust your chest out as ");
 	if(player.biggestTitSize() <= 1) {
 		outputText("four bulging tits erupt from your chest");
 		player.breastRows[0].breastRating = 4;
 		if(player.bRows() == 1) player.createBreastRow();
 		player.breastRows[1].breastRating = 4;
+		transformations.UnlockBreasts();
 	}
 	//if two breasts:
 	else if(player.bRows() == 1) {
@@ -391,8 +391,9 @@ private function acceptEssyPrizes():void {
 		}
 		if(player.bRows() == 1) player.createBreastRow();
 		player.breastRows[1].breastRating = player.breastRows[0].breastRating;
+		transformations.UnlockBreasts();
 	}
-	//if four+ breasts: 
+	//if four+ breasts:
 	else {
 		outputText("your [fullChest] swell larger and larger under the expanding magic of the spell");
 		player.growTits(6, player.bRows(), false, 2);
@@ -401,7 +402,7 @@ private function acceptEssyPrizes():void {
 	outputText(", filling with warm, fluid weight.  They jiggle and wobble against each other and your belly as they adjust to their brimming plumpness.  You now proudly sport [fullChest].");
 
 	outputText("\n\nGrinning, Essrayle nods happily, rolling the scroll back up.  \"<i>Yes, that looks veeerry good on you!</i>\"  She ogles your chest for a while before glancing down at her own.  \"<i>But I think I could do you one better, since you've been so sweet to me,</i>\" the all-natural beauty coos happily.  \"<i>As a special bonus to you, how'd you like to have these too?</i>\" she moos, running her finger about her four, plump nipples, giving you a seductive smile.");
-	dynStats("lus", 10);
+	dynStats("lus", 10, "scale", false);
 	menu();
 	addButton(0,"Yes",yesGimmeGiantNipplesEssy);
 	addButton(1,"No",noGimmeGiantNipplesEssy);

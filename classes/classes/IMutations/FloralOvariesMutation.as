@@ -7,11 +7,13 @@ package classes.IMutations
 import classes.PerkClass;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class FloralOvariesMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Floral Ovaries";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -29,26 +31,10 @@ public class FloralOvariesMutation extends IMutationPerkType
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Floral Ovaries" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -65,9 +51,8 @@ public class FloralOvariesMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) pBuffs['lib.mult'] = 0.05;
             if (pTier == 2) pBuffs['lib.mult'] = 0.15;
             if (pTier == 3) pBuffs['lib.mult'] = 0.35;
@@ -75,8 +60,7 @@ public class FloralOvariesMutation extends IMutationPerkType
         }
 
         public function FloralOvariesMutation() {
-            super("Floral Ovaries IM", "Floral Ovaries", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_OVARIES, 3);
         }
 
     }

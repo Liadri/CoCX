@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Areas.Caves 
+package classes.Scenes.Areas.Caves
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -44,7 +44,7 @@ use namespace CoC;
 			damage += 1.2;
 			damage = Math.round(damage);
 			damage = player.takePhysDamage(damage, true);
-			if (rand(10) == 0) {
+			if (rand(10) == 0 && !player.immuneToBleed()) {
 				if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.addStatusValue(StatusEffects.Hemorrhage, 1, 1);
 				else {
 					player.createStatusEffect(StatusEffects.Hemorrhage, SceneLib.combat.debuffsOrDoTDuration(3), 0.05, 0, 0);
@@ -60,10 +60,12 @@ use namespace CoC;
 			firedamage += eBaseIntelligenceDamage() * 1.2;
 			firedamage = Math.round(firedamage);
 			player.takeFireDamage(firedamage, true);
-			if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
-			else {
-				player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
-				outputText(" Reeling in pain you begin to burn.");
+			if (!player.immuneToBurn()) {
+				if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
+				else {
+					player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+					outputText(" Reeling in pain you begin to burn.");
+				}
 			}
 		}
 		
@@ -111,7 +113,7 @@ use namespace CoC;
 			return str;
 		}
 		
-		public function CaveWyrm() 
+		public function CaveWyrm()
 		{
 			this.a = "the ";
 			this.short = "cave wyrm";
@@ -134,11 +136,11 @@ use namespace CoC;
 			this.hips.type = Hips.RATING_INHUMANLY_WIDE;
 			this.butt.type = Butt.RATING_INCONCEIVABLY_BIG;
 			this.lowerBody = LowerBody.CAVE_WYRM;
-			this.skinTone = "dark blue";
+			this.bodyColor = "dark blue";
 			this.hairColor = "black";
 			this.hairLength = 9;
 			initStrTouSpeInte(142, 121, 110, 74);
-			initWisLibSensCor(74, 100, 50, 30);
+			initWisLibSensCor(74, 100, 50, -40);
 			this.weaponName = "double axe";
 			this.weaponVerb= "double cleave";
 			this.weaponAttack = 30;
@@ -151,7 +153,6 @@ use namespace CoC;
 			this.bonusLust = 185;
 			this.lustVuln = .35;
 			this.lust = 30;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.level = 35;
 			this.gems = rand(10) + 20;
 			this.drop = new ChainedDrop().
@@ -160,6 +161,6 @@ use namespace CoC;
 			this.tailType = Tail.CAVE_WYRM;
 			this.tailRecharge = 0;
 			checkMonster();
-		}	
+		}
 	}
 }

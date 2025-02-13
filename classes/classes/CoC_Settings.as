@@ -1,4 +1,4 @@
-﻿package classes 
+﻿package classes
 {
 	/**
 	 * ...
@@ -8,7 +8,8 @@
 	{
 
 
-		public static var debugBuild:Boolean = true;
+		public static var debugBuild:Boolean = CONFIG::debug;
+		public static var mobileBuild:Boolean = CONFIG::AIR;
 		
 		// Horrible static abuse FTW
 		public static var haltOnErrors:Boolean = false;
@@ -21,11 +22,8 @@
 		 */
 		public static function error(description:String=""):void {
 			trace("ERROR "+description);
-			CONFIG::debug
-			{
-				if (CoC.instance && CoC.instance.mainView)
-					EngineCore.outputText("\n\n<b>ERROR: " + description + "</b>\n\n");
-			}
+			if (debugBuild && CoC.instance && CoC.instance.mainView)
+				EngineCore.outputText("\n\n<b>ERROR: " + description + "</b>\n\n");
 			if (haltOnErrors) throw Error(description);
 		}
 

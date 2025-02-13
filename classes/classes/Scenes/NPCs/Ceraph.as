@@ -5,8 +5,11 @@ import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.BodyParts.LowerBody;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.Combat.Combat;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
+
+import coc.view.CoCButton;
 
 public class Ceraph extends Monster
 	{
@@ -39,14 +42,14 @@ public class Ceraph extends Monster
 				else {
 					removeStatusEffect(StatusEffects.Uber);
 					//(Avoid!)
-					if (flags[kFLAGS.IN_COMBAT_USE_PLAYER_WAITED_FLAG] == 1) {
+					if (Combat.playerWaitsOrDefends()) {
 						outputText("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Thanks to your decision to wait, it's easy to avoid the onrushing flames and her attack.\n\n");
 						outputText("Ceraph sighs and asks, \"<i>Why would you move?  It would make you feel soooo good!</i>\"");
 					}
 					//(Direct Hit)
 					else {
 						outputText("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Too busy with your own attack to effectively dodge, you're hit full on by the pink fire.  Incredibly, it doesn't burn.  The fire actually seems to flow inside you, disappearing into your skin.  You stumble, confused for a second, but then it hits you.  Every inch of your body is buzzing with pleasure, practically squirming and convulsing with sexual delight.  You collapse, twitching and heaving, feeling the constant sensation of sexual release running from your head to your [feet].");
-						player.dynStats("lus", 1000);
+						player.takeLustDamage(player.maxOverLust(), true, false);
 						if (player.lust >= player.maxOverLust()) outputText("  Too horny and pleasured to resist, you lie down and tremble, occasionally rubbing yourself to enhance the bliss.");
 					}
 				}
@@ -60,7 +63,7 @@ public class Ceraph extends Monster
 				//If player has l2 piercing
 				if (flags[kFLAGS.PC_FETISH] >= 2) {
 					outputText("  Gods this turns you on!");
-					player.dynStats("lus", 5);
+					player.takeLustDamage(25, true);
 				}
 				player.createStatusEffect(StatusEffects.Bound, 2 + rand(5), 0, 0, 0);
 			}
@@ -68,7 +71,7 @@ public class Ceraph extends Monster
 			else {
 				if (rand(2) == 0) {
 					outputText("Ceraph cuddles up against you, embracing you tenderly.  Her more-than-ample bosom crushes against your flank, and her demonic prick grinds and rubs against your [skin.type], smearing it with her juices.  Her hands slide over your bound form, sneaking underneath your [armor] to caress you more intimately while you're at her mercy.");
-					player.dynStats("lus", 9 + player.effectiveSensitivity() / 10);
+					player.takeLustDamage(18 + player.effectiveSensitivity() / 5, true);
 				}
 				//[SPECIAL 2 WHILE PC RESTRAINED]
 				else {
@@ -77,7 +80,7 @@ public class Ceraph extends Monster
 					else if (player.lust < .6*player.maxLust()) outputText("It gets inside you and turns you on, stoking the flames of your desire.");
 					else if (player.lust < .8*player.maxLust()) outputText("It makes you very horny, and you begin to wonder if it's worth resisting.");
 					else outputText("It makes you ache and tremble with need, practically begging for another touch.");
-					player.dynStats("lus", 5 + player.cor / 10 + player.lib / 20);
+					player.takeLustDamage(5 + player.cor / 10 + player.lib / 20, true);
 				}
 			}
 		}
@@ -103,7 +106,7 @@ public class Ceraph extends Monster
 				}
 				player.addStatusValue(StatusEffects.Bound, 1, -1);
 				//Strong characters break free faster
-				if (player.str > 65 && rand(player.str) > 45) {
+				if (player.strStat.core.value > 65 && rand(player.strStat.core.value) > 45) {
 					outputText("  Though you didn't break free, it seems like your mighty struggles loosened the whip slightly...");
 					player.addStatusValue(StatusEffects.Bound, 1, -1);
 				}
@@ -119,9 +122,9 @@ public class Ceraph extends Monster
 			outputText("Why bother resisting?  The feeling of the leather wrapped tightly around you, digging into your [skin.type], is intoxicating.");
 			if (flags[kFLAGS.PC_FETISH] >= 2) {
 				outputText("  You squirm inside the bindings as you get more and more turned on, hoping that Ceraph will strip away your armor and force you to parade around as her bound, naked pet.");
-				player.dynStats("lus", 5);
+				player.takeLustDamage(25, true);
 			}
-			player.dynStats("lus", player.lib / 20 + 5 + rand(5));
+			player.takeLustDamage(player.lib / 10 + 10 + rand(10), true);
 			outputText("\n\n");
 			SceneLib.combat.enemyAIImpl();
 		}
@@ -130,17 +133,17 @@ public class Ceraph extends Monster
 		private function ceraphSpecial3():void
 		{
 			//[Mini-cum] – takes place of double-attack if very horny
-			if (lust >= (maxLust() * 0.75)) {
+			if (lust >= (maxLust() * 0.6)) {
 				outputText("Ceraph spreads her legs and buries three fingers in her sopping twat, her thumb vigorously rubbing against the base of her bumpy prick.  Her other hand wraps around the meaty pole and begins jerking it rapidly.  In one practiced movement she stops jerking long enough to wrap the whip around her nodule-studded demon-cock, using it like a cockring.  The organ swells thanks to the forced blood-flow, and after a few more seconds of intense masturbation, the demoness cums hard.  Her cunny squirts all over her hand, dripping clear feminine drool down her thighs.  Ceraph's masculine endowment pulses and twitches, blasting out two big squirts of jizm before it slows to a trickle.\n");
 				outputText("Letting out a throaty sigh, the demon unties her self-induced binding and gives you a wink.  Did you really just stand there and watch the whole thing?  Amazingly Ceraph actually seems stronger after such a crude display...");
 				//(+10 str/toughness, 1 level, and 10 xp reward.)
 				XP += 20;
 				level += 2;
-				this.strStat.core.value += 15;
-				this.touStat.core.value += 15;
-				HP += 100;
-				lust = (maxLust() * 0.33);
-				player.dynStats("lus", 30);
+				this.strStat.core.value += 30;
+				this.touStat.core.value += 30;
+				HP += 200;
+				lust = (maxLust() * 0.2);
+				player.takeLustDamage(30, true);
 				outputText("\n");
 				return;
 			}
@@ -148,33 +151,20 @@ public class Ceraph extends Monster
 			outputText("The demoness weaves her whip in the air until you can practically hear it slithering like a snake, cutting the air as it weaves back and forth, still magically alight with flames.  In a blink she lashes out twice in quick succession!\n");
 			//First hit!
 			doNext(EventParser.playerMenu);
-			//Blind dodge change
-			if (hasStatusEffect(StatusEffects.Blind) && rand(10) != 9) {
-				outputText(capitalA + short + " completely misses you with a blind attack!");
-			}
-			//Determine if dodged!
-			else if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) {
+			if (player.getEvasionRoll()) {
 				if (player.spe - spe < 8) outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!");
 				if (player.spe - spe >= 8 && player.spe - spe < 20) outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!");
 				if (player.spe - spe >= 20) outputText("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".");
 			}
-			//Determine if evaded
-			else if (player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.");
-			}
-			else if (player.hasPerk(PerkLib.Misdirection) && rand(100) < 15 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				outputText("With Raphael's teachings and the easy movement afforded by your bodysuit, you easily anticipate and sidestep " + a + short + "'s attack.");
-			}
-			//Determine damage - str modified by enemy toughness!
 			else {
-				damage = int((eBaseDamage()) - Math.random() * (player.tou + player.armorDef));
+				damage = int((eBaseDamage()) - player.armorDef);
 				if (damage > 0) {
 					damage = player.takePhysDamage(damage);
 				}
 				if (damage <= 0) {
 					damage = 0;
 					//Due to toughness or amor...
-					if (rand(player.armorDef + player.tou) < player.armorDef) outputText("Your [armor] absorb and deflect every " + weaponVerb + " from " + a + short + ".");
+					if (player.armorDef < player.armorDef) outputText("Your [armor] absorb and deflect every " + weaponVerb + " from " + a + short + ".");
 					else outputText("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.");
 				}
 				if (damage > 0 && damage < 61) {
@@ -189,32 +179,20 @@ public class Ceraph extends Monster
 				if (damage > 200) {
 					outputText(capitalA + short + " <b>mutilates</b> you with " + pronoun3 + " powerful " + weaponVerb + "! ");
 				}
-				if (damage > 0) outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>");
-				else outputText("<b>(<font color=\"#000080\">" + damage + "</font>)</b>");
+				if (damage > 0) outputText("<b>([font-damage]" + damage + "[/font])</b>");
+				else outputText("<b>([font-miss]" + damage + "[/font])</b>");
 			}
 			EngineCore.statScreenRefresh();
 			outputText("\n");
 			//SECOND ATTACK HERE------
-			//Blind dodge change
-			if (hasStatusEffect(StatusEffects.Blind) && rand(10) != 9) {
-				outputText(capitalA + short + " completely misses you with a blind attack!");
-			}
-			//Determine if dodged!
-			else if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) {
+			if (player.getEvasionRoll()) {
 				if (player.spe - spe < 8) outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!");
 				if (player.spe - spe >= 8 && player.spe - spe < 20) outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!");
 				if (player.spe - spe >= 20) outputText("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".");
 			}
-			//Determine if evaded
-			else if (player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.");
-			}
-			else if (player.hasPerk(PerkLib.Misdirection) && rand(100) < 15 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				outputText("With Raphael's teachings and the easy movement afforded by your bodysuit, you easily anticipate and sidestep " + a + short + "'s attack.");
-			}
 			else {
 				//Determine damage - str modified by enemy toughness!
-				damage = int((eBaseDamage()) - Math.random() * (player.tou + player.armorDef));
+				damage = int((eBaseDamage()) - player.armorDef);
 				if (damage > 0) {
 					damage = player.takePhysDamage(damage);
 				}
@@ -236,11 +214,18 @@ public class Ceraph extends Monster
 				if (damage > 200) {
 					outputText(capitalA + short + " <b>mutilates</b> you with " + pronoun3 + " powerful " + weaponVerb + "! ");
 				}
-				if (damage > 0) outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>");
-				else outputText("<b>(<font color=\"#000080\">" + damage + "</font>)</b>");
+				if (damage > 0) outputText("<b>([font-damage]" + damage + "[/font])</b>");
+				else outputText("<b>([font-miss]" + damage + "[/font])</b>");
 			}
 			EngineCore.statScreenRefresh();
 			outputText("\n");
+		}
+
+		override public function changeBtnWhenBound(btnStruggle:CoCButton, btnBoundWait:CoCButton):void{
+			if (player.hasStatusEffect(StatusEffects.Bound)) {
+				btnStruggle.call(ceraphBindingStruggle);
+				btnBoundWait.call(ceraphBoundWait);
+			}
 		}
 
 		override protected function performCombatAction():void
@@ -273,7 +258,7 @@ public class Ceraph extends Monster
 
 		override public function defeated(hpVictory:Boolean):void
 		{
-			SceneLib.ceraphScene.winRapeChoices();
+			SceneLib.ceraphScene.winChoices();
 		}
 
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
@@ -305,29 +290,29 @@ public class Ceraph extends Monster
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_NOTICEABLE;
 			this.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-			this.skinTone = "purple";
+			this.bodyColor = "purple";
 			this.hairColor = "black";
 			this.hairLength = 20;
-			initStrTouSpeInte(75, 55, 90, 80);
-			initWisLibSensCor(80, 75, 15, 100);
+			initStrTouSpeInte(170, 150, 212, 173);
+			initWisLibSensCor(173, 185, 125, 100);
 			this.weaponName = "flaming whip";
 			this.weaponVerb="flame-whip";
-			this.weaponAttack = 20;
+			this.weaponAttack = 80;
 			this.armorName = "demon-skin";
-			this.armorDef = 10;
-			this.armorMDef = 10;
-			this.bonusHP = 200;
-			this.bonusLust = 104;
+			this.armorDef = 40;
+			this.armorMDef = 40;
+			this.bonusHP = 500;
+			this.bonusLust = 339;
 			this.lust = 30;
 			this.lustVuln = 0.75;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 14;
+			this.level = 29;
 			this.gems = rand(5) + 38;
 			this.drop = NO_DROP;
 			this.special1 = ceraphSpecial1;
 			this.special2 = ceraphSpecial2;
 			this.special3 = ceraphSpecial3;
 			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyTrueDemon, 29, 0, 0, 0);
 			checkMonster();
 		}
 

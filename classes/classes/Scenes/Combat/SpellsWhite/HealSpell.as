@@ -8,7 +8,7 @@ public class HealSpell extends AbstractWhiteSpell {
 	public function HealSpell() {
 		super(
 			"Heal",
-			"Heal will attempt to use white magic to instnatly close your wounds and restore your body.",
+			"Heal will attempt to use white magic to instantly close your wounds and restore your body.",
 			TARGET_SELF,
 			TIMING_INSTANT,
 			[TAG_HEALING]
@@ -24,7 +24,8 @@ public class HealSpell extends AbstractWhiteSpell {
 	}
 	
 	override public function calcCooldown():int {
-		var calcC:int = 6;
+		var calcC:int = 3;
+		calcC += spellGenericCooldown();
 		if (player.weapon == weapons.U_STAFF) calcC -= 2;
 		return calcC;
 	}
@@ -39,6 +40,8 @@ public class HealSpell extends AbstractWhiteSpell {
 		heal *= healModWhite();
 		if (player.armor == armors.NURSECL) heal *= 1.2;
 		if (player.weapon == weapons.U_STAFF) heal *= 1.5;
+		if (player.weapon == weapons.ECLIPSE) heal *= 0.5;
+		if (player.weapon == weapons.OCCULUS) heal *= 1.5;
 		if (player.hasPerk(PerkLib.CloseToDeath) && player.HP < (player.maxHP() * 0.25)) {
 			if (player.hasPerk(PerkLib.CheatDeath) && player.HP < (player.maxHP() * 0.1)) heal *= 2.5;
 			else heal *= 1.5;
@@ -52,7 +55,11 @@ public class HealSpell extends AbstractWhiteSpell {
 			heal *= 1.75;
 		}
 		heal = Math.round(heal);
-		outputText("<b>(<font color=\"#008000\">+" + heal + "</font>)</b>.");
+		if (player.hasStatusEffect(StatusEffects.CombatWounds)) {
+			if (player.statusEffectv1(StatusEffects.CombatWounds) > 0.03) player.addStatusValue(StatusEffects.CombatWounds, 1, -0.03);
+			else player.removeStatusEffect(StatusEffects.CombatWounds);
+		}
+		outputText("<b>([font-heal]+" + heal + "[/font])</b>.");
 		if (crit) outputText(" <b>*Critical Heal!*</b>");
 		HPChange(heal,false);
 	}

@@ -1,13 +1,39 @@
 package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
+import classes.PerkLib;
 import classes.Race;
 import classes.StatusEffects;
 import classes.internals.race.RaceUtils;
 
 public class CyclopRace extends Race {
-	public function CyclopRace(id:int) {
-		super("Cyclop", id);
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
+    public function CyclopRace(id:int) {
+		super("Cyclop", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -35,6 +61,8 @@ public class CyclopRace extends Race {
 				.height(GREATER_THAN(96), +1);
 		addScoresAfter(8)
 				.height(GREATER_THAN(120), +1);
+		
+		addBloodline(PerkLib.CyclopsDescendant, PerkLib.BloodlineCyclop);
 		
 		buildTier(12, "cyclop")
 				.buffs({

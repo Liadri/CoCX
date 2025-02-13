@@ -5,6 +5,7 @@ import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.Scenes.SceneLib;
 import classes.StatusEffects.Combat.AmilyVenomDebuff;
+import classes.Scenes.Combat.CombatAbilities;
 
 /**
 	 * ...
@@ -13,6 +14,19 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 	public class Amily extends Monster 
 	{
 
+		override public function preAttackSeal():Boolean{
+			if(hasStatusEffect(StatusEffects.Concentration)) {
+				clearOutput();
+				outputText("[monster name] easily glides around your attack thanks to [monster his] complete concentration on your movements.\n\n");
+				// replacetext is empty so it used default string anyway and the check is false so it leads to enemyAI() in the end of the attack()
+				// if (!sceneimpl) enemyAI();
+				// if (sceneimpl) SceneLib.combat.enemyAIImpl();
+				// return false to skip attack() its little confusing since original this line is true
+				return false;
+			}
+			// of course swap this around too
+			else return true;
+		}
 		override protected function performCombatAction():void
 		{
 			if(!hasStatusEffect(StatusEffects.Concentration) && rand(4) == 0) amilyConcentration();
@@ -88,30 +102,10 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 		//(Special Attacks)
 		//-Double Attack: Same as a normal attack, but hits twice.
 		public function amilyDoubleAttack():void {
-			var dodged:Number = 0;
+			var dodged:Number = player.getEvasionRoll() + player.getEvasionRoll();
 			var damage:Number = 0;
 			//return to combat menu when finished
 			doNext(EventParser.playerMenu);
-			//Blind dodge change
-			if(hasStatusEffect(StatusEffects.Blind) && rand(3) < 2) {
-				dodged++;
-			}
-			//Determine if dodged!
-			if(player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 80) {
-				dodged++;
-			}
-			//Determine if evaded
-			if(player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				dodged++;
-			}
-			//("Misdirection"
-			if(player.hasPerk(PerkLib.Misdirection) && rand(100) < 10 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				dodged++;
-			}
-			//Determine if cat'ed
-			if(player.hasPerk(PerkLib.Flexibility) && rand(100) < 6) {
-				dodged++;
-			}
 			//Get hit!
 			if(dodged < 2) {
 				//Determine damage - str modified by enemy toughness!
@@ -138,55 +132,14 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 		//-Poison Dart: Deals speed and str damage to the PC. (Not constant)
 		private function amilyDartGo():void
 		{
-			var dodged:Number = 0;
-			if (player.hasStatusEffect(StatusEffects.WindWall)) {
+			if (CombatAbilities.EAspectAir.isActive()) {
 				outputText(capitalA + short + " attack from her dartgun stops at wind wall weakening it slightly.\n");
-				player.addStatusValue(StatusEffects.WindWall,2,-1);
+				CombatAbilities.EAspectAir.advance(true);
 				return;
-			}
-			//Blind dodge change
-			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 2) {
-				outputText(capitalA + short + " completely misses you with a blind attack from her dartgun!\n");
-				return;
-			}
-			//Determine if dodged!
-			if (player.spe - spe > 0 && int(Math.random() * (((player.spe - spe) / 4) + 80)) > 80) {
-				dodged = 1;
-			}
-			//Determine if evaded
-			if (player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				dodged = 2;
-			}
-			//("Misdirection"
-			if (player.hasPerk(PerkLib.Misdirection) && rand(100) < 15 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				dodged = 3;
-			}
-			//Determine if cat'ed
-			if (player.hasPerk(PerkLib.Flexibility) && rand(100) < 15) {
-				dodged = 4;
 			}
 			//Dodged
-			if (dodged > 0) {
+			if (player.getEvasionRoll()) {
 				outputText("Amily dashes at you and swipes her knife rather slowly. You easily dodge the attack; but it was all a feint, her other hands tries to strike at you with a poisoned dart. Luckily you manage to avoid it.");
-				//Add tags for miss/evade/flexibility/etc.
-				switch (dodged) {
-					case 1:
-						outputText(" [Dodge]");
-						break;
-					case 2:
-						outputText(" [Evade]");
-						break;
-					case 3:
-						outputText(" [Misdirect]");
-						break;
-					case 4:
-						outputText(" [Flexibility]");
-						break;
-					default:
-						CoC_Settings.error("");
-						outputText(" <b>[ERROR]</b>");
-						break;
-				}
 			}
 			//Else hit!
 			else {
@@ -205,15 +158,15 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 
 		//(if PC uses tease/seduce after this)
 		//Deals big lust increase, despite her resistance.
-		override public function teased(lustDelta:Number, isNotSilent:Boolean = true):void
+		override public function teased(lustDelta:Number, isNotSilent:Boolean = true, display:Boolean = true, aura:Boolean = false):void
 		{
 			if(hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily flushes hotly; her concentration only makes her pay more attention to your parts!");
 				lustDelta += 25+lustDelta;
 				removeStatusEffect(StatusEffects.Concentration);
-				applyTease(lustDelta);
+				applyTease(lustDelta, display, aura);
 			} else {
-				super.teased(lustDelta);
+				super.teased(lustDelta, isNotSilent, display, aura);
 			}
 		}
 
@@ -240,19 +193,19 @@ import classes.StatusEffects.Combat.AmilyVenomDebuff;
 			this.skin.growFur({color:"tawny"});
 			this.hairColor = "brown";
 			this.hairLength = 5;
-			initStrTouSpeInte(40, 40, 120, 80);
-			initWisLibSensCor(80, 44, 45, 10);
+			initStrTouSpeInte(80, 80, 240, 80);
+			initWisLibSensCor(80, 74, 85, -80);
 			this.weaponName = "knife";
 			this.weaponVerb="slash";
-			this.weaponAttack = 9;
+			this.weaponAttack = 27;
 			this.armorName = "rags";
-			this.armorDef = 1;
-			this.armorMDef = 1;
-			this.bonusHP = 20;
-			this.bonusLust = 101;
+			this.armorDef = 10;
+			this.armorMDef = 10;
+			this.bonusHP = 200;
+			this.bonusLust = 184;
 			this.lust = 20;
 			this.lustVuln = .85;
-			this.level = 12;
+			this.level = 25;
 			this.gems = 8 + rand(11);
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyBeastOrAnimalMorphType, 0, 0, 0, 0);

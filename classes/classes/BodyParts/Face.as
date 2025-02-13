@@ -33,7 +33,6 @@ public class Face extends SaveableBodyPart {
 		name: "horse",
 		appearanceDescFunc: function(creature: *): String {
 			var desc: String = "";
-
 			if (!creature.hasCoat()) {
 				desc += "Your face is equine in shape and structure. The odd visage is hairless and covered with [skin base]";
 			} else if (creature.hasFullCoatOfType(Skin.FUR)) {
@@ -41,7 +40,6 @@ public class Face extends SaveableBodyPart {
 			} else {
 				desc += "You have the face and head structure of a horse, overlaid with glittering [skin coat].";
 			}
-
 			return desc;
 		},
 		hasMuzzle: true
@@ -51,7 +49,6 @@ public class Face extends SaveableBodyPart {
 		name: "dog",
 		appearanceDescFunc: function(creature: *): String {
 			var desc: String = "";
-
 			if (!creature.hasCoat()) {
 				desc += "You have a dog-like face, complete with a wet nose. The odd visage is hairless and covered with [skin base].";
 			} else if (creature.hasFullCoatOfType(Skin.FUR)) {
@@ -59,7 +56,6 @@ public class Face extends SaveableBodyPart {
 			} else {
 				desc += "You have the facial structure of a dog, wet nose and all, but overlaid with glittering patches of [skin coat]";
 			}
-
 			return desc;
 		},
 		bite: true,
@@ -70,7 +66,6 @@ public class Face extends SaveableBodyPart {
 		name: "cow",
 		appearanceDescFunc: function(creature: *): String {
 			var desc: String = "";
-
 			if (!creature.hasCoat()) {
 				desc += "You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose. Despite your lack of fur elsewhere, your visage does have a short layer of [haircolor] fuzz.";
 			} else if (creature.hasFullCoatOfType(Skin.FUR)) {
@@ -80,7 +75,6 @@ public class Face extends SaveableBodyPart {
 			} else {
 				desc += "Your face resembles a minotaur's, though strangely it is covered small patches of shimmering [skin coat], right up to the flat cow-like nose that protrudes from your face.";
 			}
-
 			return desc;
 		}
 	});
@@ -103,11 +97,10 @@ public class Face extends SaveableBodyPart {
 		name: "cat",
 		appearanceDescFunc: function(creature: *): String {
 			var desc: String = "";
-
 			if (!creature.hasCoat()) {
 				desc += "You have a cat-like face, complete with a cute, moist nose and whiskers. The [skin] that is revealed by your lack of fur looks quite unusual on so feline a face.";
 			} else if (creature.hasFullCoatOfType(Skin.FUR)) {
-				desc += "You have a cat-like face, complete with moist nose and whiskers. Your [skin coat.nocolor] is [skin coat.color], hiding your [skin base] underneath.";
+				desc += "You have a cat-like face, complete with moist nose and whiskers. Your [skin coat.nocolor] is [fur color], hiding your [skin base] underneath.";
 			} else {
 				desc += "Your facial structure blends humanoid features with those of a cat. A moist nose and whiskers are included, but overlaid with glittering patches of [skin coat].";
 			}
@@ -219,13 +212,18 @@ public class Face extends SaveableBodyPart {
 		name: "raccoon",
 		appearanceDescFunc: function(creature: *): String {
 			var desc: String = "";
-
-			desc += "You have a triangular raccoon face, including sensitive whiskers and a little black nose; a mask shades the space around your eyes, set apart from your [skin coat] by a band of white.";
+			desc += "You have a triangular raccoon face, including sensitive whiskers and a little black nose; a mask shades the space around your eyes, ";
+			if (creature.hasFullCoatOfType(Skin.FUR)) {
+				desc += "set apart from your [skin coat] by a band of white.";
+			}else{
+				desc += "encircled by a band of white.";
+			}
 
 			if (creature.hasPlainSkinOnly()){
 				desc += " It looks a bit strange with no fur coverage.";
-			} else if (creature.hasScales()) desc += " The presence of said scales gives your visage an eerie look, more reptile than mammal.";
-			else if (creature.skin.hasChitin()) desc += " The presence of said chitin gives your visage an eerie look, more insect than mammal.";
+			} 
+			else if (creature.hasScaleMaterial()) desc += " The presence of said scales gives your visage an eerie look, more reptile than mammal.";
+			else if (creature.hasChitinMaterial()) desc += " The presence of said chitin gives your visage an eerie look, more insect than mammal.";
 
 			return desc;
 		},
@@ -363,7 +361,7 @@ public class Face extends SaveableBodyPart {
 		appearanceDescFunc: function(creature: *): String {
 			var desc: String = "";
 
-			if (creature.skin.hasPlainSkinOnly() && creature.skinAdj == "glossy" && creature.skinTone == "white and black") desc += "You have a wider yet adorable nose, and your face is pitch black with a white underbelly; from your neck up to your mouth and lower cheeks your face is white with two extra white circles right under and above your eyes.";
+			if (creature.skin.hasPlainSkinOnly() && creature.skinAdj == "glossy" && creature.skinColor == "white and black") desc += "You have a wider yet adorable nose, and your face is pitch black with a white underbelly; from your neck up to your mouth and lower cheeks your face is white with two extra white circles right under and above your eyes.";
 			else desc += "You have a wide nose similar to that of an orca, which goes well with your sharp toothed mouth, giving you a cute look.";
 
 			return desc;
@@ -419,7 +417,7 @@ public class Face extends SaveableBodyPart {
 	public static const JABBERWOCKY: int = 36;
 	EnumValue.add(Types, JABBERWOCKY, "JABBERWOCKY", {
 		name: "jabberwocky",
-		appearanceDesc: "Your face is a narrow, reptilian muzzle. It looks like a predatory lizard's, at first glance, but with an unusual array of spikes along the under-jaw. It gives you a regal but fierce visage. Opening your mouth reveals two buck tooth, which are abnormally large. Like a rabbit or rather a Jabberwocky. The fearsome visage is decorated by [skin coat].",
+		appearanceDesc: "Your face is a narrow, reptilian muzzle. It looks like a predatory lizard's, at first glance, but with an unusual array of spikes along the under-jaw. It gives you a regal but fierce visage. Opening your mouth reveals two buck tooth, which are abnormally large, like a rabbit, or rather a Jabberwocky. The fearsome visage is decorated by [skin coat].",
 		bite: true
 	});
 	public static const RED_PANDA: int = 37;
@@ -595,7 +593,7 @@ public class Face extends SaveableBodyPart {
 	public static const CRAZY: int = 54;
 	EnumValue.add(Types, CRAZY, "CRAZY", {
 		name: "crazy",
-		appearanceDesc: "Although your mouth is quite human-looking, your have a near constant toothy smile makes you look quite unhinged, and your canines are slightly longer and pointier than human ones.",
+		appearanceDesc: "Your mouth is human all right though your near constant crazy toothy smile isn't exactly helping to make you look sane.",
 		humanShaped: true
 	});
 	public static const SMUG: int = 55;
@@ -627,6 +625,83 @@ public class Face extends SaveableBodyPart {
 	EnumValue.add(Types, ELF, "ELF", {
 		name: "elf",
 		appearanceDesc: "You have an enchanting smile and faultless pearlescent white teeth, so unnaturally perfect it makes you seem as though you came straight from a painting rather than real life.",
+		humanShaped: true
+	});
+	public static const ANT: int = 58;
+	EnumValue.add(Types, ANT, "ANT", {
+		name: "ant",
+		appearanceDesc: "Your face looks largely human, except for the mandibles sticking out from your jawline.",
+		humanShaped: true,
+		bite:true
+	});
+	public static const INNOCENT: int = 59;
+	EnumValue.add(Types, INNOCENT, "INNOCENT", {
+		name: "innocent expression",
+		appearanceDesc: "Your face is human in shape and structure. You bear an innocent and almost angelic smile which soothes the soul of those who see you.",
+		humanShaped: true
+	});
+	public static const CERBERUS: int = 60;
+	EnumValue.add(Types, CERBERUS, "CERBERUS", {
+		name: "cerberus",
+		appearanceDescFunc: function(creature: *): String {
+			var desc: String = "";
+
+			desc += "You have a dog's face, complete with wet nose and panting tongue. You've got [skin coat], hiding your [skin base] underneath your furry visage. " +
+					"Flanking your main head are two more wich never truly fully agree with one another. You regularly need to put them back in their place and remind them who leads this body lest they start fighting each other.";
+			return desc;
+		},
+		bite: true,
+		hasMuzzle: true
+	});
+	public static const FOX_FANGS: int = 61;
+	EnumValue.add(Types, FOX_FANGS, "FOX_FANGS", {
+		name: "fox fangs",
+		appearanceDescFunc: function(creature: *): String {
+			var desc: String = "";
+
+			if (!creature.hasCoat()) {
+				desc += " Your face is human in shape and structure with [skin coat]. Your mouth is somewhat human save for your fox-like canines.";
+			} else if (creature.hasPartialCoat(Skin.FUR)) {
+				desc += " Your face looks human save for your fox-like canines, but overlaid with glittering patches of [skin coat].";
+			} else {
+				desc += " Your face looks human save for your fox-like canines. You've got [skin coat], hiding your [skin noadj] underneath your furry visage.";
+			}
+
+			return desc;
+		},
+		bite: true,
+		humanShaped: true
+	});
+	public static const ABYSSAL_SHARK: int = 62;
+	EnumValue.add(Types, ABYSSAL_SHARK, "ABYSSAL_SHARK", {
+		name: "abyss shark",
+		appearanceDesc: "Your face is of a hammer-head shark in both shape and structure. A razor-sharp set of retractable teeth fill your large mouth, giving your visage an angular silhouette.",
+		bite: true
+	});
+	public static const ARIGEAN: int = 63;
+	EnumValue.add(Types, ARIGEAN, "ARIGEAN", {
+		name: "arigean",
+		appearanceDesc: "Your face is human in shape and structure except for the insides of your mouth which seem to be a light blue instead of the traditional pink, most likely caused by your blue blood.",
+		humanShaped: true
+	});
+	public static const DEMON: int = 64;
+	EnumValue.add(Types, DEMON, "DEMON", {
+		name: "demon",
+		appearanceDesc: "Your face is human in shape and structure albeith far too sexy to belong to one. With a face that hot, who would refuse you? Hidden behind your sensual lips is a pair of small fangs which betrays your fiendish nature.",
+		bite: true
+	});
+	public static const TROLL: int = 65;
+	EnumValue.add(Types, TROLL, "TROLL", {
+		name: "troll",
+		appearanceDesc: "Your have a face as that of a troll, covered in soft, green fur and a duo of tusks from your upper jaw that splits out from your mouth.",
+		bite: true,
+		humanShaped: true
+	});
+	public static const GLACIAL_TROLL: int = 66;
+	EnumValue.add(Types, GLACIAL_TROLL, "GLACIAL_TROLL", {
+		name: "g.troll",
+		appearanceDesc: "Your have a face as that of a glacial troll, covered in soft, white fur and a duo of tusks from your upper jaw that splits out from your mouth.",
+		bite: true,
 		humanShaped: true
 	});
 

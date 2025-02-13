@@ -13,11 +13,11 @@ public class IceSpikeSpell extends AbstractBlackSpell {
 		super(
 			ex ? "Ice Spike (Ex)" : "Ice Spike",
 			ex ?
-				"Drawning your own lust and wrath to concentrate it into chilling spike of ice that will attack your enemies."
-				: "Drawning your own lust to concentrate it into chilling spike of ice that will attack your enemies.",
+				"Drawing your own lust and wrath to concentrate it into chilling spike of ice that will attack your enemies."
+				: "Drawing your own lust to concentrate it into chilling spike of ice that will attack your enemies.",
 			TARGET_ENEMY,
 			TIMING_INSTANT,
-			[TAG_DAMAGING, TAG_ICE]
+			[TAG_DAMAGING, TAG_ICE, TAG_TIER1]
 		);
 		baseManaCost = 40;
 		if (ex) baseWrathCost = 100;
@@ -34,7 +34,15 @@ public class IceSpikeSpell extends AbstractBlackSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return spellBlackCooldown();
+		var calcC:int = 0;
+		calcC += spellBlackCooldown();
+		if (player.weaponRange == weaponsrange.RB_TOME && player.level < 18) {
+			if (player.level < 6) calcC -= 1;
+			if (player.level < 12) calcC -= 1;
+			calcC -= 1;
+			if (calcC < 0) calcC = 0;
+		}
+		return calcC;
 	}
 	
 	public function calcDamage(monster:Monster, randomize:Boolean = true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)

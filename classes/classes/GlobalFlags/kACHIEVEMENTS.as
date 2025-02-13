@@ -9,7 +9,7 @@ package classes.GlobalFlags
 		public static const STORY_MARAE_SAVIOR:int				=   1; //Complete Marae’s quest.
 		public static const STORY_ZETAZ_REVENGE:int				=   2; //Defeat Zetaz and obtain the map.
 		public static const STORY_FINALBOSS:int					=   3; //Defeat Lethice.
-		public static const UNKNOWN_ACHIEVEMENT_004:int			=   4;
+		public static const STORY_CHIMERA_SQUAD:int				=   4; //Clean up demons secret laboratory.
 		public static const UNKNOWN_ACHIEVEMENT_005:int			=   5;
 		public static const UNKNOWN_ACHIEVEMENT_006:int			=   6;
 		public static const UNKNOWN_ACHIEVEMENT_007:int			=   7;
@@ -22,7 +22,7 @@ package classes.GlobalFlags
 		public static const ZONE_WHERE_AM_I:int					=  12; //Explore for the first time.
 		public static const ZONE_FOREST_RANGER:int				=  13; //Explore the forest 100 times.
 		public static const ZONE_VACATIONER:int					=  14; //Explore the lake 100 times.
-		public static const ZONE_DEHYDRATED:int					=  15; //Explore the desert 100 times.
+		public static const ZONE_DEHYDRATED:int					=  15; //Explore the outer desert 100 times.
 		public static const ZONE_MOUNTAINEER:int				=  16; //Explore the mountain 100 times.
 		public static const ZONE_WE_NEED_TO_GO_DEEPER:int		=  17; //Explore the deepwoods 100 times.
 		public static const ZONE_ROLLING_HILLS:int				=  18; //Explore the plains 100 times.
@@ -232,7 +232,7 @@ package classes.GlobalFlags
 		public static const GENERAL_STATS_300:int					= 198;
 		public static const GENERAL_STATS_500:int					= 199;
 		public static const ZONE_DIVER:int							= 200; //Explore Deep Sea 100 times.
-		public static const ZONE_ROOKIE:int							= 201; //Explore Outer Battlefield 100 times.
+		public static const ZONE_ROOKIE:int							= 201; //Explore Boundary Battlefield 100 times.
 		public static const DUNGEON_TIGER_STALKING_THE_DRAGON:int	= 202;
 		public static const DUNGEON_SLAIN_THE_HEROSLAYER:int		= 203;
 		public static const GENERAL_BAD_ENDER_2:int					= 204; //Cause 4 bad ends to various NPCs.
@@ -240,7 +240,7 @@ package classes.GlobalFlags
 		public static const GENERAL_BAD_ENDER_4:int					= 206; //Cause 16 bad ends to various NPCs.
 		public static const DUNGEON_DELVER_EXPERT:int				= 207;
 		public static const DUNGEON_DELVER_GRAND_MASTER:int			= 208;
-		public static const UNKNOWN_ACHIEVEMENT_209:int				= 209; //Explore Outer Battlefield 100 times.
+		public static const ZONE_FRIGGIN_GOLEMS:int					= 209; //Explore Outer Battlefield 100 times.
 		public static const UNKNOWN_ACHIEVEMENT_210:int				= 210; //Explore Inner Battlefield 100 times.
 		public static const UNKNOWN_ACHIEVEMENT_211:int				= 211; //Explore 3rd area post inner battlefield 100 times.
 		public static const GENERAL_LESSER_CHIMERA:int				= 212;
@@ -331,13 +331,13 @@ package classes.GlobalFlags
 		public static const GENERAL_PLAY_DEAD_FIDO_3_IM_BACK:int				= 286;
 		
 		public static const ZONE_CAVEMAN:int						= 287; //100 exploration of Caves
-		public static const ZONE_288:int		= 288;//100 exploration of Deep Desert
+		public static const ZONE_BEDOUIN:int						= 288; //100 exploration of Desert (Inner)
 		public static const ZONE_289:int		= 289;//100 exploration of Inner Battlefield (Warmoger lub dla 3 obszaru battlefield-a)
 		public static const ZONE_DEFILED:int						= 290;//100 exploration of Defiled Ravine
 		public static const ZONE_291:int		= 291;//100 exploration of Marsh
 		public static const ZONE_292:int		= 292;//100 exploration of Deep Caves
-		public static const ZONE_SUB_ZERO:int						= 293;//100 exploration of Tundra
-		public static const ZONE_ASHES_TO_ASHES_DUST_TO_DUST:int	= 294;//100 exploration of Ashlands
+		public static const ZONE_SUB_ZERO:int						= 293; //100 exploration of Tundra
+		public static const ZONE_ASHES_TO_ASHES_DUST_TO_DUST:int	= 294; //100 exploration of Ashlands
 		public static const ZONE_295:int		= 295;//100 exploration of Outer Plateau
 		public static const ZONE_296:int		= 296;//100 exploration of Inner Plateau
 		public static const ZONE_297:int		= 297;//100 exploration of 3rd forest related area (jungle?) ZONE_JUMANJI?
@@ -347,8 +347,8 @@ package classes.GlobalFlags
 		public static const ZONE_301:int		= 301;//100 exploration of 2nd plains related area
 		public static const ZONE_302:int		= 302;//100 exploration of 3rd plains related area
 		public static const ZONE_303:int		= 303;//100 exploration of Deeper Caves
-		public static const ZONE_304:int		= 304;//100 exploration of x1
-		public static const ZONE_305:int		= 305;//100 exploration of x2
+		public static const ZONE_HIKING:int							= 304;//100 exploration of Hills
+		public static const ZONE_TREKKING:int						= 305;//100 exploration of Low Mountains
 		
 		public static const GENERAL_TEXAS_RANGER:int					= 306;
 		public static const UNKNOWN_ACHIEVEMENT_307:int					= 307;	//GENERAL_VAN_DAMME_IT
@@ -436,14 +436,31 @@ package classes.GlobalFlags
 		public static const EPIC_F_H_B_S_CURVIER_5:int					= 389;
 		public static const FASHION_SUBJECT_DELTA:int					= 390;
 		public static const FASHION_BUSHIDO_THE_WAY_OF_THE_WARRIOR:int	= 391;
-		public static const UNKNOWN_ACHIEVEMENT_392:int					= 392;
-		public static const UNKNOWN_ACHIEVEMENT_393:int					= 393;
-		public static const UNKNOWN_ACHIEVEMENT_394:int					= 394;
-		public static const UNKNOWN_ACHIEVEMENT_395:int					= 395;
-		public static const UNKNOWN_ACHIEVEMENT_396:int					= 396;
-		public static const UNKNOWN_ACHIEVEMENT_397:int					= 397;
-		public static const UNKNOWN_ACHIEVEMENT_398:int					= 398;
-		public static const UNKNOWN_ACHIEVEMENT_399:int					= 399;
+		public static const GENERAL_THE_END_AND_THE_BEGINNING:int		= 392;
+		public static const GENERAL_BEYOND_GODS_AND_MORTALS:int			= 393;
+		public static const GENERAL_DAWN_CHASING_AWAY_THE_NIGHT:int		= 394;
+		public static const HOLIDAY_YEAR_OF_THE_GOAT:int				= 395;
+		public static const DUNGEON_DUNGEON_SEEKER_4TH_LAYER:int		= 396;
+		public static const DUNGEON_DUNGEON_SEEKER_5TH_LAYER:int		= 397;
+		public static const DUNGEON_DUNGEON_SEEKER_6TH_LAYER:int		= 398;
+		public static const DUNGEON_WE_NEED_TO_GO_DEEPER:int			= 399;
+		public static const LEVEL_MID_TIER_GOD_ESS_2:int				= 400;
+		public static const REALISTIC_CHAMPION_NEEDS_FOOD_5:int			= 401;
+		public static const REALISTIC_FEAST_FOR_GLUTTONS:int			= 402;
+		public static const GENERAL_VIGILANTE:int						= 403;
+		public static const GENERAL_VIGILANTE_2_KILL_HARDER:int			= 404;
+		public static const GENERAL_VIGILANTE_3_IM_BACK:int				= 405;
+		public static const FASHION_HAMMER_TIME:int						= 406;
+		public static const COMBAT_MY_NAME_IS_BRUCE_BRUCE_WOOD:int		= 407;
+		public static const DUNGEON_WEEDING_OUT:int						= 408;
+		public static const UNKNOWN_ACHIEVEMENT_409:int					= 409;
+		public static const UNKNOWN_ACHIEVEMENT_410:int					= 410;
+		public static const UNKNOWN_ACHIEVEMENT_411:int					= 411;
+		public static const UNKNOWN_ACHIEVEMENT_412:int					= 412;
+		public static const UNKNOWN_ACHIEVEMENT_413:int					= 413;
+		public static const UNKNOWN_ACHIEVEMENT_414:int					= 414;
+		public static const UNKNOWN_ACHIEVEMENT_415:int					= 415;
+		public static const UNKNOWN_ACHIEVEMENT_416:int					= 416;
 		
 	}
 }

@@ -2,23 +2,48 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 import classes.StatusEffects;
 
 public class GazerRace extends Race {
 	public static const GazerHairColors:/*String*/Array = ["black", "midnight", "midnight black"];
 	public static const GazerSkinColors:/*String*/Array = ["snow white", "red", "pale white"];
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Elf",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Elven",
+        /*Eyes*/		"Elf",
+        /*Face*/		"Elf",
+        /*Gills*/		"None",
+        /*Hair*/		"Elf",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Elf",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Elf",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Elf",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Elf"];
 	
 	public function GazerRace(id:int) {
-		super("Gazer", id);
+		super("Gazer", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
 		
 		addScores()
-				.hairColor(ANY(GazerHairColors), +1)
+				.hairColor1(ANY(GazerHairColors), +1)
 				.skinPlainOnly(+1)
-				.skinBaseColor(ANY(GazerSkinColors), +1)
+				.skinColor1(ANY(GazerSkinColors), +1)
 				.skinBasePattern(Skin.PATTERN_OIL, +1)
 				.eyeType(Eyes.MONOEYE, +1)
 				.eyeColor("red", +1)
@@ -43,12 +68,13 @@ public class GazerRace extends Race {
 						}
 				);
 		
+		addBloodline(PerkLib.GazersDescendant, PerkLib.BloodlineGazer);
 		addMutation(IMutationsLib.GazerEyesIM);
 		
 		buildTier(14, "gazer")
 				.require("6+ eye stalks",
 						function (body:BodyData):Boolean {
-							return body.player.statusEffectv1(StatusEffects.GazerEyeStalksPlayer) >= 10;
+							return body.player.statusEffectv1(StatusEffects.GazerEyeStalksPlayer) >= 6;
 						})
 				.buffs({
 					"tou.mult": +0.80,

@@ -1,4 +1,4 @@
-package classes.Scenes.Monsters 
+package classes.Scenes.Monsters
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -35,16 +35,16 @@ public class Priscilla extends Goblin
 			}
 			//Spell time!
 			//Charge Weapon
-			if (spellChooser == 0 && (mana + spellCostCharge) <= maxMana()) {
+			if (spellChooser == 0 && mana >= spellCostCharge) {
 				outputText("The goblin utters word of power, summoning an electrical charge around her sword. <b>It looks like she'll deal more physical damage now!</b>");
 				createStatusEffect(StatusEffects.ChargeWeapon, 15 * spellMultiplier(), 0, 0, 0);
 				this.weaponAttack += 15 * spellMultiplier();
 				mana -= spellCostCharge;
 			}
 			//Blind
-			else if (spellChooser == 1 && (mana + spellCostBlind) <= maxMana()) {
+			else if (spellChooser == 1 && mana >= spellCostBlind) {
 				outputText("The goblin glares at you and points at you! A bright flash erupts before you!  ");
-				if ((!player.perkv1(IMutationsLib.GorgonEyesIM) >= 1 && rand(player.inte / 5) <= 4) && !player.hasPerk(PerkLib.BlindImmunity)) {
+				if ((!player.perkv1(IMutationsLib.GorgonEyesIM) >= 1 && rand(player.inte / 5) <= 4) && !player.isImmuneToBlind()) {
 					outputText("<b>You are blinded!</b>");
 					player.createStatusEffect(StatusEffects.Blind, 1 + rand(3), 0, 0, 0);
 				}
@@ -57,7 +57,7 @@ public class Priscilla extends Goblin
 				mana -= spellCostBlind;
 			}
 			//Whitefire
-			else if (spellChooser == 2 && (mana + spellCostWhitefire) <= maxMana()) {
+			else if (spellChooser == 2 && mana >= spellCostWhitefire) {
 				outputText("The goblin narrows her eyes and focuses her mind with deadly intent. She snaps her fingers and you are enveloped in a flash of white flames!  ");
 				var damage:int = inte + rand(50) * spellMultiplier();
 				if (player.hasStatusEffect(StatusEffects.Blizzard)) {
@@ -69,38 +69,34 @@ public class Priscilla extends Goblin
 					damage *= 1.5;
 					outputText("It's super effective! ");
 				}
-				if (flags[kFLAGS.GAME_DIFFICULTY] == 1) damage *= 1.2;
-				else if (flags[kFLAGS.GAME_DIFFICULTY] == 2) damage *= 1.5;
-				else if (flags[kFLAGS.GAME_DIFFICULTY] == 3) damage *= 2;
-				else if (flags[kFLAGS.GAME_DIFFICULTY] >= 4) damage *= 3.5;
+				
 				damage = Math.round(damage);
 				player.takeFireDamage(damage, true);
 				mana -= spellCostWhitefire;
 			}
 			//Arouse
-			else if (spellChooser == 3 && (mana + spellCostArouse) <= maxMana()) {
+			else if (spellChooser == 3 && mana >= spellCostArouse) {
 				outputText("She makes a series of arcane gestures, drawing on her lust to inflict it upon you! ");
 				var lustDamage:int = (inte / 10) + (player.lib / 10) + rand(10) * spellMultiplier();
-				lustDamage = lustDamage * (EngineCore.lustPercent() / 100);
-				player.dynStats("lus", lustDamage, "scale", false);
-				outputText(" <b>(<font color=\"#ff00ff\">" + (Math.round(lustDamage * 10) / 10) + "</font>)</b>");
+				player.takeLustDamage(lustDamage, true);
 				mana -= spellCostArouse;
 			}
 			//Heal
-			else if (spellChooser == 4 && (mana + spellCostHeal) <= maxMana()) {
+			else if (spellChooser == 4 && mana >= spellCostHeal) {
 				outputText("She focuses on her body and her desire to end pain, trying to draw on her arousal without enhancing it.");
 				var temp:int = int(10 + (inte/2) + rand(inte/3)) * spellMultiplier();
-				outputText("She flushes with success as her wounds begin to knit! <b>(<font color=\"#008000\">+" + temp + "</font>)</b>.");
+				outputText("She flushes with success as her wounds begin to knit! <b>([font-heal]+" + temp + "[/font])</b>.");
 				addHP(temp);
 				mana -= spellCostHeal;
 			}
 			//Might
-			else if (spellChooser == 5 && (mana + spellCostMight) <= maxMana()) {
+			else if (spellChooser == 5 && mana >= spellCostMight) {
 				outputText("She flushes, drawing on her body's desires to empower her muscles and toughen her up.");
 				outputText("The rush of success and power flows through her body.  She feels like she can do anything!");
 				this.statStore.addBuffObject({"str":+15 * spellMultiplier(), "tou":+15 * spellMultiplier()},"GoblinMight");
 				mana -= spellCostMight;
 			}
+			else outputText("[Themonster] tries to cast something, but fails miserably. Seems like she's out of mana!");
 		}
 		
 		//Melee specials
@@ -157,7 +153,7 @@ public class Priscilla extends Goblin
 		{
 			if (flags[kFLAGS.PRISCILLA_LVL_UP] < 1) {
 				initStrTouSpeInte(115, 95, 80, 120);
-				initWisLibSensCor(120, 65, 35, 45);
+				initWisLibSensCor(120, 65, 35, -10);
 				this.weaponAttack = 35;
 				this.armorDef = 48;
 				this.armorMDef = 18;
@@ -167,7 +163,7 @@ public class Priscilla extends Goblin
 			}
 			else if (flags[kFLAGS.PRISCILLA_LVL_UP] == 11) {
 				initStrTouSpeInte(335, 205, 278, 340);
-				initWisLibSensCor(340, 120, 90, 45);
+				initWisLibSensCor(340, 120, 90, -10);
 				this.weaponAttack = 90;
 				this.armorDef = 125;
 				this.armorMDef = 51;
@@ -176,9 +172,9 @@ public class Priscilla extends Goblin
 				this.level = 98;
 			}
 			else {	//leave min and max levels to easily balance npc combat
-				var lvlMulti:Number = flags[kFLAGS.MINERVA_LVL_UP];
+				var lvlMulti:Number = flags[kFLAGS.PRISCILLA_LVL_UP];
 				initStrTouSpeInte(115 + 20*lvlMulti, 95 + 10*lvlMulti, 80 + 18*lvlMulti, 120 + 20*lvlMulti);
-				initWisLibSensCor(120 + 20*lvlMulti, 65 + 5*lvlMulti, 35 + 5*lvlMulti, 45);
+				initWisLibSensCor(120 + 20*lvlMulti, 65 + 5*lvlMulti, 35 + 5*lvlMulti, -10);
 				this.weaponAttack = 35 + 5*lvlMulti;
 				this.armorDef = 48 + 7*lvlMulti;
 				this.armorMDef = 18 + 3*lvlMulti;
@@ -203,7 +199,7 @@ public class Priscilla extends Goblin
 			this.tallness = 48;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "yellowish-green";
+			this.bodyColor = "yellowish-green";
 			this.hairColor = "dark green";
 			this.hairLength = 4;
 			this.weaponName = "primal sword";
@@ -212,7 +208,6 @@ public class Priscilla extends Goblin
 			this.fatigue = 0;
 			this.lust = 35;
 			this.lustVuln = 0.4;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = rand(10) + 40;
 			this.drop = new WeightedDrop().
 					add(consumables.GOB_ALE, 5).
@@ -224,6 +219,7 @@ public class Priscilla extends Goblin
 							consumables.ORANGDY,
 							consumables.GREEN_D,
 							consumables.PURPDYE);
+			this.createPerk(PerkLib.UniqueNPC, 0, 0, 0, 0);
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.RefinedBodyI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.ShieldWielder, 0, 0, 0, 0);
@@ -243,7 +239,7 @@ public class Priscilla extends Goblin
 				{ call: goblinDrugAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[TAG_FLUID]},
 				{ call: goblinTeaseAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[]},
 				{ call: castSpell, type: ABILITY_MAGIC, range: RANGE_RANGED, tags:[]},
-			]
+			];
 			checkMonster();
 		}
 		

@@ -19,7 +19,7 @@ public class Yeti extends Monster
 					outputText("The yeti furiously charges at you but blind as he is, he ends up running into the wall face-first instead. ");
 					var yetiDamage:Number = 30 + rand(50);
 					HP -= yetiDamage;
-					outputText("The beast takes <b><font color=\"#080000\">" + yetiDamage + "</font></b> damage. ");
+					outputText("The beast takes <b>[font-damage]" + yetiDamage + "[/font]</b> damage. ");
 					if (rand(2) == 0) {
 						outputText("<b>He is now stunned.</b>");
 						createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
@@ -37,7 +37,7 @@ public class Yeti extends Monster
 				outputText("Sensing the beast’s intentions as you hear the cracking of ice under his feet, you dart to the side as the beast launches at you. With wide eyes, the ice yeti collides face first into the wall of the cave with a yelped growl. It rubs its face as it glares at you. ");
 				var yetiDamage:Number = 50 + rand(80);
 				HP -= yetiDamage;
-				outputText("The beast takes <b><font color=\"#080000\">" + yetiDamage + "</font></b> damage.");
+				outputText("The beast takes <b>[font-damage]" + yetiDamage + "[/font]</b> damage.");
 			}
 			else {
 				//take heavy damage
@@ -91,19 +91,20 @@ public class Yeti extends Monster
 		public function Yeti()
 		{
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) {
-				initStrTouSpeInte(185, 210, 105, 90);
-				initWisLibSensCor(80, 50, 30, 45);
-				this.weaponAttack = 100;
-				this.armorDef = 150;
-				this.armorMDef = 50;
-				this.bonusHP = 1500;
-				this.bonusLust = 117;
-				this.level = 37;
+				initStrTouSpeInte(247, 305, 157, 135);
+				initWisLibSensCor(120, 100, 60, -10);
+				this.weaponAttack = 200;
+				this.armorDef = 300;
+				this.armorMDef = 100;
+				this.bonusHP = 3000;
+				this.bonusLust = 197;
+				this.level = 32;
 				this.gems = 36 + rand(20);
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			}
 			else {
 				initStrTouSpeInte(305, 360, 185, 90);
-				initWisLibSensCor(80, 50, 30, 45);
+				initWisLibSensCor(80, 50, 30, -10);
 				this.weaponAttack = 160;
 				this.armorDef = 240;
 				this.armorMDef = 80;
@@ -138,7 +139,6 @@ public class Yeti extends Monster
 			this.armorName = "thick fur";
 			this.lust = 10;
 			this.lustVuln = 0.4;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.drop = new WeightedDrop()
 					.add(consumables.YETICUM, 1)
 					.add(null, 2);

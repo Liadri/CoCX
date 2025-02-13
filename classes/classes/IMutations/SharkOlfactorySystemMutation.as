@@ -7,57 +7,52 @@ package classes.IMutations
 import classes.PerkClass;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class SharkOlfactorySystemMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Shark Olfactory System";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             var perkCent:int = 0;
+            var bleedCent:int = 0;
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Increase bleed damage by 50%, allows non-sharks to use blood frenzy";
                 perkCent += 10;
+				bleedCent += 25;
             }
-            if (pTier == 2){
+            if (pTier >= 2){
                 perkCent += 15;
+				bleedCent += 25;
             }
             if (pTier >= 3){
-                descS += ", Bite becomes free and increases bleed damage by" + (pTier == 2)?"50%":(pTier == 3)?"100%":"" + "";
-                perkCent += 25;
+                perkCent += 20;
+				bleedCent += 25;
             }
-            if (pTier >= 1) descS += "and increase melee damage against bleeding enemies by " + perkCent + " %";
+            if (pTier >= 4){
+                perkCent += 25;
+				bleedCent += 25;
+            }
+			if (pTier >= 1) descS += "Increase bleed damage by " + bleedCent + "%, allows non-sharks to use blood frenzy";
+            if (pTier >= 2) descS += ", Bite no longer use fatigue";
+            if (pTier >= 2) descS += " and can be used once a turn without ending player turn";
+            if (pTier >= 1) descS += " increase melee damage against bleeding enemies by " + perkCent + " %";
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Shark Olfactory System" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
                     this.requirePeripheralNervSysMutationSlot()
-                    .requireRace(Races.SHARK);
+                    .requireAnyRace(Races.SHARK, Races.ABYSSAL_SHARK, Races.WERESHARK, Races.SIREN);
                 }
                 else{
                     var pLvl:int = pTier * 30;
@@ -69,9 +64,8 @@ public class SharkOlfactorySystemMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) {
                 pBuffs['spe.mult'] = 0.05;
             }
@@ -84,12 +78,16 @@ public class SharkOlfactorySystemMutation extends IMutationPerkType
                 pBuffs['wis.mult'] = 0.1;
                 pBuffs['spe.mult'] = 0.15;
             }
+            else if (pTier == 4) {
+                pBuffs['int.mult'] = 0.1;
+                pBuffs['wis.mult'] = 0.15;
+                pBuffs['spe.mult'] = 0.25;
+            }
             return pBuffs;
         }
 
         public function SharkOlfactorySystemMutation() {
-            super("Shark Olfactory System IM", "Shark Olfactory System", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_NERVSYS, 4);
         }
 
     }

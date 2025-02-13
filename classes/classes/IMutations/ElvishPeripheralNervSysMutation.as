@@ -8,15 +8,17 @@ import classes.PerkClass;
 import classes.PerkLib;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class ElvishPeripheralNervSysMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Elvish Peripheral NervSys";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             pTier = (pTier == -1)? currentTier(this, player): pTier;
-            var perChg:int = 5 * pTier
+            var perChg:int = 5 * pTier;
             var descS:String = "";
             if (pTier >= 1) descS += "Your Elvish Peripheral NervSys is giving you +" + perChg +"% of max core Spe as phantom Spe and allows you to keep Elven Sense even without elf arms/legs";
             /*
@@ -26,30 +28,22 @@ public class ElvishPeripheralNervSysMutation extends IMutationPerkType
             if (pTier >= 3){
                 descS += ", increases your natural evasion, and decrease melee/range accuracy penalty when using multiattack options. Elven signature abilities will keep working regardless if you are a full blooded elf or not";
             }
+            if (pTier >= 4){
+                descS += ". Heal for an amount of hit points equal to the mana cost when spending mana. Spells have a 10% increased critical chance";
+            }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Elvish Peripheral NervSys" + sufval;
+        override public function evolveText():String {
+            var descS:String = "\nYou feel way more attuned to your surroundings than before. Your ability to sense and control magic has improved just as much as your reflexes. You feel as if you are one with the world and your elven sisters.";
+            return descS;
         }
 
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -67,17 +61,16 @@ public class ElvishPeripheralNervSysMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 2) pBuffs['spe.mult'] = 0.05;
             if (pTier == 3) pBuffs['spe.mult'] = 0.1;
+            if (pTier == 4) pBuffs['spe.mult'] = 0.2;
             return pBuffs;
         }
 
         public function ElvishPeripheralNervSysMutation() {
-            super("Elvish Peripheral NervSys IM", "Elvish Peripheral NervSys", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_NERVSYS, 4);
         }
 
     }

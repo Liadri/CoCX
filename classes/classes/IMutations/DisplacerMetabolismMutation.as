@@ -8,11 +8,13 @@ import classes.GlobalFlags.kFLAGS;
 import classes.PerkClass;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class DisplacerMetabolismMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Displacer Metabolism";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -25,32 +27,16 @@ public class DisplacerMetabolismMutation extends IMutationPerkType
             }
             if (flags[kFLAGS.HUNGER_ENABLED] > 0) descS += ", increases max hunger cap by 50";
             if (descS != ""){
-                descS += (", and increases displacer beast claws attack damage by x" + pTier + 1);
+                descS += (", and increases displacer beast claws attack damage by x" + (pTier + 1));
                 descS += ".";
             }
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Displacer Metabolism" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -67,15 +53,13 @@ public class DisplacerMetabolismMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             return pBuffs;
         }
 
         public function DisplacerMetabolismMutation() {
-            super("Displacer Metabolism IM", "Displacer Metabolism", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_METABOLISM, 3);
         }
         
     }

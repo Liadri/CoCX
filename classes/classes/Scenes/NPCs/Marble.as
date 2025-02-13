@@ -13,23 +13,13 @@ public class Marble extends Monster
 		private function marbleSpecialAttackOne():void {
 			//Special1: Heavy overhead swing, high chance of being avoided with evasion, does heavy damage if it hits.
 			var damage:Number = 0;
-			//Blind dodge change
-			if(hasStatusEffect(StatusEffects.Blind)) {
-				outputText("Marble unwisely tries to make a massive swing while blinded, which you are easily able to avoid.");
-				return;
-			}
 			//Determine if dodged!
-			if(player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 60) {
+			if(player.getEvasionRoll()) {
 				outputText("You manage to roll out of the way of a massive overhand swing.");
 				return;
 			}
-			//Determine if evaded
-			if(player.hasPerk(PerkLib.Evade) && rand(100) < 60) {
-				outputText("You easily sidestep as Marble tries to deliver a huge overhand blow.");
-				return;
-			}
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str + 20 + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str + 20 + weaponAttack) - player.armorDef);
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
@@ -44,17 +34,13 @@ public class Marble extends Monster
 		private function marbleSpecialAttackTwo():void {
 			//Special2: Wide sweep; very high hit chance, does low damage.
 			var damage:Number = 0;
-			//Blind dodge change
-			if(hasStatusEffect(StatusEffects.Blind)) {
-				outputText("Marble makes a wide sweeping attack with her hammer, which is difficult to avoid even from a blinded opponent.\n");
-			}
 			//Determine if evaded
-			if(player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("You barely manage to avoid a wide sweeping attack from marble by rolling under it.");
+			if(player.getEvasionRoll()) {
+				outputText("You barely manage to avoid a wide sweeping attack from Marble by rolling under it.");
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
-			damage = int((str + 40 + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
+			damage = int((str + 40 + weaponAttack) - player.armorDef);
 			damage /= 2;
 			if(damage <= 0) {
 				damage = 0;
@@ -82,7 +68,7 @@ public class Marble extends Monster
 			this.a = "";
 			this.short = "Marble";
 			this.imageName = "marble";
-			this.long = "Before you stands a female humanoid with numerous cow features, such as medium-sized cow horns, cow ears, and a cow tail.  She is very well endowed, with wide hips and a wide ass.  She stands over 6 feet tall.  She is using a large two handed hammer with practiced ease, making it clear she is much stronger than she may appear to be.";
+			this.long = "Before you stands a female humanoid with numerous cow features, such as medium-sized cow horns, cow ears, and a cow tail.  She is very well-endowed, with wide hips and a wide ass.  She stands over 6 feet tall.  She is using a large two-handed hammer with practiced ease, making it clear she is much stronger than she may appear to be.";
 			// this.plural = false;
 			this.createVagina(false, VaginaClass.WETNESS_NORMAL, VaginaClass.LOOSENESS_NORMAL);
 			createBreastRow(Appearance.breastCupInverse("F"));
@@ -92,20 +78,19 @@ public class Marble extends Monster
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE;
 			this.lowerBody = LowerBody.HOOFED;
-			this.skinTone = "pale";
+			this.bodyColor = "pale";
 			this.hairColor = "brown";
 			this.hairLength = 13;
-			initStrTouSpeInte(85, 80, 45, 40);
-			initWisLibSensCor(40, 25, 45, 40);
+			initStrTouSpeInte(215, 170, 90, 40);
+			initWisLibSensCor(40, 125, 65, 40);
 			this.weaponName = "large hammer";
 			this.weaponVerb="hammer-blow";
-			this.weaponAttack = 26;
+			this.weaponAttack = 118;
 			this.armorName = "tough hide";
-			this.armorDef = 10;
-			this.armorMDef = 0;
-			this.bonusLust = 84;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 14;
+			this.armorDef = 80;
+			this.armorMDef = 20;
+			this.bonusLust = 218;
+			this.level = 28;
 			this.gems = rand(15) + 50;
 			this.drop = new WeightedDrop(weapons.L_HAMMR, 1);
 			this.tailType = Tail.COW;

@@ -1,15 +1,39 @@
 package classes.Races {
-import classes.BodyData;
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
 import classes.IMutations.IMutationsLib;
-import classes.PerkLib;
 import classes.Race;
 import classes.VaginaClass;
 
 public class HorseRace extends Race {
+	public static const FurColors:/*String*/Array = ["brown", "chocolate", "auburn", "sandy brown", "caramel", "peach", "black", "midnight black", "dark gray", "gray", "light gray", "silver", "white", "brown and white", "black and white"];
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Snake",
+        /*Eyes*/		"Gorgon",
+        /*Face*/		"Snake",
+        /*Gills*/		"None",
+        /*Hair*/		"Gorgon",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Snake",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Snake",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Snake",
+        /*Wings*/		"Human",
+        /*Penis*/		"Lizard",
+        /*Vagina*/		"Lizard",
+        /*Perks*/		"Human"];
+
 	public function HorseRace(id:int) {
-		super("Horse", id);
+		super("Horse", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -23,7 +47,10 @@ public class HorseRace extends Race {
 				.vaginaType(VaginaClass.EQUINE, +1)
 				.skinCoatType(Skin.FUR, +1)
 				.armType(Arms.HUMAN, +1)
-				.isNotTaur(0,-7);
+				.isNotTaur(0, -7);
+		
+		addMutation(IMutationsLib.EquineMuscleIM);
+		addMutation(IMutationsLib.MightyLegsIM);
 		
 		buildTier(7, "equine-morph")
 				.buffs({

@@ -35,8 +35,8 @@ public class SpiderMorphMob extends Monster
 					outputText(capitalA + short + " <b>mutilate");
 					outputText("</b> you with " + pronoun3 + " powerful " + weaponVerb + "! ");
 				}
-				if (damage > 0) outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>");
-				else outputText("<b>(<font color=\"#000080\">" + damage + "</font>)</b>");
+				if (damage > 0) outputText("<b>([font-damage]" + damage + "[/font])</b>");
+				else outputText("<b>([font-miss]" + damage + "[/font])</b>");
 				if(damage > 0) {
 					if(lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
 						if(!plural) outputText("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.");
@@ -114,11 +114,11 @@ public class SpiderMorphMob extends Monster
 			this.tallness = rand(8) + 70;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			this.hairColor = "black";
 			this.hairLength = 15;
 			initStrTouSpeInte(100, 80, 99, 99);
-			initWisLibSensCor(99, 35, 35, 20);
+			initWisLibSensCor(99, 35, 35, -60);
 			this.weaponName = "claws";
 			this.weaponVerb="claws";
 			this.weaponAttack = 34;
@@ -128,7 +128,6 @@ public class SpiderMorphMob extends Monster
 			this.bonusHP = 1200;
 			this.bonusLust = 93;
 			this.lustVuln = .2;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.level = 23;
 			this.gems = rand(50)+100;
 			this.special1 = SceneLib.combat.packAttack;

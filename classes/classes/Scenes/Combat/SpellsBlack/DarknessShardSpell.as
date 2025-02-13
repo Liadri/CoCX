@@ -13,11 +13,11 @@ public class DarknessShardSpell extends AbstractBlackSpell {
 		super(
 			ex ? "Darkness Shard (Ex)" : "Darkness Shard",
 			ex ?
-				"Drawing your own lust and wrath to condense part of the the ambivalent darkness into a shard to attack your enemies."
-				: "Drawing your own lust to condense part of the the ambivalent darkness into a shard to attack your enemies.",
+				"Drawing your own lust and wrath to condense part of the ambient darkness into a shard to attack your enemies."
+				: "Drawing your own lust to condense part of the ambient darkness into a shard to attack your enemies.",
 			TARGET_ENEMY,
 			TIMING_INSTANT,
-			[TAG_DAMAGING, TAG_DARKNESS]
+			[TAG_DAMAGING, TAG_DARKNESS, TAG_TIER1]
 		);
 		baseManaCost = 40;
 		if (ex) baseWrathCost = 100;
@@ -39,14 +39,22 @@ public class DarknessShardSpell extends AbstractBlackSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return spellBlackCooldown();
+		var calcC:int = 0;
+		calcC += spellBlackCooldown();
+		if (player.weaponRange == weaponsrange.RB_TOME && player.level < 18) {
+			if (player.level < 6) calcC -= 1;
+			if (player.level < 12) calcC -= 1;
+			calcC -= 1;
+			if (calcC < 0) calcC = 0;
+		}
+		return calcC;
 	}
 	
 	public function calcDamage(monster:Monster, randomize:Boolean = true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)
 		var baseDamage:Number = 2 * scalingBonusIntelligence(randomize);
 		if (player.weaponRangeName == "Artemis") baseDamage *= 1.5;
 		if (ex) baseDamage *= 2;
-		return adjustSpellDamage(baseDamage, DamageType.ICE, CAT_SPELL_BLACK, monster, true, casting);
+		return adjustSpellDamage(baseDamage, DamageType.DARKNESS, CAT_SPELL_BLACK, monster, true, casting);
 	}
 	
 	override protected function doSpellEffect(display:Boolean = true):void {

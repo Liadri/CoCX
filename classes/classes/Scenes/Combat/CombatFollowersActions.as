@@ -4,16 +4,20 @@
 package classes.Scenes.Combat 
 {
 import classes.CoC;
+import classes.EngineCore;
+import classes.Races;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
+import classes.Scenes.SceneLib;
 import classes.Scenes.NPCs.TyrantiaFollower;
 import classes.PerkLib;
 import classes.StatusEffects;
+import classes.StatusEffects.VampireThirstEffect;
 
 	public class CombatFollowersActions extends BaseCombatContent
 	{
 		
-		public function CombatFollowersActions() {
-		}
+		public function CombatFollowersActions() {}
 		
 		public function increasedEfficiencyOfAttacks():Number {
 			var IEoA:Number = 0;
@@ -28,14 +32,35 @@ import classes.StatusEffects;
 			}
 			if (player.hasPerk(PerkLib.MotivationSu)) IEoA *= 1.5;
 			IEoA += 1;
+			if (player.hasPerk(PerkLib.CommandingTone)) IEoA += 0.1;
+			if (player.hasPerk(PerkLib.DiaphragmControl)) IEoA += 0.1;
+			if (player.hasPerk(PerkLib.VocalTactician)) IEoA += 0.15;
+			if (pointsToHouseMareth() >= 3) IEoA *= 1.2;
 			//ITEMS EFFEC TS? MISC ACC / RINGS / NECK / HEAD ACC, WEAPON?
 			return IEoA;
 		}
-
+		
+		private function pointsToHouseMareth():Number {
+			var points:Number = 0;
+			if (player.hasPerk(PerkLib.Motivation)) points += 1;
+			if (player.hasPerk(PerkLib.MotivationEx)) points += 2;
+			if (player.hasPerk(PerkLib.DiaphragmControl)) points += 1;
+			if (player.hasPerk(PerkLib.VocalTactician)) points += 2;
+			return points;
+		}
+		private function downTo01Idle():Boolean {
+			if (pointsToHouseMareth() >= 2) return true;
+			else return false;
+		}
+		private function downTo20Idle():Boolean {
+			if (pointsToHouseMareth() >= 1) return true;
+			else return false;
+		}
+		
 		public function neisaCombatActions():void {
 			if (player.statusEffectv4(StatusEffects.CombatFollowerNeisa) > 0) {
 				var choice1:Number = rand(20);
-				if (player.hasPerk(PerkLib.MotivationEx)) {
+				if (downTo01Idle()) {
 					if (rand(100) == 0) neisaCombatActions0();
 					else {
 						if (choice1 < 5) neisaCombatActions1();
@@ -44,7 +69,7 @@ import classes.StatusEffects;
 						if (choice1 >= 15) neisaCombatActions4();
 					}
 				}
-				else if (player.hasPerk(PerkLib.Motivation)) {
+				else if (downTo20Idle()) {
 					if (choice1 < 4) neisaCombatActions0();
 					if (choice1 >= 4 && choice1 < 11) neisaCombatActions1();
 					if (choice1 >= 11 && choice1 < 16) neisaCombatActions2();
@@ -66,7 +91,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Neisa" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Neisa" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function neisaCombatActions0():void {
 			outputText("Neisa looks for an opening in the battle.\n\n");
@@ -90,12 +115,22 @@ import classes.StatusEffects;
 			player.createStatusEffect(StatusEffects.CompBoostingPCArmorValue, 0, 0, 0, 0);
 		}
 		public function neisaCombatActions3():void {
-			outputText("Neisa smashes her shield on [themonster]’s head, stunning it.\n\n");
-			monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+			outputText("Neisa smashes her shield on [themonster]’s head, ");
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+				outputText("stunning it.\n\n");
+			} else {
+				outputText("but the enemy endured it.\n\n");
+			}
 		}
 		public function neisaCombatActions4():void {
-			outputText("Neisa viciously ram her shield on [themonster], dazing it.\n\n");
-			monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+			outputText("Neisa viciously rams her shield on [themonster], ");
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+				outputText("dazing it.\n\n");
+			} else {
+				outputText("but the enemy endured it.\n\n");
+			}
 		}
 		
 		public function dianaCombatActions():void {
@@ -110,7 +145,7 @@ import classes.StatusEffects;
 			}
 			else {
 				outputText("\n\n");
-				player.createStatusEffect(StatusEffects.CombatFollowerDiana, 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects.CombatFollowerDiana, 4, 1);
 			}
 		}
 		public function dianaCombatActions0():void {
@@ -126,10 +161,38 @@ import classes.StatusEffects;
 
 		}
 		
+		public function nadiaCombatActions():void {
+			clearOutput();
+			if (player.statusEffectv4(StatusEffects.CombatFollowerNadia) > 0) {
+				var choice2:Number = rand(20);
+				if (choice2 < 10) outputText("\n\n");
+				if (choice2 >= 10 && choice2 < 14) outputText("\n\n");
+				if (choice2 >= 14 && choice2 < 17) outputText("\n\n");
+				if (choice2 == 17 || choice2 == 18) outputText("\n\n");
+				if (choice2 == 19) outputText("\n\n");
+			}
+			else {
+				outputText("\n\n");
+				player.addStatusValue(StatusEffects.CombatFollowerNadia, 4, 1);
+			}
+		}
+		public function nadiaCombatActions0():void {
+
+		}
+		public function nadiaCombatActions1():void {
+
+		}
+		public function nadiaCombatActions2():void {
+
+		}
+		public function nadiaCombatActions3():void {
+
+		}
+		
 		public function etnaCombatActions():void {
 			if (player.statusEffectv4(StatusEffects.CombatFollowerEtna) > 0) {
 				var choice3:Number = rand(20);
-				if (player.hasPerk(PerkLib.MotivationEx)) {
+				if (downTo01Idle()) {
 					if (rand(100) == 0) etnaCombatActions0();
 					else {
 						if (choice3 < 7) etnaCombatActions1();
@@ -137,7 +200,7 @@ import classes.StatusEffects;
 						if (choice3 >= 15) etnaCombatActions3();
 					}
 				}
-				else if (player.hasPerk(PerkLib.Motivation)) {
+				else if (downTo20Idle()) {
 					if (choice3 < 4) etnaCombatActions0();
 					if (choice3 >= 4 && choice3 < 10) etnaCombatActions1();
 					if (choice3 >= 10 && choice3 < 16) etnaCombatActions2();
@@ -157,7 +220,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Etna" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Etna" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Etna" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function etnaCombatActions0():void {
 			outputText("Etna flies around, looking for an opportunity to strike.\n\n");
@@ -177,14 +240,19 @@ import classes.StatusEffects;
 			outputText("\n\n");
 		}
 		public function etnaCombatActions3():void {
-			outputText("Etna dives at [themonster] and crashes boob first into [monster his] face, staggering it before taking flight again.\n\n");
-			monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+			outputText("Etna dives at [themonster] and crashes boob first into [monster his] face, ");
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+				outputText("staggering it before taking flight again.\n\n");
+			} else {
+				outputText("but the enemy shook off the blow.\n\n");
+			}
 		}
 		
 		public function auroraCombatActions():void {
 			if (player.statusEffectv4(StatusEffects.CombatFollowerAurora) > 0) {
 				var choice4:Number = rand(20);
-				if (player.hasPerk(PerkLib.MotivationEx)) {
+				if (downTo01Idle()) {
 					if (rand(100) == 0) auroraCombatActions0();
 					else {
 						if (choice4 < 5) auroraCombatActions1();
@@ -193,7 +261,7 @@ import classes.StatusEffects;
 						if (choice4 >= 15) auroraCombatActions4();
 					}
 				}
-				else if (player.hasPerk(PerkLib.Motivation)) {
+				else if (downTo20Idle()) {
 					if (choice4 < 4) auroraCombatActions0();
 					if (choice4 >= 4 && choice4 < 11) auroraCombatActions1();
 					if (choice4 >= 11 && choice4 < 15) auroraCombatActions2();
@@ -215,7 +283,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Aurora" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Aurora" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Aurora" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function auroraCombatActions0():void {
 			outputText("Aurora look for an opening in the battle.\n\n");
@@ -258,27 +326,230 @@ import classes.StatusEffects;
 			dmg3a = Math.round(dmg3a * increasedEfficiencyOfAttacks());
 			outputText("Aurora flaps her huge bat wings at [themonster] trying to knock it down. ");
 			doDamage(dmg3a, true, true);
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+				outputText("\n\n");
+			} else {
+				outputText("However, [themonster] was able to stand their ground.\n\n");
+			}
+		}
+		
+		public function ghoulishVampServCombatActions():void {
+			if (player.statusEffectv4(StatusEffects.CombatFollowerGVampServ) > 0) {
+				var choice5:Number = rand(3);
+				if (choice5 == 0) ghoulishVampServCombatActions1();
+				if (choice5 == 1) ghoulishVampServCombatActions2();
+				if (choice5 == 2) ghoulishVampServCombatActions3();
+			}
+			else {
+				outputText(flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+" assume combat stance.\n\n");
+				player.addStatusValue(StatusEffects.CombatFollowerGVampServ, 4, 1);
+			}
+			if (flags[kFLAGS.PLAYER_COMPANION_1] == ""+flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+"" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_2] == ""+flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+"" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_3] == ""+flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+"" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
+		}
+		public function ghoulishVampServCombatActions1():void {
+			var dmg02:Number = player.statusEffectv1(StatusEffects.CombatFollowerGVampServ);
+			var weaponGhoul1:Number = player.statusEffectv2(StatusEffects.CombatFollowerGVampServ);
+			dmg02 += scalingBonusStrengthCompanion() * 0.5;
+			dmg02 *= (1 + (weaponGhoul1 * 0.03));
+			dmg02 = Math.round(dmg02 * increasedEfficiencyOfAttacks());
+			outputText(flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+" leaps into the fray, delivering a deadly slash with "+(SceneLib.ghoulishVampireServant.ghoulGender()?"her":"his")+" clawed hand. [Themonster] begins to bleed ");
+			doDamage(dmg02, true, true);
+			if (monster.canMonsterBleed()) {
+				outputText(" profusely");
+				if (monster.hasStatusEffect(StatusEffects.Hemorrhage))  monster.removeStatusEffect(StatusEffects.Hemorrhage);
+                monster.createStatusEffect(StatusEffects.Hemorrhage, 5, 0.01, 0, 0);
+			}
+			outputText(".");
+			if (player.racialScore(Races.VAMPIRE) >= 20 || player.racialScore(Races.DRACULA) >= 22) {
+				outputText(" The blood being redirected and absorbed by you!");
+				HPChange(dmg02, true);
+				var thirst:VampireThirstEffect = player.statusEffectByType(StatusEffects.VampireThirst) as VampireThirstEffect;
+				var drinked:Number = 1;
+				if (player.perkv1(IMutationsLib.HollowFangsIM) >= 3) drinked += 1;
+				if (player.perkv1(IMutationsLib.HollowFangsIM) >= 4) drinked += 3;
+				if (player.perkv1(IMutationsLib.VampiricBloodstreamIM) >= 4) drinked *= 2;
+				if (player.hasPerk(PerkLib.BloodMastery)) drinked *= 2;
+				thirst.drink(drinked);
+			}
 			outputText("\n\n");
-			monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+		}
+		public function ghoulishVampServCombatActions2():void {
+			outputText(flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+" leaps onto your opponent, attempting to hold it in place as "+flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+" tries to get in a vicious bite! ");
+			if (rand(3) > 0) {
+				var dmg03:Number = scalingBonusStrengthCompanion() * 0.4;
+				dmg03 = Math.round(dmg03 * increasedEfficiencyOfAttacks());
+				outputText("[Themonster] is pinned under your ghoulish partner's body!");
+				doDamage(dmg03, true, true);
+				if (!monster.hasPerk(PerkLib.Resolute)) {
+					monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+				} else {
+					outputText("\nHowever, [Themonster] was able to get free!");
+				}
+			}
+			else outputText("[Themonster] manages to shove your servant back!");
+			outputText("\n\n");
+		}
+		public function ghoulishVampServCombatActions3():void {
+			var dmg04:Number = scalingBonusStrengthCompanion() * 0.4;
+			var weaponGhoul2:Number = player.statusEffectv2(StatusEffects.CombatFollowerGVampServ);
+			dmg04 *= (1 + (weaponGhoul2 * 0.02));
+			dmg04 = Math.round(dmg04 * increasedEfficiencyOfAttacks());
+			outputText(flags[kFLAGS.GHOULISH_VAMPIRE_SERVANT_NAME]+" charges from a wide angle, surprising your opponent and biting straight into "+(monster.hasCock()?"his":"her")+" flesh to extract some of its soul force. The ghoul is pushed back, but still manages to steal a bite and some soul force from "+(SceneLib.ghoulishVampireServant.ghoulGender()?"her":"his")+" victim! ");
+			doDamage(dmg04, true, true);
+			HPChange(dmg04, true);
+			EngineCore.SoulforceChange(Math.round(dmg04 * 0.2));
+			var thirst:VampireThirstEffect = player.statusEffectByType(StatusEffects.VampireThirst) as VampireThirstEffect;
+			var drinked:Number = 1;
+			if (player.perkv1(IMutationsLib.HollowFangsIM) >= 3) drinked += 1;
+			if (player.perkv1(IMutationsLib.HollowFangsIM) >= 4) drinked += 3;
+			if (player.perkv1(IMutationsLib.VampiricBloodstreamIM) >= 4) drinked *= 2;
+			if (player.hasPerk(PerkLib.BloodMastery)) drinked *= 2;
+			thirst.drink(drinked);
+			outputText("\n\n");
 		}
 		
 		public function ayaneCombatActions():void {
 			clearOutput();
 			if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 0) {
 				var choice5:Number = rand(20);
-				if (choice5 < 10) outputText("\n\n");
-				if (choice5 >= 10 && choice5 < 14) outputText("\n\n");
-				if (choice5 >= 14 && choice5 < 17) outputText("\n\n");
-				if (choice5 == 17 || choice5 == 18) outputText("\n\n");
-				if (choice5 == 19) outputText("\n\n");
+				if (downTo01Idle()) {
+					if (rand(100) == 0) ayaneCombatActions0();
+					else {
+						if (choice5 < 7) {
+							if (player.HP < player.maxOverHP()) ayaneCombatActions1();
+							else {
+								if (rand(2) == 0) {
+									if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 1) ayaneCombatActions3();
+									else ayaneCombatActions2();
+								}
+								else ayaneCombatActions3();
+							}
+						}
+						if (choice5 >= 7 && choice5 < 15) {
+							if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 1) ayaneCombatActions3();
+							else ayaneCombatActions2();
+						}
+						if (choice5 >= 15) ayaneCombatActions3();
+					}
+				}
+				else if (downTo20Idle()) {
+					if (choice5 < 4) ayaneCombatActions0();
+					if (choice5 >= 4 && choice5 < 10) {
+						if (player.HP < player.maxOverHP()) ayaneCombatActions1();
+						else {
+							if (rand(2) == 0) {
+								if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 1) ayaneCombatActions3();
+								else ayaneCombatActions2();
+							}
+							else ayaneCombatActions3();
+						}
+					}
+					if (choice5 >= 10 && choice5 < 16) {
+						if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 1) ayaneCombatActions3();
+						else ayaneCombatActions2();
+					}
+					if (choice5 >= 16) ayaneCombatActions3();
+				}
+				else {
+					if (choice5 < 10) ayaneCombatActions0();
+					if (choice5 >= 10 && choice5 < 14) {
+						if (player.HP < player.maxOverHP()) ayaneCombatActions1();
+						else {
+							if (rand(2) == 0) {
+								if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 1) ayaneCombatActions3();
+								else ayaneCombatActions2();
+							}
+							else ayaneCombatActions3();
+						}
+					}
+					if (choice5 >= 14 && choice5 < 18) {
+						if (player.statusEffectv4(StatusEffects.CombatFollowerAyane) > 1) ayaneCombatActions3();
+						else ayaneCombatActions2();
+					}
+					if (choice5 >= 18) ayaneCombatActions3();
+				}
 			}
 			else {
-				outputText("\n\n");
-				player.createStatusEffect(StatusEffects.CombatFollowerAyane, 0, 0, 0, 0);
+				outputText("Ayane takes her staff and arcane focus out, ready to assist you.\n\n");
+				player.addStatusValue(StatusEffects.CombatFollowerAyane, 4, 1);
 			}
+			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Ayane" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Ayane" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Ayane" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function ayaneCombatActions0():void {
-
+			outputText("Ayane looks for an opening in the battle.\n\n");
+		}
+		public function ayaneCombatActions1():void {
+			outputText("Ayane incants a spell and you sigh in relief as your wounds heal slightly.");
+			var heal1:Number = player.statusEffectv1(StatusEffects.CombatFollowerAyane);
+			heal1 += scalingBonusIntelligenceCompanion();
+			heal1 *= player.statusEffectv3(StatusEffects.CombatFollowerAyane);
+			//Determine if critical heal!
+			var crit:Boolean = false;
+			var critHeal:int = 25;
+			if (rand(100) < critHeal) {
+				crit = true;
+				heal1 *= 1.75;
+			}
+			heal1 = Math.round(heal1);
+			if (player.hasStatusEffect(StatusEffects.CombatWounds)) {
+				if (player.statusEffectv1(StatusEffects.CombatWounds) > 0.03) player.addStatusValue(StatusEffects.CombatWounds, 1, -0.03);
+				else player.removeStatusEffect(StatusEffects.CombatWounds);
+			}
+			outputText("<b>([font-heal]+" + heal1 + "[/font])</b>.");
+			if (crit) outputText(" <b>*Critical Heal!*</b>");
+			HPChange(heal1, false);
+			outputText("\n\n");
+		}
+		public function ayaneCombatActions2():void {
+			outputText("Ayane surges in front of you, her staff at the ready.\n\n");
+			player.addStatusValue(StatusEffects.CombatFollowerAyane, 4, 1);
+		}
+		public function ayaneCombatActions3():void {
+			outputText("Ayane spins her staff in a circle as her tails starts to move, wildly dousing [themonster] in foxfire. ");
+			var damageFF:Number = player.statusEffectv1(StatusEffects.CombatFollowerAyane) + player.statusEffectv2(StatusEffects.CombatFollowerAyane);
+			damageFF += (scalingBonusIntelligenceCompanion() * 0.6) + (scalingBonusWisdomCompanion() * 0.4);
+			//Determine if critical hit!
+			var crit:Boolean = false;
+			var critChance:int = 25;
+			if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+			if (rand(100) < critChance) {
+				crit = true;
+				damageFF *= 1.75;
+			}
+			damageFF *= 0.5;
+			damageFF *= (1 + ((player.statusEffectv3(StatusEffects.CombatFollowerAyane) * 2) - 2));
+			//High damage to goes.
+			if(monster.short == "goo-girl") damageFF = Math.round(damageFF * 1.5);
+			damageFF *= 4;
+			damageFF = Math.round(damageFF * increasedEfficiencyOfAttacks());
+			if (monster.lustVuln == 0) {
+				outputText("  It has no effect!  Ayane foe clearly does not experience lust in the same way as her.");
+			}
+			var lustDmg:Number = monster.lustVuln * ((player.statusEffectv1(StatusEffects.CombatFollowerAyane) / 12 + player.statusEffectv2(StatusEffects.CombatFollowerAyane) / 8) * (((player.statusEffectv3(StatusEffects.CombatFollowerAyane) * 2) / 2) + rand(monster.lib + monster.cor) / 5));
+			if (monster.lust < (monster.maxLust() * 0.3)) outputText("[Themonster] squirms as the magic affects [monster him].  ");
+			if (monster.lust >= (monster.maxLust() * 0.3) && monster.lust < (monster.maxLust() * 0.6)) {
+				if(monster.plural) outputText("[Themonster] stagger, suddenly weak and having trouble focusing on staying upright.  ");
+				else outputText("[Themonster] staggers, suddenly weak and having trouble focusing on staying upright.  ");
+			}
+			if (monster.lust >= (monster.maxLust() * 0.6)) {
+				outputText("[Themonster]'");
+				if(!monster.plural) outputText("s");
+				outputText(" eyes glaze over with desire for a moment.  ");
+			}
+			lustDmg *= 0.125;
+			lustDmg = Math.round(monster.lustVuln * lustDmg);
+			monster.teased(lustDmg);
+			outputText(" ");
+			doFireDamage(damageFF, true, true);
+			if (crit) outputText(" <b>*Critical Hit!*</b>");
+			outputText("\n\n");
 		}
 
 		public function divaCombatActions():void {
@@ -293,7 +564,7 @@ import classes.StatusEffects;
 			}
 			else {
 				outputText("\n\n");
-				player.createStatusEffect(StatusEffects.CombatFollowerDiva, 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects.CombatFollowerDiva, 4, 1);
 			}
 		}
 		public function divaCombatActions0():void {
@@ -312,14 +583,14 @@ import classes.StatusEffects;
 			}
 			else {
 				outputText("\n\n");
-				player.createStatusEffect(StatusEffects., 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects., 4, 1);
 			}
 		}*/
 		
 		public function alvinaCombatActions():void {
 			if (player.statusEffectv4(StatusEffects.CombatFollowerAlvina) > 0) {
 				var choice8:Number = rand(20);
-				if (player.hasPerk(PerkLib.MotivationEx)) {
+				if (downTo01Idle()) {
 					if (rand(100) == 0) alvinaCombatActions0();
 					else {
 						if (choice8 < 9) alvinaCombatActions1();
@@ -329,7 +600,7 @@ import classes.StatusEffects;
 						if (choice8 == 19) alvinaCombatActions5();
 					}
 				}
-				else if (player.hasPerk(PerkLib.Motivation)) {
+				else if (downTo20Idle()) {
 					if (choice8 < 4) alvinaCombatActions0();
 					if (choice8 >= 4 && choice8 < 11) alvinaCombatActions1();
 					if (choice8 >= 11 && choice8 < 14) alvinaCombatActions2();
@@ -357,7 +628,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Alvina" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Alvina" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Alvina" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function alvinaCombatActions0():void {
 			outputText("Alvina is studying her spellbook, readying her next action.\n\n");
@@ -368,8 +639,12 @@ import classes.StatusEffects;
 			damage1 = Math.round(damage1 * increasedEfficiencyOfAttacks());
 			outputText("Alvina incants a spell and freezes the enemy solid, now's your chance! ");
 			doIceDamage(damage1, true, true);
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+			} else {
+				outputText("\nHowever, [Themonster] was able to break out of its prison!");
+			}
 			outputText("\n\n");
-			monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
 		}
 		public function alvinaCombatActions2():void {
 			var lustDmg:Number = Math.round(player.statusEffectv2(StatusEffects.CombatFollowerAlvina) / 3);
@@ -392,17 +667,23 @@ import classes.StatusEffects;
 			outputText("Alvina slices at [themonster] with her scythe, leaving deep wounds. ");
 			doDamage(dmg1, true, true);
 			outputText("\n\n");
-			if (monster.hasStatusEffect(StatusEffects.Hemorrhage2)) monster.addStatusValue(StatusEffects.Hemorrhage2, 1, 1);
-			else monster.createStatusEffect(StatusEffects.Hemorrhage2, 3, 0.1, 0, 0);
+			if (!monster.isImmuneToBleed()) {
+				if (monster.hasStatusEffect(StatusEffects.Hemorrhage2)) monster.addStatusValue(StatusEffects.Hemorrhage2, 1, 1);
+				else monster.createStatusEffect(StatusEffects.Hemorrhage2, 3, 0.1, 0, 0);
+			}
 		}
 		public function alvinaCombatActions4():void {
 			var damage2:Number = player.statusEffectv2(StatusEffects.CombatFollowerAlvina);
 			damage2 += scalingBonusIntelligenceCompanion() * 4;
 			damage2 = Math.round(damage2 * increasedEfficiencyOfAttacks());
 			if (monster.plural) damage2 *= 5;
+			outputText("Alvina sighs in annoyance and tosses a fireball which explodes on impact, setting "+(monster.plural ? "all ":"")+"the enem"+(monster.plural ? "ies ":"y")+" on fire!\n\n");
 			doFireDamage(damage2);
-			outputText("Alvina sighs in annoyance and tosses a fireball which explodes on impact, setting "+(monster.plural ? "all ":"")+"the enem"+(monster.plural ? "ies ":"y")+" on fire! (<b><font color=\"#800000\">" + String(damage2) + "</font></b>)\n\n");
-			monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+			} else {
+				outputText("However, [Themonster] quickly regains their bearings!\n\n");
+			}
 		}
 		public function alvinaCombatActions5():void {
 			var dmg:Number = player.statusEffectv2(StatusEffects.CombatFollowerAlvina);
@@ -412,14 +693,14 @@ import classes.StatusEffects;
 			outputText("\"<i>[name] I am seriously going to fall asleep at this rate so if you would let me handle this...</i>\"\n\n");
 			outputText("Without any warning she opens both hands, her scythe floating by her side as she gets to work, tracing a pattern in the air as the very reality in front of you collapses! You watch in horror and awe as a swirling hole of empty blackness pulls your opponent into what looks to be a null space between dimensions. ");
 			outputText(monster.capitalA + monster.short + " reappears a few seconds later with gashes and wounds all over as the black hole, for what else could it be, collapses on itself and explodes in a deflagration of black magic so strong you are pushed back a few meters. ");
-			doDamage(dmg, true, true);
+			doMagicDamage(dmg, true, true);
 			outputText("\n\n");
 		}
 		
 		public function mitziCombatActions():void {
 			if (player.statusEffectv4(StatusEffects.CombatFollowerMitzi) > 0) {
 				var choice9:Number = rand(20);
-				if (player.hasPerk(PerkLib.MotivationEx)) {
+				if (downTo01Idle()) {
 					if (rand(100) == 0) mitziCombatActions0();
 					else {
 						if (choice9 < 9) mitziCombatActions1();
@@ -428,7 +709,7 @@ import classes.StatusEffects;
 						if (choice9 >= 17) mitziCombatActions4();
 					}
 				}
-				else if (player.hasPerk(PerkLib.Motivation)) {
+				else if (downTo20Idle()) {
 					if (choice9 < 4) mitziCombatActions0();
 					if (choice9 >= 4 && choice9 < 12) mitziCombatActions1();
 					if (choice9 >= 12 && choice9 < 15) mitziCombatActions2();
@@ -450,7 +731,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Mitzi" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Mitzi" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Mitzi" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function mitziCombatActions0():void {
 			outputText("Mitzi and her daughters stand by, waiting for an opportunity to attack.\n\n");
@@ -465,10 +746,12 @@ import classes.StatusEffects;
 		}
 		public function mitziCombatActions2():void {
 			outputText("Lildea pulls out a bubbling vial of a green liquid then tosses at [themonster]. The vial shatters on contact, causing the contents to spill onto [monster him]. ");
-			doPoisonDamage((((player.statusEffectv2(StatusEffects.CombatFollowerMitzi)/4)+20)*increasedEfficiencyOfAttacks()), true, true);
-			outputText("\n\n");
-			if (monster.hasStatusEffect(StatusEffects.PoisonDoTH)) monster.addStatusValue(StatusEffects.PoisonDoTH,1,1);
-			else monster.createStatusEffect(StatusEffects.PoisonDoTH,4,0.02,0,0);
+			if (!monster.hasPerk(PerkLib.EnemyConstructType) || !monster.hasPerk(PerkLib.EnemyGhostType)) {
+				doPoisonDamage((((player.statusEffectv2(StatusEffects.CombatFollowerMitzi)/4)+20)*increasedEfficiencyOfAttacks()), true, true);
+				outputText("\n\n");
+				if (monster.hasStatusEffect(StatusEffects.PoisonDoTH)) monster.addStatusValue(StatusEffects.PoisonDoTH, 1, 1);
+				else monster.createStatusEffect(StatusEffects.PoisonDoTH, 4, 0.02, 0, 0);
+			}
 		}
 		public function mitziCombatActions3():void {
 			var lustDmg:Number = Math.round((player.statusEffectv3(StatusEffects.CombatFollowerMitzi) / 6) * increasedEfficiencyOfAttacks());
@@ -489,7 +772,7 @@ import classes.StatusEffects;
 				if (player.HP < player.maxHP() * .5) excelliaCombatActions5();
 				else {
 					var choice10:Number = rand(20);
-					if (player.hasPerk(PerkLib.MotivationEx)) {
+					if (downTo01Idle()) {
 						if (rand(100) == 0) excelliaCombatActions0();
 						else {
 							if (choice10 < 9) excelliaCombatActions1();
@@ -498,7 +781,7 @@ import classes.StatusEffects;
 							if (choice10 >= 17) excelliaCombatActions4();
 						}
 					}
-					else if (player.hasPerk(PerkLib.Motivation)) {
+					else if (downTo20Idle()) {
 						if (choice10 < 4) excelliaCombatActions0();
 						if (choice10 >= 4 && choice10 < 12) excelliaCombatActions1();
 						if (choice10 >= 12 && choice10 < 15) excelliaCombatActions2();
@@ -521,7 +804,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Excellia" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Excellia" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Excellia" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function excelliaCombatActions0():void {
 			outputText("Excellia glares at [themonster], looking for an opportunity to strike\n\n");
@@ -565,14 +848,14 @@ import classes.StatusEffects;
 			outputText("\"<i>[name]! Hang on!</i>\"\n\n");
 			outputText("She quickly grabs you and shoves you down onto one of her leaking nipples. The restorative milk squirts into your mouth, giving you a burst of energy and healing some of your wounds.\n\n");
 			HPChange(Math.round(player.maxHP() * .25), true);
-            dynStats("lus", 5);
+            dynStats("lus", 5, "scale", false);
             fatigue(-50);
 		}
 		
 		public function amilyCombatActions():void {
 			if (player.statusEffectv4(StatusEffects.CombatFollowerAmily) > 0) {
 				var choice11:Number = rand(20);
-				if (player.hasPerk(PerkLib.MotivationEx)) {
+				if (downTo01Idle()) {
 					if (rand(100) == 0) amilyCombatActions0();
 					else {
 						if (choice11 < 9) amilyCombatActions1();
@@ -581,7 +864,7 @@ import classes.StatusEffects;
 						if (choice11 >= 17) amilyCombatActions4();
 					}
 				}
-				else if (player.hasPerk(PerkLib.Motivation)) {
+				else if (downTo20Idle()) {
 					if (choice11 < 4) amilyCombatActions0();
 					if (choice11 >= 4 && choice11 < 12) amilyCombatActions1();
 					if (choice11 >= 12 && choice11 < 15) amilyCombatActions2();
@@ -603,7 +886,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Amily" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Amily" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Amily" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function amilyCombatActions0():void {
 			outputText("Amily remains hidden, making sure she has escaped from sight.\n\n");
@@ -637,12 +920,16 @@ import classes.StatusEffects;
 			outputText("Amily rushes out with her dagger. Blitzing through, she slices through them with a flurry of swift cuts before leaping off of them, away from view. ");
 			doDamage(dmg6, true, true);
 			outputText(" ");
-			doPoisonDamage(((player.statusEffectv2(StatusEffects.CombatFollowerAmily)/4)+20), true, true);
-			outputText("\n\n");
-			if (monster.hasStatusEffect(StatusEffects.Hemorrhage2)) monster.addStatusValue(StatusEffects.Hemorrhage2, 1, 1);
-			else monster.createStatusEffect(StatusEffects.Hemorrhage2, 3, 0.1, 0, 0);
-			if (monster.hasStatusEffect(StatusEffects.PoisonDoTH)) monster.addStatusValue(StatusEffects.PoisonDoTH,1,1);
-			else monster.createStatusEffect(StatusEffects.PoisonDoTH,4,0.02,0,0);
+			if (!monster.hasPerk(PerkLib.EnemyConstructType) || !monster.hasPerk(PerkLib.EnemyGhostType)) {
+				doPoisonDamage(((player.statusEffectv2(StatusEffects.CombatFollowerAmily)/4)+20), true, true);
+				outputText("\n\n");
+				if (!monster.isImmuneToBleed()) {
+				  if (monster.hasStatusEffect(StatusEffects.Hemorrhage2)) monster.addStatusValue(StatusEffects.Hemorrhage2, 1, 1);
+				  else monster.createStatusEffect(StatusEffects.Hemorrhage2, 3, 0.1, 0, 0);
+				}
+				if (monster.hasStatusEffect(StatusEffects.PoisonDoTH)) monster.addStatusValue(StatusEffects.PoisonDoTH,1,1);
+				else monster.createStatusEffect(StatusEffects.PoisonDoTH,4,0.02,0,0);
+			}
 		}
 		
 		public function siegweirdCombatActions():void {
@@ -657,7 +944,7 @@ import classes.StatusEffects;
 			}
 			else {
 				outputText("\n\n");
-				player.createStatusEffect(StatusEffects.CombatFollowerSiegweird, 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects.CombatFollowerSiegweird, 4, 1);
 			}
 		}
 		
@@ -666,7 +953,7 @@ import classes.StatusEffects;
 				if ((player.HP < player.maxHP() * 0.35) && player.statusEffectv3(StatusEffects.CombatFollowerZenji) < 4 && rand(10) > 1) zenjiCombatActions5();
 				else {
 					var choice13:Number = rand(20);
-					if (player.hasPerk(PerkLib.MotivationEx)) {
+					if (downTo01Idle()) {
 						if (rand(100) == 0) zenjiCombatActions0();
 						else {
 							if (choice13 < 8) zenjiCombatActions1();
@@ -684,7 +971,7 @@ import classes.StatusEffects;
 							if (choice13 >= 18) zenjiCombatActions4();
 						}
 					}
-					else if (player.hasPerk(PerkLib.Motivation)) {
+					else if (downTo20Idle()) {
 						if (choice13 < 4) zenjiCombatActions0();
 						if (choice13 >= 4 && choice13 < 10) zenjiCombatActions1();
 						if (choice13 >= 10 && choice13 < 16) zenjiCombatActions2();
@@ -725,7 +1012,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Zenji" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Zenji" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Zenji" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function zenjiCombatActions0():void {
 			outputText("Zenji remains fixated on your opponent, ready to deflect their blows.\n\n");
@@ -743,7 +1030,7 @@ import classes.StatusEffects;
 			dmg11 = Math.round(dmg11 * increasedEfficiencyOfAttacks());
 			outputText("Seeing an opening, Zenji thrusts his spear at [themonster]. ");
 			doDamage(dmg11, true, true);
-			outputText("S\n\n");
+			outputText("\n\n");
 		}
 		public function zenjiCombatActions2():void {
 			var dmg12:Number = player.statusEffectv1(StatusEffects.CombatFollowerZenji);
@@ -782,10 +1069,14 @@ import classes.StatusEffects;
 			else if (weaponZenji >= 151 && weaponZenji < 201) dmg13 *= (4.75 + ((weaponZenji - 150) * 0.015));
 			else dmg13 *= (5.5 + ((weaponZenji - 200) * 0.01));
 			dmg13 = Math.round(dmg13 * increasedEfficiencyOfAttacks());
-			monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
 			outputText("Zenji charges at [themonster], knocking them down and pinning them beneath him with his spear. ");
 			doDamage(dmg13, true, true);
-			outputText(" Zenji has [themonster] pinned beneath him. \"<i>And stay down!</i>\" Zenji shouts. [Themonster] struggles beneath him before finally shaking him off.\n\n");
+			if (!monster.hasPerk(PerkLib.Resolute)) {
+				outputText(" Zenji has [themonster] pinned beneath him. \"<i>And stay down!</i>\" Zenji shouts.\n\n");
+				monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
+			} else {
+				outputText(" Zenji has [themonster] pinned beneath him. \"<i>And stay down!</i>\" Zenji shouts. [Themonster] struggles beneath him before finally shaking him off.\n\n");
+			}
 		}
 		public function zenjiCombatActions5():void {
 			outputText("Seeing your injuries, Zenji quickly rushes to your side, \"<i>It’s okay [name]... I’m here for you…</i>\" he says, wrapping you within his arms, completely shielding you from your enemies. ");
@@ -802,7 +1093,7 @@ import classes.StatusEffects;
 				if (monster.hasStatusEffect(StatusEffects.PouncedByCompanion)) tyrantiaCombatActions1();
 				else {
 					var choice1:Number = rand(20);
-					if (player.hasPerk(PerkLib.MotivationEx)) {
+					if (downTo01Idle()) {
 						if (rand(100) == 0) tyrantiaCombatActions0();
 						else {
 							if (choice1 < 5) tyrantiaCombatActions1();
@@ -811,7 +1102,7 @@ import classes.StatusEffects;
 							if (choice1 >= 15) tyrantiaCombatActions4();
 						}
 					}
-					else if (player.hasPerk(PerkLib.Motivation)) {
+					else if (downTo20Idle()) {
 						if (choice1 < 4) tyrantiaCombatActions0();
 						if (choice1 >= 4 && choice1 < 11) tyrantiaCombatActions1();
 						if (choice1 >= 11 && choice1 < 16) tyrantiaCombatActions2();
@@ -836,7 +1127,7 @@ import classes.StatusEffects;
 			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Tyrantia" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Tyrantia" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
 			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Tyrantia" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
-			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxLust()) enemyAI();
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
 		}
 		public function tyrantiaCombatActions0():void {
 			outputText("Your Drider companion stares at the [themonster], making no movements towards them.\n\n");
@@ -869,8 +1160,10 @@ import classes.StatusEffects;
 				monster.createStatusEffect(StatusEffects.PouncedByCompanion,2+rand(2),0,0,0);
 			}
 			else outputText("To your surprise, Tyrantia flinches, backing off from [themonster]. They fight their way to their feet, and take a fighting stance.");
-			if (monster.hasStatusEffect(StatusEffects.Hemorrhage2)) monster.addStatusValue(StatusEffects.Hemorrhage2, 1, 1);
-			else monster.createStatusEffect(StatusEffects.Hemorrhage2, 3, 0.1, 0, 0);
+			if (!monster.isImmuneToBleed()) {
+				if (monster.hasStatusEffect(StatusEffects.Hemorrhage2)) monster.addStatusValue(StatusEffects.Hemorrhage2, 1, 1);
+				else monster.createStatusEffect(StatusEffects.Hemorrhage2, 3, 0.1, 0, 0);
+			}
 			doDamage(dmg15, true, true);
 			outputText("\n\n");
 		}
@@ -896,6 +1189,166 @@ import classes.StatusEffects;
 		}
 		public function tyrantiaCombatActions5():void {
 			outputText("Your Drider companion stares at the [enemy], making no movements towards them.\n\n");
+		}
+
+		public function kihaCombatActions():void {
+			if (player.statusEffectv4(StatusEffects.CombatFollowerKiha) > 0) {
+				var choice11:Number = rand(20);
+				if (player.hasPerk(PerkLib.MotivationEx) || player.hasStatusEffect(StatusEffects.FrenziedKiha)) {
+					if (rand(100) == 0) kihaCombatActions0();
+					else {
+						if (choice11 < 9) kihaCombatActions1();
+						if (choice11 >= 9 && choice11 < 14) kihaCombatActions2();
+						if (choice11 >= 14 && choice11 < 17) kihaCombatActions3();
+						if (choice11 >= 17) kihaCombatActions4();
+					}
+				}
+				else if (downTo20Idle()) {
+					if (choice11 < 4) kihaCombatActions0();
+					if (choice11 >= 4 && choice11 < 12) kihaCombatActions1();
+					if (choice11 >= 12 && choice11 < 15) kihaCombatActions2();
+					if (choice11 >= 15 && choice11 < 18) kihaCombatActions3();
+					if (choice11 == 18 || choice11 == 19) kihaCombatActions4();
+				}
+				else {
+					if (choice11 < 10) kihaCombatActions0();
+					if (choice11 >= 10 && choice11 < 14) kihaCombatActions1();
+					if (choice11 == 14 || choice11 == 15) kihaCombatActions2();
+					if (choice11 == 16 || choice11 == 17) kihaCombatActions3();
+					if (choice11 == 18 || choice11 == 19) kihaCombatActions4();
+				}
+			}
+			else {
+				outputText("Kiha readies her axe, small spurts of flame escaping her nostrils as she stares down your opponent.\n\n");
+				player.addStatusValue(StatusEffects.CombatFollowerKiha, 4, 1);
+			}
+			if (flags[kFLAGS.PLAYER_COMPANION_0] == "Kiha" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_0_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_0_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Kiha" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Kiha" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Kiha" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
+		}
+		public function kihaCombatActions0():void {
+			outputText("Kiha remains steady, ready to smash away any blows [themonster] might throw.\n\n");
+		}
+		public function kihaCombatActions1():void {
+			var dmg17:Number = player.statusEffectv1(StatusEffects.CombatFollowerKiha);
+			var weaponKiha:Number = player.statusEffectv2(StatusEffects.CombatFollowerKiha);
+			dmg17 += scalingBonusStrengthCompanion();
+			if (weaponKiha < 51) dmg17 *= (1 + (weaponKiha * 0.03));
+			else if (weaponKiha >= 51 && weaponKiha < 101) dmg17 *= (2.5 + ((weaponKiha - 50) * 0.025));
+			else if (weaponKiha >= 101 && weaponKiha < 151) dmg17 *= (3.75 + ((weaponKiha - 100) * 0.02));
+			else if (weaponKiha >= 151 && weaponKiha < 201) dmg17 *= (4.75 + ((weaponKiha - 150) * 0.015));
+			else dmg17 *= (5.5 + ((weaponKiha - 200) * 0.01));
+			dmg17 = Math.round(dmg17 * increasedEfficiencyOfAttacks());
+			if (player.hasStatusEffect(StatusEffects.FrenziedKiha))
+				dmg17 *= 1+ player.statusEffectv1(StatusEffects.FrenziedKiha)*0.2;
+			outputText("Seeing an opening, Kiha swings her battleaxe, smashing [themonster]. ");
+			doDamage(dmg17, true, true);
+			outputText("\n\n");
+		}
+		public function kihaCombatActions2():void {
+			var dmg18:Number = player.statusEffectv1(StatusEffects.CombatFollowerKiha);
+			dmg18 += scalingBonusStrengthCompanion() * 0.5;
+			dmg18 = Math.round(dmg18 * increasedEfficiencyOfAttacks());
+			if (player.hasStatusEffect(StatusEffects.FrenziedKiha))
+				dmg18 *= 1+ player.statusEffectv1(StatusEffects.FrenziedKiha)*0.2;
+			outputText("Kiha throws her trusty weapon into the sodden ground, building up balls of flame around her fists.  She runs towards [themonster], launching herself into action with a flurry of punches. ");
+			doFireDamage(dmg18, true, true);
+			outputText("\n\n");
+		}
+		public function kihaCombatActions3():void {
+			outputText("Kiha throws her arms back and roars, exhaling a swirling tornado of fire directly at [themonster]!\n");
+			var dmg19:Number = player.statusEffectv1(StatusEffects.CombatFollowerKiha);
+			dmg19 += scalingBonusStrengthCompanion();
+			dmg19 = Math.round(dmg19 * increasedEfficiencyOfAttacks());
+			if (player.hasStatusEffect(StatusEffects.FrenziedKiha))
+				dmg19 *= 1+ player.statusEffectv1(StatusEffects.FrenziedKiha)*0.2;
+			doFireDamage(dmg19, true, true);
+			outputText("\n\n");
+		}
+		public function kihaCombatActions4():void {
+			outputText("She supports the axe on a shoulder, cracking her neck and arching her back to stretch herself, giving [themonster] an unintended show.  ");
+			if (monster.lustVuln > 0)
+				monster.teased(monster.lib/20, true);
+			outputText("\n\n");
+		}
+
+		public function midokaCombatActions():void {
+			if (player.statusEffectv4(StatusEffects.CombatFollowerMidoka) > 0) {
+				var choice11:Number = rand(20);
+				if (downTo01Idle()) {
+					if (rand(100) == 0) midokaCombatActions0();
+					else {
+						if (choice11 < 9) midokaCombatActions1();
+						if (choice11 >= 9 && choice11 < 14) midokaCombatActions2();
+						if (choice11 >= 14 && choice11 < 17) midokaCombatActions3();
+						if (choice11 >= 17) midokaCombatActions4();
+					}
+				}
+				else if (downTo20Idle()) {
+					if (choice11 < 4) midokaCombatActions0();
+					if (choice11 >= 4 && choice11 < 12) midokaCombatActions1();
+					if (choice11 >= 12 && choice11 < 15) midokaCombatActions2();
+					if (choice11 >= 15 && choice11 < 18) midokaCombatActions3();
+					if (choice11 == 18 || choice11 == 19) midokaCombatActions4();
+				}
+				else {
+					if (choice11 < 10) midokaCombatActions0();
+					if (choice11 >= 10 && choice11 < 14) midokaCombatActions1();
+					if (choice11 == 14 || choice11 == 15) midokaCombatActions2();
+					if (choice11 == 16 || choice11 == 17) midokaCombatActions3();
+					if (choice11 == 18 || choice11 == 19) midokaCombatActions4();
+				}
+			}
+			else {
+				outputText("Midoka her fists as she stares down your opponent.\n\n");
+				player.addStatusValue(StatusEffects.CombatFollowerMidoka, 4, 1);
+			}
+			if (flags[kFLAGS.PLAYER_COMPANION_0] == "Midoka" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_0_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_0_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Midoka" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_1_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Midoka" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_2_ACTION] = 1;
+			if (flags[kFLAGS.PLAYER_COMPANION_3] == "Midoka" && flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] != 1) flags[kFLAGS.IN_COMBAT_PLAYER_COMPANION_3_ACTION] = 1;
+			if (monster.HP <= monster.minHP() || monster.lust >= monster.maxOverLust()) enemyAI();
+		}
+		public function midokaCombatActions0():void {
+			outputText("Midoka remains steady, ready to deflect away any blows [themonster] might throw.\n\n");
+		}
+		public function midokaCombatActions1():void {
+			var dmg17:Number = player.statusEffectv1(StatusEffects.CombatFollowerMidoka);
+			var weaponMidoka:Number = player.statusEffectv2(StatusEffects.CombatFollowerMidoka);
+			dmg17 += scalingBonusStrengthCompanion();
+			if (weaponMidoka < 51) dmg17 *= (1 + (weaponMidoka * 0.03));
+			else if (weaponMidoka >= 51 && weaponMidoka < 101) dmg17 *= (2.5 + ((weaponMidoka - 50) * 0.025));
+			else if (weaponMidoka >= 101 && weaponMidoka < 151) dmg17 *= (3.75 + ((weaponMidoka - 100) * 0.02));
+			else if (weaponMidoka >= 151 && weaponMidoka < 201) dmg17 *= (4.75 + ((weaponMidoka - 150) * 0.015));
+			else dmg17 *= (5.5 + ((weaponMidoka - 200) * 0.01));
+			dmg17 = Math.round(dmg17 * increasedEfficiencyOfAttacks());
+			outputText("[midokaname] attack 1 ");
+			doDamage(dmg17, true, true);
+			outputText("\n\n");
+		}
+		public function midokaCombatActions2():void {
+			var dmg18:Number = player.statusEffectv1(StatusEffects.CombatFollowerMidoka);
+			dmg18 += scalingBonusStrengthCompanion() * 0.5;
+			dmg18 = Math.round(dmg18 * increasedEfficiencyOfAttacks());
+			outputText("[midokaname] attack 2 ");
+			doDamage(dmg18, true, true);
+			outputText("\n\n");
+		}
+		public function midokaCombatActions3():void {
+			outputText("[midokaname] attack 3\n");
+			var dmg19:Number = player.statusEffectv1(StatusEffects.CombatFollowerMidoka);
+			dmg19 += scalingBonusStrengthCompanion();
+			dmg19 = Math.round(dmg19 * increasedEfficiencyOfAttacks());
+			doDamage(dmg19, true, true);
+			outputText("\n\n");
+		}
+		public function midokaCombatActions4():void {
+			outputText("[midokaname] tease ");
+			if (monster.lustVuln > 0)
+				monster.teased(monster.lib/20, true);
+			outputText("\n\n");
 		}/*
 		
 		public function divaCombatActions():void {
@@ -910,12 +1363,12 @@ import classes.StatusEffects;
 			}
 			else {
 				outputText("\n\n");
-				player.createStatusEffect(StatusEffects., 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects., 4, 1);
 			}
 		}
 		public function ayaneCombatActions0():void {
 
-		}
+		}/*
 
 		public function divaCombatActions():void {
 			clearOutput();
@@ -929,7 +1382,7 @@ import classes.StatusEffects;
 			}
 			else {
 				outputText("\n\n");
-				player.createStatusEffect(StatusEffects., 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects., 4, 1);
 			}
 		}
 		public function ayaneCombatActions0():void {

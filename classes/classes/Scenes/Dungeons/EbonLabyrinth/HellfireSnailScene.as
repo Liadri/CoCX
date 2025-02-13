@@ -1,18 +1,18 @@
 
 package classes.Scenes.Dungeons.EbonLabyrinth
 {
-import classes.GlobalFlags.kFLAGS;
 import classes.BaseContent;
-import classes.StatusEffects;
-import classes.PerkLib;
 import classes.EventParser;
+import classes.GlobalFlags.kFLAGS;
+import classes.PerkLib;
+import classes.StatusEffects;
 
 public class HellfireSnailScene extends BaseContent {
     public function HellfireSnailScene() {}
 
     public function encounter():void {
         clearOutput();
-        if ((player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) && flags[kFLAGS.HELLFIRE_SNAIL_ENC] == 1) {
+        if ((player.hasPerk(PerkLib.FireAffinity) || player.hasPerk(PerkLib.FireShadowAffinity) || player.hasPerk(PerkLib.AffinityIgnis)) && flags[kFLAGS.HELLFIRE_SNAIL_ENC] == 1) {
             outputText("You turn the corner expecting to run into yet another monster out to badly hurt you but sigh in relief as you run into the fire snail girl instead.\n\n");
             outputText("\"<i>Hey it's you again. Having fun down there?</i>\"\n\n");
             outputText("Well you could say that, in a way, yes you are having fun down there.\n\n");
@@ -30,7 +30,7 @@ public class HellfireSnailScene extends BaseContent {
         if (flags[kFLAGS.HELLFIRE_SNAIL_ENC] < 1) flags[kFLAGS.HELLFIRE_SNAIL_ENC] = 1;
         startCombat(new HellfireSnail(), true);
     }
-    
+
     public function defeatedBy():void {
         clearOutput();
         outputText("The snail girl catches you before you even hit the floor, a wide gooey smile on her face.\n\n");
@@ -47,7 +47,7 @@ public class HellfireSnailScene extends BaseContent {
             EventParser.gameOver();
         }
     }
-    
+
     public function defeat():void {
         clearOutput();
         outputText("You beat up the snail girl so hard her shell end upside down! She desperately tries to get back on her belly but is stuck swinging from side to side, you get the opportunity to run past her.\n\n");
@@ -57,17 +57,17 @@ public class HellfireSnailScene extends BaseContent {
     }
 
     public function hellfireSnailSex():void {
-        eachMinuteCount(15);
+        advanceMinutes(15);
         outputText("The snail giggles at your pleasant attention and begin to grind her lubricated pussy against "+(player.hasCock() ? "your burning cock" : "yours")+" in earnest. Blazing goop and other fluids begins to mingle as the two of you make it out the other residents of the labyrinth either oblivious or too scared to interfere with your smoldering mating session. ");
-        outputText("This might also be because the both of you spray fire and lava everywhere as part of mating and despite you both being immune to each other the unlooker likely wouldn't. The mating is deliberately slow, gentle and calculated with no single movement wasted as unlike most of Mareth denizen your current partner likes it nice and slow taking her time to make everything count.\n\n");
+        outputText("This might also be because both of you spray fire and lava everywhere as part of mating and despite you both being immune to each other the unlooker likely wouldn't. The mating is deliberately slow, gentle and calculated with no single movement wasted as unlike most of Mareth denizen your current partner likes it nice and slow taking her time to make everything count.\n\n");
         outputText("You reach your peak and erupt in orgasm, your partner following short mere seconds after");
-        if (player.hasCock()) outputText(" as you fill her smoldering lovehole with "+player.race()+" seeds");
+        if (player.hasCock()) outputText(" as you fill her smoldering lovehole with [race] seeds");
         if (!player.hasCock()) outputText(" as your girl juice mix with hers");
         outputText(".\n\n\"<i>Uwaaa so long since last I had real sex, most of my partners dies before I even reach the climax. Thank you so much hun for helping me out.</i>\"\n\n");
         outputText("Hey if this can help her be less of a hazard to everyone around her then why not, you're glad she appreciates it.\n\n");
         outputText("\"<i>Hey before you go have a vial of this, I don't know if you will find it useful but who knows.</i>\"\n\n");
         outputText("She hands you a vial of her saliva before you head out back in the labyrinth and resume your exploration.\n\n");
-        player.sexReward('vaginalFluids', 'Default');
+        player.sexReward("vaginalFluids", "Default");
     }
 }
 }

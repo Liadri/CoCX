@@ -31,10 +31,12 @@ public class OmnibusOverseer extends Monster
 			outputText("The demoness blinks her eyes closed and knits her eyebrows in concentration.  The red orbs open wide and she smiles, licking her lips.   The air around her grows warmer, and muskier, as if her presence has saturated it with lust.");
 			if (hasStatusEffect(StatusEffects.LustAura)) {
 				outputText("  Your eyes cross with unexpected feelings as the taste of desire in the air worms its way into you.  The intense aura quickly subsides, but it's already done its job.");
-				player.dynStats("lus", (8 + int(player.lib / 20 + player.cor / 25)));
+				player.takeLustDamage((eBaseLibidoDamage() / 20 + int(player.lib / 20 + player.cor / 25)), true);
 			}
 			else {
 				createStatusEffect(StatusEffects.LustAura, 0, 0, 0, 0);
+				outputText("\nIf you don't do something, you'll quickly succumb!");
+				clearTempResolute(false);
 			}
 		}
 		
@@ -42,7 +44,7 @@ public class OmnibusOverseer extends Monster
 			if (rand(2) == 0)
 				outputText("The demoness grips her sizable breasts and squeezes, spraying milk at you.\n");
 			else outputText("Your foe curls up to pinch her nipples, tugging hard and squirting milk towards you.\n");
-			if ((player.spe > 50 && rand(4) == 0) || (player.hasPerk(PerkLib.Evade) && rand(3) == 0) || (player.hasPerk(PerkLib.Misdirection) && rand(4) == 0 && player.armorName == "red, high-society bodysuit")) {
+			if (player.getEvasionRoll()) {
 				outputText("You sidestep the gushing fluids.");
 			}
 			//You didn't dodge
@@ -54,16 +56,51 @@ public class OmnibusOverseer extends Monster
 					outputText("The milk splashes into your [armor], soaking you effectively.  ");
 					if (player.cocks.length > 0) {
 						outputText("Your [cock] gets hard as the milk lubricates and stimulates it.  ");
-						player.dynStats("lus", 5);
+						player.takeLustDamage(eBaseLibidoDamage() / 50, true);
 					}
 					if (player.vaginas.length > 0) {
 						outputText("You rub your thighs together as the milk slides between your pussy lips, stimulating you far more than it should.  ");
-						player.dynStats("lus", 5);
+						player.takeLustDamage(eBaseLibidoDamage() / 50, true);
 					}
 				}
-				player.dynStats("lus", 7 + player.effectiveSensitivity() / 20);
 				if (player.biggestLactation() > 1) outputText("Milk dribbles from your [allbreasts] in sympathy.");
+				player.takeLustDamage(eBaseLibidoDamage() / 30 + player.effectiveSensitivity() / 20, true);
+
 			}
+		}
+
+		override protected function handleStun():Boolean {
+			if (hasStatusEffect(StatusEffects.LustAura)) {
+				outputText("The Overseer's concentration shatters, dispelling the lust aura!\n\n");
+				removeStatusEffect(StatusEffects.LustAura);
+			}
+
+			return super.handleStun();
+		}
+
+		override protected function handleFear():Boolean {
+			if (hasStatusEffect(StatusEffects.LustAura)) {
+				outputText("The Overseer's concentration shatters, dispelling the lust aura!\n\n");
+				removeStatusEffect(StatusEffects.LustAura);
+			}
+
+			return super.handleFear();
+		}
+
+		override protected function handleConfusion():Boolean {
+			if (hasStatusEffect(StatusEffects.LustAura)) {
+				outputText("The Overseer's concentration shatters, dispelling the lust aura!\n\n");
+				removeStatusEffect(StatusEffects.LustAura);
+			}
+
+			return super.handleConfusion();
+		}
+
+		override public function displaySpecialStatuses():Array {
+			var statusArray:Array = super.displaySpecialStatuses();
+			trace("Check Called: " + hasStatusEffect(StatusEffects.LustAura));
+			if (hasStatusEffect(StatusEffects.LustAura)) statusArray.push("Lust Aura");
+			return statusArray;
 		}
 		
 		public function OmnibusOverseer()
@@ -86,25 +123,23 @@ public class OmnibusOverseer extends Monster
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_TIGHT;
 			this.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-			this.skinTone = "light purple";
+			this.bodyColor = "light purple";
 			this.hairColor = "purple";
 			this.hairLength = 42;
-			initStrTouSpeInte(100, 70, 45, 85);
-			initWisLibSensCor(85, 90, 70, 80);
+			initStrTouSpeInte(100, 73, 49, 85);
+			initWisLibSensCor(85, 95, 70, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 12;
-			this.weaponPerk = "";
+			this.weaponAttack = 15;
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
-			this.armorDef = 18;
-			this.armorMDef = 2;
-			this.bonusHP = 400;
-			this.bonusLust = 176;
+			this.armorDef = 22;
+			this.armorMDef = 3;
+			this.bonusHP = 420;
+			this.bonusLust = 185;
 			this.lust = 20;
 			this.lustVuln = 0.75;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.level = 16;
+			this.level = 20;
 			this.gems = rand(35) + 30;
 			this.additionalXP = 200;
 			this.drop = new WeightedDrop(null, 1);
@@ -112,7 +147,7 @@ public class OmnibusOverseer extends Monster
 				{ call: eAttack, type: ABILITY_PHYSICAL, range: RANGE_MELEE, tags:[TAG_BODY]},
 				{ call: lustAura, type: ABILITY_TEASE, range: RANGE_SELF, tags:[]},
 				{ call: milkAttack, type: ABILITY_TEASE, range: RANGE_RANGED, tags:[TAG_FLUID]},
-			]
+			];
 			this.wings.type = Wings.BAT_LIKE_TINY;
 			this.wings.desc = "tiny hidden";
 			this.tailType = Tail.DEMONIC;
@@ -120,7 +155,7 @@ public class OmnibusOverseer extends Monster
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyBossType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, 16, 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxHP, 20, 0, 0, 0);
 			checkMonster();
 		}
 		

@@ -26,7 +26,7 @@ public class CurseOfWeepingSpell extends AbstractHexSpell {
 	
 	override public function describeEffectVs(target:Monster):String {
 		return "" +
-				calcDamage(target, false, false) + " damage over "+
+				numberFormat(calcDamage(target, false, false)) + " damage over "+
 				numberOfThings(calcDuration(),"round") +
 				"; " + calcBackfirePercent() + "% backfire"
 	}
@@ -39,12 +39,15 @@ public class CurseOfWeepingSpell extends AbstractHexSpell {
 		return monster.hasStatusEffect(StatusEffects.CurseOfWeeping);
 	}
 	
-	public function calcDuration():int {
-		return 6
+	override public function calcDuration():int {
+		return 6;
 	}
 	
 	override public function calcCooldown():int {
-		return 10;
+		var calcC:int = 7;
+		calcC += spellGenericCooldown();
+		if (player.hasPerk(PerkLib.Necromancy)) calcC -= 1;
+		return calcC;
 	}
 	
 	override protected function usabilityCheck():String {
@@ -69,6 +72,7 @@ public class CurseOfWeepingSpell extends AbstractHexSpell {
 			var hemorrhage3Damage:Number = 0;
 			hemorrhage3Damage += monster.statusEffectv2(StatusEffects.CurseOfWeeping);
 			hemorrhage3Damage *= 0.2;
+			if (player.hasPerk(PerkLib.Necromancy)) hemorrhage3Damage *= 1.5;
 			hemorrhage3Damage = Math.round(hemorrhage3Damage);
 			combat.doDamage(hemorrhage3Damage, true, display);
 			if (display) {

@@ -17,7 +17,7 @@ public class LightningElemental extends Monster
 			outputText("Sparks of electricity wrap around "+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Undine":"the lightning elemental")+"'s fists before it hurts its fist toward you.");
 			var damage:Number = inte + wis;
 			if (player.hasPerk(PerkLib.LightningAffinity)) damage *= 0.3;
-			if (player.hasPerk(PerkLib.DarknessAffinity)) damage *= 3;
+			if (player.hasPerk(PerkLib.DarknessAffinity) || player.hasPerk(PerkLib.FireShadowAffinity)) damage *= 3;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 2);
 			damage = Math.round(damage);
 			//Dodge
@@ -34,7 +34,7 @@ public class LightningElemental extends Monster
 			outputText("Electricity crackles around "+(flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 4?"Undine":"the lightning elemental")+"'s fists before it launches itself into a flurry of punches against you.");
 			var damage:Number = inte + wis;
 			if (player.hasPerk(PerkLib.LightningAffinity)) damage *= 0.3;
-			if (player.hasPerk(PerkLib.DarknessAffinity)) damage *= 3;
+			if (player.hasPerk(PerkLib.DarknessAffinity) || player.hasPerk(PerkLib.FireShadowAffinity)) damage *= 3;
 			damage *= ((flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] + 1) * 1.5);
 			damage = Math.round(damage);
 			//Dodge
@@ -100,13 +100,13 @@ public class LightningElemental extends Monster
 				this.imageName = "lightning elemental";
 				this.long = "You're currently fighting lightning elemental. It's a four feet tall body of lightning shaped into a humanoid form. It's using bare fists to fight.";
 				this.tallness = 48;
-				initStrTouSpeInte(22, 32, 52, 110);
-				initWisLibSensCor(110, 10, 55, 50);
-				this.weaponAttack = 12;
-				this.armorDef = 12;
-				this.armorMDef = 65;
+				initStrTouSpeInte(44, 64, 104, 220);
+				initWisLibSensCor(220, 20, 110, 0);
+				this.weaponAttack = 24;
+				this.armorDef = 24;
+				this.armorMDef = 130;
 				this.level = 26;
-				this.bonusHP = 750;
+				this.bonusHP = 1500;
 				this.additionalXP = 185;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 1) {
@@ -114,13 +114,13 @@ public class LightningElemental extends Monster
 				this.imageName = "lightning elemental";
 				this.long = "You're currently fighting lightning elemental. It's a four foot, three inch tall body of lightning shaped into a humanoid form. It's using bare fists to fight.";
 				this.tallness = 51;
-				initStrTouSpeInte(25, 35, 55, 125);
-				initWisLibSensCor(125, 10, 65, 50);
-				this.weaponAttack = 14;
-				this.armorDef = 14;
-				this.armorMDef = 75;
-				this.level = 29;
-				this.bonusHP = 850;
+				initStrTouSpeInte(50, 70, 110, 250);
+				initWisLibSensCor(250, 20, 130, 0);
+				this.weaponAttack = 28;
+				this.armorDef = 28;
+				this.armorMDef = 150;
+				this.level = 28;
+				this.bonusHP = 1700;
 				this.additionalXP = 215;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 2) {
@@ -128,13 +128,13 @@ public class LightningElemental extends Monster
 				this.imageName = "lightning elemental";
 				this.long = "You're currently fighting lightning elemental. It's a four and half foot tall body of lightning shaped into a humanoid form. It's using bare fists to fight.";
 				this.tallness = 54;
-				initStrTouSpeInte(28, 38, 58, 140);
-				initWisLibSensCor(140, 10, 75, 50);
-				this.weaponAttack = 16;
-				this.armorDef = 16;
-				this.armorMDef = 85;
-				this.level = 32;
-				this.bonusHP = 950;
+				initStrTouSpeInte(56, 76, 116, 280);
+				initWisLibSensCor(280, 20, 150, 0);
+				this.weaponAttack = 32;
+				this.armorDef = 32;
+				this.armorMDef = 170;
+				this.level = 30;
+				this.bonusHP = 1900;
 				this.additionalXP = 245;
 			}
 			else if (flags[kFLAGS.RIVER_DUNGEON_ELEMENTAL_MIXER] == 3) {
@@ -142,26 +142,28 @@ public class LightningElemental extends Monster
 				this.imageName = "lightning elemental";
 				this.long = "You're currently fighting lightning elemental. It's four foot, nine inch tall body of lightning shaped into a humanoid form. It's using bare fists to fight.";
 				this.tallness = 57;
-				initStrTouSpeInte(31, 41, 61, 155);
-				initWisLibSensCor(155, 10, 85, 50);
-				this.weaponAttack = 18;
-				this.armorDef = 18;
-				this.armorMDef = 95;
-				this.level = 35;
-				this.bonusHP = 1050;
+				initStrTouSpeInte(62, 82, 122, 310);
+				initWisLibSensCor(310, 20, 170, 0);
+				this.weaponAttack = 36;
+				this.armorDef = 36;
+				this.armorMDef = 190;
+				this.level = 32;
+				this.bonusHP = 2100;
 				this.additionalXP = 275;
 			}
 			this.a = "the ";
 			this.plural = false;
-			this.lustVuln = 0;
-			this.drop = new ChainedDrop()
-					.add(useables.ELSHARD, 1);
+			this.lustVuln = 0.01;
+			this.drop = new WeightedDrop()
+					.add(useables.ELSHARD, 3)
+					.add(useables.LELSHARD, 1);
 			this.createBreastRow(0, 1);
 			initGenderless();
 			this.weaponName = "fists";
 			this.weaponVerb = "smash";
 			this.armorName = "lightning skin";
 			this.createPerk(PerkLib.EnemyElementalType, 0, 0, 0, 0);
+			this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.LightningNature, 0, 0, 0, 0);
 			checkMonster();
 		}

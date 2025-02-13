@@ -1,26 +1,13 @@
 package classes.Items {
 import classes.*;
-import classes.BodyParts.Antennae;
-import classes.BodyParts.Arms;
-import classes.BodyParts.Ears;
-import classes.BodyParts.Eyes;
-import classes.BodyParts.Face;
-import classes.BodyParts.Gills;
-import classes.BodyParts.Hair;
-import classes.BodyParts.Horns;
-import classes.BodyParts.LowerBody;
-import classes.BodyParts.RearBody;
-import classes.BodyParts.Skin;
-import classes.BodyParts.Tail;
-import classes.BodyParts.Tongue;
-import classes.BodyParts.Wings;
+import classes.Items.Alchemy.AlchemyLib;
 
 /**
 	 * Helper class to get rid of the copy&paste-mess in classes.Items.Mutations
 	 * @since July 8, 2016
 	 * @author Stadler76
 	 */
-	public class MutationsHelper extends BaseContent
+	public class MutationsHelper extends AlchemyLib
 	{
 
     public var changes:int = 0;
@@ -50,6 +37,7 @@ import classes.BodyParts.Wings;
 		if (player.hasPerk(PerkLib.Creationism)) changeLimit++;
 		if (player.hasPerk(PerkLib.EzekielBlessing)) changeLimit++;
 		if (player.hasPerk(PerkLib.TransformationResistance)) changeLimit--;
+		if (player.hasPerk(PerkLib.TransformationAcclimation)) changeLimit*2;
 		return changes;
 	}
 	/**

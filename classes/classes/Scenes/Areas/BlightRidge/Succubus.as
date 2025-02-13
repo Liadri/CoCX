@@ -11,6 +11,7 @@ import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.Monsters.AbstractSuccubus;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
@@ -44,8 +45,8 @@ use namespace CoC;
                 this.bonusHP = 960 + 960*mod;
                 this.bonusLust = 332 + 22*mod;
                 this.level = 62 + 5*mod;
-                this.additionalXP = int(500 * Math.exp(0.3*mod));
-                this.gems = int((60 + rand(30)) * Math.exp(0.3 * mod));
+				this.gems = mod > 20 ? 0 : Math.floor((60 + rand(30)) * Math.exp(0.3*mod));
+				this.additionalXP = mod > 20 ? 0 : Math.floor(500 * Math.exp(0.3*mod));
 				this.createPerk(PerkLib.OverMaxHP, (62 + 5*mod), 0, 0, 0);
             }
 			else {
@@ -66,6 +67,7 @@ use namespace CoC;
 			this.imageName = "succubus";
 			this.long = "She stands about six feet tall and is hugely voluptuous, her impressive breasts wobble delightfully as she moves.  Her hips flare out into an exaggerated hourglass shape, with a long tail tipped with a fleshy arrow-head spade that waves above her spankable butt.  She is wearing rags that cover only a tiny fraction of her body, concealing just her naughty bits to make the whole display more erotic.  She's using a leather whip as a weapon.";
 			// this.plural = false;
+			this.flyer = true;
 			this.createVagina(false, VaginaClass.WETNESS_SLAVERING, VaginaClass.LOOSENESS_NORMAL);
 			this.createStatusEffect(StatusEffects.BonusVCapacity, 30, 0, 0, 0);
 			createBreastRow(Appearance.breastCupInverse("DD"));
@@ -75,17 +77,19 @@ use namespace CoC;
 			this.hips.type = Hips.RATING_CURVY;
 			this.butt.type = Butt.RATING_LARGE + 1;
 			this.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-			this.skinTone = "blue";
+			this.bodyColor = "blue";
 			this.hairColor = "black";
 			this.hairLength = 13;
 			this.weaponName = "whip";
 			this.weaponVerb="whipping";
-			this.weaponPerk = "";
 			this.weaponValue = 150;
 			this.armorName = "demonic skin";
 			this.lust = 30;
 			this.lustVuln = .5;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
 			this.drop = new WeightedDrop().
 					add(consumables.BIMBOLQ, 1).
 					add(weapons.WHIP, 2).

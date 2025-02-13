@@ -29,14 +29,15 @@ public class BalanceOfLifeSpell extends AbstractGreySpell {
 	}
 	
 	override public function calcCooldown():int {
-		var calcC:int = 8;
+		var calcC:int = 5;
+		calcC += spellGenericCooldown();
 		if (player.weapon == weapons.U_STAFF) calcC -= 2;
 		return calcC;
 	}
 	
-	public function calcDuration():int {
+	override public function calcDuration():int {
 		var duration:Number = 4;
-		if (player.hasPerk(PerkLib.DefensiveStaffChanneling)) duration *= 1.1;
+		if (player.hasPerk(PerkLib.DefensiveStaffChanneling) && (player.weapon.isStaffType() || player.weaponOff.isStaffType() || player.weapon.isWandType() || player.weaponOff.isWandType())) duration *= 1.2;
 		return Math.round(duration);
 	}
 	

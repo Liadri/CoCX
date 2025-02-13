@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.Areas.VolcanicCrag 
+package classes.Scenes.Areas.VolcanicCrag
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -18,7 +18,7 @@ import classes.internals.WeightedDrop;
 	{
 		//ATTACK ONE: SPARTAN RUSH
 		public function phoenixPlatoonRush():void {
-			outputText("You fall back under a hail of scimitar attacks.  The sheer number of phoenixes attacking is bad enough, but their attacks are perfectly coordinated, leaving virtually no room for escape or maneuver without getting hit!\n");
+			outputText("You fall back under a hail of scimitar attacks.  The sheer number of quasi-phoenixes attacking is bad enough, but their attacks are perfectly coordinated, leaving virtually no room for escape or maneuver without getting hit!\n");
 			//(Effect: Multiple medium-damage attacks)
 			//(Effect: Multiple light attacks)
 			createStatusEffect(StatusEffects.Attacks, 6 + rand(4),0,0,0);
@@ -42,9 +42,9 @@ import classes.internals.WeightedDrop;
 		}
 		//ATTACK THREE: LUSTBANG GRENADE
 		public function phoenixPlatoonLustbang():void {
-			outputText("\"<i>LUSTBANGS OUT!</i>\" one of the rear-most phoenixes shouts, causing all the other warriors to duck down behind their shields.  Oh, shit!  Few large glass spheres rolls out from the shield wall, and immediately explodes in a great pink cloud.  You cough and wave your arms, but by the time the cloud has dissipated, you feel lightheaded and lusty, barely able to resist the urge to throw yourself at the phoenixes and beg for their cocks and cunts.");
+			outputText("\"<i>LUSTBANGS OUT!</i>\" one of the rear-most quasi-phoenixes shouts, causing all the other warriors to duck down behind their shields.  Oh, shit!  Few large glass spheres rolls out from the shield wall, and immediately explodes in a great pink cloud.  You cough and wave your arms, but by the time the cloud has dissipated, you feel lightheaded and lusty, barely able to resist the urge to throw yourself at the quasi-phoenixes and beg for their cocks and cunts.");
 			//(Effect: Large lust increase)
-			player.dynStats("lus", Math.round(120+(player.lib*1.4)));
+			player.takeLustDamage(Math.round(120+(player.lib*1.4)), true);
 		}
 		
 		override protected function performCombatAction():void
@@ -78,12 +78,12 @@ import classes.internals.WeightedDrop;
 			}
 		}
 		
-		public function PhoenixPlatoon() 
+		public function PhoenixPlatoon()
 		{
 			this.a = "the ";
-			this.short = "phoenix platoon";
+			this.short = "quasi-phoenix platoon";
 			this.imageName = "phoenixmob";
-			this.long = "You are faced with a platoon of heavy infantry, all armed to the teeth and protected by chain vests and shields. They look like a cross between salamander and harpy, humanoid save for crimson wings, scaled feet, and long fiery tails. They stand in a tight-knit shield wall, each phoenix protecting herself and the warrior next to her with their tower-shield. Their scimitars cut great swaths through the room as they slowly advance upon you.";
+			this.long = "You are faced with a platoon of heavy infantry, all armed to the teeth and protected by chain vests and shields. They look like a cross between salamander and harpy, humanoid save for crimson wings, scaled feet, and long fiery tails. They stand in a tight-knit shield wall, each quasi-phoenix protecting herself and the warrior next to her with their tower-shield. Their scimitars cut great swaths through the room as they slowly advance upon you.";
 			this.plural = true;
 			this.pronoun1 = "they";
 			this.pronoun2 = "them";
@@ -100,11 +100,11 @@ import classes.internals.WeightedDrop;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
 			this.lowerBody = LowerBody.SALAMANDER;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			this.hairColor = "black";
 			this.hairLength = 15;
 			initStrTouSpeInte(283, 234, 255, 140);
-			initWisLibSensCor(130, 181, 114, 50);
+			initWisLibSensCor(130, 181, 114, 10);
 			this.weaponName = "spears";
 			this.weaponVerb="stab";
 			this.weaponAttack = 117;
@@ -115,7 +115,6 @@ import classes.internals.WeightedDrop;
 			this.bonusLust = 369;
 			this.lust = 20;
 			this.lustVuln = .15;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.level = 74;
 			this.gems = rand(35)+200;
 			this.additionalXP = 250;

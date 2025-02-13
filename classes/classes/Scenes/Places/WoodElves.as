@@ -1,20 +1,19 @@
 package classes.Scenes.Places{
-	import classes.*;
-	import classes.BodyParts.Antennae;
-	import classes.BodyParts.Horns;
-	import classes.BodyParts.RearBody;
-	import classes.BodyParts.Skin;
-	import classes.BodyParts.Tail;
-	import classes.BodyParts.Wings;
-	import classes.GlobalFlags.kFLAGS;
-	import classes.Items.ArmorLib;
-	import classes.Scenes.Crafting;
-	import classes.Scenes.Areas.Forest.WoodElvesHuntingParty;
-    import classes.display.SpriteDb;
-	import classes.internals.SaveableState;
-	import classes.CoC;
+import classes.*;
+import classes.BodyParts.Antennae;
+import classes.BodyParts.Horns;
+import classes.BodyParts.RearBody;
+import classes.BodyParts.Skin;
+import classes.BodyParts.Tail;
+import classes.BodyParts.Wings;
+import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
+import classes.Scenes.Areas.Forest.WoodElvesHuntingParty;
+import classes.Scenes.Crafting;
+import classes.display.SpriteDb;
+import classes.internals.SaveableState;
 
-	public class WoodElves extends BaseContent implements SaveableState {
+public class WoodElves extends BaseContent implements SaveableState {
 
 		public static var WoodElvesQuest:int;
 		public static const QUEST_STAGE_METELFSANDEVENBEATSTHEM:int = -1;
@@ -33,6 +32,8 @@ package classes.Scenes.Places{
 		public static const QUEST_STAGE_BOWTRAINING2:int = 2;
 		public static const QUEST_STAGE_BOWTRAINING3:int = 3;
 		public static const QUEST_STAGE_BOWTRAINING4:int = 4;
+		public static const QUEST_STAGE_BOWTRAINING5:int = 5;
+		public static const QUEST_STAGE_BOWTRAINING6:int = 6;
 
 		public static var WoodElfSpearTraining:int;
 		public static const QUEST_STAGE_SPEARTRAININGFIRST:int = 0;
@@ -42,8 +43,29 @@ package classes.Scenes.Places{
 		public static const QUEST_STAGE_SPEARTRAINING3:int = 4;
 		public static const QUEST_STAGE_SPEARTRAINING4:int = 5;
 
+		public static var WoodElfMagicTraining:int;
+		public static const QUEST_STAGE_MAGICTRAINING0:int = 0;
+		public static const QUEST_STAGE_MAGICTRAINING1:int = 1;
+		public static const QUEST_STAGE_MAGICTRAINING2:int = 2;
+		public static const QUEST_STAGE_MAGICTRAINING3:int = 3;
+		public static const QUEST_STAGE_MAGICTRAINING4:int = 4;
+		public static const QUEST_STAGE_MAGICTRAINING5:int = 5;
+		public static const QUEST_STAGE_MAGICTRAINING6:int = 6;
+		public static const QUEST_STAGE_MAGICTRAINING7:int = 7;
+		public static var WoodElfMagicTraner:Boolean;
+		public static var WoodElfMagicTranerSex:int;
+		public static var WoodElfMagicTranerGetLaid:Boolean;
+
+		public static var WoodElfSeductionTraining:int;
+		public static const QUEST_STAGE_SEDUCTIONTRAINING0:int = 0;
+		public static const QUEST_STAGE_SEDUCTIONTRAINING1:int = 1;
+		public static const QUEST_STAGE_SEDUCTIONTRAINING2:int = 2;
 		public static var hasTrainedToday:Boolean;
-		public static var hasTrainedTodayCooldown:int;
+
+		public static var ConvertedSisters:int;
+		public static var ConvertedHerms:int;
+		public static var CapturedSisters:Array;
+		public static var CapturedHerms:Array;
 
 		public function stateObjectName():String {
 			return "WoodElves";
@@ -51,10 +73,18 @@ package classes.Scenes.Places{
 
 		public function resetState():void {
 			hasTrainedToday = false;
-			hasTrainedTodayCooldown = 0;
 			WoodElvesQuest = QUEST_STAGE_NOT_STARTED;
 			WoodElfBowTraining = QUEST_STAGE_BOWTRAINING0;
 			WoodElfSpearTraining = QUEST_STAGE_SPEARTRAININGFIRST;
+			WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING0;
+			WoodElfSeductionTraining = QUEST_STAGE_SEDUCTIONTRAINING0;
+			WoodElfMagicTraner = false;
+			WoodElfMagicTranerSex = 0;
+			WoodElfMagicTranerGetLaid = false;
+			ConvertedSisters = 0;
+			ConvertedHerms = 0;
+			CapturedSisters = [];
+			CapturedHerms = [];
 		}
 
 		public function saveToObject():Object {
@@ -63,7 +93,15 @@ package classes.Scenes.Places{
 				"stageBow": WoodElfBowTraining,
 				"stageSpear": WoodElfSpearTraining,
 				"elfHasTrainedToday": hasTrainedToday,
-				"elfHasTrainedTodayCooldown": hasTrainedTodayCooldown
+				"stageMagic": WoodElfMagicTraining,
+				"stageSeduction": WoodElfSeductionTraining,
+				"WoodElfMagicTraner": WoodElfMagicTraner,
+				"WoodElfMagicTranerSex": WoodElfMagicTranerSex,
+				"WoodElfMagicTranerGetLaid": WoodElfMagicTranerGetLaid,
+				"ConvertedSisters": ConvertedSisters,
+				"ConvertedHerms": ConvertedHerms,
+				"CapturedSisters": CapturedSisters,
+				"CapturedHerms": CapturedHerms
 			};
 		}
 
@@ -73,13 +111,15 @@ package classes.Scenes.Places{
 				WoodElfBowTraining = o["stageBow"];
 				WoodElfSpearTraining = o["stageSpear"];
 				hasTrainedToday = o["elfHasTrainedToday"];
-				if ("elfHasTrainedTodayCooldown" in o) {
-					// new save, can load
-					hasTrainedTodayCooldown = o["elfHasTrainedTodayCooldown"];
-				} else {
-					// old save, still need to set Cooldown  to something
-					hasTrainedTodayCooldown = 0;
-				}
+				WoodElfMagicTraining = valueOr(o["stageMagic"], 0);
+				WoodElfSeductionTraining = valueOr(o["stageSeduction"], 0);
+				WoodElfMagicTraner = valueOr(o["WoodElfMagicTraner"], false);
+				WoodElfMagicTranerSex = valueOr(o["WoodElfMagicTranerSex"], 0);
+				WoodElfMagicTranerGetLaid = valueOr(o["WoodElfMagicTranerGetLaid"], false);
+				ConvertedSisters = valueOr(o["ConvertedSisters"], 0);
+				ConvertedHerms = valueOr(o["ConvertedHerms"], 0);
+				CapturedSisters = valueOr(o["CapturedSisters"], []);
+				CapturedHerms = valueOr(o["CapturedHerms"], []);
 			} else {
 				// loading from old save
 				resetState();
@@ -110,7 +150,7 @@ package classes.Scenes.Places{
 			clearOutput();
 			spriteSelect(SpriteDb.s_WoodElves);
 			outputText("As you explore the forest, you hear giggling. You feel a rush of air and barely have time to duck before an arrow misses you by an inch. It's the elves again! You try and run for it but a tree vine has firmly attached itself to your left leg, holding you in place and slowly attempting to drag you towards the giggling elves.");
-			outputText("\n\n\"<i>Good day mister adventurer, how kind of you to come to us. Just sit down and relax; let us take great care of you.~♥</i>\"");
+			outputText("\n\n\"<i>Good day " +player.mf("mister", "mis")+ " adventurer, how kind of you to come to us. Just sit down and relax; let us take great care of you.~♥</i>\"");
 			outputText("\n\nHell no! <b>IT'S A FIGHT!</b>");
 			startCombat(new WoodElvesHuntingParty());
 		}
@@ -123,7 +163,7 @@ package classes.Scenes.Places{
 					"How have they remained hidden from the demonic threat even in these tainted woods?." +
 					"\n\n\"<i>Oh goodness, what a curious little darling you are! But how should we answer so freely in such dangerous times? If our positions were reversed, would you tell a stranger about yourself, and maybe endanger your friends and way of life?</i>\"\n\n" +
 					"She casts a meaningful look at a pair of elves in the tree above you, which you follow. One is cupping her cheeks with her hands, her face filled with mocking surprise, while the other grins widely and nods back to her companion in front of you, who addresses you once more, now sporting a more sadistic smile." +
-					"\n\n\"<i>I cannot tell you what you wish to know...But I can show you. Come with me, and We'll let you experience it for yourself! Although, I’m afraid once you do you likely won’t be going back.</i>\"\n\n" +
+					"\n\n\"<i>I cannot tell you what you wish to know... But I can show you. Come with me, and We'll let you experience it for yourself! Although, I’m afraid once you do you likely won’t be going back.</i>\"\n\n" +
 					"As soon as she finishes speaking a pair of green vines grapple your torso from behind. You turn just in time to cry out as a normal-looking knot on the tree grows tentacles that begin to crawl toward you. " +
 					"This must be yet another damn breed of tentacle plant, one you haven’t seen yet! Will you resist, despite your disadvantage? Or will you submit to your capture, though the elves are clearly planning something untoward?");
 			//[Ask about elves] [Leave]
@@ -180,33 +220,22 @@ package classes.Scenes.Places{
 					"A vine wraps around your mouth, silencing any further objections you might have. Your restraints prevent you from looking anywhere but straight ahead, but you feel a great load of sticky resin fall on you from above," +
 					" presumably from the tree. you feel it even more than you might have expected, as the vines grappling you are joined by more, smaller tendrils. They begin removing your clothing, sliding underneath and peeling it off you. As if galvanized by the warm" +
 					", golden ooze now covering you the vines begin swirling and slithering over your now naked body, teasing and tickling you until you begin to feel sensitive and aroused despite your situation." +
-					" You clench in anticipation as one explores between the cheeks of your "+player.assDescript()+", then pushes its way into your "+player.assholeDescript()+"" +
+					" You clench in anticipation as one explores between the cheeks of your [ass], then pushes its way into your [asshole]" +
 					", its tapered end swirling about provocatively inside. The vine already gagging you stifles your cry of indignation as it works its way into your mouth, acting much the same way.\n\n As it does, it begins releasing a sticky, faintly sweet sap that trickles down your throat and coats your tongue, making you feel dizzy and flushed.");
-			if (player.hasVagina()) outputText("You continue to thrash helplessly as a third tentacle winds its way into your "+player.vaginaDescript()+", and despite yourself your hips start to twitch and buck as it eagerly explores your wet cavity, tickling your sensitive places and slowly filling you with  more sticky fluid; it clings to your walls and makes them feel warm and tingly, and before long your slit is engorged and drooling with a mixture of the plant’s secretions and your own feminine fluids.");
+			if (player.hasVagina()) outputText("You continue to thrash helplessly as a third tentacle winds its way into your [vagina], and despite yourself your hips start to twitch and buck as it eagerly explores your wet cavity, tickling your sensitive places and slowly filling you with  more sticky fluid; it clings to your walls and makes them feel warm and tingly, and before long your slit is engorged and drooling with a mixture of the plant’s secretions and your own feminine fluids.");
 			outputText("With a muffled gasp of terror and arousal you realize yet another tentacle is pressing against your belly-button, and you squeal against the tentacle invading your throat as it actually penetrates through you and begins, impossibly, to move about inside your stomach, tickling and teasing you from inside. Insanely, rather than the pain of your stomach being impaled it brings a feeling of soothing warmth - almost relief. ");
-			if (player.hasCoat()) outputText("With a shock you look down at your body to see your "+player.coatType()+" melting away and washing off, replaced by smooth, silky skin. ");
+			if (player.hasCoat()) outputText("With a shock you look down at your body to see your [skinfurscales] melting away and washing off, replaced by smooth, silky skin. ");
 			if (player.tailType != Tail.NONE || player.wings.type != Wings.NONE || player.legCount != 2) outputText("Soon after, your other extra, unneeded appendages begin to shrivel and melt away as well. ");
 			if (player.hasCoat() || player.tailType != Tail.NONE || player.wings.type != Wings.NONE || player.legCount != 2) outputText("despite the radical changes your form is undergoing, ");
 			else outputText("Despite being violated in every hole you have, and some you don’t, ");
 			outputText("a wave of peace and well-being comes over you, dispelling your panic and all sense of urgency as it does. How can this be a violation when it feels so <b>good</b>? ");
 			if (player.cocks.length >= 1){
 				outputText("You sigh in pleasure as you feel a vine wrapping slowly about the base of your male organ");
-				if (player.cocks.length >= 2) outputText("s");
-				outputText(", and don’t even flinch as it pulls ");
-				if (player.cocks.length == 1) outputText("it ");
-				if (player.cocks.length >= 2) outputText("them ");
-				outputText("off as easily as one might pluck a ripe fruit from a tree. You never needed ");
-				if (player.cocks.length == 1) outputText("it ");
-				if (player.cocks.length >= 2) outputText("them ");
-				outputText("anyway, ridiculous, ugly thing");
-				if (player.cocks.length >= 2) outputText("s");
-				outputText("; you’re much better off without ");
-				if (player.cocks.length == 1) outputText("it.");
-				if (player.cocks.length >= 2) outputText("them.");
+				if (player.cocks.length >= 2) outputText("s, and don’t even flinch as it pulls them off as easily as one might pluck a ripe fruit from a tree. You never needed them anyway, ridiculous, ugly things; you’re much better off without them.");
+				else outputText(", and don’t even flinch as it pulls it off as easily as one might pluck a ripe fruit from a tree. You never needed it anyway, ridiculous, ugly thing; you’re much better off without it.");
 				if (!player.hasVagina()) {
 					outputText(" Instead you feel a rising sense of ecstatic rightness as a new slit forms where ");
-					if (player.cocks.length == 1) outputText("it");
-					if (player.cocks.length >= 2 ) outputText("they");
+					outputText(player.cocks.length == 1 ? "it" : "they");
 					outputText(" once hideously stuck out of you. Ah, this is much more fitting! And <b>so</b> much more pleasurable!");
 				}
 			}
@@ -230,8 +259,8 @@ package classes.Scenes.Places{
 			if (player.skin.base.pattern != Skin.PATTERN_NONE) {
 				CoC.instance.transformations.SkinPatternNone.applyEffect(false);
 			}
-			player.skin.base.color = "light";
-			player.skinType = Skin.PLAIN;
+			player.skinColor = "light";
+			player.skinType  = Skin.PLAIN;
 			player.skin.base.adj = "flawless";
 			player.tone = 0;
 			player.thickness = 20;
@@ -240,7 +269,6 @@ package classes.Scenes.Places{
 			player.antennae.type = Antennae.NONE;
 			player.tailType = Tail.NONE;
 			player.rearBody.type = RearBody.NONE;
-			player.femininity = 80;
 			player.killCocks(player.cocks.length);
 			player.balls = 0;
 			player.ballSize = 0;
@@ -250,10 +278,14 @@ package classes.Scenes.Places{
 				var sizeIncrement:Number = 5-player.biggestTitSize();
 				player.growTits(sizeIncrement, 1, false, 3)
 			}
-			player.createPerk(PerkLib.FlawlessBody,0,0,0,0);
-			player.createPerk(PerkLib.ElvenSense,0,0,0,0);
+			if (!player.hasPerk(PerkLib.NaturalSpellcasting)) player.createPerk(PerkLib.NaturalSpellcasting,0,0,0,0);
+			if (!player.hasPerk(PerkLib.FlawlessBody)) player.createPerk(PerkLib.FlawlessBody,0,0,0,0);
+			if (!player.hasPerk(PerkLib.ElvenSense)) player.createPerk(PerkLib.ElvenSense,0,0,0,0);
+
 			WoodElvesQuest = QUEST_STAGE_LOSTTOELF;
-			doNext(YouAreAlreadyElf2);
+			doNext(function ():void {
+				inventory.UseItemNow(CoC.instance.armors.ELFDRES, YouAreAlreadyElf2);
+			});
 		}
 
 		public function YouAreAlreadyElf2():void {
@@ -282,8 +314,8 @@ package classes.Scenes.Places{
 					"\n\n\"<i>It’s nice to meet you, little sister. My name is Elenwen. Please, join us in the bed and relax.</i>\"\n\n" +
 					"Elenwen has short hair, blond like all of the others, and her eyes are slightly slanted, giving her a slightly piercing gaze that contrasts with her soft, gentle voice. Her hips and breasts are full and womanly, and also exposed - neither she nor her neighbor are wearing a stitch between them." +
 					" Distantly you realize that you aren’t either, though the thought brings no embarrassment with it - after all, you’re all sisters here, right?");
-			if (player.armor != ArmorLib.NOTHING) outputText(" Wait, didn’t you have some things with you before? Important things…?");
-			outputText("\n\n\"<i>And I'm Alyssa,</i>\" says the elf sitting next to Elenwen, her chiming tone driving away your hesitation again. Her blond hair is done up in adorable braided twintails, accentuating her slender, girlish build, and her eyes are large and filled with gentle curiosity. \"<i>Oh look, Elenwen, her hair is still...</i>\"\n\n" +
+			if (!player.armor.isNothing) outputText(" Wait, didn’t you have some things with you before? Important things…?");
+			outputText("\n\n\"<i>And I'm Alyssa,</i>\" says the elf sitting next to Elenwen, her chiming tone driving away your hesitation again. Her blond hair is done up in adorable braided twintails, accentuating her slender, girlish build, and her eyes are large and filled with gentle curiosity. \"<i>Oh look, Elenwen, her hair is still... </i>\"\n\n" +
 					"With a shock you realize why everyone must have been staring at you! Your hair is "+ player.hairColor +", not blonde like it should be! Your face becomes hot with shame and tears begin to fill your eyes as you realize something is separating you from your sisters. However, Elenwen quickly speaks to you to soothe your worries." +
 					"\n\n\"<i>Don’t worry, little sister! We’ll make it all right. Just let Alyssa and I take care of everything.</i>\" She turns to face her companion. \"<i>Alyssa, you manage her after we’re finished here, okay? I did the last one, after all; it’s only fair.</i>\"\n\n" +
 					"That didn’t sound quite right, you think, but you don’t have time to work through your misgivings as Elenwen addresses you again with a loving smile that almost reaches her lovely, slanted eyes." +
@@ -336,7 +368,7 @@ package classes.Scenes.Places{
 					"\n\n\"<i>Woah, what a shot, little sister! You almost looked like a real elven huntress just then<b>~♥</b></i>\"\n\n" +
 					"Startled, you turn around to see Merisiel standing behind you - you must have been too focused on your shot to hear her approach." +
 					" Your face, driven by instinct, blushes at her praise as you smile happily and nock another arrow, drawing your bow and aiming it directly at your captor’s lovely breasts." +
-					" The thoughts still aren’t fully coherent but somehow it’s coming together in your head that your beautiful sister is an enemy, that she and the rest of the elves are keeping you from..." +
+					" The thoughts still aren’t fully coherent but somehow it’s coming together in your head that your beautiful sister is an enemy, that she and the rest of the elves are keeping you from... " +
 					" what was it? Unbidden, the image comes to your mind of a glowing, purple scar torn into the very air, as if a magical knife had cut a circle out of the world into… somewhere?" +
 					" Somewhere important,.. somewhere you must protect, no matter the cost.\n\n" +
 					"Merisiel slowly raises her hands as you keep your shot trained on her, your arms trembling ever so slightly as you strain to keep the bow drawn." +
@@ -368,7 +400,7 @@ package classes.Scenes.Places{
 					"\n\nMerisiel responds first. \"<i>We have been here since ancient times its just that we don't like to mingle with outsiders and this holds twice as true since the demon invasion happened.</i>\"" +
 					"\n\nAlyssa continues. \"<i>Whoever somehow finds us tends to stay here and keep shut about our existance we mind our business and prefer to keep to ourselves.</i>\"" +
 					"\n\nElenwen takes over. \"<i>Idealy only those we 'invite' in can find the village so most people don't even know we exist.</i>\"" +
-					"\n\nMerisiel finishes the story as her sisters trail into sad silence. \"<i>I guess since we tend to kidnap people we wouldn't exactly receive a warm welcome amonst the other civilised races. Then there's our cousins the dark elves... They have an...unfortunately well-earned reputation as slavers. We used to be cleaner then this... But ever since the demons defiled our sacred trees, lust is one of the few things we can focus on.</i>\"\n\n" +
+					"\n\nMerisiel finishes the story as her sisters trail into sad silence. \"<i>I guess since we tend to kidnap people we wouldn't exactly receive a warm welcome amonst the other civilised races. Then there's our cousins the dark elves... They have an... unfortunately well-earned reputation as slavers. We used to be cleaner then this... But ever since the demons defiled our sacred trees, lust is one of the few things we can focus on.</i>\"\n\n" +
 					"She glances at her sisters, a mixture of emotions visible in her face. Clearly the priority among these elves of the wood is no longer on exploration and diplomacy - you’ve experienced that much yourself by now.");
 			menu();
 			addButton(1, "The Tree", TheTreeTopic);
@@ -388,7 +420,7 @@ package classes.Scenes.Places{
 			spriteSelect(SpriteDb.s_WoodElves);
 			outputText("You tell them to explain what is going on with that bizarre tree." +
 					"\n\nAlyssa responds first. \"<i>The Sacred Tree grew from a sapling that dates back to the first days of Mareth. It is, or it was, I suppose, a core part of our culture; we elves are forest spirits deeply connected to the trees and animals of the woods, and the Sacred Tree was like our patron. When a new elf was born, we would place it underneath the tree, and it would be blessed with the spirit of the forest, growing into a true elf.</i>\"" +
-					"\n\nElenwen continues. \"<i>When the demons found it, though, they changed all that. They corrupted it, turned it into… something else. They also corrupted us. You may have noticed that there are no male elves here; or at least none you would easily recognize as such without… checking. The truth is that male wood elves are so rare, thanks to those...Demons... That our males...well... Our only means of increasing our numbers nowadays is to abduct people.</i>\"" +
+					"\n\nElenwen continues. \"<i>When the demons found it, though, they changed all that. They corrupted it, turned it into… something else. They also corrupted us. You may have noticed that there are no male elves here; or at least none you would easily recognize as such without… checking. The truth is that male wood elves are so rare, thanks to those... Demons... That our males... well... Our only means of increasing our numbers nowadays is to abduct people.</i>\"" +
 					"\n\nMerisiel nods. \"<i>The Sacred Tree, or I suppose the Corrupted Tree, now... it eats men. Or, it eats the ‘male’ out of men, I guess… in the process changing them into one of us. We can’t reproduce among ourselves anymore - the few of us that still has some of the right equipment are sterile. And when we breed with other races, the children aren’t elves. So the only way we can replenish our numbers from losses is by letting the Tree have its way with travelers we find… like we did with you.</i>\"" +
 					"\n\n\"<i>But we really do care for them afterward!</i>\" Alyssa interjects. \"<i>Just like we did with you… or tried to, at least. We really did consider you to be one of us. I still do… little sister.</i>\" She trails off as she looks away from you sadly.");
 			menu();
@@ -408,7 +440,7 @@ package classes.Scenes.Places{
 			clearOutput();
 			spriteSelect(SpriteDb.s_WoodElves);
 			outputText("You ask about the Grove." +
-					"\n\n\"<i>It’s been our home for years, of course,</i>\" says Elenwen. \"<i>Well truth be told its one of the few remaining if not the last wood elf community across mareth since our species is mostly extinct due to our ahem... reproduction issues.</i>\"" +
+					"\n\n\"<i>It’s been our home for years, of course,</i>\" says Elenwen. \"<i>Well truth be told its one of the few remaining if not the last wood elf community across Mareth since our species is mostly extinct due to our ahem... reproduction issues.</i>\"" +
 					"\n\nMerisiel adds, \"<i>It’s a beautiful place, even after the corruption, I think. Nature thrives here; the plants and animals are healthy and free, and we live mostly in peace, aside from catching an adventurer every so often to replenish our numbers.</i>\"\n\n" +
 					"Like they did with you, you add." +
 					"\n\nThe three girls look a little guilty for a minute and nod. Alyssa says \"<i>We really did love you though. I… I still love you, and I wish you would stay with us. It’s not so bad here, is it?</i>\"\n\n" +
@@ -475,7 +507,7 @@ package classes.Scenes.Places{
 					"\n\nMerisiel sighs. \"<i>I figured you would when I realized your memories were returning. Don’t worry, we won’t try to stop you.</i>\"\n\n" +
 					"Elenwen tells you where your old equipment is being stored. \"<i>We didn’t get rid of it… we were planning on giving it back to you after your naming ceremony tomorrow anyway. I suppose you’ll be wanting it.</i>\"\n\n" +
 					"Alyssa has tears in her eyes as she pleads with you but your mind's made up and you decide to leave, heading back to your camp.");
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		public function KeepName():void {
@@ -491,7 +523,7 @@ package classes.Scenes.Places{
 					" you certainly wouldn’t mind coming back now and again to spend more time with the lovely elves," +
 					" now that you’ve sorted out their rather forceful welcome. The thought manages to bring a stirring heat deep within you.");
 			WoodElvesQuest = QUEST_STAGE_PCNOTELF;
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		public function Ceremony1():void {
@@ -546,7 +578,7 @@ package classes.Scenes.Places{
 		public function Ceremony4():void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_WoodElves);
-			outputText("This name, whispered to you by the spirit of the forest, was...");
+			outputText("This name, whispered to you by the spirit of the forest, was... ");
 
 			flushOutputTextToGUI();
 			mainView.nameBox.text = "";
@@ -614,8 +646,13 @@ package classes.Scenes.Places{
 					"It takes great effort from you not to turn back right away and give up, but you are determined to see this through, at least for now.");
 			WoodElvesQuest = QUEST_STAGE_PCELF;
 			player.createPerk(PerkLib.BlessingOfTheAncestorTree,0,0,0,0);
+			player.createPerk(PerkLib.CovenantOfTheSpirits,0,0,0,0);
+			if (player.hasPerk(PerkLib.RacialParagon))
+				flags[kFLAGS.APEX_SELECTED_RACE] = Races.WOODELF;
+			IMutationsLib.ElvishPeripheralNervSysIM.trueMutation = true;
 			player.removeAllRacialMutation();
-			doNext(camp.returnToCampUseSixteenHours);
+			explorer.stopExploring();
+			doNext(camp.returnToCamp, 16);
 		}
 
 		public function GroveLayout():void {
@@ -626,15 +663,15 @@ package classes.Scenes.Places{
 						"You spot the giant tree resting in its clearing before you quickly advance to it. Memories flow through you as you caress its fine bark. A gentle vine stretches out, endearingly caressing you in reciprocation. Your memories guide you as you follow the river back and finally spot the elven houses. You walk on the gravel as a few curious glances turn your way. Their eyes glint with the sparkling green light bouncing off of their glance as the elves take notice of you one after the other." +
 						"\n\nOut of nowhere, you are grabbed from behind as an elf gives you a surprise hug. You flinch softly at the vice-like grip, it's as if they never want to let go of you again. The elf gently loosens her grip as she looks into your eyes. Alyssa stares at you intently before gathering her words." +
 						"\n\n\"<i>Sister [name]! You came back, we all thought you would get captured by demons or worse out there!</i>");
-			if(!player.isRace(Races.ELF) && !player.isRace(Races.WOODELF)) outputText("<i> Well... you did change a little, but that doesn't matter. You're still, and forever will be family!.</i>");
+			if(!player.isRace(Races.ELF, 1, false) && !player.isRace(Races.WOODELF, 1, false)) outputText("<i> Well... you did change a little, but that doesn't matter. You're still, and forever will be family!.</i>");
 				outputText("\"" +
 				"\n\nUnsurprisingly, Elenwen is not so far behind, a little confused." +
 						"\n\n\"<i>Alyssa, what's going on? </i>");
-				if(!player.isRace(Races.ELF) && !player.isRace(Races.WOODELF)) outputText("<i>Who's this?</i>");
+				if(!player.isRace(Races.ELF, 1, false) && !player.isRace(Races.WOODELF, 1, false)) outputText("<i>Who's this?</i>");
 				outputText("<i> Wait, that's actually [name]?! You finally came home! Merisiel is going to be overjoyed!</i>\"" +
 						"\n\nYou pause briefly; that's slightly concerning. You ask what happened with Merisiel." +
 						"\n\n\"<i>Well, ever since you left she's been kind of depressed. She's constantly asking herself over and over if the memory incident was her fault. </i>");
-				if(!player.isRace(Races.ELF) && !player.isRace(Races.WOODELF)) outputText("<i> Doesn't matter if you've changed, t</i>");
+				if(!player.isRace(Races.ELF, 1, false) && !player.isRace(Races.WOODELF, 1, false)) outputText("<i> Doesn't matter if you've changed, t</i>");
 				else outputText("<i>T</i>");
 				outputText("<i>he mere fact that you are here despite everything is going to cheer her up.</i>\"" +
 						"Before you know it, they organize a whole party just for you. Wine, food, and more discreet pleasures included. Perhaps coming back once in a while would be nice." +
@@ -656,22 +693,25 @@ package classes.Scenes.Places{
 					"\n\nThe only stain amidst this beautiful scenery is the 'blessed' trees at the edge of this settlement, which reminds you all too well that if no one steps up and does the fighting, even this haven will eventually become corrupted and defiled beyond repair before disappearing from the face of Mareth. You try and keep your mind joyful however not to darken the light of day.");
 			if (flags[kFLAGS.FACTORY_SHUTDOWN] > 0) outputText(" Well, what's left of it… it's hard to get any sun with those damn clouds covering the sky.");
 			menu();
-			addButton(0, "River", River);
-			if ((!player.isRace(Races.ELF) && !player.isRace(Races.WOODELF))) addButtonDisabled(0,"River","You need to be an elf in order to go bath with the girls.");
-			else if (!player.hasVagina()) addButtonDisabled(0,"River","You can't seriously go back naked with girls as a guy! Just what were you thinking, You degenerate pervert!?");
-			addButton(1, "Tent", Tent);
-			if ((!player.isRace(Races.ELF) && !player.isRace(Races.WOODELF))) addButtonDisabled(1,"Tent","You need to be an elf.");
-			else if (!player.hasVagina()) addButtonDisabled(1,"Tent","You need to be female or herm in order to use the tents.");
+			addButton(0, "River", River)
+				.disableIf(!player.isRace(Races.ELF, 1, false) && !player.isRace(Races.WOODELF, 1, false),"You need to be an elf in order to go bath with the girls.")
+				.disableIf(!player.hasVagina(), "You can't seriously go back naked with girls as a guy! Just what were you thinking, You degenerate pervert!?");
+			addButton(1, "Tent", Tent)
+				.disableIf((!player.isRace(Races.ELF, 1, false) && !player.isRace(Races.WOODELF, 1, false)),"You need to be an elf.")
+				.disableIf(!player.hasVagina(), "You need to be female or herm in order to use the tents.");
 			addButton(2, "Fletching table", Fletching);
-			addButton(3, "Elenwen", Elenwen);
-			if (hasTrainedToday) addButtonDisabled(3,"Elenwen","You need a break from your recent training before you can train again.");
-		    else if (!player.isElf()) addButtonDisabled(3,"Elenwen","Elenwen has personal preferences in regards to the people she will train, maybe you should make yourself more elf like.");
-			else if (!player.hasVagina()) addButtonDisabled(3,"Elenwen","Elenwen has personal preferences in regards to the people she will train with... it's not like archery is just for girls, but considering the fact that she's practicing naked...");
-			addButton(4, "Alyssa", Alyssa);
-			if (hasTrainedToday) addButtonDisabled(4,"Alyssa","You need a break from your recent training before you can train again.");
-			else if (!player.isElf()) addButtonDisabled(4,"Alyssa","Alyssa has personal preferences in regards to the people she will train, maybe you should make yourself more elf like.");
-			else if (!player.hasVagina()) addButtonDisabled(4,"Alyssa","Alyssa has personal preferences in regards to the people she will train with... it's not like the spear is a girl only discipline, but the way she uses it might as well be...");
-			addButton(5, "Leave", camp.returnToCampUseOneHour);
+			addButton(3, "Elenwen", Elenwen)
+				.disableIf(hasTrainedToday,"You need a break from your recent training before you can train again.")
+				.disableIf(!player.isElf(),"Elenwen has personal preferences in regards to the people she will train, maybe you should make yourself more elf like.")
+				.disableIf(!player.hasVagina(),"Elenwen has personal preferences in regards to the people she will train with... it's not like archery is just for girls, but considering the fact that she's practicing naked... ");
+			addButton(4, "Alyssa", Alyssa)
+				.disableIf(hasTrainedToday,"You need a break from your recent training before you can train again.")
+				.disableIf(!player.isElf(),"Alyssa has personal preferences in regards to the people she will train, maybe you should make yourself more elf like.")
+				.disableIf(!player.hasVagina(), "Alyssa has personal preferences in regards to the people she will train with... it's not like the spear is a girl only discipline, but the way she uses it might as well be... ");
+			addButton(5, "Lutien", Lutien);
+			addButton(6, "Chelsea", Chelsea)
+					.disableIf(hasTrainedToday, "You need a break from your recent training before you can train again.");
+			addButton(14, "Leave", explorer.done);
 		}
 
 		public function River():void {
@@ -723,10 +763,7 @@ package classes.Scenes.Places{
 						"You drowsily agree, and stand yourself up despite the protest of your body against leaving its blissful perch on top of the lovely Elf woman. You offer her a hand and she gracefully pulls herself up as well," +
 						" and the two of you share one more sweet kiss before you wade back to your equipment and prepare to continue your day.");
 				player.sexReward("vaginalFluids", "Vaginal");
-				player.trainStat("lib", +1, 80);
-				player.trainStat("lib", +1, 80);
-				player.trainStat("lib", +1, 80);
-				player.trainStat("lib", +1, 80);
+				player.trainStat("lib", 4, player.trainStatCap("lib",80));
 				CoC.instance.timeQ = 1;
 				player.buff("Sisterly bathing").addStats({int:20,wis:20}).withText("Sisterly bathing").forDays(1);
 			} else {
@@ -737,7 +774,7 @@ package classes.Scenes.Places{
 						" resist the urge to join them, for now; you can always find another release later, when you’re a little less busy.")
 				player.dynStats("lus",+30);
 			}
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		public function Tent():void {
@@ -768,7 +805,7 @@ package classes.Scenes.Places{
 					"\"<i>[name]’s going to need that mouth of hers free, so big sister Elenwen doesn’t feel left out.</i>\"" +
 					"\n\nAlyssa nods, blushing and biting her lower lip as she tries to endure the pleasure of the toy filling her. She rears up until she is straddling you, and you see the remaining six inches of the toy protruding from her glistening lips, twitching almost like a real cock as her pleasured spasms move it up and down." +
 					" Elenwen uses a hand to guide the tip to your own hungry opening. " +
-					"\"<i>H-here I come, [name]...</i>\"" +
+					"\"<i>H-here I come, [name]... </i>\"" +
 					" she squeaks as she pushes her slender hips forward, penetrating you in a smooth motion. You gasp and buck your hips at the pleasure of the insertion, and soon the two of you are grinding against each other, moaning in tandem as you seek pleasure from the stiff, warm rod joining you. Your combined juices froth and drip down from your pussies where they rub together, already soaking the bed below." +
 					"\n\n\"<i>Oh my, isn’t that nice<b>~♥</b></i>\"" +
 					" says Elenwen, gazing in mock admiration at your lewd coupling, though her face is just as red as Alyssa’s. " +
@@ -800,9 +837,9 @@ package classes.Scenes.Places{
 					" Alyssa is still asleep, hugging you. You give her a gentle kiss on her large forehead and carefully extract yourself to avoid waking her." +
 					" She mumbles a bit in her sleep as your warmth leaves her, but remains there as you dress yourself and exit the tent to continue your day.");
 			player.sexReward("vaginalFluids", "Vaginal");
-			player.trainStat("lib", +1, 80);
+			player.trainStat("lib", +1, player.trainStatCap("lib",80));
 			CoC.instance.timeQ = 1;
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		public function Fletching():void {
@@ -818,6 +855,7 @@ package classes.Scenes.Places{
 		}
 
 		public function FletchingCraftArrows():void {
+			clearOutput();
 			outputText("What kind of arrows would you like to create?");
 			menu();
 			if (player.hasItem(useables.IARROWHEAD, 1)) addButton(0, "Iron", FletchingCraftArrows2, "iron", 1).hint("Use iron arrowheads to craft arrows.");
@@ -828,6 +866,7 @@ package classes.Scenes.Places{
 			addButton(14, "Back", Fletching);
 		}
 		private function FletchingCraftArrows2(itype:String, type:Number):void {
+			clearOutput();
 			outputText("You work for 8 hours crafting a full quiver of " + itype + " arrows. Those will serve you well in your adventures.");
 			if (!player.hasPerk(PerkLib.CraftedArrows)) player.createPerk(PerkLib.CraftedArrows,0,0,0,0);
 			switch (type) {
@@ -848,10 +887,12 @@ package classes.Scenes.Places{
 					player.addPerkValue(PerkLib.CraftedArrows, 4, 100);
 					break;
 			}
+			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
 		}
 
 		public function FletchingAdjustString():void {
+			clearOutput();
 			outputText("You may choose a different sturdier string for your bow. What would you use?");
 			menu();
 			if (player.statusEffectv2(StatusEffects.FletchingTable) > 0) addButtonDisabled(0, "SpiderSilk", "You already used this for improving bow string.");
@@ -878,13 +919,16 @@ package classes.Scenes.Places{
 			addButton(14, "Back", Fletching);
 		}
 		private function FletchingAdjustString2(itype:ItemType):void {
+			clearOutput();
 			outputText("You work for 8 hours adjusting your new " + itype.shortName + " string to your bow. This will serve you well in your adventures.");
 			player.addStatusValue(StatusEffects.FletchingTable, 2, 1);
 			player.destroyItems(itype, 1);
+			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
 		}
 
 		public function FletchingReinforce():void {
+			clearOutput();
 			outputText("You may choose to reinforce your bow using various materials. What would you use?");
 			menu();
 			if (player.statusEffectv1(StatusEffects.FletchingTable) > 0) addButtonDisabled(0, "Bronze", "You already used this for reinforcing bow.");
@@ -942,18 +986,24 @@ package classes.Scenes.Places{
 					else player.destroyItems(itype, 1);
 					break;
 			}
+			explorer.stopExploring();
 			doNext(camp.returnToCampUseEightHours);
 		}
 
-		//unused
-		/*
 		//Elenwen is nearly as skilled as Kindra, but is very picky on who she teaches to. Better be an elf. Also her training is slower as she tends to fool around.
-		private function bowSkill(diff:Number):Number {
+		private function bowSkill1(diff:Number):Number {
 			player.addStatusValue(StatusEffects.Kelt,1,diff);
-			if (player.statusEffectv1(StatusEffects.Kelt) >= 100) player.changeStatusValue(StatusEffects.Kelt,1,100);//Kelt track basic archery skill that caps on 100 not 150 so not need to thanks me for fixing too high cap on this training ;)
+			if (player.statusEffectv1(StatusEffects.Kelt) >= 100) player.changeStatusValue(StatusEffects.Kelt,1,100);
 			return player.statusEffectv1(StatusEffects.Kelt);
 		}
-		*/
+		private function bowSkill2(diff:Number):Number {
+			if (player.statusEffectv1(StatusEffects.Kindra) < 75) {
+				var gain:Number = diff;
+				if (player.statusEffectv1(StatusEffects.Kindra) + diff > 75) gain = (75 - player.statusEffectv1(StatusEffects.Kindra));
+				player.addStatusValue(StatusEffects.Kindra,1,gain);
+			}
+			return player.statusEffectv1(StatusEffects.Kindra);
+		}
 
 		public function Elenwen():void {
 			clearOutput();
@@ -982,64 +1032,80 @@ package classes.Scenes.Places{
 					" She moans in arousal under your sudden turnabout but quickly recovers and pulls away from the kiss." +
 					" \"<i>Oh, playing dominant now are we, [name]? Let’s see how long you can keep that up~♥</i>\"" +
 					"\n\nHer hand drifts down your body as she speaks, sliding ");
-					if (player.armor == ArmorLib.NOTHING) outputText("down to your glistening slit");
+					if (player.armor.isNothing) outputText("down to your glistening slit");
 					else outputText("under your equipment to your glistening slit");
 			outputText(" to give you a loving stroke, ending in her finger rubbing on your stiff, sensitive button." +
 					" You gasp at the stimulation but manage to retaliate by slipping a hand under her white dress to prod at her lips as well." +
 					" The two of you continue briefly, moaning pleasurably and bucking your hips against each other's hands as you kiss and gently nibble at each other's lips," +
 					" but then Elenwen takes her hand from your dripping snatch and lightly pulls your hand from hers." +
-					"\n\n\"<i>Mmm.... that was fun, sweet little sister, but we should get back to work. If you can manage to hit a bullseye as excited as you are now, I’ll be satisfied with your practice for today. Then, if you want, we can continue this later~♥</i>\"" +
+					"\n\n\"<i>Mmm... . that was fun, sweet little sister, but we should get back to work. If you can manage to hit a bullseye as excited as you are now, I’ll be satisfied with your practice for today. Then, if you want, we can continue this later~♥</i>\"" +
 					"\n\nYou nod, a bit disappointed at being cut off before climax, and take up your bow again. After several tries, you ");
-			if (player.statusEffectv1(StatusEffects.Kelt) <= 100) outputText("manage to make a shot Elenwen considers fair for her standards.");
+			if (player.statusEffectv1(StatusEffects.Kelt) < 100) outputText("manage to make a shot Elenwen considers fair for her standards.");
 			if (player.statusEffectv1(StatusEffects.Kelt) >= 100) outputText("hit a bullseye, and Elenwen praises your efforts before you say your goodbyes.");
 			outputText("\n\nAs you leave for your camp Elenwen waves at you with a \"<i>See you later, sister. We can do something more fun next time~♥</i>\"" +
 					" With a hint of regret, you wave and head back home, seriously considering taking her up on the offer before the day is up.");
-			player.trainStat("tou", +1, 50);
-			player.trainStat("tou", +1, 50);
-			player.trainStat("tou", +1, 50);
-			player.trainStat("tou", +1, 50);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("int", +1, 80);
-			player.trainStat("int", +1, 80);
-			player.trainStat("int", +1, 80);
-			player.trainStat("int", +1, 80);
+			player.trainStat("tou", 4, player.trainStatCap("tou",50));
+			player.trainStat("spe", 4, player.trainStatCap("spe",100));
+			player.trainStat("int", 4, player.trainStatCap("int",80));
 			if (player.spe >= 50 && player.statusEffectv1(StatusEffects.Kelt) >= 25 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING0 && !hasTrainedToday){
 				WoodElfBowTraining = QUEST_STAGE_BOWTRAINING1;
 				outputText("\n\nThanks to your extensive training in elven archery you have unlocked the Pin down ability! <b>Gained P.Ability: Pin Down</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			else if (player.spe >= 100 && player.statusEffectv1(StatusEffects.Kelt) >= 50 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING1 && !hasTrainedToday){
 				WoodElfBowTraining = QUEST_STAGE_BOWTRAINING2;
 				outputText("\n\nThanks to your extensive training in elven archery you have unlocked the Elven Eye ability! <b>Gained P.Ability: Elven Eye</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			else if (player.spe >= 150 && player.statusEffectv1(StatusEffects.Kelt) >= 100 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING2 && !hasTrainedToday){
 				WoodElfBowTraining = QUEST_STAGE_BOWTRAINING3;
 				player.createPerk(PerkLib.ELFMasterShot,0,0,0,0);
 				outputText("\n\nThanks to your extensive training in elven archery you have unlocked the Master Shot Perk! <b>Gained Perk: Master Shot</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
-			else if (player.spe >= 200 && player.statusEffectv1(StatusEffects.Kelt) >= 150 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING3 && !hasTrainedToday){
+			else if (player.spe >= 200 && player.statusEffectv1(StatusEffects.Kindra) >= 50 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING3 && !hasTrainedToday){
 				WoodElfBowTraining = QUEST_STAGE_BOWTRAINING4;
 				player.createPerk(PerkLib.ELFArcherCovenant,0,0,0,0);
 				outputText("\n\nThanks to your extensive training in elven archery you have unlocked the Archer Covenant Perk! <b>Gained Perk: Archer Covenant</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
+			}
+			else if (player.speStat.train.value >= 100 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING4 && !hasTrainedToday && !player.isRace(Races.WOODELF)){
+				outputText("\n\n\"<i>Unfortunately I wont be able to teach you the ultimate skills of elven archery because you aren't complete or rather… you never made a covenant with the blessed tree. These last skills taps directly in the power of the covenant and thus cannot be learned by someone with no connection.</i>\"")
+				hasTrainedToday = true;
+			}
+			else if (player.speStat.train.value >= 100 && WoodElfBowTraining == QUEST_STAGE_BOWTRAINING4 && !hasTrainedToday && player.isRace(Races.WOODELF) && player.hasStatusEffect(StatusEffects.KnowsBriarthorn)){
+				WoodElfBowTraining = QUEST_STAGE_BOWTRAINING5;
+				player.createPerk(PerkLib.ELFThornShot,0,0,0,0);
+				flags[kFLAGS.ELVEN_THORNSHOT_ENABLED] = 1;
+				outputText("\n\nIt occurs to you that by combining elven green magic with your shot you could to infuse your arrow with life energy, the wooden shaft growing thorns that would surely inflict painful poisoned wounds to your opponents. <b>Gained Perk: Elven Thorn Shot</b>");
+				hasTrainedToday = true;
+			}
+			else if (WoodElfBowTraining == QUEST_STAGE_BOWTRAINING5 && !hasTrainedToday && player.isRace(Races.WOODELF)){
+				if (player.spe100 < 100) {
+					outputText("\n\nBy now you have achieved mastery of every technique Elenwen could touch you… well almost. Elenwen's single most amazing skill is her ability to shoot a salvo of two arrows in quick succession, a skill you have yet to see anyone but her use.");
+					outputText(" You're certain if you train and improve your speed to the breaking point you could achieve it too. Guess you will need to increase your speed and dexterity to their utmost limit before you can unlock that skill.");
+					hasTrainedToday = true;
+				} else {
+					WoodElfBowTraining = QUEST_STAGE_BOWTRAINING6;
+					player.createPerk(PerkLib.ELFTwinShot,0,0,0,0);
+					flags[kFLAGS.ELVEN_TWINSHOT_ENABLED] = 1;
+					outputText("\n\nBy now you have achieved mastery of every technique Elenwen could touch you… well almost. Elenwen's single most amazing skill is her ability to shoot a salvo of two arrows in quick succession, a skill you have yet to see anyone but her use. <b>Gained Perk: Elven Twin Shot</b>");
+					hasTrainedToday = true;
+				}
 			}
 			else{
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			if (!player.hasStatusEffect(StatusEffects.Kelt)) player.createStatusEffect(StatusEffects.Kelt, 5, 0, 0, 0);
-			else player.addStatusValue(StatusEffects.Kelt, 1, 5);
+			else {
+				if (player.statusEffectv1(StatusEffects.Kelt) >= 100) {
+					if (!player.hasStatusEffect(StatusEffects.Kindra)) player.createStatusEffect(StatusEffects.Kindra, 5, 0, 0, 0);
+					else bowSkill2(5);
+				}
+				else bowSkill1(5);
+			}
 			CoC.instance.timeQ = 1;
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		public function Alyssa():void {
@@ -1053,7 +1119,7 @@ package classes.Scenes.Places{
 					" She pauses her exercises and wipes her brow before smiling at you and replying. " +
 					"\"<i>Of course, little sis! Let’s dance together!</i>\"");
 			if (WoodElfSpearTraining == QUEST_STAGE_SPEARTRAININGFIRST){
-				if (player.armor == ArmorLib.NOTHING) outputText("\n\nShe looks approvingly at your lack of clothing, not with her standard expression of perverted lust but with a serious glance.");
+				if (player.armor.isNothing) outputText("\n\nShe looks approvingly at your lack of clothing, not with her standard expression of perverted lust but with a serious glance.");
 				else outputText("\n\nHer first instruction is to strip. Unlike her usual, somewhat perverted expression when she says that, she appears serious.");
 				WoodElfSpearTraining = QUEST_STAGE_SPEARTRAINING0;
 			}
@@ -1084,25 +1150,15 @@ package classes.Scenes.Places{
 					"The two of you practice for a few more minutes before she nods respectfully, " +
 					"\"<i>I hope you now feel more comfortable about handling an Elven spear.</i>\"" +
 					"\n\nAs you leave, waving goodbye, the kiss resonates with you, perhaps there are many ways to think about how to handle melee combat.");
-			player.trainStat("str", +1, 80);
-			player.trainStat("str", +1, 80);
-			player.trainStat("str", +1, 80);
-			player.trainStat("str", +1, 80);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("spe", +1, 100);
-			player.trainStat("tou", +1, 80);
-			player.trainStat("tou", +1, 80);
-			player.trainStat("tou", +1, 80);
-			player.trainStat("tou", +1, 80);
+			player.trainStat("str", 4, player.trainStatCap("str",80));
+			player.trainStat("spe", 4, player.trainStatCap("spe",100));
+			player.trainStat("tou", 4, player.trainStatCap("tou",80));
 			CoC.instance.timeQ = 1;
 			if (player.spe >= 50 && WoodElfSpearTraining == QUEST_STAGE_SPEARTRAINING0 && !hasTrainedToday){
 				WoodElfSpearTraining = QUEST_STAGE_SPEARTRAINING1;
 				player.createPerk(PerkLib.ELFElvenSpearDancingFlurry1to4,1,0,0,0);
 				outputText("\n\nThanks to your extensive training in elven spear techniques you have unlocked the Elven Spear Dancing Flurry! <b>Gained Perk:Elven Spear Dancing Flurry</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			else if (player.spe >= 100 && WoodElfSpearTraining == QUEST_STAGE_SPEARTRAINING1 && !hasTrainedToday){
 				WoodElfSpearTraining = QUEST_STAGE_SPEARTRAINING2;
@@ -1110,14 +1166,12 @@ package classes.Scenes.Places{
 				player.setPerkValue(PerkLib.ELFElvenSpearDancingFlurry1to4,1,2);
 				outputText("\n\nThanks to your extensive training in elven spear techniques you have unlocked the Elven Battle Style and Elven Spear Dancing Flurry II Perk! <b>Gained Perk: Elven Battle Style and Elven Spear Dancing Flurry II</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			else if (player.spe >= 150 && WoodElfSpearTraining == QUEST_STAGE_SPEARTRAINING2 && !hasTrainedToday){
 				WoodElfSpearTraining = QUEST_STAGE_SPEARTRAINING3;
 				player.setPerkValue(PerkLib.ELFElvenSpearDancingFlurry1to4,1,3);
 				outputText("\n\nThanks to your extensive training in elven spear techniques you have unlocked the Spear Dancing Flurry III Perk! <b>Gained Perk: Elven Spear Dancing Flurry III</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			else if (player.spe >= 200 && WoodElfSpearTraining == QUEST_STAGE_SPEARTRAINING3 && !hasTrainedToday){
 				WoodElfSpearTraining = QUEST_STAGE_SPEARTRAINING4;
@@ -1125,13 +1179,488 @@ package classes.Scenes.Places{
 				player.setPerkValue(PerkLib.ELFElvenSpearDancingFlurry1to4,1,4);
 				outputText("\n\nThanks to your extensive training in elven spear techniques you have unlocked the Elven Spear Dancing Technique and Elven Spear Dancing Flurry IV Perk! <b>Gained Perk: Spear Dancing Technique and Elven Spear Dancing Flurry IV</b>");
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
 			else{
 				hasTrainedToday = true;
-				hasTrainedTodayCooldown = 24;
 			}
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
+		}
+
+		public function LutienMF(boy:String,girl:String):String {
+			if (WoodElfMagicTraner) return boy;
+			else return girl;
+		}
+		public function Lutien():void {
+			if (WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING0) Lutien0();
+			else if (WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING1) Lutien1();
+			else LutienMain();
+		}
+		public function Lutien0():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("As you explore around the village, you come upon an Elf whose appearance sets her clearly apart from the rest of your sisters." +
+					" Dressed in a loose, sleeveless blouse and knee-length skirt and wearing thigh-high leather boots, she seems to eschew the usual Wood Elf penchant for exposing as much skin as possible." +
+					" Over the ensemble is a white cloak, which she wears with the hood down, concealing her hair and forehead. Her breasts are smaller even than Alyssa’s, practically non-existent; " +
+					" evidently magic and bust size don’t always go hand in hand. Though, her white hood conceals her head, you spot braided hair long enough to lay alongside her slender thigh on the bench at which she sits." +
+					" Though she seems preoccupied with the book in her hands, she nevertheless acknowledges you, waving a hand lazily in your direction without taking " +
+					" her eyes from the tome in her lap, and addressing you languidly in a quiet, husky voice.\n\n");
+			outputText("\"<i>Oh, if it isn’t the newest sister. Apologies for not coming to greet you with the others, but I’ve been busy. " +
+					" As you can see, I have interests a bit different from the rest of us - I’d rather study and practice my magic than frolic in the woods. Ah, but where are my manners?</i>\"" +
+					" She closes the book around a slender finger to keep her place and turns her head to face you, fixing you with a hooded, critical gaze. " +
+					"\"<i>My name is Lutien, and I am the resident mage of the Wood Elves, if only for lack of any competition, or cooperation, from my sisters. What is your name?</i>\"\n\n");
+			outputText("You smile and gladly tell her that you are [name] the newest little " + player.mf("brother","Sister") +".\n\n");
+			outputText("\"<i>I assure you the pleasure is mine, [name]. If you have a need for magic I am very happy to assist you. Otherwise I’m afraid you won’t find me very interesting company, and you should probably return to playing with the others.</i>\"");
+			menu();
+			addButton(1, "Magic", Lutien3);
+			addButton(3, "Not interested", Lutien2);
+		}
+		public function Lutien1():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("You visit Lutien at " + LutienMF("his","her") + " tent, " + LutienMF("he","she") + " is currently in the process of reading what looks to be a book while writing notes on a parchment.\n\n");
+			outputText("\"<i>Oh it's you again have you reconsidered on the training? If you're here for something else I would please ask that you leave. I have far more important matters to attend to at the time to talk about games and what not.</i>\"\n\n");
+			menu();
+			addButton(1, "Magic", Lutien3);
+			addButton(3, "Not interested", Lutien2);
+		}
+		public function Lutien2():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("Lutien sighs," +
+					" \"<i>Yes, yes, of course. No need for the tedium of magic when you can play around with your other sisters. I understand completely.</i>\"" +
+					LutienMF("He","She")+" pauses as her attention shifts back to her book," +
+					" \"<i>Now, if you would excuse me, I would like to continue my reading in peace.</i>\"\n\n");
+			outputText("You leave Lutien to "+LutienMF("his","her")+" work, not wanting to disturb their efforts, and not especially appreciating "+LutienMF("his","her")+" company.");
+			if (WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING0) WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING1;
+			endEncounter();
+		}
+		public function Lutien3():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("Magic? That sounds <b>very</b> interesting, as a matter of fact. If you can learn Elf magic you want to.\n\n");
+			outputText("Lutien blinks, startled by your reply." +
+					" \"<i>Oh. I… I see? I will admit I didn’t expect you to have any interest when you have so many more pleasurable avenues to explore here," +
+					" but perhaps you are different from the others after all. If you’re serious about this then I’m confident I can teach you." +
+					" And, of course, you can always stop when things get difficult. I won’t try to keep you.</i>\"\n\n");
+			outputText("Well, she doesn’t have the best personality, but the prospect of learning new ways to deal with your opponents is too good to pass up. Lutien pats the bench next to her, and you sit beside her to begin your lesson.\n\n");
+			outputText("<b>Found Lutien in the Elven village!</b>");
+			WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING2;
+			endEncounter();
+		}
+		public function LutienMain():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("You visit Lutien at " + LutienMF("his","her") + " tent, " + LutienMF("he","she") + " is currently in the process of reading what looks to be a book while writing notes on a parchment.\n\n");
+			outputText("\"<i>Oh good day sister… how can I help you? Are you here to train your spellcasting or for something else?</i>\"\n\n");
+			menu();
+			addButton(0, "Train", LutienTrain)
+					.disableIf(hasTrainedToday, "You need a break from your recent training before you can train again.");
+			if (WoodElfMagicTraining >= QUEST_STAGE_MAGICTRAINING3) addButton(1, "Sex", LutienMainSex);
+			else addButtonDisabled(1, "???", "???");
+			addButton(4, "Back", GroveLayout);
+		}
+		public function LutienTrain():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			if (WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING2 && !hasTrainedToday){
+				WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING3;
+				outputText("After a few hours spent directing the discussion and answering your questions, Lutien sighs and closes her book.\n\n");
+				outputText("\"<i>Well, I suppose that went about as well as I could expect.</i>\"\n\n");
+				outputText("A bit miffed, you ask what you could do better next time.\n\n");
+				outputText("\"<i>If there is a next time,</i>\" she replies pointedly, \"<i>you may find the time we spend more productive if you can keep your eyes on the text instead of my chest and groin.");
+				outputText(" That level of distraction is mild by what passes for Elven standards now, but you shouldn’t expect to see success casting magic in combat if a little thing like me sitting next to you is enough to make your focus wander.</i>\"\n\n");
+				outputText("You are forced to concede the point, though you counter that Lutien is much cuter than she lets on. You see a faint blush on her cheeks as she reopens the book to her original place and shoos you off.\n\n");
+				outputText("\"<i>Enough, be off with you. I’d like to get back to my reading. If you can pull yourself away from your other activities on some other day we can try this again; I’m willing to go that far at least.</i>\"\n\n");
+				if (!player.hasStatusEffect(StatusEffects.KnowsPlantGrowth)) {
+					outputText("<b>Gained new green spell: Plant growth.</b>");
+					player.createStatusEffect(StatusEffects.KnowsPlantGrowth, 0, 0, 0, 0);
+				}
+				if (WoodElfMagicTranerSex < 1) WoodElfMagicTranerSex = 1;
+				hasTrainedToday = true;
+			}
+			else if (player.inte >= 100 && WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING3 && !hasTrainedToday){
+				WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING4;
+				outputText("After a few hours spent directing the discussion and answering your questions, Lutien sighs and closes " + LutienMF("his","her") + " book.\n\n");
+				outputText("\"<i>You learn about as fast as I'd expect any other elf, which is to say slowly and with bits of distraction every now and then but at least you are making progress. I would give you homeworks but I'm afraid");
+				outputText(" you would just forget about doing it. For now just stick to practicing what I've already taught you and come back later for more.</i>\"\n\n");
+				outputText("You nod and leave Lutien to " + LutienMF("his","her") + " study.\n\n");
+				if (!player.hasStatusEffect(StatusEffects.KnowsEntangle)) {
+					outputText("<b>Gained new green spell: Entangle.</b>");
+					player.createStatusEffect(StatusEffects.KnowsEntangle, 0, 0, 0, 0);
+				}
+				hasTrainedToday = true;
+			}
+			else if (player.inte >= 100 && WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING4 && !hasTrainedToday){
+				WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING5;
+				outputText("After a few hours spent directing the discussion and answering your questions, Lutien sighs and closes " + LutienMF("his","her") + " book.\n\n");
+				outputText("\"<i>You learn about as fast as I'd expect any other elf, which is to say slowly and with bits of distraction every now and then but at least you are making progress. I would give you homeworks but I'm afraid");
+				outputText(" you would just forget about doing it. For now just stick to practicing what I've already taught you and come back later for more.</i>\"\n\n");
+				outputText("You nod and leave Lutien to " + LutienMF("his","her") + " study.\n\n");
+				if (!player.hasStatusEffect(StatusEffects.KnowsBriarthorn)) {
+					outputText("<b>Gained new green spell: Briarthorn.</b>");
+					player.createStatusEffect(StatusEffects.KnowsBriarthorn, 0, 0, 0, 0);
+				}
+				if (WoodElfMagicTranerSex < 2) WoodElfMagicTranerSex = 2;
+				hasTrainedToday = true;
+			}
+			else if (player.inte >= 200 && WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING5 && !hasTrainedToday){
+				WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING6;
+				outputText("After a few hours spent directing the discussion and answering your questions, Lutien smile and closes " + LutienMF("his","her") + " book.\n\n");
+				outputText("\"<i>I hate to admit that you actually got skill for this. I sadly won't be able to teach you "+(player.isRace(Races.WOODELF)?"much":"any")+" longer. You learned next to everything I could teach you already.</i>\"\n\n");
+				outputText("There must still be something Lutien can teach you though.\n\n");
+				if (player.isRace(Races.WOODELF)) {
+					outputText("\"<i>There is however I will first ask that you do something that goes directly against everything I've told you to do so far. I need you to go out there and get yourself laid… a LOT.</i>\"\n\n");
+					outputText("Wait what?\n\n");
+					outputText("\"<i>You heard right go out there and get yourself fucked silly by everything and anything until you've aquired a suffisent mastery of your charms and resiliance to pleasure. Funnily, this is something the others can absolutely assist you with. Heck, even that cow Chelsea could be helpful at this point.</i>\"\n\n");
+					outputText("Lutien and Chelsea don't seem to get along. You ask " + LutienMF("him","her") + " why is that?\n\n");
+					outputText("\"<i>Isn't that obvious? She's a nymphomaniac who only thinks about sex and pleasurable sensations. Why would I respect someone like that? Anyway, once you've achieved a suffisent mastery, I need you to go through one last step… That is to have sex with an alraune of great power. This might sound ludicrous but they are the closest ");
+					outputText("thing to an avatar of the deity marae. Well, of course, if you could have sex with Marae herself that would work too but Marae, last I heard, has no interest in that, unlike her floral and lustful daughters. Once your holes have been plugged full of greenery and stamens, we can go with our final lesson.</i>\"\n\n");
+				}
+				else {
+					outputText("\"<i>Sadly no, and that's because you aren't complete or rather… you never made a covenant with the blessed tree. This last spell taps directly in the power of the covenant and thus cannot be learned by someone with no connection. Thus this is our final lesson</i>\"\n\n");
+				}
+				outputText("You nod and leave Lutien to " + LutienMF("his","her") + " study.\n\n");
+				if (!player.hasStatusEffect(StatusEffects.KnowsDeathBlossom)) {
+					outputText("<b>Gained new green spell: Death Blossom.</b>");
+					player.createStatusEffect(StatusEffects.KnowsDeathBlossom, 0, 0, 0, 0);
+				}
+				hasTrainedToday = true;
+			}
+			else if (player.inte >= 400 && WoodElfMagicTraining == QUEST_STAGE_MAGICTRAINING6 && !hasTrainedToday && player.isRace(Races.WOODELF) && WoodElfMagicTranerGetLaid){
+				WoodElfMagicTraining = QUEST_STAGE_MAGICTRAINING7;
+				outputText("After a few hours spent directing the discussion and answering your questions, Lutien smile and closes " + LutienMF("his","her") + " book.\n\n");
+				outputText("\"<i>Congratulations, [name]. You have effectively learned everything I could teach you and even mastered that one last trick. I guess this means the end of our lessons. However, if you wish to revise less serious subjects with me… just know I will be available anytime. It's rare to find someone so smart and at the same time… ");
+				outputText("so attractive.</i>\" " + LutienMF("He","She") + " blushes but quickly realizes " + LutienMF("he","she") + "'s wide open and moves " + LutienMF("his","her") + " eyes back to " + LutienMF("his","her") + " book dismissing you.\n\n");
+				if (!player.hasStatusEffect(StatusEffects.KnowsGreenCovenant)) {
+					outputText("<b>Gained new magic special: Green Covenant.</b>");
+					player.createStatusEffect(StatusEffects.KnowsGreenCovenant, 0, 0, 0, 0);
+				}
+				hasTrainedToday = true;
+			}
+			else {
+				outputText("You would just like to revise theory with Lutien today. On this " + LutienMF("he","she") + " close " + LutienMF("his","her") + " book and sigh.\n\n");
+				outputText("\"<i>Well I suppose I can give you a list of practical tests to do should at least be a break from my research. Let's see how well you've learned this far.</i>\"\n\n");
+				outputText("You spend the 5 hour studying with Lutien and finish feeling far more confident in your ability to use magic.\n\n");
+				hasTrainedToday = true;
+			}
+			player.trainStat("int", 2 + rand(4), player.trainStatCap("int",100));
+			CoC.instance.timeQ = 3;
+			explorer.stopExploring();
+			doNext(camp.returnToCampUseTwoHours);
+		}
+		public function LutienMainSex():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("You ask Lutien if " + LutienMF("he","she") + " feels like getting intimate with you.\n\n");
+			if (WoodElfMagicTraner) {
+				outputText("Lutien eyes you intently, \"<i>I will not object to the idea. Do you know what you want?</i>\"\n\n");
+				outputText("You pause momentarily to think about it.\n\n");
+			}
+			else {
+				outputText("Lutien eyes you warily, \"<i>I will not object to the idea, though, have you not realized that I am not like the other sisters? More than just my affinity for magic, I am not a woman like the masses.</i>\"\n\n");
+				outputText("Wait, really? There are elves that aren’t girls? But he looks so…\n\n");
+				outputText("He sighs, \"<i>Yes, I am well aware, but not every elf is made the same. I am sterile, thankfully. The things they’d do to me if they knew I could help produce offspring for them. Still, are you still willing to take up some more… personal time together?</i>\"\n\n");
+				outputText("You think about it.\n\n");
+				WoodElfMagicTraner = true;
+			}
+			menu();
+			if (WoodElfMagicTranerSex >= 1)
+				addButton(0, "Bondage", LutienBondage)
+						.hint("Something about his presence is enthralling… let him take control");
+			if (WoodElfMagicTranerSex >= 2)
+				addButton(1, "Fuck Bussy", LutienFuckBussy)
+						.hint(silly()? "Fuck it. A hole is a hole.":"Does it matter if he’s not a girl? He’s still as pretty as any other elf.")
+						.disableIf(!player.hasCock(), "You need a penis");
+			addButton(2, "Nevermind", LutienMainSexNevermind);
+		}
+		public function LutienMainSexNevermind():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("Yea nevermind you ain't in the mood for that right now.\n\n");
+			outputText("Lutien sigh. \"<i>Yea I figured you must've just been joking. Well either way is there anything else I can help you with?</i>\"\n\n");
+			doNext(LutienMain);
+		}
+		private function LutienBondage():void {
+			clearOutput();
+			outputText("You continue eyeing Lutien's form, something about the soft, gentle feminity wrapped around the form of a male is alluring. His gentle frame continues grasping your attention with a force unwilling to let you go.[pg]");
+			outputText("He seems to give you a faint, yet knowing grin, \"<i>I see you've been taking a little more interest in me lately, have you? I don't suppose that could be the effects of the forest taking a pull at you, is it?</i>\"[pg]");
+			outputText("Before you can collect yourself, you find your legs gently being wrapped by soft, thin vines. You take a small breath, it's far from a disquieting feeling.[pg]");
+			outputText("\"<i>Oh, but it will be more than just the forest, now won't it? After all, if one was so inclined, they can use their magic for... something a tad more salacious.</i>\"[pg]");
+			outputText("Something about being bound by vines and left to submit before the femboy calls to you, you find yourself growing comfortable with the idea.[pg]");
+			outputText("\"<i>I'm sure you've had thoughts about creative ways to use elven magic. There's always a hint of lewdness deep within, even myself, though I tend not to delve into these fantasies.</i>\"[pg]");
+			outputText("He draws himself closer to you, pressing his index finger against the underside of your chin, \"<i>Yet, bondage is such a fun way to abuse your strength as it inhibits your victim's ability to move away.</i>\"[pg]");
+			outputText("[if (hasarmor) \"The vines slowly grasp at your garments, tugging them away until you are left barred from any clothes. \"]The flora moves at his whim, a sweet scent washes over you as the vines steadily wrap around you, cradling you with care, yet firm enough to keep you unable to fight back.[pg]");
+			outputText("His fingers gingerly trace around your form, admiring the shape of your body. \"<i>Could this be a lesson in magic, one might wonder? Possibly, there's a certain amount of control you must have when using magic deliberately in a non-detrimental way. I have been practicing for ages, so I know you are far from being in any danger from my vines.</i>\"[pg]");
+			outputText("The vines continue contorting around you, squeezing at your body gently with loving grasps. Lutien slowly reaches a hand down to stroke your [if (hascock) \"steadily rising erection\"][if (hasvagina && !hascock) \"clit\"][if (!hascock && !hasvagina) \"thigh\"].");
+			outputText("\"<i>Can you feel the warmth? There's so much heat growing between us. Perhaps it's the friction of the vines?</i>\"[pg]");
+			outputText("He leans closer, his breath barely grazing your face, \"<i>Something more?</i>\"[pg]");
+			outputText("The scent of the vines is intoxicating. You can see petals blooming off of them, filling the air with hazy pollen that only further clouds your mind. You're unable to do anything but relax, cradled by the floral embrace as the petals dance around your skin.[pg]");
+			outputText("\"<i>I can't remember the last time I had my magic flourish like this. I'm glad I could share it with you.</i>\"[pg]");
+			outputText("Lutien shifts toward you, gently pressing his soft lips against yours. The peck is fleeting as he pulls away, leaving you breathless. Maybe it's all the pollen in the air, but it's far from irritating. Moreso, the pollen only adds to heighten your senses.[pg]");
+			outputText("He traces his slender digits across your jaw, caressing your face with his soft, feminine hands. \"<i>You know, I don't think I've ever enjoyed myself so much with anyone as much as I am with you right now... </i>\"[pg]");
+			outputText("He pulls himself closer, giving you another gentle peck on the lips, \"<i>Are you enjoying it as much as I am?</i>\"[pg]");
+			if (player.hasCock()) outputText("The vines slowly grope at your erection, causing you to drool precum as they slowly work away at your resistance.[pg]");
+			if (player.hasVagina()) outputText("The vines slowly trace around your labia, prodding at your clit, yet refusing to penetrate you as it works away at your resistance.[pg]");
+			outputText("You can feel a familiar pressure building up within your loins as your body tenses within the loving cradle of vines. Lutien continues gently caressing your face, slowly working down to your torso, admiring your chest before bringing his fingers up to your lips.[pg]");
+			outputText("\"<i>Hold yourself just a little longer, for me... </i>\"[pg]");
+			outputText("He pulls down his finger as he reaches for a final kiss. His presence is soft and delicate. He doesn't give in fully, yet the embrace betrays nothing but passion and genuine interest.[pg]");
+			outputText("Unable to take it any longer, you finally hit your climax.[if (hascock) \" Your throbbing erection shooting several waves of seed before him as the vines prod at your cumslit.\"][if (hasvagina) \" You can feel a trail of girlcum gently leak down your thigh as the vines gently pull back from your clit.\"][if (!hascock && !hasvagina) \"he high still not as intense as it could be, yet the gentle presence of the vines still serves to fulfill your desires.\"][pg]");
+			outputText("Lutien smiles softly as he pulls back, allowing the vines to recede, laying you on the ground as you slowly catch your breath.[pg]");
+			outputText("He reaches a hand toward you to lift you from the earth, \"<i>Was it as good for you as it was for me?</i>\"[pg]");
+			outputText("You can't say it was an unpleasurable experience.[pg]");
+			outputText("He smiles warmly, \"<i>Good, I hope we can try this again later... I'll be seeing you around, then.</i>\"[pg]");
+			player.sexReward();
+			endEncounter();
+		}
+		private function LutienFuckBussy():void {
+			clearOutput();
+			var x:int = player.longestCock();
+			outputText("You continue eyeing Lutien's form. His soft, boyish hips. His petite figure and silky locks of blonde hair. He's gorgeous, to say the least. His glance moves to meet yours as you continue examining him.[pg]");
+			outputText("\"<i>Enraptured, are you? Perhaps you'd like to get to know me on a more personal level? I wouldn't object, it'd be quite a new experience for me.</i>\"[pg]");
+			outputText("You decide to take up on the offer as you approach him[if (hasarmor) \", discarding your (armor) until there's nothing left to hold you back\"]. Your body is free to take in the open air, to be one with nature, right? Lutien follows your steps, pulling back his hood as he removes the light garments holding back his frame as your bare figure makes contact with him.");
+			outputText("[if (tallness <= 4*12) \" Despite how much taller he is, you're still going to let him know what it means to be topped.\"]"+(player.cocks[x].cockLength >= 7 ?" His tiny manhood pales in comparison to your [cock].":"")+"[pg]");
+			outputText("\"<i>Come on, show me everything you're made of. Take me, hold me tightly as I submit. I want to feel you inside me.</i>\"[pg]");
+			outputText("Without hesitation, you lift him against the bark of a nearby tree as he reflexively wraps his legs around your waist. His small dick erecting in anticipation as you align your girth to his petite underside. His bussy seems to be quite lubricated already. Before you can question it, he gives you a small wink.[pg]");
+			outputText("You pull him in for a kiss, his soft, delicate lips pressing against you as you hold his head, admiring the silkiness of his fine hair before you begin thrusting.[pg]");
+			outputText("His hole tightens around you, gripping eagerly in an attempt to coax more of your rod into him."+(player.cocks[x].cockLength >= 7 ?" His breathing staggers at the intake, clearly not used to something of this magnitude. ":"") + "He pulls back slightly, \"<i>Ahh... a warmth like no other... I... I could get used to this, [name].</i>\"[pg]");
+			outputText("You buck into the elf's ass again[if (hasballs)\", your balls hitting his underside with each forceful thrust\"]. You're going to make sure he remembers you as you pull him in deeper into another kiss, causing him to moan into your embrace.[pg]");
+			outputText("His hole tightens intently as his legs wrap tighter around you. His high-pitched moaning rings through the kiss as he cums, spraying traces of cum around your [chest]. You can feel yourself quickly reaching orgasm as his hole rhythmically clenches around you, desperate for you to fill him with your seed.[pg]");
+			outputText("Moaning back softly, you can feel your cock twitch ardently. You force the elf on the ground as you give him a final thrust, digging your [cock "+x+1+"] as deep into him as possible as you elicit another moan from the elf. You finally cum, unloading every ounce of cum you have into his waiting hole.[pg]");
+			outputText("Lutien breathes softly, exhausted as you pull out your deflating erection. \"<i>Hah... that was... definitely an experience like no other... I wouldn't argue about looking into it again if you were ever to ask... </i>\"[pg]");
+			outputText("He brushes himself off, cum still leaking out of his bussy. \"<i>I'll get us cleaned up, then you can return to other matters.</i>\"[pg]");
+			player.sexReward();
+			endEncounter();
+		}
+
+		public function Chelsea():void {
+			if (WoodElfSeductionTraining == QUEST_STAGE_SEDUCTIONTRAINING0) ChelseaIntro();
+			else ChelseaMain();
+		}
+		public function ChelseaIntro():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("As you explore the elven village you run into a sister you haven't met before, well at least not personally. She looks like all of your other sisters at a first glance, golden hairs, green eyes and white clothes but what sets her apart is her sheer tallness as well as the prodigious size of her breast. Easily 7 feet tall she towers above everyone else. The big sister notices your attention and chuckles.[pg]");
+			outputText("\"<i>Oh my if it ain't sister [name] we haven't been acquainted since you hang all the time with Merisiel, Allysa or Elenwen. Not that I blame them, my appearance is somewhat intimidating for an elf in more ways than one.</i>\" She punctuates her sentence by holding her J cup breasts with both hands to pass the point across. Any elf would feel intimidated by the sheer size of those orbs. How is she not developing back problems in the first place![pg]");
+			outputText("\"<i>Eyes up not down sister.</i>\" The busty elf laughs and you realise you've been staring. \"<i>Names Chelsea and I'm the village resident blacksmith. About every gear from weapons to armor is made by me. I overheard you used to be human or something heck you even got your memory back. Me? Well I was told I used to be a lacta bovine surely that'd explain the ridiculous size of my chest. I forgot everything about my past self post awakening so can't "+
+						"confirm if this is true not that it mathers. As it happens the sacred tree doesn't discriminate, It can turn about just anything into an elf provided it's not too big, has a soul and is somewhat sentient. If its a guy it makes a girl out of it though we've seen rare cases where even the tree was powerless to fully genderbend a man. Regardless I heard you're on some grand quest or something about saving the land. Maybe even purify the tree.. well now "+
+						"THAT would be great though looking at you I can't really see how you plan to defeat the demon army all by yourself.</i>\"[pg]");
+			outputText("Sure you plan to defeat the demons. Is she assuming you lack the conviction to do it or something?[pg]");
+			outputText("\"<i>Oh not at all though if you're so keen to defeat the fiends I could teach you one or two things about seduction.</i>\"*[pg]");	//TODO Ask about asterisk in doc
+			outputText("You raise an eyebrow coughing as you process the last sentence, did she just say seduction?[pg]");
+			outputText("\"<i>Do understand sister demons greatest weapon is sex and desire but it's also their biggest weakness. While you should avoid fighting demons on their own terms you will inevitably have to win a few battles through the power of guile, seduction and a few frustrated dicks. Thankfully your body like mine was made for temptation.</i>\"[pg]");
+			outputText("What is she getting at? You're perfectly adept at sex just as any elf is![pg]");
+			outputText("\"<i>Yes but not necessarily at teasing. Do trust me, I've developed and made many new techniques even the demons would spontaneously cum at. Want me to teach you some of them?</i>\"[pg]");
+
+			menu();
+			addButton(1, "Sure Sis", ChelseaTraining1);
+			addButton(3, "Nah", ChelseaTraining1No);
+		}
+		public function ChelseaTraining1():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("Chelsea disrobes, encouraging you to do the same as she heads toward her tent letting you in.[pg]");
+			outputText("\"<i>First things first, we need to train your endurance, wouldn't want you to end up with weak shaking legs because a demon nibbled on your ear tips. You need to be in perfect control of your own pleasure rather than let it control you.</i>\"[pg]");
+			outputText("Without surprise she goes directly for your weak spot licking your pointy ear tip. You're about to jump her in a lust induced frenzy when she calmly reminds you \"<i>You need to endure and control your lust sister. I can see you're boiling with needs but improving your resistance is the very purpose of this training.</i>\"[pg]");
+			outputText("Begrudgingly you temper your desire her touch however is like a wave crashing down on the sandcastle that is your crumbling countenance and before long you beg her to fuck you one way or another.[pg]");
+			outputText("\"<i>Well sister I see you've done your best and will reward you for it. Go ahead and lose yourself in your big sister's lovely pillows.</i>\"[pg]");
+			outputText("She lay on her back into the grass and opens her arms to you, welcoming you to her bosom and you gladly take on her offer resting your head against her prodigious chest as she pulls her hand toward your aching pussy, a finger expertly exploring your drooling cunny. You moan loudly as your eldest gently massages your hole all the way toward a full peak causing you to cum gracefully on her hand with some of your juice splashing on the nearby grass. ");
+			outputText("You ride this orgasm for a few seconds, losing yourself in the bright green of the eyes of your partner before slowly matching your excited breath back down to the rhythm of the ambient natural world.[pg]");
+			outputText("Chelsea comments as you both redress \"<i>Not a bad effort for a first time. Still do come back to me later you definitely could use improved self control especially if you plan to take the demons down. Don't you worry sis I will train you into a pillar of willpower and stamina even demons charm won't be able to overcome.</i>\"[pg]");
+			outputText("On this you wave goodbye and head back to camp.[pg]");
+			hasTrainedToday = true;
+			player.SexXP((5+player.level) * 10);
+			player.trainStat("lib", 4, player.trainStatCap("lib",100));
+			WoodElfSeductionTraining = QUEST_STAGE_SEDUCTIONTRAINING2;
+			endEncounter();
+		}
+		public function ChelseaTraining1No():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("You decline Chelsea offer fully confident in your own skills.[pg]");
+			outputText("\"<i>Well if you ever need your big sister assistance just come to me and ill teach ya everything there is to sex and controlling your desires.</i>\"[pg]");
+			WoodElfSeductionTraining = QUEST_STAGE_SEDUCTIONTRAINING1;
+			endEncounter();
+		}
+		public function ChelseaMain():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("You visit Chelsea hoping to improve your self control. The busty elf is busy gathering flowers in the nearby meadow but deposits her basket the moment she sees you.[pg]");
+			outputText("\"<i>Good day [name] you came at just the right time I was about done here. Have you come to train or are you just here for a chat?</i>\"")
+
+			menu();
+			if (WoodElfSeductionTraining == QUEST_STAGE_SEDUCTIONTRAINING1)
+				addButton(1, "Sure Sis", ChelseaTraining1);
+			else
+				addButton(1, "Train", ChelseaTrainingRandom);
+			addButton(3, "See Ya", ChelseaTrainingNo);
+		}
+		public function ChelseaTrainingNo():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			outputText("You tell her you just wanted to say hello really. You two talk of everything and nothing before you say your goodbye and head back to the elven commons. Chelsea waves you goodbye before you go.[pg]");
+			outputText("\"<i>Come back anytime, I will be right here.</i>\"[pg]");
+			endEncounter();
+		}
+		public function ChelseaTrainingRandom():void {
+			clearOutput();
+			spriteSelect(SpriteDb.s_WoodElves);
+			var randomTrain:int = rand(2);
+			if (randomTrain == 0) ChelseaRandomTrain0();
+			else if (randomTrain == 1) ChelseaRandomTrain1();
+		}
+		public function ChelseaRandomTrain0():void {
+			outputText("Chelsea disrobe and encourage you to do the same as she heads toward her tent letting you in.[pg]");
+			outputText("\"<i>Today we will first train your endurance, wouldn't want you to end up with weak shaking legs because a demon nibbled on your ear tips. You need to be in perfect control of your own pleasure rather than let it control you.</i>\" [pg]");
+			outputText("Without surprise she goes directly for your weak spot licking your pointy ear tip. You're about to jump her in a lust induced frenzy when she calmly reminds you \"<i>You need to endure and control your lust sister. I can see you're boiling with needs but improving your resistance is the very purpose of this training.</i>\"[pg]");
+			outputText("Begrudgingly you temper your desire her touch however is like a wave crashing down on the sandcastle that is your crumbling countenance and before long you beg her to fuck you one way or another.[pg]");
+			outputText("\"<i>Well sister I see you've done your best and will reward you for it. Go ahead and lose yourself in your big sister's lovely pillows.</i>\"[pg]");
+			outputText("She lay on her back into the grass and opens her arms to you, welcoming you to her bosom and you gladly take on her offer resting your head against her prodigious chest as she pulls her hand toward your aching pussy, a finger expertly exploring your drooling cunny. You moan loudly as your eldest gently massages your hole all the way toward a full peak. You ain't sure if it's just her technique, her past life experience or just the fact she is an "+
+						"elf far older than you but her fingers do magic even the best cock would fail to, her precise movement causing you to cum gracefully on her hand with some of your juice splashing on the nearby grass. You ride this orgasm for a few seconds, losing yourself in the bright green of the eyes of your partner before slowly matching your excited breath back down to the rhythm of the ambient natural world.[pg]");
+			outputText("Chelsea comments as you both redress \"<i>Not a bad effort it's definitely better than the last time. Still do come back to me later you definitely could use more self control especially if you plan to take the demons down. Don't you worry sis I will train you into a pillar of willpower and stamina even demons charm won't be able to overcome.</i></i>\"[pg]");
+			outputText("On this you wave goodbye and head back to camp.[pg]");
+			hasTrainedToday = true;
+			player.SexXP((5+player.level) * 10);
+			player.trainStat("lib", 4, player.trainStatCap("lib",100));
+			endEncounter();
+		}
+		public function ChelseaRandomTrain1():void {
+			outputText("Chelsea disrobe and encourage you to do the same as she heads toward her tent letting you in.[pg]");
+			outputText("\"<i>Today we will train your empathy. You need to be receptive to your partner or opponent's reaction. It might come to you as no surprise but in battle most opponents won't act honest and when they do it can be difficult to pinpoint whether your performance was bad or not. By reading the subtle hints in their expression and movement you can improve and refine your skill as a seducter or just make yourself better at lovemaking. "+
+						"Your willing partners will thank you for it, some of the unwilling ones too.</i>\"[pg]");
+			outputText("She takes your hand and guides you to the bed, laying down next to you.[pg]");
+			outputText("\"<i>Your other sisters likely teached you to play some musical instruments or do other refined things. Sex is like a melody and the partner is your instrument, her moans the note. To draw out the most honest and clear notes you need to play your partner with care. Today is girl on girl but a penis is just a different instrument, you simply need to be attentive to the notes you play and the music will come out naturally.</i>\"[pg]");
+			outputText("She insert a finger into your quivering flower making you gasp as she move your hand to hers sliding your digit into her pussy.[pg]");
+			outputText("\"<i>The bee girls have a similar game to this one however for you this is training. For each good note you draw from me today I will reciprocate to you. Pay attention to the response so you can reproduce it.</i>\"[pg]");
+			outputText("Tentatively you begin fondling your teacher, using whatever skill you accumulated this far to find her good spot and draw out a moan. She rewards your attention with a moan of your own each time you hit a good spot. Seeking out her highs so to increase your own pleasure you manage to progressively adjust and improve your touch until eventually Chelsea grants you an amazing orgasm. It plays out like this for a fair hour until, utterly spent, "+
+						"you close your eyes and rest in Chelsea's arms using her breast as your pillow. Your big sister caresses your forehead the whole time singing a slow lullaby, guess she doesn't get those moments all that often.[pg]");
+			outputText("Later when you wake up Chelsea comments as you both redress \"<i>Not a bad effort it's definitely better than the last time. Still do come back to me later you definitely could use more empathy training especially if you plan to take the demons down. Don't you worry sis I will train you until your senses are as sharp as the edge of an elven glaive.</i>\"[pg]");
+			outputText("On this you wave goodbye and head back to camp.[pg]");
+			player.SexXP((5+player.level) * 10);
+			player.trainStat("lib", 4, player.trainStatCap("lib",100));
+			if (player.hasPerk(PerkLib.GracefulBeauty) && !player.hasPerk(PerkLib.SweepDefenses) && !hasTrainedToday && player.lib >= 200) {
+				player.createPerk(PerkLib.SweepDefenses,0,0,0,0);
+				outputText("\n\nBetter refining of your charms allowed you to learn a new technique. <b>Gained Perk: Sweep Defenses</b>");
+				hasTrainedToday = true;
+			}
+			else if (player.hasPerk(PerkLib.FueledByDesire) && !player.hasPerk(PerkLib.GracefulBeauty)  && !hasTrainedToday && player.lib >= 150) {
+				player.createPerk(PerkLib.GracefulBeauty,0,0,0,0);
+				outputText("\n\nBetter refining of your charms allowed you to learn a new technique. <b>Gained Perk: Graceful Beauty</b>");
+				hasTrainedToday = true;
+			}
+			else if (!player.hasPerk(PerkLib.FueledByDesire) && player.lib >= 100  && !hasTrainedToday) {
+				player.createPerk(PerkLib.FueledByDesire,0,0,0,0);
+				outputText("\n\nBetter refining of your charms allowed you to learn a new technique. <b>Gained Perk: Fueled by Desire</b>");
+				hasTrainedToday = true;
+			}
+			else {
+				hasTrainedToday = true;
+			}
+			//New Legendary Armor: Forest Mage Dress	//TODO special effect with green magic, other effects complete
+			//Type: Light
+			//Armor: 0
+			//Effect: Slutty Seduction 10, Wizard Endurance 60. Increase tease total damage by x 2 when worn by a wood elf. Inflicting Tease damage reduces the wielder's own lust by a small amount.
+			//The wearer of this dress desire and pleasure is no longer vexed by the limitations of mortal flesh allowing one to keep control over their lust long enough to claim victory by diluting their own lust within the ambiant natural world for a time. So long as a Green Magic spell was cast within the 5 previous rounds the user of this dress effectively is able to maintain their focus and mind entirely to the task at hand at the cost of potentialy turning into a lecherous sex maniac due to all the dilluted lust merging back with the user at the end of combat. There is a small chance for this to backfire instead causing the ambiant flora to turn on and rape the wearer of the dress.
+
+			endEncounter();
+		}
+
+		public function CaptureGoblin():void {
+			clearOutput();
+			outputText("You eye down the defeated goblin pondering the question for a moment before a sinister shaded smile makes way on your beautiful elven face.[pg]");
+			outputText("\"<i>Uh girl, why are you looking at me like that? I can feel the bad vibe all the way here!</i>\"[pg]");
+			outputText("She might be a few feet short but that's nothing the sacred tree can't fix if anything she will just make for a smaller one. You grab the nearest blunt object you can find and promptly knock the goblin out before hoisting her on your shoulder. It's a little way from here and you don't want the green pest to struggle.[pg]");
+			outputText("You begin walking all the way to the nearest sacred tree holding the unconscious goblin on your shoulder. You instinctively know which tree is what thanks to their leaf coloration and patterns and it doesn't take you long to find the elven territory border. You grab the goblin by waist and offer it to the nearest tree which hungrily open up, its tentacle like vines seizing the offering just as the goblin finally wakes up in time for a cute panicked scream. You can feel the comforting approval within its groaning bark as the goblin is gobbled up, you are a good daughter.[pg]");
+			outputText("A few seconds later silence reigns again in the forest and you can all too well imagine all the delight your newest sister is experiencing right now behind the bark lid. After all, you did get to experience it firsthand. A little hot from the whole imagery you lie next to the tree bark and begin feverishly masturbating when the new elf is finally expelled from the tree womb through the wooden knot you now know to be the tree vaginal lips, guess your own fun can wait for later. [pg]");
+			outputText("The new girl is barely above 4 feet tall which is altogether within expectation seeing as new elves tend to keep some remaining traces of their original race attributes. You came out average thanks to your very high compatibility for transformation, which is less than can be said for her. With a few reassuring words you gently grab the hands of the new girl and guide her all the way to the village. Merisiel sees you walk around with a new sister in tow and comes over to you.[pg]");
+			outputText("\"<i>Oh my! You actually found a new one, And shes so tiny and cute! Want me to pick her up for you?</i>~♥\"[pg]");
+			outputText("You know her well, she just can't resist a new girl, especially when she's cute. Sure she can have her, though that means she's taking responsibility for taking care of her for the first few weeks until the ceremony.[pg]");
+			outputText("\"<i>Why this is no problem sister. Feel free to bring more like her here, we will take good care of them.</i>\"[pg]");
+			outputText("With a sense of duty accomplished you leave back for your camp. The fruit of your labor will probably come apparent only within a few days when the new sister formally joins the community. For now it's off to adventures with you![pg]");
+			CapturedSisters.push(7);
+			cleanupAfterCombat();
+		}
+		public function CaptureCultist():void {
+			clearOutput();
+			outputText("You eye the defeated cultist, pondering the question for a moment before a sinister shaded smile makes its way on your beautiful elven face. Yep she/he is the ideal size and proportion. The cultist, unsure about your creepy attitude, tries and awkwardly opens the conversation.[pg]");
+			outputText("\"<i>So uh we having sex now or what?</i>\"[pg]");
+			outputText("Sex? Nah… better. Way better! You grab the nearest blunt object you can find and promptly knock the human out before hoisting him/her on your shoulder. It's a little way from here and you don't want the crazy to struggle.[pg]");
+			CaptureANewSisterMerge();
+		}
+		public function CaptureCowgirl():void {
+			clearOutput();
+			outputText("You eye down the defeated cowgirl pondering the question for a moment. She's quite taller than the common morph or human, which may result in something weird happening but you brush off the concern as you do remember that such anomalies do already exist, your big sister Chelsea is an example of it. A sinister shaded smile makes way on your beautiful elven face.[pg]");
+			outputText("Yep she is the ideal size and proportion. The cowgirl, unsure about your creepy attitude, tries and awkwardly opens the conversation.[pg]");
+			outputText("\"<i>So uh, are you planning on milking me or not?</i>\"[pg]");
+			outputText("Milking? Nah… better way better! You grab the nearest blunt object you can find and promptly knock the cow out before hoisting her on your shoulder. It's a little way from here and you don't want the crazy to struggle.[pg]");
+			CaptureANewSisterMerge();
+		}
+		public function CaptureMinotaur():void {
+			clearOutput();
+			outputText("A weird idea comes to your mind. Why not test out if the sacred tree can process a [monster name] and if so would the result be a big dicked elf herm?[pg]");
+			outputText("Licking your lips you knock the defeated [monster name] out and get to moving the massive hunk of a beast toward the woods.[pg]");
+			outputText("Traveling with the [monster name] is a massive pain and sometimes you ponder if riding a horse format elf dong is worth the effort but everytime the oaf wakes up you bring him back unconscious and fantasize about it.[pg]");
+			outputText("Eventually in the forest, you instinctively know which tree is what thanks to their leaf coloration and patterns and it doesn't take you long to find the elven territory border. You pull up the [monster name] and offer it to the nearest tree which hungrily opens up, its tentacle like vines seizing the offering just as the bull finally wakes up in time for a panicked final struggle. You can feel the comforting approval within its groaning bark as the [monster name] is dragged kicking and screaming, you are a good daughter.[pg]");
+			outputText("A few seconds later silence reigns again in the forest and you can all too well imagine all the delight your newest sister is experiencing right now behind the bark lid. After all, you did get to experience it firsthand. A little hot from the whole imagery you lie next to the tree bark and begin feverishly masturbating when the new elf is finally expelled from the tree womb through the wooden knot you now know to be the tree vaginal lips, guess your own fun can wait for later.[pg]");
+			outputText("The new girl comes out eventually and to your absolute disappointment the former minotaur's amazing tool is all but nearly gone. All that's left of it is a 6 inch human shaped penis sitting on a somewhat amazonesque hermaphrodite elven body. She's seven feet tall and could pass for Chelsea's close relative if not for the tiny dong hanging between her legs. With a few reassuring words you gently grab the hands of the new girl and guide her all the way to the village. Merisiel sees you walk around with a new sister in tow, come over to you.[pg]");
+			outputText("\"<i>Well what did you get us this time sis? Sorry to disappoint you but it's not the first time someone tried that idea. Eh better luck next time as they say…</i>\"[pg]");
+			outputText("Despite how the newcomer turned out you want her to be well taken care of. Merisiel sighs at this.[pg]");
+			outputText("\"<i>Sure I will handle the big girl for you but really next time I'd prefer you got someone smaller.</i>\"[pg]");
+			outputText("She takes the hand of the herm elf and heads toward the village tent. A little disappointed by the result you leave back for your camp. The fruit of your labor will probably come apparent only within a few days when the new sister formally joins the community. For now it's off to adventures with you![pg]");
+			CapturedHerms.push(7);
+			cleanupAfterCombat();
+		}
+		public function CaptureANewSister():void {
+			clearOutput();
+			outputText("You eye the defeated [monster name], pondering the question for a moment before a sinister shaded smile makes its way on your beautiful elven face. Yep she/he is the ideal size and proportion. [Themonster], unsure about your creepy attitude, tries and awkwardly opens the conversation.[pg]");
+			outputText("\"<i>So uh we having sex now or what?</i>\"[pg]");
+			outputText("Sex? Nah… better. Way better! You grab the nearest blunt object you can find and promptly knock the [monster name] out before hoisting him/her on your shoulder. It's a little way from here and you don't want the crazy to struggle.[pg]");
+			CaptureANewSisterMerge();
+		}
+		public function CaptureANewSisterMerge():void {
+			outputText("You begin walking all the way to the nearest sacred tree holding the unconscious [monster guy] on your shoulder. You instinctively know which tree is what thanks to their leaf coloration and patterns and it doesn't take you long to find the elven territory border. You pull up the human and offer it to the nearest tree which hungrily opens up, its tentacle like vines seizing the offering just as [themonster] finally wakes up in time for a panicked scream. You can feel the comforting approval within its groaning bark as [themonster] is dragged kicking and screaming, you are a good daughter.[pg]");
+			outputText("A few seconds later silence reigns again in the forest and you can all too well imagine all the delight your newest sister is experiencing right now behind the bark lid. After all, you did get to experience it firsthand. A little hot from the whole imagery you lie next to the tree bark and begin feverishly masturbating when the new elf is finally expelled from the tree womb through the wooden knot you now know to be the tree vaginal lips, guess your own fun can wait for later.[pg]");
+			outputText("The new girl comes out just right heck if not for a few variations she could very well be a copy of you. With a few reassuring words you gently grab the hands of the new girl and guide her all the way to the village. Merisiel sees you walk around with a new sister in tow, come over to you.[pg]");
+			outputText("\"<i>Oh my! You actually found a new one! Want me to pick her up for you?</i>~♥\"[pg]");
+			outputText("You know her well, she just can't resist a new girl, especially when she's cute. Sure she can have her, though that means she's taking responsibility for taking care of her for the first few weeks until the ceremony.[pg]");
+			outputText("\"<i>Why this is no problem sister. Feel free to bring more like her here, we will take good care of them.</i>\"[pg]");
+			outputText("With a sense of duty accomplished you leave back for your camp. The fruit of your labor will probably come apparent only within a few days when the new sister formally joins the community. For now it's off to adventures with you![pg]");
+			CapturedSisters.push(7);
+			cleanupAfterCombat();
+		}
+		public function ConvertNewSisters():Boolean {
+			var needNext:Boolean;
+			for (var sister:int = CapturedSisters.length-1; sister >= 0; sister--) {
+				if (--CapturedSisters[sister] <= 0){
+					ConvertedSisters++;
+					CapturedSisters.removeAt(sister);
+					outputText("\nYou sense one of your new elf sisters has completed the covenant.\n");
+					needNext = true;
+				}
+			}
+			for (var herm:int = CapturedHerms.length-1; herm >= 0; herm--) {
+				if (--CapturedHerms[herm] == 0){
+					ConvertedHerms++;
+					CapturedHerms.removeAt(herm);
+					outputText("\nYou sense one of your new elf sisters has completed the covenant.\n");
+					needNext = true;
+				}
+			}
+			if (needNext) {
+				if (!player.hasPerk(PerkLib.OneWiththeForest)) {
+					outputText("<b>You acquired the Perk One with the forest</b>.");
+					player.createPerk(PerkLib.OneWiththeForest, 1, 0, 0, 0);
+					player.statStore.addBuffObject({
+						"str.mult": 0.01,
+						"tou.mult": 0.01,
+						"spe.mult": 0.01,
+						"int.mult": 0.01,
+						"wis.mult": 0.01,
+						"lib.mult": 0.01
+					}, 'Elf Sisters', {text: 'Elf Sisters'});
+				}
+				player.ElfSistersBonus();
+			}
+			return needNext;
 		}
 	}
 }

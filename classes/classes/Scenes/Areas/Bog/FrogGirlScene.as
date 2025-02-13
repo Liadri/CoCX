@@ -32,7 +32,7 @@ public function findTheFrogGirl():void {
 	flags[kFLAGS.TIMES_ENCOUNTERED_FROG]++;
 	outputText("\n\nDo you follow the music into the arms of the frog girl, or resist her melody?");
 	menu();
-	addButton(0,"Follow",followDatFrog);
+	addButtonIfTrue(0,"Follow",followDatFrog,"Can't have any current active butt pregnancies.", player.buttPregnancyIncubation == 0);
 	addButton(1,"Resist",resistDatFrog);
 }
 
@@ -73,6 +73,7 @@ private function getFrogButtFilled():void {
 	outputText("\n\nYou don your [armor] with some difficulty over your massive stomach, and venture back towards your camp, a little sore, but wiser for the ordeal.");
 	dynStats("int", 1);
 	player.buttKnockUp(PregnancyStore.PREGNANCY_FROG_GIRL, PregnancyStore.INCUBATION_FROG_GIRL, 1, 1);
+	explorer.stopExploring();
 	doNext(camp.returnToCampUseTwoHours);
 }
 
@@ -95,18 +96,17 @@ private function resistDatFrog():void {
 	addButton(4,"Leave",leaveFrogBe);
 	
 }
-
-	private function ignoreForever():void{
-		clearOutput();
-		outputText("You turn around and walk away, leaving the frog-girl to lure another unwary victim to warm her eggs.");
-		flags[kFLAGS.TIMES_ENCOUNTERED_FROG] = -1;
-		doNext(camp.returnToCampUseOneHour);
-	}
+private function ignoreForever():void{
+	clearOutput();
+	outputText("You turn around and walk away, leaving the frog-girl to lure another unwary victim to warm her eggs.");
+	flags[kFLAGS.TIMES_ENCOUNTERED_FROG] = -1;
+	endEncounter();
+}
 //Leave her be:
 private function leaveFrogBe():void {
 	clearOutput();
 	outputText("You shrug and leave the pouting frog girl in her pond, hopping back down the terrace of pools and walking back towards your camp, hoping that your [hair] will dry by the time you get back.");
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 //Question the frog girl:
 private function questDatFrogGirl():void {
@@ -131,7 +131,7 @@ private function continueOnYourWay():void {
 	clearOutput();
 	outputText("You nod in sympathy, patting the frog girl on her head, but decide not to inquire any further.  She sighs and sinks down further into the water, resigned to her maternal duties.");
 	outputText("\n\nYou leave down the terrace of pools, heading back to your camp.");
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 //Offer to carry her eggs:
@@ -173,7 +173,7 @@ private function voluntarilyGetEggedEpilogue():void {
 	//[Anal stretch +1/Anal Moistness +1, sensitivity +1, corruption -1]
 	player.buttKnockUp(PregnancyStore.PREGNANCY_FROG_GIRL, PregnancyStore.INCUBATION_FROG_GIRL, 1, 1);
 	dynStats("sen", 1, "cor", -1);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 //Teach Her a Lesson
 private function teachDatFrogALesson():void {
@@ -195,6 +195,7 @@ private function lessonFollowup():void {
 	outputText("You wake up two hours later, floating alone in the pool, with a migraine and soggy clothes.  You slog your way out, clutching your head, and head back to camp.");
 	//[Toughness -1]
 	player.addCurse("tou", 1, 2);
+	explorer.stopExploring();
 	doNext(camp.returnToCampUseTwoHours);
 }
 
@@ -239,11 +240,11 @@ private function superBonusFrogEggsInYerCooch():void {
 	player.sexReward("Default","Default",true,false);
 	dynStats("sen", 1);
 	player.knockUp(PregnancyStore.PREGNANCY_FROG_GIRL, PregnancyStore.INCUBATION_FROG_GIRL, 1, 1);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 //Vaginal Egg birth
-public function layFrogEggs():void {
+public function layFrogEggs(womb:int = 0):void {
 	outputText("You shudder as you feel the familiar tingle of stimulant slime running down your thighs.");
 	outputText("\n\nAs your swollen belly churns, the instinctive need for water ripples through you.");
 	outputText("\n\nYou hustle to the banks of the campside stream as quickly as your pregnant belly will allow, splashing down waist-deep in the water.  The coolness eases your urgency as you shift your [ass] against the smooth stones of the riverbed.  Groaning, you close your eyes and clutch at your stomach, a sharp ache throbbing between your legs.");
@@ -256,7 +257,7 @@ public function layFrogEggs():void {
 	outputText("\n\n\"<i>Let’s relax your muscles and free your mind, dear,</i>\" says the frog girl with a smile.  You try to focus on her, but yours eyes just seem to cross and uncross on their own.  Her slick lips press against yours once more, and you feel a massive load of her slime force its way into your mouth, her muscular tongue right behind it.");
 	outputText("\n\nLacking the muscle control to resist, you swallow, your vision brightening with dancing motes of light and swirls of color.  You barely feel her lips pull away, but you feel the trickle of slime as it runs down your chin and onto your [chest].");
 	outputText("\n\nThe forest around you turns upside down as you lean forward and giggle, trying to make sense of what’s going on.  You feel your pussy stretch wider and wider, but there’s no pain, just a warm numbness and happy clouds at the corners of your eyes.  Between your legs you catch sight of the frog girl’s fingertips pushing between your lips, gently cradling large, grapefruit-sized eggs as they squish out of your body.");
-	player.cuntChange(80,true,true,false);
+	player.cuntChange(80,true,true,false, womb);
 	outputText("\n\nYou lose count of the squishy eggs passing through your vagina, distracted by the mesmerizing way they bob along in the water, anchored to the frog girl’s side.");
 	outputText("\n\nYou don’t even remember passing out, only awaking to the familiar sound of humming.  A chorus of alluring chirrups suffuses the air as you open your eyes.  Blinking to clear your vision, you find yourself lying atop a patch of riverbank ferns.");
 	outputText("\n\n\"<i>Sorry, did we wake you up?</i>\" queries the voice of the frog girl.  You push yourself up, seeing her floating mid-stream, surrounded by a half-dozen frog girl nymphs. From the waist-up, they’re miniature versions of their mother with varying haircolors, but from the waist down, they resemble large tadpoles.  No more than  few feet long, they bob along next to their mother as she conducts their song.");
@@ -272,8 +273,8 @@ public function layFrogEggs():void {
 	outputText("\n\nWith a wince, you head back to camp, hoping that the frog slime hasn’t affected you permanently.");
 	
 	//[Vaginal gape +1/Vaginal Moistness +1/Hips +1, Sensitivity +1]
-	if(player.vaginas[0].vaginalWetness < VaginaClass.WETNESS_SLAVERING) {
-		player.vaginas[0].vaginalWetness++;
+	if(player.vaginas[womb].vaginalWetness < VaginaClass.WETNESS_SLAVERING) {
+		player.vaginas[womb].vaginalWetness++;
 		outputText("  It rapidly becomes clear that it has.  <b>Your pussy is wetter than ever.</b>");
 	}
 	if(player.hips.type < 25) {
@@ -282,7 +283,7 @@ public function layFrogEggs():void {
 	}
 	player.sexReward("Default","Default",true,false);
 	dynStats("sen", 1);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 }
 }

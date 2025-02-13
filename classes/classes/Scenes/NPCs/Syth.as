@@ -40,7 +40,6 @@ public class Syth extends Monster
 			damage *= 2;
 			outputText(capitalA + short + " lift it weapons with all his strength and smash them on your head. ");
 			if(damage > 0) damage = player.takePhysDamage(damage, true);
-			statScreenRefresh();
 			outputText("\n");
 		}
 		
@@ -48,29 +47,9 @@ public class Syth extends Monster
 			var damage:Number;
 			//return to combat menu when finished
 			doNext(EventParser.playerMenu);
-			//Blind dodge change
-			if(hasStatusEffect(StatusEffects.Blind) && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you with a blind attack!\n");
-				return;
-			}
 			//Determine if dodged!
-			if(player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 83) {
+			if(player.getEvasionRoll()) {
 				outputText("The salamander rushes at you, knocking aside your defensive feint and trying to close the distance between you.  He lashes out at your feet with his tail, and you're only just able to dodge the surprise attack.");
-				return;
-			}
-			//Determine if evaded
-			if(player.hasPerk(PerkLib.Evade) && rand(100) < 5) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s tail-swipe.\n");
-				return;
-			}
-			//("Misdirection"
-			if(player.hasPerk(PerkLib.Misdirection) && rand(100) < 5 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				outputText("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' tail-swipe.\n");
-				return;
-			}
-			//Determine if cat'ed
-			if(player.hasPerk(PerkLib.Flexibility) && rand(100) < 3) {
-				outputText("With your incredible flexibility, you squeeze out of the way of a tail-swipe!");
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
@@ -92,7 +71,6 @@ public class Syth extends Monster
 				}
 			}
 			if(damage > 0) damage = player.takeFireDamage(damage, true);
-			statScreenRefresh();
 			outputText("\n");
 		}
 		
@@ -100,8 +78,7 @@ public class Syth extends Monster
 			outputText("Salamander start drawing symbols in the air toward you.");
 			var lustDmg:Number = this.lust / 10 + this.lib / 10 + this.inte / 10 + this.wis / 10 + this.sens / 10;
 			lustDmg = Math.round(lustDmg);
-			player.dynStats("lus", lustDmg, "scale", false);
-			outputText(" <b>(<font color=\"#ff00ff\">" + lustDmg + "</font>)</b>");
+			player.takeLustDamage(lustDmg, true);
 		}
 		
 		/*private function sythAttack4():void {
@@ -212,7 +189,6 @@ public class Syth extends Monster
 			this.bonusLust = 175;
 			this.lust = 30;
 			this.lustVuln = .2;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.level = 30;
 			this.gems = 40 + rand(12);
 			this.drop = new ChainedDrop().

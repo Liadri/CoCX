@@ -1,4 +1,5 @@
 package classes.Scenes.Combat.SpellsWhite {
+import classes.Items.ItemConstants;
 import classes.PerkLib;
 import classes.Scenes.Combat.AbstractWhiteSpell;
 import classes.Scenes.Combat.CombatAbilities;
@@ -8,7 +9,7 @@ public class ChargeWeaponSpell extends AbstractWhiteSpell {
 	public function ChargeWeaponSpell() {
 		super(
 			"Charge Weapon",
-			"The Charge Weapon spell will surround your weapons in electrical energy, causing them to do even more damage.  The effect lasts for a few combat turns.",
+			"The Charge Weapon spell will surround your weapons in magical energy, causing them to do even more damage.  The effect lasts for a few combat turns.",
 			TARGET_SELF,
 			TIMING_LASTING,
 			[TAG_BUFF]
@@ -54,21 +55,21 @@ public class ChargeWeaponSpell extends AbstractWhiteSpell {
 	}
 	
 	private function weaponSizeBoost():Number {
-		var ab12:Number = 1;
-		if (player.weaponSpecials("") || player.weaponSpecials("Dual")) ab12 *= 2;
-		if (player.weaponSpecials("Hybrid")) ab12 *= 2.5;
-		if (player.weaponSpecials("Large") || player.weaponSpecials("Dual Large")) ab12 *= 3;
-		if (player.weaponSpecials("Massive")) ab12 *= 4;
+		var ab12:Number = 2;
 		if (player.weapon == weapons.MGSWORD) ab12 *= 2;
 		return ab12;
 	}
 	
 	private function weaponSizeManaCost():Number {
-		var ba21:Number = 1;
-		if (player.weaponSpecials("") || player.weaponSpecials("Dual Small")) ba21 *= 2;
-		if (player.weaponSpecials("Hybrid")) ba21 *= 3;
-		if (player.weaponSpecials("Large") || player.weaponSpecials("Dual")) ba21 *= 4;
-		if (player.weaponSpecials("Massive") || player.weaponSpecials("Dual Large")) ba21 *= 8;
+		var ba21:Number = 0;
+		if (player.weapon.isHybrid()) ba21 += 3;
+		if (player.weapon.isSingleMedium()) ba21 += 2;
+		if (player.weaponOff.isSingleMedium()) ba21 += 2;
+		if (player.weapon.isSingleLarge()) ba21 += 4;
+		if (player.weaponOff.isSingleLarge()) ba21 += 4;
+		if (player.weapon.isSingleMassive()) ba21 += 8;
+		if (player.weaponOff.isSingleMassive()) ba21 += 8;
+		if (ba21 < 1) ba21 = 1;
 		return ba21;
 	}
 	
@@ -97,7 +98,7 @@ public class ChargeWeaponSpell extends AbstractWhiteSpell {
 			ChargeWeaponBoostCap *= 2;
 			ChargeWeaponBoost *= 2;
 		}
-		//ChargeWeaponBoost += Math.round(player.intStat.max * 0.1); - może tylko jak bedzie mieć perk z prestige job: magus/warock/inny związany z spells
+		//ChargeWeaponBoost += Math.round(player.intStat.max * 0.1); - może tylko jak bedzie mieć perk z prestige job: magus/warock/inny związany z spells (maybe only when they have a perk from the prestige job: magus/warlock/another related to spells)
 		if (player.hasPerk(PerkLib.JobEnchanter)) ChargeWeaponBoost *= 1.2;
 		ChargeWeaponBoost *= spellModWhite();
 		//ChargeWeaponBoost = FnHelpers.FN.logScale(ChargeWeaponBoost,ChargeWeaponABC,10);
@@ -108,7 +109,7 @@ public class ChargeWeaponSpell extends AbstractWhiteSpell {
 		ChargeWeaponDuration += combat.magic.perkRelatedDurationBoosting();
 		
 		if(output) {
-			outputText("You whisper a short spell, pouring mana into your [weapon].  Electric energy sparks to life, surrounding your [weapon] in a halo of lightning-themed pain. You'll do more damage for the rest of the fight");
+			outputText("You whisper the brief spell, the words of power cause mana to pour into your weapon as sparks of electricity burst into being. A halo of lightning crackles, surrounding your [weapon] with a fierce, magical charge, allowing it to deal more damage.");
 		}
 		player.createStatusEffect(StatusEffects.ChargeWeapon, ChargeWeaponBoost, ChargeWeaponDuration, 0, 0);
 	}

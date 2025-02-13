@@ -13,51 +13,38 @@ import classes.BodyParts.Tail;
 
     public class KitsuneThyroidGlandMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Kitsune Thyroid Gland";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Illusion & Terror -3CD";
+                descS += "Illusion and Terror cooldown reduced by 3 turns";
             }
             if (pTier >= 2){
-                descS += ", FoxFire +50% damage (fire and lust)";
+                descS += ", 50% reduced costs for Illusion and Terror";
             }
             if (pTier >= 3){
-                descS += ", +20% Evasion to Illusion, +50 speed debuff to Terror target, +SF/Mana regen (Star Sphere rank x3/2 respectively), increase Star Sphere Max to 20";
+                descS += ", speed debuff from Terror increased to 70, evasion boost from Illusion increased by 30%";//add some more effects to both specials
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)) {
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Kitsune Thyroid Gland " + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
                     this.requireThyroidGlandMutationSlot()
-                    .requireAnyPerk(PerkLib.EnlightenedKitsune, PerkLib.CorruptedKitsune)
+                    .requireAnyPerk(PerkLib.EnlightenedKitsune, PerkLib.CorruptedKitsune, PerkLib.StarSphereMastery)
                     .requireCustomFunction(function (player:Player):Boolean {
-                        return player.tailType == Tail.FOX && player.tailCount >= 2;
-                    }, "2+ fox tails");
+                        return (player.tailType == Tail.FOX || player.tailType == Tail.KITSHOO) && player.tailCount >= 2;
+                    }, "2+ fox/kitsumori tails");
                 }
                 else{
                     var pLvl:int = pTier * 30;
@@ -68,9 +55,8 @@ import classes.BodyParts.Tail;
             }
         }
 
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) {
                 pBuffs['spe.mult'] = 0.05;
                 pBuffs['wis.mult'] = 0.05;
@@ -89,8 +75,7 @@ import classes.BodyParts.Tail;
 
         //Mutations Buffs
         public function KitsuneThyroidGlandMutation() {
-            super("Kitsune Thyroid Gland IM", "Kitsune Thyroid Gland", ".")
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_THYROID, 3)
         }
 
     }

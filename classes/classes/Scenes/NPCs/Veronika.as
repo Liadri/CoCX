@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Arms;
@@ -22,7 +22,6 @@ import classes.internals.*;
 			damage *= 2;
 			outputText(capitalA + short + " lift it weapon with all her strength and smash it on your head. ");
 			if(damage > 0) damage = player.takePhysDamage(damage, true);
-			statScreenRefresh();
 			outputText("\n");
 		}
 		
@@ -36,7 +35,7 @@ import classes.internals.*;
 			if (choice == 2) eAttack();
 		}
 		
-		public function Veronika() 
+		public function Veronika()
 		{
 			this.a = "the ";
 			this.short = "nekomata";
@@ -50,12 +49,12 @@ import classes.internals.*;
 			this.tallness = 92;
 			this.hips.type = Hips.RATING_CURVY + 4;
 			this.butt.type = Butt.RATING_JIGGLY + 1;
-			this.skinTone = "light";
+			this.bodyColor = "light";
 			this.hairColor = "red";//or crimson (red)?
 			this.hairLength = 39;
 			//if (flags[kFLAGS.RANGIKU_LVL_UP] < 1) {
 				initStrTouSpeInte(110, 120, 100, 200);
-				initWisLibSensCor(200, 250, 200, 50);
+				initWisLibSensCor(200, 250, 200, 0);
 				this.weaponName = "dual large axes";
 				this.weaponVerb="cleaves";
 				this.weaponAttack = 26;
@@ -68,7 +67,6 @@ import classes.internals.*;
 			//}
 			this.lust = 30;
 			this.lustVuln = .35;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 15 + rand(8);
 			this.drop = new ChainedDrop().
 					//add(armors.CHBIKNI,1/20).

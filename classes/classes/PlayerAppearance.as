@@ -4,8 +4,13 @@ import classes.GlobalFlags.kFLAGS;
 import classes.IMutations.IMutationsLib;
 import classes.Races.ElementalRace;
 import classes.Scenes.NPCs.JojoScene;
-import classes.Scenes.SceneLib;
+import classes.Scenes.NPCs.SophieFollowerScene;
 import classes.internals.Utils;
+
+import coc.view.CoCButton;
+import coc.view.Block;
+import coc.view.MainView;
+
 
 public class PlayerAppearance extends BaseContent {
 
@@ -18,9 +23,6 @@ public class PlayerAppearance extends BaseContent {
 	private function init():void {
  	}
 	public function appearance(debug: Boolean = false):void {
- 		//Temp vars
-		var temp:Number = 0;
-		var rando:Number = 0;
 		//Determine race type:
 		clearOutput();
 		mainView.hideComboBox();
@@ -50,7 +52,6 @@ public class PlayerAppearance extends BaseContent {
 					outputText(describeGills() ? Utils.lowerCaseFirstLetter(describeGills()) : "");
 				}
 			}
-			describeVisage();
 			outputText("[pg]" + Utils.mergeSentences([describeArms(), describeLowerBody()]));
 			const wingsDescription: String = describeWings();
 			outputText(wingsDescription ? "[pg]" + wingsDescription : "");
@@ -63,14 +64,14 @@ public class PlayerAppearance extends BaseContent {
 		const crotchDesc: String = describeCrotch();
 		outputText(crotchDesc ? " " + crotchDesc : "");
 		if (player.cocks.length > 1) {
-			outputText("[pg]" + describeCock());
+			outputText("[pg]" + describeCocks());
 			outputText("[pg]" + describeBalls());
 		} else {
-			if (player.hasCock() || player.balls > 0) {
-				outputText("[pg]" + Utils.mergeSentences([describeCock(), describeBalls()]));
+			if (player.hasCock() || player.hasBalls()) {
+				outputText("[pg]" + Utils.mergeSentences([describeCocks(), describeBalls()]));
 			}
 		}
-		const pussyDesc: String = describePussy();
+		const pussyDesc: String = describePussies();
 		outputText(pussyDesc ? "[pg]" + pussyDesc : "");
 		const noSexString: String = (player.cockTotal() == 0 && player.vaginas.length == 0 ? "You have a curious lack of any sexual endowments." : "");
 		if (player.ass || noSexString) {
@@ -86,29 +87,19 @@ public class PlayerAppearance extends BaseContent {
 		outputText("[pg]" + describeGear());
 		//MONEY!
 		outputText("[pg]" + describeMoney());
+		
+		if (debug) return; // don't print buttons if opened from debug menu
+		
 		menu();
 		addButton(0, "Next", playerMenu);
 		if (player.hasPerk(PerkLib.RacialParagon)) addButton(1, "Set Race.", ApexRaceSetting);
 		addButton(2, "Weap View", WeaponDisplay);
+		addButton(3, "Superboob", BoobDisplay);
+		if (player.hasPerk(PerkLib.Lycanthropy) || player.hasPerk(PerkLib.Vulpesthropy) || player.hasPerk(PerkLib.Selachimorphanthropy)) addButton(4, "Were/Human", HumanFormDisplay);
 		addButton(7, "Reflect", campActionsReflect).hint("Reflect on your current state and future plans. (Also would make your body fully adjust to any sudden changes to natural limits of your attributes after eating any odd things and etc.)");
 		addButton(10, "RacialScores", RacialScores);
 		addButton(11, "Gender Set.", GenderForcedSetting);
-		if (player.hasPerk(PerkLib.AuraOfCorruption) || player.hasPerk(PerkLib.AuraOfPurity)) addButton(12, "Aura Set.", toggleHornyHorseyAuraMenu);
 		flushOutputTextToGUI();
-	}
-
-	private function toggleHornyHorseyAuraMenu():void {
-		clearOutput();
-		if (player.hasStatusEffect(StatusEffects.HornyHorseyAuraOff)) {
-			outputText("You would stop suppress your Aura of "+(player.hasPerk(PerkLib.AuraOfCorruption)?"Corruption":"Purity")+".");
-			player.removeStatusEffect(StatusEffects.HornyHorseyAuraOff);
-		}
-		else {
-			outputText("You would start suppress your Aura of "+(player.hasPerk(PerkLib.AuraOfCorruption)?"Corruption":"Purity")+".");
-			player.createStatusEffect(StatusEffects.HornyHorseyAuraOff, 0, 0, 0, 0);
-		}
-		menu();
-		addButton(0, "Back", appearance);
 	}
 
 	public function	WeaponDisplay():void {
@@ -123,9 +114,43 @@ public class PlayerAppearance extends BaseContent {
 		addButton(14, "Back", appearance);
 	}
 
+	public function	BoobDisplay():void {
+		clearOutput();
+		outputText("Do you want to display Breast Bigger then F cup.");
+		if (flags[kFLAGS.BOOB_DISPLAY_FLAG] == 0) outputText("[pg]Display Style: <b>Yes</b>");
+		if (flags[kFLAGS.BOOB_DISPLAY_FLAG] == 1) outputText("[pg]Display Style: <b>No</b>");
+		mainView.hideAllMenuButtons();
+		menu();
+		addButton(0, "Hyper", BoobDisplaySwitch, 0).disableIf(flags[kFLAGS.BOOB_DISPLAY_FLAG] == 0, "Bigger boob disabled");
+		addButton(1, "No Hyper", BoobDisplaySwitch, 1).disableIf(flags[kFLAGS.BOOB_DISPLAY_FLAG] == 1, "Bigger boob enabled");
+		addButton(14, "Back", appearance);
+	}
+
+	public function HumanFormDisplay():void {
+		clearOutput();
+		outputText("Choose if you want were-races to hide their true appearance out of combat.");
+		outputText("[pg]Human Form: <b>" + (player.hasStatusEffect(StatusEffects.HumanForm) ? "On" : "Off") + "</b>");
+		mainView.hideAllMenuButtons();
+		menu();
+		addButton(0, "Human On", HumanFormToggle).disableIf(player.hasStatusEffect(StatusEffects.HumanForm));
+		addButton(1, "Human Off", HumanFormToggle).disableIf(!player.hasStatusEffect(StatusEffects.HumanForm));
+		addButton(14, "Back", appearance);
+	}
+
 	public function	WeaponDisplaySwitch(Display:Number):void {
 		flags[kFLAGS.WEAPON_DISPLAY_FLAG] = Display;
 		WeaponDisplay();
+	}
+
+	public function	BoobDisplaySwitch(Display:Number):void {
+		flags[kFLAGS.BOOB_DISPLAY_FLAG] = Display;
+		BoobDisplay();
+	}
+
+	public function HumanFormToggle():void {
+		if (!player.hasStatusEffect(StatusEffects.HumanForm)) player.createStatusEffect(StatusEffects.HumanForm,1,0,0,0);
+		else player.removeStatusEffect(StatusEffects.HumanForm);
+		HumanFormDisplay();
 	}
 
 	public function ApexRaceSetting():void {
@@ -344,7 +369,7 @@ public class PlayerAppearance extends BaseContent {
 						lowerBodyDesc += " that force you to sway and wiggle as you move, and";
 					if (player.hips.type >= 20) {
 						lowerBodyDesc += " that give your ";
-						if (player.balls > 0)
+						if (player.hasBalls())
 							lowerBodyDesc += "balls plenty of room to breathe";
 						else if (player.hasCock())
 							lowerBodyDesc += player.multiCockDescript() + " plenty of room to swing";
@@ -493,7 +518,7 @@ public class PlayerAppearance extends BaseContent {
 			if(player.skinType == Skin.FUR) {
 				return "You have no hair, only a thin layer of fur atop of your head.";
 			} else {
-				return "You are completely bald, displaying [skintone] [skin.type] where your hair would otherwise be.";
+				return "You are completely bald, displaying [color] [skin.type] where your hair would otherwise be.";
 			}
 		}
 	}
@@ -506,7 +531,10 @@ public class PlayerAppearance extends BaseContent {
 		var specialCasesDesc: String = "";
 
 		if (player.hasStatusEffect(StatusEffects.GooStuffed)) {
-			specialCasesDesc += "[pg]<b>Your gravid-looking belly is absolutely stuffed full of goo. There's no way you can get pregnant like this, but at the same time, you look like some fat-bellied breeder.</b>[pg]";
+			specialCasesDesc += "<b>Your gravid-looking belly is absolutely stuffed full of goo. There's no way you can get pregnant like this, but at the same time, you look like some fat-bellied breeder.</b>[pg]";
+		}
+		if (player.hasStatusEffect(StatusEffects.WormPlugged)) {
+			specialCasesDesc += "<b>Your belly is a bit pudgy and your vagina is inflamed from constant stimulation, and the reason becomes apparent when some of the worms that infest your womb momentarily peek outside. There is no way you are getting pregnant until you get rid of these worms!</b>";
 		}
 
 		return specialCasesDesc;
@@ -514,15 +542,29 @@ public class PlayerAppearance extends BaseContent {
 
 	public function describePregnancy(): String {
 		var temp:Number = 0;
-		var rando:Number = 0;
 		var pregnancyDesc: String = "";
+		var womb:Object;
+		if (player.isPregnant()) {
+			if (player.pregnancyType > 0) {
+				womb = {};
+				womb["womb"] = 0
+				womb["type"] = player.pregnancyType;
+				womb["incubation"] = player.pregnancyIncubation;
+			}
+			if (player.pregnancy2Type > 0 && (player.pregnancyType == 0 || (player.pregnancyIncubation > 0 && player.pregnancy2Incubation < player.pregnancyIncubation))) {
+				womb = {};
+				womb["womb"] = 1
+				womb["type"] = player.pregnancy2Type;
+				womb["incubation"] = player.pregnancy2Incubation;
+			}
+		}
 
-		if((player.buttPregnancyType == PregnancyStore.PREGNANCY_FROG_GIRL) || (player.buttPregnancyType == PregnancyStore.PREGNANCY_SATYR) || player.isPregnant()) {
-			if (player.pregnancyType == PregnancyStore.PREGNANCY_OVIELIXIR_EGGS) {
+		if ((player.isButtPregnant() || player.isPregnant()) && !player.hasStatusEffect(StatusEffects.GooStuffed) && !player.hasStatusEffect(StatusEffects.WormPlugged)) {
+			if (player.isPregnant() && womb["type"] == PregnancyStore.PREGNANCY_OVIELIXIR_EGGS) {
 				pregnancyDesc += "<b>";
 				//Compute size
 				temp = player.statusEffectv3(StatusEffects.Eggs) + player.statusEffectv2(StatusEffects.Eggs) * 10;
-				if(player.pregnancyIncubation <= 50 && player.pregnancyIncubation > 20) {
+				if(womb["incubation"] <= sceneHunter.adjustPregEventTimer(50, womb["type"]) && womb["incubation"] > sceneHunter.adjustPregEventTimer(20, womb["type"])) {
 					pregnancyDesc += "Your swollen pregnant belly is as large as a ";
 					if(temp < 10)
 						pregnancyDesc += "basketball.";
@@ -531,7 +573,7 @@ public class PlayerAppearance extends BaseContent {
 					if(temp >= 20)
 						pregnancyDesc += "beach ball.";
 				}
-				if(player.pregnancyIncubation <= 20) {
+				if(womb["incubation"] <= sceneHunter.adjustPregEventTimer(20, womb["type"])) {
 					pregnancyDesc += "Your swollen pregnant belly is as large as a ";
 					if(temp < 10)
 						pregnancyDesc += "watermelon.";
@@ -541,87 +583,90 @@ public class PlayerAppearance extends BaseContent {
 						pregnancyDesc += "large medicine ball.";
 				}
 				pregnancyDesc += "</b>";
-				temp = 0;
 			}
 			//Satur preggos - only shows if bigger than regular pregnancy or not pregnancy
-			else if (player.buttPregnancyType == PregnancyStore.PREGNANCY_SATYR && player.buttPregnancyIncubation > player.pregnancyIncubation) {
-				if(player.buttPregnancyIncubation < 125 && player.buttPregnancyIncubation >= 75) {
+			else if (player.buttPregnancyType == PregnancyStore.PREGNANCY_SATYR && (!player.isPregnant() || player.buttPregnancyIncubation < womb["incubation"])) {
+				if(player.buttPregnancyIncubation <  sceneHunter.adjustPregEventTimer(128, player.buttPregnancyType) && player.buttPregnancyIncubation >= sceneHunter.adjustPregEventTimer(75, player.buttPregnancyType)) {
 					pregnancyDesc += "<b>You've got the beginnings of a small pot-belly.</b>";
 				}
-				else if(player.buttPregnancyIncubation >= 50) {
+				else if(player.buttPregnancyIncubation >= sceneHunter.adjustPregEventTimer(50, player.buttPregnancyType)) {
 					pregnancyDesc += "<b>The unmistakable bulge of pregnancy is visible in your tummy, yet it feels odd inside you - wrong somehow.</b>";
 				}
-				else if(player.buttPregnancyIncubation >= 30) {
+				else if(player.buttPregnancyIncubation >= sceneHunter.adjustPregEventTimer(30, player.buttPregnancyType)) {
 					pregnancyDesc += "<b>Your stomach is painfully distended by your pregnancy, making it difficult to walk normally.</b>";
 				} else { //Surely Benoit and Cotton deserve their place in this list
-					if (player.pregnancyType == PregnancyStore.PREGNANCY_IZMA || player.pregnancyType == PregnancyStore.PREGNANCY_MOUSE || player.pregnancyType == PregnancyStore.PREGNANCY_AMILY || (player.pregnancyType == PregnancyStore.PREGNANCY_JOJO && (JojoScene.monk <= 0 || flags[kFLAGS.JOJO_BIMBO_STATE] == 3)) || player.pregnancyType == PregnancyStore.PREGNANCY_EMBER || player.pregnancyType == PregnancyStore.PREGNANCY_BENOIT || player.pregnancyType == PregnancyStore.PREGNANCY_COTTON
-					|| player.pregnancyType == PregnancyStore.PREGNANCY_URTA || player.pregnancyType == PregnancyStore.PREGNANCY_BEHEMOTH || player.pregnancyType == PregnancyStore.PREGNANCY_ZENJI)
+					if (womb["type"] == PregnancyStore.PREGNANCY_MARBLE)
+						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging outwards with Marble's precious child.</b>";
+					else if (InCollection(womb["type"], PregnancyStore.PREGNANCY_IZMA, PregnancyStore.PREGNANCY_MOUSE, PregnancyStore.PREGNANCY_AMILY, PregnancyStore.PREGNANCY_EMBER, PregnancyStore.PREGNANCY_BENOIT, PregnancyStore.PREGNANCY_COTTON, PregnancyStore.PREGNANCY_URTA, PregnancyStore.PREGNANCY_BEHEMOTH, PregnancyStore.PREGNANCY_ZENJI) || (womb["type"] == PregnancyStore.PREGNANCY_JOJO && (JojoScene.monk <= 0 || flags[kFLAGS.JOJO_BIMBO_STATE] == 3)))
 						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the spawn of one of this land's natives.</b>";
-					else if(player.pregnancyType != PregnancyStore.PREGNANCY_MARBLE)
-						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>";
-					else pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging outwards with Marble's precious child.</b>";
+					else pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>";
 				}
+			} else if (player.isButtPregnant()) {
+				if(player.buttPregnancyIncubation <= sceneHunter.adjustPregEventTimer(8, player.buttPregnancyType) && player.buttPregnancyType == PregnancyStore.PREGNANCY_FROG_GIRL)
+					pregnancyDesc += "<b>Your stomach is so full of frog eggs that you look about to birth at any moment, your belly wobbling and shaking with every step you take, packed with frog ovum.</b>";
+				else if (player.buttPregnancyType != PregnancyStore.PREGNANCY_GOO_STUFFED) pregnancyDesc += "<b>You're stuffed so full with eggs that your belly looks obscenely distended, huge and weighted with the gargantuan eggs crowding your gut. They make your gait a waddle and your gravid tummy wobble obscenely.</b>";
 			}
 			//URTA PREG
-			else if (player.pregnancyType == PregnancyStore.PREGNANCY_URTA) {
-				if(player.pregnancyIncubation <= 432 && player.pregnancyIncubation > 360) {
+			else if ((womb["type"] == PregnancyStore.PREGNANCY_URTA)) {
+				if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(432, womb["type"]) && womb["incubation"] > sceneHunter.adjustPregEventTimer(360, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is larger than it used to be.</b>\n";
 				}
-				if(player.pregnancyIncubation <= 360 && player.pregnancyIncubation > 288) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(288, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is more noticeably distended. You're pretty sure it's Urta's.</b>";
 				}
-				if(player.pregnancyIncubation <= 288 && player.pregnancyIncubation > 216) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(216, womb["type"])) {
 					pregnancyDesc += "<b>The unmistakable bulge of pregnancy is visible in your tummy, and the baby within is kicking nowadays.</b>";
 				}
-				if(player.pregnancyIncubation <= 216 && player.pregnancyIncubation > 144) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(144, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is large and very obviously pregnant to anyone who looks at you. It's gotten heavy enough to be a pain to carry around all the time.</b>";
 				}
-				if(player.pregnancyIncubation <= 144 && player.pregnancyIncubation > 72) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(72, womb["type"])) {
 					pregnancyDesc += "<b>It would be impossible to conceal your growing pregnancy from anyone who glanced your way. It's large and round, frequently moving.</b>";
 				}
-				if(player.pregnancyIncubation <= 72 && player.pregnancyIncubation > 48) {
+				else if (womb["incubation"] > sceneHunter.adjustPregEventTimer(48, womb["type"])) {
 					pregnancyDesc += "<b>Your stomach is painfully distended by your pregnancy, making it difficult to walk normally.</b>";
 				}
-				if(player.pregnancyIncubation <= 48) {
-					pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the spawn of one of this land's natives.</b>";
+				else {
+					pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the Urta's Kids.</b>";
 				}
-			} else if (player.buttPregnancyType == PregnancyStore.PREGNANCY_FROG_GIRL) {
-				if(player.buttPregnancyIncubation >= 8)
-					pregnancyDesc += "<b>Your stomach is so full of frog eggs that you look about to birth at any moment, your belly wobbling and shaking with every step you take, packed with frog ovum.</b>";
-				else pregnancyDesc += "<b>You're stuffed so full with eggs that your belly looks obscenely distended, huge and weighted with the gargantuan eggs crowding your gut. They make your gait a waddle and your gravid tummy wobble obscenely.</b>";
-			} else if (player.pregnancyType == PregnancyStore.PREGNANCY_FAERIE) { //Belly size remains constant throughout the pregnancy
+			} else if (womb["type"] == PregnancyStore.PREGNANCY_FAERIE) { //Belly size remains constant throughout the pregnancy
 				pregnancyDesc += "<b>Your belly remains swollen like a watermelon. ";
-				if (player.pregnancyIncubation <= 100)
+				if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(100, womb["type"]))
 					pregnancyDesc += "It's full of liquid, though unlike a normal pregnancy the passenger you’re carrying is tiny.</b>";
-				else if (player.pregnancyIncubation <= 140)
+				else if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(140, womb["type"]))
 					pregnancyDesc += "It feels like it’s full of thick syrup or jelly.</b>";
 				else pregnancyDesc += "It still feels like there’s a solid ball inside your womb.</b>";
+			} else if (womb["type"] == PregnancyStore.PREGNANCY_HARPY_HATCHING) {
+				pregnancyDesc += "You eagerly await the hatching of your harpy egg at camp. You feel it should hatch ";
+				if (7 - SophieFollowerScene.HarpyEggDay > 0)  pregnancyDesc += "in " + (7 - SophieFollowerScene.HarpyEggDay) + " days.";
+				else pregnancyDesc += "tomorrow.";
 			} else {
-				if(player.pregnancyIncubation <= 336 && player.pregnancyIncubation > 280) {
+				if (womb["incubation"] <= sceneHunter.adjustPregEventTimer(336, womb["type"]) && womb["incubation"] > sceneHunter.adjustPregEventTimer(280, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is larger than it used to be.</b>";
 				}
-				if(player.pregnancyIncubation <= 280 && player.pregnancyIncubation > 216) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(216, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is more noticeably distended. You are probably pregnant.</b>";
 				}
-				if(player.pregnancyIncubation <= 216 && player.pregnancyIncubation > 180) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(180, womb["type"])) {
 					pregnancyDesc += "<b>The unmistakable bulge of pregnancy is visible in your tummy.</b>";
 				}
-				if(player.pregnancyIncubation <= 180 && player.pregnancyIncubation > 120) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(120, womb["type"])) {
 					pregnancyDesc += "<b>Your belly is very obviously pregnant to anyone who looks at you.</b>";
 				}
-				if(player.pregnancyIncubation <= 120 && player.pregnancyIncubation > 72) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(72, womb["type"])) {
 					pregnancyDesc += "<b>It would be impossible to conceal your growing pregnancy from anyone who glanced your way.</b>";
 				}
-				if(player.pregnancyIncubation <= 72 && player.pregnancyIncubation > 48) {
+				else if(womb["incubation"] > sceneHunter.adjustPregEventTimer(48, womb["type"])) {
 					pregnancyDesc += "<b>Your stomach is painfully distended by your pregnancy, making it difficult to walk normally.</b>";
 				}
-				if (player.pregnancyIncubation <= 48) { //Surely Benoit and Cotton deserve their place in this list
-					if (player.pregnancyType == PregnancyStore.PREGNANCY_IZMA || player.pregnancyType == PregnancyStore.PREGNANCY_MOUSE || player.pregnancyType == PregnancyStore.PREGNANCY_AMILY || (player.pregnancyType == PregnancyStore.PREGNANCY_JOJO && JojoScene.monk <= 0) || player.pregnancyType == PregnancyStore.PREGNANCY_EMBER || player.pregnancyType == PregnancyStore.PREGNANCY_BENOIT || player.pregnancyType == PregnancyStore.PREGNANCY_COTTON
-					|| player.pregnancyType == PregnancyStore.PREGNANCY_URTA || player.pregnancyType == PregnancyStore.PREGNANCY_MINERVA || player.pregnancyType == PregnancyStore.PREGNANCY_BEHEMOTH || player.pregnancyType == PregnancyStore.PREGNANCY_ZENJI)
+				else { //Surely Benoit and Cotton deserve their place in this list
+					if (womb["type"] == PregnancyStore.PREGNANCY_MARBLE)
+						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging outwards with Marble's precious child.</b>";
+					else if (InCollection(womb["type"], PregnancyStore.PREGNANCY_IZMA, PregnancyStore.PREGNANCY_MOUSE, PregnancyStore.PREGNANCY_AMILY, PregnancyStore.PREGNANCY_EMBER, PregnancyStore.PREGNANCY_BENOIT, PregnancyStore.PREGNANCY_COTTON, PregnancyStore.PREGNANCY_URTA, PregnancyStore.PREGNANCY_BEHEMOTH, PregnancyStore.PREGNANCY_ZENJI) || (womb["type"] == PregnancyStore.PREGNANCY_JOJO && (JojoScene.monk <= 0 || flags[kFLAGS.JOJO_BIMBO_STATE] == 3)))
 						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the spawn of one of this land's natives.</b>";
-					else if (player.pregnancyType != PregnancyStore.PREGNANCY_MARBLE)
-						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>";
-					else pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging outwards with Marble's precious child.</b>";
+					else if (womb["type"] == PregnancyStore.PREGNANCY_HARPY_EGGS)
+						pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with your harpy eggs.</b>";
+					else pregnancyDesc += "<b>Your belly protrudes unnaturally far forward, bulging with the unclean spawn of some monster or beast.</b>";
 				}
 			}
 		}
@@ -631,7 +676,6 @@ public class PlayerAppearance extends BaseContent {
 
 	public function describeBreasts(): String {
 		var temp:Number = 0;
-		var rando:Number = 0;
 		var breastsDesc: String = "";
 
 		if(player.breastRows.length == 1) {
@@ -678,8 +722,7 @@ public class PlayerAppearance extends BaseContent {
 		return LowerBody.getCrotchDescription(player);
 	}
 
-	public function describeCock(): String {
-		var temp:Number = 0;
+	public function describeCocks(): String {
 		var rando:Number = 0;
 		var cockDesc: String = "";
 
@@ -701,64 +744,7 @@ public class PlayerAppearance extends BaseContent {
 			cockDesc += "Where a penis would normally be located, you have instead grown " + player.multiCockDescript() + "!";
 			for (var cock_index:int = 0; cock_index < player.cocks.length; cock_index++) {
 				rando++;
-				// How to start the sentence?
-				if (player.cocks.length == 1) cockDesc += "Your ";
-				else if (cock_index == 0) cockDesc += "--Your first ";
-				else if (rando % 5 == 0) cockDesc += "\n--The next ";
-				else if (rando % 5 == 1) cockDesc += "\n--The " + num2Text2(cock_index+1) + " of your ";
-				else if (rando % 5 == 2) cockDesc += "\n--One of your ";
-				else if (rando % 5 == 3) cockDesc += "\n--The " + num2Text2(cock_index+1) + " ";
-				else if (rando % 5 == 4) cockDesc += "\n--Another of your ";
-				// How large?
-				cockDesc += player.cockDescript(cock_index) + ((rando % 5) % 3 == 0 || cock_index == 0 ? "":"s") + " is " + inchesOrCentimetres(player.cocks[cock_index].cockLength) + " long and ";
-				cockDesc += inchesOrCentimetres(player.cocks[cock_index].cockThickness);
-				if (rando % 3 == 0) cockDesc += " wide.";
-				else if (rando % 3 == 1) cockDesc += " thick.";
-				else if (rando % 3 == 2) cockDesc += " in diameter.";
-				// What flavor of cock do you have?
-				switch (player.cocks[cock_index].cockType) {
-					case CockTypesEnum.HORSE: cockDesc += " It's mottled black and brown in a very animalistic pattern. The 'head' of its shaft flares proudly, just like a horse's."; break;
-					case CockTypesEnum.DOG: cockDesc += " It is shiny, pointed, and covered in veins, just like a large dog's cock."; break;
-					case CockTypesEnum.WOLF: cockDesc += " It is shiny red, pointed, and covered in veins, just like a large wolf's cock."; break;
-					case CockTypesEnum.FOX: cockDesc += " It is shiny, pointed, and covered in veins, just like a large fox's cock."; break;
-					case CockTypesEnum.DEMON: cockDesc += " The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused. The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins."; break;
-					case CockTypesEnum.TENTACLE: cockDesc += " The entirety of its green surface is covered in perspiring beads of slick moisture. It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused."; break;
-					case CockTypesEnum.STAMEN: cockDesc += " It is dark green, tampered, and crowned by several colorful balls near the tip that secrete pollen when aroused."; break;
-					case CockTypesEnum.CAT: cockDesc += " It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip. Each of the spines is soft and flexible, and shouldn't be painful for any of your partners."; break;
-					case CockTypesEnum.LIZARD: cockDesc += " It's a deep, iridescent purple in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps."; break;
-					case CockTypesEnum.CAVE_WYRM: cockDesc += " It's a deep, glowing neon blue in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps. It also regularly drips the acidic substance that serves as your cum. In the event you need to fertilise more fragile partner you can slightly alter the composition of your cum to prevent disolving their flesh."; break;
-					case CockTypesEnum.CANCER: 	 cockDesc += " It constantly drips and produce bubbles."; break;
-					case CockTypesEnum.ANEMONE: cockDesc += " The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload. At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners."; break;
-					case CockTypesEnum.KANGAROO: cockDesc += " It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot."; break;
-					case CockTypesEnum.DRAGON: cockDesc += " With its tapered tip, there are few holes you wouldn't be able to get into. It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would."; break;
-					case CockTypesEnum.BEE: cockDesc += " It's a long, smooth black shaft that's rigid to the touch. Its base is ringed with a layer of " + shortSuffix(4) + " long soft bee hair. The tip has a much finer layer of short yellow hairs. The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it."; break;
-					case CockTypesEnum.PIG: cockDesc += " It's bright pinkish red, ending in a prominent corkscrew shape at the tip."; break;
-					case CockTypesEnum.AVIAN: cockDesc += " It's a red, tapered cock that ends in a tip. It rests nicely in a sheath."; break;
-					case CockTypesEnum.RHINO: cockDesc += " It's a smooth, tough pink colored and takes on a long and narrow shape with an oval shaped bulge along the center."; break;
-					case CockTypesEnum.ECHIDNA: cockDesc += " It is quite a sight to behold, coming well-equipped with four heads."; break;
-					case CockTypesEnum.RED_PANDA: cockDesc += " It lies protected in a soft, fuzzy sheath."; break;
-					case CockTypesEnum.OOMUKADE: cockDesc += " It constantly drips with venom."; break;
-					case CockTypesEnum.USHI_ONI: cockDesc += " It's starfish tipped shaft."; break;
-					case CockTypesEnum.MINDBREAKER: cockDesc += " Hidden in a slit along with the rest of your male equipment, it constantly fills with your thick green slimy cum, to the point that your cum constantly leaks out of your genital slit, leaving a sticky trail of green \"slime\" in your wake."; break;
-					default: //Nothing here, move along!
-				}
-				// Knot?
-				if (player.cocks[cock_index].knotMultiplier > 1) {
-					if (player.cocks[cock_index].knotMultiplier >= 1.8)
-						cockDesc += " The obscenely swollen lump of flesh near the base of your " + player.cockDescript(cock_index) + " looks almost comically mismatched for your cock.";
-					else if (player.cocks[cock_index].knotMultiplier >= 1.4)
-						cockDesc += " A large bulge of flesh nestles just above the bottom of your " + player.cockDescript(cock_index) + ", to ensure it stays where it belongs during mating.";
-					else // knotMultiplier < 1.4
-						cockDesc += " A small knot of thicker flesh is near the base of your " + player.cockDescript(cock_index) + ", ready to expand to help you lodge it inside a female.";
-					cockDesc += " The knot is " + inchesOrCentimetres(player.cocks[cock_index].cockThickness * player.cocks[cock_index].knotMultiplier) + " thick when at full size.";
-				}
-				// Sock Flavor
-				if (player.cocks[cock_index].sock != "" && player.cocks[cock_index].sock != null){
-					// I dunno what was happening, but it looks like .sock is null, as it doesn't exist. I guess this is probably more left over from some of the restucturing.
-					// Anyways, check against null values, and stuff works again.
-					//trace("Found a sock description (WTF even is a sock?)", player.cocks[cock_index].sock);
-					cockDesc += sockDescript(cock_index);
-				}
+				cockDesc += describeCock(cock_index, rando);
 			}
 			//Worm flavor
 			if (player.hasStatusEffect(StatusEffects.Infested)) cockDesc += " Every now and again slimy worms coated in spunk slip partway out of your " + player.multiCockDescriptLight() + ", tasting the air like tongues of snakes";
@@ -767,12 +753,81 @@ public class PlayerAppearance extends BaseContent {
 		return cockDesc;
 	}
 
+	public function describeCock(cock_index:int = 0, rando:int = 0): String {
+		var cockDesc:String = ""
+		if (cock_index >= player.cocks.length) return cockDesc;
+		if (rando == 0)
+			rando = rand(100);
+		// How to start the sentence?
+		if (player.cocks.length == 1) cockDesc += "Your ";
+		else if (cock_index == 0) cockDesc += "\n--Your first ";
+		else if (rando % 5 == 0) cockDesc += "\n--The next ";
+		else if (rando % 5 == 1) cockDesc += "\n--The " + num2Text2(cock_index+1) + " of your ";
+		else if (rando % 5 == 2) cockDesc += "\n--One of your ";
+		else if (rando % 5 == 3) cockDesc += "\n--The " + num2Text2(cock_index+1) + " ";
+		else if (rando % 5 == 4) cockDesc += "\n--Another of your ";
+		// How large?
+		cockDesc += player.cockDescript(cock_index) + ((rando % 5) % 3 == 0 || cock_index == 0 ? "":"s") + " is " + inchesOrCentimetres(player.cocks[cock_index].cockLength) + " long and ";
+		cockDesc += inchesOrCentimetres(player.cocks[cock_index].cockThickness);
+		if (rando % 3 == 0) cockDesc += " wide.";
+		else if (rando % 3 == 1) cockDesc += " thick.";
+		else if (rando % 3 == 2) cockDesc += " in diameter.";
+		cockDesc += " You estimate its area to be about " + Math.round(player.cockArea(cock_index)) + ".";
+		// What flavor of cock do you have?
+		switch (player.cocks[cock_index].cockType) {
+			case CockTypesEnum.HORSE: cockDesc += " It's mottled black and brown in a very animalistic pattern. The 'head' of its shaft flares proudly, just like a horse's."; break;
+			case CockTypesEnum.KIRIN: cockDesc += " It's a glowing pale blue in color. The 'head' of its shaft flares proudly, just like a horse's."; break;
+			case CockTypesEnum.DOG: cockDesc += " It is shiny, pointed, and covered in veins, just like a large dog's cock."; break;
+			case CockTypesEnum.WOLF: cockDesc += " It is shiny red, pointed, and covered in veins, just like a large wolf's cock."; break;
+			case CockTypesEnum.RAIJU: cockDesc += " It's a deep, glowing electric blue in color, pointed, and covered in veins, just like a large raiju's cock."; break;
+			case CockTypesEnum.FOX: cockDesc += " It is shiny, pointed, and covered in veins, just like a large fox's cock."; break;
+			case CockTypesEnum.DEMON: cockDesc += " The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused. The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins."; break;
+			case CockTypesEnum.TENTACLE: cockDesc += " The entirety of its green surface is covered in perspiring beads of slick moisture. It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused."; break;
+			case CockTypesEnum.STAMEN: cockDesc += " It is dark green, tampered, and crowned by several colorful balls near the tip that secrete pollen when aroused."; break;
+			case CockTypesEnum.CAT: cockDesc += " It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip. Each of the spines is soft and flexible, and shouldn't be painful for any of your partners."; break;
+			case CockTypesEnum.LIZARD: cockDesc += " It's a deep, iridescent purple in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps."; break;
+			case CockTypesEnum.CAVE_WYRM: cockDesc += " It's a deep, glowing neon blue in color. Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps. It also regularly drips the acidic substance that serves as your cum. In the event you need to fertilise more fragile partner you can slightly alter the composition of your cum to prevent disolving their flesh."; break;
+			case CockTypesEnum.CANCER: 	 cockDesc += " It constantly drips and produce bubbles."; break;
+			case CockTypesEnum.ANEMONE: cockDesc += " The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload. At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners."; break;
+			case CockTypesEnum.KANGAROO: cockDesc += " It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot."; break;
+			case CockTypesEnum.DRAGON: cockDesc += " With its tapered tip, there are few holes you wouldn't be able to get into. It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would."; break;
+			case CockTypesEnum.BEE: cockDesc += " It's a long, smooth black shaft that's rigid to the touch. Its base is ringed with a layer of " + shortSuffix(4) + " long soft bee hair. The tip has a much finer layer of short yellow hairs. The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it."; break;
+			case CockTypesEnum.PIG: cockDesc += " It's bright pinkish red, ending in a prominent corkscrew shape at the tip."; break;
+			case CockTypesEnum.AVIAN: cockDesc += " It's a red, tapered cock that ends in a tip. It rests nicely in a sheath."; break;
+			case CockTypesEnum.RHINO: cockDesc += " It's a smooth, tough pink colored and takes on a long and narrow shape with an oval shaped bulge along the center."; break;
+			case CockTypesEnum.ECHIDNA: cockDesc += " It is quite a sight to behold, coming well-equipped with four heads."; break;
+			case CockTypesEnum.RED_PANDA: cockDesc += " It lies protected in a soft, fuzzy sheath."; break;
+			case CockTypesEnum.OOMUKADE: cockDesc += " It constantly drips with venom."; break;
+			case CockTypesEnum.USHI_ONI: cockDesc += " It's starfish tipped shaft."; break;
+			case CockTypesEnum.MINDBREAKER: cockDesc += " Hidden in a slit along with the rest of your male equipment, it constantly fills with your thick green slimy cum, to the point that your cum constantly leaks out of your genital slit, leaving a sticky trail of green \"slime\" in your wake."; break;
+			default: //Nothing here, move along!
+		}
+		// Knot?
+		if (player.cocks[cock_index].knotMultiplier > 1) {
+			if (player.cocks[cock_index].knotMultiplier >= 1.8)
+				cockDesc += " The obscenely swollen lump of flesh near the base of your " + player.cockDescript(cock_index) + " looks almost comically mismatched for your cock.";
+			else if (player.cocks[cock_index].knotMultiplier >= 1.4)
+				cockDesc += " A large bulge of flesh nestles just above the bottom of your " + player.cockDescript(cock_index) + ", to ensure it stays where it belongs during mating.";
+			else // knotMultiplier < 1.4
+				cockDesc += " A small knot of thicker flesh is near the base of your " + player.cockDescript(cock_index) + ", ready to expand to help you lodge it inside a female.";
+			cockDesc += " The knot is " + inchesOrCentimetres(player.cocks[cock_index].cockThickness * player.cocks[cock_index].knotMultiplier) + " thick when at full size.";
+		}
+		// Sock Flavor
+		if (player.cocks[cock_index].sock != "" && player.cocks[cock_index].sock != null){
+			// I dunno what was happening, but it looks like .sock is null, as it doesn't exist. I guess this is probably more left over from some of the restucturing.
+			// Anyways, check against null values, and stuff works again.
+			//trace("Found a sock description (WTF even is a sock?)", player.cocks[cock_index].sock);
+			cockDesc += sockDescript(cock_index);
+		}
+		return cockDesc;
+	}
+
 	public function describeBalls(): String {
-		var ballsDesc: String = "\n";
+		var ballsDesc: String = "";
 
 		const ballsSizeDesc: String = " about " + num2Text(Math.round(player.ballSize)) + " " + (Math.round(player.ballSize) == 1 ? "inch" : "inches") +" across"
 
-		if(player.balls > 0) {
+		if(player.hasBalls()) {
 			if(player.hasStatusEffect(StatusEffects.Uniball)) {
 				if(player.skinType != Skin.GOO) ballsDesc += "Your [sack] clings tightly to your groin, holding [balls]," + ballsSizeDesc + ", snugly against you.";
 				else if(player.skinType == Skin.GOO) ballsDesc += "Your [sack] clings tightly to your groin, dripping and holding [balls]," + ballsSizeDesc + ", snugly against you.";
@@ -781,9 +836,9 @@ public class PlayerAppearance extends BaseContent {
 				if (player.cockTotal() == 0) swingsWhere = " where a penis would normally grow.";
 				else swingsWhere = " under your [cocks].";
 
-				if (player.hasFur()) ballsDesc += "A fuzzy [sack] filled with [ballsarticle]," + ballsSizeDesc + " each, swings low" + swingsWhere;
+				if (player.isFurCovered()) ballsDesc += "A fuzzy [sack] filled with [ballsarticle]," + ballsSizeDesc + " each, swings low" + swingsWhere;
 				else if (player.hasCoatOfType(Skin.CHITIN)) ballsDesc += "A chitin [sack] hugs your [balls]," + ballsSizeDesc + " each, tightly against your body.";
-				else if (player.hasScales()) ballsDesc += "A scaly [sack] hugs your [balls]," + ballsSizeDesc + " each, tightly against your body.";
+				else if (player.isScaleCovered()) ballsDesc += "A scaly [sack] hugs your [balls]," + ballsSizeDesc + " each, tightly against your body.";
 				else if (player.skinType == Skin.STONE) ballsDesc += "A stone-solid sack with [ballsarticle]," + ballsSizeDesc + " each, swings heavily" + swingsWhere;
 				else if (player.skinType == Skin.GOO) ballsDesc += "An oozing, semi-solid sack with [ballsarticle]," + ballsSizeDesc + " each, swings heavily" + swingsWhere;
 				else ballsDesc += "A [sack] with [ballsarticle]," + ballsSizeDesc + " each, swings heavily" + swingsWhere;
@@ -804,154 +859,161 @@ public class PlayerAppearance extends BaseContent {
 		return ballsDesc;
 	}
 
-	public function describePussy(): String {
+	public function describePussies(): String {
 		var pussyDesc: String = "";
 
-		if (player.vaginas.length > 0){
-			var vagLoop:int = 0
-			var clitExists:int = 0
+		if (player.vaginas.length > 0) {
 			if((player.gender == 2 || player.gender == 3) && player.isTaur() && !player.isScylla())
 			pussyDesc += "Your womanly parts have shifted to lie between your hind legs, in a rather feral fashion.";
 			if((player.gender == 2 || player.gender == 3) && (player.isScylla() || player.isKraken()))
 			pussyDesc += "Your womanly parts have shifted to lie underneath your tentacle legs.";
-			if (player.vaginas.length == 1){
-				if (player.lowerBody == LowerBody.MELKIE){
-					pussyDesc += "You have a set of vaginal lips, "; //one twice as big as the other and hiding the smaller within its folds. Behind your first set of lips, you have a " + vaginaDescript(0) + ", with a " + Measurements.shortSuffix(int(player.clitLength*10)/10) + " clit";
-				} else {
-					pussyDesc += "Your " + vaginaDescript(0);
-				}
-			} else {
-				if (player.lowerBody == LowerBody.MELKIE){
-					pussyDesc += "You have two sets of vaginal lips, the first set"; //set in pairs, one twice as big as the other and hiding the smaller within its folds. Behind your first set of lips, you have a " + vaginaDescript(0) + ", with a " + Measurements.shortSuffix(int(player.clitLength*10)/10) + " clit, and behind your second set of lips, you have a " + vaginaDescript(1) + ", with a " + Measurements.shortSuffix(int(player.clitLength*10)/10) + " clit";
-				} else {
-					pussyDesc += "Your first " + vaginaDescript(0);
-				}
-			}
-			for(var i:int=0; i<player.vaginas.length; i++){
-				var vagType:int = player.vaginaType(-1, i) //It's not iterating properly to register the second pussy.
-				switch(vagType){ //missing black sand trap, maybe melkie.
-					case VaginaClass.EQUINE:
-						pussyDesc += " is deep and wide just like that of a horse. Sometime you lament that most of your partners are no longer big enough to satisfy you. Inside you have a ";
-						break;
-					case VaginaClass.CANCER:
-						pussyDesc += " is constantly foaming, in anticipation for a potential mate. Hidden within is a ";
-						break;
-					case VaginaClass.SCYLLA:
-						pussyDesc += " has no clit. Instead, several concentric rings of small nubs line up the walls of your gaping maw of a vagina, each easily as sensitive as a human clitoris would be.";
-						clitExists++
-						break;
-					case LowerBody.MELKIE:
-						pussyDesc += " set is twice as big as the other, and the other hidden within its folds. Your outer lips hide a";
-						break;
-					case VaginaClass.MANTICORE:
-						pussyDesc += " is ultrasensitive, even the slightest touch is enough to make you moan out a melody. Your song-box hides a ";
-						break;
-					case VaginaClass.CAVE_WYRM:
-						pussyDesc += " constantly drools acid, small puffs of dissolving matter wafting up from beneath where you're standing. Your dissolving chamber hides a ";
-						break;
-					case VaginaClass.VENOM_DRIPPING:
-						pussyDesc += " constantly drools an aphrodisiac venom, forcing any potential mates to be ready regardless of their physical state. Your lust-enhancers hides a ";
-						break;
-					case VaginaClass.ALRAUNE:
-						pussyDesc += " constantly secretes aphrodisiac-like nectar, ensuring any stamen that parts your petals are sufficiently lubricated and ready to fertilize you. Your flower hides a ";
-						break;
-					case VaginaClass.DEMONIC:
-						pussyDesc += ", unlike a normal pussy, feels and acts akin to a mouth that allows you to taste and savor the flavor of the cum injected within as if it landed on your tongue. Its sensitive walls are also prehensile, and you can control them to milk a cock just as well as your hand could. Your dexterous, cum-hungry twat hides a ";
-						break;
-					case VaginaClass.NAGA:
-						pussyDesc += " is deep and wide enough to insert your entire arm length inside and some more. Sometimes you lament that most of your partners are no longer big enough to satisfy you";
-						if (player.isNaga()) pussyDesc += "as your hot spot is now way further inside your deep canal, requiring quite a longer member to reach";
-								pussyDesc += ". Inside you have a ";
-						break;
-					case VaginaClass.MINDBREAKER:
-						pussyDesc += " constantly drools green slime, ensuring any cock that parts your infested cunt are sufficiently lubricated and ready to impregnate you. Your eldritch lips hides a ";
-						break;
-					case VaginaClass.SHARK:
-						pussyDesc += " looks human on the outside but its depths are filled with small sensitive tendril-like feelers that wrap around and swiftly help massage just any cocks to climax. Inside you have a ";
-						break;
-					case VaginaClass.RAIJU:
-						pussyDesc += " constantly drools plasma, small puffs of electrified matter wafting up from beneath where you're standing. Your static chamber hides a ";
-						break;
-					default:
-						pussyDesc += " hides a ";
-						break;
-				}
-				//Clit check. Only for Scylla for now.
-				if (clitExists == 0) pussyDesc += Measurements.shortSuffix(int(player.clitLength * 10) / 10) + " clit";
-				//Hymen check.
-				if(player.vaginas[i].virgin) {
-					pussyDesc += ". Its hymen is intact. ";
-				} else{
-					pussyDesc += ". ";
-				}
-				//Wetness check.
-				if(player.lib < 50 && player.lust < 50) { //not particularly horny
-					//Wetness
-					if(player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_WET && player.vaginas[i].vaginalWetness< VaginaClass.WETNESS_DROOLING)
-						pussyDesc += "Moisture gleams in ";
-					if(player.vaginas[i].vaginalWetness>= VaginaClass.WETNESS_DROOLING) {
-						pussyDesc += "Occasional beads of ";
-						pussyDesc += "lubricant drip from ";
-					}
-					//Different description based on vag looseness
-					if(player.vaginas[i].vaginalWetness>= VaginaClass.WETNESS_WET) {
-						if(player.vaginas[i].vaginalLooseness< VaginaClass.LOOSENESS_LOOSE)
-							pussyDesc += "your " + vaginaDescript(i) + ".";
-						if(player.vaginas[i].vaginalLooseness>= VaginaClass.LOOSENESS_LOOSE && player.vaginas[i].vaginalLooseness< VaginaClass.LOOSENESS_GAPING_WIDE)
-							pussyDesc += "your " + vaginaDescript(i) + ", its lips slightly parted.";
-						if(player.vaginas[i].vaginalLooseness>= VaginaClass.LOOSENESS_GAPING_WIDE)
-							pussyDesc += "the massive hole that is your " + vaginaDescript(0) + ".";
-					}
-				} else if((player.lib>=50 || player.lust >=50) && (player.lib< 80 && player.lust < 80)) { //kinda horny
-					//Wetness
-					if(player.vaginas[i].vaginalWetness< VaginaClass.WETNESS_WET)
-						pussyDesc += "Moisture gleams in ";
-					if(player.vaginas[i].vaginalWetness>= VaginaClass.WETNESS_WET && player.vaginas[i].vaginalWetness< VaginaClass.WETNESS_DROOLING) {
-						pussyDesc += "Occasional beads of ";
-						pussyDesc += "lubricant drip from ";
-					}
-					if(player.vaginas[i].vaginalWetness>= VaginaClass.WETNESS_DROOLING) {
-						pussyDesc += "Thin streams of ";
-						pussyDesc += "lubricant occasionally dribble from ";
-					}
-					//Different description based on vag looseness
-					if(player.vaginas[i].vaginalLooseness< VaginaClass.LOOSENESS_LOOSE)
-						pussyDesc += "your " + vaginaDescript(i) + ".";
-					if(player.vaginas[i].vaginalLooseness>= VaginaClass.LOOSENESS_LOOSE && player.vaginas[i].vaginalLooseness< VaginaClass.LOOSENESS_GAPING_WIDE)
-						pussyDesc += "your " + vaginaDescript(i) + ", its lips slightly parted.";
-					if(player.vaginas[i].vaginalLooseness>= VaginaClass.LOOSENESS_GAPING_WIDE)
-						pussyDesc += "the massive hole that is your " + vaginaDescript(0) + ".";
-				} else if((player.lib> 80 || player.lust > 80)) { //WTF horny!
-					//Wetness
-					if(player.vaginas[i].vaginalWetness< VaginaClass.WETNESS_WET) {
-						pussyDesc += "Occasional beads of ";
-						pussyDesc += "lubricant drip from ";
-					}
-					if(player.vaginas[i].vaginalWetness>= VaginaClass.WETNESS_WET && player.vaginas[i].vaginalWetness< VaginaClass.WETNESS_DROOLING) {
-						pussyDesc += "Thin streams of ";
-						pussyDesc += "lubricant occasionally dribble from ";
-					}
-					if(player.vaginas[i].vaginalWetness>= VaginaClass.WETNESS_DROOLING) {
-						pussyDesc += "Thick streams of ";
-						pussyDesc += "lubricant drool constantly from ";
-					}
-					//Different description based on vag looseness
-					if(player.vaginas[i].vaginalLooseness< VaginaClass.LOOSENESS_LOOSE)
-						pussyDesc += "your " + vaginaDescript(i) + ".";
-					if(player.vaginas[i].vaginalLooseness>= VaginaClass.LOOSENESS_LOOSE && player.vaginas[i].vaginalLooseness< VaginaClass.LOOSENESS_GAPING_WIDE)
-						pussyDesc += "your " + vaginaDescript(i) + ", its lips slightly parted.";
-					if(player.vaginas[i].vaginalLooseness>= VaginaClass.LOOSENESS_GAPING_WIDE)
-						pussyDesc += "the massive hole that is your cunt.";
-				}
 
-				if (player.vaginas.length > 1 && vagLoop == 0){
-					pussyDesc += "[pg]Your second " + vaginaDescript(1)+ " ";
-					vagLoop++
-					clitExists = 0
-				}
+			for(var i:int=0; i<player.vaginas.length; i++){
+				pussyDesc += describePussy(i);
+
+				if (player.vaginas.length > 1)
+					pussyDesc += "[pg]";
 			}
 		}
 
+		return pussyDesc;
+	}
+
+	public function describePussy(i:int = 0):String {
+		var pussyDesc:String = "";
+		if (player.vaginas.length == 1) {
+			if (player.lowerBody == LowerBody.MELKIE){
+				pussyDesc += "You have two sets of vaginal lips, the first"; //one twice as big as the other and hiding the smaller within its folds. Behind your first set of lips, you have a " + vaginaDescript(0) + ", with a " + Measurements.shortSuffix(int(player.clitLength*10)/10) + " clit";
+			} else {
+				pussyDesc += "Your " + vaginaDescript(i);
+			}
+		}
+		else {
+			if (player.lowerBody == LowerBody.MELKIE){
+				pussyDesc += "You have two sets of vaginal lips, the first"; //set in pairs, one twice as big as the other and hiding the smaller within its folds. Behind your first set of lips, you have a " + vaginaDescript(0) + ", with a " + Measurements.shortSuffix(int(player.clitLength*10)/10) + " clit, and behind your second set of lips, you have a " + vaginaDescript(1) + ", with a " + Measurements.shortSuffix(int(player.clitLength*10)/10) + " clit";
+			} else {
+				pussyDesc += "Your  " + num2Text2(i+1) +" "+ vaginaDescript(i);
+			}
+		}
+		var clitExists:int = 0;
+		var vagType:int = player.vaginaType(-1, i) //It's not iterating properly to register the second pussy.
+		switch (vagType) { //missing black sand trap, maybe melkie.
+			case VaginaClass.EQUINE:
+				pussyDesc += " is deep and wide just like that of a horse. Sometime you lament that most of your partners are no longer big enough to satisfy you. Inside you have a ";
+				break;
+			case VaginaClass.CANCER:
+				pussyDesc += " is constantly foaming, in anticipation for a potential mate. Hidden within is a ";
+				break;
+			case VaginaClass.SCYLLA:
+				pussyDesc += " has no clit. Instead, several concentric rings of small nubs line up the walls of your gaping maw of a vagina, each easily as sensitive as a human clitoris would be.";
+				clitExists++
+				break;
+			case LowerBody.MELKIE:
+				pussyDesc += " is twice as big as the other, and the other hidden within its folds. Your outer lips hide a ";
+				break;
+			case VaginaClass.MANTICORE:
+				pussyDesc += " is ultrasensitive, even the slightest touch is enough to make you moan out a melody. Your song-box hides a ";
+				break;
+			case VaginaClass.CAVE_WYRM:
+				pussyDesc += " constantly drools acid, small puffs of dissolving matter wafting up from beneath where you're standing. Your dissolving chamber hides a ";
+				break;
+			case VaginaClass.VENOM_DRIPPING:
+				pussyDesc += " constantly drools an aphrodisiac venom, forcing any potential mates to be ready regardless of their physical state. Your lust-enhancers hides a ";
+				break;
+			case VaginaClass.ALRAUNE:
+				pussyDesc += " constantly secretes aphrodisiac-like nectar, ensuring any stamen that parts your petals are sufficiently lubricated and ready to fertilize you. Your flower hides a ";
+				break;
+			case VaginaClass.DEMONIC:
+				pussyDesc += ", unlike a normal pussy, feels and acts akin to a mouth that allows you to taste and savor the flavor of the cum injected within as if it landed on your tongue. Its sensitive walls are also prehensile, and you can control them to milk a cock just as well as your hand could. Your dexterous, cum-hungry twat hides a ";
+				break;
+			case VaginaClass.NAGA:
+				pussyDesc += " is deep and wide enough to insert your entire arm length inside and some more. Sometimes you lament that most of your partners are no longer big enough to satisfy you";
+				if (player.isNaga()) pussyDesc += " as your hot spot is now way further inside your deep canal, requiring quite a longer member to reach";
+				pussyDesc += ". Inside you have a ";
+				break;
+			case VaginaClass.MINDBREAKER:
+				pussyDesc += " constantly drools green slime, ensuring any cock that parts your infested cunt are sufficiently lubricated and ready to impregnate you. Your eldritch lips hides a ";
+				break;
+			case VaginaClass.SHARK:
+				pussyDesc += " looks human on the outside but its depths are filled with small sensitive tendril-like feelers that wrap around and swiftly help massage just any cocks to climax. Inside you have a ";
+				break;
+			case VaginaClass.RAIJU:
+				pussyDesc += " constantly drools plasma, small puffs of electrified matter wafting up from beneath where you're standing. Your static chamber hides a ";
+				break;
+			case VaginaClass.KIRIN:
+				pussyDesc += " is deep and wide just like that of a horse. Sometime you lament that most of your partners are no longer big enough to satisfy you. It constantly drools plasma, small puffs of electrified matter wafting up from beneath where you're standing. Your equine static chamber hides a ";
+				break;
+			default:
+				pussyDesc += " hides a ";
+				break;
+		}
+		//Clit check. Only for Scylla for now.
+		if (clitExists == 0) pussyDesc += Measurements.shortSuffix(int(player.clitLength * 10) / 10) + " clit";
+		//Hymen check.
+		if (player.vaginas[i].virgin) {
+			pussyDesc += ". Its hymen is intact. ";
+		} else {
+			pussyDesc += ". ";
+		}
+		//Wetness check.
+		if (player.lib < 50 && player.lust < 50) { //not particularly horny
+			//Wetness
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_WET && player.vaginas[i].vaginalWetness < VaginaClass.WETNESS_DROOLING)
+				pussyDesc += "Moisture gleams in ";
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_DROOLING) {
+				pussyDesc += "Occasional beads of ";
+				pussyDesc += "lubricant drip from ";
+			}
+			//Different description based on vag looseness
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_WET) {
+				if (player.vaginas[i].vaginalLooseness < VaginaClass.LOOSENESS_LOOSE)
+					pussyDesc += "your " + vaginaDescript(i) + ".";
+				if (player.vaginas[i].vaginalLooseness >= VaginaClass.LOOSENESS_LOOSE && player.vaginas[i].vaginalLooseness < VaginaClass.LOOSENESS_GAPING_WIDE)
+					pussyDesc += "your " + vaginaDescript(i) + ", its lips slightly parted.";
+				if (player.vaginas[i].vaginalLooseness >= VaginaClass.LOOSENESS_GAPING_WIDE)
+					pussyDesc += "the massive hole that is your " + vaginaDescript(0) + ".";
+			}
+		} else if ((player.lib >= 50 || player.lust >= 50) && (player.lib < 80 && player.lust < 80)) { //kinda horny
+			//Wetness
+			if (player.vaginas[i].vaginalWetness < VaginaClass.WETNESS_WET)
+				pussyDesc += "Moisture gleams in ";
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_WET && player.vaginas[i].vaginalWetness < VaginaClass.WETNESS_DROOLING) {
+				pussyDesc += "Occasional beads of ";
+				pussyDesc += "lubricant drip from ";
+			}
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_DROOLING) {
+				pussyDesc += "Thin streams of ";
+				pussyDesc += "lubricant occasionally dribble from ";
+			}
+			//Different description based on vag looseness
+			if (player.vaginas[i].vaginalLooseness < VaginaClass.LOOSENESS_LOOSE)
+				pussyDesc += "your " + vaginaDescript(i) + ".";
+			if (player.vaginas[i].vaginalLooseness >= VaginaClass.LOOSENESS_LOOSE && player.vaginas[i].vaginalLooseness < VaginaClass.LOOSENESS_GAPING_WIDE)
+				pussyDesc += "your " + vaginaDescript(i) + ", its lips slightly parted.";
+			if (player.vaginas[i].vaginalLooseness >= VaginaClass.LOOSENESS_GAPING_WIDE)
+				pussyDesc += "the massive hole that is your " + vaginaDescript(0) + ".";
+		} else if ((player.lib > 80 || player.lust > 80)) { //WTF horny!
+			//Wetness
+			if (player.vaginas[i].vaginalWetness < VaginaClass.WETNESS_WET) {
+				pussyDesc += "Occasional beads of ";
+				pussyDesc += "lubricant drip from ";
+			}
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_WET && player.vaginas[i].vaginalWetness < VaginaClass.WETNESS_DROOLING) {
+				pussyDesc += "Thin streams of ";
+				pussyDesc += "lubricant occasionally dribble from ";
+			}
+			if (player.vaginas[i].vaginalWetness >= VaginaClass.WETNESS_DROOLING) {
+				pussyDesc += "Thick streams of ";
+				pussyDesc += "lubricant drool constantly from ";
+			}
+			//Different description based on vag looseness
+			if (player.vaginas[i].vaginalLooseness < VaginaClass.LOOSENESS_LOOSE)
+				pussyDesc += "your " + vaginaDescript(i) + ".";
+			if (player.vaginas[i].vaginalLooseness >= VaginaClass.LOOSENESS_LOOSE && player.vaginas[i].vaginalLooseness < VaginaClass.LOOSENESS_GAPING_WIDE)
+				pussyDesc += "your " + vaginaDescript(i) + ", its lips slightly parted.";
+			if (player.vaginas[i].vaginalLooseness >= VaginaClass.LOOSENESS_GAPING_WIDE)
+				pussyDesc += "the massive hole that is your cunt.";
+		}
 		return pussyDesc;
 	}
 
@@ -970,9 +1032,349 @@ public class PlayerAppearance extends BaseContent {
 	/**
 	 * @param sortBy 0: name, 1: score
 	 */
+	
+	public var new_ui:Boolean = true;
+	public function set_ui_version(bool:Boolean, auto_run:Boolean = false):void{
+		new_ui=bool
+		if (auto_run){RacialScores()}
+	}
 	public function RacialScores(clickedRace:Race = null, sortBy:int=0):void {
+		if (new_ui){
+			RacialScores_new(clickedRace,sortBy)
+		}else{
+			RacialScores_old(clickedRace,sortBy)
+		}
+	}
+	private function race_clicked_display(race:Race = null,sortby:int=0):void{
+		clearOutput();
 		var body:BodyData = player.bodyData();
+		var rscore:int     = player.racialScoreCached(race);
+		var rtier:RaceTier = race.getTier(body, rscore);
+		outputText("<b>")
+		if (rtier) {
+				outputText("[font-lblue]");
+			} else if (rscore > 0) {
+				outputText("[font-green]");
+			} else {
+				outputText("[font-default]");
+			}
 		
+		outputText(Utils.capitalizeFirstLetter(rtier?rtier.nameFor(body):race.name)+"[/font]</b> racial scores (and bonuses to stats if applicable):\n");
+		outputText("Details legend: [font-lblue]active tier[/font], [font-green]passed check[/font], failed check, [font-red]score penalty[/font].\n");
+		//outputText("\n\n")
+		
+		outputText("\n");
+		outputText(race.printDetails(body));
+		//scrollPos = Math.max(0, 6+i);
+		if (debug && race.debugFormNames().length > 0) {
+			outputText("Transform into");
+			for each (var tfname:String in race.debugFormNames()) {
+				outputText(" ");
+				printLink(tfname, "tf,"+race.id+","+tfname);
+			}
+		}
+		menu();
+		addButton(0, "Back", curry(RacialScores,race,sortby));
+		addButton(1, "Exit", playerMenu);
+	}
+	
+	private function RacialScores_new(clickedRace:Race = null, sortBy:int=0):void {
+		var body:BodyData = player.bodyData();
+		var btn:CoCButton;
+
+		//For saving state across sessions and "time".
+		sortBy = flags[kFLAGS.RACESORT_SETTING];
+
+		clearOutput();
+		outputText("<b>Current racial scores (and bonuses to stats if applicable):</b>\n");
+		outputText("Sort by: ");
+		if (sortBy == 0) {
+			outputText('<b>name</b>, ');
+			printLink("score", "sort,1");
+		} else {
+			printLink('name',"sort,0");
+			outputText(', <b>score</b>');
+		}
+		outputText(". ");
+		outputText("Click on a race to view details.\n");
+		outputText("List legend: [font-lblue]active race[/font], [font-green]positive score[/font], zero score.\n");
+		
+		player.updateRacialCache();
+		var list:/*Race*/Array = Races.AllRacesByName;
+		var scrollPos:int = 0;
+		if (sortBy == 1) {
+			list = sortedBy(list, function (a:Race):int {
+				return player.racialScoreCached(a);
+			}, true);
+		}
+		
+		//race_blue_color= #009FFF
+		//race_green_color= #009F00
+		var contentBlock:Block = new Block({
+			layoutConfig: {
+				type: "flow",
+				direction: "column"
+			}
+		});
+		var groupgrid:Block=new Block({
+			layoutConfig: {
+				type: "grid",
+				setWidth: true,
+				columns: [160],
+				gap: 2
+			},
+			width: MainView.TEXTZONE_W - 16
+		});
+		
+		function dummy():void{}
+		
+		function local_button(text:String="Label",text_color:String="black",hint:String="",corner_text:String=""):CoCButton
+		{
+			var tColor:String="#010101"
+			if (text_color=="blue") {
+				//outputText("[font-lblue]");
+				tColor="#009FFF"
+			} else if (text_color=="green") {
+				//outputText("[font-green]");
+				tColor="#009F00"
+			}
+			
+			
+			var local_button:CoCButton=new CoCButton({square:true})
+						.show(text,dummy)
+						//.disableIf(race==clickedRace)
+						.hint(hint)
+						.disableIf(true)
+						.color(tColor)
+						.cornerLabel(corner_text)
+		groupgrid.addElement(local_button);
+		return local_button;
+		}
+		
+		for (var i:int = 0; i<list.length; i++) {
+			var race:Race = list[i];
+			// skip "old" races
+			if (race.requirements.length == 0 || race.tiers.length == 0) continue;
+			
+			if (!new_ui){outputText("\n");}
+			var rscore:int     = player.racialScoreCached(race);
+			var rtier:RaceTier = race.getTier(body, rscore);
+			var tColor:String="#010101"
+			if (rtier) {
+				tColor="#009FFF"
+			} else if (rscore > 0) {
+				tColor="#009F00"
+			}
+			var s:String=" "
+			if (rtier) {
+				if (rtier.hasBuffs()) {
+					s = rtier.describeBuffs(body);
+					if (!s) {s = " "}
+				}
+			}
+			
+			
+			groupgrid.addElement(new CoCButton({square:true})
+						.show(race.name, curry(race_clicked_display, race,sortBy))
+						//.disableIf(race==clickedRace)
+						.hint(s)
+						.color(tColor)
+						.cornerLabel(""+rscore));
+				
+			if (race == clickedRace) {
+
+			}
+		}
+		
+		
+		mainView.linkHandler = function(event:String):void {
+			var parts:Array = event.split(",");
+			switch (parts[0]) {
+				case "race":
+					var clickedRace2:Race = Race.byId(parseInt(parts[1]));
+					if (clickedRace2 == clickedRace) clickedRace2 = null;
+					RacialScores(clickedRace2, sortBy);
+					break;
+				case "sort":
+					flags[kFLAGS.RACESORT_SETTING] = parseInt(parts[1]);
+					RacialScores(clickedRace, parseInt(parts[1]));
+					break;
+				case "tf":
+					clearOutput();
+					Race.byId(parseInt(parts[1])).takeForm(player, parts[2]);
+					mainViewManager.updateCharviewIfNeeded();
+					doNext(RacialScores, clickedRace, sortBy);
+					break;
+			}
+		}
+		var score:Number;
+		var scoreH:Number;
+		//CHIMERA
+		if (new_ui){
+			local_button("CHIMERA",player.chimeraScore()>0?"green":"black", "",player.chimeraScore());
+		}else {
+		outputText("\nCHIMERA: " + player.chimeraScore());
+		}
+		//GRAND CHIMERA
+		if (new_ui){
+			local_button("GRAND CHIMERA",player.grandchimeraScore()>0?"green":"black", "",player.grandchimeraScore());
+		}else {
+		outputText("\nGRAND CHIMERA: " + player.grandchimeraScore());
+		}
+		//INTERNAL CHIMERICAL DISPOSITION
+		score = player.internalChimeraScore();
+		if (new_ui){
+			if (score>0) {
+			local_button("INTERNAL CHIMERICAL DISPOSITION", player.hasPerk(PerkLib.RacialParagon)?"green":"blue"
+			,player.hasPerk(PerkLib.RacialParagon)?"- no buffs because of the Racial Paragon perk":" ("+player.internalChimeraRating()+") "+score+"\n(+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib"
+			,score);
+			}
+		}else {
+		if (score >= 1) {
+			outputText("\n");
+			outputText(player.hasPerk(PerkLib.RacialParagon) ? "[font-green]" : "[font-lblue]");
+			outputText("INTERNAL CHIMERICAL DISPOSITION: (" + player.internalChimeraRating() + ") " + score);
+            if (player.hasPerk(PerkLib.RacialParagon)) outputText(" - no buffs because of the Racial Paragon perk");
+            else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib");
+			outputText("[/font]");
+        } else {
+			outputText("\nINTERNAL CHIMERICAL DISPOSITION: 0");
+		}
+		}
+		
+		scoreH = player.internalHumanScore();
+		if (new_ui){
+			local_button("INTERNAL HUMAN DISPOSITION", scoreH>0?(player.hasPerk(PerkLib.RacialParagon)?"green":"blue"):"black", 
+			"", 
+			scoreH);
+		}else {
+		if (scoreH >= 1) {
+			outputText("\n");
+			outputText(player.hasPerk(PerkLib.RacialParagon) ? "[font-green]" : "[font-lblue]");
+			outputText("INTERNAL HUMAN DISPOSITION: " + player.internalHumanScore());
+            //if (player.hasPerk(PerkLib.RacialParagon)) outputText(" - no buffs because of the Racial Paragon perk");
+            //else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib");
+			outputText("[/font]")
+        } else {
+			outputText("\nINTERNAL HUMAN DISPOSITION: 0");
+		}
+		}
+		
+		// Other body part-related buffs that contribute to the "Racial" buff object in Player.calcRacialBuffs
+		outputText("\n");
+		
+		var factor:Number = 0;
+		if (player.hasCoatOfType(Skin.CHITIN)) factor += 2;
+		else if (player.hasCoatOfType(Skin.SCALES)) factor += 1;
+		if (player.hasPerk(PerkLib.ThickSkin)) factor += 1;
+		score = player.perkv1(IMutationsLib.MantislikeAgilityIM);
+		var bonus:Number = 0;
+		if (score >= 3) {
+			bonus = 30*factor;
+		} else if (score >= 2) {
+			bonus += 15*factor;
+		} else if (score >= 1) {
+			bonus += 5*factor;
+		}
+		if (bonus > 0) {
+			if (new_ui){
+			local_button("Mantislike Agility","blue", "+"+bonus+"% Speed","");
+		}else {outputText("\n[font-lblue]Mantislike Agility[/font]: +"+bonus+"% Speed.");}
+		}
+		if (player.hasPerk(PerkLib.Flexibility) && player.isAnyRaceCached(Races.CatlikeRaces)) {
+			if (new_ui){
+			local_button("Cat-like race + Flexibility","blue", "+10% Speed","");
+		}else {outputText("\n[font-lblue]Cat-like race + Flexibility[/font]: +10% Speed.");}
+		}
+		if (player.isNaga()) {
+			if (player.lowerBody == LowerBody.FROSTWYRM) {
+				if (new_ui){
+					local_button("Frost wyrm lower body","blue", "+20% Strength, +10% Toughness.","");
+				}else {outputText("\n[font-lblue]Frost wyrm lower body[/font]: +20% Strength, +10% Toughness.");}
+			} else {
+				if (new_ui){
+					local_button("Naga lower body","blue", "+15% Strength, +15% Toughness.","");
+				}else {outputText("\n[font-lblue]Naga lower body[/font]: +15% Strength, +15% Toughness.");}
+			}
+		}
+		
+		if (player.isTaur()) {
+			if (new_ui){
+					local_button("Taur lower body","blue", "+20% Speed.","");
+				}else {outputText("\n[font-lblue]Taur lower body[/font]: +20% Speed.")}
+		}
+		
+		if (player.isDrider()) {
+			if (player.lowerBody == LowerBody.CANCER) {
+				if (new_ui){
+					local_button("Cancer lower body","blue", "+15% Strength, +5% Speed, +10% Toughness.","");
+				}else {outputText("\n[font-lblue]Cancer lower body[/font]: +15% Strength, +5% Speed, +10% Toughness.");}
+			} else {
+				if (new_ui){
+					local_button("Drider lower body","blue", "+15% Toughness, +15% Speed.","");
+				}else {outputText("\n[font-lblue]Drider lower body[/font]: +15% Toughness, +15% Speed.");}
+			}
+		}
+		if (player.isScylla()) {
+			if (new_ui){
+					local_button("Scylla lower body","blue", "+30% Strength.","");
+				}else {outputText("\n[font-lblue]Scylla lower body[/font]: +30% Strength.")}
+		}
+		if (player.isKraken()) {
+			if (new_ui){
+					local_button("Kraken lower body","blue", "+60% Strength, +15 Sensitivity.","");
+				}else {outputText("\n[font-lblue]Kraken lower body[/font]: +60% Strength, +15 Sensitivity");}
+		}
+		if (player.lowerBody == LowerBody.CENTIPEDE) {
+			outputText("\n[font-lblue]Centipede lower body[/font]: +15% Strength, +5% Toughness, +10% Speed.")
+		}
+		if (player.isAlraune()) {
+			if (new_ui){
+					local_button("Alraune lower body","blue", "+15% Toughness, +15% Libido.","");
+				}else {outputText("\n[font-lblue]Alraune lower body[/font]: +15% Toughness, +15% Libido.")}
+		}
+		if (player.hasPerk(PerkLib.RacialParagon)) {
+			if (new_ui){
+					local_button("Racial Paragon","blue", "+"+player.level+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Racial Paragon[/font]: +"+player.level+"% to core stats.")}
+		}
+		if (player.hasPerk(PerkLib.Apex)) {
+			if (new_ui){
+					local_button("Apex","blue", "+"+(2*player.level)+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Apex[/font]: +"+(2*player.level)+"% to core stats.")}
+		}
+		if (player.hasPerk(PerkLib.AlphaAndOmega)) {
+			if (new_ui){
+					local_button("Alpha And Omega","blue", "+"+(2*player.level)+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Alpha And Omega[/font]: +"+(2*player.level)+"% to core stats.")}
+		}
+		if (player.hasPerk(PerkLib.AscensionOneRaceToRuleThemAllX)) {
+			if (new_ui){
+					local_button("One Race To Rule Them All","blue", "(Ascension)\n+"+(2*player.perkv1(PerkLib.AscensionOneRaceToRuleThemAllX)*player.level)+"% to core stats.","");
+				}else {outputText("\n[font-lblue]Ascension: One Race To Rule Them All[/font]: +"+(2*player.perkv1(PerkLib.AscensionOneRaceToRuleThemAllX)*player.level)+"% to core stats.");}
+		}
+		
+		groupgrid.addBitmapDataSprite({}, {colspan: Math.max(1, 6)});
+		groupgrid.width = MainView.TEXTZONE_W - MainView.VSCROLLBAR_W;
+		groupgrid.doLayout();
+		contentBlock.addElement(groupgrid);
+		contentBlock.width = MainView.TEXTZONE_W - MainView.VSCROLLBAR_W;
+		flushOutputTextToGUI();
+		mainView.setCustomElement(contentBlock, true, false, true);
+		contentBlock.doLayout();
+		menu();
+		
+		if (scrollPos) mainView.scrollBar.value = scrollPos;
+		addButton(1, "Exit", playerMenu);
+		addButton(14, "Old UI",curry(set_ui_version,false,true))
+	}
+
+	private function RacialScores_old(clickedRace:Race = null, sortBy:int=0):void {
+		var body:BodyData = player.bodyData();
+
+		//For saving state across sessions and "time".
+		sortBy = flags[kFLAGS.RACESORT_SETTING];
+
 		clearOutput();
 		outputText("<b>Current racial scores (and bonuses to stats if applicable):</b>\n");
 		outputText("Sort by: ");
@@ -1048,17 +1450,19 @@ public class PlayerAppearance extends BaseContent {
 					RacialScores(clickedRace2, sortBy);
 					break;
 				case "sort":
+					flags[kFLAGS.RACESORT_SETTING] = parseInt(parts[1]);
 					RacialScores(clickedRace, parseInt(parts[1]));
 					break;
 				case "tf":
 					clearOutput();
 					Race.byId(parseInt(parts[1])).takeForm(player, parts[2]);
 					mainViewManager.updateCharviewIfNeeded();
-					doNext(curry(RacialScores, clickedRace, sortBy));
+					doNext(RacialScores, clickedRace, sortBy);
 					break;
 			}
 		}
 		var score:Number;
+		var scoreH:Number;
 		//CHIMERA
 		outputText("\nCHIMERA: " + player.chimeraScore());
 		//GRAND CHIMERA
@@ -1068,12 +1472,23 @@ public class PlayerAppearance extends BaseContent {
 		if (score >= 1) {
 			outputText("\n");
 			outputText(player.hasPerk(PerkLib.RacialParagon) ? "[font-green]" : "[font-lblue]");
-			outputText("INTERNAL CHIMERICAL DISPOSITION: (" + player.internalChimeraRating() + ") " + score)
+			outputText("INTERNAL CHIMERICAL DISPOSITION: (" + player.internalChimeraRating() + ") " + score);
             if (player.hasPerk(PerkLib.RacialParagon)) outputText(" - no buffs because of the Racial Paragon perk");
-            else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib and +" + (5 * score) + " to Sens)");
+            else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib");
 			outputText("[/font]")
         } else {
 			outputText("\nINTERNAL CHIMERICAL DISPOSITION: 0");
+		}
+		scoreH = player.internalHumanScore();
+		if (scoreH >= 1) {
+			outputText("\n");
+			outputText(player.hasPerk(PerkLib.RacialParagon) ? "[font-green]" : "[font-lblue]");
+			outputText("INTERNAL HUMAN DISPOSITION: " + player.internalHumanScore());
+            //if (player.hasPerk(PerkLib.RacialParagon)) outputText(" - no buffs because of the Racial Paragon perk");
+            //else outputText(" (+" + (5 * score) + "% to Str racial multi / Tou / Spe / Int / Wis / Lib");
+			outputText("[/font]")
+        } else {
+			outputText("\nINTERNAL HUMAN DISPOSITION: 0");
 		}
 		
 		// Other body part-related buffs that contribute to the "Racial" buff object in Player.calcRacialBuffs
@@ -1145,8 +1560,9 @@ public class PlayerAppearance extends BaseContent {
 		menu();
 		if (scrollPos) mainView.mainText.scrollV = scrollPos;
 		addButton(0, "Next", playerMenu);
+		addButton(14, "New UI",curry(set_ui_version,true,true))
 	}
-
+	
 	public function GenderForcedSetting():void {
 		clearOutput();
 		outputText("This menu allows you to choose if the game will treat your character as a female or a male. Using the automatic option will let the game orginal system do the work instead of setting your sex in one or another way.");
@@ -1223,12 +1639,6 @@ public class PlayerAppearance extends BaseContent {
 
 		else cockSockDesc +="<b>Yo, this is an error.</b>";
 		return cockSockDesc;
-	}
-
-	public function describeVisage():void{ //expressions!
-		if (player.hasPerk(PerkLib.DarkenedKitsune)) {
-			outputText(" " + SceneLib.darkenedKitsuneScene.darkenedKitsuneExpression());
-		}
 	}
 }
 }

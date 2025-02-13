@@ -23,7 +23,7 @@ use namespace CoC;
 			if (HP < 300 && statusEffectv1(StatusEffects.MinoMilk) < 4 && flags[kFLAGS.URTA_QUEST_STATUS] == 0.75) minotaurDrankMalk();
 			else if (rand(4) == 0 && player.weaponName != "fists") minotaurDisarm();
 			else if (!hasStatusEffect(StatusEffects.Timer)) minotaurLordEntangle();
-			else if (hasStatusEffect(StatusEffects.MinotaurEntangled)) minotaurCumPress();
+			else if (player.hasStatusEffect(StatusEffects.MinotaurEntangled)) minotaurCumPress();
 			else {
 				if (rand(2) == 0) minotaurPrecumTease();
 				else eAttack();
@@ -91,14 +91,14 @@ use namespace CoC;
 				outputText("You try to avoid it, but you're too slow, and the chain slaps into your hip, painfully bruising you with the strength of the blow, even through your armor.  The inertia carries the back half of the whip around you, and in a second, the chain has you all wrapped up with your arms pinned to your sides and your movement restricted.");
 				if (flags[kFLAGS.URTA_QUEST_STATUS] == 0.75) outputText("\n\n\"<i>Hahaha!  Good boy, Fido!  Leash that bitch up!</i>\"  The succubus laughs with glee.");
 				outputText("\n\n<b>You're tangled up in the minotaur lord's chain, and at his mercy, unless you can break free!</b>");
-				createStatusEffect(StatusEffects.MinotaurEntangled, 0, 0, 0, 0);
+				player.createStatusEffect(StatusEffects.MinotaurEntangled, 0, 0, 0, 0);
 			}
 		}
 
 		private function minotaurCumPress():void
 		{
 			outputText("The minotaur lord tugs on the end of the chain, pulling you toward him, making you spin round and round so many times that you're dazed and dizzy.  You can feel the links coming free of your " + player.skinFurScales() + ", and the closer you get, the more freedom of movement you have.  Yet, the dizziness makes it hard to do anything other than stumble.  You splat into something wet, sticky, and spongy.  You gasp, breathing a heavy gasp of minotaur musk that makes your head spin in a whole different way.  You pry yourself away from the sweaty, sperm-soaked nuts you landed on and look up, admiring the towering horse-cock with its three-rings of pre-puce along its length.  A droplet of pre-cum as fat as your head smacks into your face, staggering you back and dulling your senses with narcotic lust.");
-			player.dynStats("lus", 22 + player.lib / 8 + player.effectiveSensitivity() / 8);
+			player.takeLustDamage(22 + player.lib / 8 + player.effectiveSensitivity() / 8, true);
 			outputText("You tumble to your knees a few feet away, compulsively licking it up.  Once it's gone, ");
 			if (player.lust >= player.maxOverLust()) outputText("you rise up, horny and hungry for more.");
 			else {
@@ -117,7 +117,7 @@ use namespace CoC;
 				}
 				outputText("You want another taste...");
 			}
-			removeStatusEffect(StatusEffects.MinotaurEntangled);
+			player.removeStatusEffect(StatusEffects.MinotaurEntangled);
 		}
 
 		private function minotaurPrecumTease():void
@@ -127,13 +127,13 @@ use namespace CoC;
 				outputText(" slapping into your face before you can react!  You wipe the slick snot-like stuff out of your eyes and nose, ");
 				if (player.lust >= 70) outputText("swallowing it into your mouth without thinking.  You greedily guzzle the potent, narcotic aphrodisiac down, even going so far as to lick it from each of your fingers in turn, sucking every drop into your waiting gullet.");
 				else outputText("feeling your heart hammer lustily.");
-				player.dynStats("lus", 15 + player.lib / 8 + player.effectiveSensitivity() / 8);
+				player.takeLustDamage(15 + player.lib / 8 + player.effectiveSensitivity() / 8, true);
 			}
 			else {
 				outputText(" right past your head, but the smell alone is enough to make you weak at the knees.");
 				if (flags[kFLAGS.URTA_QUEST_STATUS] == 0.75) outputText("  The animalistic scent of it seems to get inside you, the musky aroma burning a path of liquid heat to your groin, stiffening your horse-cock to absurd degrees.");
 				else outputText("  The animalistic scent of it seems to get inside you, the musky aroma burning a path of liquid heat to your groin.");
-				player.dynStats("lus", 11 + player.lib / 10);
+				player.takeLustDamage(11 + player.lib / 10, true);
 			}
 			//(1)
 			if (player.lust <= 75) outputText("  You shiver with need, wanting nothing more than to bury your face under that loincloth and slurp out every drop of goopey goodness.");
@@ -142,20 +142,13 @@ use namespace CoC;
 
 		override public function defeated(hpVictory:Boolean):void
 		{
-			EngineCore.clearOutput();
-			outputText("The minotaur lord is defeated!  ");
-			if (flags[kFLAGS.URTA_QUEST_STATUS] == 0.75) {
-				outputText("  You could use him for a quick fuck to sate your lusts before continuing on.  Do you?");
-				EngineCore.menu();
-				EngineCore.addButton(0,"Fuck",SceneLib.urtaQuest.winRapeAMinoLordAsUrta);
-				EngineCore.addButton(4, "Leave", SceneLib.urtaQuest.beatMinoLordOnToSuccubi);
-			}
+			if (flags[kFLAGS.URTA_QUEST_STATUS] == 0.75 || CoC.instance.gameSettings.sceneHunter_inst._recalling) SceneLib.urtaQuest.winMinotaur();
 			else SceneLib.mountain.minotaurScene.minoVictoryRapeChoices();
 		}
 
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
-			if (flags[kFLAGS.URTA_QUEST_STATUS] == 0.75) {
+			if (flags[kFLAGS.URTA_QUEST_STATUS] == 0.75 || CoC.instance.gameSettings.sceneHunter_inst._recalling) {
 				if (hpVictory) SceneLib.urtaQuest.urtaLosesToMinotaurRoughVersion();
 				else SceneLib.urtaQuest.urtaSubmitsToMinotaurBadEnd();
 			}
@@ -188,20 +181,19 @@ use namespace CoC;
 			this.hairColor = randomChoice("black","brown");
 			this.hairLength = 3;
 			this.faceType = Face.COW_MINOTAUR;
-			initStrTouSpeInte(200, 140, 80, 50);
-			initWisLibSensCor(50, 70, 25, 85);
+			initStrTouSpeInte(25, 190, 150, 50);
+			initWisLibSensCor(50, 170, 125, 70);
 			this.weaponName = "chain";
 			this.weaponVerb="chain-whip";
-			this.weaponAttack = 66;
+			this.weaponAttack = 99;
 			this.armorName = "thick fur";
-			this.armorDef = 22;
-			this.armorMDef = 3;
-			this.bonusHP = 640 + rand(this.ballSize*4);
-			this.bonusLust = 122 + rand(this.ballSize*3);
+			this.armorDef = 120;
+			this.armorMDef = 40;
+			this.bonusHP = 1250 + rand(this.ballSize*5);
+			this.bonusLust = 325 + rand(this.ballSize*4);
 			this.lust = 50;
 			this.lustVuln = 0.33;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
-			this.level = 27;
+			this.level = 30;
 			this.additionalXP = 100;
 			this.gems = rand(25) + 40;
 			if (flags[kFLAGS.URTA_QUEST_STATUS] != 0.75) {

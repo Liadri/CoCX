@@ -18,7 +18,7 @@ public class LightningBoltSpell extends AbstractWhiteSpell {
 				:"Lightning Bolt is a basic lightning attack that will electrocute your foe with a single bolt of lightning.",
 			TARGET_ENEMY,
 			TIMING_INSTANT,
-			[TAG_DAMAGING, TAG_LIGHTNING]
+			[TAG_DAMAGING, TAG_LIGHTNING, TAG_TIER1]
 		);
 		baseManaCost = 40;
 		baseWrathCost = ex ? 100 : 0;
@@ -39,7 +39,15 @@ public class LightningBoltSpell extends AbstractWhiteSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return spellWhiteCooldown();
+		var calcC:int = 0;
+		calcC += spellWhiteCooldown();
+		if (player.weaponRange == weaponsrange.RW_TOME && player.level < 18) {
+			if (player.level < 6) calcC -= 1;
+			if (player.level < 12) calcC -= 1;
+			calcC -= 1;
+			if (calcC < 0) calcC = 0;
+		}
+		return calcC;
 	}
 	
 	/**

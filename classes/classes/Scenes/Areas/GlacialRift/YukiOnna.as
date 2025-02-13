@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Areas.GlacialRift 
+package classes.Scenes.Areas.GlacialRift
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -20,7 +20,7 @@ public class YukiOnna extends Monster
 			player.takeIceDamage(kissdmg, true);
 			var kisslust:Number = (inte / 5) + rand(10);
 			kisslust = Math.round(kisslust);
-			player.dynStats("lus", kisslust, "scale", false);
+			player.takeLustDamage(kisslust, true);
 		}
 		
 		public function IceArmor():void {
@@ -43,11 +43,13 @@ public class YukiOnna extends Monster
 			player.takePhysDamage(damage, true);
 			var frostburnPlayer:Number = (this.str + this.spe + this.tou) * 2;
 			player.takeIceDamage(frostburnPlayer, true);
-			if (player.hasStatusEffect(StatusEffects.FrostburnDoT)) {
-				player.addStatusValue(StatusEffects.FrostburnDoT,1,1);
-				player.addStatusValue(StatusEffects.FrostburnDoT,3,1);
+			if (!player.immuneToFrostBurn()) {
+				if (player.hasStatusEffect(StatusEffects.FrostburnDoT)) {
+					player.addStatusValue(StatusEffects.FrostburnDoT,1,1);
+					player.addStatusValue(StatusEffects.FrostburnDoT,3,1);
+				}
+				else player.createStatusEffect(StatusEffects.FrostburnDoT, SceneLib.combat.debuffsOrDoTDuration(4), 0.02, 0, 0);
 			}
-			else player.createStatusEffect(StatusEffects.FrostburnDoT, SceneLib.combat.debuffsOrDoTDuration(4), 0.02, 0, 0);
 		}
 		
 		override protected function performCombatAction():void
@@ -77,7 +79,7 @@ public class YukiOnna extends Monster
 			SceneLib.glacialRift.yukionnaScene.loseToYukiOnna();
 		}
 		
-		public function YukiOnna() 
+		public function YukiOnna()
 		{
 			this.a = "a ";
 			this.short = "Yuki Onna";
@@ -95,7 +97,7 @@ public class YukiOnna extends Monster
 			this.hairColor = "silver white";
 			this.hairLength = 25;
 			initStrTouSpeInte(135, 24, 240, 319);
-			initWisLibSensCor(265, 240, 115, 15);
+			initWisLibSensCor(265, 240, 115, -70);
 			this.weaponName = "Icy spear";
 			this.weaponVerb="pummel";
 			this.weaponAttack = 54;
@@ -106,17 +108,16 @@ public class YukiOnna extends Monster
 			this.bonusLust = 426;
 			this.lust = 25 + rand(15);
 			this.lustVuln = 0.36;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 71;
 			this.gems = 115 + rand(20);
 			this.drop = new WeightedDrop()
 					.add(armors.BLIZZ_K, 1)
+					.add(weapons.BCLAWS, 1)
 					.add(headjewelries.SNOWFH, 1)
 					.add(consumables.QWHITED, 1)
 					.add(consumables.SNOWW_D, 5)
 					.add(consumables.WHITEIS, 5);
 			this.wings.type = Wings.LEVITATION;
-			this.wings.desc = "levitation";
 			//this.createStatusEffect(StatusEffects.GenericRunDisabled, 0, 0, 0, 0);
 			this.createStatusEffect(StatusEffects.AbilityCooldown1, 8, 0, 0, 0);
 			this.createStatusEffect(StatusEffects.IceArmor, 5, 0, 0, 0);

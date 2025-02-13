@@ -1,8 +1,8 @@
 ﻿package classes.Scenes.Areas.Mountain{
 import classes.*;
-	import classes.BodyParts.Hair;
-	import classes.GlobalFlags.kFLAGS;
-    import classes.display.SpriteDb;
+import classes.BodyParts.Hair;
+import classes.GlobalFlags.kFLAGS;
+import classes.display.SpriteDb;
 
 public class Salon extends BaseContent implements TimeAwareInterface {
 
@@ -36,7 +36,7 @@ public class Salon extends BaseContent implements TimeAwareInterface {
 public function hairDresser():void {
 	clearOutput();
 	outputText("While exploring the mountain, you find a cleverly concealed doorway.  From inside you can hear the sound of blades being sharpened.  Do you enter the doorway?");
-	doYesNo(salonGreeting,camp.returnToCampUseOneHour);
+	doYesNo(salonGreeting,explorer.done);
 }
 	public function isDiscovered():Boolean {
 		return player.hasStatusEffect(StatusEffects.HairdresserMeeting);
@@ -78,7 +78,7 @@ private function salonPaymentMenu():void {
 	addButton(3, "Minotaur", gloryholeMinotaur).hint("Suck that huge minotaur cock!");
 	addButton(4, "Incubus", gloryholeIncubus).hint("Suck that incubus cock. It gives off that pleasant spicy scent.");
 	if (flags[kFLAGS.CAN_BUY_MINOCUM] > 0) addButton(8, "Buy MinoCum", buyMinoCum).hint("Buy a bottle of minotaur cum for 60 gems?");
-	addButton(14, "Leave", camp.returnToCampUseOneHour);
+	addButton(14, "Leave", explorer.done);
 }
 
 		private function buyMinoCum():void{
@@ -96,7 +96,7 @@ private function salonPaymentMenu():void {
 				player.gems -= 60;
 				outputText("You happily give Lynnette 60 gems and pick up the bottle full of glistening, heavenly cum.  ");
 				statScreenRefresh();
-				inventory.takeItem(consumables.MINOCUM, camp.returnToCampUseOneHour);
+				inventory.takeItem(consumables.MINOCUM, explorer.done);
 			}
 		}
 
@@ -130,7 +130,7 @@ public function salonPurchaseMenu():void {
 	if (player.hairLength > 2 && !Hair.Types[player.hairType].ignoresStyle) addButton(10, "Haircut", changeHairStyle);
 	else if (Hair.Types[player.hairType].ignoresStyle) addButtonDisabled(10, "Haircut", "Your current hair can't have its style changed!");
 	else if (player.hairLength <= 2) addButtonDisabled(10, "Haircut", "Your current hair length is too short!");
-	addButton(14,"Leave",camp.returnToCampUseOneHour);
+	addButton(14,"Leave",explorer.done);
 }
 
 private function hairDresserGreeting():void {
@@ -364,7 +364,7 @@ private function cut(newLen:int):void {
 	outputText("Lynnette and her daughters crowd around you with razor-sharp scissors, effortlessly paring down your " + hairDescript() + ".  When they've finished, you're left with ");
 	player.hairLength = newLen;
 	outputText(hairDescript() + ".");
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function hairGrow():void {
@@ -381,7 +381,7 @@ private function hairGrow():void {
 	var growth:Number = rand(3) + 3;
 	player.hairLength += growth;
 	outputText(num2Text(growth) + " more inches of [haircolor] hair.");
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function removeHair():void {
@@ -390,12 +390,12 @@ private function removeHair():void {
 	outputText("Lynnette instructs you to take a seat and instructs her daughters to pare down your hair down to short length. They effortlessly cut your hair to short length. Next, Lynnette applies a special cream all over your [hair].  Your hair starts to stiffen and falls out.  She gives your head a good cleaning afterwards.\n\n");
 	outputText("<b>You no longer have a hair!</b>");
 	player.hairLength = 0;
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 		private function buyDye(itype:ItemType):void{
 			clearOutput();
-			inventory.takeItem(itype, camp.returnToCampUseOneHour);
+			inventory.takeItem(itype, explorer.done);
 		}
 
 private function dyeMenu():void {
@@ -408,7 +408,8 @@ private function dyeMenu():void {
 	addButton(2, "Pink", buyDye, consumables.PINKDYE);
 	addButton(3, "Purple", buyDye, consumables.PURPDYE);
 	addButton(4, "Green", buyDye, consumables.GREEN_D);
-	addButton(5, "Ext.Serum", buyDye, consumables.EXTSERM);
+	addButton(5, "Yellow", buyDye, consumables.YELLDYE);
+	addButton(10, "Ext.Serum", buyDye, consumables.EXTSERM);
 	addButton(14, "Back", hairDressingMainMenu);
 }
 
@@ -434,7 +435,7 @@ private function cutBeard():void {
 	outputText("Lynnette and her daughters crowd around you with razor-sharp scissors, effortlessly paring down your " + beardDescript() + ".  When they've finished, you're left with ");
 	player.beardLength = 0.01;
 	outputText(beardDescript() + ".");
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function growBeard(mode:int = 0):void {
@@ -467,7 +468,7 @@ private function growBeard(mode:int = 0):void {
 			outputText(num2Text(growth) + " more "+Measurements.inchesOrCentimetres(growth));
 			outputText(" of [haircolor] beard.");
 	}
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function changeBeardStyle():void {
@@ -478,7 +479,7 @@ private function changeBeardStyle():void {
 	addButton(1, "Goatee", chooseBeardStyleFinalize, 1);
 	addButton(2, "Clean-cut", chooseBeardStyleFinalize, 2);
 	addButton(3, "Mountainman", chooseBeardStyleFinalize, 3);
-	addButton(4, "Back", beardMenu);
+	addButton(4, "Back", beardMenu)
 }
 
 private function chooseBeardStyleFinalize(choiceStyle:int = 0):void {
@@ -486,14 +487,15 @@ private function chooseBeardStyleFinalize(choiceStyle:int = 0):void {
 	outputText("You tell Lynnette that you'd like to have your beard style changed to what you've indicated.\n\n");
 	outputText("Lynnette and her daughters begin to mess with your beard with razor-sharp scissors and white fluid while they work to change your beard into what you've wanted.\n\n");
 	player.beardStyle = choiceStyle;
-	outputText("After a while, you now have " + player.beardDescript() + "!");
-	doNext(camp.returnToCampUseOneHour);
+	outputText("After a while, you now have " + player.beardDescript() + " styled hair!");
+	endEncounter();
 }
 
 private function changeHairStyle():void {
 	clearOutput();
 	outputText("What hairstyle would you like?");
 	menu();
+
 	addButton(0, "Normal", chooseHairStyleFinalize, 0).hint("The standard straith cut.");
 	addButton(1, "Wild", chooseHairStyleFinalize, 1).hint("Ruffle and shuffle this hair some.");
 	addButton(2, "Ponytail", chooseHairStyleFinalize, 2).hint("The basic ponytail, a classic.");
@@ -504,6 +506,9 @@ private function changeHairStyle():void {
 	addButton(7, "Wind Braid", chooseHairStyleFinalize, 7).hint("The four wind braid seen almost seldomly amonst student of the now near extinct four wind school.");
 	addButton(8, "Wind Long", chooseHairStyleFinalize, 8).hint("The four wind long hair cut seen almost seldomly amonst student of the now near extinct four wind school.");
 	addButton(9, "Taur Tail", chooseHairStyleFinalize, 9).hint("A haircut favored by centaur maidens. Hairs are tied into a single long ponytail not unlike a horse tail itself");
+	addButton(10, "Twin Ribbon", chooseHairStyleFinalize, 10).hint("An haircut which apparently was very popular amonst less masculine mens from the old kingdom before lethice became the current ruler. It has a feminine touch that works on either a man or a woman.");
+	addButton(11, "Desert Grace", chooseHairStyleFinalize, 11).hint("A common haircut favored by the denisen of the desert. It is well known for its two long straith bangs.");
+
 	addButton(14, "Back", salonPurchaseMenu);
 }
 
@@ -513,7 +518,7 @@ private function chooseHairStyleFinalize(choiceStyle:int = 0):void {
 	outputText("Lynnette and her daughters begin to mess with your hair with razor-sharp scissors and white fluid while they work to change your hairstyle into what you've wanted.\n\n");
 	player.hairStyle = choiceStyle;
 	outputText("After a while, you now have " + player.hairStyleDescript() + "!");
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function removeBeard():void {
@@ -523,7 +528,7 @@ private function removeBeard():void {
 	outputText("<b>You no longer have a beard!</b>");
 	player.beardStyle = 0;
 	player.beardLength = 0;
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function minotaurCumBukkakeInSalon():void {
@@ -636,7 +641,7 @@ private function mudFacial():void {
 
 	outputText("With that finished, the crowd of busty, green-skinned women disperses to leave you in peace.  Time drags on, but eventually the mud hardens and cracks.  As if on cue, tiny hands emerge with wet rags to scrub your face clean.  Once they've finished, you feel like a whole new you! (+10 femininity)");
 	player.modFem(100,10);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 
 private function sandFacial():void {
@@ -646,7 +651,7 @@ private function sandFacial():void {
 
 	outputText("After a while the goblin girls come back and clean the stuff from your face. (+10 masculinity)");
 	player.modFem(0,10);
-	doNext(camp.returnToCampUseOneHour);
+	endEncounter();
 }
 /*
 public static const LYNNETTE_PREGNANCY_CYCLE:int                                    = 1022; //0-3 = pregnant. 4-6 = not.
@@ -699,7 +704,7 @@ private function fuckLynnette():void {
 	}
 	//There is enough!
 	outputText("\n\nLynnette coos, \"<i>There it is... that yummy, nasty seed that you've let wait and bake for hour after hour.</i>\" She shivers in anticipation.  \"<i>You're going to stuff every single drop of that sticky stuff straight inside me, and it's going to be so thick it glues my snatch shut until it's time for birthing.  Got it?</i>\"  She squeezes down on [oneCock] with near-painful firmness, holding you completely and totally erect in the palm of her hand as she easily works off your [armor].  \"<i>Yes you are.... Oh, this is just what I needed today,</i>\" the green woman sighs while rubbing your ");
-	if(player.balls > 0) outputText("[balls]");
+	if(player.hasBalls()) outputText("[balls]");
 	else outputText("[sheath]");
 	outputText(" with hunger in her eyes.");
 
@@ -715,7 +720,7 @@ private function fuckLynnette():void {
 	outputText(" begun to bead clear droplets of precum. They run down the underside of your distended, eager cumvein");
 	if(player.cockTotal() > 1) outputText("s");
 	outputText(" and race down towards your ");
-	if(player.balls > 0) outputText("[balls]");
+	if(player.hasBalls()) outputText("[balls]");
 	else outputText("[sheath]");
 	outputText(", leaving a glossy, sexual shine in their wake, and they're only coming on faster and faster the longer you gaze upon Lynnette's emerald twat and inhale her prick-stiffening scent.");
 
@@ -734,18 +739,18 @@ private function fuckLynnette():void {
 	outputText(" The breeder grabs hold of your [hips] and tugs as hard as her meager strength will allow.  ");
 	if(player.cockArea(x) <= 90) {
 		outputText("Slapping against her hard enough to release a splash of girlish cum, you hilt yourself completely");
-		if(player.balls > 0) outputText(", [balls] resting on her soaked, juicy ass-cheeks.");
+		if(player.hasBalls()) outputText(", [balls] resting on her soaked, juicy ass-cheeks.");
 	}
 	else {
 		outputText("Eventually stopping, you look down to realize that she hasn't taken all of you. Going any farther would likely hurt her and ruin the fun, so you'll have to make to with partial strokes.");
-		if(player.balls > 0) outputText("  Her feet wrap around your [sack] to squeeze your [balls] affectionately, compensating quite nicely for her own shortcomings.");
+		if(player.hasBalls()) outputText("  Her feet wrap around your [sack] to squeeze your [balls] affectionately, compensating quite nicely for her own shortcomings.");
 	}
 
 	outputText("\n\nLynette is so goddamned wet! Her twat is a sopping-wet furnace around your " + cockDescript(x) + ", clenching down tightly to hold you still while she adjusts to the shape and size of hard-throbbing inseminator.  A happy, brainless smile spreads across her face in reaction to the mounting, though her hands remain stubbornly on your hips, helping to keep you from pounding away until she's ready.  While you're immobilized, you decide to avail yourself of the goblin's other features, gripping as much of one titanic tit as you possibility can.  Your hand barely covers a quarter of the swollen bosom, and your fingers sink deeply into the forgiving green flesh, eliciting a gasp of pleasure from the hairdresser when you shift your grope to place her nipple within your reach.");
 	outputText("\n\nLosing control of her abdominal muscles from the forcible, nipple-bound bliss, Lynnette's cock-arresting grip collapses, and you're free to saw away at her gushing nethers, dragging your " + cockDescript(x) + " out until only the head remains embedded within her purple-tinged interior and then, slamming it back in just as hard as your initial penetration.  Her hands slip off your [hips] and down to the sheets, where they gather up fistfuls of the increasingly sex-stained fabric and clench.  The honey hole around you flutters uncontrollably, clenching wildly as you thrust powerfully through it, mixing your pre-cum with its own copious leavings until there's a whitish slurry leaking from the increasingly puffy entrance.");
 	outputText("\n\nThe blissed-out goblin's eyelids droop closed a second after her eyes roll back, and she calls out, \"<i>Oh fuck yessssssss, that's the spot!  Fuck me!  Fuck me!  YES!</i>\"  Her body shudders, accompanied by a screech of pleasure.  \"<i>You're making me c-c-c-cum...!</i>\"  Lynnette's wonderfully fertile thighs roll with the waves of passion she's riding, rhythmically squeezing down on your dick with inadvertent muscular contractions that feel so good they almost suck the cum straight out of your [balls].");
 	outputText("\n\nSomehow, you don't blow your load into the dick-massaging goblin twat right then and there. Compelled by an urgent, instinctive need, you continue to saw your raging-hard phallus into Lynnette's musky cunt, splattering love-juices everywhere. The seed trapped inside your [balls] churns and roils as your body does its damnedest to maximize its output");
-	if(player.balls > 0) outputText(", making your sack feel tight, and your testes bloated and tender.");
+	if(player.hasBalls()) outputText(", making your sack feel tight, and your testes bloated and tender.");
 	else outputText(", making your gut clench and spasm with near-orgasmic contractions.");
 	outputText("  There's a tsunami of sperm building up inside you to the point where holding it in is actually starting to hurt you, but at the same time, your body refuses to give in and climax yet either.");
 	outputText("\n\nLynnette's huge, milk-dripping nipples erupt like the verdant volcano peaks they resemble, spraying gushes of ivory cream in lewd cascades that wash over you both, acting as a sweet, slick lubricant that allows her thighs to slip and slide over your own with ease.  She whimpers when your hands attach themselves to her leaky teats, attracted to the mounds as if by magnetism, and you squeeze down on them, pinching off the flow only to release the pressure, making her release her lactic load in huge, pulsing sprays.  She cries out, \"<i>Milk me!  Milk me like a dirty, bova slut!</i>\"  Her back lifts to press those squirting nubs more firmly between your fingers as another orgasm, smaller than the first, wracks her tender, tiny body.");
@@ -819,6 +824,7 @@ private function fuckLynnette():void {
 	if(player.cumQ() >= 4000) flags[kFLAGS.LYNNETTE_CARRYING_COUNT] += 2 + rand(3);
 	if(player.cumQ() >= 6000) flags[kFLAGS.LYNNETTE_CARRYING_COUNT] += 2 + rand(3);
 	if(player.cumQ() >= 10000) flags[kFLAGS.LYNNETTE_CARRYING_COUNT] += 2 + rand(3);
+	if (flags[kFLAGS.SCENEHUNTER_PRINT_CHECKS]) outputText("\n<b>Lynette is pregnant!</b>");
 
 	flags[kFLAGS.LYNNETTE_PREGNANCY_CYCLE] = 0;
 	salonPurchaseMenu();

@@ -11,7 +11,8 @@ package classes.Perks
 
 		override public function desc(params:PerkClass = null):String
 		{
-			return "Increases minimum lust by " + Math.round(params.value1) + ".";
+			if (!player || !params) return _desc;
+			return "Increases minimum lust by " + Math.round(params.value1) + "%.";
 		}
 
 		public function PiercedCrimstonePerk()

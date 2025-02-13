@@ -2,14 +2,40 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
+import classes.GeneticMemories.RaceMem;
 import classes.IMutations.IMutationsLib;
 import classes.Race;
 import classes.Races;
 import classes.VaginaClass;
 
 public class GorgonRace extends Race {
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Snake",
+        /*Eyes*/		"Gorgon",
+        /*Face*/		"Snake",
+        /*Gills*/		"None",
+        /*Hair*/		"Gorgon",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Snake",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Snake",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Snake",
+        /*Wings*/		"Human",
+        /*Penis*/		"Lizard",
+        /*Vagina*/		"Lizard",
+        /*Perks*/		"Human"];
+
 	public function GorgonRace(id:int) {
-		super("Gorgon", id);
+		super("Gorgon", id, RaceBody);
 	}
 	
 	public override function setup():void {
@@ -29,11 +55,13 @@ public class GorgonRace extends Race {
 							return !(body.player.racialScore(Races.NAGA) > 10
 									|| CouatlRace.isCouatlLike(body)
 									|| VouivreRace.isVouivreLike(body)
-									|| HydraRace.isHydraLike(body));
+									|| HydraRace.isHydraLike(body)
+									|| ApophisRace.isApophisLike(body));
 						}, 0, -1000);
 		
 		addMutation(IMutationsLib.VenomGlandsIM);
 		addMutation(IMutationsLib.GorgonEyesIM);
+		addMutation(IMutationsLib.MightyLowerHalfIM);
 		
 		buildTier(11, "gorgon")
 				.buffs({

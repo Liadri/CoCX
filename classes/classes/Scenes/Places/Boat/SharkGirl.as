@@ -16,13 +16,13 @@ public class SharkGirl extends Monster
 				outputText("You charge at the shark girl, prepared to strike again, but stop dead in your tracks when she bends over and wiggles her toned ass towards you. It distracts you long enough for her tail to swing out and smack you to the ground. She coos, \"<i>Aw... You really do like me!</i>\" ");
 				//(Small health damage, medium lust build).
 				player.takePhysDamage(4+rand(4), true);
-				player.dynStats("lus", (10+(player.lib/20)));
+				player.takeLustDamage((10+(player.lib/20)), true);
 			}
 			else {
 				outputText("You pull your [weapon] back, getting a running start to land another attack. The Shark girl smirks and pulls up her bikini top, shaking her perky breasts in your direction. You stop abruptly, aroused by the sight just long enough for the shark girl to kick you across the face and knock you to the ground.  She teases, \"<i>Aw, don't worry baby, you're gonna get the full package in a moment!</i>\" ");
 				//(Small health damage, medium lust build)
 				player.takePhysDamage(4+rand(4), true);
-				player.dynStats("lus", (5+(player.lib/10)));
+				player.takeLustDamage((5+(player.lib/10)), true);
 			}
 		}
 		override public function defeated(hpVictory:Boolean):void
@@ -57,23 +57,22 @@ public class SharkGirl extends Monster
 			this.tallness = 5*12+5;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
-			this.skinTone = "gray";
+			this.bodyColor = "gray";
 			this.hairColor = "silver";
 			this.hairLength = 16;
-			initStrTouSpeInte(90, 90, 60, 42);
-			initWisLibSensCor(42, 75, 35, 40);
+			initStrTouSpeInte(210, 180, 120, 72);
+			initWisLibSensCor(72, 150, 69, -20);
 			this.weaponName = "shark teeth";
 			this.weaponVerb="bite";
-			this.weaponAttack = 20;
+			this.weaponAttack = 50;
 			this.armorName = "tough skin";
-			this.armorDef = 12;
-			this.armorMDef = 1;
-			this.bonusHP = 20;
-			this.bonusLust = 130;
+			this.armorDef = 48;
+			this.armorMDef = 4;
+			this.bonusHP = 200;
+			this.bonusLust = 249;
 			this.lust = 40;
 			this.lustVuln = .9;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-			this.level = 20;
+			this.level = 29;
 			this.gems = rand(30) + 25;
 			this.drop = new WeightedDrop().
 					add(consumables.L_DRAFT,3).

@@ -10,6 +10,9 @@ import classes.PerkLib;
 import classes.Scenes.SceneLib;
 import classes.StatusEffects;
 import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
+import classes.internals.WeightedDrop;
+
+import coc.view.CoCButton;
 
 /**
 	 * ...
@@ -33,19 +36,21 @@ import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
 			this.butt.type = Butt.RATING_TIGHT;
 			this.weaponName = "tentacles";
 			this.weaponVerb = "lash";
-			this.weaponAttack = 30;
+			this.weaponAttack = 80;
 			this.armorName = "tentaclothes";
-			this.armorDef = 18;
-			this.armorMDef = 3;
-			initStrTouSpeInte(100, 195, 110, 100);
-			initWisLibSensCor(100, 150, 60, 100);
-			this.bonusHP = 2500;
-			this.bonusLust = 250;
+			this.armorDef = 90;
+			this.armorMDef = 15;
+			initStrTouSpeInte(150, 295, 210, 100);
+			initWisLibSensCor(100, 280, 190, 100);
+			this.bonusHP = 5000;
+			this.bonusLust = 540;
 			this.fatigue = 0;
-			this.gems = 200 + rand(50);
-			this.level = 40;
-			this.lustVuln = 0;
+			this.gems = 400 + rand(50);
+			this.level = 70;
+			this.lustVuln = 0.01;
 			this.drop = NO_DROP;
+			drop = new WeightedDrop(consumables.LETH3TE, 1);
+			this.createPerk(PerkLib.ArchersStaminaI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.InhumanDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.DemonicDesireI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.RefinedBodyI, 0, 0, 0, 0);
@@ -54,7 +59,7 @@ import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
 			this.createPerk(PerkLib.CheetahI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Diehard, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyTrueDemon, 0, 0, 0, 0);
-			this.createPerk(PerkLib.OverMaxHP, 40, 0, 0, 0);//v1 = enemy lvl
+			this.createPerk(PerkLib.OverMaxHP, 70, 0, 0, 0);//v1 = enemy lvl
 			checkMonster();
 			createStatusEffect(StatusEffects.TentagrappleCooldown, 10, 0, 0, 0);
 		}
@@ -77,7 +82,14 @@ import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
 			if (player.isGargoyle()) SceneLib.d3.gargoyleBadEndD3();
 			else SceneLib.d3.succubusGardener.surrenderToTheGardener(hpVictory);
 		}
-		
+
+		override public function changeBtnWhenBound(btnStruggle:CoCButton, btnBoundWait:CoCButton):void{
+			if (player.hasStatusEffect(StatusEffects.Tentagrappled)) {
+				btnStruggle.call(grappleStruggle);
+				btnBoundWait.call(grappleWait);
+			}
+		}
+
 		override protected function performCombatAction():void
 		{
 			// The succubus gardener is a multistage fight. She starts off all but immune to lust damage. She has enough HP not to be one-shot and a heal move that takes priority over any stun. Once she is reduced to 60% HP, she either drinks from her tentacles or is force-fed by them (if stunned). This fully heals her but makes her 15% more vulnerable to lust.
@@ -405,7 +417,7 @@ import classes.StatusEffects.Combat.GardenerSapSpeedDebuff;
 			if (this.hasStatusEffect(StatusEffects.LustAura))
 			{
 				outputText("  Your eyes cross with unexpected feelings as the taste of desire in the air worms its way into you.  The intense aura quickly subsides, but it's already done its job.");
-				player.dynStats("lus", (8+int(player.lib/20 + player.cor/25)));
+				player.takeLustDamage((8+int(player.lib/20 + player.cor/25)), true);
 			}
 			else 
 			{

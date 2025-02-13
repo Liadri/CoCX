@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.Explore 
+package classes.Scenes.Explore
 {
 import classes.*;
 import classes.GlobalFlags.*;
@@ -18,7 +18,7 @@ import classes.VaginaClass;
 	public class TheDummy extends Monster
 	{
 		
-		public function TheDummy() 
+		public function TheDummy()
 		{
 			this.a = "the ";
 			this.short = "Dummy";
@@ -36,11 +36,11 @@ import classes.VaginaClass;
 			this.tallness = rand(14) + 70;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "grey";
+			this.bodyColor = "grey";
 			this.hairColor = "grey";
 			this.hairLength = 31 + rand(10);
 			initStrTouSpeInte(15, 10000, 15, 15);
-			initWisLibSensCor(15, 10000, 15, 50);
+			initWisLibSensCor(15, 10000, 15, 0);
 			this.weaponName = "worn down staff";
 			this.weaponVerb="smack";
 			this.weaponAttack = 8;
@@ -54,7 +54,6 @@ import classes.VaginaClass;
 			this.bonusSoulforce = 3000;
 			this.lust = 20;
 			this.lustVuln = 0.5;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = player.level;
 			this.gems = 1;
 			this.drop = NO_DROP;
@@ -64,6 +63,13 @@ import classes.VaginaClass;
 			this.createPerk(PerkLib.CheetahI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.GoliathI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
+			this.createPerk(PerkLib.NoDodges, 0, 0, 0, 0);
+			this.createPerk(PerkLib.NoExpGained, 0, 0, 0, 0);
+			this.createPerk(PerkLib.NoItemsGained, 0, 0, 0, 0);
+			this.createPerk(PerkLib.DieHardHP, 50, 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxHP, 50, 0, 0, 0);
+			this.createPerk(PerkLib.OverMaxLust, 50, 0, 0, 0);
+			this.createPerk(PerkLib.AlwaysSuccesfullRunaway, 0, 0, 0, 0);
 			checkMonster();
 		}
 	}

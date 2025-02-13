@@ -2,7 +2,7 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.Areas.GlacialRift 
+package classes.Scenes.Areas.GlacialRift
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -16,7 +16,7 @@ import classes.internals.*;
 	{
 		public function WendigoPossess():void {
 			outputText("The wendigo suddenly seems to vanish into thin air. Just as you thought the monster was gone you feel something entering your body. ");
-			if (SceneLib.shouldraFollower.followerShouldra()) {
+			if (SceneLib.shouldraFollower.followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff)) {
 				outputText("For a split second you feel the malevolent presence within your body before suddenly shouldra manifest herself forcing it out.\n\n");
 				outputText("\"<i>Always glad to have your back champ. I ain't letting anything else go piggy back on this ride, not on my watch!</i>\"");
 			}
@@ -105,7 +105,7 @@ import classes.internals.*;
 			return str;
 		}
 		
-		public function Wendigo() 
+		public function Wendigo()
 		{
 			this.a = "the ";
 			this.short = "wendigo";
@@ -124,7 +124,7 @@ import classes.internals.*;
 			this.hairColor = "silver white";
 			this.hairLength = 15;
 			initStrTouSpeInte(160, 150, 350, 189);
-			initWisLibSensCor(225, 350, 175, 15);
+			initWisLibSensCor(225, 350, 175, -70);
 			this.weaponName = "claws";
 			this.weaponVerb="slash";
 			this.weaponAttack = 52;
@@ -135,7 +135,6 @@ import classes.internals.*;
 			this.bonusLust = 609;
 			this.lust = 20;
 			this.lustVuln = .05;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
 			this.level = 84;
 			this.additionalXP = 600;
 			this.gems = 120 + rand(40);
@@ -143,7 +142,6 @@ import classes.internals.*;
 					.add(consumables.SNOWW_D, 5)
 					.add(consumables.ICICLE_, 2);
 			this.wings.type = Wings.LEVITATION;
-			this.wings.desc = "levitation";
 			this.createStatusEffect(StatusEffects.Flying, 50, 0, 0, 0);
 			this.createPerk(PerkLib.IceNature, 0, 0, 0, 0);
 			checkMonster();

@@ -7,6 +7,7 @@ package classes.Scenes.Camp
 import classes.*;
 import classes.GlobalFlags.kFLAGS;
 import classes.CoC;
+import classes.IMutations.IMutationsLib;
 import classes.Scenes.NPCs.*;
 import classes.Scenes.SceneLib;
 
@@ -98,14 +99,14 @@ public function HaveABoysBath():void {
 	if (player.hasStatusEffect(StatusEffects.CampRathazul)) outputText("You're almost glad you don’t see any part of Rathazul’s body below the hips. Though, you’re not particularly interested anyway.\n\n");
 	if (arianScene.arianFollower() && flags[kFLAGS.ARIAN_VAGINA] < 1 && flags[kFLAGS.ARIAN_COCK_SIZE] > 0) outputText("Arian doesn’t seem to hate the water. He's likely cold blooded and is probably enjoying it.\n\n");
 	if (flags[kFLAGS.IZMA_BROFIED] == 1) outputText("Since Izmael is a true guy now, he was allowed to bathe with the boys.\n\n");
-	if (flags[kFLAGS.KONSTANTIN_FOLLOWER] >= 2) outputText("Sitting near you, Konstantin relaxes and stretches his limbs. His large and thick build dwarf those from the other guys. While chit-chatting, he friendly puts one arm around you, and with the other he shamelessly washes his gigantic manhood, earning no few stares and some blushes from the other boys.\n\n");
+	if (flags[kFLAGS.KONSTANTIN_FOLLOWER] >= 2 && !player.hasStatusEffect(StatusEffects.KonstantinOff)) outputText("Sitting near you, Konstantin relaxes and stretches his limbs. His large and thick build dwarf those from the other guys. While chit-chatting, he friendly puts one arm around you, and with the other he shamelessly washes his gigantic manhood, earning no few stares and some blushes from the other boys.\n\n");
     if (flags[kFLAGS.SIEGWEIRD_FOLLOWER] > 3) {
 		outputText("Siegweird is at the edge of the hotspring, he's stripped down to his padded leather pants and only has his feet in the bubbling water");
 		if (camp.maleNpcsHotBathCount() > 1) outputText(", he seems extremely nervous around all the other people");
 		outputText(". Maybe he's not one for the heat.\n\n");
 	}
 	if (flags[kFLAGS.ZENJI_PROGRESS] == 8 || flags[kFLAGS.ZENJI_PROGRESS] == 9) outputText("Zenji rests in the hot spring, his short fur carried by the bubbling water.\n\n");
-	if (flags[kFLAGS.ZENJI_PROGRESS] == 11) outputText("Zenji rests in the hot spring, his short fur carried by the bubbling water.\n\n");
+	if (ZenjiScenes.isLover()) outputText("Zenji rests in the hot spring, his short fur carried by the bubbling water.\n\n");
 	if (emberScene.followerEmber() && flags[kFLAGS.EMBER_GENDER] == 1) outputText("Ember’s body and maleness could easily give all the other boys an inferiority complex.\n\n");
 	if (camp.loversHotBathCount() > 0) {
 		outputText("You discuss your goals with the other guys when a girl's voice ring out from outside the spring.\n\n");
@@ -149,12 +150,12 @@ public function PeepingTom3():void {
 	if (flags[kFLAGS.ALVINA_FOLLOWER] > 12) outputText("Alvina does not seem to care about her breast size. Her dark charms and unholy attraction aura does everything for her. Naturally nobody but you can see she’s there as usual. Suddenly she gives you a subtle, yet coy wink. Clearly she knows you are looking but as you expected of the demoness she really does not care.\n\n");
 	if (player.hasStatusEffect(StatusEffects.CampMarble) && flags[kFLAGS.FOLLOWER_AT_FARM_MARBLE] == 0) outputText("Marble easily has the largest pair here, beating all of the other girls without contest. They’re probably the milkiest too.\n\n");
 	if (isabellaFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_ISABELLA] == 0) outputText("Isabella sings as she bathes, which is not surprising. You assume they’re folk songs from her home.\n\n");
-	if (sophieFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_SOPHIE] == 0) {
+	if (sophieFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_SOPHIE] == 0 && !player.hasStatusEffect(StatusEffects.SophieOff)) {
 		outputText("Sophie, while not having the largest breasts, easily outshines every other girl when it comes to her hips. Her matronly build and egg bearing hips fit her stern confidence as she bathes");
 		if (flags[kFLAGS.SOPHIE_DAUGHTER_MATURITY_COUNTER] > 0) outputText(", her daughter sitting at her side");
 		outputText(".\n\n");
 	}
-	if (followerHel()) outputText("Helia is lazily sitting in the bath, not saying a word.\n\n");
+	if (followerHel() && !player.hasStatusEffect(StatusEffects.HeliaOff)) outputText("Helia is lazily sitting in the bath, not saying a word.\n\n");
 	if (CelessScene.instance.isCompanion() && CelessScene.instance.isAdult) outputText(CelessScene.instance.Name+" is relaxing letting her equine half soak in the deeper watery area.\n\n");
 	if (flags[kFLAGS.KINDRA_FOLLOWER] >= 1) outputText("Kindra’s wool doesn't seem to prevent her from enjoying the bath.\n\n");
 	if (flags[kFLAGS.ETNA_FOLLOWER] > 0 && !player.hasStatusEffect(StatusEffects.EtnaOff)) outputText("Etna isn’t far from your hiding spot, her tail tip covered with a towel for everyone else's safety.\n\n");
@@ -164,9 +165,10 @@ public function PeepingTom3():void {
 		else outputText("While she was not always a girl, Izma is womanly enough that she was still accepted in the bath.\n\n");
 	}
 	if (flags[kFLAGS.SAMIRAH_FOLLOWER] > 9) outputText("As a naga, Samirah takes a lot of space in the bath. You're glad you made it big enough to hold as many people.\n\n");
-	if (flags[kFLAGS.DIANA_FOLLOWER] >= 6 && !player.hasStatusEffect(StatusEffects.DianaOff)) outputText("Diana is resting next to a set of medicinal and aromatic oils she regularly spray in the bath.\n\n");
+	if (flags[kFLAGS.NADIA_FOLLOWER] >= 6 && !player.hasStatusEffect(StatusEffects.NadiaOff)) outputText("Nadia is resting next to a set of medicinal and aromatic oils she regularly spray in the bath.\n\n");
 	//if (flags[kFLAGS.MICHIKO_FOLLOWER] >= 1) Michiko
 	if (flags[kFLAGS.MITZI_RECRUITED] >= 4) outputText("Your resident goblin Mitzi saunters over, looking excited. She strips what little clothing she wears then climbs into the warm waters. Her large tits help her stay afloat as she lays back and relaxes, letting out a sigh of relief.\n\n");
+	if (flags[kFLAGS.THE_TRENCH_ENTERED] > 14) outputText("You can see Grayda staying close to you. However, she seems to be fighting the urge to fall asleep in the comfort of the warm water.\n\n");
 	if (flags[kFLAGS.EXCELLIA_RECRUITED] >= 33) outputText("Excellia comes over to enjoy the soothing waters. She climbs in, letting out a content [exc moo] as she lays back letting the warm waters wash over her.\n\n");
 	if (flags[kFLAGS.LUNA_FOLLOWER] >= 4 && !player.hasStatusEffect(StatusEffects.LunaOff)) outputText("Luna is enjoying a break relaxing for once as she is not on duty" + (flags[kFLAGS.LUNA_FOLLOWER] > 6 ? ", though for a few split second you imagined her doing doggy paddle in the water" : "") + ".\n\n");
 	if (arianScene.arianFollower() && flags[kFLAGS.ARIAN_VAGINA] > 0 && flags[kFLAGS.ARIAN_COCK_SIZE] == 0) outputText("Arian while formerly a male seems to get along with the other girls.\n\n");
@@ -219,23 +221,23 @@ public function HaveAGirlBath():void {
 	if (flags[kFLAGS.CHI_CHI_FOLLOWER] > 2 && flags[kFLAGS.CHI_CHI_FOLLOWER] != 5 && !player.hasStatusEffect(StatusEffects.ChiChiOff)) outputText("Chi Chi, while small, easily sports a bigger cup than Amily.\n\n");
 	if (flags[kFLAGS.ALVINA_FOLLOWER] > 12) outputText("Alvina does not seem to care about her breast size. Her dark charms and unholy attraction aura does everything for her. Naturally, nobody but you can see she’s there.\n\n");
 	if (player.hasStatusEffect(StatusEffects.CampMarble) && flags[kFLAGS.FOLLOWER_AT_FARM_MARBLE] == 0) outputText("Marble easily has the largest pair here, beating all of the other girls without contest, They’re probably the milkiest too.\n\n");
-	if (isabellaFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_ISABELLA] == 0) outputText("Isabella sings as she bathes, which is not surprising. You assume they’re folk songs from her home.\n\n");
+	if (isabellaFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_ISABELLA] == 0 && !player.hasStatusEffect(StatusEffects.SophieOff)) outputText("Isabella sings as she bathes, which is not surprising. You assume they’re folk songs from her home.\n\n");
 	if (sophieFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_SOPHIE] == 0) {
 		outputText("Sophie, while not having the largest breasts, easily outshines every other girl when it comes to her hips.Her matronly build and egg bearing hips fit her stern confidence as she bathes");
 		if (flags[kFLAGS.SOPHIE_DAUGHTER_MATURITY_COUNTER] > 0) outputText(", her daughter sittings at her side");
 		outputText(".\n\n");
 	}
-	if (followerHel()) outputText("Helia is lazily sitting in the bath, not saying a word.\n\n");
+	if (followerHel() && !player.hasStatusEffect(StatusEffects.HeliaOff)) outputText("Helia is lazily sitting in the bath, not saying a word.\n\n");
 	if (CelessScene.instance.isCompanion() && CelessScene.instance.isAdult) outputText(CelessScene.instance.Name+" is relaxing letting her equine half soak in the deeper watery area.\n\n");
 	if (flags[kFLAGS.KINDRA_FOLLOWER] >= 1) outputText("Kindra’s wool doesn't seem to prevent her from enjoying the bath.\n\n");
 	if (flags[kFLAGS.ETNA_FOLLOWER] > 0 && !player.hasStatusEffect(StatusEffects.EtnaOff)) outputText("Etna isn’t far from you, her tail tip covered with a towel for everyone else's safety.\n\n");
 	if (flags[kFLAGS.AYANE_FOLLOWER] >= 2) {
 		outputText("Ayane is enjoying some quality time in the other corner, tending to her fur");
-		if (player.isRace(Races.KITSUNE)) outputText(" and yours");
+		if (player.isRace(Races.KITSUNE, 1, false)) outputText(" and yours");
 		outputText(".\n\n");
 	}
 	if (flags[kFLAGS.SAMIRAH_FOLLOWER] > 9) outputText("As a naga Samirah takes a lot of space in the bath. You're glad you made your pool as large as you could.\n\n");
-	if (flags[kFLAGS.DIANA_FOLLOWER] >= 6 && !player.hasStatusEffect(StatusEffects.DianaOff)) outputText("Diana is resting next to a set of medicinal and aromatic oils she regularly spray in the bath. Can’t say this is not welcome.\n\n");
+	if (flags[kFLAGS.NADIA_FOLLOWER] >= 6 && !player.hasStatusEffect(StatusEffects.NadiaOff)) outputText("Nadia is resting next to a set of medicinal and aromatic oils she regularly spray in the bath. Can’t say this is not welcome.\n\n");
 	//if (flags[kFLAGS.MICHIKO_FOLLOWER] >= 1) Michiko
 	if (flags[kFLAGS.MITZI_RECRUITED] >= 4) outputText("Your resident goblin Mitzi saunters over, looking excited. She strips what little clothing she wears then climbs into the warm waters. Her large tits help her stay afloat as she lays back and relaxes, letting out a sigh of relief.\n\n");
 	if (flags[kFLAGS.EXCELLIA_RECRUITED] >= 33) outputText("Excellia comes over to enjoy the soothing waters. She climbs in, letting out a content [exc moo] as she lays back letting the warm waters wash over her.\n\n");
@@ -276,13 +278,13 @@ public function HeavenTribulationThunderDoom():void {
 }
 public function HclassHTintro():void {
 	spriteSelect(null);
-	outputText("\nAn expanse of ink-black clouds form from nowhere, engulfing the land in near-total darkness. You stand, looking up into the artificial night. You see a part of the clouds, directly above you, and from it, crimson lightning splits the sky, carving a trench in the ground in front of you. The unnatural lightning spreads, jagged webs across the black sky, the thunder roaring constantly in your ears. Your heart beats faster, your [skin] crawling with each crack.\n");
+	outputText("\nAn expanse of ink-black clouds form from nowhere, engulfing the land in near-total darkness. You stand, looking up into the artificial night. You see a part of the clouds, directly above you, and from it, crimson lightning splits the sky, carving a trench in the ground in front of you. The unnatural lightning spreads, jagged webs across the black sky, the thunder roaring constantly in your ears. Your heart beats faster, your [skin] crawling with each crack. The wind howls, and you break into a cold sweat. Your first tribulation starts now.\n");
 	startCombat(new HclassHeavenTribulation());
 }
 public function HclassHTbeaten():void {
 	clearOutput();
 	outputText("After your attack, the clouds part, the clear sky showing through. The hole widens, clouds scattered every which way by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You've broken your limits.\n\n");
-	outputText("<b>You can now cultivate Daos of Elements.\n");
+	outputText("<b>You're now Early Soul Sprite.\nYou can now cultivate Daos of Elements.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTB:Number = 1;
 		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 1) BTB += 2;
@@ -291,16 +293,26 @@ public function HclassHTbeaten():void {
 		player.createPerk(PerkLib.BodyTempering, BTB, 0, 0, 0);
 	}
 	outputText("(Gained Perk: H class Heaven Tribulation Survivor)</b>\n");
+	player.removeKeyItem("Heavenly Tribulation: Myths and Facts");
 	player.createPerk(PerkLib.HclassHeavenTribulationSurvivor, 0, 0, 0, 0);
-	player.XP = player.XP + 8000;
+	player.createPerk(PerkLib.SoulSprite, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -2);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 10;
+	player.XP += 2700;
 	cleanupAfterCombat();
 }
 public function HclassHTsurvived():void {
 	clearOutput();
-	outputText("You survived. You can feel the shocks coursing through you, your ears ringing with heavenly thunder, but things could've gone much worse. The Tribulations clouds disperse. You're battered and bruised, but your trial has ended.\n\n");
-	outputText("<b>You can now cultivate Daos of Elements.\n");
+	outputText("You survived. You can feel the shocks coursing through you, your ears ringing with heavenly thunder, but things could've gone much worse. The Tribulations clouds disperse. You're battered and bruised, but your trial has ended. You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul Sprite.\nYou can now cultivate Daos of Elements.\n");
 	outputText("(Gained Perk: H class Heaven Tribulation Survivor)</b>\n");
+	player.removeKeyItem("Heavenly Tribulation: Myths and Facts");
 	player.createPerk(PerkLib.HclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulSprite, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -2);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 10;
 	cleanupAfterCombat();
 }
 public function GclassHTintro():void {
@@ -310,8 +322,8 @@ public function GclassHTintro():void {
 }
 public function GclassHTbeaten():void {
 	clearOutput();
-	outputText("After your attack, the clouds part, the clear sky showing through. The hole widens, clouds scattered every which way by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+"\n\n");
-	outputText("<b>You can now freely fly.\n");
+	outputText("After your attack, the clouds part, the clear sky showing through. The hole widens, clouds scattered every which way by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul Elder.\nYou can now freely fly.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTB:Number = 1;
 		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 1) BTB += 2;
@@ -332,26 +344,34 @@ public function GclassHTbeaten():void {
 	}
 	outputText("(Gained Perk: G class Heaven Tribulation Survivor)</b>\n");
 	player.createPerk(PerkLib.GclassHeavenTribulationSurvivor, 0, 0, 0, 0);
-	player.XP = player.XP + 27000;
+	player.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -2);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 19;
+	player.XP += 10800;
 	cleanupAfterCombat();
 }
 public function GclassHTsurvived():void {
 	clearOutput();
-	outputText("You survived. You're in rough shape, but things could be worse. The Tribulation clouds disperse now that your trial has ended.\n\n");
-	outputText("<b>You can now freely fly.\n");
+	outputText("You survived. You're in rough shape, but things could be worse. The Tribulation clouds disperse now that your trial has ended. You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul Elder.\nYou can now freely fly.\n");
 	outputText("(Gained Perk: G class Heaven Tribulation Survivor)</b>\n");
 	player.createPerk(PerkLib.GclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulElder, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -2);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 19;
 	cleanupAfterCombat();
 }
 public function FclassHTintro():void {
 	spriteSelect(null);
-	outputText("\n An expanse of ink-black clouds form from nowhere, engulfing the land in near-total darkness. You stand, looking up into the artificial night. You see a part of the clouds, directly above you, and from it, crimson lightning splits the sky, carving a trench in the ground in front of you. The unnatural lightning spreads, jagged webs across the black sky, the thunder roaring constantly in your ears. Your heart beats faster, your [skin] crawling with each crack. The wind howls, and you break into a cold sweat. Your third tribulation starts now.\n");
+	outputText("\nAn expanse of ink-black clouds form from nowhere, engulfing the land in near-total darkness. You stand, looking up into the artificial night. You see a part of the clouds, directly above you, and from it, crimson lightning splits the sky, carving a trench in the ground in front of you. The unnatural lightning spreads, jagged webs across the black sky, the thunder roaring constantly in your ears. Your heart beats faster, your [skin] crawling with each crack. The wind howls, and you break into a cold sweat. Your third tribulation starts now.\n");
 	startCombat(new FclassHeavenTribulation());
 }
 public function FclassHTbeaten():void {
 	clearOutput();
-	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt and haunty arrogance toward dispering tribulation clouds feeling few of blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+" have been broken throu.\n\n");
-	outputText("<b>You can now create a clone, which could serve as main body replacement in case something bad happen to main body.\n");
+	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul Overlord.\nYou can now create a clone, which could serve as main body replacement in case something bad happen to main body.\n");
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
 		var BTBa:Number = 1;
 		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 1) BTBa += 2;
@@ -369,7 +389,7 @@ public function FclassHTbeaten():void {
 	}
 	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3) {
 		var BTBaa:Number = 4;
-		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 1) BTBaa += 5;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 4) BTBaa += 6;
 		if (player.hasPerk(PerkLib.SoulTempering)) {
 			outputText("Your Soul Tempering have progressed.\n");
 			player.addPerkValue(PerkLib.SoulTempering, 1, BTBaa);
@@ -381,26 +401,150 @@ public function FclassHTbeaten():void {
 	}
 	outputText("(Gained Perk: F class Heaven Tribulation Survivor)</b>\n");
 	player.createPerk(PerkLib.FclassHeavenTribulationSurvivor, 0, 0, 0, 0);
-	player.XP = player.XP + 40000;
+	player.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -3);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 27;
+	player.XP += 23400;
 	cleanupAfterCombat();
 }
 public function FclassHTsurvived():void {
 	clearOutput();
-	outputText("You survived. You're in rough shape, but things could be worse. The Tribulation clouds disperse now that your trial has ended.\n\n");
-	outputText("<b>You can now create a clone. While this soulless husk can't be used now, should something happen to your main body, you can escape to this empty vessel.\n");
+	outputText("You survived. You're in rough shape, but things could be worse. The Tribulation clouds disperse now that your trial has ended. You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul Overlord.\nYou can now create a clone. While this soulless husk can't be used now, should something happen to your main body, you can escape to this empty vessel.\n");
 	outputText("(Gained Perk: F class Heaven Tribulation Survivor)</b>\n");
 	player.createPerk(PerkLib.FclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulOverlord, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -3);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 27;
+	cleanupAfterCombat();
+}
+public function FFclassHTintro():void {
+	spriteSelect(null);
+	outputText("\nAn expanse of ink-black clouds form from nowhere, engulfing the land in near-total darkness. You stand, looking up into the artificial night. You see a part of the clouds, directly above you, and from it, crimson lightning splits the sky, carving a trench in the ground in front of you. The unnatural lightning spreads, jagged webs across the black sky, the thunder roaring constantly in your ears. Your heart beats faster, your [skin] crawling with each crack. The wind howls, and you break into a cold sweat. Your fourth tribulation starts now.\n");
+	startCombat(new FFclassHeavenTribulation());
+}
+public function FFclassHTbeaten():void {
+	clearOutput();
+	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul King.\nYou can now create three additional clones.\n");
+	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
+		var BTBa:Number = 1;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 1) BTBa += 2;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 2) BTBa += 3;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3) BTBa += 4;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 4) BTBa += 5;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 5) BTBa += 6;
+		if (player.hasPerk(PerkLib.BodyTempering)) {
+			outputText("Your Body Tempering have progressed.\n");
+			player.addPerkValue(PerkLib.BodyTempering, 1, BTBa);
+		}
+		else {
+			outputText("(Gained Perk: Body Tempering)\n");
+			player.createPerk(PerkLib.BodyTempering, BTBa, 0, 0, 0);
+		}
+	}
+	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3) {
+		var BTBaa:Number = 4;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 4) BTBaa += 6;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 5) BTBaa += 7;
+		if (player.hasPerk(PerkLib.SoulTempering)) {
+			outputText("Your Soul Tempering have progressed.\n");
+			player.addPerkValue(PerkLib.SoulTempering, 1, BTBaa);
+		}
+		else {
+			outputText("(Gained Perk: Soul Tempering)\n");
+			player.createPerk(PerkLib.SoulTempering, BTBaa, 0, 0, 0);
+		}
+	}
+	outputText("(Gained Perk: FF class Heaven Tribulation Survivor)</b>\n");
+	player.createPerk(PerkLib.FFclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulKing, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -3);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 35;
+	player.XP += 40800;
+	cleanupAfterCombat();
+}
+public function FFclassHTsurvived():void {
+	clearOutput();
+	outputText("You survived. You're in rough shape, but things could be worse. The Tribulation clouds disperse now that your trial has ended. You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	outputText("<b>You're now Early Soul King.\nYou can now create three additional clones.\n");
+	outputText("(Gained Perk: FF class Heaven Tribulation Survivor)</b>\n");
+	player.createPerk(PerkLib.FFclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulKing, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -3);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 35;
+	cleanupAfterCombat();
+}
+public function EclassHTintro():void {
+	spriteSelect(null);
+	outputText("\nAn expanse of ink-black clouds form from nowhere, engulfing the land in near-total darkness. You stand, looking up into the artificial night. You see a part of the clouds, directly above you, and from it, crimson lightning splits the sky, carving a trench in the ground in front of you. The unnatural lightning spreads, jagged webs across the black sky, the thunder roaring constantly in your ears. Your heart beats faster, your [skin] crawling with each crack. The wind howls, and you break into a cold sweat. Your fifth tribulation starts now.\n");
+	startCombat(new EclassHeavenTribulation());
+}
+public function EclassHTbeaten():void {
+	clearOutput();
+	outputText("After your attack clouds starts to disperce. Not from sending all their attacks against but due to been forcefully scattered by your counterattacks. Looking upward with contempt, you feel pride welling up within you. Your body feels lighter, stronger, your SoulForce pumping like blood through you. You kneel, feeling your SoulForce breaking through blockages in your body"+(player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3 ? " and soul":"")+". You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	//outputText("<b>You're now Early Soul Ancestor.\nYou can now create three additional clones.\n");
+	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 0) {
+		var BTBa:Number = 1;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 1) BTBa += 2;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 2) BTBa += 3;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3) BTBa += 4;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 4) BTBa += 5;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 5) BTBa += 6;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 6) BTBa += 7;
+		if (player.hasPerk(PerkLib.BodyTempering)) {
+			outputText("Your Body Tempering have progressed.\n");
+			player.addPerkValue(PerkLib.BodyTempering, 1, BTBa);
+		}
+		else {
+			outputText("(Gained Perk: Body Tempering)\n");
+			player.createPerk(PerkLib.BodyTempering, BTBa, 0, 0, 0);
+		}
+	}
+	if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 3) {
+		var BTBaa:Number = 4;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 4) BTBaa += 6;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 5) BTBaa += 7;
+		if (player.statusEffectv1(StatusEffects.HeavenTribulationCR) > 6) BTBaa += 8;
+		if (player.hasPerk(PerkLib.SoulTempering)) {
+			outputText("Your Soul Tempering have progressed.\n");
+			player.addPerkValue(PerkLib.SoulTempering, 1, BTBaa);
+		}
+		else {
+			outputText("(Gained Perk: Soul Tempering)\n");
+			player.createPerk(PerkLib.SoulTempering, BTBaa, 0, 0, 0);
+		}
+	}
+	outputText("(Gained Perk: E class Heaven Tribulation Survivor)</b>\n");
+	player.createPerk(PerkLib.EclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulAncestor, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -3);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 43;
+	player.XP += 63000;
+	cleanupAfterCombat();
+}
+public function EclassHTsurvived():void {
+	clearOutput();
+	outputText("You survived. You're in rough shape, but things could be worse. The Tribulation clouds disperse now that your trial has ended. You also feel silent 'pop' inside your body as cultivation base makes a breakthrough.\n\n");
+	//outputText("<b>You're now Early Soul Ancestor.\nYou can now create three additional clones.\n");
+	outputText("(Gained Perk: E class Heaven Tribulation Survivor)</b>\n");
+	player.createPerk(PerkLib.EclassHeavenTribulationSurvivor, 0, 0, 0, 0);
+	player.createPerk(PerkLib.SoulAncestor, 0, 0, 0, 0);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 1, -3);
+	player.addPerkValue(PerkLib.JobSoulCultivator, 2, 1);
+	flags[kFLAGS.SOUL_CULTIVATION] = 43;
 	cleanupAfterCombat();
 }
 
-public function goblinsBirthScene():void {
+public function goblinsBirthScene(womb:int = 0):void {
 	daughtersCount += 1 + rand(5);
-	outputText("\n");
-	if(player.vaginas.length == 0) {
-		outputText("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  <b>You look down and behold a new vagina</b>.  ");
-		player.createVagina();
-	}
-	outputText("A sudden gush of fluids erupts from your vagina - your water just broke. You moan in pleasure as you feel wriggling and squirming inside your belly, muscle contractions forcing it downwards.\n\n");
+	if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) daughtersCount *= 2;
+	outputText("\nA sudden gush of fluids erupts from your vagina - your water just broke. You moan in pleasure as you feel wriggling and squirming inside your belly, muscle contractions forcing it downwards.\n\n");
 	outputText("The pleasure only increase as your delivery continues... Arousal spikes through you as the contractions intensify, and as you feel something begin to pass you have a tiny orgasm. Yet this is only the beginning, and the contractions spike again, pushing you to orgasm as your daughter keeps moving forward. It repeats, over and over, nearly a dozen times she causes you to orgasm... this is even better then getting fucked! ");
 	if (daughtersCount > 1) outputText("Each new baby you pop is a new orgasm and by the end of it your tongue is panting out from pleasure. ");
 	outputText("After an eternity of procreation and pleasure, you sense your ordeal is over and look for your newborn daughter"+(daughtersCount > 1 ? "s":"")+". ");
@@ -409,11 +553,11 @@ public function goblinsBirthScene():void {
 		outputText("Still, since she is your firstborn, what will you name her?\n\n");
 		mainView.nameBox.text = "";
 		menu();
-		addButton(0, "Next", nameEldestGobo);
+		addButton(0, "Next", curry(nameEldestGobo, womb));
 	}
-	else goblinsBirthScene2();
+	else goblinsBirthScene2(womb);
 }
-private function nameEldestGobo():void {
+private function nameEldestGobo(womb:int = 0):void {
 	if (mainView.nameBox.text == "") {
 		clearOutput();
 		outputText("<b>You must name her.</b>");
@@ -422,7 +566,7 @@ private function nameEldestGobo():void {
 		mainView.nameBox.width = 165;
 		mainView.nameBox.x = mainView.mainText.x + 5;
 		mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
-		doNext(nameEldestGobo);
+		doNext(nameEldestGobo, womb);
 		return;
 	}
 	flags[kFLAGS.ELDEST_GOBLIN_DAUGHTER] = mainView.nameBox.text;
@@ -430,9 +574,9 @@ private function nameEldestGobo():void {
 	mainView.nameBox.visible = false;
 	clearOutput();
 	outputText("" + flags[kFLAGS.ELDEST_GOBLIN_DAUGHTER] + " now that's a name worthy of a future genius! ");
-	goblinsBirthScene2();
+	goblinsBirthScene2(womb);
 }
-private function goblinsBirthScene2():void {
+private function goblinsBirthScene2(womb:int = 0):void {
 	outputText("That solved, you doze off with your daughter against you, supremely happy.");
 	player.cuntChange(60, true, true, false);
 	outputText("\n\nWhen you wake up you are no longer holding a baby but what looks like a teenage goblin.\n\n");
@@ -450,12 +594,10 @@ private function goblinsBirthScene2():void {
 		outputText("\"<i>Morning Mom. Hey, say I might as well stay around the camp with everyone. Big sister " + flags[kFLAGS.ELDEST_GOBLIN_DAUGHTER] + " is here too. Pretty sure I'm better off staying close to you"+((camp.maleNpcsHotBathCount() > 0 && !player.hasStatusEffect(StatusEffects.PureCampJojo)) ? ". Not to mention the "+(camp.maleNpcsHotBathCount() > 1 ? "many studs":"stud")+" available around the place":"")+".</i>\"\n\n");
 	}
 	outputText("Aw... She’s fully grown up now but hey, that's another pair of hands around the workshop, right?\n\n");
-	if (player.vaginas[0].vaginalWetness == VaginaClass.WETNESS_DRY) player.vaginas[0].vaginalWetness++;
+	if (player.vaginas[womb].vaginalWetness == VaginaClass.WETNESS_DRY) player.vaginas[womb].vaginalWetness++;
 	if (player.breastRows.length == 0) {
-		player.createBreastRow();
-        player.breastRows[0].breasts = 2;
-        player.breastRows[0].nipplesPerBreast = 1;
-        player.breastRows[0].breastRating = 1;
+		player.createBreastRow(1);
+		transformations.UnlockBreasts();
 	}
 	else player.breastRows[0].breastRating += 1;
 	player.hips.type += 1;
@@ -464,7 +606,6 @@ private function goblinsBirthScene2():void {
 	player.dynStats("tou", -2, "spe", 3, "lib", 1, "sen", .5);
 	player.addCurse("str", 1, 2);
 	daughtersCount = 0;
-	player.removeStatusEffect(StatusEffects.PCDaughters);
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -507,13 +648,13 @@ public function PCGoblinDaughtersBuilingWorkshopSpareParts():void {
 	if (player.statusEffectv3(StatusEffects.PCDaughtersWorkshopSpareParts) > 0) outputText(", "+player.statusEffectv3(StatusEffects.PCDaughtersWorkshopSpareParts)+" mechanism");
 	if (player.statusEffectv4(StatusEffects.PCDaughtersWorkshopSpareParts) > 0) outputText(", "+player.statusEffectv4(StatusEffects.PCDaughtersWorkshopSpareParts)+" energy core");
 	outputText("</b>");
-	flags[kFLAGS.CAMP_CABIN_NAILS_RESOURCES] += player.statusEffectv1(StatusEffects.PCDaughtersWorkshopSpareParts);
-	flags[kFLAGS.CAMP_CABIN_METAL_PIECES_RESOURCES] += player.statusEffectv2(StatusEffects.PCDaughtersWorkshopSpareParts);
-	flags[kFLAGS.CAMP_CABIN_MECHANISM_RESOURCES] += player.statusEffectv3(StatusEffects.PCDaughtersWorkshopSpareParts);
-	flags[kFLAGS.CAMP_CABIN_ENERGY_CORE_RESOURCES] += player.statusEffectv4(StatusEffects.PCDaughtersWorkshopSpareParts);
+	CampStatsAndResources.NailsResc += player.statusEffectv1(StatusEffects.PCDaughtersWorkshopSpareParts);
+	CampStatsAndResources.MetalPieces += player.statusEffectv2(StatusEffects.PCDaughtersWorkshopSpareParts);
+	CampStatsAndResources.MechanismResc += player.statusEffectv3(StatusEffects.PCDaughtersWorkshopSpareParts);
+	CampStatsAndResources.EnergyCoreResc += player.statusEffectv4(StatusEffects.PCDaughtersWorkshopSpareParts);
 	player.removeStatusEffect(StatusEffects.PCDaughtersWorkshopSpareParts);
 	doNext(playerMenu);
-	eachMinuteCount(5);
+	advanceMinutes(5);
 }
 
 }

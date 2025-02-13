@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Items.Weapons 
+package classes.Items.Weapons
 {
 	import classes.Items.Weapon;
 	import classes.Player;
@@ -11,9 +11,9 @@ package classes.Items.Weapons
 
 	public class SoulDrill extends Weapon {
 		
-		public function SoulDrill() 
+		public function SoulDrill()
 		{
-			super("SDrill", "SoulDrill", "soul drill", "a soul drill", "pierce", 20, 9600, "Soul Drill - the best solution for 'my drill is my soul' cases on this side of Mareth!  This huge hand drill could be powered by soulforce to spin. The more you power it up the faster it spin.", "Large", "Exotic");
+			super("SDrill", "SoulDrill", "soul drill", "a soul drill", "pierce", 20, 9600, "Soul Drill - the best solution for 'my drill is my soul' cases on this side of Mareth!  This huge hand drill could be powered by soulforce to spin. The more you power it up the faster it spin.", WT_EXOTIC, WSZ_LARGE);
 		}
 		
 		override public function get attack():Number {
@@ -23,26 +23,26 @@ package classes.Items.Weapons
 			if (game.player.statusEffectv1(StatusEffects.SoulDrill1) >= 3) boost += 20;
 			if (game.player.statusEffectv1(StatusEffects.SoulDrill1) >= 2) boost += 20;
 			if (game.player.statusEffectv1(StatusEffects.SoulDrill1) >= 1) boost += 20;
-			return (20 + boost); 
+			return (20 + boost);
 		}
 		
-		override public function get verb():String { 
-			return game.player.statusEffectv1(StatusEffects.SoulDrill1) >= 1 ? "drill" : "pierce"; 
+		override public function get verb():String {
+			return game.player.statusEffectv1(StatusEffects.SoulDrill1) >= 1 ? "drill" : "pierce";
 		}
 		
-		override public function playerEquip():Weapon {
+		override public function afterEquip(doOutput:Boolean, slot:int):void {
 			game.player.createStatusEffect(StatusEffects.SoulDrill1,0,0,0,0);
-			return super.playerEquip();
+			super.afterEquip(doOutput, slot);
 		}
 		
-		override public function playerRemove():Weapon {
+		override public function afterUnequip(doOutput:Boolean, slot:int):void {
 			while (game.player.hasStatusEffect(StatusEffects.SoulDrill1)) game.player.removeStatusEffect(StatusEffects.SoulDrill1);
-			return super.playerRemove();
+			super.afterUnequip(doOutput, slot);
 		}
 		
-		override public function canUse():Boolean {
-			if (game.player.hasPerk(PerkLib.GigantGrip)) return super.canUse();
-			outputText("You aren't skilled in handling large weapons with one hand yet to effectively use this drill. Unless you want to hurt yourself instead enemies when trying to use it...  ");
+		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
+			if (game.player.hasPerk(PerkLib.GigantGrip)) return super.canEquip(doOutput, slot);
+			if (doOutput) outputText("You aren't skilled in handling large weapons with one hand yet to effectively use this drill. Unless you want to hurt yourself instead enemies when trying to use it...  ");
 			return false;
 		}
 	}

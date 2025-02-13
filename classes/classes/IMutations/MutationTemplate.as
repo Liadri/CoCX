@@ -10,6 +10,9 @@ import classes.PerkClass;
 
     public class MutationTemplate extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "PerkName Here";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -27,26 +30,10 @@ import classes.PerkClass;
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "PerkName Here" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -63,9 +50,9 @@ import classes.PerkClass;
 
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
+            //if (player.perkv3(this) == 1){} //This checks in player has the "true" mutation.
             /*
             if (pTier == 1) {
                 pBuffs['spe.mult'] = 0;
@@ -80,8 +67,8 @@ import classes.PerkClass;
         }
 
         public function MutationTemplate() {
-            super("PerkName Here IM", "PerkName Here", ".");
-            maxLvl = 3;
+            // replace SLOT_NONE with other SLOT_XXXX constant
+            super(mName + " IM", mName, SLOT_NONE, 3, true);
         }
 
     }

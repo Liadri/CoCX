@@ -12,6 +12,9 @@ import classes.Races;
 
 public class GorgonEyesMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Gorgon Eyes";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
@@ -19,36 +22,29 @@ public class GorgonEyesMutation extends IMutationPerkType
             if (pTier >= 1){
                 descS += "Allows you to use Petrify with any type of eyes and improves your resistance to attacks that are related to sight";
             }
-            if (pTier >= 2){
-                descS += ", increases your reactions, increases Petrify's duration, and inverts the negative effects of resistances against basilisk and similars";
+            if (pTier == 2){
+                descS += ", increases your reactions & Petrify's duration";
             }
             if (pTier >= 3){
-                descS += ", ";
+                descS += ", increases your reactions & Petrify's duration (with bonus for having gorgon hair)";
+            }
+            if (pTier >= 2){
+                descS += ", and inverts the negative effects of resistances against basilisk and similars";
+            }
+            if (pTier == 3){
+                descS += ", same bonus as Eyes of the Hunter (Ex) perk but with limit to 5(10 w/ gorgon hair) lvl's, Petrify would work on any enemy even if they used invisibility ability (excluding been underground)";
+            }
+            if (pTier == 4){
+                descS += ", same bonus as Eyes of the Hunter (Ex) perk but with limit to 15(30 w/ gorgon hair) lvl's, Petrify would work on any enemy even if they used invisibility ability (excluding been underground), could use enhanced version of Petrification that is shorter but enemy HP/mana/SF recovery is fully stopped during it";
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Gorgon Eyes" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
@@ -68,23 +64,29 @@ public class GorgonEyesMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) {
                 pBuffs['spe.mult'] = 0.05;
-                pBuffs['sens'] = 5
+                pBuffs['sens'] = 5;
             }
             if (pTier == 2) {
                 pBuffs['spe.mult'] = 0.15;
                 pBuffs['sens'] = 15;
             }
+            if (pTier == 3) {
+                pBuffs['spe.mult'] = 0.45;
+                pBuffs['sens'] = 45;
+            }
+            if (pTier == 4) {
+                pBuffs['spe.mult'] = 1.5;
+                pBuffs['sens'] = 150;
+            }
             return pBuffs;
         }
 
         public function GorgonEyesMutation() {
-            super("Gorgon Eyes IM", "Gorgon Eyes", ".");
-            maxLvl = 2;
+            super(mName + " IM", mName, SLOT_EYES, 4);
         }
 
     }

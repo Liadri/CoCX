@@ -18,12 +18,8 @@ import classes.internals.*;
 		public function driderKiss():void {
 			var temp:int;
 			outputText("The corrupted drider closes in on your web-bound form, cooing happily at you while you struggle with the sticky fibers.\n\n");
-			//Blind dodge change
-			if(hasStatusEffect(StatusEffects.Blind) && rand(3) < 2) {
-				outputText("She's too blind to get anywhere near you.\n");
-			}
 			//Dodge
-			else if(player.spe - spe > 0 && int(Math.random()*(((player.spe-spe)/4)+80)) > 80) {
+			if(player.getEvasionRoll()) {
 				outputText("Somehow, you manage to drag yourself out of the way.  She sighs and licks her lips.  \"<i>");
 				temp = rand(4);
 				if(temp == 0) outputText("I just wanted to give my delicious morsel a kiss...</i>\"\n");
@@ -31,37 +27,9 @@ import classes.internals.*;
 				else if(temp == 2) outputText("Mmm, do you have to squirm so much, prey?</i>\"\n");
 				else outputText("Just look at my glossy, dripping lips.  Imagine how great it would feel to have them locked against you.  Why resist?</i>\"\n");
 			}
-			//Determine if evaded
-			else if(player.hasPerk(PerkLib.Evade) && rand(100) < 10) {
-				outputText("Somehow, you manage to evade her lusty attack.  She sighs and licks her lips.  \"<i>");
-				temp = rand(4);
-				if(temp == 0) outputText("I just wanted to give my delicious morsel a kiss...</i>\"\n");
-				else if(temp == 1) outputText("Why won't you let me kiss you?</i>\"\n");
-				else if(temp == 2) outputText("Mmm, do you have to squirm so much, prey?</i>\"\n");
-				else outputText("Just look at my glossy, dripping lips.  Imagine how great it would feel to have them locked against you.  Why resist?</i>\"\n");
-			}
-			//("Misdirection"
-			else if(player.hasPerk(PerkLib.Misdirection) && rand(100) < 10 && (player.armorName == "red, high-society bodysuit" || player.armorName == "Fairy Queen Regalia")) {
-				outputText("You manage to misdirect her lusty attack, avoiding it at the last second.  She sighs and licks her lips.  \"<i>");
-				temp = rand(4);
-				if(temp == 0) outputText("I just wanted to give my delicious morsel a kiss...</i>\"\n");
-				else if(temp == 1) outputText("Why won't you let me kiss you?</i>\"\n");
-				else if(temp == 2) outputText("Mmm, do you have to squirm so much, prey?</i>\"\n");
-				else outputText("Just look at my glossy, dripping lips.  Imagine how great it would feel to have them locked against you.  Why resist?</i>\"\n");
-			}
-			//Determine if cat'ed
-			else if(player.hasPerk(PerkLib.Flexibility) && rand(100) < 6) {
-				outputText("You manage to twist your cat-like body out of the way at the last second, avoiding it at the last second.  She sighs and licks her lips.  \"<i>");
-				temp = rand(4);
-				if(temp == 0) outputText("I just wanted to give my delicious morsel a kiss...</i>\"\n");
-				else if(temp == 1) outputText("Why won't you let me kiss you?</i>\"\n");
-				else if(temp == 2) outputText("Mmm, do you have to squirm so much, prey?</i>\"\n");
-				else outputText("Just look at my glossy, dripping lips.  Imagine how great it would feel to have them locked against you.  Why resist?</i>\"\n");
-			}
-			
 			else if(!player.hasStatusEffect(StatusEffects.DriderKiss)) {
 				//(HIT? + 10 lust)
-				player.dynStats("lus", 10);
+				player.dynStats("lus", 100);
 				outputText("Before you can move, she's right on top of you, leaning ");
 				if(player.tallness < 72) outputText("down");
 				else outputText("over");
@@ -85,7 +53,7 @@ import classes.internals.*;
 				else {
 					outputText("This time you barely move.  Your body is too entranced by the idea of another venom-laced kiss to resist.  Glorious purple goo washes into your mouth as her lips meet yours, sealing tight but letting your tongue enter her mouth to swirl around and feel the venom drip from her fangs.  It's heavenly!  Your [skin] grows hot and tingly, and you ache to be touched so badly.  Your " + nippleDescript(0) + "s feel hard enough to cut glass, and a growing part of you admits that you'd love to feel the drider's chitinous fingers pulling on them.");
 					//(HIT? + 20 lust)
-					player.dynStats("lus", 20);
+					player.dynStats("lus", 200);
 					if(player.hasCock() || player.hasVagina()) {
 						outputText("  The moisture in your crotch only gets worse.  At this point, a ");
 						if(player.wetness() < 3 && player.cumQ() < 200) outputText("small");
@@ -101,7 +69,7 @@ import classes.internals.*;
 		public function driderMasturbate():void {
 			//-Masturbate - (Lowers lust by 50, raises PC lust)
 			lust -= (50 + (10 * player.newGamePlusMod()));
-			player.dynStats("lus", (10+player.lib/20));
+			player.dynStats("lus", (20+player.lib/10));
 			outputText("The spider-woman skitters back and gives you a lusty, hungry expression.  She shudders and moans, \"<i>Mmm, just watch what you're missing out on...</i>\"\n\n");
 			outputText("As soon as she finishes, her large clit puffs up, balloon-like.  A second later, it slides forward, revealing nine inches of glossy, girl-spunk-soaked shaft.  Nodules ring the corrupted penis' surface, while the tiny cum-slit perched atop the tip dribbles heavy flows of pre-cum.  She pumps at the fleshy organ while her other hand paws at her jiggling breasts, tugging on the hard ");
 			if(nipplesPierced > 0) outputText("pierced ");
@@ -121,7 +89,7 @@ import classes.internals.*;
 				spiderDisarm();
 			}
 			//Always web unless already webbed
-			else if (player.spe >= 2 && (!player.hasStatusEffect(StatusEffects.Web) || rand(2) == 0)) {
+			else if (player.spe >= 2 && (!player.buff("Web").isPresent() || rand(2) == 0)) {
 				spiderMorphWebAttack();
 			}
 			//Kiss!
@@ -168,38 +136,37 @@ import classes.internals.*;
 			this.lowerBody = LowerBody.DRIDER;
 			this.hairColor = hairColor;
 			this.hairLength = 24;
-			initStrTouSpeInte(110, 75, 70, 100);
-			initWisLibSensCor(100, 80, 50, 90);
+			initStrTouSpeInte(330, 225, 210, 300);
+			initWisLibSensCor(300, 240, 150, 100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 30;
+			this.weaponAttack = 90;
 			this.armorName = "carapace";
-			this.armorDef = 60;
-			this.armorMDef = 6;
+			this.armorDef = 600;
+			this.armorMDef = 60;
 			this.armorPerk = "";
 			this.armorValue = 70;
 			if (pierced && !player.hasStatusEffect(StatusEffects.SoulArenaGaunlet)) {
 				this.nipplesPierced = 1;
-				this.bonusHP = 400;
-				this.bonusLust = 153;
+				this.bonusHP = 800;
+				this.bonusLust = 430;
 				this.lust = 35;
 				this.lustVuln = .25;
-				this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-				this.level = 23;
+				this.level = 40;
 				this.gems = rand(15) + 35;
 			} else {
-				this.bonusHP = 300;
-				this.bonusLust = 151;
+				this.bonusHP = 700;
+				this.bonusLust = 428;
 				this.lust = 30;
 				this.lustVuln = .4;
-				this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
-				this.level = 21;
+				this.level = 38;
 				this.gems = rand(15) + 25;
 			}
 			this.drop = new WeightedDrop().add(consumables.B_GOSSR,5)
 					.add(useables.T_SSILK,1)
 					.add(null, 4);
 			this.createPerk(PerkLib.EnemyHugeType, 0, 0, 0, 0);
+			if (player.hasStatusEffect(StatusEffects.TGRandomnMob)) this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 			checkMonster();
 		}
 

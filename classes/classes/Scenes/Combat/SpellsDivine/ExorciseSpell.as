@@ -19,7 +19,7 @@ public class ExorciseSpell extends AbstractDivineSpell {
 	}
 	
 	override public function describeEffectVs(target:Monster):String {
-		return "~"+calcDamage(target, false, false)+" magical damage";
+		return "~"+numberFormat(calcDamage(target, false, false))+" magical damage";
 	}
 	
 	override public function get isKnown():Boolean {
@@ -27,7 +27,10 @@ public class ExorciseSpell extends AbstractDivineSpell {
 	}
 	
 	override public function calcCooldown():int {
-		return 2;
+		var calcC:int = -1;
+		calcC += spellGenericCooldown();
+		if (calcC < 0) calcC = 0;
+		return calcC;
 	}
 	
 	/**

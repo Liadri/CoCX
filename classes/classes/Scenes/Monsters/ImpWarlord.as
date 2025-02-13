@@ -1,4 +1,4 @@
-package classes.Scenes.Monsters 
+package classes.Scenes.Monsters
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -6,6 +6,7 @@ import classes.BodyParts.Hips;
 import classes.BodyParts.LowerBody;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
 
@@ -35,7 +36,7 @@ public class ImpWarlord extends Imp
 				outputText("The imp manages to slash you with his sword and his deadly claws!");
 				var damage:int = rand(50) + str + weaponAttack;
 				if (damage < 20) damage = 20; //Min-cap damage.
-				if (damage >= 50) {
+				if (damage >= 50 && !player.immuneToBleed()) {
 					outputText("You let out a cry in pain and you swear you could see your wounds bleeding. ");
 					player.createStatusEffect(StatusEffects.IzmaBleed, 2, 0, 0, 0);
 				}
@@ -50,7 +51,15 @@ public class ImpWarlord extends Imp
 		override public function defeated(hpVictory:Boolean):void
 		{
 			game.flags[kFLAGS.DEMONS_DEFEATED]++;
-			SceneLib.impScene.defeatImpLord();
+			if (rand(20) == 0 && !player.hasStatusEffect(StatusEffects.TookImpTome)) {
+				outputText("\n\nYou spot an odd book lying close by the imp and stook to pick it up. ");
+				SceneLib.inventory.takeItem(shields.IMPTOME, hasTakenBook);
+				function hasTakenBook():void {
+					if (player.hasItem(shields.IMPTOME) || player.shieldName == "cursed Tome of Imp")
+						player.createStatusEffect(StatusEffects.TookImpTome,  0, 0, 0, 0);
+					SceneLib.impScene.defeatImpLord();
+				}
+			} else SceneLib.impScene.defeatImpLord();
 		}
 
 		override public function won(hpVictory:Boolean,pcCameWorms:Boolean):void
@@ -58,7 +67,7 @@ public class ImpWarlord extends Imp
 			SceneLib.impScene.loseToAnImpLord();
 		}
 		
-		public function ImpWarlord() 
+		public function ImpWarlord()
 		{
 			super(true);
 			this.a = "the ";
@@ -77,11 +86,11 @@ public class ImpWarlord extends Imp
 			createBreastRow(0);
 			this.ass.analLooseness = AssClass.LOOSENESS_STRETCHED;
 			this.ass.analWetness = AssClass.WETNESS_NORMAL;
-			this.tallness = rand(14) + 40;
+			this.tallness = rand(13) + 37;
 			this.hips.type = Hips.RATING_BOYISH;
 			this.butt.type = Butt.RATING_TIGHT;
 			this.lowerBody = LowerBody.HOOFED;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			initStrTouSpeInte(80, 71, 75, 56);
 			initWisLibSensCor(56, 71, 35, 100);
 			this.weaponName = "sword";
@@ -94,9 +103,12 @@ public class ImpWarlord extends Imp
 			this.bonusLust = 122;
 			this.lust = 30;
 			this.lustVuln = .4;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 16;
 			this.gems = rand(20) + 40;
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
 			this.drop = new WeightedDrop().
 					add(consumables.MINOBLO,2).
 					add(consumables.LABOVA_,2).

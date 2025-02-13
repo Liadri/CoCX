@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Arms;
@@ -27,30 +27,29 @@ public class Rangiku extends Monster
 		}
 		/*
 		private function rangikuAttack2():void {
-			
+		
 		}
 		
 		private function rangikuAttack3():void {
-			
+		
 		}
 		
 		private function rangikuAttack4():void {
-			
+		
 		}
 		
 		private function rangikuUltimateAttack1():void {
-			
+		
 		}
 		
 		private function rangikuUltimateAttack2():void {
-			
+		
 		}
 		*/
 		private function rangikuRampage():void {
 			if (hasStatusEffect(StatusEffects.AbilityChanneled)) {
 				removeStatusEffect(StatusEffects.AbilityChanneled);
-				if (hasStatusEffect(StatusEffects.Stunned) || hasStatusEffect(StatusEffects.FrozenSolid) || hasStatusEffect(StatusEffects.StunnedTornado) || hasStatusEffect(StatusEffects.Fear) || hasStatusEffect(StatusEffects.Constricted) || hasStatusEffect(StatusEffects.ConstrictedScylla) || hasStatusEffect(StatusEffects.ConstrictedScylla)
-				|| hasStatusEffect(StatusEffects.GooEngulf) || hasStatusEffect(StatusEffects.EmbraceVampire) || hasStatusEffect(StatusEffects.Pounce)) {
+				if (monsterIsStunned() || monsterIsConstricted() || hasStatusEffect(StatusEffects.Fear)) {
 					outputText(capitalA + short + " reels in frustration as her concentration breaks under your assaults.\n\n");
 				}
 				else {
@@ -87,14 +86,14 @@ public class Rangiku extends Monster
 		{
 			var str:String = "";
 			str += "You are fighting an oni – a little over seven foot tall woman with pale skin.  Her strawberry blonde hair accents her sapphire eyes, while her body covers black robe.  Her dual large axes are raised to her side, looking for any hole in your guard.";
-			if (hasStatusEffect(StatusEffects.Hypermode))
+			if (hasStatusEffect(StatusEffects.OniRampage))
 			{
 				str += "\n\n<b>Looking at her posture and gaze indicates that she's currently under effect of some sort of rampage state.</b>";
 			}
 			return str;
 		}
 		
-		public function Rangiku() 
+		public function Rangiku()
 		{
 			this.a = "the ";
 			this.short = "oni";
@@ -108,12 +107,12 @@ public class Rangiku extends Monster
 			this.tallness = 92;
 			this.hips.type = Hips.RATING_CURVY + 4;
 			this.butt.type = Butt.RATING_JIGGLY + 1;
-			this.skinTone = "pale";
+			this.bodyColor = "pale";
 			this.hairColor = "strawberry blonde";
 			this.hairLength = 39;
 			if (flags[kFLAGS.RANGIKU_LVL_UP] < 1) {
 				initStrTouSpeInte(110, 120, 100, 200);
-				initWisLibSensCor(200, 250, 200, 50);
+				initWisLibSensCor(200, 250, 200, 0);
 				this.weaponName = "dual large axes";
 				this.weaponVerb="cleaves";
 				this.weaponAttack = 26;
@@ -126,7 +125,7 @@ public class Rangiku extends Monster
 			}/*
 			if (flags[kFLAGS.RANGIKU_LVL_UP] == 1) {
 				initStrTouSpeInte(110, 120, 100, 200);
-				initWisLibSensCor(200, 250, 200, 50);
+				initWisLibSensCor(200, 250, 200, 0);
 				this.weaponName = "dual large axes";
 				this.weaponVerb="cleaves";
 				this.weaponAttack = 26;
@@ -139,7 +138,7 @@ public class Rangiku extends Monster
 			}
 			if (flags[kFLAGS.RANGIKU_LVL_UP] == 2) {
 				initStrTouSpeInte(110, 120, 100, 200);
-				initWisLibSensCor(200, 250, 200, 50);
+				initWisLibSensCor(200, 250, 200, 0);
 				this.weaponName = "dual large axes";
 				this.weaponVerb="cleaves";
 				this.weaponAttack = 26;
@@ -152,7 +151,7 @@ public class Rangiku extends Monster
 			}
 			if (flags[kFLAGS.RANGIKU_LVL_UP] == 3) {
 				initStrTouSpeInte(110, 120, 100, 200);
-				initWisLibSensCor(200, 250, 200, 50);
+				initWisLibSensCor(200, 250, 200, 0);
 				this.weaponName = "dual large axes";
 				this.weaponVerb="cleaves";
 				this.weaponAttack = 26;
@@ -165,7 +164,7 @@ public class Rangiku extends Monster
 			}
 			if (flags[kFLAGS.RANGIKU_LVL_UP] == 4) {
 				initStrTouSpeInte(110, 120, 100, 200);
-				initWisLibSensCor(200, 250, 200, 50);
+				initWisLibSensCor(200, 250, 200, 0);
 				this.weaponName = "dual large axes";
 				this.weaponVerb="cleaves";
 				this.weaponAttack = 26;
@@ -178,7 +177,6 @@ public class Rangiku extends Monster
 			}*/
 			this.lust = 30;
 			this.lustVuln = .35;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 15 + rand(8);
 			this.drop = new ChainedDrop().
 					//add(armors.CHBIKNI,1/20).

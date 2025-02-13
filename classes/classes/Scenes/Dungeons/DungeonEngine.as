@@ -1,4 +1,4 @@
-package classes.Scenes.Dungeons 
+package classes.Scenes.Dungeons
 {
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.SceneLib;
@@ -20,11 +20,13 @@ public class DungeonEngine extends DungeonAbstractContent {
     public var anzupalace:AnzuPalace = new AnzuPalace();
     public var ebonlabyrinth:EbonLabyrinth = new EbonLabyrinth;
     public var beehive:BeeHive = new BeeHive;
-    
+    public var demonLab:DemonLab = new DemonLab();
+    public var twilightgrove:TwilightGrove = new TwilightGrove();
+
     public var map:DungeonMaps = new DungeonMaps;
-    
+
     public function DungeonEngine() {}
-    
+
     public function getRoomFunc(dungeonLoc:int):Function {
         switch(dungeonLoc) {
             //Cabin
@@ -183,6 +185,72 @@ public class DungeonEngine extends DungeonAbstractContent {
             case DUNGEON_RIVER_FLOOR_03_ROOM_33: return riverdungeon.roomC33;
             case DUNGEON_RIVER_FLOOR_03_ROOM_34: return riverdungeon.roomC34;
             //River Dungeon 4th floor
+			case DUNGEON_RIVER_FLOOR_04_ROOM_01: return riverdungeon.roomD01;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_02: return riverdungeon.roomD02;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_03: return riverdungeon.roomD03;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_04: return riverdungeon.roomD04;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_05: return riverdungeon.roomD05;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_06: return riverdungeon.roomD06;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_07: return riverdungeon.roomD07;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_08: return riverdungeon.roomD08;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_09: return riverdungeon.roomD09;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_10: return riverdungeon.roomD10;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_11: return riverdungeon.roomD11;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_12: return riverdungeon.roomD12;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_13: return riverdungeon.roomD13;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_14: return riverdungeon.roomD14;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_15: return riverdungeon.roomD15;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_16: return riverdungeon.roomD16;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_17: return riverdungeon.roomD17;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_18: return riverdungeon.roomD18;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_19: return riverdungeon.roomD19;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_20: return riverdungeon.roomD20;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_21: return riverdungeon.roomD21;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_22: return riverdungeon.roomD22;
+            case DUNGEON_RIVER_FLOOR_04_ROOM_23: return riverdungeon.roomD23;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_24: return riverdungeon.roomD24;
+			case DUNGEON_RIVER_FLOOR_04_ROOM_25: return riverdungeon.roomD25;
+            //River Dungeon 5th floor
+			case DUNGEON_RIVER_FLOOR_05_ROOM_01: return riverdungeon.roomE01;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_02: return riverdungeon.roomE02;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_03: return riverdungeon.roomE03;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_04: return riverdungeon.roomE04;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_05: return riverdungeon.roomE05;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_06: return riverdungeon.roomE06;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_07: return riverdungeon.roomE07;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_08: return riverdungeon.roomE08;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_09: return riverdungeon.roomE09;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_10: return riverdungeon.roomE10;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_11: return riverdungeon.roomE11;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_12: return riverdungeon.roomE12;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_13: return riverdungeon.roomE13;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_14: return riverdungeon.roomE14;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_15: return riverdungeon.roomE15;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_16: return riverdungeon.roomE16;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_17: return riverdungeon.roomE17;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_18: return riverdungeon.roomE18;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_19: return riverdungeon.roomE19;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_20: return riverdungeon.roomE20;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_21: return riverdungeon.roomE21;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_22: return riverdungeon.roomE22;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_23: return riverdungeon.roomE23;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_24: return riverdungeon.roomE24;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_25: return riverdungeon.roomE25;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_26: return riverdungeon.roomE26;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_27: return riverdungeon.roomE27;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_28: return riverdungeon.roomE28;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_29: return riverdungeon.roomE29;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_30: return riverdungeon.roomE30;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_31: return riverdungeon.roomE31;
+			case DUNGEON_RIVER_FLOOR_05_ROOM_32: return riverdungeon.roomE32;
+            //River Dungeon 6th floor
+			case DUNGEON_RIVER_FLOOR_06_ROOM_01: return riverdungeon.roomF01;
+			//case DUNGEON_RIVER_FLOOR_06_ROOM_02: return riverdungeon.roomF02;
+			//case DUNGEON_RIVER_FLOOR_06_ROOM_03: return riverdungeon.roomF03;
+			//case DUNGEON_RIVER_FLOOR_06_ROOM_04: return riverdungeon.roomF04;
+			//case DUNGEON_RIVER_FLOOR_06_ROOM_05: return riverdungeon.roomF05;
+			//case DUNGEON_RIVER_FLOOR_06_ROOM_06: return riverdungeon.roomF06;
+			//case DUNGEON_RIVER_FLOOR_06_ROOM_07: return riverdungeon.roomF07;
             //Den of Desire
             case DUNGEON_DEN_OF_DESIRE_ENTRANCE:            return denofdesire.roomEntrance;
             case DUNGEON_DEN_OF_DESIRE_GREAT_HALL_AREA:     return denofdesire.roomGreatHallArea;
@@ -213,6 +281,26 @@ public class DungeonEngine extends DungeonAbstractContent {
             case DUNGEON_BEE_HIVE_3: return beehive.room2Center;
             case DUNGEON_BEE_HIVE_4: return beehive.room3West;
             case DUNGEON_BEE_HIVE_5: return beehive.room5North;
+            //Demon Lab
+            case DUNGEON_LAB_ENTRANCE: 		return demonLab.roomEntrance
+            case DUNGEON_LAB_BALLROOM_1: 	return demonLab.Ballroom1;
+            case DUNGEON_LAB_TYRANT_1: 		return demonLab.TyrantLab1;
+            case DUNGEON_LAB_TYRANT_PRISON: return demonLab.TyrantPrison;
+            case DUNGEON_LAB_TYRANT_2: 		return demonLab.TyrantLab2;
+            case DUNGEON_LAB_BALLROOM_2: 	return demonLab.Ballroom2;
+            case DUNGEON_LAB_FSPREADER: 	return demonLab.FSpreaderLab;
+            case DUNGEON_LAB_INCEL: 		return demonLab.IncelLab;
+            case DUNGEON_LAB_BALLROOM_3: 	return demonLab.Ballroom3;
+            case DUNGEON_LAB_NIGHTWALKER_1: return demonLab.NightwalkerLab1;
+            case DUNGEON_LAB_NIGHTWALKER_2: return demonLab.NightwalkerLab2;
+            case DUNGEON_LAB_PANIC_ROOM: 	return demonLab.Ballroom3;
+			//Twilight Grove
+			case DUNGEON_TWILIGHT_GROVE_1: return twilightgrove.room1TG;
+			case DUNGEON_TWILIGHT_GROVE_2: return twilightgrove.room2TG;
+			case DUNGEON_TWILIGHT_GROVE_3: return twilightgrove.room3TG;
+			case DUNGEON_TWILIGHT_GROVE_4: return twilightgrove.room4TG;
+			case DUNGEON_TWILIGHT_GROVE_5: return twilightgrove.room5TG;
+			case DUNGEON_TWILIGHT_GROVE_6: return twilightgrove.room6TG;
             //error
             default: throw new Error("Illegal dungeon location!")
         }
@@ -221,12 +309,15 @@ public class DungeonEngine extends DungeonAbstractContent {
     public function checkRoom():void {
         getRoomFunc(dungeonLoc)(); //no null-checking - error will be already thrown
     }
-    
+
     public function checkFactoryClear():Boolean {
         return (flags[kFLAGS.FACTORY_SHUTDOWN] > 0 && flags[kFLAGS.FACTORY_SUCCUBUS_DEFEATED] > 0 && flags[kFLAGS.FACTORY_OMNIBUS_DEFEATED] > 0 && (flags[kFLAGS.FACTORY_INCUBUS_DEFEATED] > 0 || flags[kFLAGS.FACTORY_INCUBUS_BRIBED] > 0));
     }
     public function checkDeepCaveClear():Boolean {
         return (flags[kFLAGS.ZETAZ_IMP_HORDE_DEFEATED] > 0 && flags[kFLAGS.ZETAZ_FUNGUS_ROOM_DEFEATED] > 0 && player.hasKeyItem("Zetaz's Map") >= 0);
+    }
+    public function checkDemonLaboratoryClear():Boolean {
+        return (DemonLab.MainAreaComplete >= 3 && DemonLab.DridersState >= 2 && DemonLab.FSpreaderState >= 2 && DemonLab.NightwalkerLabstate >= 2 && player.hasKeyItem("Map to the Lethice’s Fortress") >= 0);
     }
     public function checkLethiceStrongholdClear():Boolean {
         return ((flags[kFLAGS.D3_MIRRORS_SHATTERED] > 0 || flags[kFLAGS.D3_JEAN_CLAUDE_DEFEATED] > 0) && flags[kFLAGS.D3_GARDENER_DEFEATED] > 0 && flags[kFLAGS.D3_CENTAUR_DEFEATED] > 0 && flags[kFLAGS.LETHICE_DEFEATED] > 0);
@@ -249,6 +340,9 @@ public class DungeonEngine extends DungeonAbstractContent {
     public function checkBeeHiveClear():Boolean {
         return (flags[kFLAGS.TIFA_FOLLOWER] > 5);
     }
+    public function checkTwilightGroveClear():Boolean {
+        return (flags[kFLAGS.TWILIGHT_GROVE_PURIFICATION] > 3);
+    }
     public function checkRiverDungeon1stFloorClear():Boolean {
         return (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 1);//1 - pokonanie 1 golema, 2 pokonanie obu golemów
     }
@@ -258,10 +352,16 @@ public class DungeonEngine extends DungeonAbstractContent {
     public function checkRiverDungeon3rdFloorClear():Boolean {
         return (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 8);//8 - otwarcie drzwi boss room-u, 9 - pokonanie bossa
     }
+    public function checkRiverDungeon4thFloorClear():Boolean {
+        return (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 10);//10 - otwarcie drzwi boss room-u, 11 - pokonanie bossa
+    }
+    public function checkRiverDungeon5thFloorClear():Boolean {
+        return (flags[kFLAGS.RIVER_DUNGEON_FLOORS_PROGRESS] > 12);//12 - otwarcie schodów na poziom, 13 - pokonanie bossa
+    }
 
     //returns the room required for clearing
     public function clearRoomEL():int {
-        return 301;
+        return 351;
     }
     //returns the room required for the next award
     public function nextAwardEL():int {
@@ -270,7 +370,7 @@ public class DungeonEngine extends DungeonAbstractContent {
         else return (int(flags[kFLAGS.EBON_LABYRINTH] / 150) + 1) * 150;
     }
     public function checkEbonLabyrinthClear():Boolean {
-        //Now the dungeon contains different bosses up to floor 300. Let's give people a hint?
+        //Now the dungeon contains different bosses up to floor 350. Let's give people a hint?
         return (flags[kFLAGS.EBON_LABYRINTH_RECORD] >= clearRoomEL());
         //return (flags[kFLAGS.EBON_LABYRINTH] > 1);//exploracja 50 pokoi bez porażki
     }
@@ -279,8 +379,8 @@ public class DungeonEngine extends DungeonAbstractContent {
         return flags[kFLAGS.EBON_LABYRINTH_RECORD] >= nextAwardEL();
         //return (flags[kFLAGS.EBON_LABYRINTH] > 1);//exploracja 50 pokoi bez porażki
     }
-    
-    
+
+
     public function canFindDeepCave():Boolean {
         return flags[kFLAGS.DISCOVERED_DUNGEON_2_ZETAZ] == 0
                 && flags[kFLAGS.FACTORY_SHUTDOWN] > 0;
@@ -288,17 +388,17 @@ public class DungeonEngine extends DungeonAbstractContent {
     public function canFindDenOfDesire():Boolean {
         return flags[kFLAGS.GAR_NAME] != 0;
     }
-    
+
     public function navigateToRoom(room:Function = null):void {
-        eachMinuteCount(5);
+        advanceMinutes(5);
         room();
     }
     public function navigateToRoomRD(room:Function = null):void {
         if (player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.removeStatusEffect(StatusEffects.ThereCouldBeOnlyOne);
-        eachMinuteCount(5);
+        advanceMinutes(5);
         room();
     }
-    
+
     /**
      * Set the top buttons for use while in dungeons.
      */
@@ -309,7 +409,7 @@ public class DungeonEngine extends DungeonAbstractContent {
         mainView.hideMenuButton( MainView.MENU_DATA );
         SceneLib.camp.setLevelButton(true);
     }
-    
+
     /**
      * Set the buttons for use in dungeons. The parameters can be used to connect to rooms.
      * @param	northFunction
@@ -326,8 +426,7 @@ public class DungeonEngine extends DungeonAbstractContent {
         if (southFunction != null) addButton(11, "South", navigateToRoom, southFunction);
         if (westFunction != null) addButton(10, "West", navigateToRoom, westFunction);
         if (eastFunction != null) addButton(12, "East", navigateToRoom, eastFunction);
-        if (player.lust >= 30) addButton(8, "Masturbate", SceneLib.masturbation.masturbateGo);
-        else addButtonDisabled(8, "Masturbate", "Req. 30+ lust.");
+        SceneLib.masturbation.masturButton(8);
         addButton(13, "Inventory", inventory.inventoryMenu).hint("The inventory allows you to use an item.  Be careful, as this leaves you open to a counterattack when in combat.");
         addButton(14, "Map", map.displayMap).hint("View the map of this dungeon.");
         setTopButtons();
@@ -344,21 +443,23 @@ public class DungeonEngine extends DungeonAbstractContent {
         addButton(14, "Map", map.displayMapOnlyOne).hint("View the map of this dungeon."); //replace map button with this "only one" thing
     }
 
+    /*
     public function setDungeonButtonsRD3D(northFunction:Function = null, southFunction:Function = null, westFunction:Function = null, eastFunction:Function = null, upFunction:Function = null, downFunction:Function = null):void {
         setDungeonButtonsRD(northFunction, southFunction, westFunction, eastFunction);
         //add Up/Down buttons
         if (upFunction != null) addButton(5, "Up", navigateToRoomRD, upFunction);
         if (downFunction != null) addButton(7, "Down", navigateToRoomRD, downFunction);
     }
+    */
 
     //Old button function here. The function itself was moved into EL, but can be brought back for new dungeons.
-	
+
 	//IT"S FOR NEW DUNGEON SIMILAR TO BOTH EL AND RD SO PLEASE NOT KEEP TRYING TO DELETE THAT CODE -.-
     /*
     public function navigateToRoomEL(room:Function = null):void {
         if (player.hasStatusEffect(StatusEffects.ThereCouldBeOnlyOne)) player.removeStatusEffect(StatusEffects.ThereCouldBeOnlyOne);
         player.addStatusValue(StatusEffects.EbonLabyrinthB, 1, 1);
-        eachMinuteCount(15);
+        advanceTimeNoEvents(15);
         room();
     }
     public function setDungeonButtonsEL(northFunction:Function = null, southFunction:Function = null, westFunction:Function = null, eastFunction:Function = null, upFunction:Function = null, downFunction:Function = null):void {
@@ -374,8 +475,7 @@ public class DungeonEngine extends DungeonAbstractContent {
         addButton(13, "Down", navigateToRoomEL, downFunction);
         if (model.time.hours >= 21 || model.time.hours < 6) addButton(0, "Sleep", ebonlabyrinth.doSleepEL).hint("Turn yourself in for the night. May result in monster ambush!");
         else addButtonDisabled(0, "Sleep", "It's still too early to go to sleep.");
-        if (player.lust >= 30) addButton(5, "Masturbate", SceneLib.masturbation.masturbateGo);
-        else addButtonDisabled(5, "Masturbate", "Req. 30+ lust.");
+        SceneLib.masturbation.masturButton(5);
         addButton(9, "Inventory", inventory.inventoryMenu).hint("The inventory allows you to use an item.  Be careful as this leaves you open to a counterattack when in combat.");
         addButton(14, "Exit", AreYouSureAboutThat);
         setTopButtons();

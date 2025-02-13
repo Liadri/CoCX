@@ -8,52 +8,51 @@ import classes.PerkClass;
 import classes.PerkLib;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class ScyllaInkGlandsMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Scylla Ink Glands";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Your Scylla Ink Glands increase rate at which your body produce ink and slight boost to your natural strength";
+                descS += "Your Scylla Ink Glands increase rate at which your body produce ink";
             }
             if (pTier >= 2){
-                descS += ", ";
+                descS += ", duration ink spray affect enemies and lust damage by "+(pTier-1)+"00%";
+            }
+            if (pTier >= 1){
+                descS += ", boost to your natural strength";
             }
             if (pTier >= 3){
-                descS += ", ";
+                descS += ", speed";
+            }
+            if (pTier >= 2){
+                descS += " and toughness, Scylla Squeeze damage during grapple as Kraken would be multiplied by "+pTier+"x";
+            }
+            if (pTier >= 3){
+                descS += ", scylla grapple will always succeed, when in an aquatic battle boost from Aquatic Affinity is "+(pTier-1)+"x larger";
+            }
+            if (pTier >= 4){
+                descS += ", final boost from aquatic battle boost is 2x higher, enemy can't escape from scylla grapple using only it own strength and using Scylla Squeeze as Kraken would give each time 4% combat wounds debuff on enemy (up to 80%)";
             }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Scylla Ink Glands" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
-                    this.requirePerk(PerkLib.InkSpray)
+                    this.requireAdaptationsMutationSlot()
+                    .requirePerk(PerkLib.InkSpray)
                     .requireRace(Races.SCYLLA);
                 }
                 else{
@@ -66,18 +65,28 @@ public class ScyllaInkGlandsMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 1) pBuffs['str.mult'] = 0.1;
-            //else if (pTier == 2) pBuffs['int.mult'] = 0;
-            //else if (pTier == 3) pBuffs['int.mult'] = 0;
+            else if (pTier == 2) {
+				pBuffs['str.mult'] = 0.3;
+				pBuffs['tou.mult'] = 0.05;
+			}
+            else if (pTier == 3) {
+				pBuffs['str.mult'] = 0.6;
+				pBuffs['tou.mult'] = 0.2;
+				pBuffs['spe.mult'] = 0.1;
+			}
+            else if (pTier == 4) {
+				pBuffs['str.mult'] = 1.8;
+				pBuffs['tou.mult'] = 0.6;
+				pBuffs['spe.mult'] = 0.3;
+			}
             return pBuffs;
         }
 
         public function ScyllaInkGlandsMutation() {
-            super("Scylla Ink Glands IM", "Scylla Ink Glands", ".");
-            maxLvl = 1;
+            super(mName + " IM", mName, SLOT_ADAPTATIONS, 4);
         }
         
     }

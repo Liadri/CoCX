@@ -97,25 +97,25 @@ public class ErlKingScene extends BaseContent
 			}
 
 			// Heavy penalty for prey features. The penalty is applied PER FEATURE.
-			if (player.racialScore(Races.KITSUNE) > 0)
+			if (player.racialScore(Races.KITSUNE, false) > 0)
 			{
-				baseVal -= (player.racialScore(Races.KITSUNE) * 20);
-				trace("-20 for each Kitsune part (-" + String(player.racialScore(Races.KITSUNE) * 20) + ")");
+				baseVal -= (player.racialScore(Races.KITSUNE, false) * 20);
+				trace("-20 for each Kitsune part (-" + String(player.racialScore(Races.KITSUNE, false) * 20) + ")");
 			}
-			if (player.racialScore(Races.BUNNY) > 0)
+			if (player.racialScore(Races.BUNNY, false) > 0)
 			{
-				baseVal -= (player.racialScore(Races.BUNNY) * 20);
-				trace("-20 for each Bunny part (-" + String(player.racialScore(Races.BUNNY) * 20) + ")");
+				baseVal -= (player.racialScore(Races.BUNNY, false) * 20);
+				trace("-20 for each Bunny part (-" + String(player.racialScore(Races.BUNNY, false) * 20) + ")");
 			}
-			if (player.racialScore(Races.HARPY) > 0)
+			if (player.racialScore(Races.HARPY, false) > 0)
 			{
-				baseVal -= (player.racialScore(Races.HARPY) * 20);
-				trace("-20 for each Harpy part (-" + String(player.racialScore(Races.HARPY) * 20) + ")");
+				baseVal -= (player.racialScore(Races.HARPY, false) * 20);
+				trace("-20 for each Harpy part (-" + String(player.racialScore(Races.HARPY, false) * 20) + ")");
 			}
-			if (player.racialScore(Races.SLIME) > 0)
+			if (player.racialScore(Races.SLIME, false) > 0)
 			{
-				baseVal -= (player.racialScore(Races.SLIME) * 10);
-				trace("-10 for each Goo part (-" + String(player.racialScore(Races.SLIME) * 10) + ")");
+				baseVal -= (player.racialScore(Races.SLIME, false) * 10);
+				trace("-10 for each Goo part (-" + String(player.racialScore(Races.SLIME, false) * 10) + ")");
 			}
 
 			if (player.isTaur())
@@ -221,8 +221,8 @@ public class ErlKingScene extends BaseContent
 			fatigue(10);
 
 			if (waited)
-				inventory.takeItem(consumables.CANINEP, camp.returnToCampUseOneHour);
-			else inventory.takeItem(consumables.FOXBERY, camp.returnToCampUseOneHour);
+				inventory.takeItem(consumables.CANINEP, explorer.done);
+			else inventory.takeItem(consumables.FOXBERY, explorer.done);
 		}
 
 		public function repeatWildHuntEncounter():void
@@ -270,7 +270,7 @@ public class ErlKingScene extends BaseContent
 			outputText("It seems the Erlking has no interest in chasing prey that won’t run.\n\n");
 
 			if (player.inte < 80) dynStats("int+", 1);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function repeatWildHuntChase():void
@@ -300,7 +300,7 @@ public class ErlKingScene extends BaseContent
 				if (rand(2) == 0) dynStats("tou+", 1);
 				else dynStats("spe+", 1);
 			}
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function mockSlow():void {
@@ -360,7 +360,7 @@ public class ErlKingScene extends BaseContent
 
 			outputText("Growling, the first Hound grabs you by your [ass], his muscular fingers sinking roughly into your flesh.  He roughly rips your [armor] from you, growling.  You feel a rush of warmth as a canine mouth presses against your [ass],");
 			if (player.hasVagina()) outputText(" long tongue touching the bottom edge of your [vagina]");
-			else if (player.balls > 0) outputText(" long tongue lapping at the base of your balls");
+			else if (player.hasBalls()) outputText(" long tongue lapping at the base of your balls");
 			else if (player.hasCock()) outputText(" long tongue lapping at the base of your cock");
 			else outputText(" long tongue slapping warmly against your taint");
 			outputText(" before running up to your [asshole].\n\n");
@@ -399,7 +399,7 @@ public class ErlKingScene extends BaseContent
 			player.gems -= gemLoss;
 
 			outputText("<b>You’ve lost " + gemLoss + " gems.</b>\n\n");
-			inventory.takeItem(consumables.CANINEP, camp.returnToCampUseOneHour);
+			inventory.takeItem(consumables.CANINEP, explorer.done);
 			dynStats("sen-", 2, "lib+", 2, "cor+", 1, "lus=", 0);
 			fatigue(10);
 			player.sexReward("cum");
@@ -451,10 +451,10 @@ public class ErlKingScene extends BaseContent
 			player.gems += gemFind;
 			var selector:int = rand(4);
 
-			if (selector == 0) inventory.takeItem(consumables.CANINEP, camp.returnToCampUseOneHour);
-			if (selector == 1) inventory.takeItem(consumables.FOXBERY, camp.returnToCampUseOneHour);
-			if (selector == 2) inventory.takeItem(consumables.NPNKEGG, camp.returnToCampUseOneHour);
-			if (selector == 3) inventory.takeItem(consumables.GLDRIND, camp.returnToCampUseOneHour);
+			if (selector == 0) inventory.takeItem(consumables.CANINEP, explorer.done);
+			if (selector == 1) inventory.takeItem(consumables.FOXBERY, explorer.done);
+			if (selector == 2) inventory.takeItem(consumables.NPNKEGG, explorer.done);
+			if (selector == 3) inventory.takeItem(consumables.GLDRIND, explorer.done);
 		}
 
 		protected function stopTheMadness():void
@@ -475,7 +475,7 @@ public class ErlKingScene extends BaseContent
 			outputText("\"<i>As you wish,</i>\" says the Erlking.  The fog rolls in once more, engulfing the Erlking and his steed.  It clears a moment later, leaving you alone in the forest.\n\n");
 
 			outputText("You get the feeling you won’t be seeing him anymore.\n\n");
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function surrenderToTheHounds():void
@@ -679,14 +679,14 @@ public class ErlKingScene extends BaseContent
 				outputText("You pant, exhausted, and you feel a damp cloth against your softening cock.  He wasn’t kidding about taking care of his mounts - the Erlking is cleaning you off.  He wipes your cock clean, even catching stray drops that spattered your underside.  The huntsman is thorough, and you yawn softly, dozing under his careful ministrations.  \n\n");
 
 				outputText("Sleepily, you’re only half aware as he guides you down to a grassy patch, where you quickly fall asleep.  You wake up an hour later in the clearing.  The Erlking is gone, but your cock gives a twitch as you remember his touch.  You shakily climb to your feet, making your way back to camp.\n\n");
-				player.sexReward("Default", "Default", true, false);
+				player.sexReward("no");
 				sharedEnd();
 			}
 			function sharedEnd():void {
 				//[+10 Fatigue, +1 Toughness / +1 Strength, 100 hp healed]
 				if (player.tou < player.str) dynStats("toughness+", 1, "fatigue+", 10, "health+", 100, "lust=", 0);
 				else (dynStats("strength+", 1, "fatigue+", 10, "health+", 100, "lust=", 0));
-				doNext(camp.returnToCampUseOneHour);
+				endEncounter();
 			}
 		}
 
@@ -769,13 +769,13 @@ public class ErlKingScene extends BaseContent
 			function sharedEnd():void {
 				if (!recalling) {
 					player.createKeyItem("Golden Antlers", 0, 0, 0, 0);
-					player.sexReward("Default", "Default", true, false);
+					player.sexReward("no");
 					dynStats("lust=", 0);
 					if (flags[kFLAGS.ERLKING_CANE_OBTAINED] == 0) {
-						inventory.takeItem(weapons.HNTCANE, camp.returnToCampUseOneHour);
+						inventory.takeItem(weapons.HNTCANE, explorer.done);
 						flags[kFLAGS.ERLKING_CANE_OBTAINED] = 1;
 					}
-					else doNext(camp.returnToCampUseOneHour);
+					else endEncounter();
 				}
 				else doNext(recallWakeUp);
 			}
@@ -831,7 +831,7 @@ public class ErlKingScene extends BaseContent
 			}
 			addButton(3, "Milk Dick", gwynnGetsDickmilked);
 			addButton(4, "Gifts", gwynnGibsGifts);
-			addButton(14, "Leave", camp.returnToCampUseOneHour);
+			addButton(14, "Leave", explorer.done);
 		}
 
 		protected function gwynnSucksDicks():void
@@ -855,7 +855,7 @@ public class ErlKingScene extends BaseContent
 			//[Libido + 2]
 			dynStats("lib+", 2, "lus=", 0);
 			player.sexReward("Default","Default",true,false);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function gwynnGetsButtfuxed():void
@@ -880,7 +880,7 @@ public class ErlKingScene extends BaseContent
 			//[Sensitivity -2]
 			dynStats("sen-", 2, "lus=", 0);
 			player.sexReward("Default","Default",true,false);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function gwynnNomsDaCunts():void
@@ -905,7 +905,7 @@ public class ErlKingScene extends BaseContent
 			//[Sensitivity -2, Libido +2]
 			dynStats("sen-", 2, "lib+", 2, "lus=", 0);
 			player.sexReward("Default","Default",true,false);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function gwynnGetsDickmilked():void
@@ -937,7 +937,7 @@ public class ErlKingScene extends BaseContent
 
 			//[Lust +20, Libido +2]
 			dynStats("lus+", 20, "lib+", 2);
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		protected function gwynnGibsGifts():void
@@ -956,110 +956,14 @@ public class ErlKingScene extends BaseContent
 
 			outputText("Before you can stop her, she’s gone, and you pocket the small bottle for later.\n\n");
 
-			if (rand(4) > 0) inventory.takeItem(consumables.PRNPKR, camp.returnToCampUseOneHour);
+			if (rand(4) > 0) inventory.takeItem(consumables.PRNPKR, explorer.done);
 			else inventory.takeItem(consumables.PRNPKR, goldenRindBonus);
 		}
 
 		private function goldenRindBonus():void {
 			clearOutput();
 			outputText("\"<i>Oh, I also had this left over from brewing my Pucker,</i>\" she says, popping out of the brush behind you.  You yelp in surprise.  She’d vanished into the forest in front of you a moment ago.  How did she move so quickly?  \"<i>Here you go!</i>\" she pipes up, depositing a small item in your hand before disappearing back into the woods.  If she can move that quickly and quietly through the woods, it’s pretty likely that her falling prey to the forest predators has been entirely voluntary.\n\n");
-			inventory.takeItem(consumables.GLDRIND, camp.returnToCampUseOneHour);
-		}
-
-		public function deerTFs():void {
-			var changes:int = 0;
-			var changeLimit:int = 2;
-			if (rand(2) == 0) changeLimit++;
-			if (rand(3) == 0) changeLimit++;
-			changeLimit += player.additionalTransformationChances;
-			// Stat TFs
-			if (player.blockingBodyTransformations()) changeLimit = 0;
-			// Main TFs
-			//------------
-			//Gain deer ears
-			if (rand(3) == 0 && changes < changeLimit && player.lowerBody != LowerBody.GARGOYLE && player.ears.type != Ears.DEER) {
-				if (player.ears.type == -1) outputText("\n\nTwo painful lumps sprout on the top of your head, forming into teardrop shaped ears, covered with short fur.  ");
-				if (player.ears.type == Ears.HUMAN) outputText("\n\nYour ears tug painfully on your face as they begin shifting, moving upwards to the top of your head and transforming into upright animalistic ears.  ");
-				if (player.ears.type == Ears.DOG) outputText("\n\nYour ears change shape, morphing into from their doglike shape into deer-like ears!  ");
-				if (player.ears.type > Ears.DOG) outputText("\n\nYour ears change shape, morphing into teardrop-shaped deer ears!  ");
-				outputText("<b>You now have deer ears.</b>");
-				player.ears.type = Ears.DEER;
-				changes++;
-			}
-			//Gain deer tail
-			if (rand(3) == 0 && changes < changeLimit && player.ears.type == Ears.DEER && player.tailType != Tail.DEER) {
-				outputText("\n\nYou feel a tightening just above your ass, as if a massive hand was pinching you.  It releases with a curious \"pomf\"-ing noise.  You turn this way and that, finally managing to crane your neck to see your <b>fluffy, flicking deer tail.</b>");
-				player.tailType = Tail.DEER;
-				changes++;
-			}
-			//Gain deer horns AKA antlers
-			if (rand(3) == 0 && changes < changeLimit && player.lowerBody != LowerBody.GARGOYLE && player.horns.type == Horns.NONE) {
-				outputText("\n\nYou feel an immense pressure from your forehead, and you reach up, feeling the nubs of two new horns.");
-				player.horns.type = Horns.ANTLERS;
-				player.horns.count = 1;
-				changes++;
-			}
-			if (rand(3) == 0 && changes < changeLimit && player.horns.count > 0 && player.horns.type != Horns.ANTLERS && player.lowerBody != LowerBody.GARGOYLE && player.horns.type != Horns.ORCHID) {
-				outputText("\n\nYou feel a strange twisting sensation from your horns as they extend outwards.  You reach up to feel them and realize that you’ve now got <b>pronged, stag-like horns.</b>");
-				player.horns.type = Horns.ANTLERS;
-				player.horns.count = 4;
-				changes++;
-			}
-			//Increase points on deer antlers
-			if (rand(3) == 0 && changes < changeLimit && player.horns.type == Horns.ANTLERS && player.horns.count < 30) {
-				outputText("\n\nYou feel a strange twisting sensation from your antlers as they extend and split outwards.  You reach up to feel them and realize that your antlers are now even more branched out.");
-				if (player.horns.count < 20 && rand(2) == 0) player.horns.count += (1 + rand(4));
-				player.horns.count++;
-				outputText("  After counting the number of points you have on your antlers, <b>you have " + player.horns.count + " points.</b>");
-				if (player.horns.count >= 30) outputText("<b>  It seems that your antlers can't get any more pointier.</b>");
-				changes++;
-			}
-			//Gain fur
-			if (rand(4) == 0 && changes < changeLimit && player.horns.count > 0 && player.lowerBody != LowerBody.GARGOYLE && !player.hasFullCoatOfType(Skin.FUR)) {
-				outputText("\n\nFor a moment, it looks like a ray of sunlight has shimmered through the canopy. You blink and realize that your fur has become dappled, with lighter, sun-speckled spots highlighting it.");
-				CoC.instance.transformations.SkinFur(Skin.COVERAGE_COMPLETE, {color:"brown"}).applyEffect(false);
-				changes++;
-			}
-			//Change face to normal
-			if (rand(3) == 0 && changes < changeLimit && player.ears.type == Ears.DEER && (player.faceType != Face.HUMAN && player.faceType != Face.DEER)) {
-				outputText("\n\nYour face grows warm as suddenly your vision is engulfed in smoke, coughing and beating the smoke back you noticed a marked change in your features. Touching yourself you confirm you have a <b>normal human shaped face once again</b>.");
-				CoC.instance.transformations.FaceHuman.applyEffect(false);
-				changes++;
-			}
-			//Gain deer face
-			if (rand(4) == 0 && changes < changeLimit && player.hasFur() && player.ears.type == Ears.DEER && player.tailType == Tail.DEER && player.faceType != Face.DEER) {
-				outputText("\n\n");
-				CoC.instance.transformations.FaceDeer.applyEffect();
-				changes++;
-			}
-			//Change legs to cloven hooves
-			if (rand(4) == 0 && changes < changeLimit && player.ears.type == Ears.DEER && player.tailType == Tail.DEER && player.hasFur() && (player.lowerBody != LowerBody.DEERTAUR && player.lowerBody != LowerBody.CLOVEN_HOOFED)) {
-				if (player.lowerBody == LowerBody.HOOFED) {
-					outputText("\n\nYou feel a sharp stinging sensation from your hooves, accompanied by a loud CRACK.  You look down in alarm, prancing from one hooved foot to another, realizing that your solid, heavy hooves have been replaced with delicate, cloven hooves.  You squint, also noting a subtle thinness across your legs in general--if you had to guess, you’d hazard that you’re looking <b>more deer-like than horse-like</b>.");
-				}
-				else {
-					outputText("\n\nYou feel a strange tightness from your feet and nearly topple over as your balance shifts.  You’re balancing on your toes for some reason.  You look down in amazement as your legs slim and lengthen, your feet elongating and darkening at the ends until you’re balancing on <b>two, graceful deer legs</b>.");
-				}
-				if (player.isTaur()) player.lowerBody = LowerBody.DEERTAUR;
-				else player.lowerBody = LowerBody.CLOVEN_HOOFED;
-				changes++;
-			}
-			// Genital Changes
-			//------------
-			//Morph dick to horsediiiiick
-			if (rand(3) == 0 && changes < changeLimit && player.cocks.length > 0)
-				if (consumables.MINOBLO.horseDickTF()) changes++;
-			// Body thickness/tone changes
-			//------------
-			if (rand(3) == 0 && player.tone > 20) {
-				if (player.tone > 50) player.modTone(20, 2 + rand(3));
-				else player.modTone(20, 2);
-			}
-			if (rand(3) == 0 && player.thickness > 20) {
-				if (player.thickness > 50) player.modThickness(20, 2 + rand(3));
-				else player.modThickness(20, 2);
-			}
-			flags[kFLAGS.TIMES_TRANSFORMED] += changes;
+			inventory.takeItem(consumables.GLDRIND, explorer.done);
 		}
 	}
 }

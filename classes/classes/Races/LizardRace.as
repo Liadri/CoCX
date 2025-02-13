@@ -5,9 +5,58 @@ import classes.CockTypesEnum;
 import classes.IMutations.IMutationsLib;
 import classes.PerkLib;
 import classes.Race;
+import classes.Transformations.TransformationLib;
+
 public class LizardRace extends Race {
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
+	public function get TfList():/*PossibleEffect*/Array {
+		var t:TransformationLib = game.transformations;
+		return [
+				// Lizardize
+				t.FaceLizard,
+				t.EarsLizard,
+				t.EyesLizard,
+				t.TailLizard,
+				t.ArmsLizard,
+				t.LowerBodyLizard(),
+				t.SkinScalesGradualToFull,
+				t.CockChangeType(CockTypesEnum.LIZARD,false),
+				// Humanize
+				t.AntennaeNone,
+				t.SkinPatternNone,
+				t.BreastRowsRemoveToOne,
+				t.NipplesPerBreastOne,
+				t.GillsNone,
+				t.RearBodyNone
+		]
+	}
+	
 	public function LizardRace(id:int) {
-		super("Lizard", id);
+		super("Lizard", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
@@ -23,8 +72,8 @@ public class LizardRace extends Race {
 				.hasCockOfType(CockTypesEnum.LIZARD, +1)
 				.hasPerk(PerkLib.LizanRegeneration, +1);
 		
+		addBloodline(PerkLib.LizardsDescendant, PerkLib.BloodlineLizard);
 		addMutation(IMutationsLib.LizanMarrowIM);
-		
 		
 		buildTier(8, "lizan")
 				.namesTauric("lizan", "lizan-taur")

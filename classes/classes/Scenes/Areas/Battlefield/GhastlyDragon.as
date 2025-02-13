@@ -1,4 +1,4 @@
-package classes.Scenes.Areas.Battlefield 
+package classes.Scenes.Areas.Battlefield
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -13,7 +13,7 @@ import classes.internals.*;
 	public class GhastlyDragon extends Monster
 	{
 		
-		public function GhastlyDragon() 
+		public function GhastlyDragon()
 		{
 			this.a = "the ";
 			this.short = "ghastly dragon";
@@ -31,11 +31,11 @@ import classes.internals.*;
 			this.tallness = 78;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "white";
+			this.bodyColor = "white";
 			this.hairColor = "white";
 			this.hairLength = 3;
 			initStrTouSpeInte(55, 40, 10, 140);
-			initWisLibSensCor(140, 120, 1, 33);
+			initWisLibSensCor(140, 120, 1, -33);
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
 			this.weaponAttack = 14;
@@ -45,10 +45,10 @@ import classes.internals.*;
 			this.bonusHP = 30;
 			this.bonusLust = 133;
 			this.lust = 10;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			this.level = 42;
 			this.gems = 0;
 			this.drop = new ChainedDrop().add(consumables.ECTOPLS, 1 / 3);
+			this.createPerk(PerkLib.EnemyDragonType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyGhostType, 0, 0, 0, 0);
 			checkMonster();
 		}

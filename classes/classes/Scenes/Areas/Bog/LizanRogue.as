@@ -1,4 +1,4 @@
-package classes.Scenes.Areas.Bog 
+package classes.Scenes.Areas.Bog
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -8,6 +8,7 @@ import classes.IMutations.*;
 import classes.Scenes.SceneLib;
 import classes.StatusEffects.Combat.LizanBlowpipeDebuff;
 import classes.internals.*;
+import classes.Scenes.Combat.CombatAbilities;
 
 public class LizanRogue extends Monster
 	{
@@ -16,9 +17,9 @@ public class LizanRogue extends Monster
 		//3 - spe
 		//4 - sens
 		public function blowGun():void {
-			if (player.hasStatusEffect(StatusEffects.WindWall)) {
+			if (CombatAbilities.EAspectAir.isActive()) {
 				outputText("The lizan flings himself back.  In the air he puts a blowgun to his lips.  Then that tiny dart is stopeed by the wind wall that still surrounds you.");
-				player.addStatusValue(StatusEffects.WindWall,2,-1);
+				CombatAbilities.EAspectAir.advance(true);
 			}
 			else if (player.getEvasionRoll()) {
 				outputText("The lizan flings himself back.  In the air he puts a blowgun to his lips.  You move just in time to avoid the tiny dart.");
@@ -45,18 +46,18 @@ public class LizanRogue extends Monster
 			}
 			else {
 				outputText("The lizan zips to the side and as you move to follow you feel something sharp cut across your body. He must have thrown something. ");
-				var damage:int = this.spe/3 + rand(60);
+				var damage:int = this.spe + rand(10);
 				player.takePhysDamage(damage, true);
 			}
 		}
-				
+		
 		public function tongueAttack():void {
 			if (player.getEvasionRoll()) {
 				outputText("All you see is a flash of pink and without even thinking you twist out of its way and watch the lizan’s long tongue snap back into his mouth.");
 			}
 			else {
 				outputText("All you see is a flash of pink as the lizan’s long tongue hits your eyes. Some kind of chemical reaction causes your eyes to burn, you’ve been blinded!");
-				if (!player.hasStatusEffect(StatusEffects.Blind) && !player.hasPerk(PerkLib.BlindImmunity)) player.createStatusEffect(StatusEffects.Blind, 1 + rand(2), 0, 0, 0)
+				if (!player.hasStatusEffect(StatusEffects.Blind) && !player.isImmuneToBlind()) player.createStatusEffect(StatusEffects.Blind, 2 + rand(2), 0, 0, 0)
 			}
 		}
 		
@@ -77,14 +78,14 @@ public class LizanRogue extends Monster
 		
 		private const SKIN_VARIATIONS:Array = ["emerald", "azure", "scarlet", "violet", "obsidian", "amber", "silver"];
 		
-		public function LizanRogue() 
+		public function LizanRogue()
 		{
 			var skinToneAdj:String = randomChoice(SKIN_VARIATIONS);
 			this.skin.growCoat(Skin.SCALES,{color:skinToneAdj});
 			this.a = "the ";
 			this.short = "lizan rogue";
 			this.imageName = "lizanrogue";
-			this.long = "A rogue lizan male stands before you, watching your every move with quick yellow eyes. His slim body is covered in glistening " + skinTone + " scales. His strong tail swings back and forth as he shifts his weight, a fluid movement that hints at his speed.  He wears a simple loincloth to protect his modesty to which a small pack is belted.";
+			this.long = "A rogue lizan male stands before you, watching your every move with quick yellow eyes. His slim body is covered in glistening " + bodyColor + " scales. His strong tail swings back and forth as he shifts his weight, a fluid movement that hints at his speed.  He wears a simple loincloth to protect his modesty to which a small pack is belted.";
 			// this.plural = false;
 			createBreastRow(Appearance.breastCupInverse("flat"));
 			this.createCock(8, 3, CockTypesEnum.LIZARD);
@@ -97,20 +98,19 @@ public class LizanRogue extends Monster
 			this.skinDesc = "skin";
 			this.hairColor = "black";
 			this.hairLength = 15;
-			initStrTouSpeInte(140, 180, 120, 90);
-			initWisLibSensCor(80, 20, 10, 0);
+			initStrTouSpeInte(420, 540, 360, 270);
+			initWisLibSensCor(270, 60, 30, -100);
 			this.weaponName = "claws";
 			this.weaponVerb="claw";
-			this.weaponAttack = 38;
+			this.weaponAttack = 136;
 			this.armorName = "loincloth";
-			this.armorDef = 18;
-			this.armorMDef = 2;
-			this.bonusHP = 350;
-			this.bonusLust = 66;
+			this.armorDef = 200;
+			this.armorMDef = 80;
+			this.bonusHP = 750;
+			this.bonusLust = 146;
 			this.lust = 20;
 			this.lustVuln = .7;
-			this.temperment = TEMPERMENT_LOVE_GRAPPLES;
-			this.level = 36;
+			this.level = 56;
 			this.gems = 70 + rand(80);
 			this.drop = new WeightedDrop().add(consumables.REPTLUM, 5)
 					.add(consumables.SMALL_EGGS, 2)

@@ -9,16 +9,41 @@ import classes.StatusEffects;
 import classes.VaginaClass;
 
 public class CaveWyrmRace extends Race {
-	
-	public function CaveWyrmRace(id:int) {
-		super("Cave Wyrm", id);
+    public static const RaceBody:/*String*/Array = [
+        /*Antenna*/		"Human",
+        /*Arms*/		"Human",
+        /*Balls*/		"Human",
+        /*Breasts*/		"Human",
+        /*Nips*/		"Human",
+        /*Ears*/		"Human",
+        /*Eyes*/		"Human",
+        /*Face*/		"Human",
+        /*Gills*/		"Human",
+        /*Hair*/		"Human",
+        /*Horns*/		"Human",
+        /*LowerBody*/	"Human",
+        /*RearBody*/	"Human",
+        /*Skin*/		"Human",
+        /*Ovipositor*/	"Human",
+        /*Oviposition*/	"Human",
+        /*GlowingAss*/	"Human",
+        /*Tail*/		"Human",
+        /*Tongue*/		"Human",
+        /*Wings*/		"Human",
+        /*Penis*/		"Human",
+        /*Vagina*/		"Human",
+        /*Perks*/		"Human"];
+
+
+    public function CaveWyrmRace(id:int) {
+		super("Cave Wyrm", id, []);//RaceBody);
 	}
 	
 	public override function setup():void {
 		addScores()
 				.skinCoatType(Skin.SCALES, +1)
-				.skinCoatTypeAndColor(Skin.SCALES, "midnight black", +1)
-				.skinBaseColor("grayish-blue", +1)
+				.skinCoatTypeAndColor1(Skin.SCALES, "midnight black", +1)
+				.skinColor1("grayish-blue", +1)
 				.earType(Ears.CAVE_WYRM, +1)
 				.eyeType(Eyes.CAVE_WYRM, +1)
 				.eyeColor("neon blue", +1)
@@ -44,6 +69,16 @@ public class CaveWyrmRace extends Race {
 					"tou.mult": +0.70,
 					"wis.mult": -0.30,
 					"lib.mult": +0.50
+				})
+				.end();
+		
+		buildTier(16, "elder cave wyrm")
+				.namesTauric("elder cave wyrm", "elder cave wyrm-taur")
+				.buffs({
+					"str.mult": +0.90,
+					"tou.mult": +1.15,
+					"wis.mult": -0.30,
+					"lib.mult": +0.65
 				})
 				.end();
 	}

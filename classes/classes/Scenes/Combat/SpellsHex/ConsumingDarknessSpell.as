@@ -25,7 +25,7 @@ public class ConsumingDarknessSpell extends AbstractHexSpell {
 	}
 	
 	override public function describeEffectVs(target:Monster):String {
-		return "" + calcDamage(target, false, false) + " darkness damage over "+
+		return "" + numberFormat(calcDamage(target, false, false)) + " darkness damage over "+
 				numberOfThings(calcDuration(),"round") +
 				"; " + calcBackfirePercent() + "% backfire"
 	}
@@ -38,12 +38,15 @@ public class ConsumingDarknessSpell extends AbstractHexSpell {
 		return monster.hasStatusEffect(StatusEffects.ConsumingDarkness);
 	}
 	
-	public function calcDuration():int {
-		return 7
+	override public function calcDuration():int {
+		return 7;
 	}
 	
 	override public function calcCooldown():int {
-		return 15;
+		var calcC:int = 12;
+		calcC += spellGenericCooldown();
+		if (player.hasPerk(PerkLib.Necromancy)) calcC -= 1;
+		return calcC;
 	}
 	
 	override public function advance(display:Boolean):void {
@@ -57,6 +60,7 @@ public class ConsumingDarknessSpell extends AbstractHexSpell {
 			var store11:Number = 0;
 			store11 += monster.statusEffectv2(StatusEffects.ConsumingDarkness);
 			store11 *= 0.2;
+			if (player.hasPerk(PerkLib.Necromancy)) store11 *= 1.5;
 			combat.doDarknessDamage(store11, true, display);
 			if (display) {
 				outputText(" damage.\n\n");

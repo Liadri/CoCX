@@ -2,27 +2,48 @@
  * ...
  * @author Liadri
  */
-package classes.Items.Shields 
+package classes.Items.Shields
 {
-	import classes.PerkLib;
+import classes.Items.Shield;
+import classes.PerkLib;
 
-	public class DarkAegis extends ShieldWithPerk
+	public class DarkAegis extends Shield
 	{
 		
-		public function DarkAegis() 
+		public function DarkAegis()
 		{
-			super("SanctD", "Dark Aegis", "dark aegis", "a dark aegis", 29, 2900,
+			super("SanctD", "Dark Aegis", "dark aegis", "a dark aegis", 55, 5500,
 					"Gleaming in black metal and obsidian plates, this legendary shield is said to heal and protect a fallen knight. Demonic ornaments cover most of its obsidian-carved surface.",
-					"Large", PerkLib.Sanctuary, 2, 0, 0, 0
-			);
+					"Large");
+			withPerk(PerkLib.Sanctuary, 2, 0, 0, 0);
+			withTag(I_LEGENDARY);
 		}
 		
 		override public function get block():Number {
 			var block:int = 0;
-			block += Math.round((game.player.cor) / 5);
-			if (game.player.str >= 40) block += 9;
-			if (game.player.str >= 20) block += 3;
-			return (0 + block);
+			var scal:Number = 10;
+			if (game.player.str >= 125) {
+				block += 10;
+				scal -= 1;
+			}
+			if (game.player.str >= 100) {
+				block += 10;
+				scal -= 1;
+			}
+			if (game.player.str >= 75) {
+				block += 5;
+				scal -= 1;
+			}
+			if (game.player.str >= 50) {
+				block += 5;
+				scal -= 1;
+			}
+			if (game.player.str >= 25) {
+				block += 3;
+				scal -= 1;
+			}
+			block += Math.round(game.player.cor / scal);
+			return (2 + block);
 		}
 	}
 }

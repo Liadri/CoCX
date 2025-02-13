@@ -6,6 +6,8 @@ import classes.BodyParts.Hips;
 import classes.BodyParts.LowerBody;
 import classes.Scenes.Areas.Desert.Naga;
 import classes.Scenes.SceneLib;
+import classes.Scenes.Combat.CombatAbility;
+import classes.Scenes.Combat.General.TeaseSkill;
 
 public class Sirius extends Naga
 	{
@@ -27,7 +29,7 @@ public class Sirius extends Naga
 			if (damage<=0) {
 				super.outputAttack(damage);
 			} else {
-				outputText("You misjudge his pattern and wind up getting slashed by a series of swipes from his sharpened nails.  He distances himself from you in order to avoid retaliation and glares at you with his piercing yellow eyes, a hint of a smile on his face. <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
+				outputText("You misjudge his pattern and wind up getting slashed by a series of swipes from his sharpened nails.  He distances himself from you in order to avoid retaliation and glares at you with his piercing yellow eyes, a hint of a smile on his face. <b>([font-damage]" + damage + "[/font])</b>");
 			}
 		}
 
@@ -51,12 +53,12 @@ public class Sirius extends Naga
 //Hit (Blind):
 			if (hasStatusEffect(StatusEffects.Blind)) {
 				outputText("  Though your vision is still blurry, you feel yourself being sucked into the golden depths of those pupils, making you forget all your worries, if only for an instant.  All you can focus on is your growing arousal as you sink deeper into his gaze.  You shake your head, clearing your mind of the hypnotising effects the snake-man's eyes seem to possess, though the arousal remains.");
-				player.dynStats("lus", (5 + player.lib / 10 - player.inte / 20));
+				player.takeLustDamage((5 + player.lib / 10 - player.inte / 20), true);
 			}
 			//Hit:
 			else {
 				outputText("  Those pools of yellow suck you into their golden depths, making you forget all your worries, if only for an instant.  All you can focus on is your growing arousal as you sink deeper into his gaze.  You shake your head, clearing your mind of the hypnotising effects the snake-man's eyes seem to possess, though the arousal remains.");
-				player.dynStats("lus", (10 + player.lib / 7 - player.inte / 20));
+				player.takeLustDamage((10 + player.lib / 7 - player.inte / 20), true);
 			}
 		}
 
@@ -64,7 +66,7 @@ public class Sirius extends Naga
 		{
 			outputText("Hissing loudly, Sirius suddenly curls his lips and spits at your eyes!  ");
 //{Hit:
-			if ((spe / 20 + rand(20) + 1 > player.spe / 20 + 10) && !player.hasPerk(PerkLib.BlindImmunity)) {
+			if ((spe / 20 + rand(20) + 1 > player.spe / 20 + 10) && !player.isImmuneToBlind()) {
 				outputText("The vile spray hits your eyes and you scream in pain, clawing fiercely at your burning, watering, weeping eyes.  <b>You can't see!  It'll be much harder to fight in this state, but at the same time, his hypnosis won't be so effective...</b>");
 				player.createStatusEffect(StatusEffects.Blind, 3, 0, 0, 0);
 			}
@@ -83,6 +85,14 @@ public class Sirius extends Naga
 			outputText("The snake-man moves too quickly for you to evade and he sinks long fangs into your flesh, leaving a wound that burns with horrific pain. ");
 			var damage:Number = 40 + rand(20);
 			damage = player.takePoisonDamage(damage, true);
+		}
+
+		override public function interceptPlayerAbility(ability:CombatAbility):Boolean {
+			if (ability is TeaseSkill) {
+				outputText("He is too focused on your eyes to pay any attention to your teasing, <b>looks like you'll have to beat him up.</b>\n\n");
+				return true;
+			}
+			return false;
 		}
 
 		override public function defeated(hpVictory:Boolean):void
@@ -112,11 +122,11 @@ public class Sirius extends Naga
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_LARGE;
 			this.lowerBody = LowerBody.NAGA;
-			this.skinTone = "mediterranean-toned";
+			this.bodyColor = "mediterranean-toned";
 			this.hairColor = "orange";
 			this.hairLength = 16;
 			initStrTouSpeInte(110, 90, 125, 92);
-			initWisLibSensCor(92, 45, 35, 40);
+			initWisLibSensCor(92, 45, 35, -20);
 			this.weaponName = "fangs";
 			this.weaponVerb="bite";
 			this.weaponAttack = 37;
@@ -126,7 +136,6 @@ public class Sirius extends Naga
 			this.bonusHP = 400;
 			this.bonusLust = 104;
 			this.lust = 30;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.level = 24;
 			this.gems = rand(20) + 26;
 			this.drop = NO_DROP;

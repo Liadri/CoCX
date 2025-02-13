@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.Areas.Battlefield 
+package classes.Scenes.Areas.Battlefield
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -16,7 +16,7 @@ import classes.internals.*;
 		public var Ghosts:BattlefieldEnemiesScenes = new BattlefieldEnemiesScenes();
 		
 		private function VengefulApparitionsMagicMissles():void {
-			outputText("Among group, few appariutions raises their hand and casts a small spell. From their fingertips shoot magic missiles that slam against your skin and cause a surprising amount of discomfort. ");
+			outputText("You hear a hissing, as several of the ghastly figures float forward. From their glowing palms, pulsating orbs are formed, and launched, one after the other. The projectiles aren't all fired directly at you, but they seem to arc, violet orbs darkening the area as they all home in on you. You dodge, but they track your movements effortlessly. The first few don't hurt much, but the sheer number of the projectiles quickly add up. ");
 			var damage:Number = eBaseIntelligenceDamage() * 0.25;
 			player.takeMagicDamage(damage, true);
 			player.takeMagicDamage(damage, true);
@@ -62,12 +62,12 @@ import classes.internals.*;
 			Ghosts.loseToAVengefulApparitions();
 		}
 		
-		public function VengefulApparitions() 
+		public function VengefulApparitions()
 		{
 			this.a = "the ";
 			this.short = "vengeful apparitions";
 			this.imageName = "vengefulapparitions";
-			this.long = "You are currently battling vengeful apparitions. They all looks very humanlike, even dressed in various exotic looking clothes. But they ocassionaly fades away partialy and this only server to increase difficulty of predicting attacks.";
+			this.long = "You are currently battling the vengeful apparitions. While they're humanoid, they seem to have once been a variety of races, from goblins to minotaurs...Even a human or two. While their \"bodies\" appear almost normal, draped in a variety of armors or fancy clothing, their legs end in misty vapor, inches off the ground. Their jaws all hang open, and their eyes are blank, staring at you unblinking. They flicker in and out of sight, heads and limbs shaking unnaturally. The only sound they make is the occasional moan, or single, hissing word.";
 			this.plural = true;
 			this.pronoun1 = "they";
 			this.pronoun2 = "them";
@@ -84,34 +84,33 @@ import classes.internals.*;
 			this.tallness = 78;
 			this.hips.type = Hips.RATING_SLENDER;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "white";
+			this.bodyColor = "white";
 			this.hairColor = "white";
 			this.hairLength = 3;
 			this.weaponName = "fists";
 			this.weaponVerb="punches";
 			this.armorName = "translucent clothes";
-			this.armorDef = 1;
+			this.armorDef = 100;
 			this.lust = 10;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
 			if (rand(2) == 0) {
-				initStrTouSpeInte(44, 55, 66, 140);
-				initWisLibSensCor(140, 1, 140, 50);
-				this.weaponAttack = 30;
-				this.armorMDef = 30;
-				this.bonusHP = 150;
-				this.bonusLust = 171;
-				this.level = 30;
+				initStrTouSpeInte(132, 165, 198, 420);
+				initWisLibSensCor(420, 1, 420, 0);
+				this.weaponAttack = 86;
+				this.armorMDef = 86;
+				this.bonusHP = 750;
+				this.bonusLust = 464;
+				this.level = 43;
 			}
 			else {
-				initStrTouSpeInte(42, 53, 63, 100);
-				initWisLibSensCor(100, 1, 100, 50);
-				this.weaponAttack = 24;
-				this.armorMDef = 24;
-				this.bonusHP = 120;
-				this.bonusLust = 131;
-				this.level = 24;
+				initStrTouSpeInte(126, 159, 189, 300);
+				initWisLibSensCor(300, 1, 300, 0);
+				this.weaponAttack = 72;
+				this.armorMDef = 72;
+				this.bonusHP = 500;
+				this.bonusLust = 337;
+				this.level = 36;
 			}
-			this.gems = 0;
+			this.gems = 10 + rand(5);
 			this.drop = NO_DROP;
 			if (rand(2) == 0) this.createPerk(PerkLib.EnemyLargeGroupType, 0, 0, 0, 0);
 			else this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);

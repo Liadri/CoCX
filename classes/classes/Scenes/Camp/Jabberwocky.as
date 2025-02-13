@@ -36,8 +36,10 @@ package classes.Scenes.Camp
 			var damage:Number = 0;
 			damage += eBaseDamage();
 			player.takePhysDamage(damage, true);
-			if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.removeStatusEffect(StatusEffects.Hemorrhage);
-			player.createStatusEffect(StatusEffects.Hemorrhage,SceneLib.combat.debuffsOrDoTDuration(10),0.1,0,0);
+			if (!player.immuneToBleed()) {
+				if (player.hasStatusEffect(StatusEffects.Hemorrhage)) player.removeStatusEffect(StatusEffects.Hemorrhage);
+				player.createStatusEffect(StatusEffects.Hemorrhage, SceneLib.combat.debuffsOrDoTDuration(10), 0.1, 0, 0);
+			}
 		}
 		
 		private function TakeFlight():void {
@@ -107,7 +109,7 @@ package classes.Scenes.Camp
 			this.ballSize = 1;
 			createBreastRow(0);
 			initStrTouSpeInte(160, 350, 180, 100);
-			initWisLibSensCor(100, 10, 50, 50);
+			initWisLibSensCor(100, 10, 50, 0);
 			this.tallness = 15*12;
 			this.bonusHP = 1000;
 			this.additionalXP = 500;
@@ -121,8 +123,8 @@ package classes.Scenes.Camp
 			this.lustVuln = .6;
 			this.lust = 50;
 			this.level = 60;
-			this.drop = new ChainedDrop()
-					.add(consumables.JABBERS, 1);
+			this.drop = new ChainedDrop().add(consumables.MADMENK, 1/2)
+					.elseDrop(consumables.JABBERS);
 			this.createPerk(PerkLib.TankI, 0, 0, 0, 0);
 			this.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
 			this.createPerk(PerkLib.FireNature, 0, 0, 0, 0);

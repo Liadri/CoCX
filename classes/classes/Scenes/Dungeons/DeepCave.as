@@ -8,8 +8,8 @@ import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
 import classes.Scenes.Dungeons.DeepCave.*;
 import classes.Scenes.SceneLib;
-import classes.internals.Utils;
 import classes.display.SpriteDb;
+import classes.internals.Utils;
 
 use namespace CoC;
 
@@ -39,7 +39,7 @@ use namespace CoC;
 			inDungeon = false;
 			clearOutput();
 			outputText("You leave the cave behind and take off through the deepwoods back towards camp.");
-			doNext(camp.returnToCampUseOneHour);
+			endEncounter();
 		}
 
 		private function checkDoor1():void {
@@ -104,7 +104,7 @@ use namespace CoC;
 			if (player.hasItem(consumables.BIMBOCH) && flags[kFLAGS.NIAMH_SEAN_BREW_BIMBO_LIQUEUR_COUNTER] == 0) {
 				outputText("\n\nSean could probably do something with the Bimbo Champagne if you had enough of it...");
 				if (player.hasItem(consumables.BIMBOCH, 5)) {
-					addButton(7, consumables.BIMBOLQ.shortName, SceneLib.telAdre.niamh.yeahSeanLetsBimbooze);
+					addButton(7, consumables.BIMBOLQ.shortName, SceneLib.telAdre.niamh.seanBimboBrewing);
 					outputText("  Luckily, you do!");
 				}
 			}
@@ -112,13 +112,16 @@ use namespace CoC;
 			addButton(1, consumables.SENSDRF.shortName, buyItem, 1);
 			addButton(2, consumables.REDUCTO.shortName, buyItem, 2);
 			addButton(3, consumables.AGILI_E.shortName, buyItem, 3);
+			addButton(4, consumables.VIXEN_T.shortName, buyItem, 4);
 			addButton(5, consumables.CFISHS.shortName, buyItem, 5);
-			addButton(6, consumables.VIXEN_T.shortName, buyItem, 6);
+			addButton(6, weaponsrange.SSKETCH.shortName, buyItem, 6);
+			addButton(7, weapons.SUCWHIP.shortName, buyItem, 7);
 			addButton(8, weapons.L_CLAWS.shortName, buyItem, 8);
-			addButton(9, weapons.LRAPIER.shortName, buyItem, 9);
-			addButton(10, weapons.SUCWHIP.shortName, buyItem, 10);
-			addButton(11, weapons.PSWHIP.shortName, buyItem, 11);
-			addButton(12, weaponsrange.SSKETCH.shortName, buyItem, 12);
+			//9
+			addButton(10, weapons.LRAPIER.shortName, buyItem, 10);
+			addButton(11, weapons.H_GAUNT.shortName, buyItem, 11);
+			//12
+			//addButton(13, weapons..shortName, buyItem, 13);
 			addButton(14, "Leave", roomEntrance);
 		}
 
@@ -129,13 +132,16 @@ use namespace CoC;
 			if (item == 1) incubusBuy(consumables.SENSDRF);
 			if (item == 2) incubusBuy(consumables.REDUCTO);
 			if (item == 3) incubusBuy(consumables.AGILI_E);
+			if (item == 4) incubusBuy(consumables.VIXEN_T);
 			if (item == 5) incubusBuy(consumables.CFISHS);
-			if (item == 6) incubusBuy(consumables.VIXEN_T);
+			if (item == 6) incubusBuy(weaponsrange.SSKETCH);
+			if (item == 7) incubusBuy(weapons.SUCWHIP);
 			if (item == 8) incubusBuy(weapons.L_CLAWS);
-			if (item == 9) incubusBuy(weapons.LRAPIER);
-			if (item == 10) incubusBuy(weapons.SUCWHIP);
-			if (item == 11) incubusBuy(weapons.PSWHIP);
-			if (item == 12) incubusBuy(weaponsrange.SSKETCH);
+			//9
+			if (item == 10) incubusBuy(weapons.LRAPIER);
+			if (item == 11) incubusBuy(weapons.H_GAUNT);
+			//12
+			//if (item == 13) incubusBuy(weapons.);
 		}
 
 		public function incubusBuy(itype:ItemType):void {
@@ -193,11 +199,9 @@ use namespace CoC;
 			startCombat(new EncapsulationPod(),true);
 		}
 		public function encapsulationVictory():void {
-			if(monster.HP <= 0) {
-				flags[kFLAGS.ZETAZ_FUNGUS_ROOM_DEFEATED]++;
-				clearOutput();
-				outputText("The pod's wall bursts under your onslaught.  The strength goes out of the tentacles holding you at once, giving them all the power of a limp noodle.  The spongy surface of the pod gives out, and the 'petals' split apart, falling down to the ground with a heavy 'thwack'.  You stand there, exulting in your freedom.  You've won!\n\nThe rapier you approached originally still lies there, and you claim your prize.");
-			}
+			flags[kFLAGS.ZETAZ_FUNGUS_ROOM_DEFEATED]++;
+			clearOutput();
+			outputText("The pod's wall bursts under your "+(monster.HP <= 0 ? "":"lustfull ")+"onslaught.  The strength goes out of the tentacles holding you at once, giving them all the power of a limp noodle.  The spongy surface of the pod gives out, and the 'petals' split apart, falling down to the ground with a heavy 'thwack'.  You stand there, exulting in your freedom.  You've won!\n\nThe rapier you approached originally still lies there, and you claim your prize.");
 			cleanupAfterCombat();
 		}
 
@@ -320,7 +324,7 @@ use namespace CoC;
 		//Fight Win-
 		public function fightValaVictory():void {
 			clearOutput();
-			outputText("The fairy girl collapses, well-drilled obedience robbing her limbs of their fight. She squirms to a crouching bow, fully accepting you as her new " + player.mf("Master","Mistress") + ". The warped fae's empty eyes look up at you, her face a mask of rapture as she anxiously awaits her punishment, wagging her butt in the air as lubrication gushes down her thighs. It seems being defeated has excited the broken creature to a breeding frenzy. Her endurance must be incredible to be this frisky after your battle.");
+			outputText("The fairy girl collapses, well-drilled obedience robbing her limbs of their fight. She squirms to a crouching bow, fully accepting you as her new [Master]. The warped fae's empty eyes look up at you, her face a mask of rapture as she anxiously awaits her punishment, wagging her butt in the air as lubrication gushes down her thighs. It seems being defeated has excited the broken creature to a breeding frenzy. Her endurance must be incredible to be this frisky after your battle.");
 			if (!recalling) flags[kFLAGS.TIMES_PC_DEFEATED_VALA]++;
 			outputText(" What will you do?");
 			menu();
@@ -356,7 +360,7 @@ use namespace CoC;
 
 			outputText("Grabbing the center one by his horns, you pull him forwards until your shaft is pressed against the back of his throat.  He gags audibly, but you pull him back before it can overwhelm him, only to slam it in deep again.  ");
 			outputText("The girly imp to your left, seeing how occupied your [cock] is, shifts his attention down to your ");
-			if(player.balls > 0) outputText(ballsDescriptLight());
+			if(player.hasBalls()) outputText(ballsDescriptLight());
 			else if(player.hasVagina()) outputText(vaginaDescript(0));
 			else outputText("ass");
 			outputText(", licking with care");
@@ -366,14 +370,14 @@ use namespace CoC;
 			outputText(" and pulls it tight, acting as an organic cock-ring.\n\n");
 
 			outputText("Fucking the little bitch of a demon is just too good, and you quickly reach orgasm.  ");
-			if(player.balls > 0) outputText("Cum boils in your balls, ready to paint your foe white.  ");
+			if(player.hasBalls()) outputText("Cum boils in your balls, ready to paint your foe white.  ");
 			outputText("With a mighty heave, you yank the imp forward, ramming your cock deep into his throat.  He gurgles noisily as you unload directly into his belly.   Sloshing wet noises echo in the room as his belly bulges slightly from the load, and his nose dribbles cum.   You pull him off and push him away.  He coughs and sputters, but immediately starts stroking himself, too turned on to care.");
 			if(player.cumQ() > 1000) outputText("  You keep cumming while the other two imps keep licking and servicing you.   By the time you finish, they're glazed in spooge and masturbating as well.");
 			outputText("\n\n");
 
 			outputText("Satisfied, you redress and prepare to continue with your exploration of the cave.");
             if (!recalling) {
-                player.sexReward("Default","Dick", true, false);
+                player.sexReward("no", "Dick");
                 cleanupAfterCombat();
             }
             else doNext(recallWakeUp);
@@ -397,7 +401,7 @@ use namespace CoC;
 			outputText("The two of you lie together, trembling happily as you're filled to the brim with tainted fluids.\n\n");
 
 			outputText("Sated for now, you rise up, your body dripping gooey whiteness.  Though in retrospect it isn't nearly as much as was pumped into your womb.");
-			if (player.pregnancyIncubation == 0) outputText("  You'll probably get pregnant.");
+			if (player.canGetPregnant()) outputText("  You'll probably get pregnant.");
             if (!recalling) {
                 player.sexReward("cum","Vaginal");
                 if (!player.isGoblinoid()) player.knockUp(PregnancyStore.PREGNANCY_IMP, PregnancyStore.INCUBATION_IMP - 14, 50);
@@ -526,17 +530,14 @@ use namespace CoC;
 			if(!recalling && monster.HP <= monster.minHP()) outputText("Zetaz sinks down on his knees, too wounded to continue.  He looks up at you with helpless rage in his eyes and asks, \"<i>Are you satisfied now?  Go ahead then, kill me.  My life hasn't been worth living since I met you anyway.</i>\"\n\n");
 			//[VICTORY LUST]
 			else outputText("Zetaz sinks down on his knees and fishes his massive, pre-drooling member from under his loincloth.  He looks up at you, nearly crying and moans, \"<i>Why? Ruining my life wasn't enough?  You had to make me jerk off at your feet too?  Just kill me, I don't want to live anymore.</i>\"\n\n");
-
 			//[Both]
 			outputText("He can't die yet.  You need to know where his master, this 'Lethice', is.  It sounds like she's the queen-bitch of the demons, and if you're going to break this vicious cycle");
 			//( or take her place)
 			if(player.cor > 66) outputText(" or take her place");
 			outputText(", you need to find her and bring her down.  What do you do?");
-			//[Sexual Interrogation] [Brutal Interrogation] [Release for Info]
 			menu();
-			addButton(0, "Sexual", sexualInterrogation).hint("Chain the imp up and sexually interrogate him.");
-			addButton(1, "End Him", endZetaz).hint("Kill the imp. After all, he deserves to be bad-ended.");
-			addButton(2, "Safety", releaseZForInfo).hint("Release the imp after you get the information you need.");
+			addButton(1, "End Him/Safety", releaseZForInfo).hint("Kill the imp. After all, he deserves to be bad-ended. / Release the imp after you get the information you need.");
+			addButton(3, "Sexual", sexualInterrogation).hint("Chain the imp up and sexually interrogate him.");
 		}
 
         private function zetazRecallFork():void {
@@ -551,29 +552,38 @@ use namespace CoC;
 		//[Release Zetaz 4 Info Win]
 		public function releaseZForInfo():void {
 			clearOutput();
-			outputText("You look the pathetic imp up and down and smirk.  He closes his eyes, expecting a summary execution, but you present him with an offer instead.  If he gives you more information on Lethice and where to find her, you'll let him go scot-free and avoid him if he doesn't make a nuisance of himself.\n\n");
-
-			outputText("\"<i>Really?</i>\" questions Zetaz in a voice laced with suspicion. \"<i>For fuck's sake, I'm already a renegade.  I'll take your deal.  It's not like it costs me anything I wouldn't give away for free anyway.</i>\"\n\n");
-
-			outputText("Invigorated by the promise of safety and freedom, Zetaz pulls himself up and ");
-			if(monster.HP <= monster.minHP()) outputText("staggers");
-			else outputText("nearly stumbles over his lust-filled cock");
-			outputText(" towards a desk.  His dextrous fingers twist the knob on the top drawer expertly until a quiet 'click' comes from the furniture.  He reaches down to the divider between the drawers and pulls on it, revealing a tiny, hidden compartment.  In the center of it is a detailed map of the mountain and its upper reaches.  Though the secret diagram is quite crude, it depicts a winding trail that bypasses numerous harpy nests, minotaur caves, and various unrecognizable pitfalls to reach the cloud-shrouded mountain peak.  The drawing loses much of its detail once it gets to the demon fortifications at the top, but it can't be that hard to track down Lethice once you've entered the seat of her power, can it?\n\n");
-
-			outputText("A loincloth flies across the room and deposits itself on your shoulder, startling you from your planning.  You glance back and see Zetaz tearing through his possessions, tossing his most prized items into a burlap sack with reckless abandon.  His whole body is trembling, as he ties it to a wooden pole, never once looking up at you.  Perhaps he fears you might change your mind?  ");
-			if(player.cor > 66) {
-				outputText("You smirk down at him and fold your arms over your ");
-				if(player.biggestTitSize() < 1) outputText("chest");
-				else outputText(breastDescript(0));
-				outputText(", relishing his fear while you consider the possibilities");
-			}
-			else if(player.cor > 33) {
-				outputText("You chuckle with amusement and watch the little bastard scrabble to pack up his life, relishing the chance to pay him back for your previous encounter");
-			}
-			else {
-				outputText("You sigh and rub at your temples as the little jerk scrabbles to pack his life away.  In spite of yourself, you actually feel a little bad about the situation");
-			}
-			outputText(".  Zetaz scrambles out the south door, never once looking back at the tattered remnants of his old home.");
+			outputText("As you step towards your beaten foe, he groans, looking up at you.\n\n");
+			outputText("\"<i>Wait! Waitwaitwait!</i>\" Zetaz holds his head. \"<i>Look, I don’t know where Lethice lives. I’m just an imp, you think anyone would tell one of us where she is?</i>\" He scowls. \"<i>If I knew, I’d tell ya. Fuck that bitch.</i>\"\n\n");
+			outputText("You nod slowly, telling Zetaz that he’d better get to the point.\n\n");
+			outputText("\"<i>Look…I know where some of the higher-ups are. Not Lethice, but her close underlings. Ya get me?</i>\" You nod again. \"<i>Work your way up the chain, you’ll find her.</i>\"\n\n");
+			outputText("You’re not sure he’s telling the truth. You did just kick his ass, but can you trust this imp to tell you the truth? Even to save his own hide? You could take the information, or torture him to get him to spill more…Well…You have multiple avenues for torture, really.\n\n");
+			menu();
+			addButton(1, "Safety", releaseZForInfo2).hint("Release the imp after you get the information you need.");
+			addButton(3, "Torture", releaseZForInfo3);
+		}
+		
+		public function releaseZForInfo3():void {
+			clearOutput();
+			outputText("<b>A few moments later...</b>\"\n\n");
+			outputText("Zetaz coughs up blood. \"<i>Fine! I-I-I’ll tell you what I know!</i>\" You pull back, and he winces, looking towards the back of the cave. \"<i>Over there…I kept a map with me…Never knew when it’d be handy.</i>\" You walk over, keeping an eye on his bound form, and he directs you to a secret panel in the back. Inside is a single, slightly faded map, showing the mountains. A place halfway up one of the peaks is marked off. Suspicious, you press him for more information. How did a mere imp get a hold of Lethice’s location?\n\n");
+			outputText("\"<i>This ain’t Lethice’s keep. I don’t know where she lives, and I wouldn’t tell ya if I did. This is the best I can do. Take a minotaur dick up the ass.</i>\" He chuckles darkly. \"<i>Or something worse. WAY worse.</i>\" You ask him what he means by that, and he just flips you off. \"<i>Kill me or let me go.</i>\"\n\n");
+			menu();
+			addButton(1, "Release", releaseZForInfo4);
+			addButton(3, "End Him", endZetaz).hint("Kill the imp. After all, he deserves to be bad-ended.");
+		}
+		
+		public function releaseZForInfo4():void {
+			clearOutput();
+			outputText("You untie Zetaz, giving the imp a rough kick. He groans, but you remind him of how you met. He glares, and you surge forward, grabbing him by the neck. He raises his hands in surrender, and you stare right into his cowering eyes. You tell him that every breath he takes from this moment on is a gift from you. A gift you can easily take back. You shove the imp back, and tell him to get moving. He whines about his things, but you shake your head, telling him to leave NOW.\n\n");
+			outputText("Eyes wide, fearful for his life again, Zetaz runs from the cave, into the jungle. His tail literally between his legs, you wonder how long he’ll keep running…Then mentally shrug. You don’t really care.\n\n");
+			zetazRecallFork();
+		}
+		
+		public function releaseZForInfo2():void {
+			clearOutput();
+			outputText("Zetaz blinks. \"<i>Really? You’re…Letting me live?</i>\" You tell the overgrown imp that you’ve got bigger things to worry about than him. He grunts, nodding. He walks over to the back of the room, where he pulls at a hidden panel, exposing a little hidey-hole. Pulling a single piece of paper from it, he puts it back on the desk, stepping back once he’s done so.\n\n");
+			outputText("\"<i>Look, I don’t know how interested you are in the whole “Save Mareth from demons” schtick, but if you are, this place…well, it’s cooking up some shit. Nasty shit. Stuff that makes my glow-up here look like nothing.</i>\" He shudders, staring down at the map. You give him a glare, and he flinches.\n\n");
+			outputText("Zetaz gathers several belongings under your watchful eye, throwing them in a crude knapsack before fleeing the cave. He looks back once before running into the woods.");
             zetazRecallFork();
 		}
 
@@ -581,33 +591,19 @@ use namespace CoC;
 		public function sexualInterrogation():void {
 			clearOutput();
 			outputText("You lean down until your face hovers over Zetaz, looking him square in the eyes, and explain, \"<i>I can't have someone who knows the way to the demons' headquarters dying before they tell me how to get there, can I?</i>\"\n\n");
-
 			outputText("\"<i>Piss off!  You won't get shit from me,</i>\" retorts the defeated demon, \"<i>You may as well finish me off – I'll NEVER help a " + player.mf("jackass","bitch") + " like you!</i>\"\n\n");
-
 			outputText("Smirking, you grab a strip of leather from Zetaz's dresser and dangle it over his nose.\n\n");
-
 			outputText("You whisper, \"<i>This is all I'll need.</i>\"\n\n");
-
 			outputText("The imp looks up with his face shrouded in confusion as he asks, \"<i>I don't think a string is going to help you much, " + player.mf("dork","skank") + ".</i>\"\n\n");
-
 			outputText("\"<i>Give me a moment, my stupid little snitch,</i>\" you taunt as you lift his loincloth, exposing the hardness concealed within.  It pulses, growing harder and an inch longer just from your brief touch and exposure to the air.  Perhaps the imp isn't as in control of his libido as he'd like you to think?  You twirl the leather strip around his base and swiftly knot it, getting a tight enough seal to make Zetaz grunt in discomfort. \"<i>Ungh! What the fuck!? Ow, goddamnit!</i>\"\n\n");
-
 			outputText("Even with his protests and cries, you watch his cock inflate further, until it looks stuffed far beyond his normal capacity.  It twitches and drools corrupted pre-seed as you slide your finger along his urethra, watching the member bob and twitch from the slight, soft touches.  That must feel quite good.  Zetaz confirms your hunch by lifting his hips off the ground, shaking them lewdly to try to grind against your hand.  You don't deny him the friction he craves, wrapping your hand around as much of his meat as your fingers will encircle until steady dribbles of fluid escape from his urethra.  The tainted nodules of his demonic dick begin to flare and pulse, signaling that his orgasm is almost upon him.\n\n");
-
 			outputText("He's NOT allowed to cum – not until you get the information you need!   You slide your fingers down to his base in one fluid stroke, slamming your hand against his crotch as his orgasm starts to bubble up.  Before your opponent can attain release, you squeeze hard with one hand and tighten the leather cord with the other, clamping the base until the imp's cum is bottled up in his abdomen.  Zetaz cries, \"<i>No-no-no, let me cum, please let me cum, need-ta-cum-nooowwww.</i>\"\n\n");
-
 			outputText("No such luck.  You wait for his body to stop convulsing and return to your task, one hand sealed around his base while the other begins to stroke him with firm, steady motions, sliding over the pebbly surface of his dick's nubs.  Your victim continues his begging and crying, but you don't let up as you pause to gather his escaped pre-cum and smear it over his tip.  Zetaz pants and groans, trembling and swelling in your hand from your efficient hand-job.   Spitting on your palm, you bump up the tempo and begin to stroke him hard and fast, sliding over his cockring-swollen prick with practiced, deliberate motions.\n\n");
-
 			outputText("\"<i>Tell me how to find the head demon and I'll let you cum.  Don't make this any 'harder' than it has to be,</i>\" you whisper.\n\n");
-
 			outputText("The demon's voice starts to crack in spite of his efforts to remain defiant. \"<i>No!  I-uh-won't let yo-oooooh-control meeeeee!</i>\"\n\n");
-
 			outputText("His protests trail into incoherent squeals and babbles as you bottle up his second orgasm behind the tightly tied strap.  Again, his body twists and writhes in your grip, tortured with the ever-increasing sexual tension.  Zetaz looks up at you with a pleading, cross-eyed expression as he tries to regain his wits, but you just keep pumping away.  His balls are visibly pulsing and quivering, desperately needing to release the building pressure.  You meet his gaze calmly, your hands continuing their work on the bloated imp-cock, and you break into a knowing smile as he thickens in your grip for the third time.\n\n");
-
 			outputText("\"<i>Well Zetaz?  Is three the lucky number, or do I have to switch hands and keep backing you up until you go mad?</i>\" you ask.\n\n");
-
 			outputText("His hands claw the rug underneath him as he gasps, \"<i>You win, you win!  The desk has a-ah ah ahh-hidden drawer with a map to Lethice's hideout.  Please justletmecomeletmecomeletmecomePLEAAAAASE!</i>\"\n\n");
-
 			outputText("What do you do?");
 			//['Release' him] [Tighten Strap] [End Him]
 			menu();
@@ -622,17 +618,11 @@ use namespace CoC;
 			outputText("In a moment of kindness");
 			if(player.lust > 60 || player.lib > 60 || player.cor > 60) outputText(", or perhaps perversion,");
 			outputText(" you release the taut cord and allow it to unravel.  It whips off Zetaz's prick at once, tossed across the chamber by the pressure boiling forth from the imp's shaking hips.   Nodules flare from his prick's base to his tip in a wavelike motion, nearly doubling in size by the time the 'wave' reaches the ring around his crown.  Simultaneously, his urethra parts and unloads the imp's pent-up cargo with cannon-like force.  Sticky spoo rockets upwards, splatters against the ceiling, and hangs for a moment as the first 'jet' glazes the roof.  The eruption slowly peters out, letting the last of the rope fall over Zetaz's form.\n\n");
-
 			outputText("You marvel at the force as you feel the next bulge moving up that demon-dick, squeezing past your gently caressing fingertips.  The next burst doesn't surface with the explosive force of its precursor, but what it lacks in speed, it makes up for in raw volume.  Zetaz's body arches and twitches with the effort of trying to push out three orgasms worth of backed-up demon jizz, and easily launches a missile-like globule onto his bed, where it splatters to great effect.  The third spout of white lacks the thrust and mass of its predecessors, but easily puts out more love juice than most people's entire orgasm.  With a knowing smile on your face, you stroke out the remainder of his seed, keeping count of each rope as it's fired – four, five, six, seven, eight, nine, ten... eleven.\n\n");
-
 			outputText("The imp has managed to soak his body, his nightstand, the bed, one of the walls, and even the ceiling, but all that pleasure came at a cost.  Zetaz's eyes have closed – the little guy passed out.  Smirking, you wipe your hand off in his hair and head over to the desk.  Somehow it managed to avoid the great spoogey deluge, and it almost seems to be standing aloof from the depraved scene that's devoured the rest of the room.  It has two visible drawers with a divider between them, but at a glance there doesn't seem to be enough room in the furniture to contain a hidden drawer or compartment.\n\n");
-
 			outputText("You poke and prod around the desk's circumference, checking for false panels, weak points, or hidden latches inside the woodwork.  It refuses to give up its secrets, and you find yourself wondering for a moment if it's somehow capable of such deception before you dismiss the notion as insane.  For all this place's craziness, you doubt Zetaz would have a piece of possessed furniture in his bedroom.  Irritated, you yank open each drawer, but nothing seems out of the ordinary.  You grumble and slam them closed, twisting on the knobs with accidental fury.  A barely audible 'click' reaches your ears, and the divider between the drawers now protrudes ever so slightly forward, far enough to get a good grip on.\n\n");
-
 			outputText("The unfinished wood behind the divider's facade chafes your fingertips as you gently pull on it, revealing a narrow, hidden compartment.  The only object inside is a detailed map of the mountain and its upper reaches.  Though the secret diagram is quite crude, it depicts a winding trail that bypasses numerous harpy nests, minotaur caves, and various unrecognizable pitfalls to reach the cloud-shrouded mountain peak.  The drawing loses much of its detail once it gets to the demon fortifications at the top, but it can't be that hard to track down Lethice once you've entered the seat of her power, can it?\n\n");
-
 			outputText("You hear the faint scrabble of claws on stone and turn around, alarmed, but there's nothing there.  Not even Zetaz.  You imagine the cum-slicked imp sprinting from his own cave and into the deep woods, and the absurd image brings a smile to your face.\n\n");
-
 			zetazRecallFork();
 		}
 
@@ -640,15 +630,10 @@ use namespace CoC;
 		public function sexualTortureTightenZetaz():void {
 			clearOutput();
 			outputText("\"<i>Idiot,</i>\" you taunt while you tighten the strap further.  Zetaz actually starts to bawl in anguish while another orgasm worth of cum backs up inside him.  You don't want him to get out of the binding while you search for his map, so you pull the cord under his leg and use the free end to bind his wrists together behind his back.  Fondling his turgid prick one last time for good luck, you leave him to struggle with his need as you search for your map.  It's difficult to blank out all the whines and cries, but you manage.\n\n");
-
 			outputText("Zetaz's desk sits against a wall, just far enough away from the rest of the furniture to give it an aloof appearance.  You get up and walk closer, kicking the imp in the belly on your way in order to get a little peace and quiet.  The desk has two visible drawers with a divider between them, but at a glance there doesn't seem to be enough room in the furniture to contain a hidden drawer or compartment. It will take a more careful examination to uncover this 'map'.\n\n");
-
 			outputText("You poke and prod around the desk's circumference, checking for false panels, weak points, or hidden latches inside the woodwork.  It refuses to give up its secrets, and you find yourself wondering for a moment if it's somehow capable of such deception before you dismiss the notion as insane.  For all this place's craziness, you doubt Zetaz would have a piece of possessed furniture in his bedroom.  Irritated, you yank open each drawer, but nothing seems out of the ordinary.  You grumble and slam them closed, twisting on the knobs with accidental fury.  A barely audible 'click' reaches your ears, and the divider between the drawers now protrudes ever so slightly forward, far enough to get a good grip on.\n\n");
-
 			outputText("The unfinished wood behind the divider's facade grates your fingertips as you gently pull on it, revealing a narrow, hidden compartment.  The only object inside is a detailed map of the mountain and its upper reaches.  Though the secret diagram is quite crude, it depicts a winding trail that bypasses numerous harpy nests, minotaur caves, and various unrecognizable pitfalls to reach the cloud-shrouded mountain peak.  The drawing loses much of its detail once it gets to the demon fortifications at the top, but it can't be that hard to track down Lethice once you've entered the seat of her power, can it?\n\n");
-
 			outputText("You hear the faint scrabble of claws on stone and turn around, alarmed, but there's nothing there.  Not even Zetaz.  You imagine the partly hog-tied imp sprinting from his own cave and into the deep woods, his bloated cock bobbing dangerously with every step, and the absurd image brings a smile to your face.\n\n");
-
 			outputText("<b>(Key Item Acquired: Zetaz's Map!)</b>");
 			player.createKeyItem("Zetaz's Map",0,0,0,0);
 			cleanupAfterCombat();
@@ -657,10 +642,12 @@ use namespace CoC;
 		//[END HIM – Ew death!]
 		public function endZetaz():void {
 			clearOutput();
-			outputText("You grab his head in both hands and twist violently, popping his neck in an instant.  Glaring down at the corpse of your first demonic foe, you utter, \"<i>Wish granted.</i>\"\n\n");
-			outputText("With him dead, you'll have to see if there's anything here that could lead you to this 'Lethice', so that you can put an end to the ridiculous plague affecting Mareth once and for all.  Perhaps you'll even get to go home, see your family, and have a rather violent talk with certain elders?  You tear through every drawer, pack, and chest in the place, but all you find are loincloths, extraordinairily fetishist porn, and junk.  Desperate for any clue, you even search under the bed and move the furniture, but it doesn't help.  You take your displeasure out on Zetaz's furnishings, slamming them into one another with all your might.\n\n");
-			outputText("The chair in your hands disintegrates, the desk it impacts splinters apart, and you feel a little bit better.  A piece of parchment flutters back and forth in the middle of it all, freed from some hidden compartment and mostly unscathed.  One of the corners is ripped off, and it has a tear halfway across, but it's still perfectly legible.  It's a map!  Though the secret diagram is quite crude, it depicts a winding trail that bypasses numerous harpy nests, minotaur caves, and various unrecognizable pitfalls to reach the cloud-shrouded mountain peak.  The drawing loses much of its detail once it gets to the demon fortifications at the top, but it can't be that hard to track down Lethice once you've entered the seat of her power, can it?\n\n");
-			if (!recalling) flags[kFLAGS.ZETAZ_DEFEATED_AND_KILLED]++;
+			outputText("You shake your head, grabbing the oversized imps by the horns. Ignoring his pleas for mercy, you throw Zetaz against the wall. He cowers as you bring your [weapon] down, ending his life.\n\n");
+			outputText("You rummage through his room, until you find a small, hidden compartment in the back wall. It’s a map, with a place halfway up the mountain marked off. This is probably the lab he’d spoken of.\n\n");
+			if (!recalling) {
+				if (player.hasPerk(PerkLib.Purifier)) player.purifyDemonBonus();
+				flags[kFLAGS.ZETAZ_DEFEATED_AND_KILLED]++;
+			}
             zetazRecallFork();
 		}
 
@@ -668,7 +655,7 @@ use namespace CoC;
 		public function loseToZetaz():void {
 			clearOutput();
 			outputText("\"<i>Well, isn't this familiar?</i>\" asks Zetaz as he watches your ");
-			if(player.lust >= player.maxLust()) outputText("masturbating");
+			if(player.lust >= player.maxOverLust()) outputText("masturbating");
 			else outputText("prone");
 			outputText(" form with an amused expression, \"<i>The first champion in ages to retain " + player.mf("his","her") + " free will for more than a few minutes, and " + player.mf("he","she") + "'s brought to " + player.mf("his","her") + " knees by the very imp " + player.mf("he","she") + " escaped!  Once you've learned your proper place, you'll guarantee my safe return to my rightful station.  Perhaps I'll even get a promotion?  After all, you've defeated so many higher ranking demons already.</i>\"\n\n");
 
@@ -829,7 +816,7 @@ use namespace CoC;
 			outputText("With a flourish, the imp lord discards his loincloth, tossing it over his shoulder to reveal his erect demon dick.  He taunts, \"<i>Like what you see?</i>\" and orders his lackeys, \"<i>Go on, you know what to do.</i>\"  The pair of scrawny imps flit up to their perches while Zetaz advances and strokes himself, preparing for penetration.  Dozens of unanswered questions swarm through your mind, actually distracting you from your pending orgasm enough to ask, \"<i>Wha-what are you going to do to me?</i>\"\n\n");
 
 			outputText("\"<i>Shhhh, shhh,</i>\" responds Zetaz, \"<i>just relax my pet.</i>\"  He ");
-			if(player.balls > 0) outputText("gently shifts your  " + ballsDescript() + " out of the way and ");
+			if(player.hasBalls()) outputText("gently shifts your  " + ballsDescript() + " out of the way and ");
 			outputText("lines up with your drooling fuck-hole, and with a long smooth stroke, he's inside you.  You cum immediately and hard, barely noticing the chanting that has started up on the adjacent platforms.  Each squirt of cum is accompanied by a thrust from Zetaz, sliding over your lube-leaking walls with ease.  The orgasm lasts nearly twice as long as your last one.  It never seems to end, but when it slowly trails off, you find yourself wondering how soon you can cum again.\n\n");
 
 			outputText("You envision yourself on all fours, being taken in both openings by a pair of imps while you suck off a shadowy figure that your mind recognizes as your lord and master.  " + SMultiCockDesc() + " spurts and squirts with each penetration as your twin violators get off and stuff you full of their yummy imp cum, glazing your insides with corrupted white goo.  Maybe you'll get pregnant this time?  It's been a few weeks since your last litter.  You suck harder on your master's penis and caress his balls until he shows his affection by giving you a salty treat.  He pulls out and blasts a few ropes over your face and hair, so you do your best to look slutty to encourage him.  When he finishes, you lick your lips and beam at your master, Zetaz.\n\n");
@@ -840,7 +827,7 @@ use namespace CoC;
 
 			outputText("Your master finishes squirting inside you and withdraws, pawing at your milk-leaking teats for a moment as you continue to shudder and cum like a good bitch.  Wow, you really are a good bitch, aren't you?  Pride wells in your breast as the imp's chanting reaches a crescendo and a relaxed smile forms on your [face].  Yes, you're a good, breeding bitch.   Master is smiling up at you and you know you've made him feel very happy.  Hopefully he'll come back soon and fuck you some more.  Your pussy feels so empty without him.");
 			player.sexReward("cum", "Vaginal");
-			player.sexReward("Default", "Dick", true, false);
+			player.sexReward("no", "Dick");
 			doNext(zetazBadEndEpilogue_herm);
 		}
 
@@ -882,7 +869,7 @@ use namespace CoC;
 			outputText("You wake to a desert-dry, sandpapery feeling in the back of your throat as yet another moan escapes your mouth.   The ring gag is still there, and easily thwarts your tongues attempts to lick at your parched lips, but the jolts of pleasure exploding up your spine make it hard to get upset about it.  Hips rocking, you keep squirting and squirting from your orgasm, feeling each hot blast burst from your manhood until the wave of lust passes and you open your eyes.  You're in a dim cave, the one they used to hold Vala, and chained up to the wall in a similar manner.\n\n");
 
 			outputText("While you observe the room, you realize that the waves of pleasure sliding up your spinal cord haven't stopped, and that your entire body is being shaken rhythmically.  You look down with a look of incredible, still-drugged confusion and behold the last thing you expected to see.  Somehow " + sMultiCockDesc() + " has been shrunk to less than half of its previous size");
-			if(player.balls > 0) outputText(", and your balls have completely vanished");
+			if(player.hasBalls()) outputText(", and your balls have completely vanished");
 			outputText("!  Just below your pint-sized shaft, a massive imp-cock is plowing in and out of your new, wet snatch with juicy-sounding slaps.  Y-you're a hermaphrodite!?  And what's happening to your dick?\n\n");
 
 			outputText("A nearby imp with a limp dick and a bored-but-tired look on his face steps up after your orgasm and slathers your dick in some strange, pungent cream, chuckling up at you while he does so, \"Heh heh, your ");
@@ -1037,7 +1024,7 @@ use namespace CoC;
 				outputText(" and squeeze, forcing " + sMultiCockDesc() + " to inflate to readiness.  Deep inside your " + assholeDescript() + ", the tentacle starts to rub against your prostate.  It caresses the male organ on each side and pauses to squeeze the center of it, pushing a few drops of sticky cum from your trembling " + Appearance.cockNoun(CockTypesEnum.HUMAN) + ".\n\n");
 
 				outputText("The vine-like stalks currently hugging " + sMultiCockDesc() + " constrict the base and begin to swirl around it in a circular motion.  Warm fungi-flesh and viscous, drugged ooze work together to send hot spikes of pleasure up your spinal-cord.  Despite your recent orgasm, you aren't being given any chance to recover or refill your ");
-				if(player.balls > 0) outputText("balls");
+				if(player.hasBalls()) outputText("balls");
 				else outputText("prostate");
 				outputText(".  Things like logic and rest don't matter in this warm, soupy environment, at least not to your poor, unthinking mind and erect, sensitive dick");
 				if(player.cockTotal() > 1) outputText("s");
@@ -1072,7 +1059,7 @@ use namespace CoC;
             else outputText("Zetaz gave her one of the weaker imps to penetrate during the journey.  ");
             outputText("With preparations complete, Zetaz, the champion, and a few dozen imps flew to the mountain peak.\n\n");
             outputText("The champion was presented to Lethice, and the demonic mistress was so pleased with Zetaz's gift that she gave him a pair of nubile slave-girls and promoted him over a small army of his own kind.  Once the imps departed, Lethice put the champion through her paces, using her as a fucktoy whenever the mood took her.  The rest of the time the champion was kept bound and unable to orgasm, tortured with unholy levels of arousal, but she didn't mind.  When Lethice allowed her to cum, the champion's orgasms were long and intense enough for her to love her mistress in spite of having to be so pent-up.");
-            player.sexReward("Default", "Dick", true, false);
+            player.sexReward("no", "Dick");
             player.sexReward("cum", "Vaginal");
             EventParser.gameOver();
         }
@@ -1177,7 +1164,7 @@ use namespace CoC;
 					outputText("You step around her and are startled to see that while the fey girl is whip-thin, her breasts are disproportionately huge. They'd be at least a DD-cup on a normal human, but for her height and body type, they're practically as large as her head. They jiggle at her slow, uneven breathing, tiny drops of milk bubbling at her nipples with every heartbeat. If she weren't chained to the ceiling, you suspect she wouldn't even be able to stand under her own power. Her eyes are open, but she's staring blankly ahead, unaware of the world around her, pupils constricted to pinpricks amid the ocean of her dulled pink irises. Like this, she's no threat to anybody. You suppose you could let her go, though it's unclear if she's self-aware enough to even move. Alternately, you could blow off a little steam.");
 					//[Free] [Use] [Leave]
 					addButton(0, "Free", SceneLib.vala.freeValazLooseCoochie);
-					if (SceneLib.shouldraFollower.followerShouldra())
+					if (SceneLib.shouldraFollower.followerShouldra() && !player.hasStatusEffect(StatusEffects.ShouldraOff))
 						addButton(1, "ShouldraVala", SceneLib.shouldraFollower.shouldraMeetsCorruptVala);
                     else addButtonDisabled(1, "???", "Req. to have a certain ghostly follower with you.");
 				}
@@ -1221,7 +1208,6 @@ use namespace CoC;
 				flags[kFLAGS.ZETAZ_DOOR_UNLOCKED] = 1;
 			}
 			outputText("\n\n");
-
 			if(flags[kFLAGS.DEFEATED_ZETAZ] == 0) {
 				outputText("A familiar imp is looking at you with a bewildered expression painted across his face.  You recognize his face immediately – this is Zetaz!  Oddly, he seems to have grown much larger in the time since your previous meeting.  He's over four feet tall and much more solidly built!\n\n");
 				outputText("Zetaz whines, \"<i>Seriously?  You show up here!?  First you make me lose my job, and now you beat up my friends and track dirt in my bedroom!?  I've had enough!</i>\"");
@@ -1229,8 +1215,9 @@ use namespace CoC;
 			}
 			else {
 				dungeons.setDungeonButtons(null, roomGatheringHall, null, roomSecretPassage);
+				addButton(0, "Desk", readTheLetter);
+				if (player.hasKeyItem("Soul Gem Research") < 0) addButton(1, "Drawer", ZetazsBedroomDrawer); //no conditions. Drawer was ALREADY there!
 			}
-			if ((flags[kFLAGS.GARGOYLE_QUEST] == 2 || player.hasStatusEffect(StatusEffects.AlvinaTraining)) && player.hasKeyItem("Soul Gem Research") < 0) addButton(0, "Drawer", ZetazsBedroomDrawer);
 		}
 
 		public function ZetazsBedroomDrawer():void {
@@ -1238,7 +1225,23 @@ use namespace CoC;
 			outputText("Inside the drawer you find a book of advanced research notes on Lethicite, as well as soul containment inside of gems. Such research seems to imply that the creation of a soul gem requires both a large amount of concentrated pure water and ectoplasm obtained from the manifested imprint of a soul that has survived for decades or more to be combined and crystallized through some complicated alchemical process.");
 			outputText("\n\n<b>(Key Item Acquired: Soul Gem Research!)</b>");
 			player.createKeyItem("Soul Gem Research", 0, 0, 0, 0);
-			if (flags[kFLAGS.GARGOYLE_QUEST] == 2) flags[kFLAGS.GARGOYLE_QUEST]++;
+			doNext(playerMenu);
+		}
+		private function readTheLetter():void {
+			clearOutput();
+			outputText("Going through Zetaz’s desk, you find quite a few papers…and notice a rather elegant looking envelope. Curious, you open it and begin reading.\n\n");
+			outputText("<i>Zetaz:</i>\n\n");
+			outputText("<i>I hope this letter finds you in good health. It should, considering the circumstances…and your own stolen resources.</i>\n\n");
+			outputText("<i>I must admit, I’m impressed. It took my people nearly a month just to figure out what went wrong, that the dosage was incorrect for nearly ten percent of our experiments. It took another week, and several lives, to figure out what EXACTLY the problem was. Clever, taking materials that leave little trace, so we couldn’t just do our usual toxicity tests.</i>\n\n");
+			outputText("<i>Even then, after the factory’s destruction, it would have been nearly impossible for us to conclude it was anyone but the Overseer at fault, for it would be her and only a few others capable of easily gaining access to the chemicals. Most of us would have simply concluded that the overseer was to blame. And with her operation in ruins, at the hands of the runaway ‘Champion’, most of the evidence would have been destroyed with her.</i>\n\n");
+			outputText("<i>You just made one, fatal, mistake. A mistake you couldn’t have known WAS a mistake. Sheer chance alone exposed you, a fact that, despite my anger, I must commend you for. It shows a surprising amount of competence, especially from a simple imp.</i>\n\n");
+			outputText("<i>Grevia was an old friend of mine. I know for a fact that she’s too competent to make such measuring mistakes, too controlling of her underlings for THEM to make such a mistake, and considering our agreements, she had every incentive to follow through properly.</i>\n\n");
+			outputText("<i>I suspected you, due to your bungling of the most recent ‘delivery’ from Ignam. I knew you’d be eager to cover your tracks and give yourself a leg-up. But I must admit, the way you went about it was impressive in its ingenuity, if nothing else.</i>\n\n");
+			outputText("<i>It wasn’t until your recent “Glow up”, so to speak, that my suspicions were confirmed. You have made a very powerful enemy, little imp. But don’t worry, I’m not coming after you.</i>\n\n");
+			outputText("<i>I’m not sure how much you know about my organisation, or about what I’ve been doing…But if a small, stolen amount of ‘that’ gave you the power to contend with us demons…Well…You can imagine what a far larger amount would do to a much more powerful denizen of Mareth.</i>\n\n");
+			outputText("<i>You will learn to fear the fire, and the dark, before you die, Zetaz. This, I promise. Those projects might be in their infancy…But when they mature, you’ll be on their hit list. You and that ‘Champion’ you let get away.</i>\n\n");
+			outputText("<i>See you soon~</i>\n\n");
+			outputText("<i>-A</i>");
 			doNext(playerMenu);
 		}
 	}

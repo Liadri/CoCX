@@ -2,12 +2,13 @@
  * ...
  * @author Liadri
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Butt;
 import classes.BodyParts.Hips;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.Combat.Combat;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
 
@@ -79,13 +80,13 @@ use namespace CoC;
 			}
 			else {
 				removeStatusEffect(StatusEffects.AbilityChanneled);
-				if (flags[kFLAGS.IN_COMBAT_USE_PLAYER_WAITED_FLAG] == 1) {
+				if (Combat.playerWaitsOrDefends()) {
 					outputText("When Chi Chi unleashes a torrent of soulforce energy at you, you’ve already dodged out of the way, predicting her move. The attack leaves a massive hole where you stood earlier. You are glad you moved out of the way!");
 				}
 				else {
 					outputText("Chi Chi’s palms fill with a massive sphere of red energy which suddenly explodes in a devastating beam of concentrated soul force. You see the devastating torrent a mere fraction of a second before it hits you. Your defences are shattered, utterly unable to stop it as the energy overwhelms you. The blast barely leaves you intact.");
-					player.takePhysDamage(5000000);
-					player.takeMagicDamage(5000000);
+					player.takePhysDamage(500000000);
+					player.takeMagicDamage(500000000);
 				}
 			}
 		}
@@ -140,60 +141,60 @@ use namespace CoC;
 			return str;
 		}
 		
-		public function ChiChi() 
+		public function ChiChi()
 		{
 			if (flags[kFLAGS.CHI_CHI_FOLLOWER] == 3 && flags[kFLAGS.CHI_CHI_LVL_UP] < 2) {
 				initStrTouSpeInte(90, 90, 80, 110);
-				initWisLibSensCor(110, 60, 40, 50);
+				initWisLibSensCor(110, 60, 40, 0);
 				this.weaponAttack = 30;
 				this.bonusLust = 122;
 				this.level = 22;
 			}
 			if (flags[kFLAGS.CHI_CHI_LVL_UP] == 2) {
 				initStrTouSpeInte(130, 130, 120, 125);
-				initWisLibSensCor(125, 70, 50, 50);
+				initWisLibSensCor(125, 70, 50, 0);
 				this.weaponAttack = 36;
 				this.bonusLust = 151;
 				this.level = 31;
 			}
 			if (flags[kFLAGS.CHI_CHI_LVL_UP] == 3) {
 				initStrTouSpeInte(170, 170, 160, 140);
-				initWisLibSensCor(140, 80, 60, 50);
+				initWisLibSensCor(140, 80, 60, 0);
 				this.weaponAttack = 44;
 				this.bonusLust = 180;
 				this.level = 40;
 			}
 			if (flags[kFLAGS.CHI_CHI_LVL_UP] == 4) {
 				initStrTouSpeInte(210, 210, 200, 155);
-				initWisLibSensCor(155, 90, 70, 50);
+				initWisLibSensCor(155, 90, 70, 0);
 				this.weaponAttack = 50;
 				this.bonusLust = 209;
 				this.level = 49;
 			}
 			if (flags[kFLAGS.CHI_CHI_SAM_TRAINING] == 2 || flags[kFLAGS.CHI_CHI_LVL_UP] == 5) {
 				initStrTouSpeInte(250, 250, 240, 170);
-				initWisLibSensCor(170, 100, 80, 50);
+				initWisLibSensCor(170, 100, 80, 0);
 				this.weaponAttack = 56;
 				this.bonusLust = 238;
 				this.level = 58;
 			}
 			if (flags[kFLAGS.CHI_CHI_LVL_UP] == 6) {
 				initStrTouSpeInte(280, 280, 270, 185);
-				initWisLibSensCor(185, 110, 90, 50);
+				initWisLibSensCor(185, 110, 90, 0);
 				this.weaponAttack = 60;
 				this.bonusLust = 264;
 				this.level = 64;
 			}
 			if (flags[kFLAGS.CHI_CHI_LVL_UP] == 7) {
 				initStrTouSpeInte(310, 340, 300, 200);
-				initWisLibSensCor(200, 120, 100, 50);
+				initWisLibSensCor(200, 120, 100, 0);
 				this.weaponAttack = 64;
 				this.bonusLust = 290;
 				this.level = 70;
 			}
 			if (flags[kFLAGS.CHI_CHI_SAM_TRAINING] < 2 || flags[kFLAGS.CHI_CHI_LVL_UP] == 8) {
 				initStrTouSpeInte(340, 340, 330, 215);
-				initWisLibSensCor(215, 130, 110, 50);
+				initWisLibSensCor(215, 130, 110, 0);
 				this.weaponAttack = 68;
 				if (flags[kFLAGS.CHI_CHI_SAM_TRAINING] < 2) {
 					this.level = 58;
@@ -206,7 +207,7 @@ use namespace CoC;
 			}
 			if (flags[kFLAGS.CHI_CHI_LVL_UP] == 9) {
 				initStrTouSpeInte(370, 370, 360, 230);
-				initWisLibSensCor(230, 140, 120, 50);
+				initWisLibSensCor(230, 140, 120, 0);
 				this.weaponAttack = 72;
 				this.bonusLust = 342;
 				this.level = 82;
@@ -223,7 +224,7 @@ use namespace CoC;
 			this.tallness = 72;
 			this.hips.type = Hips.RATING_AMPLE + 2;
 			this.butt.type = Butt.RATING_NOTICEABLE + 1;
-			this.skinTone = "light";
+			this.skinColor = "light";
 			this.hairColor = "pinkish red";
 			this.hairLength = 13;
 			this.weaponName = "master gloves";
@@ -234,7 +235,6 @@ use namespace CoC;
 			this.bonusHP = 25000;
 			this.lust = 30;
 			this.lustVuln = .8;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 45 + rand(40);
 			if (flags[kFLAGS.CHI_CHI_FOLLOWER] == 2) this.drop = NO_DROP;
 			else this.drop = new ChainedDrop().add(consumables.FIERYS_, 0.2);

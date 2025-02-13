@@ -15,6 +15,7 @@ public class BloodFieldSpell extends AbstractBloodSpell {
 			[TAG_DEBUFF]
 		);
 		baseHpCost = 600;
+		inflictBleed = false;
 	}
 	
 	override public function describeEffectVs(target:Monster):String {
@@ -29,12 +30,14 @@ public class BloodFieldSpell extends AbstractBloodSpell {
 		return player.hasStatusEffect(StatusEffects.BloodField);
 	}
 	
-	public function calcDuration():int {
-		return 3;
+	override public function calcDuration():int {
+		var calcD:int = 3;
+		if (player.hasPerk(PerkLib.BloodDemonIntelligence)) calcD *= 2;
+		return calcD;
 	}
 	
 	public function calcPower():Number {
-		return Math.round(player.maxOverHP() * 0.01)
+		return Math.round(player.maxOverHP() * 0.01);
 	}
 	
 	override public function advance(display:Boolean):void {

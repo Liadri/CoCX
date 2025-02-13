@@ -160,7 +160,6 @@ public class DungeonAbstractContent extends BaseContent
     public static const DUNGEON_RIVER_FLOOR_02_ROOM_27:int = 130;
     
     public static const DUNGEON_EBON_LABYRINTH:int = 131;
-    //132-134 empty
     
     public static const DUNGEON_RIVER_FLOOR_03_ROOM_01:int = 135;
     public static const DUNGEON_RIVER_FLOOR_03_ROOM_02:int = 136;
@@ -202,5 +201,91 @@ public class DungeonAbstractContent extends BaseContent
     public static const DUNGEON_BEE_HIVE_3:int	= 171;
     public static const DUNGEON_BEE_HIVE_4:int	= 172;
     public static const DUNGEON_BEE_HIVE_5:int	= 173;
+
+    public static const DUNGEON_LAB_ENTRANCE:int		= 174;
+    public static const DUNGEON_LAB_BALLROOM_1:int		= 175;
+    public static const DUNGEON_LAB_TYRANT_1:int		= 176;
+    public static const DUNGEON_LAB_TYRANT_PRISON:int	= 177;
+    public static const DUNGEON_LAB_TYRANT_2:int		= 178;
+    public static const DUNGEON_LAB_BALLROOM_2:int		= 179;
+    public static const DUNGEON_LAB_FSPREADER:int		= 180;
+    public static const DUNGEON_LAB_INCEL:int			= 181;
+    public static const DUNGEON_LAB_BALLROOM_3:int		= 182;
+    public static const DUNGEON_LAB_NIGHTWALKER_1:int	= 183;
+    public static const DUNGEON_LAB_NIGHTWALKER_2:int	= 184;
+    public static const DUNGEON_LAB_PANIC_ROOM:int		= 185;
+	
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_01:int = 186;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_02:int = 187;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_03:int = 188;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_04:int = 189;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_05:int = 190;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_06:int = 191;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_07:int = 192;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_08:int = 193;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_09:int = 194;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_10:int = 195;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_11:int = 196;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_12:int = 197;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_13:int = 198;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_14:int = 199;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_15:int = 200;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_16:int = 201;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_17:int = 202;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_18:int = 203;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_19:int = 204;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_20:int = 205;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_21:int = 206;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_22:int = 207;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_23:int = 208;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_24:int = 209;
+    public static const DUNGEON_RIVER_FLOOR_04_ROOM_25:int = 210;
+	
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_01:int = 211;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_02:int = 212;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_03:int = 213;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_04:int = 214;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_05:int = 215;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_06:int = 216;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_07:int = 217;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_08:int = 218;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_09:int = 219;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_10:int = 220;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_11:int = 221;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_12:int = 222;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_13:int = 223;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_14:int = 224;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_15:int = 225;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_16:int = 226;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_17:int = 227;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_18:int = 228;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_19:int = 229;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_20:int = 230;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_21:int = 231;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_22:int = 232;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_23:int = 233;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_24:int = 234;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_25:int = 235;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_26:int = 236;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_27:int = 237;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_28:int = 238;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_29:int = 239;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_30:int = 240;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_31:int = 241;
+    public static const DUNGEON_RIVER_FLOOR_05_ROOM_32:int = 242;
+	
+    public static const DUNGEON_TWILIGHT_GROVE_1:int	= 132;
+    public static const DUNGEON_TWILIGHT_GROVE_2:int	= 133;
+    public static const DUNGEON_TWILIGHT_GROVE_3:int	= 134;
+    public static const DUNGEON_TWILIGHT_GROVE_4:int	= 243;
+    public static const DUNGEON_TWILIGHT_GROVE_5:int	= 244;
+    public static const DUNGEON_TWILIGHT_GROVE_6:int	= 245;
+	
+    public static const DUNGEON_RIVER_FLOOR_06_ROOM_01:int = 246;
+    public static const DUNGEON_RIVER_FLOOR_06_ROOM_02:int = 247;
+    public static const DUNGEON_RIVER_FLOOR_06_ROOM_03:int = 248;
+    public static const DUNGEON_RIVER_FLOOR_06_ROOM_04:int = 249;
+    public static const DUNGEON_RIVER_FLOOR_06_ROOM_05:int = 250;
+    public static const DUNGEON_RIVER_FLOOR_06_ROOM_06:int = 251;
 }
 }

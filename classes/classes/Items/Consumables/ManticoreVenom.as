@@ -2,7 +2,6 @@
  * Coded by aimozg on 01.06.2017.
  */
 package classes.Items.Consumables {
-import classes.Appearance;
 import classes.BodyParts.Arms;
 import classes.BodyParts.Ears;
 import classes.BodyParts.Eyes;
@@ -12,20 +11,25 @@ import classes.BodyParts.RearBody;
 import classes.BodyParts.Tail;
 import classes.BodyParts.Tongue;
 import classes.BodyParts.Wings;
-import classes.Items.Consumable;
-import classes.PerkLib;
-import classes.VaginaClass;
 import classes.CoC;
+import classes.Items.Alchemy.AlchemyLib;
+import classes.Items.Consumable;
+import classes.VaginaClass;
 
 public class ManticoreVenom extends Consumable {
 	public function ManticoreVenom() {
 		super("ManticV", "MantiVen", "a vial of manticore venom", 50, "This vial contains a clear green liquid, reminding you of some toxic liquids used back in ignam to kill vermin. Ingesting poison directly might not be the smartest idea. Who knows what it could do to you?");
+		withTag(U_TF);
+		refineableInto(
+				AlchemyLib.DEFAULT_SUBSTANCES_DROP_TABLE,
+				AlchemyLib.DEFAULT_ESSENCE_DROP_TABLE(AlchemyLib.AE_MANTICORE)
+		)
 	}
 
 	override public function useItem():Boolean {
 		var changes:Number = 0;
-		var changeLimit:Number = 1;
-		if (rand(3) == 0) changeLimit++;
+		var changeLimit:Number = 2;
+		if (rand(2) == 0) changeLimit++;
 		changeLimit += player.additionalTransformationChances;
 		player.slimeFeed();
 		clearOutput();
@@ -64,12 +68,8 @@ public class ManticoreVenom extends Consumable {
 			}
 		}
 		if (player.hasVagina() && player.sens > 20 && player.vaginaType() != VaginaClass.MANTICORE && changes < changeLimit && rand(3) == 0) {
-			outputText("\n\nYou suddenly became exceedingly aware of your surroundings, feeling the caress of the wind on your skin and especially its passage next to your endowment. " +
-					"Out of curiosity you slid a single digit inside your pussy to test your new sensitiveness and yelp a sound note unlike a singing. " +
-					"Your pussy has reached the sensitiveness of a manticore and the mere act of touching it will now cause you to moan an entire partition!" +
-					"<b>Your ultrasensitive pussy is now exactly like that of a manticore!</b>");
+			CoC.instance.transformations.VaginaManticore().applyEffect();
 			player.addCurse("sen", 20,1);
-			player.vaginaType(VaginaClass.MANTICORE);
 			changes++;
 		}
 		//Physical changes

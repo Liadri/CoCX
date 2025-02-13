@@ -8,17 +8,19 @@ import classes.PerkClass;
 import classes.PerkLib;
 import classes.IMutationPerkType;
 import classes.Creature;
-import classes.Player;
 import classes.Races;
 
 public class CatLikeNimblenessMutation extends IMutationPerkType
     {
+        override public function get mName():String {
+            return "Cat-like Nimbleness";
+        }
         //v1 contains the mutation tier
         override public function mDesc(params:PerkClass, pTier:int = -1):String {
             var descS:String = "";
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Increases Evasion";
+                descS += "Increases Evasion and allows you to keep Flexibility even without cat arms/legs/tail";
             }
             if (pTier >= 2){
                 descS += "";
@@ -26,35 +28,23 @@ public class CatLikeNimblenessMutation extends IMutationPerkType
             if (pTier >= 3){
                 descS += "";
             }
+            if (pTier >= 4){
+                descS += ", giving you 10% of max core Spe as phantom Spe";
+            }
             if (descS != "")descS += ".";
             return descS;
         }
 
-        //Name. Need it say more?
-        override public function name(params:PerkClass=null):String {
-            var sufval:String;
-            switch (currentTier(this, player)){
-                case 2:
-                    sufval = "(Primitive)";
-                    break;
-                case 3:
-                    sufval = "(Evolved)";
-                    break;
-                default:
-                    sufval = "";
-            }
-            return "Cat-like Nimbleness" + sufval;
-        }
-
         //Mutation Requirements
-        override public function pReqs():void{
+        override public function pReqs(pCheck:int = -1):void{
             try{
-                var pTier:int = currentTier(this, player);
+                var pTier:int = (pCheck != -1 ? pCheck : currentTier(this, player));
                 //This helps keep the requirements output clean.
                 this.requirements = [];
                 if (pTier == 0){
-                    this.requirePerk(PerkLib.Flexibility)
-                            .requireRacialGroup(Races.CatlikeRaces, "Any cat race");
+                    this.requireAdaptationsMutationSlot()
+                    .requirePerk(PerkLib.Flexibility)
+                    .requireRacialGroup(Races.CatlikeRaces, "Any cat race");
                 }
                 else{
                     var pLvl:int = pTier * 30;
@@ -66,18 +56,16 @@ public class CatLikeNimblenessMutation extends IMutationPerkType
         }
 
         //Mutations Buffs
-        override public function pBuffs(target:Creature = null):Object{
+        override public function buffsForTier(pTier:int, target:Creature):Object {
             var pBuffs:Object = {};
-            var pTier:int = currentTier(this, (target == null)? player : target);
             if (pTier == 2) pBuffs['spe.mult'] = 0.1;
             if (pTier == 3) pBuffs['spe.mult'] = 0.3;
+            if (pTier == 4) pBuffs['spe.mult'] = 0.5;
             return pBuffs;
         }
 
         public function CatLikeNimblenessMutation() {
-            super("Cat-like Nimbleness IM", "Cat-like Nimbleness", ".");
-            maxLvl = 3;
+            super(mName + " IM", mName, SLOT_ADAPTATIONS, 4);
         }
-        
     }
 }

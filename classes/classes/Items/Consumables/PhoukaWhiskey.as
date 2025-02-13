@@ -54,6 +54,7 @@ public class PhoukaWhiskey extends Consumable {
 					outputText("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
 			}
 			mutations.DrunkenPowerEmpowerIfPossible();
+			mutations.AelfwineEmpowerIfPossible();
 			game.flags[kFLAGS.PREGNANCY_CORRUPTION]++; //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
 			phoukaWhiskeyAddStatus(game.player);
 			return false;
@@ -63,7 +64,7 @@ public class PhoukaWhiskey extends Consumable {
 		{ //This function provides a single common test that can be used both by this class and the PhoukaScene class
 			//Returns:	0 = canUse (not pregnant), 1 = canUse (single pregnancy, womb), 2 = canUse (single pregnancy, colon), 3 = canUse (double pregnancy, both OK),
 			//			-1 = No (single pregnancy, womb), -2 = No (single pregnancy, colon), -3 = No (double pregnancy, both not OK), -4 = No (double pregnancy, one OK, one not)
-			if (player.pregnancyIncubation == 0) {
+			if (!player.isPregnant()) {
 				if (player.buttPregnancyIncubation == 0) return 0; //No baby. Simplest, most common case
 				if (player.buttPregnancyType == PregnancyStore.PREGNANCY_SATYR) return 2;
 				return -2;
@@ -71,10 +72,12 @@ public class PhoukaWhiskey extends Consumable {
 			if (player.buttPregnancyIncubation == 0) { //Single pregnancy, carried in the womb
 				if (player.pregnancyType == PregnancyStore.PREGNANCY_SATYR) return 1;
 				if (player.pregnancyType == PregnancyStore.PREGNANCY_FAERIE) return 1;
+				if (player.pregnancy2Type == PregnancyStore.PREGNANCY_SATYR) return 1;
+				if (player.pregnancy2Type == PregnancyStore.PREGNANCY_FAERIE) return 1;
 				return -1;
 			}
 			//Double pregnancy
-			var wombBabyLikesAlcohol:Boolean = (player.pregnancyType == PregnancyStore.PREGNANCY_SATYR) || (player.pregnancyType == PregnancyStore.PREGNANCY_FAERIE);
+			var wombBabyLikesAlcohol:Boolean = ((player.pregnancyType == PregnancyStore.PREGNANCY_SATYR) || (player.pregnancyType == PregnancyStore.PREGNANCY_FAERIE)||(player.pregnancy2Type == PregnancyStore.PREGNANCY_SATYR) || (player.pregnancy2Type == PregnancyStore.PREGNANCY_FAERIE));
 			var colonBabyLikesAlcohol:Boolean = (player.buttPregnancyType == PregnancyStore.PREGNANCY_SATYR);
 			if (wombBabyLikesAlcohol && colonBabyLikesAlcohol) return 3;
 			if (!wombBabyLikesAlcohol && !colonBabyLikesAlcohol) return -3;
@@ -85,8 +88,8 @@ public class PhoukaWhiskey extends Consumable {
 		{ //This function provides a single common test that can be used both by this class and the PhoukaScene class
 			//Returns:	0 = Player is not pregnant, 1 = Player is pregnant with a satyr or phouka, 2 = Player is pregnant with a faerie that will become a phouka with this drink,
 			//			3 = Player is pregnant with a faerie that will remain a faerie after this drink
-			if ((player.pregnancyIncubation == 0) && (player.buttPregnancyIncubation == 0)) return 0;
-			if (player.pregnancyType == PregnancyStore.PREGNANCY_FAERIE) {
+			if ((!player.isPregnant()) && (player.buttPregnancyIncubation == 0)) return 0;
+			if ((player.pregnancyType == PregnancyStore.PREGNANCY_FAERIE) || (player.pregnancy2Type == PregnancyStore.PREGNANCY_FAERIE)) {
 				if (game.flags[kFLAGS.PREGNANCY_CORRUPTION] == 0) return 2;
 				if (game.flags[kFLAGS.PREGNANCY_CORRUPTION] < 0) return 3;
 			}
@@ -95,7 +98,7 @@ public class PhoukaWhiskey extends Consumable {
         
         public function phoukaWhiskeyAddStatus(player:Player):void
         {
-			var libidoChange:int = (player.lib + 25 > 100 ? 100 - player.lib : 25);
+			var libidoChange:int = (player.lib < 25 ? player.lib : 25);
 			var sensChange:int = (player.sens < 10 ? player.sens : 10);
 			var speedChange:int = (player.spe < 20 ? player.spe : 20);
 			var intChange:int = (player.inte < 20 ? player.inte : 20);
@@ -112,7 +115,7 @@ public class PhoukaWhiskey extends Consumable {
 				game.player.dynStats("sens", -sensChange);
 				player.addCurse("spe", speedChange,1);
 				player.addCurse("int", intChange,1);
-				player.MutagenBonus("lib", libidoChange);
+				game.player.buff("Phouka Whiskey").addLib(libidoChange);
 			}
 			else { //First time
 				player.createStatusEffect(StatusEffects.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange);
@@ -120,7 +123,7 @@ public class PhoukaWhiskey extends Consumable {
 				game.player.dynStats("sens", -sensChange);
 				player.addCurse("spe", speedChange,1);
 				player.addCurse("int", intChange,1);
-				player.MutagenBonus("lib", libidoChange);
+				game.player.buff("Phouka Whiskey").addLib(libidoChange);
 			}
 			EngineCore.statScreenRefresh();
         }
@@ -135,7 +138,9 @@ public class PhoukaWhiskey extends Consumable {
 			var libidoChange:int = (libidoSensCombined - sensChange) / 256;
 			var intChange:int = intSpeedCombined & 255;
 			var speedChange:int = (intSpeedCombined - intChange) / 256;
+
 			player.dynStats("sens", sensChange, "spe", speedChange, "int", intChange); //Get back all the stats you lost
+			game.player.buff("Phouka Whiskey").remove();
 			player.addCurse("lib", libidoChange,1);
 			player.removeStatusEffect(StatusEffects.PhoukaWhiskeyAffect);
 			if (numDrunk > 3)

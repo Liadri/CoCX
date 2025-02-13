@@ -15,6 +15,7 @@ public class LifestealEnchantmentSpell extends AbstractBloodSpell {
 			[TAG_BUFF]
 		);
 		baseHpCost = 500;
+		inflictBleed = false;
 	}
 	
 	override public function get buttonName():String {
@@ -33,8 +34,11 @@ public class LifestealEnchantmentSpell extends AbstractBloodSpell {
 		return player.hasStatusEffect(StatusEffects.LifestealEnchantment);
 	}
 	
-	public function calcDuration():int {
-		return 5;
+	override public function calcDuration():int {
+		var calcD:int = 2;
+		calcD += (3 - spellGenericCooldown());
+		if (player.hasPerk(PerkLib.BloodDemonIntelligence)) calcD *= 2;
+		return calcD;
 	}
 	
 	override public function advance(display:Boolean):void {

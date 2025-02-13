@@ -2,36 +2,49 @@
  * Coded by aimozg on 01.06.2018.
  */
 package classes.Stats {
-import classes.Creature;
+import classes.Parser.Parser;
 import classes.internals.Utils;
-
-import coc.script.Eval;
-
-import flash.sampler.startSampling;
 
 public class StatUtils {
 	public function StatUtils() {
 	}
 	
+	public static function inverseBuffObject(src:Object):Object {
+		var dest:Object = {};
+		for (var key:String in src) {
+			var v:Number = src[key];
+			if (MultiplicativeStats.indexOf(key) >= 0) {
+				dest[key] = 1.0/v;
+			} else {
+				dest[key] = -v;
+			}
+		}
+		return dest;
+	}
 	/**
 	 * Merge `src` into `dest`, producing sum/product of common keys
 	 * @return dest
 	 */
 	public static function mergeBuffObjects(dest:Object, src:Object):Object {
+		if (!dest) dest = {};
 		for (var key:String in src) {
-			if (key in dest) {
-				if (MultiplicativeStats.indexOf(key) >= 0) {
-					dest[key] *= src[key];
-				} else {
-					dest[key] += src[key];
-				}
-			} else {
-				dest[key] = src[key]
-			}
+			addBuffToObject(dest, key, src[key]);
 		}
 		return dest;
 	}
-	
+	public static function addBuffToObject(dest:Object, statName:String, value:Number):Object {
+		if (!dest) dest = {};
+		if (statName in dest) {
+			if (MultiplicativeStats.indexOf(statName) >= 0) {
+				dest[statName] *= value;
+			} else {
+				dest[statName] += value;
+			}
+		} else {
+			dest[statName] = value;
+		}
+		return dest;
+	}
 	/**
 	 * Warning: can cause infinite recursion if called from owner.findStat() unchecked
 	 */
@@ -96,12 +109,12 @@ public class StatUtils {
 					continue;
 				}
 				if (isPositiveStat) {
-					if (value > 0) text += '<font color="#008000">';
-					else text += '<font color="#800000">';
+					if (value > 0) text += "[font-dgreen]";
+					else text += "[font-dred]";
 				}
 				if (!isPositiveStat) {
-					if (value > 0) text += '<font color="#800000">';
-					else text += '<font color="#008000">';
+					if (value > 0) text += "[font-dred]";
+					else text += "[font-dgreen]";
 				}
 				text += '<b>' + buff.text + ':</b> ';
 				if (asPercent) {
@@ -117,20 +130,20 @@ public class StatUtils {
 					}[buff.rate])+')'
 				}
 				text += '\n';
-				text += "</font>";
-				//if (!isPositiveStat) text += '<font color="#800000">'
-				//if (isPositiveStat) text = "<font color=\"#008000\">"+text+"</font>";
+				text += "[/font]";
+				//if (!isPositiveStat) text += '[font-dred]'
+				//if (isPositiveStat) text = "[font-green]"+text+"[/font]";
 			}
 		}
 		if (PerkBuff != 0)
 		{
 			if (isPositiveStat) {
-				if (PerkBuff > 0) text += '<font color="#008000">';
-				else text += '<font color="#800000">';
+				if (PerkBuff > 0) text += "[font-dgreen]";
+				else text += "[font-dred]";
 			}
 			if (!isPositiveStat) {
-				if (PerkBuff > 0) text += '<font color="#800000">';
-				else text += '<font color="#008000">';
+				if (PerkBuff > 0) text += "[font-dred]";
+				else text += "[font-dgreen]";
 			}
 			text += "<b>Perk:</b> ";
 			if (asPercent) {
@@ -138,9 +151,10 @@ public class StatUtils {
 			} else {
 				text += (PerkBuff >= 0 ? '+' : '') + Utils.floor(PerkBuff, 1);
 			}
-			text += "</font>";
+			text += "[/font]";
 		}
 		if (hasHidden) text += '<b>Unknown Sources:</b> ±??';
+		text = Parser.recursiveParser(text);
 		return text;
 	}
 
@@ -164,6 +178,14 @@ public class StatUtils {
 	}
 	public static function isPercentageStat(statname:String):Boolean {
 		return statname in PercentageStats;
+	}
+	public static function validateBuffObject(buffs:Object, errorContext:String=""):void {
+		for (var buff:String in buffs) validateBuff(buff, errorContext);
+	}
+	public static function validateBuff(statname:String, errorContext:String=""):void {
+		if (!isKnownStat(statname)) {
+			trace("[ERROR] Unknown stat "+statname+" "+errorContext);
+		}
 	}
 	public static const PlainNumberStats:Object = Utils.createMapFromPairs([
 		// [StatNames.STR, 'Strength']
@@ -191,6 +213,8 @@ public class StatUtils {
 		["lib.bonus", "Libido"],
 		["sens.bonus", "Sensitivity"],
 
+		["minlust", "Min Lust"],
+		
 		["maxhp_base", "Max HP"],
 		['maxlust_base', "Max Lust"],
 		['maxwrath_base', "Max Wrath"],
@@ -212,7 +236,29 @@ public class StatUtils {
 		['maxsf_perlevel', "Max Soulforce per level"],
 		
 		['def', 'Armor'],
-		['mdef', 'Magic Resistance'],
+		['mdef', 'Magic Resistance'], // armor mdef stat
+		['rangedaccuracy', "Ranged Accuracy"],
+		['teasedmg', "Tease Power"],
+		['evade', "Evasion"],
+		
+		['res_physical', 'Resistance (Physical)'],
+		['res_magic', 'Resistance (Magic)'], // atm works same way as 'mdef'
+		['res_lust', 'Resistance (Lust)'],
+		['res_fire', 'Resistance (Fire)'],
+		['res_ice', 'Resistance (Ice)'],
+		['res_lightning', 'Resistance (Lightning)'],
+		['res_darkness', 'Resistance (Darkness)'],
+		['res_poison', 'Resistance (Poison)'],
+		['res_wind', 'Resistance (Wind)'],
+		['res_water', 'Resistance (Water)'],
+		['res_earth', 'Resistance (Earth)'],
+		['res_acid', 'Resistance (Acid)'],
+		
+		// These are not IStats, but can be used in 'property id -> readable string' conversion
+		['cor', 'Corruption'],
+		['thickness', 'Thickness'],
+		['tone', 'Muscle Tone'],
+		['femininity', 'Femininity'],
 	]);
 	public static const PercentageStats:Object = Utils.createMapFromPairs([
 		// [StatNames.SPELLPOWER, 'Spellpower']
@@ -223,6 +269,8 @@ public class StatUtils {
 		["wis.mult", "Wisdom"],
 		["lib.mult", "Libido"],
 		
+		["minlustx", "Min Lust"],
+		
 		["maxhp_mult", "Max HP"],
 		['maxlust_mult', "Max Lust"],
 		['maxwrath_mult', "Max Wrath"],
@@ -231,6 +279,10 @@ public class StatUtils {
 		['maxsf_mult', "Max Soulforce"],
 		
 		['spellpower', "Spellpower"],
+		['spellcost', "Spell Cost"],
+		['soulskillcost', "Soulskill Cost"],
+		['psoulskillpower', "Physical Soulskill Power"],
+		['msoulskillpower', "Magical Soulskill Power"],
 	]);
 	public static const MultiplicativeStats:/*String*/Array = [];
 	

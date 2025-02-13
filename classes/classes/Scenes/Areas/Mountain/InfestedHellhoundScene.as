@@ -78,7 +78,7 @@ public class InfestedHellhoundScene extends BaseContent
 					outputText("Gods, it's shoving its infected cocks up your urethras!  It's trying to infect you with those worms!  The dog-demon keeps pushing further and further, sliding deep inside you, the outline of its members easily visible through the skin of your [cocks].  It starts feeling good, the wriggling parasite-infested dicks begin sliding in and out, fucking your urethras in earnest and depositing their wormy cargo deep inside you.\n\n");
 
 					outputText("Your ");
-					if (player.balls > 0) outputText(ballsDescriptLight() + " shiver as hot doggie-cum and wiggling worms are pumped directly into them.  ");
+					if (player.hasBalls()) outputText(ballsDescriptLight() + " shiver as hot doggie-cum and wiggling worms are pumped directly into them.  ");
 					else outputText("body feels uncomfortably full as hot doggie-cum and wriggling worms are pumped directly into your prostate.  ");
 					outputText("Despite the strange freakishness of the situation, you find yourself getting off on having so many wriggling forms stuffed inside you.  The thickness of a large obstruction working its way down your urethra prevents your orgasm from taking you anywhere, but you feel the pleasure and pressure all the same.  Your body clenches and writhes under the beast, a helpless slave to the unholy pleasures being forced upon you.\n\n");
 
@@ -94,7 +94,7 @@ public class InfestedHellhoundScene extends BaseContent
 					outputText("Gods, it's shoving its infected cock up your urethra!  It's trying to infect you with those worms!  The dog-demon keeps pushing further and further, sliding deep inside you, the outline of its member easily visible through the skin of your [cocks].  It starts feeling good, the wriggling parasite-infested dick begins sliding in and out, fucking your urethra in earnest and depositing its wormy cargo deep inside you.\n\n");
 
 					outputText("Your ");
-					if (player.balls > 0) outputText(ballsDescriptLight() + " shiver as hot doggie-cum and wiggling worms are pumped directly into them.");
+					if (player.hasBalls()) outputText(ballsDescriptLight() + " shiver as hot doggie-cum and wiggling worms are pumped directly into them.");
 					else outputText("body feels uncomfortably full as hot doggie-cum and wriggling worms are pumped directly into your prostate.");
 					outputText("Despite the strange freakishness of the situation, you find yourself getting off on having so many moving forms stuffed inside you.  The thickness of a large obstruction working its way down your urethra prevents your orgasm from taking you anywhere, but you feel the pleasure and pressure all the same.  Your body clenches and writhes under the beast, a helpless slave to the unholy pleasures being forced upon you as the dog-demon's exposed member drops a huge worm into the wet puddle on your crotch.  You're horrified when you realize that a similar worm must be making its way inside you now.\n\n");
 
@@ -102,6 +102,7 @@ public class InfestedHellhoundScene extends BaseContent
 				}
 				//(+infested)
 				player.createStatusEffect(StatusEffects.Infested, 0, 0, 0, 0);
+				player.buff("Infested").setStat("minlustx", 0.5).withText("Worm Infested");
 				player.sexReward("Default","Default",true,false);
 				dynStats("lib", 1, "sen", 1, "cor", 1);
 				player.cumMultiplier += .2;
@@ -145,10 +146,12 @@ public class InfestedHellhoundScene extends BaseContent
 				//random chance of big lust boost as worms evacuate
 				//your body.  When worms leave they take with them up
 				//to 5 fertility, to a minimum of 10.
-				if (player.pregnancyIncubation == 0) {
+				if (!player.isPregnant()) {
 					if (player.hasStatusEffect(StatusEffects.WormPlugged)) player.addStatusValue(StatusEffects.WormPlugged, 1, 1 + rand(5));
 					else player.createStatusEffect(StatusEffects.WormPlugged, 1 + rand(5), 0, 0, 0);
 					player.knockUpForce(PregnancyStore.PREGNANCY_WORM_STUFFED, 100 + player.statusEffectv1(StatusEffects.WormPlugged)); //Will be cleared when the WormPlugged effect ends
+					if (player.vaginas.length > 1)
+						player.knockUpForce(PregnancyStore.PREGNANCY_WORM_STUFFED, 100 + player.statusEffectv1(StatusEffects.WormPlugged),1); //Will be cleared when the WormPlugged effect ends
 				}
 				player.sexReward("cum","Vaginal");
 				player.sexReward("cum","Anal");

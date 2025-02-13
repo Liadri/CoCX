@@ -2,22 +2,21 @@
  * ...
  * @author Ormael, Liadri
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
-    import classes.display.SpriteDb;
-	
+
 	public class NeisaFollower extends NPCAwareContent implements TimeAwareInterface
 	{
-		
-		public function NeisaFollower() 
+
+		public function NeisaFollower()
 		{
 			EventParser.timeAwareClassAdd(this);
 		}//between 6 and 15 she get her counter go up by 1 each night and if it hit 15 she leave at the morning xD
 		//neisa follower flag: 1-3 - first exploring river dungeon, 4 i 5 - after first exploring, 6 - left camp due to not paid weekly paycheck (to make her return to camp req. to pay her that mercenary fee with all costs for delay so 10 days of fee not 7 - also her affection should drop to 0/pretty low after leaving camp due to not paid weekly paycheck),
 		//7 to 16 - hired and staying in camp (7 to 13 - with PC having not yet paid her weekly paycheck - up to 3 days after deadline stays this way, 14 to 16 - when she's paid in time), 18 - after her affection rise high enough and she move from mercenary to camp member
-	
+
 //Implementation of TimeAwareInterface
 public function timeChange():Boolean
 {
@@ -31,9 +30,9 @@ public function timeChange():Boolean
 	return false;
 }
 public function timeChangeLarge():Boolean {
-	if (model.time.hours == 6 && flags[kFLAGS.NEISA_FOLLOWER] >= 14 && !prison.inPrison) {
+	if (model.time.hours == 6 && model.time.minutes == 0 && flags[kFLAGS.NEISA_FOLLOWER] >= 14) {
 		//spriteSelect(SpriteDb.s_isabella);
-		neisaMorningPaycheckCall();
+		neisaMorningPaycheckCall1();
 		return true;
 	}
 	return false;
@@ -46,9 +45,16 @@ public function neisaAffection(changes:Number = 0):Number
 	return flags[kFLAGS.NEISA_AFFECTION];
 }
 //Morning Paycheck Call
+public function neisaMorningPaycheckCall2():void {
+	clearOutput();
+	neisaMorningPaycheckCall();
+}
+public function neisaMorningPaycheckCall1():void {
+	outputText("\n");
+	neisaMorningPaycheckCall();
+}
 public function neisaMorningPaycheckCall():void {
 	//spriteSelect(SpriteDb.s_isabella);
-	outputText("\n");
 	if (flags[kFLAGS.NEISA_FOLLOWER] == 17) {
 		if (flags[kFLAGS.SPIRIT_STONES] > 9) {
 			outputText("You pay the spirit stone you owe Neisa as she comes over to collect.\n\n");
@@ -105,6 +111,7 @@ public function neisaMorningPaycheckCall():void {
 			outputText("\"<i>Heh, I don't mind if you are paying late, mistakes happen. Just make sure you got my pay for tomorrow as well as the missing spirit stones of today.</i>\"\n\n");
 		}
 	}
+	advanceMinutes(5);
 	doNext(playerMenu);
 }
 
@@ -115,17 +122,14 @@ public function neisaCampMenu():void {
 	menu();
 	addButton(0, "Appearance", neisaAppearance).hint("Examine Neisa appearance.");
 	if (flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] >= 2) {
-		if (flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa") addButtonDisabled(1, "Spar", "You can't fight against her as long she's in your team.");
+		if (flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa" || flags[kFLAGS.PLAYER_COMPANION_2] == "Neisa") addButtonDisabled(1, "Spar", "You can't fight against her as long she's in your team.");
 		else addButton(1, "Spar", neisaSpar).hint("Do a quick battle with Neisa!");
 	}
 	//addButton(2, "Talk", talkWithValeria).hint("Discuss with Valeria.");
 	//if (player.lust >= 33) addButton(3, "Sex", followersValeriaSex).hint("Initiate sexy time with the armor-goo.");
-	if (player.hasPerk(PerkLib.BasicLeadership)) {
-		if (flags[kFLAGS.PLAYER_COMPANION_1] == "") addButton(5, "Team", neisaHenchmanOption).hint("Ask Neisa to join you in adventures outside camp.");
-		else if (flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa") addButton(5, "Team", neisaHenchmanOption).hint("Ask Neisa to stay in camp.");
-		else addButtonDisabled(5, "Team", "You already have other henchman accompany you. Ask him/her to stay at camp before you talk with Neisa about accompaning you.");
-	}
+	if (player.hasPerk(PerkLib.BasicLeadership)) addButton(5, "Team", neisaHenchmanOption);
 	else addButtonDisabled(5, "Team", "You need to have at least Basic Leadership to form a team.");
+	if (flags[kFLAGS.NEISA_FOLLOWER] >= 14) addButton(13, "Paycheck", neisaMorningPaycheckCall2).hint("Pay Neisa due payment (make sure to not lack spirit stones for it)");
 	addButton(14, "Back", camp.campFollowers);
 }
 
@@ -133,7 +137,7 @@ public function neisaAppearance():void {
 	clearOutput();
 	outputText("Neisa is a seven feet tall human or at least outwardly looks like one. Her black hair is short and straight and her green eyes always watchful. She could pass for a beautiful woman back home although in Mareth pretty faces are far from uncommon thanks to the whole demonic corruption problem turning every person into sexy temptresses or manly perfection.\n\n");
 	outputText("Neisa’s arms are well muscled despite their womanly shape to use a shield and any melee weapon, you suspect she does a rigorous training between jobs. Her legs are those of an adventurer who is used to walking for a long periods of time. She got a well shaped waistline with a girly ass that fits just fine in her armor.\n\n");
-	outputText("Similar to most of the impressive gravity defying sizes visible on most women on mareth she sports an I cup set of breasts.\n\n");
+	outputText("Similar to most of the impressive gravity defying sizes visible on most women on Mareth she sports an I-cup set of breasts.\n\n");
 	outputText("You have yet to see what she hides under her semi skimpy armor but you suspect she got a pussy and no cock, making her a true female.");
 	menu();
 	addButton(14, "Back", neisaCampMenu);
@@ -208,8 +212,35 @@ private function LevelingHerself():void {
 }
 
 public function neisaHenchmanOption():void {
-	clearOutput();
+	menu();
 	if (flags[kFLAGS.PLAYER_COMPANION_1] == "") {
+		if (flags[kFLAGS.PLAYER_COMPANION_2] == "Neisa" || flags[kFLAGS.PLAYER_COMPANION_3] == "Neisa") addButtonDisabled(0, "Team (1)", "You already have Neisa accompany you.");
+		else addButton(0, "Team (1)", neisaHenchmanOption2, 1).hint("Ask Neisa to join you in adventures outside camp.");
+	}
+	else {
+		if (flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa") addButton(5, "Team (1)", neisaHenchmanOption2, 21).hint("Ask Neisa to stay in camp.");
+		else addButtonDisabled(5, "Team (1)", "You already have other henchman accompany you as first party member. Ask him/her to stay at camp before you talk with Neisa about accompaning you as first party member.");
+	}
+	if (player.hasPerk(PerkLib.IntermediateLeadership)) {
+		if (flags[kFLAGS.PLAYER_COMPANION_2] == "") {
+			if (flags[kFLAGS.PLAYER_COMPANION_1] == "Neisa" || flags[kFLAGS.PLAYER_COMPANION_3] == "Neisa") addButtonDisabled(1, "Team (2)", "You already have Neisa accompany you.");
+			else addButton(1, "Team (2)", neisaHenchmanOption2, 2).hint("Ask Neisa to join you in adventures outside camp.");
+		}
+		else {
+			if (flags[kFLAGS.PLAYER_COMPANION_2] == "Neisa") addButton(6, "Team (2)", neisaHenchmanOption2, 22).hint("Ask Neisa to stay in camp.");
+			else addButtonDisabled(6, "Team (2)", "You already have other henchman accompany you as second party member. Ask him/her to stay at camp before you talk with Neisa about accompaning you as second party member.");
+		}
+	}
+	else {
+		addButtonDisabled(1, "Team (2)", "Req. Intermediate Leadership.");
+		addButtonDisabled(6, "Team (2)", "Req. Intermediate Leadership.");
+	}
+	addButton(14, "Back", neisaCampMenu);
+
+}
+public function neisaHenchmanOption2(slot:Number = 1):void {
+	clearOutput();
+	if (slot < 21) {
 		outputText("\"<i>Yeah sure, I will join, just make sure to share the loot.</i>\"\n\n");
 		outputText("Neisa is now following you around.\n\n");
 		var strNeisa:Number = 50;
@@ -222,14 +253,16 @@ public function neisaHenchmanOption():void {
 		strNeisa = Math.round(strNeisa);
 		meleeAtkNeisa += (1 + (int)(meleeAtkNeisa / 5)) * player.newGamePlusMod();
 		player.createStatusEffect(StatusEffects.CombatFollowerNeisa, strNeisa, meleeAtkNeisa, 0, 0);
-		flags[kFLAGS.PLAYER_COMPANION_1] = "Neisa";
+		if (slot == 2) flags[kFLAGS.PLAYER_COMPANION_2] = "Neisa";
+		if (slot == 1) flags[kFLAGS.PLAYER_COMPANION_1] = "Neisa";
 	}
 	else {
 		outputText("Neisa is no longer following you around.\n\n");
 		player.removeStatusEffect(StatusEffects.CombatFollowerNeisa);
-		flags[kFLAGS.PLAYER_COMPANION_1] = "";
+		if (slot == 22) flags[kFLAGS.PLAYER_COMPANION_2] = "";
+		if (slot == 21) flags[kFLAGS.PLAYER_COMPANION_1] = "";
 	}
-	doNext(neisaCampMenu);
+	doNext(neisaHenchmanOption);
 	cheatTime(1/12);
 }
 

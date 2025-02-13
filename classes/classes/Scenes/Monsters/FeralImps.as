@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.Monsters 
+package classes.Scenes.Monsters
 {
 import classes.*;
 import classes.BodyParts.Butt;
@@ -10,12 +10,12 @@ import classes.BodyParts.Hips;
 import classes.BodyParts.LowerBody;
 import classes.BodyParts.Wings;
 import classes.GlobalFlags.kFLAGS;
+import classes.Items.DynamicItems;
 import classes.Scenes.Dungeons.RiverDungeon;
-import classes.Scenes.NPCs.EvangelineFollower;
 import classes.Scenes.SceneLib;
 import classes.internals.*;
-	
-	public class FeralImps extends Monster
+
+public class FeralImps extends Monster
 	{
 		public var floor1:RiverDungeon = new RiverDungeon();
 		
@@ -58,7 +58,7 @@ import classes.internals.*;
 					var damage1:int = rand(50) + str + weaponAttack;
 					damage1 *= 5;
 					if (damage1 < 100) damage1 = 100; //Min-cap damage.
-					if (damage1 >= 250) {
+					if (damage1 >= 250 && !player.immuneToBleed()) {
 						outputText("You let out a cry in pain and you swear you could see your wounds bleeding. ");
 						player.createStatusEffect(StatusEffects.IzmaBleed, 2, 0, 0, 0);
 					}
@@ -69,7 +69,7 @@ import classes.internals.*;
 					outputText("The " + this.short + " manages to slash you with his sword and deadly claws!");
 					var damage2:int = rand(50) + str + weaponAttack;
 					if (damage2 < 20) damage2 = 20; //Min-cap damage.
-					if (damage2 >= 50) {
+					if (damage2 >= 50 && !player.immuneToBleed()) {
 						outputText("You let out a cry in pain and you swear you could see your wounds bleeding. ");
 						player.createStatusEffect(StatusEffects.IzmaBleed, 2, 0, 0, 0);
 					}
@@ -118,7 +118,7 @@ import classes.internals.*;
 		}
 		
 		//flags[kFLAGS.FERAL_EXTRAS] >>> 1 - feral imp, 2 - feral imp lord, 3 - feral imp warlord, 4 - feral imps, 5 - river dungeon feral imp
-		public function FeralImps() 
+		public function FeralImps()
 		{
 			if (flags[kFLAGS.FERAL_EXTRAS] == 1) {
 				this.a = "the ";
@@ -244,21 +244,22 @@ import classes.internals.*;
 				this.long = "An feral imp is short, only a few feet tall.  An unkempt mane of shaggy black hair hangs from his head, parted by two short curved horns.  His eyes are solid black, save for tiny red irises which glow with evil intent.  His skin is bright red, and unencumbered by clothing or armor, save for a small loincloth at his belt, and he's extremely well-muscled.  His feet are covered by tiny wooden sandals, and his hands tipped with sharp claws.  A pair of tiny but functional wings occasionally flap from his back.";
 				this.plural = false;
 				this.tallness = rand(24) + 25;
-				initStrTouSpeInte(50, 10, 15, 12);
-				initWisLibSensCor(12, 55, 35, 100);
+				initStrTouSpeInte(70, 12, 25, 12);
+				initWisLibSensCor(12, 55, 65, 100);
 				this.weaponName = "claws";
 				this.weaponVerb = "claw-slash";
-				this.weaponAttack = 5;
+				this.weaponAttack = 7;
 				this.armorName = "leathery skin";
 				this.armorDef = 4;
 				this.armorMDef = 1;
-				this.bonusHP = 100;
-				this.bonusWrath = 150;
-				this.bonusLust = 92;
+				this.bonusHP = 50;
+				this.bonusWrath = 250;
+				this.bonusLust = 122;
 				this.lust = 40;
 				this.level = 2;
 				this.gems = rand(5) + 5;
 				this.special1 = clawAttack;
+				this.createPerk(PerkLib.EnemyEliteType, 0, 0, 0, 0);
 				this.createPerk(PerkLib.OverMaxHP, 2, 0, 0, 0);
 			}
 			if (flags[kFLAGS.FERAL_EXTRAS] != 4) {
@@ -267,14 +268,18 @@ import classes.internals.*;
 				this.ballSize = 1;
 			}
 			createBreastRow(0);
+			this.flyer = true;
 			this.ass.analLooseness = AssClass.LOOSENESS_STRETCHED;
 			this.ass.analWetness = AssClass.WETNESS_NORMAL;
 			this.hips.type = Hips.RATING_BOYISH;
 			this.butt.type = Butt.RATING_TIGHT;
-			this.skinTone = "red";
+			this.bodyColor = "red";
 			this.hairColor = "black";
 			this.hairLength = 5;
-			this.temperment = TEMPERMENT_LUSTY_GRAPPLES;
+			this.randomDropChance = 0.1;
+			this.randomDropParams = {
+				rarity: DynamicItems.RARITY_CHANCES_LESSER
+			};
 			this.drop = new WeightedDrop().
 					add(consumables.LABOVA_,2).
 					add(consumables.MINOBLO,1).

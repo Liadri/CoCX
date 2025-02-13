@@ -2,7 +2,7 @@
  * ...
  * @author Ormael
  */
-package classes.Scenes.NPCs 
+package classes.Scenes.NPCs
 {
 import classes.*;
 import classes.BodyParts.Arms;
@@ -28,7 +28,6 @@ public class Asuka extends Monster
 				}
 				else player.takePhysDamage(damage, true);
 			}
-			statScreenRefresh();
 			outputText("\n");
 		}
 		
@@ -39,28 +38,30 @@ public class Asuka extends Monster
 			else {
 				outputText(capitalA + short + "'s tail catches you as you try to dodge.  Your [armor] sizzles, and you leap back with a yelp as she gives you a light burning. ");
 				player.takeFireDamage(damage, true);
-				if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
-				else {
-					player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
-					outputText(" Reeling in pain you begin to burn.");
+				if (!player.immuneToBurn()) {
+					if (player.hasStatusEffect(StatusEffects.BurnDoT)) player.addStatusValue(StatusEffects.BurnDoT, 1, 1);
+					else {
+						player.createStatusEffect(StatusEffects.BurnDoT,SceneLib.combat.debuffsOrDoTDuration(3),0.05,0,0);
+						outputText(" Reeling in pain you begin to burn.");
+					}
 				}
 			}
 		}
 		/*
 		private function asukaAttack3():void {
-			
+		
 		}
 		
 		private function asukaAttack4():void {
-			
+		
 		}
 		
 		private function asukaUltimateAttack1():void {
-			
+		
 		}
 		
 		private function asukaUltimateAttack2():void {
-			
+		
 		}
 		*/
 		private function asukaTripleThrust():void {
@@ -168,11 +169,11 @@ public class Asuka extends Monster
 			return str;
 		}//po dorośnieciu nosi inne armory w czasie walki: pure - no change of armor beside making it look more durable so still red bodysuit,
 		//balanced - skimpy bikini with cloth wrapped around chest instead of top and armor pieces at arms/legs/sides of torse or back in upper section (maybe smth liek that levitating heavy armor that only stick to body when you about to get hit), corrupted - Scandalous Succubus Clothing
-		public function Asuka() 
+		public function Asuka()
 		{
 			if (flags[kFLAGS.ASUKA_LVL_UP] < 1) {
 				initStrTouSpeInte(85, 85, 75, 90);
-				initWisLibSensCor(90, 75, 50, 50);
+				initWisLibSensCor(90, 75, 50, 0);
 				this.weaponAttack = 21;
 				this.armorDef = 25;
 				this.armorMDef = 5;
@@ -182,7 +183,7 @@ public class Asuka extends Monster
 			}/*
 			if (flags[kFLAGS.ASUKA_LVL_UP] == 1) {
 				initStrTouSpeInte(85, 85, 75, 90);
-				initWisLibSensCor(90, 75, 50, 50);
+				initWisLibSensCor(90, 75, 50, 0);
 				this.weaponAttack = 21;
 				this.armorDef = 25;
 				this.armorMDef = 5;
@@ -192,7 +193,7 @@ public class Asuka extends Monster
 			}
 			if (flags[kFLAGS.ASUKA_LVL_UP] == 2) {
 				initStrTouSpeInte(85, 85, 75, 90);
-				initWisLibSensCor(90, 75, 50, 50);
+				initWisLibSensCor(90, 75, 50, 0);
 				this.weaponAttack = 21;
 				this.armorDef = 25;
 				this.armorMDef = 5;
@@ -202,7 +203,7 @@ public class Asuka extends Monster
 			}
 			if (flags[kFLAGS.ASUKA_LVL_UP] == 3) {
 				initStrTouSpeInte(85, 85, 75, 90);
-				initWisLibSensCor(90, 75, 50, 50);
+				initWisLibSensCor(90, 75, 50, 0);
 				this.weaponAttack = 21;
 				this.armorDef = 25;
 				this.armorMDef = 5;
@@ -212,7 +213,7 @@ public class Asuka extends Monster
 			}
 			if (flags[kFLAGS.ASUKA_LVL_UP] == 4) {
 				initStrTouSpeInte(85, 85, 75, 90);
-				initWisLibSensCor(90, 75, 50, 50);
+				initWisLibSensCor(90, 75, 50, 0);
 				this.weaponAttack = 21;
 				this.armorDef = 25;
 				this.armorMDef = 5;
@@ -247,11 +248,10 @@ public class Asuka extends Monster
 			createStatusEffect(StatusEffects.BonusVCapacity,100,0,0,0);
 			this.ass.analLooseness = AssClass.LOOSENESS_TIGHT;
 			this.ass.analWetness = AssClass.WETNESS_DRY;
-			this.skinTone = "light";
+			this.bodyColor = "light";
 			this.hairColor = "auburn";
 			this.lust = 30;
 			this.lustVuln = .35;
-			this.temperment = TEMPERMENT_RANDOM_GRAPPLES;
 			this.gems = 15 + rand(8);
 			this.drop = new ChainedDrop().
 					//add(armors.CHBIKNI,1/20).
@@ -267,7 +267,6 @@ public class Asuka extends Monster
 			this.createPerk(PerkLib.Lustzerker, 0, 0, 0, 0);
 			this.createPerk(PerkLib.JobSoulCultivator, 0, 0, 0, 0);
 			this.createPerk(PerkLib.SoulApprentice, 0, 0, 0, 0);
-			this.createPerk(PerkLib.BodyCultivator, 0, 0, 0, 0);
 			this.createPerk(PerkLib.FleshBodyApprenticeStage, 0, 0, 0, 0);
 			//this.createPerk(PerkLib.Berzerker, 0, 0, 0, 0);
 			checkMonster();

@@ -13,11 +13,11 @@ public class WindBulletSpell extends AbstractGreySpell {
 		super(
 			ex ? "Wind Bullet (Ex)" : "Wind Bullet",
 			ex ?
-				"Devastate the enemy ranks with a barrage of wrath-enpowered wind bullets."
+				"Devastate the enemy ranks with a barrage of wrath-empowered wind bullets."
 				: "Devastate the enemy ranks with a barrage of wind bullets.",
 			TARGET_ENEMY,
 			TIMING_INSTANT,
-			[TAG_DAMAGING, TAG_WIND]
+			[TAG_DAMAGING, TAG_WIND, TAG_TIER1]
 		);
 		baseManaCost = 40;
 		if (ex) baseWrathCost = 100;
@@ -38,7 +38,15 @@ public class WindBulletSpell extends AbstractGreySpell {
 	}
 	
 	override public function calcCooldown():int {
-		return spellGreyCooldown();
+		var calcC:int = 0;
+		calcC += spellGreyCooldown();
+		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 18) {
+			if (player.level < 6) calcC -= 1;
+			if (player.level < 12) calcC -= 1;
+			calcC -= 1;
+			if (calcC < 0) calcC = 0;
+		}
+		return calcC;
 	}
 	
 	public function calcDamage(monster:Monster, randomize:Boolean = true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)

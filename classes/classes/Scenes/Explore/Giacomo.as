@@ -1,5 +1,5 @@
 /*
- LICENSE 
+ LICENSE
  
 This license grants Fenoxo, creator of this game usage of the works of
 Dxasmodeus in this product. Dxasmodeus grants Fenoxo and the coders assigned by him to this project permission to alter the text to conform with current and new game functions, only. Dxasmodeus retains exclusive rights to alter or change the core contents of the events and no other developer may alter, change or use the events without permission from dxasmodeus. Fenoxo agrees to include Dxasmodeus' name in the credits with indications to the specific contribution made to the licensor. This license must appear
@@ -25,7 +25,10 @@ For further information and license requests, Dxasmodeus may be contacted throug
 
 package classes.Scenes.Explore {
 import classes.*;
+import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.API.MerchantMenu;
+import classes.Scenes.Camp.Garden;
 import classes.Scenes.Crafting;
 import classes.Scenes.Holidays;
 import classes.Scenes.SceneLib;
@@ -69,7 +72,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			return false;
 		}
 		//End of Interface Implementation
-		
+
 		public function giacomoEncounter():void {
 			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
@@ -98,19 +101,14 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("You spy the merchant Giacomo in the distance.  He makes a beeline for you, setting up his shop in moments.  ");
 				outputText("Giacomo's grin is nothing short of creepy as he offers his wares to you. What are you interested in?");
 			}
-			//var deworm:Function = (player.hasStatusEffect(StatusEffects.WormOffer) && player.hasStatusEffect(StatusEffects.Infested) ? wormRemovalOffer : null);
-			if (player.hasPerk(PerkLib.SoulSense) && flags[kFLAGS.SOUL_SENSE_GIACOMO] < 2) flags[kFLAGS.SOUL_SENSE_GIACOMO]++;
-			if (flags[kFLAGS.SOUL_SENSE_GIACOMO] == 2) {
-				flags[kFLAGS.SOUL_SENSE_GIACOMO]++;
-				outputText("\n\n<b>You have met him enough times to be able to find him in the future when using soul sense. (Removes Giacomo from general explore encounters pool!)</b>\n\n");
-			}
 			menu();
 			addButton(0, "Potions", potionMenu);
 			addButton(1, "Books", bookMenu);
 			addButton(2, "Erotica", eroticaMenu);
 			addButton(3, "Misc", miscMenu);
+			addButton(4, "Trade", tradeMenu);
 			if (player.hasStatusEffect(StatusEffects.WormOffer) && player.hasStatusEffect(StatusEffects.Infested)) addButton(5, "Worm Cure", wormRemovalOffer);
-			addButton(14, "Leave", camp.returnToCampUseOneHour);
+			addButton(14, "Leave", explorer.done);
 			statScreenRefresh();
 		}
 		
@@ -125,6 +123,32 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			flags[kFLAGS.GIACOMO_MET] = 1;
 		}
 		
+		private function tradeMenu():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			menu();
+			var merchantMenu:MerchantMenu = new MerchantMenu();
+			merchantMenu.playerCanSell = true;
+			merchantMenu.playerSellFactor = merchantMenu.greedCheck() ? 0.8 : 0.4;
+			merchantMenu.addItem(consumables.MANUP_B, 15);
+			merchantMenu.addItem(consumables.VITAL_T, 15);
+			merchantMenu.addItem(consumables.SMART_T, 15);
+			merchantMenu.addItem(consumables.CERUL_P, 75);
+			merchantMenu.addLineBreak();
+			merchantMenu.addItem(consumables.SAPILL_);
+			merchantMenu.addItem(consumables.MAPILL_).disableIf(player.level < 24, "Req. lvl 24+", true);
+			merchantMenu.addItem(consumables.BAPILL_).disableIf(player.level < 42, "Req. lvl 42+", true);
+			merchantMenu.addItem(useables.CONDOM, 10);
+			merchantMenu.addLineBreak();
+			merchantMenu.addItem(consumables.W__BOOK, 100);
+			merchantMenu.addItem(consumables.G__BOOK, 500);
+			merchantMenu.addItem(consumables.B__BOOK, 100);
+			merchantMenu.addItem(consumables.RMANUSC, 125);
+			merchantMenu.addItem(weaponsrange.E_TOME_, 1000);
+			merchantMenu.addItem(consumables.CRIMS_J, 125);
+			merchantMenu.show(giacomoEncounter);
+		}
+	
 		private function potionMenu():void {
 			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
@@ -158,8 +182,10 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			addButton(7, "Grey Book", pitchGreyBook);
 			addButton(8, "Red Manuscript", pitchRedManuscript);
 			addButton(9, "Crimson Jade", pitchCrimsonJade);
-			addButton(10, "TelAdreMagI5", pitchTelAdreMagazineIssue5).hint("Tel'Adre Magazine Issue 5");
-			addButton(11, "TelAdreMagI10", pitchTelAdreMagazineIssue10).hint("Tel'Adre Magazine Issue 10");
+			addButton(10, "TelAdreMagI2", pitchTelAdreMagazineIssue2).hint("Tel'Adre Magazine Issue 2");
+			addButton(11, "TelAdreMagI5", pitchTelAdreMagazineIssue5).hint("Tel'Adre Magazine Issue 5");
+			addButton(12, "TelAdreMagI8", pitchTelAdreMagazineIssue8).hint("Tel'Adre Magazine Issue 8");
+			addButton(13, "TelAdreMagI10", pitchTelAdreMagazineIssue10).hint("Tel'Adre Magazine Issue 10");
 			addButton(14, "Back", giacomoEncounter);
 			statScreenRefresh();
 		}
@@ -177,6 +203,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			if (player.hasCock() && player.hasVagina()) addButton(5, "Dual Belt", pitchDualStimulationBelt);
 			if (player.hasCock() && player.hasVagina()) addButton(6, "AN Onahole", pitchAllNaturalOnahole);
 			addButton(7, "Condom", pitchCondom);
+			addButton(10, "S.C.N.", pitchSilverCrossNecklace).hint("Silver cross necklace");
 			addButton(14, "Back", giacomoEncounter);
 			statScreenRefresh();
 		}
@@ -185,6 +212,12 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
 			menu();
+			if (Garden.IngrediantBagSlot01Cap == 0) addButton(6, "Herb Bag (LLowG)", pitchLLHerbsBag).hint("Herbs Bag (Lowest Grade)");
+			if (Garden.IngrediantBagSlot07Cap == 0) {
+				if (player.farmingLevel >= 5) addButton(7, "Herb Bag (LowG)", pitchLHerbsBag).hint("Herbs Bag (Low Grade)");
+				else addButtonDisabled(7, "Herb Bag (LowG)", "Herbs Bag (Low Grade) Req. lvl 5 in Farming.");
+			}
+			if (Garden.PotionsBagSlot01Cap == 0) addButton(8, "Pot Bag (LowG)", pitchPotionsBag).hint("Potions Bag (Lowest Grade)");
 			if (player.hasKeyItem("Tarnished Ore Bag (Lowest grade)") >= 0) addButton(10, "Ore Bag (LowG)", pitchOreBag).hint("Ore Bag (Lowest Grade)");
 			if (Holidays.nieveHoliday()) {
 				if (flags[kFLAGS.CHRISTMAS_TREE_LEVEL] == 0) addButton(11, "Mysterious Seed", pitchMysteriousSeed);
@@ -212,7 +245,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				player.gems -= 15;
 				inventory.takeItem(consumables.MANUP_B, potionMenu);
-				statScreenRefresh();
 			}
 		}
 		
@@ -233,7 +265,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				player.gems -= 15;
 				inventory.takeItem(consumables.VITAL_T, potionMenu);
-				statScreenRefresh();
 			}
 		}
 		
@@ -254,7 +285,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				player.gems -= 15;
 				inventory.takeItem(consumables.SMART_T, potionMenu);
-				statScreenRefresh();
 			}
 		}
 		
@@ -275,7 +305,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				inventory.takeItem(consumables.CERUL_P, potionMenu);
 				player.gems -= 75;
-				statScreenRefresh();
 			}
 		}
 		
@@ -316,7 +345,30 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			{
 				player.gems -= 10;
 				inventory.takeItem(useables.CONDOM, eroticaMenu);
-				statScreenRefresh();
+			}
+		}
+		
+		public function pitchSilverCrossNecklace():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			outputText("The trader smiles wide as you look at the strange jewelry on his table.\n\n");
+			outputText("\"<i>Oh this? This necklace is magical. Tell me friend, do you believe in eternal love? This necklace can lead you to it, all for the modest sum of 400 gems.</i>\"\n\n");
+			outputText("This sounds AND looks like a scam but do you buy it anyway?");
+			doYesNo(buySilverCrossNecklace, eroticaMenu);
+		}
+		
+		public function buySilverCrossNecklace():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			if (player.gems < 400)
+			{
+				clearOutput();
+				outputText("\n\nGiacomo sighs, indicating you need " + String(400 - player.gems) + " more gems to purchase this item.");
+				doNext(eroticaMenu);
+			}
+			else
+			{
+				player.gems -= 400;
+				inventory.takeItem(necklaces.SILCNEC, eroticaMenu);
 			}
 		}
 		
@@ -336,15 +388,14 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
 			if (player.gems < 10) {
-				outputText("\n\nGiacomo sighs, indicating you need " + String(10 - player.gems) + " more gems to purchase this item.");
+				outputText("Giacomo sighs, indicating you need " + String(10 - player.gems) + " more gems to purchase this item.");
 				doNext(bookMenu);
 			}
 			else {
-				outputText("\n\nYou consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this book.  Obviously written by well-informed, but women-starved men, the narrative drearily states the various types of poisonous and carnivorous plants in the world.  One entry that really grabs you is the chapter on 'Violation Plants'.  The chapter drones on about an entire classification of specially bred plants whose purpose is to torture or feed off a human being without permanently injuring and killing them.  Most of these plants attempt to try breeding with humans and are insensitive to the intricacies of human reproduction to be of any value, save giving the person no end of hell.  These plants range from massive shambling horrors to small plant-animal hybrids that attach themselves to people.  As you finish the book, you cannot help but shiver at the many unnatural types of plants out there and wonder what sick bastard created such monstrosities. ");
+				outputText("You consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this book.  Obviously written by well-informed, but women-starved men, the narrative drearily states the various types of poisonous and carnivorous plants in the world.  One entry that really grabs you is the chapter on 'Violation Plants'.  The chapter drones on about an entire classification of specially bred plants whose purpose is to torture or feed off a human being without permanently injuring and killing them.  Most of these plants attempt to try breeding with humans and are insensitive to the intricacies of human reproduction to be of any value, save giving the person no end of hell.  These plants range from massive shambling horrors to small plant-animal hybrids that attach themselves to people.  As you finish the book, you cannot help but shiver at the many unnatural types of plants out there and wonder what sick bastard created such monstrosities. ");
 				doNext(bookMenu);
 				player.gems -= 10;
 				player.createKeyItem("Dangerous Plants", 0, 0, 0, 0);
-				statScreenRefresh();
 			}
 		}
 		
@@ -372,7 +423,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(bookMenu);
 				player.gems -= 1;
 				player.createKeyItem("Traveler's Guide", 0, 0, 0, 0);
-				statScreenRefresh();
 			}
 		}
 		
@@ -402,7 +452,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				player.gems -= 10;
 				dynStats("lib", 2, "lus", 20);
 				player.createKeyItem("Hentai Comic", 0, 0, 0, 0);
-				statScreenRefresh();
 			}
 		}
 		
@@ -425,9 +474,35 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("You exchange 100 gems for the tome.  Now you can finally enjoy a workout with Cotton!");
 				player.createKeyItem("Yoga Guide", 0, 0, 0, 0);
 				player.gems -= 100;
-				statScreenRefresh();
 			}
 			doNext(bookMenu);
+		}
+		
+		private function pitchTelAdreMagazineIssue2():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.hasKeyItem("Tel'Adre Magazine Issue 2") >= 0) {
+				outputText("<b>You already own the magazine 'Tel'Adre Magazine Issue 2'.</b>");
+				doNext(bookMenu);
+				return;
+			}
+			outputText("Giacomo holds up the magazine with a small degree of reverence.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a 2nd issue of Tel'Adre Magazine.  It dive into matters of distilling moonshine and mixing dyes... I mean, refining alchemical ingredients and medicine-crafting.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your alchemic horizons?</i>\"");
+			doYesNo(buyTelAdreMagazineIssue2, bookMenu);
+		}
+		
+		private function buyTelAdreMagazineIssue2():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.gems < 100) {
+				outputText("Giacomo sighs, indicating you need " + String(100 - player.gems) + " more gems to purchase this item.");
+				doNext(bookMenu);
+			}
+			else {
+				outputText("You consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this magazine.  Obviously written by well-informed, would help you in producing stinky goo... and sometimes, alchemical products. ");
+				doNext(bookMenu);
+				player.gems -= 100;
+				player.createKeyItem("Tel'Adre Magazine Issue 2", 0, 0, 0, 0);
+			}
 		}
 		
 		private function pitchTelAdreMagazineIssue5():void {
@@ -438,7 +513,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(bookMenu);
 				return;
 			}
-			outputText("Giacomo holds up the magazine with a small degree of reverence.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a 5th issue of Tel'Adre Magazine.  I dive into matters of so called fifth finger or green thumb.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your herbalism horizons?</i>\"");
+			outputText("Giacomo holds up the magazine with a small degree of reverence.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a 5th issue of Tel'Adre Magazine.  It dive into matters of so called fifth finger or green thumb.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your herbalism horizons?</i>\"");
 			doYesNo(buyTelAdreMagazineIssue5, bookMenu);
 		}
 		
@@ -446,15 +521,41 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
 			if (player.gems < 100) {
-				outputText("\n\nGiacomo sighs, indicating you need " + String(100 - player.gems) + " more gems to purchase this item.");
+				outputText("Giacomo sighs, indicating you need " + String(100 - player.gems) + " more gems to purchase this item.");
 				doNext(bookMenu);
 			}
 			else {
-				outputText("\n\nYou consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this magazine.  Obviously written by well-informed, would help you in herb cultivation. ");
+				outputText("You consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this magazine.  Obviously written by well-informed, would help you in herb cultivation. ");
 				doNext(bookMenu);
 				player.gems -= 100;
 				player.createKeyItem("Tel'Adre Magazine Issue 5", 0, 0, 0, 0);
-				statScreenRefresh();
+			}
+		}
+		
+		private function pitchTelAdreMagazineIssue8():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.hasKeyItem("Tel'Adre Magazine Issue 8") >= 0) {
+				outputText("<b>You already own the magazine 'Tel'Adre Magazine Issue 8'.</b>");
+				doNext(bookMenu);
+				return;
+			}
+			outputText("Giacomo holds up the magazine with a small degree of reverence.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a 8th issue of Tel'Adre Magazine.  It dive into matters of so benefits of having all ten fingers... err well sometimes just eight to hold your farming tools.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your farming horizons?</i>\"");
+			doYesNo(buyTelAdreMagazineIssue8, bookMenu);
+		}
+		
+		private function buyTelAdreMagazineIssue8():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.gems < 100) {
+				outputText("Giacomo sighs, indicating you need " + String(100 - player.gems) + " more gems to purchase this item.");
+				doNext(bookMenu);
+			}
+			else {
+				outputText("You consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this magazine.  Obviously written by well-informed, would help you in.... not cutting any of your fingers when you try to use farming tools. ");
+				doNext(bookMenu);
+				player.gems -= 100;
+				player.createKeyItem("Tel'Adre Magazine Issue 8", 0, 0, 0, 0);
 			}
 		}
 		
@@ -466,7 +567,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(bookMenu);
 				return;
 			}
-			outputText("Giacomo holds up the magazine with a small degree of reverence.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a 10th issue of Tel'Adre Magazine.  I dive into matters of so benefits of having all ten fingers... like to hold your pickaxe.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your mining horizons?</i>\"");
+			outputText("Giacomo holds up the magazine with a small degree of reverence.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a 10th issue of Tel'Adre Magazine.  It dive into matters of so benefits of having all ten fingers... like to hold your pickaxe.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your mining horizons?</i>\"");
 			doYesNo(buyTelAdreMagazineIssue10, bookMenu);
 		}
 		
@@ -474,15 +575,101 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
 			if (player.gems < 100) {
-				outputText("\n\nGiacomo sighs, indicating you need " + String(100 - player.gems) + " more gems to purchase this item.");
+				outputText("Giacomo sighs, indicating you need " + String(100 - player.gems) + " more gems to purchase this item.");
 				doNext(bookMenu);
 			}
 			else {
-				outputText("\n\nYou consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this magazine.  Obviously written by well-informed, would help you in diggin the hole.... err mining to your heart content. ");
+				outputText("You consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this magazine.  Obviously written by well-informed, would help you in diggin the hole.... err mining to your heart content. ");
 				doNext(bookMenu);
 				player.gems -= 100;
 				player.createKeyItem("Tel'Adre Magazine Issue 10", 0, 0, 0, 0);
-				statScreenRefresh();
+			}
+		}
+		
+		private function pitchLLHerbsBag():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			outputText("\"<i>I see you keep herbs between your other stuff. Why not you buy this one bag that is much better to keep them in one place? Only 300 gems and i assure you not gonna find such good offer anywhere else...</i>\"");
+			doYesNo(buyLLHerbsBag, miscMenu);
+		}
+		
+		private function buyLLHerbsBag():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.gems < 300) {
+				outputText("\n\nGiacomo sighs, indicating you need 300 gems to purchase this item.");
+				doNext(miscMenu);
+			}
+			else {
+				outputText("\n\nYou decided to buy the bag. <b>You acquired Herbs Bag (Lowest grade).</b>");
+				player.gems -= 300;
+				player.createKeyItem("Herbs Bag (Lowest grade)", 0, 0, 0, 0);
+				Garden.IngrediantBagSlot01Cap = 5;
+				Garden.IngrediantBagSlot02Cap = 5;
+				Garden.IngrediantBagSlot03Cap = 5;
+				Garden.IngrediantBagSlot04Cap = 5;
+				Garden.IngrediantBagSlot05Cap = 5;
+				Garden.IngrediantBagSlot06Cap = 5;
+				doNext(miscMenu);
+			}
+		}
+		
+		private function pitchLHerbsBag():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			outputText("\"<i>I see you keep herbs between your other stuff. Why not you buy this one bag that is much better then the one you already have to keep them in one place? Only 500 gems and i assure you not gonna find such good offer anywhere else...</i>\"");
+			doYesNo(buyLHerbsBag, miscMenu);
+		}
+		
+		private function buyLHerbsBag():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.gems < 500) {
+				outputText("\n\nGiacomo sighs, indicating you need 400 gems to purchase this item.");
+				doNext(miscMenu);
+			}
+			else {
+				outputText("\n\nYou decided to buy the bag. <b>You acquired Herbs Bag (Low grade).</b>");
+				player.gems -= 500;
+				player.removeKeyItem("Herbs Bag (Lowest grade)");
+				player.createKeyItem("Herbs Bag (Low grade)", 0, 0, 0, 0);
+				Garden.IngrediantBagSlot01Cap = 10;
+				Garden.IngrediantBagSlot02Cap = 10;
+				Garden.IngrediantBagSlot03Cap = 10;
+				Garden.IngrediantBagSlot04Cap = 10;
+				Garden.IngrediantBagSlot05Cap = 10;
+				Garden.IngrediantBagSlot06Cap = 10;
+				Garden.IngrediantBagSlot07Cap = 10;
+				Garden.IngrediantBagSlot08Cap = 10;
+				doNext(miscMenu);
+			}
+		}
+		
+		private function pitchPotionsBag():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			outputText("\"<i>I see you keep potions between your other stuff. Why not you buy this one bag that is much better to organize them? Only 300 gems and i assure you not gonna find such good offer anywhere else...</i>\"");
+			doYesNo(buyPotionsBag, miscMenu);
+		}
+		
+		private function buyPotionsBag():void {
+			spriteSelect(SpriteDb.s_giacomo);
+			clearOutput();
+			if (player.gems < 300) {
+				outputText("\n\nGiacomo sighs, indicating you need 300 gems to purchase this item.");
+				doNext(miscMenu);
+			}
+			else {
+				outputText("\n\nYou decided to buy the bag. <b>You acquired Potions Bag (Lowest grade).</b>");
+				player.gems -= 300;
+				player.createKeyItem("Potions Bag (Lowest grade)", 0, 0, 0, 0);
+				Garden.PotionsBagSlot01Cap = 5;
+				Garden.PotionsBagSlot02Cap = 5;
+				Garden.PotionsBagSlot03Cap = 5;
+				Garden.PotionsBagSlot04Cap = 5;
+				Garden.PotionsBagSlot05Cap = 5;
+				Garden.PotionsBagSlot06Cap = 5;
+				doNext(miscMenu);
 			}
 		}
 		
@@ -503,7 +690,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("\n\nYou decided to buy the bag. It looking much better the one you had and checking inside it appears to have bit more space. As part of the deal you hand over current one to Giacomo. <b>You acquired Ore Bag (Lowest grade).</b>");
 				player.gems -= 600;
-				statScreenRefresh();
 				player.removeKeyItem("Tarnished Ore Bag (Lowest grade)");
 				player.createKeyItem("Ore Bag (Lowest grade)", 0, 0, 0, 0);
 				Crafting.BagSlot01Cap = 10;
@@ -533,7 +719,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("\n\nYou decided to buy the seed. It’s actually fairly large and light brown in color. Other than that it just looks like an ordinary seed. Maybe you'll plant it later to see what it'll grow into. <b>You acquired the Mysterious Seed.</b>");
 				player.gems -= 30;
-				statScreenRefresh();
 				flags[kFLAGS.CHRISTMAS_TREE_LEVEL] = 1;
 				player.createKeyItem("Mysterious Seed", 0, 0, 0, 0);
 				doNext(miscMenu);
@@ -557,7 +742,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("\n\nYou decided to buy the seed. It’s actually fairly large and light brown in color. Other than that it just looks like an ordinary seed. Maybe you'll plant it later to see what it'll grow intoYou buy the package filled with holiday decorations. Inside are shiny, colorful ornaments, garland, and lights. You can't help but think this will be perfect for decorating the tree back at camp. <b>You acquired Holiday Decorations.</b>");
 				player.gems -= 100;
-				statScreenRefresh();
 				flags[kFLAGS.CHRISTMAS_TREE_LEVEL] = 7;
 				player.createKeyItem("Decorations", 0, 0, 0, 0);
 				doNext(miscMenu);
@@ -586,7 +770,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over hundred gems and in exchange gives you a torch.");
 				player.gems -= 100;
-				statScreenRefresh();
 				player.createKeyItem("Torch", 0, 0, 0, 0);
 				doNext(miscMenu);
 			}
@@ -609,7 +792,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over a hundred gems and in exchange gives you a white book.");
 				player.gems -= 100;
-				statScreenRefresh();
 				inventory.takeItem(consumables.W__BOOK, bookMenu);
 			}
 		}
@@ -631,7 +813,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over five hundred gems and in exchange gives you a grey book.");
 				player.gems -= 500;
-				statScreenRefresh();
 				inventory.takeItem(consumables.G__BOOK, bookMenu);
 			}
 		}
@@ -653,7 +834,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over a hundred gems and in exchange gives you a black book.");
 				player.gems -= 100;
-				statScreenRefresh();
 				inventory.takeItem(consumables.B__BOOK, bookMenu);
 			}
 		}
@@ -675,7 +855,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over a one hundred twenty five gems and in exchange gives you a red manuscript.");
 				player.gems -= 125;
-				statScreenRefresh();
 				inventory.takeItem(consumables.RMANUSC, bookMenu);
 			}
 		}
@@ -697,7 +876,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over a one hundred twenty five gems and in exchange gives you a Crimson Jade.");
 				player.gems -= 125;
-				statScreenRefresh();
 				inventory.takeItem(consumables.CRIMS_J, bookMenu);
 			}
 		}
@@ -719,7 +897,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			else {
 				outputText("The crazy merchant nods satisfied when you hand him over thousand gems and in exchange gives you an Elementalist’s Tome.");
 				player.gems -= 1000;
-				statScreenRefresh();
 				inventory.takeItem(weaponsrange.E_TOME_, bookMenu);
 			}
 		}
@@ -748,7 +925,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(eroticaMenu);
 				player.gems -= 20;
 				player.createKeyItem("Dildo", 0, 0, 0, 0);
-				statScreenRefresh();
 			}
 		}
 		
@@ -776,7 +952,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			player.createKeyItem("Self-Stimulation Belt", 0, 0, 0, 0);
 			doNext(eroticaMenu);
 			player.gems -= 30;
-			statScreenRefresh();
 		}
 		
 		private function pitchAllNaturalSelfStimulationBelt():void {
@@ -813,7 +988,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			player.createKeyItem("All-Natural Self-Stimulation Belt", 0, 0, 0, 0);
 			doNext(eroticaMenu);
 			player.gems -= 40;
-			statScreenRefresh();
 		}
 
 		private function pitchOnahole():void {
@@ -840,7 +1014,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			player.createKeyItem("Plain Onahole", 0, 0, 0, 0);
 			doNext(eroticaMenu);
 			player.gems -= 20;
-			statScreenRefresh();
 		}
 
 		private function pitchDeluxeOnahole():void {
@@ -867,7 +1040,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			player.createKeyItem("Deluxe Onahole", 0, 0, 0, 0);
 			doNext(eroticaMenu);
 			player.gems -= 50;
-			statScreenRefresh();
 		}
 		
 		private function pitchAllNaturalOnahole():void {
@@ -901,7 +1073,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			player.createKeyItem("All-Natural Onahole", 0, 0, 0, 0);
 			doNext(eroticaMenu);
 			player.gems -= 150;
-			statScreenRefresh();
 		}
 		
 		private function pitchDualStimulationBelt():void {
@@ -928,7 +1099,6 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("You are a bit dubious at the pleasure it could offer you, but it would be better than being raped by the creatures constantly... maybe to even work out some excess lusts... hesitantly, you reach into your bag and grab 50 gems, handing it to him.  He greedily snatches it from your palm and hands you with the belt with a smile.  \"<i>I promise you won't be disappointed.</i>\"  He counts the gems and waves goodbye.\n\n(<b>Dual Belt acquired!</b>)");
 				player.createKeyItem("Dual Belt", 0, 0, 0, 0);
 				player.gems -= 50;
-				statScreenRefresh();
 			}
 			doNext(eroticaMenu);
 		}
@@ -946,10 +1116,10 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				player.HP = int(player.maxHP() * .15);
 			//Maybe add a random chance of losing a random transformation with a smaller chance of losing ALL transformations except gender changes. This will probably be a bitch to implement.
 			player.removeStatusEffect(StatusEffects.Infested);
+			player.buff("Infested").remove();
 			dynStats("lus", -99, "cor", -4);
 			player.gems -= 175;
-			statScreenRefresh();
-			inventory.takeItem(consumables.VITAL_T, camp.returnToCampUseOneHour);
+			inventory.takeItem(consumables.VITAL_T, explorer.done);
 		}
 		
 		private function wormRemovalOffer():void {
@@ -995,10 +1165,16 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(playerMenu);
 				return;
 			}
-			if (player.gender == 1)
+			sceneHunter.selectGender(dickF, null, null, hermF);
+
+			//==========================================================================================================
+
+			function dickF():void {
 				outputText("\"<i>Awwww!  Did my blue skin and pointy teeth scare you?</i>\" she says in a childish voice.  \"<i>Believe me stud, if I wanted to harm you, I would not have let you wake up at all.  I am here because you have 'called' me.</i>\"  She teases you with the empty blue bottle you bought from the merchant.  \"<i>My essence is in this bottle.  Any man who drinks this, I am compelled to return the pleasure by drinking his.</i>\"  The demon woman reaches her skinny hand down to your crotch where you see you have become fiercely erect.  The demon gently strokes your cock until you begin oozing generous amounts of your own natural lubricants.  The demon takes one of her massive breasts and teases you with her fat nipples.  \"<i>Open your mouth,</i>\" she demands.  \"<i>Take me into your mouth as I will soon take you into mine.</i>\"\n\n");
-			else if (player.gender == 3) {
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00111]++;
+				sharedEnd(false);
+			}
+			function hermF():void {
+				flags[kFLAGS.CERULEAN_HERM_TIMES_USED]++;
 				outputText("\nIt is obvious that you have been confronted by a succubus.  As the fire illuminates your captor, her grin widens broadly.\n\n");
 				outputText("\"<i>Well, well, well!</i>\" the Succubus jingles.  \"<i>What have we here?!  A little girl with a big cock!</i>\"\n\n");
 				outputText("As the Succubus looks down at your [cock], you have quickly achieved one of the healthiest erections you have ever had.  The succubus quickly poises her hairy hole over your member and allows her weight to force your dick into her womb.  The demoness rests her weight in her lap as she allows you to fully penetrate her.  Her womb is hot and wet and her muscles have your prick in one of the strongest grips imaginable.  Even if you went totally limp, withdrawal would be an impossibility.  Wincing at the sudden crushing force of her vaginal muscles, the succubus giggles inhumanly.\n\n");
@@ -1006,15 +1182,18 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("You quickly try to struggle, but find the Succubus to be utterly dominating.  She wraps her arms around your back and entwines her lean legs around your hips.  The Succubus playfully licks your lips and grins.\n\n");
 				outputText("\"<i>You are getting your dick milked,</i>\" the Succubus says flatly, \"<i>Accept it.  Trust me, when I am done, you will want more of me, anyway.</i>\"\n\n");
 				outputText("As the Succubus finishes her ultimatum, you feel churning vaginal contractions stroking your massive cock.  Heavy, powerful, coordinated undulations work your dick as surely as the best handjob.  You quickly moan in shock and pleasure at such rough treatment.");
+				sharedEnd(true);
 			}
-			dynStats("lus", 35);
-			doNext(ceruleanSuccubusEncounterPart2);
+			function sharedEnd(herm:Boolean):void {
+				dynStats("lus", 35, "scale", false);
+				doNext(ceruleanSuccubusEncounterPart2, herm);
+			}
 		}
 		
-		private function ceruleanSuccubusEncounterPart2():void {
+		private function ceruleanSuccubusEncounterPart2(herm:Boolean):void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_cerulean_succubus);
-			if (player.gender == 1) {
+			if (!herm) {
 				outputText("Your natural instincts immediately take over and you open your mouth and allow her nipple inside.  Immediately, your mouth has a mind of its own as you press your head firmly into her breast and begin suckling the unnaturally long teat like a starving baby.  The demon-woman laughs in satisfaction.  \"<i>To think, that you believed me to do you harm!</i>\" she taunts.  \"<i>Drink, little man.  Feed your lust as you will soon feed mine.</i>\"  Immediately, you feel her milk flood your mouth.  Its taste immediately reminds you of the potion you got from Giacomo.  You realize the potion was not a potion at all, but this demon's breast milk!  Concerned only for your blind libido, the suction of your mouth coaxes torrents of the devil's fluid into your mouth and down your throat.  She continues teasing your cock only enough to maintain your erection.  In time, your stomach signals that you are full and you break the seal from her tit, making a loud 'pop'.  She briefly hoses you down with milk, soaking you.\n\n");
 				outputText("The demon has a satisfied look on her face.  \"<i>Did I taste good?  Was I wholesome and fulfilling?</i>\" she asks.  \"<i>Since you have fed from my life-milk, it is only fair that I do the same.  To be fair, 'yes', I am as fierce as I look and I will leave you sore and insensible.  However, I do so to pleasure you and feed myself.  Accept it and be happy.</i>\"  She gives you another inhumanly toothy grin and kisses you deeply.  A small pang of fear still shoots through you as you feel the sharpness of her teeth.  She breaks away from your lips and sighs in excitement.  \"<i>Now, I FEED!</i>\" she utters jubilantly.");
 			}
@@ -1024,13 +1203,13 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				outputText("\"<i>Ready to burst, are you?</i>\" the Succubus playfully challenges.  \"<i>Well, then.  No reason for you to hold back.</i>\"");
 			}
 			dynStats("tou", .3, "lib", .5, "sen", .5, "lus", 5, "cor", 1);
-			doNext(ceruleanSuccubusEncounterPart3);
+			doNext(ceruleanSuccubusEncounterPart3, herm);
 		}
 
-		private function ceruleanSuccubusEncounterPart3():void {
+		private function ceruleanSuccubusEncounterPart3(herm:Boolean):void {
 			clearOutput();
 			spriteSelect(SpriteDb.s_cerulean_succubus);
-			if (player.gender == 1) {
+			if (!herm) {
 				outputText("Rotating herself into a 69 position, she seizes your throbbing member and effortlessly begins deep throating.  Her thighs wrap around your head and confront you with her surprisingly hairy pussy.  Her clitoris is long and erect, begging for attention and the smell of her pheromones enslaves you.  You bury your face into her furry mound, ignoring your normal revulsion to such an unshaved state and begin eating her as well as any woman you have ever pleased.  The demon takes your cock out of her mouth to cry in delight.  \"<i>YES, LITTLE MAN!</i>\" she screams.  \"<i>LICK ME!  TEASE ME!  LOVE MY WOMB WITH YOUR TONGUE!</i>\"  She responds by clamping her mouth around the head of your penis and sucking smartly.  A sharp pain in your ass signals the entry of her bony fingers working their way to your inner manhood.  Finding the root of your sex easily, she mashes down to force you to cum.\n\n");
 				outputText("Finding it impossible to resist such pleasure, you immediately begin cumming.  Glob after glob, stream after stream of your semen shoots into the woman's mouth.  Her timed sucking ensures that she swallows each drop as you launch it into her.  While you have been proud of the ability to cum in a woman for over a minute, you are wracked with both pain and pleasure as your ejaculations continue for almost ten.  Once you have spent your last, the demon releases your penis to bear down on your face with her thighs and unloads a massive squirting orgasm.  Your face is soaked with pussy juice as you see her cunt spasm from the force of her pleasure.  The sight of her rhythmic muscles is hypnotic.  She then promptly removes her finger from your ass.");
 			}
@@ -1045,12 +1224,12 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 			fatigue(20);
 			player.orgasm();
 			dynStats("lib", .5);
-			doNext(ceruleanSuccubusEncounterPart4);
+			doNext(ceruleanSuccubusEncounterPart4, herm);
 		}
 		
-		private function ceruleanSuccubusEncounterPart4():void {
+		private function ceruleanSuccubusEncounterPart4(herm:Boolean):void {
 			spriteSelect(SpriteDb.s_cerulean_succubus);
-			if (player.gender == 1) {
+			if (!herm) {
 				clearOutput();
 				outputText("She stands up and helps you to your feet.  While dazed, ");
 				if (player.tallness < 80)
@@ -1073,63 +1252,47 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					outputText("\nAs you sleep, your rest becomes increasingly disturbed. You feel a great weight on top of you and you find it difficult to breathe. Stirred to consciousness, your eyes are greeted by an enormous pair of blue-tinged breasts. The nipples are quite long and thick and are surrounded by large, round areola. A deep, feminine voice breaks the silence, \"<i>I was wondering if you would wake up.</i>\" You turn your head to the voice to see the visage of a sharp featured, attractive woman. The woman grins mischievously and speaks again, \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\" Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features. The pupils of her eyes are slit like a cat's. As she grins, she bares her teeth, which contain two pairs of long and short fangs. This woman is clearly NOT human! In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground. You see that each finger on her hand also contains a fourth joint, further proving her status. Before you can speak a word, the woman begins mocking your fear and places her face in front of yours. Her face is almost certainly demonic in nature.\n\n");
 					outputText("She quickly moves down to your crotch...only to discover no organs down there.\n\n");
 					outputText("*record scratch*\n\n");
-			
 					outputText("\"<i>Wait a fucking minute.</i>\", the Succubus says, \"<i>Where's your dick?!</i>\"\n\n");
-			
 					outputText("As you state your genderless nature, the succubus hops off and from nowhere pulls out a large folder marked \"<i>Corruption of Champions-Script</i>\" and begins thumbing through the pages. After finding the page she is looking for, she reads it and looks off into the distance in disgust.\n\n");
-			
 					outputText("\"<i>Hey Fenoxo and Dxasmodeus!!!!!!</i>\", the Succubus crows, \"<i>The goddamn script says that I should be milking someone's DICK!!! Man, futa, herm, I don't give a shit. YOUR OWN FUCKING SCRIPT SAYS I SHOULD BE MOUNTING AND MILKING A COCK!!!! THIS IS A SEX GAME!!!!!! THAT MEANS FUCKING! WHAT THE HELL AM I SUPPOSED TO FUCK???!!!</i>\"\n\n");
-			
 					outputText("The Succubus looks at you with utter contempt, \"<i>THIS motherfucker doesn't have a DAMN thing! What am I supposed to do?! I can't exactly order a fucking Happy Meal!!!!!</i>\"\n\n");
-			
 					outputText("Throwing the script down in an utter rage, the tantrum continues, \"<i>Goddammit! I can't believe this shit! HEY!!!!! INTERN!!!! Bring me my robe, aspirins and cancer sticks!!!!</i>\"\n\n");
-			
 					outputText("The Succubus walks a few paces away where a plain-dressed woman with a clipboard hands the Succubus a pack of cigarettes and a small bottle of aspirin. She takes a fistful of the painkillers and immediately lights up a smoke. The Succubus takes a couple of drags off the cig and rubs her temples.\n\n");
-			
 					outputText("\"<i>You two are killing me!</i>\", she groans in clear frustration, \"<i>I come to work for you perverts based off the promise of MORE perverts to feed from and you do THIS to me! I can't work like this!</i>\"\n\n");
-			
 					outputText("The plain woman hands the Succubus a robe, which she crudely puts on as she storms off into the night.\n\n");
-			
 					outputText("\"<i>I will discuss this horseshit with my agent.</i>\", the Succubus continues bitching, \"<i>THIS was NOT in my contract.</i>\"\n\n");
-			
 					outputText("The Succubus stops, turns and points to you in derision. \"<i>And YOU! You no-cock, no-cunt having pissant! Take your ass back to the lab before they find out you escaped!!!!!</i>\"\n\n");
-			
 					outputText("The Succubus resumes her stormy exit. You look at the bottle of Cerulean Potion and wonder if it REALLY had some psychotropics in it. What the hell just happened?!");
 					flags[kFLAGS.CERULEAN_POTION_NEUTER_ATTEMPTED] = 1;
 				}
 				//REPEAT
 				else {
 					outputText("\nAs you begin to relax, you hear footsteps behind you, expecting the unholy interloper and pray for a better... and more understanding... encounter.\n\n");
-		
 					outputText("You turn around, hoping for an exciting encounter only to find a rather short, plain-faced woman with horned-rim glasses and a purple dress on. She appears to be holding a stack of papers in her hand.\n\n");
-		
 					outputText("\"<i>Ahem.</i>\", the woman says meekly, \"<i>I hate to bother you, but I was sent by the CoC writers and staff to hand you this.</i>\"\n\n");
-		
 					outputText("Scratching your head, you inquire what the document is. The woman smiles shyly and hands it to you.\n\n");
-		
 					outputText("\"<i>This is the script and production notes for Corruption of Champions,</i>\" she says with a small bit of pride, \"<i>Apparently, you need to read the highlighted sections. They are important.</i>\"\n\n");
-		
 					outputText("You take the script, scratching your head at the surreal nature of the moment. You thumb through the pages, finding virtually every aspect of your life and encounters written as if foreseen by great mystics. The accuracy is nothing short of horrifying. You find a highlighted section that appears to be what the woman is referring to. The note is terse and outright blunt.\n\n");
-					
 					outputText("\"<i>GENDER NEUTRAL CHARACTERS ARE BUTT-MONKEYS. IF THE ENCOUNTER INVOLVES SEX, EXPECT SOMETHING FUCKED UP TO HAPPEN INSTEAD. ACTORS WHO PLAY NEUTER CHARACTERS SHOULD EXPECT TO PLAY ONLY FOR LULZ</i>.\"\n\n");
-		
 					outputText("The shock is overwhelming. The script basically says that you will never catch a break. As this reality drapes about you, the script disappears and you hear a cacophony of mocking laughter in all directions. The woman is nowhere to be found.\n\n");
-		
 					outputText("As the cacophony fades, you only hear one facetiously toned word,\n\n");
-		
 					outputText("\"<i><b>Problem?</b></i>\"");
 				}
 				doNext(playerMenu);
 				return;
 			}
-			player.orgasm();
-			dynStats("cor", 2);
-			if(player.gender == 1) {
-				if(player.cor < 66) {
+
+			sceneHunter.selectGender(dickF, null, null, hermF);
+
+			function dickF():void {
+				sceneHunter.selectPureCor(["Succumb", pureF, "Let her have her way with you"],
+													["Agressive", corF, "Fuck the succubus like a slut she is"], 66);
+				//=======================================
+				function pureF():void {
 					outputText("\nAgainst your better judgment, you've again partaken of the cerulean elixir and fallen asleep. You are quickly awakened by a thick nipple being thrust into your mouth and torrents of breast milk gushing down your throat as the succubus returns to have her way with you. Looking up, your eyes meet hers as a hungry manipulative grin stretches across her blue face. Unable to control your lust, your prick jumps to attention, which prompts the demoness to ");
 					if(player.isTaur()) outputText(" crouch between your legs and impale herself on your [cock] with a wet sound caused by her well-lubricated vulva. Y");
 					else outputText(" open her womb and quickly consume your [cock]. She embraces you, entrapping your head in her cleavage as y");
-					outputText("ou quickly feel her superhuman vaginal muscles work and stroke your [cock] better than any human woman or pair of hands could ever hope to accomplish. You are helpless as your unholy embrace milks the both of you in an infernal symphony of debauchery. The familiar cramp of an impending ejaculation grips you and your twitching signals the succubus of your approaching climax.\n\n");
+					outputText("ou quickly feel her superhuman vaginal muscles work and stroke your [cock] better than any human woman or pair of hands could ever hope to accomplish. You are helpless as your unholy embrace milks both of you in an infernal symphony of debauchery. The familiar cramp of an impending ejaculation grips you and your twitching signals the succubus of your approaching climax.\n\n");
 					if(player.isTaur()) outputText("Pushing on your forelegs, she engulfs even more of your " + cockDescript(0));
 					else outputText("Almost crushing your pelvis, she wraps her legs around your body");
 					outputText(" and her muscles churn mercilessly demanding that you release your 'milk' as freely as she has released hers into you. Stimulated beyond any human ability to maintain control, you bear down and release a milky flood of your own inside the succubus. Moaning in ecstasy, she ");
@@ -1138,9 +1301,10 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					outputText(" her contractions milking your [cock] as fiercely as a maid milks a cow! Another torrent of cum pushes its way out of your body and you let out a moan of pleasure and exhaustion.\n\n");
 					outputText("As you are passing out, you feel a deep kiss upon your lips from the succubus. \"You taste better each time we join. Call upon me soon, lest I take what I want from you anyway,\", says the lustful creature.\n\n");
 					outputText("Fatigue takes you and you collapse into a deep sleep.  ");
+					sharedEnd();
 				}
-				else {
-					clearOutput();
+
+				function corF():void {
 					outputText("\nKnowing the succubus will come, you do not even bother trying to sleep. Instead, you prepare a little surprise for her. You briefly jerk off and start edging yourself, preparing a massive batch to unload inside her. Hopefully, she will be the one to get more than she bargained for.\n\n");
 					outputText("The succubus comes, as you predicted. Despite her obvious strength and size difference to you, you grab her and push her down to the ground and immediately push your angry cock into her hairy hole. The succubus, surprised and enthralled, laughs at your aggression.\n\n");
 					outputText("\"<i>I thought I was the hungry one.</i>\", she chuckles. \"I am all yours, little man. FEED ME!\"\n\n");
@@ -1158,52 +1322,77 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					else outputText("She embraces you, moaning inhumanly, and reflexively digs her claws into your back. Searing with lust, the pain means little to you as you only feel the sensation of your body forcing your fluids out of your body and into hers. You slam your pelvis into hers");
 					outputText(", as if to force yourself to cum harder than you already are capable of, prompting an equally pleasurable reaction from her.\n\n");
 					outputText("For the first time since you have had your 'visits', the succubus appears winded. Without another word, her muscles release your manhood, which she quickly licks clean of your intermingled juices.  She tongues your face in lustful approval and flies away. You quickly fall asleep, utterly spent.  ");
+					sharedEnd();
 				}
 			}
-			else if(player.gender == 3) {
+
+			function hermF():void {
 				//Bad End-Cerulean Succubus Futa/herm
 				//[Conditions: Corruption >50. Drink 10 Cerulean potions over the course of 20 Days. (Other stipulations as required that prevent interference with other events-to be determined)]
-				if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10 && player.cor > 50) {
+				if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10 && player.cor > 50 && !player.hasPerk(PerkLib.Soulless) && !player.blockingBodyTransformations()) {
 					outputText("\nAs the Succubus mounts you, an uncontrollable urge takes over your mind and body. Without any thought, you quickly thrust one of her nipples in your mouth and begin suckling wildly like a newborn child. The Succubus cries in shock and pleasure as you begin feeding from her and quickly begins her ritualistic milking of your dong. The warm milk passes into your mouth and down your throat, where it settles peacefully in your stomach. The sensation of fulfillment from her tits is only eclipsed by the massive load of semen you feel cramping your prostate.");
 					//[ (Herm-Dickgirl variant only)
-					if(player.balls > 0) outputText("  Even your nuts are unbearably sore.");
+					if(player.hasBalls()) outputText("  Even your nuts are unbearably sore.");
 					outputText("  As the milk begins to dry out of the Succubus' tit, you release it from your control and launch an impossible load of cum into the succubus. The demoness releases her hold of your cock and hops off your crotch and jumps to place her mouth over your erupting penis. Reflexively grabbing her head, you push your cock as deep as you can in her mouth and for minutes, pump stream after stream of hot lust into her gullet. After the last load leaves your dong, you pass out.\n\n");
-		
 					outputText("After a short time, you wake up sore from head to toe. The Succubus is sitting next to you with an utterly satisfied look on her face.\n\n");
-		
 					outputText("\"<i>Well, this was unexpected.</i>\", she says, \"<i>I did not expect you to change. Normally, men are susceptible to my milk, but apparently it works on herms, too.</i>\"\n\n");
-		
 					outputText("As you stand, you feel awkward as your body does not feel right. You look at the Succubus and she no longer appears as large as she once was. Quick to realize a problem, you look at your reflection in a small bucket at your campsite. Other than your own unique facial features, you see ANOTHER Cerulean Succubus looking back at you! You ARE a Cerulean Succubus!");
 					//[(if the player has a large number of transformations)
-					if(player.racialScore(Races.HORSE) + player.racialScore(Races.DOG) + player.racialScore(Races.NAGA) + player.racialScore(Races.GOBLIN) + player.racialScore(Races.SHARK) + player.racialScore(Races.MINOTAUR) + player.racialScore(Races.COW) > 5) outputText("  All of the other corruptions and changes to your body have faded away as your new form has taken shape.");
+					if(player.racialScore(Races.HORSE, false) + player.racialScore(Races.DOG, false) + player.racialScore(Races.NAGA, false) + player.racialScore(Races.GOBLIN, false) + player.racialScore(Races.SHARK, false) + player.racialScore(Races.MINOTAUR, false) + player.racialScore(Races.COW, false) > 5) outputText("  All of the other corruptions and changes to your body have faded away as your new form has taken shape.");
 					outputText("  As the reality soaks in, you feel a sharp pain in your stomach and your cock. You NEED to feed. Cum, milk, it doesn't matter. Likewise, your dick is hard and you need to cum. Despite your need, you cannot bring yourself to masturbate. You want ANOTHER'S attention.\n\n");
-		
 					outputText("Without further acknowledgement, you take up your on your demonic wings to find your first \"meal\". The Succubus left behind simply giggles as she sees another of her kind take up the night in search for more meals and pleasure.");
-					EventParser.gameOver();
-					return;
+					outputText("At first you scour the land looking for a plaything to suck the fluids out of but to your disappointment discover that it’s all imp or goblin in the region. Thirsty for sex you sate yourself on the closest greenskin but it's about the cheapest meal you can get. Even as you retrieve and eat the skank pathetic soul you yearn for more. It dawns on you that the portal to your homeworld still exists and that inevitably new champions will be thrown in, pure humans you can enslave and use for your own gains. You could always hook up with an incubus but what could ever replace the sweet taste of a harem trained for your own needs and tastes?"+(flags[kFLAGS.LETHICE_DEFEATED] <= 0?" Heck that bitch demon queen hoards all the Lethicite in the realm to herself. You could probably claim it as your own by taking her down.":"")+"\n\n");
+					outputText("With new resolve you resume your unholy quest to take this world by storm and make it your playground!\n\n");
+					if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
+					else {
+						if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
+						else {
+							if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
+							else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
+						}
+					}
+					player.legCount = 2;
+					player.skin.setBaseOnly({type:Skin.PLAIN, color1:"blue", pattern: Skin.PATTERN_DEMONIC_PLEASURE_RUNE});
+					transformations.TailDemonic.applyEffect(false);
+					transformations.HairHuman.applyEffect(false);
+					transformations.FaceDemon.applyEffect(false);
+					transformations.EyesDemon.applyEffect(false);
+					transformations.ArmsDemon.applyEffect(false);
+					transformations.TongueDemonic.applyEffect(false);
+					transformations.EarsElfin.applyEffect(false);
+					transformations.HornsDemonic.applyEffect(false);
+					transformations.AntennaeNone.applyEffect(false);
+					transformations.GillsNone.applyEffect(false);
+					transformations.WingsDemonicLarge.applyEffect(false);
+					transformations.RearBodyNone.applyEffect(false);
+					if (player.hasCock()) transformations.CockDemon().applyEffect(false);
+					if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
+					outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
+					player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
+					player.npcsThatLeaveSoullessPC();
+					sharedEnd();
 				}
 				else {
-					flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00111]++;
+					flags[kFLAGS.CERULEAN_HERM_TIMES_USED]++;
 					flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER]++;
 					outputText("\nAs you begin to relax from a long day of adventuring, the succubus returns and lands squarely in your lap, just missing your throbbing erection. The succubus growls in arousal as she thrusts one of her fat nipples into your mouth. Reflexively, you begin suckling the teat with neither shame nor restraint. Milk floods into your mouth as you sense the weight of the succubus descend upon your cock. The familiar warmth and snugness of her cunt greet your hungry prick as her muscles begin the savory churning to coax your body into producing the 'milk' she needs to sate her own hunger. Your eyes roll back into your head as the torrent of milk pouring down your throat increases the sensitivity in all of your organs, compelling your hips to reflexively buck to press your dick deeper.\n\n");
-					
 					outputText("The Succubus restrains you without missing a stroke or disrupting your breastfeeding as the pangs of orgasmic pleasure swell up at the base of your cock. You wrap your arms forcefully around the succubus as you bear down upon your crotch, releasing the painfully stockpiled load of lust into the demoness' cunt for her own sustenance. The succubus lets out an inhuman howl of pleasure as her own orgasm begins to crush your cock, draining every last drop out of you.\n\n");
-		
 					outputText("Your consciousness begins to fade as the orgasm subsides. The succubus pops her tit out of your mouth and squeezes more of her essence into the empty bottle. She licks your lips and flies away just in time for you to pass out.  ");
 					//Clear out any queue'ed events if bad-end
 					//coming.  PC has to dig his own grave.
-					if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10) {
-						player.removeStatusEffect(StatusEffects.SuccubiNight);
-					}
+					if(flags[kFLAGS.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10) player.removeStatusEffect(StatusEffects.SuccubiNight);
 					fatigue(20);
 					player.cumMultiplier++;
-					//[Maintain first encounter mechanics. New variable to keep track of subsequent encounters within a specific time period]
+					sharedEnd();
 				}
 			}
-			outputText("\n");
-			player.orgasm();
-			dynStats("str", rand(2),"tou", rand(2), "spe", rand(2), "int", rand(2), "cor", 1);
-			inventory.takeItem(consumables.CERUL_P, playerMenu);
+
+			function sharedEnd():void {
+				outputText("\n");
+				player.orgasm();
+				dynStats("str", rand(2), "tou", rand(2), "spe", rand(2), "int", rand(2), "cor", 1);
+				inventory.takeItem(consumables.CERUL_P, playerMenu);
+			}
 		}
 	}
 }

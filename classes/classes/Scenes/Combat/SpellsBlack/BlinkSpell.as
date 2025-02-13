@@ -54,14 +54,14 @@ public class BlinkSpell extends AbstractBlackSpell {
 	public function calcBoost():Number {
 		var BlinkBoostCap:Number = 2;
 		if (player.hasPerk(PerkLib.SelfbuffsProficiency)) {
-			var capB:Number = 1.2;
-			if (player.hasPerk(PerkLib.SelfbuffsProficiencyEx)) capB += 0.8;
+			var capB:Number = 1.3;
+			if (player.hasPerk(PerkLib.SelfbuffsProficiencyEx)) capB += 0.7;
 			if (player.hasPerk(PerkLib.SelfbuffsProficiencySu)) capB *= 5;
 			BlinkBoostCap *= capB;
 		}
 		BlinkBoostCap *= player.intStat.core.max;
 		var BlinkBoost:Number    = player.intStat.core.value;
-		//BlinkBoost += Math.round(player.intStat.max * 0.1); - może tylko jak bedzie mieć perk z prestige job: magus / warock / inny związany z spells
+		//BlinkBoost += Math.round(player.intStat.max * 0.1); - może tylko jak bedzie mieć perk z prestige job: magus / warock / inny związany z spells (maybe only when they have a perk from the prestige job: magus/warlock/another related to spells)
 		if (BlinkBoost < 10) BlinkBoost = 10;
 		BlinkBoost *= 1.2;
 		if (player.hasPerk(PerkLib.JobEnchanter)) BlinkBoost *= 1.25;
@@ -70,7 +70,7 @@ public class BlinkSpell extends AbstractBlackSpell {
 		return Math.round(BlinkBoost);
 	}
 	
-	public function calcDuration():Number {
+	override public function calcDuration():int {
 		var BlinkDuration:Number = 5;
 		BlinkDuration += combat.magic.perkRelatedDurationBoosting();
 		return BlinkDuration;
