@@ -17,7 +17,7 @@ public class SceneHunter extends BaseContent {
         menu();
         displayHeader("SceneHunter Settings");
         outputText("The following are QoL improvements meant to make some scenes (and their variations) easier to access.");
-        outputText("\nAll these features blend into the game (almost) seamlessly, are lore-accurate and don't change anything gameplay-related.");
+        outputText("\nAll these features blend into the game (almost) seamlessly, are lore-accurate, and don't change anything gameplay-related.");
         outputText("\nSH checks are currently added into all parts of the game, excluding worms content.");
         outputText("\n\n<b>If you notice any bugs (missing options, weirdness in scenes, dead ends) caused by enabling/disabling any of SH options (or ANY new issues in the scenes listed above), please report it in Discord and it will be fixed quickly. A lot of code was moved whiile setting SH up, so it was very easy to miss something.</b>");
 
@@ -120,6 +120,9 @@ public class SceneHunter extends BaseContent {
         outputText("\n- The cabin doesn't disable imp attacks anymore. You still can build a wall or something else though.");
         outputText("\n- Disables Raphael dress timer - you can't fail his date by not wearing it.");
         outputText("\n- Disables Zenji vs Celess freakout. Stupid troll shouldn't ask you to kill your daughter.");
+        outputText("\n- Disables Sand Witch bad-end when boobs are big and lactation is high. Too annoying.");
+        outputText("\n- Disables (not very logical) transition from bee girl to huntress in the forest. Let nothing distract you from buzz.");
+        outputText("\n- Disables Chi-Chi training check if Jojo's corrupt already.");
         outputText("\n<i>Most changes are lore-accurate and explained in the game (so everything feels logical), but be warned that the original writers probably intended some details to work the other way.</i>");
         outputText("\n<i>Some one-time scenes with many options and checks can be replayed using 'Camp Actions > Spend Time > Recall'.</i>");
 
@@ -134,16 +137,10 @@ public class SceneHunter extends BaseContent {
             outputText("\n<i>Of course, scenes don't include anything related to this. The mentions of 'love and fidelity' will be present in all marriage scenes.</i>");
         } else {
             outputText("<b>[font-dred]DISABLED[/font]</b>");
-            outputText("\nYou can marry only one person, like in a <i>completely normal</i> world which Mareth is.");
+            outputText("\nYou can marry only one person, like in a <i>completely normal</i> world, which Mareth is.");
         }
 
-        addButton(10, "Scene List", openURL, "https://cocxianxia.fandom.com/wiki/Conditional_Scenes");
-        outputText("\n\n<b>Conditional Scenes list:</b> <u><a href='https://cocxianxia.fandom.com/wiki/Conditional_Scenes'>https://cocxianxia.fandom.com/wiki/Conditional_Scenes</a></u>");
-        outputText("\n<i>This list contains minor spoilers for the entirety of the game. You've been warned.</i>");
-
-        addButton(11, "Reference", openURL, "https://cocxianxia.fandom.com/wiki/Scene_Reference");
-        outputText("\n\n<b>Scene Reference:</b> <u><a href='https://cocxianxia.fandom.com/wiki/Scene_Reference'>https://cocxianxia.fandom.com/wiki/Scene_Reference</a></u>");
-        outputText("\n<i>This list contains <b>major</b> spoilers for the entirety of the game. You've been warned.</i>");
+        outputText("\n\n<b> NOTE: Check #realm_of_time channel in discord for the wiki backup. Here you can find scene reference and the list of conditional scenes (depending on race, cocktype, etc.). Both are <i>slightly</i> outdated.</b>");
 
         addButton(14, "Back", CoC.instance.gameSettings.settingsScreenMain);
     }
@@ -334,7 +331,7 @@ public class SceneHunter extends BaseContent {
         }
         //Dialogue
         var beforeText:String = CoC.instance.currentText;
-        outputText("\n\n<b>Will you use a big" + (smallProvided ? ", medium" : "") + " or small sized dick?</b>");
+        outputText("\n\n<b>Will you use a big" + (smallProvided ? ", medium" : "") + " or small-sized dick?</b>");
         menu();
         //big cocks
         if (player.findCock(1, bigMin, totalMax, compareBy) >= 0)
@@ -589,6 +586,20 @@ public class SceneHunter extends BaseContent {
         return Math.round(num);
     }
 
+    public function shortPregVector(oldVector:Vector.<int>):Vector.<int> {
+        if (!shortPreg) return oldVector;
+        var newVector:Vector.<int> = new Vector.<int>(oldVector.length);
+        // Copy type [0] and fallback value [length-1], which is -1
+        newVector[0] = oldVector[0];
+        newVector[oldVector.length-1] = oldVector[oldVector.length-1];
+        // Scale down [1], which should be full preg time
+        newVector[1] = shortPregTimer(oldVector[1]);
+        // Copy other values, scale them
+        for(var i:int = 2; i < oldVector.length-1; ++i)
+            newVector[i] =  Math.round(oldVector[i]/oldVector[1] * newVector[1]);
+        return newVector;
+    }
+
     private function toggleShortPreg():void {
         flags[kFLAGS.SCENEHUNTER_SHORT_PREG] = !flags[kFLAGS.SCENEHUNTER_SHORT_PREG];
         if (shortPreg && player) {
@@ -755,10 +766,6 @@ public class SceneHunter extends BaseContent {
         if (flags[kFLAGS.OWCA_SACRIFICE_DISABLED])
             addButton(6, "OwcaDemons", SceneLib.owca.loseOrSubmitToVapula)
                 .hint("Why not submit to lusty demons again, huh?");
-        if (flags[kFLAGS.OWCA_UNLOCKED] == -1 || sceneHunter.other && flags[kFLAGS.OWCA_SACRIFICE_DISABLED])
-            addButton(7, "RapeRebecc", SceneLib.owca.loseOrSubmitToVapula)
-                .hint("Payback for the sheep-girl."
-                    + (flags[kFLAGS.OWCA_UNLOCKED] != -1 ? "\n\n<b>Brought here by SceneHunter:Other.</b>" : ""));
 
         //Sub-pages
         if (player.hasStatusEffect(StatusEffects.MetWhitney) && player.statusEffectv1(StatusEffects.MetWhitney) > 1)
@@ -796,12 +803,6 @@ public class SceneHunter extends BaseContent {
         if (player.statusEffectv1(StatusEffects.FuckedMarble) > 0)
             addButton(7, "MarblSexFarm", SceneLib.marbleScene.standardSex)
                 .hint("Marble invites you to her bed.");
-        if (player.statusEffectv2(StatusEffects.FuckedMarble) > 0)
-            addButton(8, "MilkySex", SceneLib.marbleScene.marbleMilkSex)
-                .hint("Something hot after milking. Why not?");
-        if (player.statusEffectv2(StatusEffects.FuckedMarble) > 0)
-            addButton(9, "MilkySex", SceneLib.marbleScene.marbleMilkSex)
-                .hint("Something hot after milking. Why not?");
         addButton(14, "Back", recallScenes_places);
     }
 

@@ -10,6 +10,9 @@ import classes.StatusEffects;
 import classes.GlobalFlags.kFLAGS;
 import classes.Items.Weapon;
 import classes.Items.WeaponLib;
+import classes.Items.IELib;
+import classes.Items.ItemEffect;
+import classes.Items.ItemEffectType;
 import classes.Scenes.NPCs.AetherTwinsFollowers;
 	
 	public class AetherD extends Weapon {
@@ -56,7 +59,7 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 		
 		override public function get size():int {
 			if (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield") return WSZ_SMALL;
-			else if (AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gaunlets") return WSZ_LARGE;
+			else if (AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gauntlets") return WSZ_LARGE;
 			else return WSZ_MEDIUM;
 		}
 		
@@ -70,7 +73,7 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 		}
 		
 		override public function unequipText(slot:int):void {
-			outputText("Aether (Dex) lays on the ground for a moment, \"<i>I will be waiting in the camp</i>\" she says before teleporting back to your camp.\n\n(<b>Aether (Dex) is now available in the followers tab!</b>)");
+			outputText("Aether (Dex) lies on the ground for a moment, \"<i>I will be waiting in the camp</i>\" she says before teleporting back to your camp.\n\n(<b>Aether (Dex) is now available in the followers tab!</b>)");
 		}
 		
 		override public function afterUnequip(doOutput:Boolean, slot:int):void {
@@ -81,6 +84,15 @@ import classes.Scenes.NPCs.AetherTwinsFollowers;
 		override public function beforeUnequip(doOutput:Boolean, slot:int):ItemType {
 			super.beforeUnequip(doOutput, slot);
 			return WeaponLib.FISTS;
+		}
+
+		private const lustDmg1:ItemEffect = new ItemEffect(IELib.LustDamage, 10, 1/8)
+		private const lustDmg2:ItemEffect = new ItemEffect(IELib.LustDamage, 5, 1/10)
+		override public function findEffect(type:ItemEffectType):ItemEffect {
+			if (type == IELib.LustDamage) {
+				return (AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gauntlets") ? lustDmg1 : lustDmg2;
+			}
+			return super.findEffect(type)
 		}
 	}
 }

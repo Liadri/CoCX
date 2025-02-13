@@ -53,7 +53,8 @@ public class TrollRace extends Race {
 				.customRequirement("",'Feminity less than 71',
 						function (body:BodyData):Boolean {
 							return body.player.femininity <= 70
-						}, +1);
+						}, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.TrollsDescendant, PerkLib.BloodlineTroll);
 		

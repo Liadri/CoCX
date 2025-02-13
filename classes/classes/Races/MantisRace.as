@@ -48,7 +48,8 @@ public class MantisRace extends Race {
 				.wingType(Wings.MANTIS_SMALL, +1)
 				.wingType(Wings.MANTIS_LARGE, +2)
 				.wingType(Wings.MANTIS_LARGE_2, +4)
-				.hasPerk(PerkLib.MantisOvipositor, +1);
+				.hasPerk(PerkLib.MantisOvipositor, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		//Thunder Mantis score
 		//4 eyes - adj spider 4 eyes desc

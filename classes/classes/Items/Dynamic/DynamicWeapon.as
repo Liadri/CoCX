@@ -8,6 +8,7 @@ import classes.Items.EnchantmentType;
 import classes.Items.Equipable;
 import classes.Items.IDynamicItem;
 import classes.Items.IELib;
+import classes.Items.ItemConstants;
 import classes.Items.Weapon;
 
 public class DynamicWeapon extends Weapon implements IDynamicItem {
@@ -205,6 +206,80 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 	 * qeffects searches for effect with same ItemEffectType and v1-v4
 	 */
 	public static const Subtypes:Object = {
+		"ambergspear":{
+			chance:    0,
+			name:      "amber great spear",
+			shortName: "AmberGSpear",
+			longName:  "a bee amber great spear",
+			verb:      "stab",
+			desc:      "An enchanted great spear of hardened amber. This weapon, despite not being a small weapon, qualifies for venom coating feats and when used by a bee, deals twice as much damage when envenomed. Also double the potency of bee venom.",
+			type:      WT_SPEAR,
+			size:      WSZ_LARGE,
+			tags:      [
+				ItemConstants.W_ENVENOM_POSSIBLE
+			],
+			attack:    35,
+			qattack:   1.0/7.0,
+			value:     1000
+		},
+		"amberspear": {
+			chance:    0,
+			name:      "amber spear",
+			shortName: "AmberSpear",
+			longName:  "a bee amber spear",
+			verb:      "stab",
+			desc:      "An enchanted spear of hardened amber. This weapon, despite not being a small weapon, qualifies for venom coating feats and when used by a bee, deals twice as much damage when envenomed. Also double the potency of bee venom.",
+			type:      WT_SPEAR,
+			size:      WSZ_MEDIUM,
+			tags:      [
+				ItemConstants.W_ENVENOM_POSSIBLE
+			],
+			attack:    25,
+			qattack:   0.2,
+			value:     1000
+		},
+		"amberstaff": {
+			chance:    0,
+			name:      "amber staff",
+			shortName: "AmberStaff",
+			longName:  "a bee amber staff",
+			verb:      "smack",
+			desc:      "A chitin staff with a gem made of magically hardened resin from a bee. More effective when used to cast white magic as well as spell and magic ability effects that inflict status. If a honeymade item or jar of bee honey was consumed recently, triple the spell power. ",
+			type:      WT_STAFF,
+			size:      WSZ_LARGE,
+			effects:   [
+				[IELib.Buff, .8, 'spellpower'],
+				[IELib.Buff, .8, 'spellpowerwhite']
+			],
+			qeffects:   [
+				[IELib.Buff, .8, 'spellpower'],
+				[IELib.Buff, .8, 'spellpowerwhite']
+			],
+			attack:    8,
+			qattack:   0,
+			value:     1000
+		},
+		"amberwand":  {
+			chance:    0,
+			name:      "amber wand",
+			shortName: "AmberWand",
+			longName:  "a bee amber wand",
+			verb:      "smack",
+			desc:      "A chitin staff with a gem made of magically hardened resin from a bee. More effective when used to cast white magic as well as spell and magic ability effects that inflict status. If a honeymade item or jar of bee honey was consumed recently, triple the spell power. ",
+			type:      WT_WAND,
+			size:      WSZ_MEDIUM,
+			effects:   [
+				[IELib.Buff, .6, 'spellpower'],
+				[IELib.Buff, .6, 'spellpowerwhite']
+			],
+			qeffects:   [
+				[IELib.Buff, .6, 'spellpower'],
+				[IELib.Buff, .6, 'spellpowerwhite']
+			],
+			attack:    0,
+			qattack:   0,
+			value:     1000
+		},
 		"claymore":   {
 			chance:    0.5,
 			name:      "large claymore",
@@ -226,12 +301,29 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			name:      "dagger",
 			shortName: "Dagger",
 			verb:      "stab",
-			desc:      "A small blade. Preferred weapon for the rogues.",
+			desc:      "A small blade. A preferred weapon of rogues.",
 			size:      WSZ_SMALL,
 			type:      WT_DAGGER,
 			attack:    3,
 			qattack:   0.25,
 			value:     120
+		},
+		"dartrapier": {
+			chance:    0,
+			name:      "darting rapier",
+			shortName: "DartRapier",
+			longName:  "a darting rapier",
+			verb:      "stab",
+			desc:      "This rapier is essentially a dart mounted over a carved chitin hilt. The tip of the blade seethes poison. Particularly deadly when used by a bee.",
+			type:      WT_DUELING,
+			size:      WSZ_MEDIUM,
+			tags:      [
+				ItemConstants.W_RAPIER,
+				ItemConstants.W_ENVENOM_POSSIBLE
+			],
+			attack:    18,
+			qattack:   1/3,
+			value:     1000
 		},
 		"flail":      {
 			chance:    0.5,
@@ -319,7 +411,7 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			shortName: "Nodachi",
 			longName:  "a nodachi",
 			verb:      "keen cut",
-			desc:      "A curved over 3m long bladed weapon that cuts through flesh with the greatest of ease.",
+			desc:      "A curved bladed weapon, over 3 meters long, that cuts through flesh with the greatest of ease.",
 			type:      WT_DUELING,
 			size:      WSZ_MASSIVE,
 			effects:   [
@@ -335,7 +427,7 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			shortName: "Ribbon",
 			longName:  "a long ribbon",
 			verb:      "whip-like slash",
-			desc:      "A long ribbon made of fine silk that despite it seemly fragile appearance can deal noticable damage to even few enemies at once.  Perfect example of weapon that is more dangerous than it looks.",
+			desc:      "A long ribbon made of fine silk that despite it seemly fragile appearance can deal noticeable damage to even few enemies at once.  Perfect example of weapon that is more dangerous than it looks.",
 			type:      WT_RIBBON,
 			size:      WSZ_MEDIUM,
 			tags:      [W_WHIPPING],
@@ -405,7 +497,7 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			shortName: "Warhammer",
 			longName:  "a huge warhammer",
 			verb:      "smash",
-			desc:      "A huge war-hammer made almost entirely of steel that only the strongest warriors could use.  Getting hit with this might stun the victim.",
+			desc:      "A huge warhammer made almost entirely of steel that only the strongest warriors could use.  Getting hit with this might stun the victim.",
 			tags:      [W_WHIRLWIND],
 			type:      WT_MACE_HAMMER,
 			size:      WSZ_LARGE,
@@ -426,12 +518,13 @@ public class DynamicWeapon extends Weapon implements IDynamicItem {
 			shortName: "Whip",
 			longName:  "a coiled whip",
 			verb:      "whip-crack",
-			desc:      "A coiled length of leather designed to lash your foes into submission.  There's a chance the bondage inclined might enjoy it!",
+			desc:      "A coiled length of leather designed to lash your foes into submission.  There's a chance the bondage-inclined might enjoy it!",
 			tags:      [W_WHIPPING],
 			type:      WT_WHIP,
 			size:      WSZ_MEDIUM,
 			effects:   [
-				[IELib.Buff, 35, 'teasedmg']
+				[IELib.Buff, 35, 'teasedmg'],
+				[IELib.LustDamage, 5, 1/12]
 			],
 			qeffects:  [
 				[IELib.Buff, 5, 'teasedmg'] // +5 teasedmg per quality point

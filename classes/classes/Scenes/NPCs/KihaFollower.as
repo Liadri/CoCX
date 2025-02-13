@@ -298,7 +298,7 @@ public class KihaFollower extends NPCAwareContent implements TimeAwareInterface,
         //(Proceed to Spider Horde Combat)
         //Set first round cover
         monster.createStatusEffect(StatusEffects.MissFirstRound, 0, 0, 0, 0);
-        HPChange(100, false);
+        HPChange(100, false, false);
         fatigue(-30);
         dynStats("lus", -40, "scale", false);
     }
@@ -332,7 +332,7 @@ public class KihaFollower extends NPCAwareContent implements TimeAwareInterface,
         //(Proceed to Spider Horde Combat)
         startCombat(new SpiderMorphMob());
         //st - say, 100 hp, -30 fatigue, and -40 lust - then have her cover for you for the first few rounds if you lost to her so you can blitz them or heal. -Z)
-        HPChange(100, false);
+        HPChange(100, false, false);
         fatigue(-30);
         dynStats("lus", -40, "scale", false);
     }
@@ -1544,7 +1544,7 @@ private function warmLoverKihaIntro(output:Boolean = true):void {
         outputText(".  Both of you are gasping and panting from the slow descent, Kiha ");
         if (flags[kFLAGS.TIMES_KIHA_ANALED] >= 5) outputText("growing pleased by");
         else outputText("unused to anal penetration");
-        outputText(" and you already so sensitive from edging again and again.  Kiha slowly rolls her hips, dragging out an inch of your cock at a time before her gripping asshole swallows it back up; when she moves, though, she's careful never to seperate the two of you, always holding each other close as she gently rides your " + cockDescript(x) + ".  You grin as she finally allows you to move, your hips reaching up to meet hers as she begins making short, quick bounces, still holding you tight enough to nip your ear and trace kisses along your neck.");
+        outputText(" and you already so sensitive from edging again and again.  Kiha slowly rolls her hips, dragging out an inch of your cock at a time before her gripping asshole swallows it back up; when she moves, though, she's careful never to separate the two of you, always holding each other close as she gently rides your " + cockDescript(x) + ".  You grin as she finally allows you to move, your hips reaching up to meet hers as she begins making short, quick bounces, still holding you tight enough to nip your ear and trace kisses along your neck.");
         outputText("[pg]You move together, pressing your cock deep into Kiha's hot bowels before withdrawing nearly to the tip.  Again and again your " + cockDescript(x) + " slides in and out of Kiha's asshole, slowly stretching her until the going gets easy.  She starts to pick up the pace, pulling you up from the ");
         if (followerKiha()) outputText("rock");
         else outputText("tree");
@@ -1706,7 +1706,7 @@ private function warmLoverKihaIntro(output:Boolean = true):void {
         outputText("[pg]Kiha sniffles softly and continues, \"<i>I almost feel bad for Lethice to have you as an enemy.  Do me a favor and kick her in the twat for me when you find her, okay?</i>\"  You both share a nervous laugh at that and slowly end the hug.  Dabbing at one of her tears, you suggest, \"<i>Come on, let's carry your stuff over and get you moved in.</i>\"  Kiha's tail wags happily, and the two of you begin gathering her things.");
         outputText("[pg]<b>(Kiha has joined your camp as a lover!)</b>");
         flags[kFLAGS.KIHA_FOLLOWER] = 1;
-        outputText("\n\n<b>As if remembering something Kiha pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+        outputText("\n\n<b>As if remembering something Kiha pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
         if (player.hasKeyItem("Radiant shard") >= 0) {
             player.addKeyValue("Radiant shard", 1, +1);
         } else player.createKeyItem("Radiant shard", 1, 0, 0, 0);
@@ -2805,7 +2805,7 @@ private function warmLoverKihaIntro(output:Boolean = true):void {
         if (DemonLab.MainAreaComplete == 4) {
             outputText("You decide it's time to ask Kiha about the other Dragonoids, and the village your dragoness came from. Kiha winces, but nods to you. <i>\"… I suppose you're right, it's… Only fair that you know.</i>\" Kiha sighs, but squares her shoulders. \"<i> Come with me, my idiot. If you're that curious about me… It's easier to show you.</i>\"\n\n");
         }
-        outputText("You follow closely as Kiha wordlessly leaves camp. She leads you over most of the forest, past the swamp, and into the plains. You realise that you've never really seen Kiha come to this part of the world before.\n\n");
+        outputText("You follow closely as Kiha wordlessly leaves camp. She leads you over most of the forest, past the swamp, and into the plains. You realize that you've never really seen Kiha come to this part of the world before.\n\n");
         outputText("Eventually, the pair of you crest a large hill that towers over the surrounding land. A single apple tree, far larger than any you’ve ever seen back home, sits on the top of the hill, casting shade down over the entire hill. On one side of the hill, the terrain becomes increasingly sandy, and you can see a gnoll run on the other side, chased away from the hill by the sight of your dragoness lover.\n\n");
         outputText("Your dusky dragoness finds a comfortable spot among the exposed roots of the ancient tree, and sits down, motioning for you to join her.\n\n");
         outputText("You sit beside Kiha, noticing the somber look on her face. You follow her gaze, to a spot on the plains that seems flatter than normal… and off. The grass in that area is shorter, and the only shafts of wood poking up from the ground there are… rather blocky and black, almost like burnt lumber, rather than a tree. Nature may have reclaimed most of the land, but now you know what to look for, it’s painfully obvious that the patch of land was once a village.\n\n");

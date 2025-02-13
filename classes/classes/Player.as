@@ -235,6 +235,9 @@ use namespace CoC;
 		//Only used in survival and realistic mode
 		public var hunger:Number = 0;
 
+		//Store all active/true IMutations
+		public var trueMutations:Array = [];
+
 		//Perks used to store 'queued' perk buys
 		public var perkPoints:Number = 0;
 		public var statPoints:Number = 0;
@@ -745,7 +748,7 @@ use namespace CoC;
 				if (Forgefather.refinement == 0) armorDef *= (1.15);
 				if (Forgefather.refinement == 1) armorDef *= (1.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) armorDef *= (1.5);
-				if (Forgefather.refinement == 4) armorDef *= (2);
+				if (Forgefather.refinement >= 4) armorDef *= (2);
 			}
 			//if (flags[kFLAGS.GARGOYLE_BODY_MATERIAL] == 1) {
 				//if (arms.type == Arms.GARGOYLE || arms.type == Arms.GARGOYLE_2) armorDef += (30 * newGamePlusMod);
@@ -755,6 +758,7 @@ use namespace CoC;
 				//if (faceType == Face.DEVIL_FANGS) armorDef += (30 * newGamePlusMod);
 			//}
 			//if (flags[kFLAGS.GARGOYLE_BODY_MATERIAL] == 2) armorDef += (25 * newGamePlusMod);
+			if (isRace(Races.MUMMY)) armorDef += 50 * newGamePlusMod;
 			//Soul Cultivators bonuses
 			if (hasPerk(PerkLib.FleshBodyApprenticeStage)) {
 				if (hasPerk(PerkLib.SoulApprentice)) armorDef += 4 * newGamePlusMod * humanBodyCultivators();
@@ -799,6 +803,11 @@ use namespace CoC;
 			}
 			if (hasPerk(PerkLib.ArmorMaster)) {
 				if (isInHeavyArmor()) speedBonus += Math.round(spe / 50);
+			}
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment6)) {
+				var PE6:Number = Math.round(inte / 20);
+				if (PE6 > Math.round(level / 2)) PE6 = Math.round(level / 2);
+				speedBonus += PE6;
 			}
 			armorDef += speedBonus;
 			//Feral armor boosts armor ratings!
@@ -982,7 +991,7 @@ use namespace CoC;
 				if (Forgefather.refinement == 0) armorMDef *= (1.15);
 				if (Forgefather.refinement == 1) armorMDef *= (1.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) armorMDef *= (1.5);
-				if (Forgefather.refinement == 4) armorMDef *= (2);
+				if (Forgefather.refinement >= 4) armorMDef *= (2);
 			}
 			//if (flags[kFLAGS.GARGOYLE_BODY_MATERIAL] == 1) armorMDef += (25 * newGamePlusMod);
 			//if (flags[kFLAGS.GARGOYLE_BODY_MATERIAL] == 2) {
@@ -1020,9 +1029,9 @@ use namespace CoC;
 			if (hasPerk(PerkLib.GclassHeavenTribulationSurvivor)) armorMDef += 6 * newGamePlusMod;
 			if (hasPerk(PerkLib.FclassHeavenTribulationSurvivor)) armorMDef += 8 * newGamePlusMod;
 			if (hasPerk(PerkLib.FFclassHeavenTribulationSurvivor)) armorMDef += 10 * newGamePlusMod;
-			if (hasPerk(PerkLib.EclassHeavenTribulationSurvivor)) armorMDef += 12 * newGamePlusMod;/*
+			if (hasPerk(PerkLib.EclassHeavenTribulationSurvivor)) armorMDef += 12 * newGamePlusMod;
 			//Agility boosts armor ratings!
-			var speedBonus:int = 0;
+			var speedBonus:int = 0;/*
 			if (hasPerk(PerkLib.Agility)) {
 				if (armor.name == "some taur paladin armor" || armor.name == "some taur blackguard armor") {
 					speedBonus += Math.round(spe / 5);
@@ -1036,8 +1045,13 @@ use namespace CoC;
 			}
 			if (hasPerk(PerkLib.ArmorMaster)) {
 				if (isInHeavyArmor()) speedBonus += Math.round(spe / 50);
+			}*/
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment6)) {
+				var PE6:Number = Math.round(inte / 20);
+				if (PE6 > Math.round(level / 2)) PE6 = Math.round(level / 2);
+				speedBonus += PE6;
 			}
-			armorDef += speedBonus;
+			armorMDef += speedBonus;/*
 			//Feral armor boosts armor ratings!
 			var toughnessBonus:int = 0;
 			if (hasPerk(PerkLib.FeralArmor) && haveNaturalArmor() && meetUnhinderedReq()) {
@@ -1171,8 +1185,8 @@ use namespace CoC;
 		public function hasATailBiteAttack():Boolean { return (Tail.Types[tail.type].bite);}
 		public function hasTalonsAttack():Boolean{return LowerBody.hasTalons(this);}
 		public function hasTentacleAttacks():Boolean{return LowerBody.hasTentacles(this) || hasPerk(PerkLib.MorphicWeaponry);}
-		public function hasAetherTwinsTier1():Boolean { return shield == game.shields.AETHERS && weapon == game.weapons.AETHERD && AetherTwinsFollowers.AetherTwinsShape == "Human-tier Gaunlets"; }
-		public function hasAetherTwinsTier2():Boolean { return shield == game.shields.AETHERS && weapon == game.weapons.AETHERD && AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gaunlets"; }
+		public function hasAetherTwinsTier1():Boolean { return shield == game.shields.AETHERS && weapon == game.weapons.AETHERD && AetherTwinsFollowers.AetherTwinsShape == "Human-tier Gauntlets"; }
+		public function hasAetherTwinsTier2():Boolean { return shield == game.shields.AETHERS && weapon == game.weapons.AETHERD && AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gauntlets"; }
 		public function hasAetherTwinsTierWeapon():Boolean { return weapon == game.weapons.AETHERD && (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers"); }
 		public function hasAetherTwinsTierWeapon2():Boolean { return shield == game.shields.AETHERS && AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers"; }
 		public function hasAetherTwinsTierShield():Boolean { return shield == game.shields.AETHERS && (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dual Daggers"); }
@@ -1234,7 +1248,7 @@ use namespace CoC;
 		//Free off-hand for spellcasting and etc.
 		public function isHavingFreeOffHand():Boolean
 		{
-			return !isShieldsForShieldBash() && shield != game.shields.BATTNET && shield != game.shields.Y_U_PAN && weaponOff.isNothing;
+			return !isShieldsForShieldBash() && shield != game.shields.BATTNET && shield != game.shields.Y_U_PAN && (weaponOff.isNothing || weapon == game.weapons.CATGLOV);
 		}
 		public function isNotHavingShieldCuzPerksNotWorkingOtherwise():Boolean
 		{
@@ -1273,7 +1287,7 @@ use namespace CoC;
 		public function isPartiallyStaffTypeWeapon():Boolean {
 			return (weapon.isStaffPart()) || weapon == game.weapons.DEMSCYT || weapon == game.weapons.LHSCYTH || hasAetherTwinsTierS1() || hasAetherTwinsTierS2();// || weapon == game.weapons.E_STAFF || weapon == game.weapons.L_STAFF || weapon == game.weapons.W_STAFF || weapon == game.weapons.WDSTAFF
 		}
-		//Weapons for Sneak Attack (Meele and Range)
+		//Weapons for Sneak Attack (Melee and Range)
 		public function haveWeaponForSneakAttack():Boolean
 		{
 			return weapon.isSingleSmall() || weapon.isDualSmall() || weaponOff.isSingleSmall() || weaponOff.isDualSmall();
@@ -1323,7 +1337,7 @@ use namespace CoC;
 		{
 			return weapon == game.weapons.RIPPER1 ||  weapon == game.weapons.TRIPPER1 || weapon == game.weapons.RIPPER2 || weapon == game.weapons.TRIPPER2 || weapon == game.weapons.MACGRSW || weapon == game.weapons.TMACGRSW || weapon == game.weapons.MACSPEA;
 		}
-		//Is in medium sized mech (med sized races mech)(have upgrade option to allow smaller than medium races pilot it)
+		//Is in medium-sized mech (med sized races mech)(have upgrade option to allow smaller than medium races pilot it)
 		public function isInNonGoblinMech():Boolean
 		{
 			return vehicles == game.vehicles.HB_MECH;// || vehicles == game.vehicles.GOBMPRI
@@ -1396,6 +1410,12 @@ use namespace CoC;
 			var mCL:Number = 5;
 			if (perkv1(IMutationsLib.AlphaHowlIM) >= 1) mCL += (perkv1(IMutationsLib.AlphaHowlIM) * 5);
 			return mCL;
+		}
+		public function zombieControlLimit():Number
+		{
+			var zCL:Number = 5;
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment1)) zCL *= 2;
+			return zCL;
 		}
 		public function zerkSereneMind():Boolean
 		{
@@ -1689,7 +1709,7 @@ use namespace CoC;
 				if (Forgefather.refinement == 0) attack *= (1.15);
 				if (Forgefather.refinement == 1) attack *= (1.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) attack *= (1.5);
-				if (Forgefather.refinement == 4) attack *= (2);
+				if (Forgefather.refinement >= 4) attack *= (2);
 			}
 			if (hasStatusEffect(StatusEffects.ChargeWeapon)) {
 				if (weaponName == "fists" && !hasPerk(PerkLib.ImprovingNaturesBlueprintsNaturalWeapons)) attack += 0;
@@ -1768,6 +1788,11 @@ use namespace CoC;
 		{
 			return weapon.isWandType();
 		}
+		//Energy Melee Weapons
+		public function isEnergyMeleeWeapon():Boolean
+		{
+			return weapon == game.weapons.TIDAR;// || weapon == game.weapons.TIDAR
+		}
 		//override public function get weapons
 		override public function get weaponRangeName():String {
 			return weaponRange.name;
@@ -1791,7 +1816,7 @@ use namespace CoC;
 				if (Forgefather.refinement == 0) rangeattack *= (1.15);
 				if (Forgefather.refinement == 1) rangeattack *= (1.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) rangeattack *= (1.5);
-				if (Forgefather.refinement == 4) rangeattack *= (2);
+				if (Forgefather.refinement >= 4) rangeattack *= (2);
 			}
 		/*	if(hasPerk(PerkLib.LightningStrikes) && spe >= 60 && weaponRangePerk != "Large") {
 				rangeattack += Math.round((spe - 50) / 3);
@@ -2011,7 +2036,7 @@ use namespace CoC;
 		public function isShieldsForShieldBash():Boolean
 		{
 			return shield == game.shields.BSHIELD || shield == game.shields.BUCKLER || shield == game.shields.DRGNSHL || shield == game.shields.KITE_SH || shield == game.shields.TRASBUC || shield == game.shields.SPIL_SH || shield == game.shields.SANCTYN || shield == game.shields.SANCTYL || shield == game.shields.SANCTYD
-			 || shieldPerk == "Large" || shieldPerk == "Massive" || (shield == game.shields.AETHERS && (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Gaunlets" || AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gaunlets" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield"));
+			 || shieldPerk == "Large" || shieldPerk == "Massive" || (shield == game.shields.AETHERS && (AetherTwinsFollowers.AetherTwinsShape == "Human-tier Gauntlets" || AetherTwinsFollowers.AetherTwinsShape == "Sky-tier Gauntlets" || AetherTwinsFollowers.AetherTwinsShape == "Human-tier Dagger and Shield"));
 		}
 		//override public function get shields
 		override public function get shieldName():String {
@@ -2950,9 +2975,9 @@ use namespace CoC;
 			var returnDamage:int = (damage>0 && damage<1)?1:damage;
 			if (damage>0){
 				var i:Number = 0;
-				if (henchmanBasedInvulnerabilityFrame()) {
+				if (minionOrHenchmanBasedInvulnerabilityFrame()) {
 					for(i; i < hit; i++){
-						henchmanBasedInvulnerabilityFrameTexts();
+						minionOrHenchmanBasedInvulnerabilityFrameTexts();
 					}
 					damage = 0;
 				}
@@ -3563,9 +3588,8 @@ use namespace CoC;
 			if (CoC.instance.monster.statusEffectv1(StatusEffects.EnemyLoweredDamageH) > 0) {
 				mult -= CoC.instance.monster.statusEffectv2(StatusEffects.EnemyLoweredDamageH);
 			}
-			if (hasStatusEffect(StatusEffects.WinterClaw)) {
-				mult += 100;
-			}
+			if (hasStatusEffect(StatusEffects.WinterClaw)) mult += 100;
+			if (isRace(Races.MUMMY)) mult += 100;
 			mult -= resFireStat.value;
 			//Caps damage reduction at 100%
 			if (mult < 0) mult = 0;
@@ -3625,10 +3649,13 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.BlazingHeartIM) >= 1) {
 				mult += 40;
 			}
+			if (perkv1(IMutationsLib.BlackBloodIM) >= 1) {
+				mult -= (10 * perkv1(IMutationsLib.BlackBloodIM));
+			}
 			if (CoC.instance.monster.statusEffectv1(StatusEffects.EnemyLoweredDamageH) > 0) {
 				mult -= CoC.instance.monster.statusEffectv2(StatusEffects.EnemyLoweredDamageH);
 			}
-			if (hasStatusEffect(StatusEffects.AlterBindScroll3)) mult = 0;
+			if (hasStatusEffect(StatusEffects.AlterBindScroll3) || isRace(Races.MUMMY)) mult = 0;
 			mult -= resIceStat.value;
 			//Caps damage reduction at 100%
 			if (mult < 0) mult = 0;
@@ -3766,6 +3793,7 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.VenomGlandsIM) >= 2) mult -= 5;
 			if (perkv1(IMutationsLib.VenomGlandsIM) >= 3) mult -= 10;
 			if (perkv1(IMutationsLib.VenomGlandsIM) >= 4) mult -= 15;
+			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 4) mult -= 20;
 			if (buff("LightBronzeBarMagicDefenseAndPoisonResistanceBuff").isPresent()) mult -= 40;
 			if (headjewelryEffectId == HeadJewelryLib.MODIFIER_POIS_R) mult -= headjewelryEffectMagnitude;
 			if (necklaceEffectId == NecklaceLib.MODIFIER_POIS_R) mult -= necklaceEffectMagnitude;
@@ -4218,10 +4246,10 @@ use namespace CoC;
 			return CoC.instance.monster.hasPerk(PerkLib.EnemyGodType) || CoC.instance.monster.hasPerk(PerkLib.EnemyBossType);
 		}
 
-		public function henchmanBasedInvulnerabilityFrame():Boolean {
-			return statusEffectv3(StatusEffects.CombatFollowerZenji) == 1 || statusEffectv3(StatusEffects.CombatFollowerZenji) == 3 || statusEffectv4(StatusEffects.CombatFollowerAyane) == 2;
+		public function minionOrHenchmanBasedInvulnerabilityFrame():Boolean {
+			return statusEffectv3(StatusEffects.CombatFollowerZenji) == 1 || statusEffectv3(StatusEffects.CombatFollowerZenji) == 3 || statusEffectv4(StatusEffects.CombatFollowerAyane) == 2 || flags[kFLAGS.TAMED_MONSTER_PROTECTING] > 0;
 		}
-		public function henchmanBasedInvulnerabilityFrameTexts():void {
+		public function minionOrHenchmanBasedInvulnerabilityFrameTexts():void {
 			if (statusEffectv3(StatusEffects.CombatFollowerZenji) == 1 || statusEffectv3(StatusEffects.CombatFollowerZenji) == 3) {
 				outputText(" Zenji grits his teeth as he shields you, enduring several strikes from your opponent.");
 				addStatusValue(StatusEffects.CombatFollowerZenji, 3, 1);
@@ -4229,6 +4257,27 @@ use namespace CoC;
 			if (statusEffectv4(StatusEffects.CombatFollowerAyane) == 2) {
 				outputText(" Ayane is defending you, parrying [themonster]’s attack with her weapon.");
 				addStatusValue(StatusEffects.CombatFollowerAyane, 4, -1);
+			}
+			if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] > 0) {
+				outputText(" ");
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 1) {
+					outputText(""+flags[kFLAGS.TAMED_01_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster01, 2, 100);
+				}
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 2) {
+					outputText(""+flags[kFLAGS.TAMED_02_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster02, 2, 100);
+				}
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 3) {
+					outputText(""+flags[kFLAGS.TAMED_03_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster03, 2, 100);
+				}
+				if (flags[kFLAGS.TAMED_MONSTER_PROTECTING] == 4) {
+					outputText(""+flags[kFLAGS.TAMED_04_NAME]+"");
+					addStatusValue(StatusEffects.TamedMonster04, 2, 100);
+				}
+				outputText(" shields you, enduring several strikes from your opponent.");
+				flags[kFLAGS.TAMED_MONSTER_PROTECTING] = 0;
 			}
 		}
 
@@ -4602,10 +4651,10 @@ use namespace CoC;
 			if (hasMutation(IMutationsLib.HumanAdrenalGlandsIM)) internalHumanCounter += perkv1(IMutationsLib.HumanAdrenalGlandsIM);//4
 			if (hasMutation(IMutationsLib.HumanBloodstreamIM)) internalHumanCounter += perkv1(IMutationsLib.HumanBloodstreamIM);//4
 			if (hasMutation(IMutationsLib.HumanBonesIM)) internalHumanCounter += perkv1(IMutationsLib.HumanBonesIM);//4
-			if (hasMutation(IMutationsLib.HumanDigestiveTractIM)) internalHumanCounter += perkv1(IMutationsLib.HumanDigestiveTractIM);//3
+			if (hasMutation(IMutationsLib.HumanDigestiveTractIM)) internalHumanCounter += perkv1(IMutationsLib.HumanDigestiveTractIM);//4
 			if (hasMutation(IMutationsLib.HumanEyesIM)) internalHumanCounter += perkv1(IMutationsLib.HumanEyesIM);//4
 			if (hasMutation(IMutationsLib.HumanFatIM)) internalHumanCounter += perkv1(IMutationsLib.HumanFatIM);//4
-			if (hasMutation(IMutationsLib.HumanMetabolismIM)) internalHumanCounter += perkv1(IMutationsLib.HumanMetabolismIM);//3
+			if (hasMutation(IMutationsLib.HumanMetabolismIM)) internalHumanCounter += perkv1(IMutationsLib.HumanMetabolismIM);//4
 			if (hasMutation(IMutationsLib.HumanMusculatureIM)) internalHumanCounter += perkv1(IMutationsLib.HumanMusculatureIM);//4
 			if (hasMutation(IMutationsLib.HumanOvariesIM)) internalHumanCounter += perkv1(IMutationsLib.HumanOvariesIM);//4
 			if (hasMutation(IMutationsLib.HumanParathyroidGlandIM)) internalHumanCounter += perkv1(IMutationsLib.HumanParathyroidGlandIM);//4
@@ -4614,7 +4663,7 @@ use namespace CoC;
 			if (hasMutation(IMutationsLib.HumanThyroidGlandIM)) internalHumanCounter += perkv1(IMutationsLib.HumanThyroidGlandIM);//4
 			if (hasMutation(IMutationsLib.HumanVersatilityIM)) internalHumanCounter += perkv1(IMutationsLib.HumanVersatilityIM);//4
 			End("Player","racialScore");
-			return internalHumanCounter;//54
+			return internalHumanCounter;//56
 		}
 		public function howManyDifferentHumanIMYouGot():Number {
 			var hMDHIMYG:Number = 0;
@@ -4791,6 +4840,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.ExpertAllRounderEducation))
 				advancedJobs2 += 3;
 			if (hasPerk(PerkLib.MasterAllRounderEducation))
+				advancedJobs2 += 3;
+			if (hasPerk(PerkLib.GrandMasterAllRounderEducation))
 				advancedJobs2 += 3;
 			return advancedJobs2;
 		}
@@ -5081,6 +5132,7 @@ use namespace CoC;
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 1) overeatingLimit += 10;
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 2) overeatingLimit += 15;
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) overeatingLimit += 20;
+				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 4) overeatingLimit += (25 + Math.round(maxHunger()*0.1));
 				if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 1) amnt = Math.round(amnt * postConsumptionMlt());
 				hunger += amnt;
 				if (hunger > maxHunger() + overeatingLimit) {
@@ -5142,7 +5194,8 @@ use namespace CoC;
 			var pCM:Number = 1;
 			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 1) pCM += 0.1;
 			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 2) pCM += 0.2;
-			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 2) pCM += 0.3;
+			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 3) pCM += 0.3;
+			if (perkv1(IMutationsLib.HumanDigestiveTractIM) >= 4) pCM += 0.4;
 			return pCM;
 		}
 
@@ -5174,6 +5227,7 @@ use namespace CoC;
 				minions += perkv2(PerkLib.GreaterHarvest);
 			}
 			if (hasPerk(PerkLib.MummyLord) && perkv1(PerkLib.MummyLord) > 0) minions += perkv1(PerkLib.MummyLord);
+			if (hasPerk(PerkLib.UndeadLord) && perkv1(PerkLib.UndeadLord) > 0) minions += perkv1(PerkLib.UndeadLord);
 			if (hasPerk(PerkLib.JobTamer)) minions += SceneLib.campMakeWinions.currentTamedMonstersCount();
 			return minions;
 		}
@@ -5212,7 +5266,7 @@ use namespace CoC;
 			if (perkv1(IMutationsLib.SlimeMetabolismIM) >= 1) {
 				var percent:Number = 0.01;
 				percent += (0.01 * perkv1(IMutationsLib.SlimeMetabolismIM));
-				EngineCore.HPChange(Math.round(maxHP() * percent), true);
+				EngineCore.HPChange(Math.round(maxHP() * percent), true, false);
 				EngineCore.ManaChange(Math.round(maxHP() * percent));
 				EngineCore.changeFatigue(-Math.round(maxFatigue() * percent));
 			}
@@ -5231,7 +5285,7 @@ use namespace CoC;
 				}
 			}
 			if (isGargoyle() && hasPerk(PerkLib.GargoyleCorrupted)) refillGargoyleHunger(30);
-			if (isRace(Races.JIANGSHI) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
+			if ((isRace(Races.JIANGSHI) || isRace(Races.MUMMY)) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
 		}
 
 		public function fiendishMetabolismNFER():Boolean {
@@ -5888,6 +5942,16 @@ use namespace CoC;
 			if (hasPerk(PerkLib.AscensionTranshumanismSen)) {
 				currentSen += 16 * perkv1(PerkLib.AscensionTranshumanismSen);
 			}
+			if (hasKeyItem("GOBX Chemical") >= 0) {
+				buffInt += 100;
+				buffLib += 100;
+				currentSen = Math.round(currentSen*1.15);
+			}
+			if (hasKeyItem("GOBX Chemical Improved formula") >= 0) {
+				buffInt += 200;
+				buffLib += 200;
+				currentSen = Math.round(currentSen*1.3);
+			}
 			StatUtils.mergeBuffObjects(buffs, {
 				"str.mult": (buffStr+buffAll)/100,
 				"tou.mult": (buffTou+buffAll)/100,
@@ -5900,35 +5964,48 @@ use namespace CoC;
 			return buffs;
 		}
 
+		public function updateRacialParagon(race:Race):void{
+			if (!hasPerk(PerkLib.RacialParagon)) return;
+			flags[kFLAGS.APEX_SELECTED_RACE] = race.id;
+		}
+
 		public function updateRacialAndPerkBuffs():void{
-			if (needToUpdateRacialCache())
-				updateRacialCache();
+			if (needToUpdateRacialCache()) updateRacialCache();
+			if (statStore.hasBuff('Titanic Strength')) statStore.removeBuffs('Titanic Strength');
+			if (statStore.hasBuff('Condensed Power')) statStore.removeBuffs('Condensed Power');
+			if (statStore.hasBuff('Dracoforce')) statStore.removeBuffs('Dracoforce');
+			if (statStore.hasBuff('Stored Momentum')) statStore.removeBuffs('Stored Momentum');
+			var strengthBase:Number = str;
 			if (effectiveTallness >= 108 && hasPerk(PerkLib.TitanicStrength)) {
-				if (statStore.hasBuff('Titanic Strength')) statStore.removeBuffs('Titanic Strength');
-				var strTS:Number = Math.round(0.01 * str * Math.round(effectiveTallness / 6));
+				var strTS:Number = Math.round(0.01 * strengthBase * Math.round(effectiveTallness / 6));
 				statStore.replaceBuffObject({'str': strTS}, 'Titanic Strength', { text: 'Titanic Strength' });
 			}
-			if (effectiveTallness < 108 && statStore.hasBuff('Titanic Strength')) statStore.removeBuffs('Titanic Strength');
 			if (effectiveTallness <= 72 && hasPerk(PerkLib.CondensedPower)) {
-				if (statStore.hasBuff('Condensed Power')) statStore.removeBuffs('Condensed Power');
-				var strCP:Number = Math.round(0.01 * str * (132 - effectiveTallness));
+				var strCP:Number = Math.round(0.01 * strengthBase * (132 - effectiveTallness));
 				statStore.replaceBuffObject({'str':strCP}, 'Condensed Power', { text: 'Condensed Power' });
 			}
 			if (effectiveTallness<=72 && hasPerk(PerkLib.SmallCaster)) statStore.replaceBuffObject({'spellpower':(0.01 * (132 - basetallness))}, 'Small Caster', { text: 'Small Caster' });
-			if ((effectiveTallness>72 || !hasPerk(PerkLib.CondensedPower)) && statStore.hasBuff('Condensed Power')) statStore.removeBuffs('Condensed Power');
 			if ((effectiveTallness>72 || !hasPerk(PerkLib.SmallCaster)) && statStore.hasBuff('Small Caster')) statStore.removeBuffs('Small Caster');
 			if (statStore.hasBuff('Small frame')) statStore.removeBuffs('Small frame');
 			if (hasPerk(PerkLib.HarpyQueen) && (isRaceCached(Races.HARPY, 1) || isRaceCached(Races.PHOENIX, 1) || isRaceCached(Races.THUNDERBIRD, 1))) statStore.replaceBuffObject({"tou.mult":SophieFollowerScene.HarpyKids,"spe.mult":SophieFollowerScene.HarpyKids,"lib.mult":SophieFollowerScene.HarpyKids}, "Harpy Queen",{text:"Your motherly love for and from your many harpy childrens grants you incredible strength."});
 			if (!isRaceCached(Races.HARPY, 1) && !isRaceCached(Races.PHOENIX, 1) && !isRaceCached(Races.THUNDERBIRD, 1)) statStore.removeBuffs('Harpy Queen');
 			//if (hasPerk(PerkLib.TitanicStrength)) statStore.replaceBuffObject({'str.mult':(0.01 * Math.round(tallness/2))}, 'Titanic Strength', { text: 'Titanic Strength' });
 			//if (!hasPerk(PerkLib.TitanicStrength) && statStore.hasBuff('Titanic Strength')) statStore.removeBuffs('Titanic Strength');
+			if (hasPerk(PerkLib.DeathlyPower)) {
+				if (statStore.hasBuff('Deathly power')) statStore.removeBuffs('Deathly power');
+				statStore.replaceBuffObject({'int': wis}, 'Deathly power', { text: 'Deathly power' });
+			}
 			if (hasPerk(PerkLib.Dracoforce)) {
-				if (statStore.hasBuff('Dracoforce')) statStore.removeBuffs('Dracoforce');
-				var strD:Number = Math.round(str / 2);
-				var touD:Number = Math.round(tou/2)
+				var strD:Number = Math.round(strengthBase/2);
+				var touD:Number = Math.round(tou/2);
 				statStore.replaceBuffObject({'str': strD, 'tou': touD}, 'Dracoforce', { text: 'Dracoforce' });
 			}
-			if (!hasPerk(PerkLib.Dracoforce) && statStore.hasBuff('Dracoforce')) statStore.removeBuffs('Dracoforce');
+			if (hasStatusEffect(StatusEffects.StoredMomentum)) {
+				var strSM:Number = Math.round(strengthBase*(1+statusEffectv1(StatusEffects.StoredMomentum)));
+				var speSM:Number = Math.round(spe*(1+statusEffectv1(StatusEffects.StoredMomentum)));
+				statStore.replaceBuffObject({'str': strSM, 'spe': speSM}, 'Stored Momentum', { text: 'Stored Momentum' });
+			}
+			if (!hasPerk(PerkLib.DeathlyPower) && statStore.hasBuff('Deathly power')) statStore.removeBuffs('Deathly power');
 			if (hasPerk(PerkLib.Enigma)) statStore.replaceBuffObject({'str.mult':Math.round(((intStat.mult.value/2)+(wisStat.mult.value/2))),'tou.mult':Math.round(((intStat.mult.value/2)+(wisStat.mult.value/2)))}, 'Enigma', { text: 'Enigma' });
 			if (!hasPerk(PerkLib.Enigma) && statStore.hasBuff('Enigma')) statStore.removeBuffs('Enigma');
 			if (hasPerk(PerkLib.LionHeart)) statStore.replaceBuffObject({'str.mult':Math.round(speStat.mult.value/2)}, 'Lion Heart', { text: 'Lion Heart' });
@@ -5994,6 +6071,12 @@ use namespace CoC;
 				statStore.replaceBuffObject({'int.mult':(0.05 * smp),'wis.mult':(0.05 * smp),'lib.mult':(0.05 * smp)}, 'Strengthen magic', { text: 'Strengthen magic' });
 			}
 			if (statStore.hasBuff('Sagittarius Focus')) statStore.replaceBuffObject({"wis.mult":(0.01 * Math.round(lib/2)),"int.mult":(0.01 * Math.round(lib/2))}, 'Sagittarius Focus', { text: 'Sagittarius Focus' });
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment8)) statStore.replaceBuffObject({'lib.mult':Math.round(intStat.mult.value/2)}, 'Mind rune Imbuement', { text: 'Mind rune Imbuement' });
+			if (!hasStatusEffect(StatusEffects.PhylacteryEnchantment8) && statStore.hasBuff('Mind rune Imbuement')) statStore.removeBuffs('Mind rune Imbuement');
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment9)) statStore.replaceBuffObject({'lib.mult':Math.round(wisStat.mult.value/2)}, 'Soul rune Imbuement', { text: 'Soul rune Imbuement' });
+			if (!hasStatusEffect(StatusEffects.PhylacteryEnchantment9) && statStore.hasBuff('Soul rune Imbuement')) statStore.removeBuffs('Soul rune Imbuement');
+			if (hasStatusEffect(StatusEffects.PhylacteryEnchantment10)) statStore.replaceBuffObject({'str.mult':Math.round(libStat.mult.value/2),'spe.mult':Math.round(libStat.mult.value/2)}, 'Body rune Imbuement', { text: 'Body rune Imbuement' });
+			if (!hasStatusEffect(StatusEffects.PhylacteryEnchantment10) && statStore.hasBuff('Body rune Imbuement')) statStore.removeBuffs('Body rune Imbuement');
 			var buffs:Object = calcRacialBuffs(true);
 			statStore.removeBuffs("Racials");
 			statStore.replaceBuffObject(buffs, "Racials", {text:"Racials"});
@@ -6077,7 +6160,7 @@ use namespace CoC;
 			if (level >= 180) xpm += 100;
 			//if (level >= 274)
 			var temp:int = (level + 1) * xpm;
-			if (temp > 82000) temp = 82000;//(max lvl)205 * 400(exp multi)
+			//if (temp > 93200) temp = 93200;(max lvl)233 * 400(exp multi)
 			return temp;
 		}
 
@@ -6996,6 +7079,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) mineMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) mineMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) mineMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) mineMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) mineMlt += 5;
 			if (hasKeyItem("Tel'Adre Magazine Issue 10") >= 0) mineMlt *= 2;
 			return mineMlt;
 		}
@@ -7012,6 +7097,7 @@ use namespace CoC;
 			var expToLevelUp01:Number = 5;
 			var expToLevelUp02:Number = miningLevel + 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) expToLevelUp00 -= 1;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) expToLevelUp00 -= 2;
 			//-2;//4th
 			//-3;//6th
 			if (hasMutation(IMutationsLib.HumanVersatilityIM) && perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && racialScore(Races.HUMAN) > 17) expToLevelUp01 -= 1;
@@ -7019,6 +7105,7 @@ use namespace CoC;
 			//if (hasPerk(PerkLib.SuperSensual)) expToLevelUp01 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) expToLevelUp02 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) expToLevelUp02 -= 2;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) expToLevelUp02 -= 3;
 			//-3;//5th
 			expToLevelUp += expToLevelUp00 * expToLevelUp01 * expToLevelUp02;
 			return expToLevelUp;
@@ -7060,6 +7147,7 @@ use namespace CoC;
 			var expToLevelUp01:Number = 5;
 			var expToLevelUp02:Number = farmingLevel + 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) expToLevelUp00 -= 1;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) expToLevelUp00 -= 2;
 			//-2;//4th
 			//-3;//6th
 			if (hasMutation(IMutationsLib.HumanVersatilityIM) && perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && racialScore(Races.HUMAN) > 17) expToLevelUp01 -= 1;
@@ -7067,6 +7155,7 @@ use namespace CoC;
 			//if (hasPerk(PerkLib.SuperSensual)) expToLevelUp01 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) expToLevelUp02 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) expToLevelUp02 -= 2;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) expToLevelUp02 -= 3;
 			//-3;//5th
 			expToLevelUp += expToLevelUp00 * expToLevelUp01 * expToLevelUp02;
 			return expToLevelUp;
@@ -7102,6 +7191,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) farmMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) farmMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) farmMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) farmMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) farmMlt += 5;
 			//if (hasPerk(PerkLib.PlantKnowledge)) herbMlt *= 2;
 			//if (hasPerk(PerkLib.NaturalHerbalism)) herbMlt *= 2;
 			if (hasKeyItem("Tel'Adre Magazine Issue 8") >= 0) farmMlt *= 2;
@@ -7126,6 +7217,7 @@ use namespace CoC;
 			var expToLevelUp01:Number = 5;
 			var expToLevelUp02:Number = herbalismLevel + 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) expToLevelUp00 -= 1;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) expToLevelUp00 -= 2;
 			//-2;//4th
 			//-3;//6th
 			if (hasMutation(IMutationsLib.HumanVersatilityIM) && perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && racialScore(Races.HUMAN) > 17) expToLevelUp01 -= 1;
@@ -7133,6 +7225,7 @@ use namespace CoC;
 			//if (hasPerk(PerkLib.SuperSensual)) expToLevelUp01 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) expToLevelUp02 -= 1;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) expToLevelUp02 -= 2;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) expToLevelUp02 -= 3;
 			//-3;//5th
 			expToLevelUp += expToLevelUp00 * expToLevelUp01 * expToLevelUp02;
 			return expToLevelUp;
@@ -7168,6 +7261,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) herbMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) herbMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) herbMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) herbMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) herbMlt += 5;
 			if (hasPerk(PerkLib.PlantKnowledge)) herbMlt *= 2;
 			if (hasPerk(PerkLib.NaturalHerbalism)) herbMlt *= 2;
 			if (hasKeyItem("Tel'Adre Magazine Issue 5") >= 0) herbMlt *= 2;
@@ -7180,6 +7275,8 @@ use namespace CoC;
 			if (hasPerk(PerkLib.UtilitySkillsBeginner)) alchMlt += 1;
 			if (hasPerk(PerkLib.UtilitySkillsApprentice)) alchMlt += 2;
 			if (hasPerk(PerkLib.UtilitySkillsSkilled)) alchMlt += 3;
+			if (hasPerk(PerkLib.UtilitySkillsProfessional)) alchMlt += 4;
+			if (hasPerk(PerkLib.UtilitySkillsArtisan)) alchMlt += 5;
 			if (hasKeyItem("Tel'Adre Magazine Issue 2") >= 0) alchMlt *= 2;
 			if (alchMlt > 1) XP *= alchMlt;
 			alchemySkillStat.giveXp(XP);
@@ -7282,7 +7379,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .2), true);
+			EngineCore.HPChange(Math.round(maxHP() * .2), true, false);
 			cumOmeter(40);
 			cor += 2;
 			var Ammount:Number = 100;
@@ -7319,7 +7416,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .2), true);
+			EngineCore.HPChange(Math.round(maxHP() * .2), true, false);
 			cumOmeter(40);
 			cor += 2;
 			var Ammount:Number = 100;
@@ -7341,7 +7438,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .2), true);
+			EngineCore.HPChange(Math.round(maxHP() * .2), true, false);
 			cumOmeter(40);
 			cor += 2;
 			var Ammount:Number = 100;
@@ -7359,12 +7456,12 @@ use namespace CoC;
 			if (Wasfluidinvolved && fluidtype && fluidtype.toLowerCase() != "no") {
 				slimeFeed();
 				if (isGargoyle() && hasPerk(PerkLib.GargoyleCorrupted)) refillGargoyleHunger(30);
-				if (isRace(Races.JIANGSHI) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
+				if ((isRace(Races.JIANGSHI) || isRace(Races.MUMMY)) && hasPerk(PerkLib.EnergyDependent)) EnergyDependentRestore();
 				if (hasPerk(PerkLib.DemonEnergyThirst)) {
 					var mfFM:Number = 1;
 					if (perkv1(IMutationsLib.FiendishMetabolismIM) >= 4) mfFM *= 2;
 					if (hunger < maxHunger()) refillHunger((10 * mfFM), false, true);
-					EngineCore.HPChange(((100 + (tou*2)) * mfFM), true);
+					EngineCore.HPChange(((100 + (tou*2)) * mfFM), true, false);
 					EngineCore.ManaChange(((100 + (inte*2)) * mfFM));
 					EngineCore.changeFatigue(-((100 + (spe*2)) * mfFM));
 					outputText("You feel energised and empowered by the energy drained out of the fluid of your recent fuck. What a meal!\n\n");
@@ -7501,7 +7598,11 @@ use namespace CoC;
 				if (soulforce > maxOverSoulforce()) soulforce = maxOverSoulforce();
 				outputText(" You feel slightly more alive from the soulforce you vampirised from your sexual partner orgasm.");
 			}
-			EngineCore.HPChange(25 + (lib/2), true);
+			var hpc:Number = 25 + (lib / 2);
+			if (perkv1(IMutationsLib.StillHeartIM) >= 1) hpc *= (1 + (0.01 * perkv1(IMutationsLib.StillHeartIM)));
+			if (perkv1(IMutationsLib.StillHeartIM) >= 3) hpc += Math.round(maxHP() * 0.01 * (perkv1(IMutationsLib.StillHeartIM) - 2));
+			if (perkv1(IMutationsLib.StillHeartIM) >= 2) EngineCore.HPChange(hpc, true, true);
+			else EngineCore.HPChange(hpc, true, false);
 			EngineCore.ManaChange(25 + (inte/2));
 			EngineCore.changeFatigue(-(25 + (spe/2)));
 			removeCurse("lib", 5, 1);
@@ -7526,7 +7627,7 @@ use namespace CoC;
 					}
 				}
 			}
-			EngineCore.HPChange(Math.round(maxHP() * .05), true);
+			EngineCore.HPChange(Math.round(maxHP() * .05), true, false);
 		}
 
 		public function hasUniquePregnancy():Boolean{
@@ -7552,7 +7653,7 @@ use namespace CoC;
 				if (Forgefather.refinement == 0) max *= (1.15);
 				if (Forgefather.refinement == 1) max *= (1.25);
 				if (Forgefather.refinement == 2 || Forgefather.refinement == 3) max *= (1.35);
-				if (Forgefather.refinement == 4) max *= (1.5);
+				if (Forgefather.refinement >= 4) max *= (1.5);
 			}
 			if (hasPerk(PerkLib.ElementalBondFlesh) && statusEffectv1(StatusEffects.SummonedElementals) >= 2) max += maxHP_ElementalBondFleshMulti() * statusEffectv1(StatusEffects.SummonedElementals);
 			if (hasPerk(PerkLib.Soulless)) max = Math.round(max*0.5);
@@ -7979,7 +8080,7 @@ use namespace CoC;
 		public function displayFinalGameDifficulty():void {
 			outputText("<b>Final game difficulty:</b>");
 			if (flags[kFLAGS.GAME_DIFFICULTY] == 0) outputText("\n[font-olive]Anal-easy that even every Fursona out there can play (Easy)[/font]");
-			else if (flags[kFLAGS.GAME_DIFFICULTY] == 1) outputText("\n[font-olive]Normaly it's should be Normal here so... it's N.O.R.M.A.L. (Normal)[/font]");
+			else if (flags[kFLAGS.GAME_DIFFICULTY] == 1) outputText("\n[font-olive]Normally it's should be Normal here so... it's N.O.R.M.A.L. (Normal)[/font]");
 			else if (flags[kFLAGS.GAME_DIFFICULTY] == 2) outputText("\n[font-dred]As in far far away galaxys they say: That where the fun begins (Hard)[/font]");
 			else if (flags[kFLAGS.GAME_DIFFICULTY] == 3) outputText("\n[font-red]They see Hard'in They Hatin (Nightmare)[/font]");
 			else if (flags[kFLAGS.GAME_DIFFICULTY] == 4) outputText("\n[font-red]So now... neither death from starving, accumulated wrath inhibiting spellcasting nor internal mutations will stop you? Now, let's take things to the next level. (Extreme)[/font]");

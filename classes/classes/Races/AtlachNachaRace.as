@@ -53,7 +53,7 @@ public class AtlachNachaRace extends Race{
 				.eyeType(Eyes.SPIDER, +1)
 				.eyeTypeAndColor(Eyes.SPIDER, "red", +1)
 				.tailType(Tail.SPIDER_ADBOMEN, +1)
-				.rearType(RearBody.ATLACH_NACHA, +4)
+				.rearType(RearBody.ATLACH_NACHA, +4, -10)
 				.faceType(Face.SPIDER_FANGS, +1)
 				.skinCoatType(Skin.CHITIN, +1)
 				.skinCoatTypeAndColor1(Skin.CHITIN, "midnight purple", +1)
@@ -62,7 +62,8 @@ public class AtlachNachaRace extends Race{
 				.corruption(AT_LEAST(50), +1)
 				.hasPerk(PerkLib.Insanity, +1)
 				.hasPerk(PerkLib.SpiderOvipositor, +1)
-				.hasPerk(PerkLib.TransformationImmunity2, +3);
+				.hasPerk(PerkLib.TransformationImmunity2, +3)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.ArachnidBookLungIM)
 		addMutation(IMutationsLib.TrachealSystemIM);

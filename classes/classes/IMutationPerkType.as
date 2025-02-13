@@ -83,13 +83,12 @@ public class IMutationPerkType extends PerkType
 		
 		private var _maxLvl:int;
 		private var _slot:String;
-		private var _pBuffs:Object;
-		private var _trueVariant:Boolean;
+		private var _pBuffs:Object = {};
 		private static var _IMvalid:Object = {};
 		private static var _IMNotvalid:Object = {};
 
 
-		public function IMutationPerkType(id:String, name:String, slot:String, maxLvl:int, trueVariant:Boolean = false) {
+		public function IMutationPerkType(id:String, name:String, slot:String, maxLvl:int) {
 			//GDI probably pre-initialization issue again
 			if (_IMvalid.hasOwnProperty(id)) {
 				name += "_errorIM"
@@ -100,7 +99,6 @@ public class IMutationPerkType extends PerkType
 			super(id, name, name, name, false);
 			this._maxLvl = maxLvl;
 			this._slot = slot;
-			this._trueVariant = trueVariant;
 			(MutationsBySlot[slot] ||= []).push(this);
 		}
 
@@ -120,10 +118,19 @@ public class IMutationPerkType extends PerkType
 		}
 
 		public function get trueMutation():Boolean{
-			return _trueVariant;
+			return player.trueMutations.indexOf(this.id) != -1;
 		}
 		public function set trueMutation(isTrue:Boolean):void{
-			_trueVariant = isTrue;
+			var tmIndex:int = player.trueMutations.indexOf(this.id);
+			if (isTrue) { // Add it to the true mutations array
+				if (tmIndex == -1) { // ... but only, if it's not already added to avoid dupes.
+					player.trueMutations.push(this.id);
+				}
+			} else {      // Remove it from the true mutations array
+				if (tmIndex != -1) { // ... but only, if it's listed.
+					player.trueMutations.splice(tmIndex, 1);
+				}
+			}
 		}
 		public function evolveText():String {
 			var descS:String = "";

@@ -740,7 +740,7 @@ public function carpentryShopInside():void {
 	addButton(6, "Sell Wood", carpentryShopSellWood);
 	addButton(7, "Sell Stones", carpentryShopSellStone);
 	addButton(10, "Toolbox", carpentryShopBuySet);
-	if (flags[kFLAGS.MATERIALS_STORAGE_UPGRADES] >= 1) addButton(11, "Nails Box", carpentryShopBuySet2);
+	if (flags[kFLAGS.MATERIALS_STORAGE_UPGRADES] >= 1) addButton(11, "Nail Box", carpentryShopBuySet2);
 	//if (flags[kFLAGS.MATERIALS_STORAGE_UPGRADES] >= 5) addButton(12, "Stone Building", carpentryShopBuySet3);
 	addButton(14, "Leave", telAdreMenu);
 }
@@ -1225,7 +1225,7 @@ public function kaibaShopMainMenu2():void {
 			addButton(1, "Cat Collar", buyItem, necklaces.CATBELL).hint("Leather collar with cat bell - Aside from being extra cute on you this necklace not only raises natural evasion but also allows a cat type wearer to deliver tease damage when dodging attacks. A must have when in heat. This is a temporary sale.");
 			addButton(2, "Neko Top", buyItem, undergarments.BN_TOP).hint("Black Neko Leather Top - A bra made of leather black as night. Makes one slimmer than it appears, increasing evasion. Stronger at night. This is a temporary sale.");
 			addButton(3, "NekoBottom", buyItem, undergarments.BN_SKIRT).hint("Black Neko Leather Bottom - A skirt made of leather black as night. Makes one slimmer than it appears, increasing evasion. Stronger at night. This is a temporary sale.");
-			addButton(4, "F.Cloak", buyItem, armors.FCLOAK).hint("Francesca's Black Cloak - A cloak rumored to have been worn by the black cat adventurer Francesca the heavenly black tiger. Not exactly a strong armor per say, its true ability is to conceal its owner body's true location through a mix of glamor and illusion spell improving the users evasiveness by leaps and bound. Francesca was a famous sword mage and as thus the cloak greatly reinforces spells casted through the medium of a weapon. This is a temporary sale.");
+			addButton(4, "F.Cloak", buyItem, armors.FCLOAK).hint("Francesca's Black Cloak - A cloak rumored to have been worn by the black cat adventurer Francesca the heavenly black tiger. Not exactly a strong armor per se, its true ability is to conceal its owner body's true location through a mix of glamor and illusion spell, improving the users evasiveness by leaps and bound. Francesca was a famous sword mage and as thus the cloak greatly reinforces spells casted through the medium of a weapon. This is a temporary sale.");
 			addButton(5, "F.M.Dress", buyItem, armors.FMDRESS).hint("Forest Mage Dress - The wearer of this dress desire and pleasure is no longer vexed by the limitations of mortal flesh allowing one to keep control over their lust long enough to claim victory by diluting their own lust within the ambiant natural world for a time. So long as a Green Magic spell was cast within the 5 previous rounds the user of this dress effectively is able to maintain their focus and mind entirely to the task at hand at the cost of potentialy turning into a lecherous sex maniac due to all the dilluted lust merging back with the user at the end of combat. There is a small chance for this to backfire instead causing the ambiant flora to turn on and rape the wearer of the dress. This is a temporary sale.");
 			addButton(6, "Pan Flute", buyItem, weapons.PFLUTTE).hint("Pan Flute - Small mace/hammer type weapon granting bonuses: +50% spellpower, +100% performance power.");
 			addButton(7, "D.B.Helmet", buyItem, headjewelries.DRABLOH).hint("Dragon Blood Helmet - Reinforce all breath weapon Effect by 50%. Deals 20% more damage against dragons.");
@@ -1340,8 +1340,65 @@ public function tripxiShopMainMenu():void {
 			player.createStatusEffect(StatusEffects.TelAdreTripxi, 0, 0, 0, 0);
 		}
 		camp.codex.unlockEntry(kFLAGS.CODEX_ENTRY_GOBLINS);
-		tripxiShopMainMenu2a();
+		tripxiShopMainMenu1a();
 	}
+}
+
+public function tripxiShopMainMenu1a():void {
+	menu();
+	addButton(0, "Talk", tripxiShopTalk);
+	addButton(1, "Gunshop", tripxiShopMainMenu2a);
+	addButton(2, "Rent Workshop", tripxiRentWorkshop);
+	if (player.hasKeyItem("Flasherbang") < 0 && player.hasKeyItem("Blueprint - Flasherbang") < 0) addButton(5, "Flasherbang", curry(tripxiEngineeringBuyBlueprint, 500, "Flasherbang")).hint("Flasherbang BP - 500 gems");
+	if (player.hasKeyItem("Fire Grenade II") < 0 && player.hasKeyItem("Blueprint - Fire Grenade II") < 0) addButton(6, "Fire Grenade II", curry(tripxiEngineeringBuyBlueprint, 1000, "Fire Grenade II")).hint("Fire Grenade II BP - 1000 gems");
+	if (player.hasKeyItem("Fire Grenade") < 0 && player.hasKeyItem("Fire Grenade II") < 0 && player.hasKeyItem("Blueprint - Fire Grenade") < 0) addButton(6, "Fire Grenade", curry(tripxiEngineeringBuyBlueprint, 500, "Fire Grenade")).hint("Fire Grenade II BP - 500 gems");
+	addButton(14, "Leave", telAdreMenu);
+}
+
+private function tripxiShopTalk(talkOver:int = 1):void {
+	clearOutput();
+	menu();
+	if (talkOver == 1){
+		outputText("You tell the goblin shopkeeper you would like to have a talk with her.\n\n")
+		outputText("\"<i>Just wanted a chat? Well okay, fine but make it quick, my time is mostly for either researching or gems and I would rather not waste either.</i>\"\n\n");
+	}
+	else{
+		outputText("Tripxi looks semi bored but tries to keep the professional attitude.\n\n")
+		outputText("\"<i>Well now that's sorted, is there anything else you wanted to talk about?</i>\"\n\n");
+	}
+	addButton(3, "Goblins", tripxiShopTalkGoblins);
+	addButton(4, "Tel Adre", tripxiShopTalkTelAdre);
+	if (player.statusEffectv1(StatusEffects.TelAdreTripxi) > 0) addButtonDisabled(5, "Small Selection", "You have already talked about this subject.");
+	else addButton(5, "SmallSelection", tripxiShopTalkSmallSelection);
+	addButton(14, "Leave", tripxiShopInside);
+}
+
+private function tripxiShopTalkGoblins():void {
+	clearOutput();
+	outputText("Just what was the goblin civilisation like? You haven't found ");/*(if found a goblin city in some expac) much save for (end of cut)*/outputText("a single hint of their city this far while traveling Mareth.\n\n");
+	outputText("\"<i>By all means, goblin civilisation was THE thing. You guys marvel at magic swords and spells, but we had the true power of technology on our side. I wouldn't want to mean offense, but a lot of you people might as well be savages and barbarians. When the demons knocked to our doors, we laughed them off or blasted them with artillery. However, the demons aren't stupid. They knew that if they couldn't get in, they could destroy us through our surrounding. Inevitably, it was not the demons themselves who toppled down the goblin civilisation, but contaminated waters. Our geniuses fell into madness or breeding frenzy, and not long after everything our society meant fell into a race  to see who could breed faster. There may be only a few goblins left on Mareth who are not obsessed with getting impregnated by everything. You're looking at one of them.</i>\"");
+	doNext(tripxiShopTalk, 2);
+}
+private function tripxiShopTalkTelAdre():void {
+	clearOutput();
+	outputText("Last you checked, the majority of the goblin population has gone prego freak mode. How has she been accepted in Tel Adre?\n\n\"<i>It's simple, I've simply always been there! ");
+	outputText("While my peers were busy drinking drugged water back at our capital, I was managing my shop here. I haven't been making weapon until now though, only explosives. I began working as a standard issue firearm vendor when Tel'adre guards requested I procure them pistols. Ain't like those idiots can use anything more advanced than that anyway.</i>\"\n\n");
+	doNext(tripxiShopTalk, 2);
+}
+private function tripxiShopTalkSmallSelection():void {
+	clearOutput();
+	outputText("You look up her inventory and note that she only sell basic firearms.\n\n");
+	outputText("\"<i>Well, yes, I do? That's because the tech has been lost when our civilisation fell. No one makes guns anymore, and I barely got the base knowledge to assemble these pieces of junk. Primitive, isn't it? We had stuff ranging from bomb launchers to gatling guns, and all of it is now lost god knows were in the waste of Mareth. This said, you're an adventurer, aren't you?</i>\"\n\n");
+	outputText("You nod to that, you are indeed an adventuring hero, the champion of Ingnam to be exact.\n\n");
+	outputText("\"<i>Yea sure whatever this just means, you could help me with something. Fact is, goblin technology is lost, but not gone. There are good odds that while traveling around Mareth, you may run into old gun parts. Gather them and bring them back here. I will study them and create brand-new firearms for you.</i>\"\n\n");
+	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns1, 0, 0, 0, 0);
+	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns2, 0, 0, 0, 0);
+	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns3, 0, 0, 0, 0);
+	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns4, 0, 0, 0, 0);
+	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns5, 0, 0, 0, 0);
+	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns6, 0, 0, 0, 0);
+	player.addStatusValue(StatusEffects.TelAdreTripxi, 1, 1);
+	doNext(tripxiShopTalk, 2);
 }
 
 public function tripxiShopMainMenu2a():void {
@@ -1362,11 +1419,11 @@ public function tripxiShopMainMenu2a():void {
 	else if (player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns5)) addButtonDisabled(8, "???", "Search the Caves.");
 	if (player.statusEffectv1(StatusEffects.TelAdreTripxiGuns6) > 0) addButton(9, weaponsrange.TWINGRA.shortName, buyItemT1, weaponsrange.TWINGRA);
 	else if (player.hasStatusEffect(StatusEffects.TelAdreTripxiGuns6)) addButtonDisabled(9, "???", "Search the Battlefield(B).");
-	addButton(10, "Talk", tripxiShopTalk);
+	
 	addButtonDisabled(11, "-1-", "Shelf 1");
 	addButton(12, "-2-", tripxiShopMainMenu2b);
 	addButton(13, "-3-", tripxiShopMainMenu2c);
-	addButton(14, "Leave", telAdreMenu);
+	addButton(14, "Back", tripxiShopInside);
 }
 public function tripxiShopMainMenu2b():void {
 	menu();
@@ -1388,7 +1445,7 @@ public function tripxiShopMainMenu2b():void {
 	addButton(11, "-1-", tripxiShopMainMenu2a);
 	addButtonDisabled(12, "-2-", "Shelf 2");
 	addButton(13, "-3-", tripxiShopMainMenu2c);
-	addButton(14, "Leave", telAdreMenu);
+	addButton(14, "Back", tripxiShopInside);
 }
 
 public function tripxiShopMainMenu2c():void {
@@ -1410,14 +1467,14 @@ public function tripxiShopMainMenu2c():void {
 	addButton(11, "-1-", tripxiShopMainMenu2a);
 	addButton(12, "-2-", tripxiShopMainMenu2b);
 	addButtonDisabled(13, "-3-", "Shelf 3");
-	addButton(14, "Leave", telAdreMenu);
+	addButton(14, "Back", tripxiShopInside);
 }
 
 public function tripxiShopInside():void {
 	clearOutput();
 	outputText("Tripxi awaits at the counter giving a glance every now and then at her project at the back of the store, she's likely in a rush to resume working. Despite all this she try and keep the shopkeeper act... at least until you're gone.\n\n");
 	outputText("\"<i>So [name] can I interest you into any of my wares?</i>\"\n\n");
-	tripxiShopMainMenu2a();
+	tripxiShopMainMenu1a();
 }
 
 private function buyItemT1(odd:ItemType, page:int = 1):void{
@@ -1490,50 +1547,77 @@ private function buyItemT3No():void {
 	doNext(tripxiShopMainMenu2c);
 }
 
-private function tripxiShopTalk(talkOver:int = 1):void {
+private function tripxiRentWorkshop():void {
 	clearOutput();
+	outputText("You let Tripxi know that you would like to borrow her workshop.\n\n");
+	outputText("What you need a workshop to craft your toys? Yea whatever"+(player.isGoblinoid()?"":" normaly we have a policy not to lend over these kinda room to non goblins but I don't care about college politics anymore. If the engineer college does protest and they won't because they have been thoroughly annihilated by the demon just say that I wasn't home when you used it")+". Beside I gota make do if you wanna use my workshop it will be a hundred gem and this is non negotiable.\n\n");
 	menu();
-	if (talkOver == 1){
-		outputText("You tell the goblin shopkeeper you would like to have a talk with her.\n\n")
-		outputText("\"<i>Just wanted a chat? Well okay, fine but make it quick, my time is mostly for either researching or gems and I would rather not waste either.</i>\"\n\n");
-	}
-	else{
-		outputText("Tripxi looks semi bored but tries to keep the professional attitude.\n\n")
-		outputText("\"<i>Well now that's sorted, is there anything else you wanted to talk about?</i>\"\n\n");
-	}
-	addButton(3, "Goblins", tripxiShopTalkGoblins);
-	addButton(4, "Tel Adre", tripxiShopTalkTelAdre);
-	if (player.statusEffectv1(StatusEffects.TelAdreTripxi) > 0) addButtonDisabled(5, "Small Selection", "You have already talked about this subject.");
-	else addButton(5, "SmallSelection", tripxiShopTalkSmallSelection);
-	addButton(14, "Leave", tripxiShopInside);
+	addButtonIfTrue(1, "Yes", tripxiRentWorkshopYes, "Need 100 gems to use her workshop", player.gems >= 100);
+	addButton(3, "No", tripxiShopInside);
+}
+private function tripxiRentWorkshopYes():void {
+	clearOutput();
+	outputText("Metal Pieces: " + CampStatsAndResources.MetalPieces + "/200" + "\n");
+	outputText("Energy Cores: " + CampStatsAndResources.EnergyCoreResc + "/200" + "\n");
+	outputText("\nWhich blueprints will you work on today?\n\n");
+	if (player.hasKeyItem("Blueprint - Flasherbang") >= 0) outputText("Flasherbang - Req. 100+ int, 10 metal pieces, 1 energy core.\n");
+	if (player.hasKeyItem("Blueprint - Fire Grenade II") >= 0) outputText("Fire Grenade II - Req. 200+ int, 10 metal pieces, 5 salamander firewaters.\n");
+	if (player.hasKeyItem("Blueprint - Fire Grenade") >= 0) outputText("Fire Grenade - Req. 100+ int, 10 metal pieces, 1 salamander firewater.\n");
+	menu();
+	if (player.hasKeyItem("Blueprint - Flasherbang") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && CampStatsAndResources.EnergyCoreResc >= 1) addButton(0, "Flasherbang", tripxiWorkshopFlasherbang).hint("Flasherbang - Toss a grenade that overloads the brain with lewd images and light rendering one blind, aroused and increasingly susceptible to lust chemicals - 100+ int, 10 metal pieces, 1 energy core, 4 hours of work");
+	if (player.hasKeyItem("Blueprint - Fire Grenade II") >= 0 && player.hasKeyItem("Fire Grenade") >= 0 && player.inte >= 200 && CampStatsAndResources.MetalPieces >= 10 && player.hasItem(consumables.SALAMFW, 5)) addButton(1, "Fire Grenade II", tripxiWorkshopFireGrenadeII).hint("Fire Grenade II - Upgrade the fire grenade explosion to also deal fire damage - 200+ int, Fire Grenade, 10 metal pieces, 5 salamander firewaters, 8 hours of work");
+	if (player.hasKeyItem("Blueprint - Fire Grenade") >= 0 && player.hasKeyItem("Toolbelt") >= 0 && player.inte >= 100 && CampStatsAndResources.MetalPieces >= 10 && player.hasItem(consumables.SALAMFW, 1)) addButton(1, "Fire Grenade", tripxiWorkshopFireGrenade).hint("Fire Grenade - Toss a grenade that sets foes on fire inflicting the burn status effect - 100+ int, Toolbelt, 10 metal pieces, 1 salamander firewater, 4 hours of work");
+	addButton(14, "Back", tripxiShopInside);
+}
+public function tripxiWorkshopFlasherbang():void {
+	clearOutput();
+	player.gems -= 100;
+	CampStatsAndResources.MetalPieces -= 10;
+	CampStatsAndResources.EnergyCoreResc -= 1;
+	outputText("You get to work spending the necessary time to craft your newest toy. After four hours your brand new Flasherbang is ready.\n\n");
+	player.createKeyItem("Flasherbang", 0, 0, 0, 0);
+	player.removeKeyItem("Blueprint - Flasherbang");
+	statScreenRefresh();
+	doNext(camp.returnToCampUseFourHours);
+}
+public function tripxiWorkshopFireGrenadeII():void {
+	clearOutput();
+	CampStatsAndResources.MetalPieces -= 10;
+	player.destroyItems(consumables.SALAMFW, 5);
+	outputText("You get to work spending the necessary time to craft your newest toy. After eight hours your brand new Fire Grenade II is ready.\n\n");
+	player.createKeyItem("Fire Grenade II", 0, 0, 0, 0);
+	player.removeKeyItem("Blueprint - Fire Grenade II");
+	player.removeKeyItem("Fire Grenade");
+	statScreenRefresh();
+	doNext(camp.returnToCampUseEightHours);
+}
+public function tripxiWorkshopFireGrenade():void {
+	clearOutput();
+	CampStatsAndResources.MetalPieces -= 10;
+	player.destroyItems(consumables.SALAMFW, 1);
+	outputText("You get to work spending the necessary time to craft your newest toy. After four hours your brand new Fire Grenade is ready.\n\n");
+	player.createKeyItem("Fire Grenade", 0, 0, 0, 0);
+	player.removeKeyItem("Blueprint - Fire Grenade");
+	statScreenRefresh();
+	doNext(camp.returnToCampUseFourHours);
 }
 
-private function tripxiShopTalkGoblins():void {
+private function tripxiEngineeringBuyBlueprint(cost:Number, itemName:String):void {
 	clearOutput();
-	outputText("Just what was the goblin civilisation like? You haven't found ");/*(if found a goblin city in some expac) much save for (end of cut)*/outputText("a single hint of their city this far while traveling Mareth.\n\n");
-	outputText("\"<i>By all means, goblin civilisation was THE thing. You guys marvel at magic swords and spells, but we had the true power of technology on our side. I wouldn't want to mean offense, but a lot of you people might as well be savages and barbarians. When the demons knocked to our doors, we laughed them off or blasted them with artillery. However, the demons aren't stupid. They knew that if they couldn't get in, they could destroy us through our surounding. Inevitably, it was not the demons themselves who toppled down the goblin civilisation, but contaminated waters. Our geniuses fell into madness or breeding frenzy, and not long after everything our society meant fell into a race  to see who could breed faster. There may be only a few goblins left on Mareth who are not obsessed with getting impregnated by everything. You're looking at one of them.</i>\"");
-	doNext(tripxiShopTalk, 2);
+	if (player.gems >= cost) {
+		player.gems -= cost;
+		outputText("Ah? These? Yea in between my work on researching firearms I've been working on explosives. Those can be yours for a few five hundreds how about it? Sure enough even a dumb non goblin like you could craft these.\n\n");
+		outputText("<b>Gained Key Item: Blueprint - "+itemName+"!</b>");
+		player.createKeyItem("Blueprint - "+itemName+"", 0, 0, 0, 0);
+		statScreenRefresh();
+		doNext(tripxiShopInside);
+	}
+	else tripxiEngineeringBuyBlueprintNotEnoughGems();
+	
 }
-private function tripxiShopTalkTelAdre():void {
-	clearOutput();
-	outputText("Last you checked, the majority of the goblin population has gone prego freak mode. How has she been accepted in Tel Adre?\n\n\"<i>It's simple, I've simply always been there! ");
-	outputText("While my peers were busy drinking drugged water back at our capital, I was managing my shop here. I haven't been making weapon until now though, only explosives. I began working as a standard issue firearm vendor when Tel'adre guards requested I procure them pistols. Ain't like those idiots can use anything more advanced than that anyway.</i>\"\n\n");
-	doNext(tripxiShopTalk, 2);
-}
-private function tripxiShopTalkSmallSelection():void {
-	clearOutput();
-	outputText("You look up her inventory and note that she only sell basic firearms.\n\n");
-	outputText("\"<i>Well, yes, I do? That's because the tech has been lost when our civilisation fell. No one makes guns anymore, and I barely got the base knowledge to assemble these pieces of junk. Primitive, isn't it? We had stuff ranging from bomb launchers to gatling guns, and all of it is now lost god knows were in the waste of Mareth. This said, you're an adventurer, aren't you?</i>\"\n\n");
-	outputText("You nod to that, you are indeed an adventuring hero, the champion of Ingnam to be exact.\n\n");
-	outputText("\"<i>Yea sure whatever this just means, you could help me with something. Fact is, goblin technology is lost, but not gone. There are good odds that while traveling around Mareth, you may run into old gun parts. Gather them and bring them back here. I will study them and create brand-new firearms for you.</i>\"\n\n");
-	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns1, 0, 0, 0, 0);
-	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns2, 0, 0, 0, 0);
-	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns3, 0, 0, 0, 0);
-	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns4, 0, 0, 0, 0);
-	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns5, 0, 0, 0, 0);
-	player.createStatusEffect(StatusEffects.TelAdreTripxiGuns6, 0, 0, 0, 0);
-	player.addStatusValue(StatusEffects.TelAdreTripxi, 1, 1);
-	doNext(tripxiShopTalk, 2);
+private function tripxiEngineeringBuyBlueprintNotEnoughGems():void {
+	outputText("You would like to buy this item but you're short on gems...\n\n");
+	doNext(tripxiShopInside);
 }
 
 //[Invetigate]
@@ -1875,7 +1959,7 @@ public function meetingLunaCamp():void {
 	outputText("(<b>Luna has been added to the Followers menu!</b>)\n\n");
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Luna pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Luna pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	flags[kFLAGS.LUNA_FOLLOWER] = 4;
 	flags[kFLAGS.LUNA_LVL_UP] = 0;
 	flags[kFLAGS.LUNA_DEFEATS_COUNTER] = 0;

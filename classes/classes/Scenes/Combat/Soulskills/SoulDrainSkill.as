@@ -76,7 +76,10 @@ public class SoulDrainSkill extends AbstractSoulSkill {
 	}
 
 	private function calcHealAmount():int {
-		return Math.round(player.maxHP() * 0.2);
+		var calcHA:Number = player.maxHP() * 0.2;
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 1) calcHA *= (1 + (0.25 * player.perkv1(IMutationsLib.StillHeartIM)));
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 3) calcHA += Math.round(player.maxHP() * 0.01 * (player.perkv1(IMutationsLib.StillHeartIM) - 2));
+		return Math.round(calcHA);
 	}
 
 	private function calcSoulforceDrain(monster: Monster):int {
@@ -101,7 +104,8 @@ public class SoulDrainSkill extends AbstractSoulSkill {
 		doDarknessDamage(damage, true, display);
 		if (crit && display) outputText(" <b>*Critical Hit!*</b>");
 		checkAchievementDamage(damage);
-		HPChange(calcHealAmount(), display);
+		if (player.perkv1(IMutationsLib.StillHeartIM) >= 2) HPChange(calcHealAmount(), display, true);
+		else HPChange(calcHealAmount(), display, false);
 		monster.addSoulforce(-calcSoulforceDrain(monster)); 
 		if (display) outputText("\n\n");
 		anubiHeartLeeching(damage);

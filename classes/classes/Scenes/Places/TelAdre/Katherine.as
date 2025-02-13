@@ -1812,7 +1812,7 @@ private function talkMilkLimitationChange(newLimit:int):void {
 												break;
 		default:
 												outputText("You tell Kath that from now on she's not to keep her breasts in check.  The sky's the limit.\n\n");
-												outputText("Kath shakes her head and smiles, \"<i>" + (playerMaster() ? "Yes [master], I guess you can't get enough?" : "Can't get enough?  Alright [name],") + "I'll just let them make as much as they like.  But don't blame me if I get so full I try to force feed you.</i>\"\n\n");
+												outputText("Kath shakes her head and smiles, \"<i>" + (playerMaster() ? "Yes [master], I guess you can't get enough?" : "Can't get enough?  Alright [name],") + "I'll just let them make as much as they like.  But don't blame me if I get so full I try to force-feed you.</i>\"\n\n");
 												talkMilkMenu();
 												return;
 	}
@@ -3968,7 +3968,7 @@ public function letKatKnotYourCuntPussyFuck():void {
 	}
 	outputText("  Her load spent, she collapses bonelessly onto her back - thanks to her knot, though, she remains plugged inside you and you yelp in shock as her weight pulls you backward.\n\n");
 
-	outputText("\"<i>Oops.  Sorry,</i>\" Katherine apologises.  ");
+	outputText("\"<i>Oops.  Sorry,</i>\" Katherine apologizes.  ");
 	if (knotSize >= 6) outputText("\"<i>I'm afraid we're going to have to stay like this until I deflate - I don't want to think about how badly I'd hurt you trying to pull free.");
 	else if (knotSize >= 4) outputText("\"<i>Give me a little while and I should deflate enough that I can pull free of you.");
 	else outputText("\"<i>If you pull hard enough, I should pop right out of you.");
@@ -4117,7 +4117,7 @@ public function getDoublePennedByKat():void {
 	}
 	outputText("  Her load spent, she collapses bonelessly onto her back - thanks to her knots, though, she remains plugged inside you and you yelp in shock as her weight pulls you backward until you're sitting on her.\n\n");
 
-	outputText("\"<i>Oops.  Sorry,</i>\" Katherine apologises.  ");
+	outputText("\"<i>Oops.  Sorry,</i>\" Katherine apologizes.  ");
 	if (knotSize >= 6)
 		outputText("\"<i>I'm afraid we're going to have to stay like this until I deflate - I don't want to think about how badly I'd hurt you trying to pull free.");
 	else if (knotSize >= 4)

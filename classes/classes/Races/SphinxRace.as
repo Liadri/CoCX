@@ -61,7 +61,8 @@ public class SphinxRace extends Race {
 						}, +2)
 				.customRequirement("","more sphinx features than other magical feline",
 						CatRace.isSphinxSubrace,0,-1000
-				);
+				)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(
 				function (body:BodyData):Boolean {
 					return body.isTaur && body.legType == LowerBody.CAT;

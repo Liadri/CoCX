@@ -79,11 +79,11 @@ public class LowerBody extends SaveableBodyPart {
 			var desc: String = ""
 
 			if (player.isBiped()) {
-				desc += "Your two legs are muscled and jointed oddly, covered in [fur color] fur, and end in a bestial hooves.";
+				desc += "Your two legs are muscled and jointed oddly, covered in [fur color] fur, and end in bestial hooves.";
 			}
 
 			if (player.isTaur()) {
-				desc += "From the waist down, you have the body of a horse, with four muscled legs which are jointed oddly, covered in [fur color] fur, and end in a bestial hooves."
+				desc += "From the waist down, you have the body of a horse, with four muscled legs which are jointed oddly, covered in [fur color] fur, and end in bestial hooves."
 			}
 
 			return desc;
@@ -407,7 +407,7 @@ public class LowerBody extends SaveableBodyPart {
 	public static const PLANT_ROOT_CLAWS:int = 32;
 	EnumValue.add(Types, PLANT_ROOT_CLAWS, "PLANT_ROOT_CLAWS", {
 		name: "root feet",
-		appearanceDesc: "Your {legCount} legs looks quite normal aside feet. They turned literally into roots only vaguely retaining the shape of the feet."
+		appearanceDesc: "Your {legCount} legs looks quite normal aside from the feet. They turned literally into roots only vaguely retaining the shape of the feet."
 	});
 
 	public static const WOLF:int = 33;
@@ -468,7 +468,7 @@ public class LowerBody extends SaveableBodyPart {
 	public static const ELF:int = 40;
 	EnumValue.add(Types, ELF, "ELF", {
 		name: "elf",
-		appearanceDesc: "Your {legCount} perfect lissom legs end in delicate but agile elven feet, allowing you to move gracefully and swiftly."
+		appearanceDesc: "Your {legCount} perfect lissome legs end in delicate but agile elven feet, allowing you to move gracefully and swiftly."
 	});
 
 	public static const RAIJU:int = 41;
@@ -800,10 +800,10 @@ public class LowerBody extends SaveableBodyPart {
 		appearanceDescFunc: function(player: *): String {
 			var desc: String = ""
 			if (player.isBiped()) {
-				desc += "Your two legs are muscled and jointed oddly, covered in patterned [fur color] fur, and end in a bestial hooves.";
+				desc += "Your two legs are muscled and jointed oddly, covered in patterned [fur color] fur, and end in bestial hooves.";
 			}
 			if (player.isTaur()) {
-				desc += "From the waist down, you have the body of a kirin, with four muscled legs which are jointed oddly, covered in patterned [fur color] fur, and end in a bestial hooves."
+				desc += "From the waist down, you have the body of a kirin, with four muscled legs which are jointed oddly, covered in patterned [fur color] fur, and end in bestial hooves."
 			}
 			return desc;
 		},
@@ -894,7 +894,21 @@ public class LowerBody extends SaveableBodyPart {
 		appearanceDesc: "Two glacial troll legs grow down from your [hips], covered in soft, white fur, ending in four-toed glacial troll feet."
 	});
 
-	public static const HUMANCHAINED:int = 74;
+
+	=======
+	public static const MUMMY:int = 87;
+	EnumValue.add(Types, MUMMY, "MUMMY", {
+		name: "mummy",
+		appearanceDesc: "While your legs are human in appearance your body is so rigid due to this pseudo rigor mortis that the only way you move is by lumbering around. Your legs are covered in bandages from tight to toes so you don’t accidentally cum from walking around."
+	});
+
+	public static const LICH:int = 88;
+	EnumValue.add(Types, LICH, "LICH", {
+		name: "lich",
+		appearanceDesc: "While your legs are human in appearance your body is quite rigid due to pseudo rigor mortis thus you mostly move by magical means."
+  });
+  
+  public static const HUMANCHAINED:int = 74;
 	EnumValue.add(Types, HUMANCHAINED, "HUMAN", {
 		name: "human chained",
 		appearanceDesc: "{legCount} human legs grow down from your [hips], ending in normal human feet. Thick magical silver chains coils around your legs protecting them from arms. You know those chains to be fully part of your body and can use them to fight if necessary."

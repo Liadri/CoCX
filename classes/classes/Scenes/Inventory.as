@@ -268,7 +268,7 @@ use namespace CoC;
 			}
 			//Button for alchemical items during combat
 			if (CoC.instance.inCombat) {
-				addButton(11, "Potions", SceneLib.garden.PotionMenu).disableIf(Garden.PotionsBagSlot01Cap == 0, "You not have any potions bag.");
+				addButton(11, "Potions", SceneLib.garden.PotionMenu).disableIf(Garden.PotionsBagSlot01Cap == 0, "You not have any Potion Bag.");
 			}
             if (CoC.instance.inCombat && player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv1(StatusEffects.Sealed) == 3) {
 				outputText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
@@ -401,7 +401,7 @@ use namespace CoC;
 			outputText("Soulforce reserves in armor: "+flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR]+" / "+maxSFCapacity+"\n\n");
 			menu();
 			var btn:int = 0;
-			for each (var amnt:int in [50, 100, 200, 500])
+			for each (var amnt:int in [50, 100, 200, 500, 1000])
 				addButton(btn++, "Charge " + amnt, AyoArmorRecharge, amnt)
 					.disableIf(player.soulforce < amnt, "Your current soulforce is too low.");
 			addButton(btn++, "Full Charge", AyoArmorRecharge, -1)

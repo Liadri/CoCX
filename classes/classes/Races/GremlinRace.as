@@ -84,6 +84,17 @@ public class GremlinRace extends Race {
 				})
 				.end();
 		
+		buildTier(15, "gremlin-kin")
+				.requirePerk(PerkLib.GOBXChemical)
+				.buffs({
+					"str.mult": -1.50,
+					"spe.mult": +2.25,
+					"int.mult": +3.60,
+					"lib.mult": +3.00,
+					"sens": +60
+				})
+				.end();
+		
 		buildTier(24, "gremlin")
 				.requirePerk(PerkLib.Soulless)
 				.buffs({
@@ -95,6 +106,18 @@ public class GremlinRace extends Race {
 				})
 				.end();
 		
+		buildTier(24, "gremlin")
+				.requirePerk(PerkLib.GOBXChemical)
+				.requirePerk(PerkLib.Soulless)
+				.buffs({
+					"str.mult": -1.50,
+					"spe.mult": +3.00,
+					"int.mult": +5.40,
+					"lib.mult": +4.50,
+					"sens": +60
+				})
+				.end();
+		
 		buildTier(36, "arch gremlin")
 				.requirePerk(PerkLib.Soulless)
 				.buffs({
@@ -103,6 +126,18 @@ public class GremlinRace extends Race {
 					"int.mult": +2.50,
 					"lib.mult": +2.00,
 					"sens": +20
+				})
+				.end();
+		
+		buildTier(36, "arch gremlin")
+				.requirePerk(PerkLib.GOBXChemical)
+				.requirePerk(PerkLib.Soulless)
+				.buffs({
+					"str.mult": -1.50,
+					"spe.mult": +4.80,
+					"int.mult": +7.50,
+					"lib.mult": +6.00,
+					"sens": +60
 				})
 				.end();
 	}

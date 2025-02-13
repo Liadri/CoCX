@@ -50,9 +50,10 @@ public class ShatterstoneSpell extends AbstractGreySpell {
 	override public function calcCooldown():int {
 		var calcC:int = 0;
 		calcC += spellGreyCooldown();
-		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 18) {
+		if (player.weaponRange == weaponsrange.RG_TOME && player.level < 24) {
 			if (player.level < 6) calcC -= 1;
 			if (player.level < 12) calcC -= 1;
+			if (player.level < 18) calcC -= 1;
 			calcC -= 1;
 			if (calcC < 0) calcC = 0;
 		}
@@ -61,6 +62,7 @@ public class ShatterstoneSpell extends AbstractGreySpell {
 	
 	public function calcDamage(monster:Monster, randomize:Boolean = true, casting:Boolean = true):Number { //casting - Increase Elemental Counter while casting (like Raging Inferno)
 		var baseDamage:Number = 2 * scalingBonusIntelligence(randomize);
+		daaamageaddons(baseDamage);
 		if (player.hasPerk(PerkLib.Convergence) && monster != null && (monster.hasPerk(PerkLib.EnemyGroupType) || monster.hasPerk(PerkLib.EnemyLargeGroupType) || monster.hasPerk(PerkLib.Enemy300Type))) {
 			if (player.hasPerk(PerkLib.SuperConvergence)) {
 				if (monster.hasPerk(PerkLib.EnemyGroupType)) baseDamage *= 3.5;
@@ -72,7 +74,6 @@ public class ShatterstoneSpell extends AbstractGreySpell {
 				else baseDamage *= 1.5;
 			}
 		}
-		if (player.weaponRangeName == "Artemis") baseDamage *= 1.5;
 		if (ex) baseDamage *= 2;
 		return adjustSpellDamage(baseDamage, DamageType.EARTH, CAT_SPELL_GREY, monster, true, casting);
 	}

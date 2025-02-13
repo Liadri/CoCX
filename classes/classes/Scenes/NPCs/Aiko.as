@@ -217,7 +217,7 @@ import classes.internals.*;
 		 * @param bugId a string to help developers find whatever triggered the bug
 		 */
 		private function reportABug(bugId:String): void {
-			outputText("This is probably a bug. Please open a issue so it can be fixed - " + bugId);
+			outputText("This is probably a bug. Please open an issue so it can be fixed - " + bugId);
 		}
 
 		private function aikoTease():void
@@ -286,7 +286,7 @@ import classes.internals.*;
 				player.takeLustDamage(lustDmg*2, true);
 			}
 			else if (x==4) {
-				outputText("Aiko devilishly looks at you, you find yourself surrounded by many Aikos! <i>\"Would you like a reverse gangbang, big boy?\"</i> all of the Aikos' seductively grab one bound breast and lower their pants, the tatoo on their pubic mounds drawing your attention to their most private parts.\n\n"
+				outputText("Aiko devilishly looks at you, you find yourself surrounded by many Aikos! <i>\"Would you like a reverse gangbang, big boy?\"</i> all of the Aikos' seductively grab one bound breast and lower their pants, the tattoo on their pubic mounds drawing your attention to their most private parts.\n\n"
 				+"In your distraction you don't notice the illusion Aiko has cast over you!  ");
 				player.takeLustDamage(lustDmg * 2, true);
 				

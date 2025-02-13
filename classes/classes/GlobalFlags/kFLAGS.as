@@ -1,4 +1,4 @@
-// The extra folder is to let the package namespacing seperate out the statics from the classes.* space.
+// The extra folder is to let the package namespacing separate out the statics from the classes.* space.
 // Global flags can now be brought into the main program by "import classes.GlobalFlags.*"
 
 package classes.GlobalFlags
@@ -395,7 +395,7 @@ public static const DOMINIKA_TIMES_MULTICOCK_SLOBBERED:int                      
 public static const DOMINIKA_TIMES_HYPNO_BJ:int                                     =  387; //
 public static const DOMINIKA_LAST_HYPNO_SUCK_COUNT:int                              =  388; //
 public static const CERAPH_ROLEPLAY_AS_DOMINIKA_COUNT:int                           =  389; //
-public static const UNKNOWN_FLAG_NUMBER_00390:int                                 	=  390; //
+public static const ZOMBIE_MUMMY_GENDER:int                                 		=  390; //
 public static const HEL_TALKED_ABOUT_HER:int                                        =  391; //
 public static const UNKNOWN_FLAG_NUMBER_00392:int                              		=  392; //
 public static const HEL_FUCKBUDDY:int                                               =  393; //
@@ -778,7 +778,7 @@ public static const BIKINI_ARMOR_BONUS:int                                      
 public static const OWN_MAIDEN_BIKINI:int                                           =  770; //
 public static const AMILY_X_IZMA_POTION_3SOME:int                                   =  771; //
 public static const MET_ESSY:int                                                    =  772; //
-public static const UNKNOWN_FLAG_NUMBER_00773:int                              		=  773; //
+public static const ARIAN_PREGNANCY_INCUBATION:int                              	=  773; //
 public static const ESSRAYLE_SEXED:int                                 				=  774; //
 public static const GIVEN_AMILY_NURSE_OUTFIT:int                                    =  775; //
 public static const TIMES_EATEN_EDRYN_PUSSY_RUT:int                                 =  776; //
@@ -1048,7 +1048,7 @@ public static const IZUMI_TIMES_GRABBED_THE_HORN:int                            
 public static const IZUMI_TIMES_LOST_FIGHT:int                                      = 1040; // Times the player has been beaten by Izumi in a fight
 public static const IZUMI_SEEN_PC_GENDER:int                                        = 1041; // Indicates if Izumi knows the PCs true gender/equipment (val in the last gender int that izumi knows the player was)
 public static const CUSTOM_FONT_SIZE:int                                            = 1042; // Defines the currently set font size for output text elements. (Hacky, need to do something better, but this works for now.)
-public static const UNKNOWN_FLAG_NUMBER_01043:int                                   = 1043;
+public static const ARIAN_PREGNANCY_TYPE:int                                   		= 1043;
 public static const TIMES_TALKED_WITH_JOJO:int                                      = 1044; // Number of times the player has talked with Pure Jojo.
 public static const TIMES_TRAINED_WITH_JOJO:int                                     = 1045; // Number of times the player has trained with Jojo
 public static const UNLOCKED_JOJO_TRAINING:int                                      = 1046;
@@ -1982,7 +1982,7 @@ public static const IN_COMBAT_PLAYER_COMPANION_0_ACTION:int                     
 public static const TRUE_DEMONS_KILLED:int                                   		= 1974;
 public static const WRATH_GIANT_SLAYER_GOBLIN_MECH:int                              = 1975;
 public static const AUTO_FLIGHT:int                                   				= 1976;
-public static const UNKNOWN_FLAG_NUMBER_01977:int                                   = 1977;
+public static const AUTO_GALLOP:int                                   				= 1977;
 public static const UNKNOWN_FLAG_NUMBER_01978:int                                   = 1978;
 public static const AKALI_FOLLOWER:int                                   			= 1979;
 public static const KAI_SA_FOLLOWER:int                                   			= 1980;
@@ -2136,7 +2136,7 @@ public static const INGNAM_RUMORS:int                                           
 public static const INGNAM_FARMER_MET:int                                           = 2128;
 public static const INGNAM_BLACKMARKET_TALKED:int                                   = 2129;
 public static const INGNAM_ALCHEMIST_TALKED:int                                     = 2130;
-public static const UNKNOWN_FLAG_NUMBER_02131:int                                   = 2131; //Not used for now.
+public static const INGNAM_ENEMIES:int                                   			= 2131;
 public static const INGNAM_EARS_FREAKOUT:int                                        = 2132; //Ears freakout
 public static const INGNAM_EARS_LAST_TYPE:int                                       = 2133;
 public static const INGNAM_TAIL_FREAKOUT:int                                        = 2134; //Tail freakout
@@ -2233,7 +2233,7 @@ public static const ERLKING_CANE_ATTACK_COUNTER:int                             
 public static const KIHA_DESTROYING_CORRUPTED_GLADES:int                            = 2225; //1 if Kiha is currently destroying corrupted glades.
 public static const AMILY_DESTROYING_CORRUPTED_GLADES:int                           = 2226; //1 if Amily is currently destroying corrupted glades.
 public static const BIMBO_LIQUEUR_STASH_COUNTER_FOR_JOJO:int                        = 2227; //How long Bimbo Liqueur has been in stash since Jojo joined.
-public static const JOJO_BIMBO_STATE:int                                            = 2228; //Here comes the choice. 1 means Jojo warned about thief. 2 means prompt to catch thief is chosen, leads to bimbofication. 3 means Jojo is bimbo.
+public static const JOJO_BIMBO_STATE:int                                            = 2228; //Here comes the choice. 1 means Jojo warned about thief. 2 means prompt to catch thief is chosen, leads to bimbofication. 3 means Jojo is bimbo, 4 means he's been turned back. 5 means he's Debimboed Joy (NYI)
 public static const JOY_COCK_SIZE:int                                               = 2229; //Jojo is bimbofied, turns into Joy.
 public static const JOY_BREAST_SIZE:int                                             = 2230; //Joy's cock size. 0 means no cock and that means you're a bastard for removing her cock.
 public static const JOY_VAGINAL_WETNESS:int                                         = 2231; //Joy's breast size.
@@ -2439,7 +2439,7 @@ public static const RANGIKU_LVL_UP:int                                   			= 24
 public static const RANGIKU_DEFEATS_COUNTER:int                                   	= 2431;	//Not Yet Used Flag
 public static const RANGIKU_02432:int                                               = 2432;	//Not Yet Used Flag
 public static const RANGIKU_02433:int                                               = 2433;	//Not Yet Used Flag
-public static const RYUBI_AFFECTION:int                              		        = 2434;	//Dragon Godess Lover (start)	//Not Yet Used Flag
+public static const RYUBI_AFFECTION:int                              		        = 2434;	//Dragon Goddess Lover (start)	//Not Yet Used Flag
 public static const RYUBI_FOLLOWER:int         			                            = 2435;									//Not Yet Used Flag
 public static const RYUBI_LVL_UP:int                    			                = 2436;									//Not Yet Used Flag
 public static const RYUBI_DEFEATS_COUNTER:int                                   	= 2437;									//Not Yet Used Flag
@@ -2447,7 +2447,7 @@ public static const RYUBI_02438:int                                             
 public static const RYUBI_02439:int                                                 = 2439;								//Not Yet Used Flag
 public static const RYUBI_02440:int                                                 = 2440;								//Not Yet Used Flag
 public static const RYUBI_02441:int                                                 = 2441;								//Not Yet Used Flag
-public static const RYUBI_02442:int                                                 = 2442; //Dragon Godess Lover (end)	//Not Yet Used Flag
+public static const RYUBI_02442:int                                                 = 2442; //Dragon Goddess Lover (end)	//Not Yet Used Flag
 public static const FOUND_TEMPLE_OF_THE_DIVINE:int                                  = 2443;
 public static const SAPPHIRE_AFFECTION:int                           		        = 2444;
 public static const SAPPHIRE_TALKS:int                       			            = 2445;
@@ -2546,7 +2546,7 @@ public static const REUSABLE_GOLEM_CORES_BAG:int                                
 public static const ELEMENTAL_CONJUER_SUMMONS:int                                   = 2538;
 public static const ATTACKING_ELEMENTAL_TYPE:int                                   	= 2539;
 public static const PINCHOU_SHOP:int                                   				= 2540;
-public static const SOUL_ARENA_FINISHED_GAUNLETS:int                                = 2541;
+public static const SOUL_ARENA_FINISHED_GAUNTLETS:int                               = 2541;
 public static const CHI_CHI_FOLLOWER:int		                                    = 2542;
 public static const CHI_CHI_AFFECTION:int		                                    = 2543;
 public static const CHI_CHI_TALKS:int			                                    = 2544;
@@ -2613,8 +2613,8 @@ public static const PLAYER_COMPANION_2:int                                   		=
 public static const IN_COMBAT_PLAYER_COMPANION_2_ACTION:int                         = 2604;//lvl 6
 public static const PLAYER_COMPANION_3:int                                   		= 2605;//lvl 24		//Not Yet Used Flag
 public static const IN_COMBAT_PLAYER_COMPANION_3_ACTION:int                         = 2606;//lvl 24		//Not Yet Used Flag
-public static const UNKNOWN_FLAG_NUMBER_02607:int                                   = 2607;//lvl 42		//Not Yet Used Flag
-public static const UNKNOWN_FLAG_NUMBER_02608:int                                   = 2608;//lvl 42		//Not Yet Used Flag
+public static const UNKNOWN_FLAG_NUMBER_02607:int                                   = 2607;//lvl 54		//Not Yet Used Flag
+public static const UNKNOWN_FLAG_NUMBER_02608:int                                   = 2608;//lvl 54		//Not Yet Used Flag
 public static const UNKNOWN_FLAG_NUMBER_02609:int                                   = 2609;//lvl 72		//Not Yet Used Flag
 public static const UNKNOWN_FLAG_NUMBER_02610:int                                   = 2610;//lvl 72		//Not Yet Used Flag
 public static const UNKNOWN_FLAG_NUMBER_02611:int                                   = 2611;//lvl 102	//Not Yet Used Flag
@@ -2674,8 +2674,8 @@ public static const IN_COMBAT_PLAYER_BLOOD_PUPPIES_ATTACKED:int                 
 public static const DISPLACER_BEAST_WINS:int                                   		= 2665;
 public static const HERM_CAVE_WYRM:int                                   			= 2666;
 public static const ATTACKS_ACCURACY_OFF:int                                   		= 2667;
-public static const DISCOVERED_ASHLANDS:int                                   		= 2668; // No longer used
-public static const DISCOVERED_TUNDRA:int                                   		= 2669; // No longer used
+public static const COMBAT_MAGICAL_CHARM:int                                   		= 2668;
+public static const IN_COMBAT_PLAYER_GOBLIN_GADGET_USED:int                         = 2669;
 public static const DISCOVERED_HILLS:int                                   			= 2670; // No longer used
 public static const DISCOVERED_LOW_MOUNTAIN:int                                   	= 2671; // No longer used
 public static const AURORA_LVL:int                                   				= 2672;
@@ -2810,7 +2810,7 @@ public static const IN_COMBAT_PLAYER_ANUBI_HEART_LEECH:int                      
 public static const E_ICHOR_PITY_SYSTEM:int                                   		= 2802;
 public static const NECROMANCER_SKELETONS:int                                   	= 2803;
 public static const IN_COMBAT_PLAYER_SKELETONS_ATTACKED:int                         = 2804;
-public static const UNKNOWN_FLAG_NUMBER_02805:int                                   = 2805;
+public static const TAMED_MONSTER_PROTECTING:int                                    = 2805;
 public static const UNKNOWN_FLAG_NUMBER_02806:int                                   = 2806;
 public static const UNKNOWN_FLAG_NUMBER_02807:int                                   = 2807;
 public static const UNKNOWN_FLAG_NUMBER_02808:int                                   = 2808;
@@ -2948,7 +2948,7 @@ public static const UNKNOWN_FLAG_NUMBER_02939:int                               
 public static const UNKNOWN_FLAG_NUMBER_02940:int                                   = 2940;
 public static const UNKNOWN_FLAG_NUMBER_02941:int                                   = 2941;
 public static const UNKNOWN_FLAG_NUMBER_02942:int                                   = 2942;
-public static const UNKNOWN_FLAG_NUMBER_02943:int                                   = 2943;
+public static const RACE_UI_SETTING:int                                   			= 2943;
 public static const HUMAN_BLOODLINE:int                                   			= 2944;
 public static const STATBAR_ANIMATIONS:int                                          = 2945; // 0: animate bar, 1: disable
 public static const BUTTON_ICONS_DISABLED:int                                       = 2946;

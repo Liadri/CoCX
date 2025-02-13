@@ -55,6 +55,7 @@ public class SandWormRace extends Race {
 				.height(AT_LEAST(11*12), +1)
 				.hornType(Horns.NONE, +1)
 				.legType(LowerBody.SANDWORM, +9)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 
 		addMutation(IMutationsLib.TrachealSystemIM);
 		addMutation(IMutationsLib.TwinHeartIM, +2);

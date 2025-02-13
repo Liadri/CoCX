@@ -7,23 +7,34 @@ package classes.Items.Armors
 	import classes.GlobalFlags.kFLAGS;
 	import classes.ItemType;
 	import classes.Items.Armor;
+	import classes.PerkLib;
 	import classes.Player;
 	import classes.EngineCore;
 
 	public class UltraHeavyAyoArmor extends Armor {
 		
 		public function UltraHeavyAyoArmor() {//150 * armor + mres
-			super("UHAyoArm","UHAyoArm","ultra heavy ayo armor","an ultra heavy ayo armor",180,30,31500,"This suit of armor is more than typical heavy armor - it have added pieces of Ayo Tech that increase by a large margin it properties as long user is capable to feed it on regular basis with soulforce.","Ultra Heavy Ayo");
+			super("UHAyoArm","UHAyoArm","ultra heavy ayo armor","an ultra heavy ayo armor",180,30,31500,"This suit of armor is more than typical heavy armor—it has added pieces of Ayo Tech that greatly increase its properties, as long user at the user regularly feeds it with soulforce.","Ultra Heavy Ayo");
 		}
 		
 		override public function get def():Number {
-			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) return 180;
-			else return 108;
+			var baseP:Number = 108;
+			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) baseP += 72;
+			if (game.player.hasPerk(PerkLib.EfficientUsageOfSoulforce)) {
+				if (game.player.touStat.core.value > 300) baseP *= 3;
+				else baseP *= (1 + (game.player.touStat.core.value * 0.01));
+			}
+			return baseP;
 		}
 		
 		override public function get mdef():Number {
-			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) return 30;
-			else return 18;
+			var baseM:Number = 18;
+			if (game.flags[kFLAGS.SOULFORCE_STORED_IN_AYO_ARMOR] > 0) baseM += 12;
+			if (game.player.hasPerk(PerkLib.EfficientUsageOfSoulforce)) {
+				if (game.player.touStat.core.value > 300) baseM *= 3;
+				else baseM *= (1 + (game.player.touStat.core.value * 0.01));
+			}
+			return baseM;
 		}
 
 		override public function afterEquip(doOutput:Boolean, slot:int):void {
@@ -50,7 +61,7 @@ package classes.Items.Armors
 		
 		override public function canEquip(doOutput:Boolean, slot:int):Boolean {
 			if (game.player.str >= 100 && game.player.spe >= 100) return super.canEquip(doOutput, slot);
-			if (doOutput) outputText("You aren't strong and/or agile enough to wear this armor!  Unless you like to move slower than a snail and hit as weak as a wet noodle?  ");
+			if (doOutput) outputText("You aren't strong and/or agile enough to wear this armor!  Unless you like moving slower than a snail and hitting as weak as a wet noodle?  ");
 			return false;
 		}
 	}

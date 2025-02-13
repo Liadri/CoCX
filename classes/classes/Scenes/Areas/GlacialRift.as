@@ -140,10 +140,11 @@ use namespace CoC;
 				kind : 'monster',
 				day : false,
 				call: function():void {
-					if (rand(2) == 0 && flags[kFLAGS.YU_SHOP] > 0) {
+					if (flags[kFLAGS.YU_SHOP] > 0) {
 						yukionnaScene.encounterYukiOnna();
 					} else {
-						outputText("You wander the frozen landscape of the Rift, frozen rocks, frosted hills and forested mountains your only landmarks. As you cross the peak of a rather large, lightly forested hill, you come face to gigantic face with a Frost Giant! He belches fiercely at you and you tumble back down the hill. He mostly steps over it as you come to your senses. You quickly draw your [weapon] and withdraw from the hill to prepare for battle.\n\n");
+						outputText("You wander the frozen landscape of the Rift, frozen rocks, frosted hills and forested mountains your only landmarks. As you cross the peak of a rather large, lightly forested hill, you come face to gigantic face with a Frost Giant! ");
+						outputText("He belches fiercely at you and you tumble back down the hill. He mostly steps over it as you come to your senses. You quickly draw your [weapon] and withdraw from the hill to prepare for battle.\n\n");
 						GlacialRiftConditions();
 						startCombat(new FrostGiant());
 					}

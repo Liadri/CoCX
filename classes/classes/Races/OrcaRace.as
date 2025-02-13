@@ -58,7 +58,8 @@ public class OrcaRace extends Race {
 				.customRequirement("","not a sea dragon",
 						function (body:BodyData):Boolean {
 							return !SeaDragonRace.isSeaDragonLike(body)
-						}, +1);
+						}, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.WhaleFatIM);
 		

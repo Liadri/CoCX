@@ -42,6 +42,7 @@ import classes.Scenes.Dungeons.Factory.OmnibusOverseer;
 import classes.Scenes.Dungeons.DemonLab.Incels;
 import classes.Scenes.Dungeons.EbonLabyrinth.Draculina;
 import classes.Stats.Buff;
+import classes.Scenes.Places.RuinedTownRebuilt;
 
 import coc.view.ButtonDataList;
 
@@ -93,6 +94,7 @@ public class TestMenu extends BaseContent
 		bd.add("Amily Re:Fit", AddJabbyShit1, "Amily Re:Fit.").disableIf(player.hasPerk(PerkLib.Soulless));
 		bd.add("X-Uni 2", MightyOrNot, "Adding status effect needed for gifts and yuri scene unlock in demon lair.");
 		bd.add("RuinedTown", SceneLib.ruinedTown.enterVillage, "Test the Mousetown");
+		bd.add("LichTest", MightyOrNot2, "Lich Testing");
 		submenu(bd, playerMenu, 0, false);
 	}
 
@@ -106,7 +108,7 @@ public class TestMenu extends BaseContent
 		bd.add("QuestItBag", AddMaxBackpack2, "Giving missing Quest Items Bag as part of Adventure Guild welcome/promotion package.");
 		bd.add("ClickItOnce", AddMaxBackpack3, "Fixing Lover Zenji missing one status effect needed for his sex scenes menu.").disableIf(!player.hasStatusEffect(StatusEffects.ZenjiZList));
 		bd.add("BeliConfFix", belisatest2, "Belisa Confession Fix").disableIf(TyrantiaFollower.isLover() && BelisaFollower.BelisaFollowerStage >= 5 && BelisaFollower.BelisaEncounternum >= 5 && BelisaFollower.BelisaAffectionMeter >= 80 && !BelisaFollower.BelisaConfessed);
-		bd.add("FixJiangshi", jiangshiBuggedItemsCleanUpCrew0, "Shit! Here we go Again! Fixing Jiangshi! (better use it only once or may be some bugs i not plan to account for in case of using this more than once - i not blocked using it more than once so belive ppl will be reasonable to not click like mad this)");
+		bd.add("FixJiangshi", jiangshiBuggedItemsCleanUpCrew0, "Shit! Here we go Again! Fixing Jiangshi! (better use it only once or may be some bugs i not plan to account for in case of using this more than once - i not blocked using it more than once so believe ppl will be reasonable to not click like mad this)");
 		bd.add("ClickItTwice", golemArmy, "Golem Army and Ascension: Additional Organ Mutation/Prestige perks correction pre global save upgrade on new public build.");
 		bd.add("FixClones", fixClones, "If you have messed up clones or negative levels or related outdated data this will clear it all away.");
 		submenu(bd, SoulforceCheats, 0, false);
@@ -126,8 +128,37 @@ public class TestMenu extends BaseContent
 		bd.add("BelisaTest", belisatest3, "Belisa Trigger").disableIf(BelisaFollower.BelisaInGame && BelisaFollower.BelisaFollowerStage < 3);
 		bd.add("Test dynamic stat", TestDynamicStats, "Test Dynamic stats.");
 		bd.add("Neko Items", giveNekoItems, "All new neko items from Nekobake Inn doc");
-		bd.add("DantianPhylactery", dantianPhylacteryTest, "Getting or loosing Dantian Phylactery.");
+		bd.add("DantianPhylactery", dantianPhylacteryTest, "Getting or losing Dantian Phylactery.");
 		submenu(bd, SoulforceCheats, 0, false);
+	}
+	
+	public function MightyOrNot2():void {
+		player.skinColor = randomChoice("ghostly pale", "light blue", "snow white", "ghostly white");
+		CoC.instance.transformations.SkinPlain.applyEffect(false);
+		CoC.instance.transformations.SkinPatternNone.applyEffect(false);
+		player.skinAdj = "flawless";
+		CoC.instance.transformations.FaceDemon.applyEffect(false);
+		player.eyes.type = Eyes.LICH;
+		CoC.instance.transformations.EyesChangeColor(["light blue"]).applyEffect(false);
+		CoC.instance.transformations.EarsHuman.applyEffect(false);
+		CoC.instance.transformations.HairHuman.applyEffect(false);
+		player.hairColor = randomChoice("silver white", "silver", "snow white", "ghostly white");
+		CoC.instance.transformations.TongueDemonic.applyEffect(false);
+		CoC.instance.transformations.HornsNone.applyEffect(false);
+		CoC.instance.transformations.AntennaeNone.applyEffect(false);
+		player.arms.type = Arms.LICH;
+		player.lowerBody = LowerBody.LICH;
+		CoC.instance.transformations.WingsLevitation.applyEffect(false);
+		player.createPerk(PerkLib.Phylactery, 0, 0, 0, 0);
+		player.createPerk(PerkLib.UndeadLord, 1, 0, 0, 0);
+		player.createPerk(PerkLib.Undeath, 1, 0, 0, 0);
+		player.createPerk(PerkLib.DeathlyPower, 0, 0, 0, 0);
+		player.createPerk(PerkLib.Immortality, 0, 0, 0, 0);
+		player.createPerk(PerkLib.TransformationImmunity2, 10, 0, 0, 0);
+		if (player.cor < 100) player.cor = 100;
+		player.updateRacialAndPerkBuffs();
+		CoC.instance.mainViewManager.updateCharviewIfNeeded();
+		doNext(SoulforceCheats);
 	}
 	
 	public function MightyOrNot():void {
@@ -140,6 +171,7 @@ public class TestMenu extends BaseContent
 		flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] = 0;
 		flags[kFLAGS.AMILY_FOLLOWER] = 1;
 		flags[kFLAGS.AMILY_WARNING] = 0;
+		RuinedTownRebuilt.RebuildState = 0;
 		flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] = 1;
 		doNext(SoulforceCheats);
 	}
@@ -229,6 +261,11 @@ public class TestMenu extends BaseContent
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll3)) player.removeStatusEffect(StatusEffects.AlterBindScroll3);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll4)) player.removeStatusEffect(StatusEffects.AlterBindScroll4);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll5)) player.removeStatusEffect(StatusEffects.AlterBindScroll5);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll6)) player.removeStatusEffect(StatusEffects.AlterBindScroll6);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll7)) player.removeStatusEffect(StatusEffects.AlterBindScroll7);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll8)) player.removeStatusEffect(StatusEffects.AlterBindScroll8);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll9)) player.removeStatusEffect(StatusEffects.AlterBindScroll9);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll10)) player.removeStatusEffect(StatusEffects.AlterBindScroll10);
 		}
 		doNext(SoulforceCheats);
 	}
@@ -1209,9 +1246,9 @@ public class TestMenu extends BaseContent
 	}
 	public function StatsAscensionMenu2():void {
 		menu();
-		addButton(0, "EarlyAscension", EarlyAscension).hint("Allowing to premature ascension.");
-		addButton(1, "NG tier ++", IncreaseAscensionCounter).hint("Allowing to increase ascension counter.");
-		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] > 0) addButton(2, "NG tier --", DecreaseAscensionCounter).hint("Allowing to decrease ascension counter.");
+		addButton(0, "EarlyAscension", EarlyAscension).hint("Allowing premature ascension.");
+		addButton(1, "NG tier ++", IncreaseAscensionCounter).hint("Allowing you to increase ascension counter.");
+		if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] > 0) addButton(2, "NG tier --", DecreaseAscensionCounter).hint("Allowing you to decrease ascension counter.");
 		addButton(5, "AscenPerks01", AddAscenionPerkPoints, 1).hint("Add 1 ascension perk point for use during ascending to the next NG+ tier.");
 		addButton(6, "AscenPerks05", AddAscenionPerkPoints, 5).hint("Add 5 ascension perk points for use during ascending to the next NG+ tier.");
 		addButton(7, "AscenPerks10", AddAscenionPerkPoints, 10).hint("Add 10 ascension perk points for use during ascending to the next NG+ tier.");
@@ -1732,7 +1769,7 @@ public class TestMenu extends BaseContent
 			//5
 			//6
 			addButton(7, "BerserkerSet", AddTheBBS).hint("Add set of items for Berserker set.");//7
-			addButton(8, "CheckWeapon", TestWeaponType).hint("Detect Weapon Type Equiped for sprite and battle testing.");
+			addButton(8, "CheckWeapon", TestWeaponType).hint("Detect Weapon Type Equipped for sprite and battle testing.");
 			addButton(9, "Ascensus", AddTheStaffs).hint("Add set of items for Ascensus.");
 			addButton(10, "YODrops", AddYukiOnnaStuff).hint("Add both Yuki Onna equipment drops for testing purposes.");
 			addButton(11, "SpikeShields", AddSpikedShields).hint("Add set of two spiked shields of various sizes and weight for testing purposes.");
@@ -2286,7 +2323,7 @@ public class TestMenu extends BaseContent
 	}
 	public function EarlyAscension():void {
 		if (flags[kFLAGS.LETHICE_DEFEATED] == 1) {
-			outputText("\n\n<b>You already used this cheat code!</b>");
+			outputText("\n\n<b>You've already used this cheat code!</b>");
 		}
 		else {
 			flags[kFLAGS.LETHICE_DEFEATED] = 1;

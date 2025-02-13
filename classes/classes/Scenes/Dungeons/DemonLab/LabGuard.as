@@ -24,7 +24,7 @@ public class LabGuard extends Monster {
         this.a = "the ";
         this.short = "Demon Guards";
         this.imageName = "demonmob";
-        this.long = "This horde of demons are heavily armed with a mixture of shields, spears, swords and whips. There’s a line of heavily armoured warriors in front, but behind them, a line of scrawny incubuses wielding odd firearms stand. Behind them, a line of succubi crouches, but you can feel the lust magic from here. Unlike your typical mob of demons, this bunch are fairly normal in proportion, with no ludicrously oversized body parts. Horns, demonic heels and various animalistic body parts are on display, but the look in these demons' eyes tell you that they're not here for pleasure...Right now.";
+        this.long = "This horde of demons are heavily armed with a mixture of shields, spears, swords and whips. There’s a line of heavily armored warriors in front, but behind them, a line of scrawny incubuses wielding odd firearms stand. Behind them, a line of succubi crouches, but you can feel the lust magic from here. Unlike your typical mob of demons, this bunch are fairly normal in proportion, with no ludicrously oversized body parts. Horns, demonic heels and various animalistic body parts are on display, but the look in these demons' eyes tell you that they're not here for pleasure...Right now.";
         this.plural = true;
         this.pronoun1 = "they";
         this.pronoun2 = "them";
@@ -89,7 +89,7 @@ public class LabGuard extends Monster {
 
     private function CorShields():void {
         if (DemonLab.TyrantFollower) {
-            outputText("The shieldwall demons brace themselves for impact, but your Drider lover whoops, her massive, armoured frame slamming into the wall, sending demon soldiers scattering every which way.\n\n");
+            outputText("The shieldwall demons brace themselves for impact, but your Drider lover whoops, her massive, armored frame slamming into the wall, sending demon soldiers scattering every which way.\n\n");
         } else {
             outputText("You see the demons in front crouching, planting their shields and readying counterattacks. Melee combat seems to be unadvised, unless you want to end up a pincushion!\n\n");
             shieldWall = true;
@@ -100,7 +100,7 @@ public class LabGuard extends Monster {
         if (DemonLab.KihaFollower) {
             outputText("As the ranged weapons begin to poke out from behind the demonic horde, your dragoness lover takes to the air, unleashing a massive blast of flame. Screams and explosions erupt from the demonic lines, and many of those that weren’t hit are either blinded, or shoot instinctively at your dragoness. Kiha swerves in midair, taking no visible hits as she flies back towards more friendly airspace.\n\n");
         } else {
-            outputText("The rangers in the middle of the demon’s formation cackle loudly, and you realise, as the warriors in front crouch, that there are a lot of guns aimed at you. ");
+            outputText("The rangers in the middle of the demon’s formation cackle loudly, and you realize, as the warriors in front crouch, that there are a lot of guns aimed at you. ");
             if (player.shield.isNothing) {
                 outputText("The hail of bullets is too much to dodge entirely! You duck and weave, but some find their mark.");
                 player.takePhysDamage(int(spe * 25) - rand(player.touStat.core.value) - player.armorDef);
@@ -157,7 +157,7 @@ public class LabGuard extends Monster {
         //Lab Guard tanking
         if (shieldWall && !hasStatusEffect(StatusEffects.Stunned)) {
             eOneAttack(true);
-            if (player.HP <= player.minHP()) {
+            if (Math.round(player.HP) <= Math.round(player.minHP())) {
                 doNext(SceneLib.combat.endHpLoss);
                 return damage;
             }

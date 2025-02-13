@@ -43,7 +43,7 @@ import classes.lists.Gender;
 			return temp;
 		}
 
-		private function initializeJoy():void {
+		public function initializeJoy():void {
 			if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) player.removeStatusEffect(StatusEffects.JojoNightWatch);
 			flags[kFLAGS.JOY_COCK_SIZE] = 0;
 			flags[kFLAGS.JOY_BREAST_SIZE] = BreastCup.DD;
@@ -290,7 +290,7 @@ import classes.lists.Gender;
 			return text;
 		}
 
-		private function joySitLoc():String {
+		public function joySitLoc():String {
 			if (player.isBiped()) return "lap";
 			else if (player.isTaur()) return "back";
 			else if (player.isDrider()) return "abdomen";
@@ -307,7 +307,7 @@ import classes.lists.Gender;
 			return flags[kFLAGS.JOJO_LITTERS] + flags[kFLAGS.JOY_TWINS_BIRTHED];
 		}
 
-		private function incrementJoysCockFondness(amount:int):void {
+		public function incrementJoysCockFondness(amount:int):void {
 			flags[kFLAGS.JOY_COCK_FONDNESS] += amount;
 			if (flags[kFLAGS.JOY_COCK_FONDNESS] > 10) flags[kFLAGS.JOY_COCK_FONDNESS] = 10;
 		}
@@ -332,7 +332,7 @@ import classes.lists.Gender;
 		}
 
 		//Attempt to catch thief, set flag to 2, route to bimbofication the next day.
-		private function letsCatchThief():void {
+		public function letsCatchThief():void {
 			clearOutput();
 			outputText("That sounds like a good plan to be honest, so you tell Jojo that you’re leaving the matter in his hands, though you advise him to be careful.");
 			outputText("\"<i>I will be careful, don't worry, my friend. I assure you that everything will be fine.</i>\" Jojo insists. With that, he takes the bottle and leaves, clearly getting ready to lay a trap for the mysterious would-be thief.");
@@ -343,7 +343,7 @@ import classes.lists.Gender;
 		}
 
 		//Stay and guard stash, set flag to 1.
-		private function letsGuardStash():void {
+		public function letsGuardStash():void {
 			clearOutput();
 			outputText("You tell Jojo you’d rather have him just keep a close eye on your stash, it sounds less risky than having him catch the thief.");
 			outputText("\n\n\"<i>I’m not afraid of danger; don’t forget that the forest where we met is full of monsters, especially imps and tentacle beasts.  I can defend myself.</i>\" Jojo points out, sounding a little annoyed at being dismissed like this.");
@@ -379,7 +379,7 @@ import classes.lists.Gender;
         //unused
         /*
 		//Bimbofy Me! (The DIY version)
-		private function jojoGetsBimbofiedByYou():void {
+		public function jojoGetsBimbofiedByYou():void {
 			jojoScene.jojoSprite();
 			clearOutput();
 			outputText("You ask Jojo how he would feel about beating the thief to the prize.");
@@ -395,7 +395,7 @@ import classes.lists.Gender;
 			outputText("\n\nYou raise your mug and say, \"<i>Cheers!</i>\"  Then clatters your mug against Jojo’s and takes the mug to your lips, pretending to be taking a sip.");
 			outputText("\n\nJojo thirstily tips the mug back, chugging it down in several long swallows, licking his lips when he’s done.  \"<i>What an odd flavor; but it’s nice!</i>\" He proclaims enthusiastically.");
 			outputText("\n\nWell, no need to hold back.  You pour him another mugful.");
-			outputText("\n\nJojo downs this with all the same enthusiasm as the first, letting out a very unmonkly belch after he’s done.  \"<i>Oh, excuse me!</i>\" He apologises, gently placing his fingers over his lips before giggling with embarrassment.  He sounds a lot more feminine than usual... ");
+			outputText("\n\nJojo downs this with all the same enthusiasm as the first, letting out a very unmonkly belch after he’s done.  \"<i>Oh, excuse me!</i>\" He apologizes, gently placing his fingers over his lips before giggling with embarrassment.  He sounds a lot more feminine than usual... ");
 			outputText("\n\nWell, if he likes it so much... he can have your mug too.");
 			outputText("\n\nJojo seems to barely restrain himself from snatching it from your hands, eagerly guzzling it down.  \"<i>More, please!  This is yummy!</i>\" He begs you.");
 			outputText("\n\nYou keep pouring Jojo mugful after mugful of liqueur, until the bottle is emptied.");
@@ -410,7 +410,7 @@ import classes.lists.Gender;
         */
 
 		//Jojo gets bimbofied! Joy Emerges.
-		private function joyEmerges():void {
+		public function joyEmerges():void {
 			spriteSelect(SpriteDb.s_joy);
 			clearOutput();
 			outputText("Jojo doubles over and groans; you watch helpless as his fur changes from white to platinum blonde. He sprawls on the floor and you can see his lips getting fuller, his eyelashes longer and his chest begins expanding; a tearing sound rips through the air, as Jojo's new pillowy boobs rip his robes apart, perky nipples erect.");
@@ -426,7 +426,7 @@ import classes.lists.Gender;
 			outputText("\n\nYou roll your eyes and ask... Joy... if she's feeling fine or if there's anything you can do to help her?");
 			outputText("\n\nJoy giggles. \"<i>I feel, like, super-duper, cutie/sweetie! Right now, I just wanna go and get to know the new me... figure out what I can do with these new bits of mine.</i>\" She jiggles her breasts again. \"<i>Wow, lookit 'em bounce!</i>\" She turns and starts walking over to the stream, blissfully naked except for her bead necklace around her neck. \"<i>But, after I've had some, like, me time, well, then maybe you and the new me can get acquainted, huh, sexy?</i>\" She purrs, shaking her lusciously rounded rump at you, then sashaying off, tail waving luxuriantly from side to side.");
 			if (player.cor <= 33) outputText("\n\nYou roll your eyes, oh gods... what should you do now... you rub your temples and figure you should at least fetch some new clothes for her...");
-			else if (player.cor <= 66) outputText("\n\nYou wonder if you should go after her or not... well for the meantime you'd best fetch her some new clothes...");
+			else if (player.cor <= 66) outputText("\n\nYou wonder if you should go after her or not... well, for the meantime you'd best fetch her some new clothes...");
 			else outputText("\n\nYou're liking this new Jojo... you make a mental note to get acquainted to the new Jojo as soon as possible... for now though, you'd best fetch her some new clothes...");
 			if (silly()) outputText("\n\n<b>(Congratulations! Your Jojo has evolved into Joy. Bust size increased, Lust increased, Intelligence decreased. Joy is trying to learn how to use Sex, but Joy can't learn more than 4 moves. Should Joy forget an old move and learn Sex? Yes! 1...2...3... Poof! Joy forgot Chastity and learned Sex.)</b>");
 			else outputText("\n\n<b>(Jojo is now Joy.)</b>");
@@ -438,7 +438,7 @@ import classes.lists.Gender;
 		//------------
 		// FOLLOWER
 		//------------
-		private function genericMenu(approach:Boolean = false):void {
+		public function genericMenu(approach:Boolean = false):void {
 			if (!approach) {
 				clearOutput();
 				outputText("\"<i>Do you need, like, anything else?</i>\" Joy asks. Her tail waggles excitedly.");
@@ -486,7 +486,7 @@ import classes.lists.Gender;
 			genericMenu(true);
 		}
 
-		private function joysAppearance():void {
+		public function joysAppearance():void {
 			clearOutput();
 			outputText(images.showImage("joy-appearance"));
 			outputText("Joy, formerly known as Jojo, stands before you. Her face is curvy and feminine, with puffy lips and long eyelashes. Her eyes are blue and regard you with desire and happiness. She's currently posing and suckling on the tip of her ropy tail as you gaze at her.");
@@ -501,7 +501,7 @@ import classes.lists.Gender;
 		//------------
 		// TALK
 		//------------
-		private function joyTalkMenu():void {
+		public function joyTalkMenu():void {
 			clearOutput();
 			outputText("You tell Joy you'd like to talk to her for a moment.");
 			outputText("\n\nThe bimbo mouse gives you a brainlessly happy grin. \"<i>Like, sure, [name]! So, what do you, like, wanna talk about?</i>\" She asks.");
@@ -513,7 +513,7 @@ import classes.lists.Gender;
 			addButton(14, "Back", genericMenu);
 		}
 
-		private function askJoyAboutYourself():void {
+		public function askJoyAboutYourself():void {
 			clearOutput();
 			outputText("You decide to ask Joy what she thinks about you.");
 			outputText("\n\nJoy blinks and looks at you puzzled. \"<i>What do I, like, think of you? Okay...</i>\" She narrows her eyes, studying you intensely.\n\n");
@@ -523,7 +523,7 @@ import classes.lists.Gender;
 					outputText("\"<i>Well, you're a human. I haven't seen one of your kind in, like, many, many years. I think the demons got 'em all, or at least they got most of 'em. They try to round up every human who comes through, like, the portals, too. Still, I think there's some of you still hidden around.</i>\"");
 					break;
 				case Races.DOG:
-					outputText("\"<i>Well, you're a doggy - woof woof! There used to be a lot of doggys in a city called Tel'Adre somewhere... I dunno what happened to 'em all,</i>\"");
+					outputText("\"<i>Well, you're a doggy - woof woof! There used to be a lot of doggies in a city called Tel'Adre somewhere... I dunno what happened to 'em all,</i>\"");
 					break;
 				case Races.CENTAUR:
 					outputText("\"<i>Well, you're a centaur. You look kinda like somebody stuck a human on a horse. How'd that happen, anyway?</i>\"");
@@ -652,7 +652,7 @@ import classes.lists.Gender;
 			doNext(playerMenu);
 		}
 
-		private function askJoyAboutOldLife():void {
+		public function askJoyAboutOldLife():void {
 			clearOutput();
 			outputText("Thinking back to your previous talk with Joy, you decide to ask her if she misses her old self at all.");
 			outputText("\n\nJoy cocks her head to the side in puzzlement. \"<i>Like, why would I miss my old self? I like being Joy. What did I have as Jojo that I don't have now? Plus, I got stuff that Jojo didn't.</i>\"");
@@ -687,7 +687,7 @@ import classes.lists.Gender;
 			doNext(playerMenu);
 		}
 
-		private function askJoyAboutDemons():void {
+		public function askJoyAboutDemons():void {
 			clearOutput();
 			outputText("You ask Joy if she has any tips for fighting the demons?");
 			outputText("\n\n\"<i>Um... lemme think...</i>\" The former monk furrows her brow in thought and paces back and forth. \"<i>Well... demons like to go for lust attacks over physical attacks; they, like, would rather you have all your strength so you'll, like, last longer when they fuck you. They're typically either very good at resisting lust or very bad at it... I'd, like, try to always attack 'em physically instead, because they, like, rarely train too hard at doing that.</i>\" She concludes.");
@@ -698,7 +698,7 @@ import classes.lists.Gender;
 			doNext(playerMenu);
 		}
 
-		private function askJoyAboutBabies():void {
+		public function askJoyAboutBabies():void {
 			clearOutput();
 			outputText("You smile and ask Joy how does she feel about being a parent?");
 			outputText("\n\nThe mouse purses her lips thoughtfully, then smiles. \"<i>It, like, feels wonderful; I had always kinda wanted to have kids.");
@@ -719,27 +719,27 @@ import classes.lists.Gender;
 		//------------
 		// MEDITATION
 		//------------
-		private function joyMeditationHighCorruptionLetsGo():void {
+		public function joyMeditationHighCorruptionLetsGo():void {
 			clearOutput();
 			outputText("\"<i>Great! Sit down!</i>\" she instructs, happily.\n\n");
 			joyMeditationFull(false);
 		}
 
-		private function joyMeditationHighCorruptionNoThanks():void {
+		public function joyMeditationHighCorruptionNoThanks():void {
 			clearOutput();
 			outputText("You tell Joy you don't feel like meditating right now...");
 			outputText("\n\n\"<i>Ok, but don't let that icky stuff, like, control you or anything.</i>\" she says, then bites her lip and asks, \"<i>so... wanna touch my boobies? They're all soft and bouncy! And then you can rub my fun hole!</i>\" she giggles.");
 			doNext(genericMenu);
 		}
 
-		private function meditateWithJoy():void {
+		public function meditateWithJoy():void {
 			clearOutput();
 			outputText("You ask Joy if she'd be willing to help you meditate.");
 			outputText("\n\nShe grins and nods enthusiastically, then motions for you to sit down.");
 			joyMeditationFull(false);
 		}
 
-		private function joyMeditationFull(clearText:Boolean = true):void {
+		public function joyMeditationFull(clearText:Boolean = true):void {
 			if (clearText) clearOutput();
 			outputText("Once you've sat down Joy surprises you by sitting on your lap, the sudden movement startles you a bit, but it doesn't feel bad... specially since Joy's bottom is so... comfy...");
 			outputText("\n\nShe closes her eyes and instructs you to do the same, and clear your mind of all impure thoughts.");
@@ -846,7 +846,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function failedMeditateLetsFuck():void {
+		public function failedMeditateLetsFuck():void {
 			clearOutput();
 			outputText("You tell her you'll 'help' her out.");
 			outputText("\n\n\"<i>Alright! Like, let's fuck!</i>\" She cheers, springing up - and hauling you painfully upright in the process because her tail is still looped around your neck, pulling you over onto your front. \"<i>Like, [name], this is no time to be lying down; we got sex to have.</i>\" She scolds when she turns to see what's happened to you.");
@@ -855,7 +855,7 @@ import classes.lists.Gender;
 			removeButton(14);
 		}
 
-		private function failedMeditateNoThanks():void {
+		public function failedMeditateNoThanks():void {
 			clearOutput();
 			outputText("You decide you're not really in the mood right now and grab a hold of her rump; getting both of you up and pushing her away slightly you tell her you're not in the mood right now.");
 			outputText("\n\n\"<i>Awww... Like, that's not fair, [name]. I'm sooo horny...</i>\" She pouts, turning on her most sadly adorable look in an effort to break through your resistance. \"<i>Can't we, y'know, have just a quickie? Please...?</i>\" She begs in a childish manner, hands clasped in prayer before her.");
@@ -867,7 +867,7 @@ import classes.lists.Gender;
 		//------------
 		// TRAINING
 		//------------
-		private function trainWithJoy():void {
+		public function trainWithJoy():void {
 			clearOutput();
 			outputText("You ask Joy if she'd be willing to help you train; you could use the workout.");
 			if (player.lust >= 70) { //Too horny!
@@ -888,11 +888,11 @@ import classes.lists.Gender;
 			addButton(4, "Never mind", genericMenu);
 		}
 
-		private function trainStrength():void {
+		public function trainStrength():void {
 			clearOutput();
 			outputText("You tell Joy that training your strength sounds good, and ask her how does she intend to help you with that?");
 			outputText("\n\n\"<i>Like, lemme think a moment...</i>\" She tells you, tapping her lip thoughtfully. Then she grins. \"<i>Okay; the best way to train your muscles is, like, to lift stuff? So, try lifting me.</i>\" She declares proudly.");
-			outputText("\n\nAt first you think she's joking but a second look at her makes it clear that she's serious... well it might be worth a try right? You walk towards her and loops one arm behind her back, the other one hooking behind her legs, and then you sweep her off her feet and lift her onto your arms. Joy is not that heavy to begin with, but you can see how it might be strenuous to lift her about.");
+			outputText("\n\nAt first you think she's joking but a second look at her makes it clear that she's serious... well, it might be worth a try right? You walk towards her and loops one arm behind her back, the other one hooking behind her legs, and then you sweep her off her feet and lift her onto your arms. Joy is not that heavy to begin with, but you can see how it might be strenuous to lift her about.");
 			outputText("\n\n\"<i>Eep! Be gentle, [name]!</i>\" She insists, squirming instinctively in your grip.");
 			outputText("\n\nYou smirk at her, telling her this is her idea, so you hope she won't regret this.");
 			outputText("\n\n\"<i>Like, don't worry about me. You just took me by surprise.</i>\" The bimbo mouse says, repositioning herself to be more comfortable in yours. \"<i>Okey-dokey, lift away!</i>\" She commands.");
@@ -943,7 +943,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function trainToughness():void {
+		public function trainToughness():void {
 			clearOutput();
 			outputText("You think on it, and suggest that you would like to try and get tougher.");
 			outputText("\n\n\"<i>Okay! Now, like, what is a good way of doing that...</i>\" Joy thinks, rubbing her chin. Then finally perks up as an idea hits her. \"<i>I know it! Like, sex takes a lot of energy. So let's, like, have a lot of sex!</i>\" she suggests, proud to have to come to this conclusion.");
@@ -1006,7 +1006,7 @@ import classes.lists.Gender;
 				outputText("\n\n\"<i>Oh, [name]. I do want to, like, have fun with you. But, like, I also have to give you a reason to train again. Like, I had so much fun groping and rubbing you all over,</i>\" she confesses with a sheepish grin.");
 				outputText("\n\nYou can't help but pout and call her a tease, then playfully flick her on the nose.");
 				outputText("\n\nJoy giggles and says, \"<i>Like, come train with me again [name].</i>\" Then she gives you a little peck on the cheek and skips away.");
-				outputText("\n\nWatching her go, you redress yourself and then head your seperate ways.");
+				outputText("\n\nWatching her go, you redress yourself and then head your separate ways.");
 			}
 			//Increase toughness
 			player.trainStat("tou", +1, player.trainStatCap("tou",50));
@@ -1015,7 +1015,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function trainSpeed():void {
+		public function trainSpeed():void {
 			clearOutput();
 			outputText("You tell Joy that you really want to try and hone your speed.");
 			outputText("\n\n\"<i>Okay, just let me think...</i>\" Joy says, rubbing her chin in deep thought. Then suddenly she perks up as an idea hits her. \"<i>Wait here, [name]. I'll be back in, like, a second!</i>\" she says dashing off.");
@@ -1027,8 +1027,8 @@ import classes.lists.Gender;
 			if (player.spe <= 33) {
 				outputText("\n\nYou try your hardest, but as the surprisingly graceful mouse swings you and dips you and takes you through steps you've only heard of in stories back in Ingnam, it's no surprise that you end up accidentally dropping the entire cup onto the ground underfoot.");
 				outputText("\n\nJoy stops to gaze at the cup on the floor. \"<i>Awww... you, like, dropped the whole cup?</i>\" she asks with a pout.");
-				outputText("\n\nYou apologise, but point out you were expecting to run with her, not dance with her.");
-				outputText("\n\n\"<i>You're, like, supposed to be ready for anything... well we can always try again right?</i>\" she says with a smile.");
+				outputText("\n\nYou apologize, but point out you were expecting to run with her, not dance with her.");
+				outputText("\n\n\"<i>You're, like, supposed to be ready for anything... well, we can always try again right?</i>\" she says with a smile.");
 				outputText("\n\nYou tell her that's true, and promise her you'll try and be better prepared the next time.");
 				outputText("\n\nShe giggles and gives you a little peck on the cheek for encouragement.");
 			}
@@ -1062,14 +1062,14 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function screwTrainingLetsFuck():void {
+		public function screwTrainingLetsFuck():void {
 			clearOutput();
 			outputText("You ARE feeling pretty horny right now... you smile at Joy and tell her having fun sounds good.");
 			outputText("\n\nThe mouse grins at you. \"<i>Well, like, what do you wanna do?</i>\" She coos, shaking her ass impatiently.");
 			joySexMenu();
 		}
 
-		private function screwTrainingButNoThanks():void {
+		public function screwTrainingButNoThanks():void {
 			clearOutput();
 			outputText("You tell Joy that despite being quite horny, you really don't want to have sex at the moment.");
 			outputText("\n\n\"<i>Like, aww, why not?</i>\" The bimbo mouse pouts. \"<i>Oh, well, it's, like, your choice.</i>\" She sniffs, turning her back on you disdainfully.");
@@ -1079,7 +1079,7 @@ import classes.lists.Gender;
 		//------------
 		// GIVE ITEMS
 		//------------
-		private function giveItemsToJoy():void {
+		public function giveItemsToJoy():void {
 			var hasValidItems:Boolean = false;
 			var buttonPos:int = 0;
 			clearOutput();
@@ -1169,7 +1169,7 @@ import classes.lists.Gender;
 			}
 		}
 
-        private function giveJoyADebimbo():void {
+        public function giveJoyADebimbo():void {
             clearOutput();
 			player.consumeItem(consumables.DEBIMBO, 1);
             outputText("\"<i>That <b>should</b> do.</i>\" You hide the Ralthazul’s elixir behind your back.");
@@ -1188,7 +1188,7 @@ import classes.lists.Gender;
         }
 
 		//Scholar's Tea
-		private function giveJoyAScholarsTea():void {
+		public function giveJoyAScholarsTea():void {
 			clearOutput();
 			player.consumeItem(consumables.SMART_T, 1);
 			outputText("You hold up the small pouch of aromatic herbs and dried leaves and ask if Joy would like to have some tea. The bimbo mouse smiles and nods eagerly, and the two of you soon have a small fire blazing to heat up the water in which the tea is steeped. Joy takes the cup you offer her with surprising grace, closing her eyes and inhaling deeply through her nose. \"<i>That smells, like, so good...</i>\" She murmurs, then she slurps it down with obvious enjoyment. You watch as she drinks every last drop, but other than a curiously furrowed brow, nothing seems to happen. \"<i>My head feels all tingly.</i>\" She notes.");
@@ -1199,7 +1199,7 @@ import classes.lists.Gender;
 		}
 
 		//Incubi Draft
-		private function giveJoyAnIncubiDraft(purified:Boolean = false):void {
+		public function giveJoyAnIncubiDraft(purified:Boolean = false):void {
 			clearOutput();
 			outputText("You hand Joy " + (purified ? "a purified Incubus Draft" : "an Incubus Draft") + " and tell her you'd like her to drink it.");
 			if (!purified) { //She won't accept tainted ones.
@@ -1216,7 +1216,7 @@ import classes.lists.Gender;
 				doYesNo(giveJoyAnIncubiDraftForReal, dontGiveJoyAnIncubiDraft);
 			}
 		}
-		private function giveJoyAnIncubiDraftForReal():void {
+		public function giveJoyAnIncubiDraftForReal():void {
 			clearOutput();
 			player.consumeItem(consumables.P_DRAFT, 1);
 			if (joyHasCock()) { //Joy already has cock.
@@ -1235,14 +1235,14 @@ import classes.lists.Gender;
 			}
 			doNext(genericMenu);
 		}
-		private function dontGiveJoyAnIncubiDraft():void {
+		public function dontGiveJoyAnIncubiDraft():void {
 			clearOutput();
 			outputText("You tell her you changed your mind and get your vial back. Joy gives you a disappointed \"<i>Dawww...</i>\"");
 			doNext(genericMenu);
 		}
 
 		//Succubi Milk
-		private function giveJoyASuccubiMilk(purified:Boolean = false):void {
+		public function giveJoyASuccubiMilk(purified:Boolean = false):void {
 			clearOutput();
 			outputText("You hand Joy a " + (purified ? "purified Succubi's Milk" : "Succubi's Milk") + " and tell her you'd like her to drink it.");
 			if (!purified) { //She won't accept tainted ones.
@@ -1254,7 +1254,7 @@ import classes.lists.Gender;
 				doYesNo(giveJoyASuccubiMilkForReal, dontGiveJoyASuccubiMilk);
 			}
 		}
-		private function giveJoyASuccubiMilkForReal():void {
+		public function giveJoyASuccubiMilkForReal():void {
 			clearOutput();
 			player.consumeItem(consumables.P_S_MLK, 1);
 			outputText("Joy chugs the potion down, then moans as a wet spot begins forming on her shorts. She barely manages to remove it before a huge flood of girlcum escapes her drooling vagina; she squeaks and moans as more and more juices escape her clenching snatch. ");
@@ -1276,21 +1276,21 @@ import classes.lists.Gender;
 			}
 			doNext(genericMenu);
 		}
-		private function dontGiveJoyASuccubiMilk():void {
+		public function dontGiveJoyASuccubiMilk():void {
 			clearOutput();
 			outputText("You tell her you changed your mind and get your vial back. Joy gives you a disappointed \"<i>Dawww...</i>\"");
 			doNext(genericMenu);
 		}
 
 		//Pink Egg
-		private function giveJoyAPinkEgg(large:Boolean = false):void {
+		public function giveJoyAPinkEgg(large:Boolean = false):void {
 			clearOutput();
 			outputText("You hand Joy a " + (large ? "large pink egg" : "pink egg") + " and tell her you want her to eat it.");
 			outputText("The bimbo mouse-herm looks at it and sniffs it. \"<i>Like, I dunno, [name]... I've got this odd feeling that it'll, like, remove my boy parts. I kinda like having them too, y'know; it means there's more fun we can do. Are you, y'know, sure you want me to eat this?</i>\"");
 			menu();
 			doYesNo(createCallBackFunction(giveJoyAPinkEggForRealYouMonster, large), dontGiveJoyAPinkEggThanksGoodness);
 		}
-		private function giveJoyAPinkEggForRealYouMonster(large:Boolean = false):void {
+		public function giveJoyAPinkEggForRealYouMonster(large:Boolean = false):void {
 			clearOutput();
 			if (large) player.consumeItem(consumables.L_PNKEG, 1);
 			else player.consumeItem(consumables.PINKEGG, 1);
@@ -1300,14 +1300,14 @@ import classes.lists.Gender;
 			incrementJoysCockFondness(1);
 			doNext(genericMenu);
 		}
-		private function dontGiveJoyAPinkEggThanksGoodness():void {
+		public function dontGiveJoyAPinkEggThanksGoodness():void {
 			clearOutput();
 			outputText("You decide you'd rather she didn't and tell her so. The bimbo mouse happily gives you the egg back.");
 			doNext(genericMenu);
 		}
 
 		//Blue Egg
-		private function giveJoyABlueEgg(large:Boolean = false):void {
+		public function giveJoyABlueEgg(large:Boolean = false):void {
 			clearOutput();
 			if (large) player.consumeItem(consumables.L_BLUEG, 1);
 			else player.consumeItem(consumables.BLUEEGG, 1);
@@ -1319,7 +1319,7 @@ import classes.lists.Gender;
 		}
 
 		//Lactaid
-		private function giveJoyALactaidYummyMilkTime():void {
+		public function giveJoyALactaidYummyMilkTime():void {
 			clearOutput();
 			player.consumeItem(consumables.LACTAID, 1);
 			outputText("You hand Joy a vial of Lactaid and tell her you'd like her to drink it.");
@@ -1364,7 +1364,7 @@ import classes.lists.Gender;
 			var refillAmount:int = (flags[kFLAGS.JOY_BREAST_SIZE] + 6) * 5;
 			player.refillHunger(refillAmount);
 			fatigue(-40);
-			HPChange(50 + player.maxHP() / 5, false);
+			HPChange(50 + player.maxHP() / 5, false, false);
 			dynStats("lus", 20 + (player.lib / 5), "scale", false);
 			//Libido reduction
 			dynStats("lib", -1);
@@ -1379,7 +1379,7 @@ import classes.lists.Gender;
 		}
 
 		//Reducto
-		private function giveJoyAReducto():void {
+		public function giveJoyAReducto():void {
 			clearOutput();
 			outputText("You hand Joy a salve marked as 'Reducto' and tell her that you'd like her to shrink her body parts.");
 			outputText("\n\n\"Do you want me to, like, make my boobies smaller?" + joyHasCockText(" Or make my funstick smaller? Is it too big for you?") + "\" Joy asks, teasingly.");
@@ -1388,7 +1388,7 @@ import classes.lists.Gender;
 			addButton(1, "Cock", reductoJoysCock);
 			addButton(4, "Never mind", genericMenu);
 		}
-		private function reductoJoysBreasts():void {
+		public function reductoJoysBreasts():void {
 			clearOutput();
 			player.consumeItem(consumables.REDUCTO, 1);
 			outputText("You tell Joy that she could shrink her breasts.");
@@ -1403,7 +1403,7 @@ import classes.lists.Gender;
 			}
 			doNext(genericMenu);
 		}
-		private function reductoJoysCock():void {
+		public function reductoJoysCock():void {
 			clearOutput();
 			player.consumeItem(consumables.REDUCTO, 1);
 			outputText("You tell Joy that she could shrink her cock.");
@@ -1422,7 +1422,7 @@ import classes.lists.Gender;
 		//------------
 		// SEX SCENES
 		//------------
-		private function initiateSexWithJoy():void {
+		public function initiateSexWithJoy():void {
 			clearOutput();
 			if (player.lust < 33) {
 				outputText("You consider telling Joy you're up for some fooling around, but truth is you're not really in the mood...");
@@ -1465,7 +1465,7 @@ import classes.lists.Gender;
 			joySexMenu();
 		}
 
-		private function joySexMenu():void {
+		public function joySexMenu():void {
 			menu();
 			outputText("\n");
 			addButton(0, "Vaginal Fuck", penetrateJoysPussy).hint("Penetrate Joy vaginally with your cock.")
@@ -1492,7 +1492,7 @@ import classes.lists.Gender;
 			addButton(14, "Back", genericMenu);
 		}
 
-		private function penetrateJoysPussy():void {
+		public function penetrateJoysPussy():void {
 			var x:int = player.cockThatFits(joyVagCapacity());
 			clearOutput();
 			outputText("You " + player.clothedOrNakedLower("remove your [armor] and ") + "give " + player.cockDescript(x) + " a meaningful stroke, telling Joy you wish to penetrate her pussy.");
@@ -1530,7 +1530,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function fuckJoyInTheAss():void {
+		public function fuckJoyInTheAss():void {
 			var x:int = player.cockThatFits(joyAnalCapacity());
 			clearOutput();
 			outputText("You " + player.clothedOrNakedLower("strip your [armor] and ") + " give your " + player.cockDescript(x) + " a meaningful stroke; then walk behind Joy to give her butt a little grope, telling her you've been thinking about doing her ass.");
@@ -1578,7 +1578,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function lickJoysGina():void {
+		public function lickJoysGina():void {
 			clearOutput();
 			outputText("You scan Joy with your eyes until you set your gaze between her legs. You tell Joy you were wondering what she tastes like... " + joyHasCockText("then hastily add that you mean her girl-parts, not her boy-parts") + ".");
 			outputText("\n\nJoy giggles. \"<i>Well, I guess I can give you, like, a little taste-test.</i>\" She smirks and promptly wriggles out of her clothes right there and then. With a jaunty wriggling of her bum, she saunters over to a convenient spot and seats herself there, legs splayed" + joyHasCockText(" and " + joyCockDescript() + " jutting up, idly stroking her herm member") + ". \"<i>...Come and get it?</i>\" She teases.");
@@ -1611,7 +1611,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function suckJoysCock():void {
+		public function suckJoysCock():void {
 			clearOutput();
 			outputText("You slowly close in on Joy, making a grab for the bulge in her shorts, carefully sizing it up as it hardens under your touch. Then you grin at Joy and tell her you were wondering what she would taste like.");
 			outputText("\n\nThe bimbo mouse herm looks at you, puzzled for the briefest moment, then grins widely. \"<i>Then, like, how's about I give you a taste-test, hmm?</i>\" She coos, ducking forward and giving you a sloppy kiss on the lips. Wriggling out of your grip, she hikes up her robes and pulls down her shorts, letting her " + joyCockDescript() + " hang out freely, already starting to grow erect at your promise. She saunters over to a comfortable spot and sits down. \"<i>Well? Like, whatcha waiting?</i>\"");
@@ -1648,7 +1648,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function frotWithJoy():void {
+		public function frotWithJoy():void {
 			clearOutput();
 			outputText(player.clothedOrNakedLower("You begin undressing and tell Joy to do the same.", "You present your naked body and tell Joy to strip naked for you."));
 			outputText("\n\nJoy smiles, unwraps her beads from around her waist, and steps easily out of her robe, allowing it to fall to the ground behind her as she bends over to slide off her shorts. Within moments, she is standing naked before you, thanks to the fact she doesn't bother with underpants.");
@@ -1673,7 +1673,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function haveJoySuckYouOff():void {
+		public function haveJoySuckYouOff():void {
 			clearOutput();
 			outputText("You gaze at Joy's lips and decide to ask her if she'd be willing to use her mouth to have some fun.");
 			outputText("\n\nShe gives you a sultry smile. \"<i>Oh? Like, do you think you can handle me, big " + player.mf("boy", "girl") + "?</i>\" She coos, sucking pointedly on one of her pinky fingers.");
@@ -1728,7 +1728,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function haveJoyLickYourGinas():void {
+		public function haveJoyLickYourGinas():void {
 			clearOutput();
 			outputText("You " + player.clothedOrNakedLower("peel off your " + player.armorDescript() + " and then ") + "sit on a nearby rock, spreading your legs and showing Joy's hungry eyes your " + (player.hasCock() ? "hardening [cock] and " : "") + "rapidly moistening pussy. Then you ask Joy if she'd like a little taste of your love-hole.");
 			outputText("\n\nThe mouse doesn't answer verbally; instead, she springs at you in a pounce that purposefully falls short, leaving her crouched right before your [vagina]. She grins up at you, then gives you a long, wet, slurpy lick up your pussy.");
@@ -1762,7 +1762,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function haveJoyStuffYourPussy():void {
+		public function haveJoyStuffYourPussy():void {
 			clearOutput();
 			outputText("You " + player.clothedOrNaked("begin undressing", "present your naked body to Joy") + ", making sure to go as slowly as possible in order to put on a show for Joy.");
 			outputText("\n\nThe bimbo mouse certainly appreciates the show; her tongue is hanging out and she stares obliviously at your increasingly nude form, so caught up in looking she can't even think about removing her own clothes.");
@@ -1796,7 +1796,7 @@ import classes.lists.Gender;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function haveJoyStuffYourButthole():void {
+		public function haveJoyStuffYourButthole():void {
 			var isVirgin:Boolean = (player.ass.analLooseness == 0);
 			clearOutput();
 			outputText("You " + player.clothedOrNakedLower("take off your [armor] and ") + "show Joy your naked body" + (player.hasCock() || player.hasVagina() ? " and" : "") + (player.hasCock() ? " your hardening " + player.cockDescript() : "") + (player.hasCock() && player.hasVagina() ? " and" : "") + (player.hasVagina() ? " moistening [vagina]":"") + ". You close in on Joy and gently stroke her cheek, pulling her close for a quick kiss; then taking the opportunity grab at her " + joyCockDescript() + " through her shorts and whisper to her that you would like her up your butt.");
@@ -1937,7 +1937,7 @@ import classes.lists.Gender;
 			else return 3;
 		}
 
-		private function joyGivesBirthPart2():void {
+		public function joyGivesBirthPart2():void {
 			clearOutput();
 			var babyGender1:int = genderRand();
 			var babyGender2:int = genderRand();
@@ -2011,7 +2011,7 @@ import classes.lists.Gender;
 			doYesNo(acceptJoyNightFuck, declineJoyNightFuck)
 		}
 
-		private function acceptJoyNightFuck():void {
+		public function acceptJoyNightFuck():void {
 			clearOutput();
 			outputText("You tell her since it was you that put the babies inside her, you might as well as help her through it.");
 			outputText("\n\n\"<i>Yay!</i>\" She cries, and claps her hands in delight. Then she pauses and rubs her chin thoughtfully. \"<i>Now, like, how do we do this...?</i>\" She murmurs, clearly unsure of how to proceed.");
@@ -2024,7 +2024,7 @@ import classes.lists.Gender;
 			outputText("\n\nIt doesn't look like the mouse needs any further stimulation, though. She grinds her swollen belly " + joyHasCockText("and painfully erect, pre-gushing cock ") + "against your midriff, clumsily trying to slot your [cock] into her ravenous pussy.");
 			outputText("\n\nFinally satisfied with the foreplay, you align yourself and push your [cock] into her warm, inviting depths.");
 			outputText("\n\n\"<i>Ooh, yeah, that hits the spot, [name]!</i>\" Joy squeals. \"<i>Fuck me hard; like, show my babies who their " + player.mf("daddy", "daddy-mommy") + " is!</i>\"");
-			outputText("\n\nYou intend to do just that; you thrust into her with all the strength you can muster, rocking her and the babies inside with every wet slam of your hips against hers. " + joyHasCockText("Her cock dribbles pre like an open tap, glazing your crotch as well as her belly. ") + "One of you hands strokes her bulging belly, the other gropes her breast, as your rhythms grows more franctic.");
+			outputText("\n\nYou intend to do just that; you thrust into her with all the strength you can muster, rocking her and the babies inside with every wet slam of your hips against hers. " + joyHasCockText("Her cock dribbles pre like an open tap, glazing your crotch as well as her belly. ") + "One of you hands strokes her bulging belly, the other gropes her breast, as your rhythms grows more frantic.");
 			outputText("\n\nJoy gasps and moans, slamming back against you just as hard and furious, her swollen belly wobbling all over the place as she does - when she pushes hard against you, you can actually feel the babies inside kicking and squirming inside her; she wasn't joking about how active they are after all. She babbles incoherently, urging you on.");
 			outputText("\n\nAs you approach your inevitable orgasm an idea hits you, and you withdraw from Joy.");
 			outputText("\n\n\"<i>Hey! What gives?</i>\" She complains. When she sees what you're doing, though, she grins, her eyes lighting up. \"<i>Well, this looks fun!</i>\" She grins.");
@@ -2084,7 +2084,7 @@ import classes.lists.Gender;
 			doNext(camp.sleepWrapper);
 		}
 
-		private function declineJoyNightFuck():void {
+		public function declineJoyNightFuck():void {
 			clearOutput();
 			outputText("You tell Joy you're sorry, but you're just not in the mood right now... she'll have to find another way to relieve herself.");
 			outputText("\n\nThe bimbo mouse looks at you, and starts to sniffle, tears beginning to trickle down her cheeks. When she sees you aren't budging, though, she stops and sighs. \"<i>Like, if that's the way it's gotta be.</i>\" That said, she sadly shuffles away, stroking her belly and murmuring to her twins.");
@@ -2232,5 +2232,7 @@ import classes.lists.Gender;
 			flags[kFLAGS.JOY_TAKES_BABIES_AWAY_COUNTER] = -1; //Let's just NOT proc again.
 			doNext(playerMenu);
 		}
+		
+		
 	}
 }

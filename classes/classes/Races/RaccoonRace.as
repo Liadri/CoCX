@@ -56,6 +56,7 @@ public class RaccoonRace extends Race {
 				.hasCock(+1)
 				.furColor1(ANY(RaccoonFurColors), +1)
 				.hairColor1(ANY(RaccoonHairColors), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(1)
 				.hasBalls(+1)
 				.skinCoatType(Skin.FUR, +1);

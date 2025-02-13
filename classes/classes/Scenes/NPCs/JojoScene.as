@@ -3,13 +3,42 @@ import classes.*;
 import classes.BodyParts.LowerBody;
 import classes.GlobalFlags.*;
 import classes.IMutations.IMutationsLib;
+import classes.Scenes.Places.RuinedTownRebuilt;
 import classes.Scenes.SceneLib;
 import classes.display.SpriteDb;
+import classes.Scenes.NPCs.JoyScene;
+import classes.internals.SaveableState;
 
 import coc.view.CoCButton;
 
-public class JojoScene extends NPCAwareContent implements TimeAwareInterface {
+public class JojoScene extends NPCAwareContent implements TimeAwareInterface, SaveableState {
 
+	public function stateObjectName():String {
+		return "JojoScene";
+	}
+	public function resetState():void {
+		JojoTalkedBimbo=false;
+		JojoRapeRoleplay=false;
+	}
+
+	public function saveToObject():Object {
+		return {
+			"JojoTalkedBimbo": JojoTalkedBimbo,
+			"JojoRapeRoleplay": JojoRapeRoleplay
+		};
+	}
+
+	public function loadFromObject(o:Object, ignoreErrors:Boolean):void {
+		if (o) {
+		JojoTalkedBimbo= o ["JojoTalkedBimbo"];
+			JojoRapeRoleplay=o ["JojoRapeRoleplay"];
+		} else {
+			// loading from old save
+			resetState();
+		}
+	}
+
+	public var JojoTalkedBimbo:Boolean;
 	public var pregnancy:PregnancyStore;
 	public static const JOJO_NOT_MET:int      = 0;
 	public static const JOJO_MET:int          = 1;
@@ -23,15 +52,22 @@ public class JojoScene extends NPCAwareContent implements TimeAwareInterface {
 	public static const JOJO_NOSEX_2:int      = -2;
 	// Jojo agreed to sex
 	public static const JOJO_SEXED:int        = -3;
-
+	public var JojoRapeRoleplay:Boolean;
 
     public static var monk:Number = JOJO_NOT_MET;
+	// This class inherits monk _getter_ from NPCAwareContent
+	// But there is no setter, so any good linter would cry blood.
+	// at any writing to `monk`. So lo and behold, a (useless) setter!
+	protected function set monk(value:Number):void {
+		JojoScene.monk = value;
+	}
 
     public function JojoScene()
 		{
 			pregnancy = new PregnancyStore(kFLAGS.JOY_PREGNANCY_TYPE, kFLAGS.JOY_PREGNANCY_INCUBATION, kFLAGS.JOJO_BUTT_PREGNANCY_TYPE, kFLAGS.JOJO_EGGCUBATE_COUNT);
 			pregnancy.addPregnancyEventSet(PregnancyStore.PREGNANCY_PLAYER, 150, 120, 96, 72, 48);
 			EventParser.timeAwareClassAdd(this);
+			Saves.registerSaveableState(this);
 		}
 
 		//Implementation of TimeAwareInterface
@@ -1162,12 +1198,16 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 		public function jojosFirstRape():void {
 			if (recalling) monster = new Jojo();
 			clearOutput();
-			if (!recalling) {
+			if (!recalling && !JojoRapeRoleplay) {
 				dynStats("lib", -10, "cor", 4);
 				monk = JOJO_CORRUPT_1;
 				outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 			}
-			outputText("You pretend to agree, and follow Jojo into the woods.  You bide your time, waiting for him to relax.  Eventually the mouse stumbles, and you have your chance!\n\n");
+			if (!JojoRapeRoleplay) {
+				outputText("You pretend to agree, and follow Jojo into the woods.  You bide your time, waiting for him to relax.  Eventually the mouse stumbles, and you have your chance!\n\n");
+			} else {
+				outputText("You and Jojo head out into the woods. Jojo seems a little nervous, but also clearly excited, his robes not really hiding his mousey erection. You grin, playing it slow. You talk, do a little meditation...Jojo almost seems disappointed, but as you turn around, heading back towards camp, he turns his back. He stumbles on a river rock, and you pounce!\n\n");
+			}
 			sceneHunter.selectGender(player.hasVagina() ? hermF : dickF, vagF);
 
 			function dickF():void
@@ -1180,6 +1220,12 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 				} else {
 					outputText("You grin and press your [cocks] against him, making him squeal in protest.  You press on, eager to violate his tight asshole, reveling in the crushing tightness.  His muscles quiver nervelessly as you pound him raw, his muted protests getting weaker as you notice a rapidly swelling bulge under him.  You reach around and begin jerking him off as you fuck him, fantasizing about pouring him full of corruptive demon power, making him your slave.  The dirty thoughts make your balls feel full, a pulsing squeezing tightness building in your nethers as your [cock] flexes and bulges inside your prey.  You cum hard, pressing his muzzle into the dirt as you pump glob after glob of cum up his ass, violating him to his core.  Cum sprays over his ass, the rest of your equipment soaking him as it cums as hard as the one you sank up into the mouse-hole.\n\n");
 					outputText("With a satisfied sigh, you pull your [cock] out with an audible 'pop'.  Your cum begins leaking out, pooling under him and mixing with his own.  The little guy must have cum hard, he seems fairly comatose.  As you leave your senseless victim, you realize  you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
+				}
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
 				}
 				if (!recalling) {
 					player.sexReward("no", "Dick");
@@ -1213,6 +1259,12 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 					outputText("  Gouts of milk erupt from your nipples, spraying continually as you cum.  The poor mouse is soaked from head to toe, your cream utterly drenching the monk.");
 
 				outputText("\n\nYou stand on wobbly legs, happy to have so thoroughly fucked such a chaste and good-natured creature.  You vow to do it again soon, realizing you feel more clearheaded, if a bit more evil.");
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+				}
 				if (!recalling) {
 					player.sexReward("cum","Vaginal");
 					if (player.hasUniquePregnancy()) player.impregnationRacialCheck();
@@ -1251,6 +1303,12 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 
 					outputText("\n\nWith a satisfied sigh, you pull your [cock] out with an audible 'pop'.  Your cum begins leaking out, pooling under him and mixing with his own.  The little guy must have cum hard, he seems fairly comatose.  As you leave your senseless victim, you realize  you feel more satisfied than you have in a while, almost like you've cum so hard it took some of your libido with it.");
 				}
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+				}
 				if (!recalling) {
 					player.sexReward("no", "Dick");
 					cleanupAfterCombat();
@@ -1262,7 +1320,7 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 			if (recalling) monster = new Jojo();
 			clearOutput();
 			outputText("The poor mouse is already hard... his cock is throbbing eagerly as it protrudes through the opening in his robe, looking nearly eight inches long.  You're pretty sure it wasn't that big last time.\n\n");
-			if (!recalling) {
+			if (!recalling && !JojoRapeRoleplay) {
 				monk = JOJO_CORRUPT_2;
 				outputText("<b>New scene is unlocked in 'Recall' menu!</b>\n\n");
 				dynStats("lib", -10, "cor", 4);
@@ -1276,6 +1334,12 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 				if(player.cockTotal() > 1) outputText("  Your remaining equipment showers him with jizz, more than you ever thought you could produce.");
 				outputText("  The mouse moans and cums himself, with loud moans and messy splurts coating the ground every time your hips meet.\n\n");
 				outputText("Eventually it ends, and you drop him into the puddled spooge like a used condom.  He lays there, idly stroking himself in a daze, his prick still swollen with need and dripping fluids.  You can't wait to corrupt him some more.");
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+				}
 				if (!recalling) {
 					player.sexReward("Default", "Dick",true,false);
 					cleanupAfterCombat();
@@ -1293,6 +1357,12 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 				if(player.cockTotal() == 2) outputText("A hail of jizz splatters over Jojo from your [cocks].  ");
 				if(player.cockTotal() == 3) outputText("A multitude of thick cum-streams splatter over Jojo from head to waist as your [cocks] hose him down.  ");
 				outputText("\n\nSatisfied at last, you pull yourself away from the dazed mouse.  His shaft is still swollen with need, his hands irresistibly stroking it, eyes vacant.  You're going to corrupt him so much more next time.\n\n");
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough fucking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+				}
 				if (!recalling) {
 					player.sexReward("cum","Vaginal");
 					if (player.hasCock()) player.sexReward("Default", "Dick",true,false);
@@ -1306,7 +1376,12 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 		public function jojosThirdRape():void {
 			if (recalling) monster = new Jojo();
 			clearOutput();
-			outputText("It's no wonder the monk's body has betrayed him so thoroughly, his [monster cockshort] is nearly ten inches long, pulsing with hot need.\n\n");
+			if (!JojoRapeRoleplay) {
+				outputText("It's no wonder the monk's body has betrayed him so thoroughly, his [monster cockshort] is nearly ten inches long, pulsing with hot need.\n\n");
+			}
+			if (JojoRapeRoleplay) {
+				outputText("Jojo seems eager, but he plays along, joining you in the forest for a walk. You discuss the lotus path forms as you wander, until you end up by a creek. Jojo looks back at you, a small smile on his face, and he turns his back, leaning over to take a drink from the water.\n\n");
+			}
 			sceneHunter.selectGender(dickF, player.hasCock() ? hermF : vagF, null, null, -1);
 
 			function dickF():void {
@@ -1327,8 +1402,17 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 					if(player.cockTotal() == 1) outputText("violating his loosened sphincter, and begin to fuck him hard.  He whimpers with a mixture of pain and pleasure, your spit-lubed [cock] pounding his prostate mercilessly.  Thick ropes of mousey-cum drool with each anus-stretching thrust of your cock, pooling below you.  You wickedly smile, slapping his ass, imagining him stretched further, his ass gaping, his cock huge and dripping with cum.  The strange thoughts filling your mind seem to travel straight to your balls and distill into pools of cum.  Like a long dormant volcano, you erupt, hot liquid spraying into Jojo, pumping his ass full and leaking down his legs.  He cums again, harder than before, his pulsing prick seeming to grow larger throughout his orgasm.\n\n");
 					else outputText("violating his loosened sphincter, and begin to fuck him hard.  He whimpers with a mixture of pain and pleasure, a spit-lubed cock pounding his prostate mercilessly.  Thick ropes of mousey-cum drool with each anus-stretching thrust of your cock, pooling below you.  You wickedly smile, slapping his ass, imagining him stretched further, his ass gaping, his cock huge and dripping with cum.  The strange thoughts filling your mind seem to travel straight to your balls and distill into pools of cum.  Like a long dormant volcano, you erupt, hot liquid spraying into Jojo, pumping his ass full and leaking down his legs.  He cums again, harder than before, his pulsing prick seeming to grow larger throughout his orgasm.\n\n");
 				}
-				outputText("You leave the exhausted mousey behind you, wondering how you'll take him next time.  ");
-				sharedEnd(false);
+				if (!JojoRapeRoleplay) {
+					outputText("You leave the exhausted mousey behind you, wondering how you'll take him next time.  ");
+					sharedEnd(false);
+				}
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+					doNext(camp.returnToCampUseOneHour);
+				}
 			}
 			function vagF():void {
 				if (player.isBiped()) outputText("You spread your legs and crook your finger");
@@ -1358,7 +1442,21 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 				if (player.isBiped()) outputText(" between your thighs");
 				else outputText(" your cunt");
 				outputText(".  Jojo has already passed out behind you.  ");
-				sharedEnd(true);
+				if (!JojoRapeRoleplay) {
+					sharedEnd(true);
+				}
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+					if (!recalling) {
+						player.sexReward("cum", "Vaginal");
+						if (player.hasUniquePregnancy()) player.impregnationRacialCheck();
+						else player.knockUp(PregnancyStore.PREGNANCY_JOJO, PregnancyStore.INCUBATION_MOUSE + 82); //Jojo's kids take longer for some reason
+					}
+					doNext(camp.returnToCampUseOneHour);
+				}
 			}
 			function hermF():void {
 				if (player.isBiped()) outputText("You spread your legs and crook your finger");
@@ -1387,7 +1485,21 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 				if (player.isBiped()) outputText("between your thighs");
 				else outputText("your cunt");
 				outputText(".  Jojo has already passed out behind you.  ");
-				sharedEnd(true);
+				if (!JojoRapeRoleplay) {
+					sharedEnd(true);
+				}
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough dicking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+					doNext(camp.returnToCampUseOneHour);
+					if (!recalling) {
+							player.sexReward("cum", "Vaginal");
+							if (player.hasUniquePregnancy()) player.impregnationRacialCheck();
+							else player.knockUp(PregnancyStore.PREGNANCY_JOJO, PregnancyStore.INCUBATION_MOUSE + 82); //Jojo's kids take longer for some reason
+						}
+				}
 			}
 			function sharedEnd(vag:Boolean):void {
 				if(player.lib > 60 && player.cor > 50 - player.corruptionTolerance) {
@@ -1417,8 +1529,13 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 		public function jojosFourthRape():void {
 			if (recalling) monster = new Jojo();
 			clearOutput();
-			outputText("Jojo flops down, eyes filled with anticipation.  His self-control has really slipped away.  The corrupted and horny mouse on display here is anathema to the studious monk you met before.  His cock is close to a foot long and over two inches thick, veiny with arousal.\n\n");
-			sceneHunter.selectGender(dickF, vagF, null, null, -1)
+			if (!JojoRapeRoleplay) {
+				outputText("Jojo flops down, eyes filled with anticipation.  His self-control has really slipped away.  The corrupted and horny mouse on display here is anathema to the studious monk you met before.  His cock is close to a foot long and over two inches thick, veiny with arousal.\n\n");
+			}
+			if (JojoRapeRoleplay) {
+				outputText("As you enter the forest, you slyly tell Jojo that you have something in mind for a scenario. He tilts his head, curious, and you give him a grin. You tell him that you've raped him a few times, and he's getting into it. Jojo gives you a sly look, and nods once. Before he can do much more, you rush in, sweeping his leg, forcing the monk to his knees.\n\n");
+			}
+				sceneHunter.selectGender(dickF, vagF, null, null, -1)
 
 			//Male Version
 			function dickF():void {
@@ -1437,7 +1554,7 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 				if(player.cumQ() >= 250 && player.cumQ() < 500) outputText("You spasm against him as you orgasm, the pleasure erupting into the slut-mouse's throat as he tries to swallow it all.  Excess cum dribbles from the corners of his mouth as you fully spend yourself.");
 				if(player.cumQ() >= 500) outputText("You buck against him as you orgasm, the slutty mouse's cheeks bulging in surprise as your cum explodes into his mouth.  Thick streams escape from the corners of his muzzle, your seed pouring into him faster than he can swallow.  Eventually you finish, and see the mouse dripping with your spunk nearly to the waist, a small bulge in his belly.");
 				outputText("  Jojo leans back, panting for breath, a dull smile on his face.  He spits a load of your cum into his paw and begins jerking himself off with it, lewdly putting on a show for you.\n\n");
-				if(player.lib > 50 && player.cor > 80 - player.corruptionTolerance) {
+				if(player.lib > 50 && player.cor > 80 - player.corruptionTolerance && !JojoRapeRoleplay) {
 					outputText("<b>You feel a familiar power growing within you and decide to unleash it.</b>  You grab the prayer beads from his outfit and spit on them, making them slick and wet.  Holding them below your flagging cock, you focus on the demonic visions in your mind, slowly but constantly milking larger and larger dollops of cum onto the once holy beads.  Jojo moans as he comes to understand your intent, and turns around, shaking his lithe mouse-bum at you.  You lean over him, whispering into his ear, \"<i>Each defiled bead I push into you is going to make you more of a willing slut.  More of a willing receptacle for demon cum.  More of a fountain of desire waiting to be tapped by Succubi.  More my toy.</i>\"\n\n");
 					outputText("He whimpers as you slide the first bead in, his eyes growing foggy and his bum wiggling more eagerly.  You push the second bead inside him, and feel his asshole stretch and loosen, welcoming the corruption.  The third bead slips right in, and he moans, \"<i>sluuuut</i>,\" His cock grows longer and thicker throughout the moan, stopping at over a foot long and 3 inches thick, dribbling cum.  You whisper, \"<i>Cum, my Toy,</i>\" and push the remaining beads inside him.  His eyes roll back as his paws frantically milk his [monster cockshort], cum spraying from him like a fountain.  Jojo trembles, losing complete control and falling away from you.  You still hold the end of his beads, and smile as they pop out, stained almost as dark as the poor mouse's soul.\n\n");
 					outputText("You walk away, leaving your new pet to explore his outlook on life, and to test your awakened powers.  ");
@@ -1447,11 +1564,19 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 						dynStats("lib", -10, "cor", 10);
 					}
 				}
-				else {
-					outputText("Jojo eventually cums violently, collapsing into a puddle of spent jizz.  You smile and walk away, hoping to encounter him again.  ");
+				if (player.lib < 50 && player.cor < 80 - player.corruptionTolerance && !JojoRapeRoleplay) {
+					outputText("Jojo eventually cums violently, collapsing into a puddle of spent jizz.  You smile and walk away, hoping to encounter him again. ");
 					outputText("Seems like that still wasn't enough... maybe you need to be more corrupted or have higher libido?");
 					if (!recalling) dynStats("lib", 2, "cor", 1);
 				}
+				if (JojoRapeRoleplay) {
+					outputText("It takes Jojo a while to recover from the thorough face-fucking you gave him. You wait by his side, keeping an eye out for anything that could attack, and as his breathing slows, Jojo gets up, a big smile on his face.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
+					doNext(camp.returnToCampUseOneHour);
+				}
+
 				if (!recalling) {
 					player.sexReward("no", "Dick");
 					cleanupAfterCombat();
@@ -1539,10 +1664,17 @@ public function jojoFollowerMeditate(doClear:Boolean = true):void {
 						dynStats("lib", -10, "cor", 10);
 					}
 				}
-				else {
+
+				if(player.lib < 50 || player.cor < 80 - player.corruptionTolerance && !JojoRapeRoleplay) {
 					outputText("\n\nExhausted, you pull yourself free from the mouse, drained of lust but feeling VERY naughty.  Jojo doesn't even bother getting up, he just keeps masturbating, lost in the scents of your slick juices and his cum.  As you walk away with a sexy wiggle, the sexual fluids are absorbed into the ground.");
 					outputText("Seems like that still wasn't enough... maybe you need to be more corrupted or have higher libido?");
 					if (!recalling) dynStats("lib", 2, "cor", 1);
+				}
+				if (JojoRapeRoleplay) {
+					outputText("You fall off of Jojo, breathing heavily as his cum leaks from your twat. Seconds pass, then a few minutes, and when you regain your composure, Jojo is standing over you.\n\n");
+					outputText("\"<i>That was fantastic.\"</i> Jojo says breathlessly. \"<i>...While I...Would never want that to happen normally, I...Really enjoyed it.\"</i> He seems a little nervous at that. \"<i>...Is that...A corrupt thought?\"</i> \n\n");
+					outputText("You wrap one arm around your mousey fuckbuddy, assuring him that it's fine. Sex isn't demonic by nature...and as long as it's consentual, there's nothing to worry about.\n\n");
+					outputText("The two of you head back to camp, arm in arm, Jojo reluctantly leaving you to go back to his part of camp.\n\n");
 				}
                 if (!recalling) {
 					player.sexReward("cum", "Vaginal");
@@ -2235,7 +2367,12 @@ private function jojoCampMenu():void {
 	if (player.lust >= 33 && monk <= -3)
         addButton(8, "Sex", pureJojoSexMenu).hint("Initiate sexy time with the mouse-morph.");
 	else rapeButton(8, true);
-	addButton(14, "Leave", camp.campFollowers);
+	if (RuinedTownRebuilt.Intown) {
+		addButton(14, "Leave", SceneLib.ruinedTown.enterVillage);
+	}
+	if (!RuinedTownRebuilt.Intown) {
+		addButton(14, "Leave", camp.campFollowers);
+	}
 }
 
 
@@ -2258,9 +2395,11 @@ public function jojoAppearance():void
 
 public function talkMenu():void
 {
-	jojoSprite();
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+	}
 	menu();
-	addButton(0, "Village", jojoTalkVillage).hint("Ask him about the village he was raised in.");
+	addButton(0, "Village", jojoTalkVillage).hint("Ask him about the village" +(flags[kFLAGS.JOJO_BIMBO_STATE] == 4?"Joy":"Jojo") +" was raised in.");
 	addButton(1, "Monks", jojoTalkJoiningTheMonks).hint("Ask him about how and why he became a monk.");
 	addButton(2, "MonksFall", jojoTalkFallOfTheMonks).hint("Ask him about the demise of the monks.");
 	addButton(3, "Forest", jojoTalkForestConvo).hint("Ask him about how he ended up in the forest.");
@@ -2279,7 +2418,20 @@ public function talkMenu():void
 	if (player.cor <= 10 && player.lust >= 33 && flags[kFLAGS.TIMES_TALKED_WITH_JOJO] >= 6 && flags[kFLAGS.TIMES_TRAINED_WITH_JOJO] >= 10 && player.statusEffectv1(StatusEffects.JojoMeditationCount) >= 10 && monk > -3) addButton(9, "Sex?", offerSexFirstTimeHighAffection).hint("You've spent quite the time with Jojo, maybe you can offer him if he's willing to have sex with you?"); //Will unlock consensual sex scenes.
 	if (monk <= -3) removeButton(9);
 	if (TyrantiaFollower.TyrantiaFollowerStage == 5) addButton(10, "Tyrantia", TyrantiaEggQuestJoJo);
-	addButton(14, "Back", jojoCamp);
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] > 3) {
+		addButton(11, "Bimboed", JoJoyBimboTalk);
+	}
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] > 3) {
+		addButton(12, "Gender", JoJoyGender);
+	}
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] > 3) {
+		addButton(13, "Demons", JoJoyTalkDemons);
+	}
+	if (RuinedTownRebuilt.Intown) {
+		addButton(14, "Back", SceneLib.ruinedTown.MouseTownJojo);
+	}
+	else  addButton(14, "Back", jojoCamp) ;
+
 }
 
 private function TyrantiaEggQuestJoJo():void {
@@ -2293,257 +2445,270 @@ private function TyrantiaEggQuestJoJo():void {
 //Talk
 //Jojo’s Past
 
-//Village Convo
-public function jojoTalkVillage():void
-{
-	clearOutput();
-	jojoSprite();
-	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("You decide to ask Jojo about his village.\n\n");
-	outputText("He speaks softly with a smile on his face and in his voice, \"<i>It was a small village near a large beautiful lake. We were peaceful people who laughed and trusted one another, just good simple folk you know?\"\n\n");
-	outputText("\"Most of the people of Belridge were either fishers or farmers with huge families that stayed near the village. There were a few hunters and a few craftsmen. We made enemies of no one and sought to do no harm to others,</i>\" Jojo says, his smile fading.\n\n");
-	outputText("Before you can muster a reaction to his sadness, his fuzzy cheeks spread again as he looks up at you with bright eyes.\n\n");
-	outputText("\"<i>My father was a fisherman.  He was this calm, strong man with a lot of silver whiskers that always smelled like fish.  I remember I used to go out on the boat with him and a few of my brothers and he’d always make sure to pick me up and put me on his shoulders... that is until I got too big. He always made everything look so easy, like the world was just there to shake his hand and make him smile. No one could cook seafood like he did, no one.</i>\"\n\n");
-	outputText("\"<i>Then there was my mother who was a little high strung, but no one could hug you more fiercely or love you more dearly.  She was a small woman with a big soul who loved her family more than anything.  She was a seamstress before she met my dad and was always the brightest one in the room, which is hard when you have seventeen loud children clamoring for your attention.</i>\"\n\n");
-	outputText("\"<i>Even with 19 people living under one roof my family wasn’t the biggest family in town, but there was always plenty work and plenty food.  It was a nice simple existence and I am thankful for the time I had with everyone in that village,</i>\" he finishes with a serene smile.\n\n");
-	if (player.cor < 40)
+	public function jojoTalkVillage():void
 	{
-		outputText("Looks like Jojo's childhood wasn't so bad... you thank the mouse morph monk for sharing his treasured memories with you now that the conversation is over.\n\n");
+		clearOutput();
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+		}
+		flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
+		outputText("You decide to ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " village.\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " speaks softly with a smile on " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " face and in " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " voice, \"<i>It was a small village near a large beautiful lake. We were peaceful people who laughed and trusted one another, just good simple folk you know?\"\n\n");
+		outputText("\"Most of the people of Belridge were either fishers or farmers with huge families that stayed near the village. There were a few hunters and a few craftsmen. We made enemies of no one and sought to do no harm to others,</i>\" Jojo says, " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " smile fading.\n\n");
+		outputText("Before you can muster a reaction to " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " sadness, " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " fuzzy cheeks spread again as he looks up at you with bright eyes.\n\n");
+		outputText("\"<i>My father was a fisherman.  He was this calm, strong man with a lot of silver whiskers that always smelled like fish.  I remember I used to go out on the boat with him and a few of my brothers and he’d always make sure to pick me up and put me on his shoulders... that is until I got too big. He always made everything look so easy, like the world was just there to shake his hand and make him smile. No one could cook seafood like he did, no one.</i>\"\n\n");
+		outputText("\"<i>Then there was my mother who was a little high strung, but no one could hug you more fiercely or love you more dearly.  She was a small woman with a big soul who loved her family more than anything.  She was a seamstress before she met my dad and was always the brightest one in the room, which is hard when you have seventeen loud children clamoring for your attention.</i>\"\n\n");
+		outputText("\"<i>Even with 19 people living under one roof my family wasn’t the biggest family in town, but there was always plenty work and plenty food.  It was a nice simple existence and I am thankful for the time I had with everyone in that village,</i>\" he finishes with a serene smile.\n\n");
+		if (player.cor < 40)
+		{
+			outputText("Looks like " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "'s childhood wasn't so bad... you thank the mouse morph monk for sharing  treasured memories with you now that the conversation is over.\n\n");
+		}
+		else
+		{
+			outputText("Looks like Jojo’s childhood wasn’t so bad. A little sickly sweet and void of wet pussies and drooling dicks but not bad. You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " you’re happy to have " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " near you and he smiles for ear to ear, ignorant of your thoughts.\n\n");
+		}
+		doNext(talkMenu); // Dunno where exactly to kick back to, fuck it, back to camp yo!
+		advanceMinutes(5);
 	}
-	else
-	{
-		outputText("Looks like Jojo’s childhood wasn’t so bad. A little sickly sweet and void of wet pussies and drooling dicks but not bad. You tell him you’re happy to have him near you and he smiles for ear to ear, ignorant of your thoughts.\n\n");
-	}
-	doNext(talkMenu); // Dunno where exactly to kick back to, fuck it, back to camp yo!
-	advanceMinutes(5);
-}
 
 //Joining the Monks convo
-public function jojoTalkJoiningTheMonks():void
-{
-	clearOutput();
-	jojoSprite();
-	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("You decide to ask Jojo why he decided to become a monk in the first place.\n\n");
-	outputText("He gives you a warm smile as he speaks, \"<i>Well I grew up in a big family of 19 so when I was younger I was always the quiet one.  I guess I was just introverted but being quiet meant that I didn’t always get a lot of attention.  It didn’t bother me, quite the opposite actually, I enjoyed quiet introspection but with so many brothers and sisters it was next to impossible to get a quiet moment at home.</i>\"\n\n");
-	outputText("\"<i>So I would sneak out. My father understood but it drove my mother crazy.  Whenever she noticed I had slipped away she would stop everything in the house and take my two oldest brothers to come find me.  I never understood why it was such a big deal.  We were in a small village near a prestigious monastery, we were safe.  Parents let their kids go out and play and run and explore because everyone knew everyone but not my mom.  She had to know where you were going, what you were doing and how long until you got back. I would’ve told her but saying I wanted to explore wasn’t a satisfactory answer.</i>\"\n\n");
-	outputText("\"<i>Whenever she found me she would yell for a bit and then hold me close like she’d just watched me dodge a charging rhinoceros.  Whenever she asked why I did it I just told her the truth, it was too loud and crowded at home.  After a few weeks of this she suggested a compromise.  She said I could leave if I had one of my older brothers walk me to the temple, and I stayed there, where the clergy could see me and keep me safe and fed.  Honestly I think my dad came up with the idea, he was always good at compromising and keeping the peace.</i>\"\n\n");
-	outputText("\"<i>The temple became very important to me.  I read about the world, I spoke to the clergy and I sat and thought.  I was enraptured with learning but I didn’t want to be a priest, I don’t know why... I guess it just didn’t appeal to me.  When I first saw the monks visiting the temple, it was like dawn breaking.  After that I waited until I was old enough to join and made the short pilgrimage to the Monastery of the Celestial Lotus.</i>\"\n\n");
-	outputText("Jojo wears this quiet little smile as he finishes.  Then he chuckles and says, \"<i>Thank you for the memories, [name].  I enjoy our talks.</i>\"\n\n");
-	doNext(talkMenu);
-	advanceMinutes(5);
-}
+	public function jojoTalkJoiningTheMonks():void
+	{
+		clearOutput();
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+		}
+		flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
+		outputText("You decide to ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " why " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "decided to become a monk in the first place.\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "gives you a warm smile as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "speaks, \"<i>Well I grew up in a big family of 19 so when I was younger I was always the quiet one.  I guess I was just introverted but being quiet meant that I didn’t always get a lot of attention.  It didn’t bother me, quite the opposite actually, I enjoyed quiet introspection but with so many brothers and sisters it was next to impossible to get a quiet moment at home.</i>\"\n\n");
+		outputText("\"<i>So I would sneak out. My father understood but it drove my mother crazy.  Whenever she noticed I had slipped away she would stop everything in the house and take my two oldest brothers to come find me.  I never understood why it was such a big deal.  We were in a small village near a prestigious monastery, we were safe.  Parents let their kids go out and play and run and explore because everyone knew everyone but not my mom.  She had to know where you were going, what you were doing and how long until you got back. I would’ve told her but saying I wanted to explore wasn’t a satisfactory answer.</i>\"\n\n");
+		outputText("\"<i>Whenever she found me she would yell for a bit and then hold me close like she’d just watched me dodge a charging rhinoceros.  Whenever she asked why I did it I just told her the truth, it was too loud and crowded at home.  After a few weeks of this she suggested a compromise.  She said I could leave if I had one of my older brothers walk me to the temple, and I stayed there, where the clergy could see me and keep me safe and fed.  Honestly I think my dad came up with the idea, he was always good at compromising and keeping the peace.</i>\"\n\n");
+		outputText("\"<i>The temple became very important to me.  I read about the world, I spoke to the clergy and I sat and thought.  I was enraptured with learning but I didn’t want to be a priest, I don’t know why... I guess it just didn’t appeal to me.  When I first saw the monks visiting the temple, it was like dawn breaking.  After that I waited until I was old enough to join and made the short pilgrimage to the Monastery of the Celestial Lotus.</i>\"\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " wears this quiet little smile as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "finishes.  Then " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "chuckles and says, \"<i>Thank you for the memories, [name].  I enjoy our talks.</i>\"\n\n");
+		doNext(talkMenu);
+		advanceMinutes(5);
+	}
 
 //Fall of the Monks convo
-public function jojoTalkFallOfTheMonks():void
-{
-	clearOutput();
-	jojoSprite();
-	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("You decide to ask Jojo if he'd be willing to tell you exactly what happened to the monks of his order.\n\n");
-	outputText("Jojo speaks with eyes downcast and a voice soft as feathers landing on fallen soldiers, \"<i>Truthfully?...  I don’t know exactly how it happened... or why... but my order was wiped out.  Though I've looked for my brothers and sisters of the Celestial Lotus ever since then, I'm the only survivor, as far as I can tell.  You see, the demons attacked the monastery while I was away with one of the senior brothers.  I was a mere novice and he was one of the most fun teachers so we lost track of time.  The sun was setting and we were halfway back to the monastery when we saw what we thought was a huge column of smoke rising from the central building.  When we got closer we saw the cloud for what it truly was, a billowing tower of those imps.  We were spotted and several of them came flying at us - they crossed the distance far faster than we could have.</i>\"\n\n");
-	outputText("\"<i>Senior Brother Logray didn't hesitate - he leapt in front of me, staff twirling, shattering skulls and breaking limbs with each sweep.  As he barred their path, he cried out to me to flee, to run for the safety of the village... and I did.  Overwhelmed by the bitter-sweet stink of corruption wafting off the demons, I ran like a frightened little field mouse.  I was a coward and I left my masters and all my friends to face the horde one mouse short.</i>\"\n\n");
-	outputText("You watch as Jojo bows his head in shame for a moment. Yet when he looks back up there’s fire in his eyes.\n\n");
-	outputText("\"<i>Never again....</i>\"\n\n");
-	outputText("You try to comfort Jojo, telling him he couldn’t have made a difference being but a single mouse, but he waves you off.  He tells you he is fine and thanks you for your concern.\n\n");
-	outputText("You can tell the story has affected him, but you’re surprised to hear the resolve in his voice and see the defiant strength in his eyes. Excusing yourself, you rise and leave him to do as he will.\n\n");
-	doNext(talkMenu);
-	advanceMinutes(5);
-}
+	public function jojoTalkFallOfTheMonks():void
+	{
+		clearOutput();
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+		}
+		flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
+		outputText("You decide to ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " if he'd be willing to tell you exactly what happened to the monks of  order.\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " speaks with eyes downcast and a voice soft as feathers landing on fallen soldiers, \"<i>Truthfully?...  I don’t know exactly how it happened... or why... but my order was wiped out.  Though I've looked for my brothers and sisters of the Celestial Lotus ever since then, I'm the only survivor, as far as I can tell.  You see, the demons attacked the monastery while I was away with one of the senior brothers.  I was a mere novice and he was one of the most fun teachers so we lost track of time.  The sun was setting and we were halfway back to the monastery when we saw what we thought was a huge column of smoke rising from the central building.  When we got closer we saw the cloud for what it truly was, a billowing tower of those imps.  We were spotted and several of them came flying at us - they crossed the distance far faster than we could have.</i>\"\n\n");
+		outputText("\"<i>Senior Brother Logray didn't hesitate - he leapt in front of me, staff twirling, shattering skulls and breaking limbs with each sweep.  As he barred their path, he cried out to me to flee, to run for the safety of the village... and I did.  Overwhelmed by the bitter-sweet stink of corruption wafting off the demons, I ran like a frightened little field mouse.  I was a coward and I left my masters and all my friends to face the horde one mouse short.</i>\"\n\n");
+		outputText("You watch as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " bows  head in shame for a moment. Yet when " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "looks back up there’s fire in  eyes.\n\n");
+		outputText("\"<i>Never again....</i>\"\n\n");
+		outputText("You try to comfort " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + ", telling " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "couldn’t have made a difference being but a single mouse, but " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "waves you off.  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "tells you " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "is fine and thanks you for your concern.\n\n");
+		outputText("You can tell the story has affected " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + ", but you’re surprised to hear the resolve in  voice and see the defiant strength in  eyes. Excusing yourself, you rise and leave " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " to do as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "will.\n\n");
+		doNext(talkMenu);
+		advanceMinutes(5);
+	}
 
 //Forest Convo
-public function jojoTalkForestConvo():void
-{
-	clearOutput();
-	jojoSprite();
-	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("You think for a while and decide to ask Jojo how he ended up in the forest.\n\n");
-	outputText("He looks at you with suddenly tired eyes as he says, \"<i>Well, I was training in the fields with one of the senior brothers when we saw the monastery was under attack.  He sent me to the village to save me since I was a novice.  I decided to rally the people there.  I figured that I had ran like a coward, I wasn’t going to hide like one.  It was the village where I was born and a home to many of my brothers and sisters, both figuratively and literally.  I ran towards the village with everything I had, hoping to redeem my cowardice by returning with a militia of mice to aid the members of my order.</i>\"  His voice catches and he looks away, obviously struggling to form words.\n\n");
-	outputText("When you open your mouth to speak he raises his hand, asking for a moment with a single furry finger.\n\n");
-	outputText("\"<i>I was too late.  The demons had struck there first, then moved on to my monastery once they were finished.  I spent hours searching the streets; every basement, every alley, every attic, every place I could think of where somebody might have hidden.  Nothing but ruined buildings, smears of assorted tainted bodily fluids, and the occasional corpse - some demons, many more mice.</i>\"\n\n");
-	if (player.cor < 35)
+	public function jojoTalkForestConvo():void
 	{
-		outputText("That's terrible... you can only imagine what you'd feel like if you returned to Ignam and saw it destroyed... your family, your friends... You put a hand on the monk's shoulder, intent on comforting him for the moment.\n\n");
+		clearOutput();
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+		}
+		flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
+		outputText("You think for a while and decide to ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " how " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " ended up in the forest.\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " looks at you with suddenly tired eyes as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " says, \"<i>Well, I was training in the fields with one of the senior brothers when we saw the monastery was under attack.  He sent me to the village to save me since I was a novice.  I decided to rally the people there.  I figured that I had ran like a coward, I wasn’t going to hide like one.  It was the village where I was born and a home to many of my brothers and sisters, both figuratively and literally.  I ran towards the village with everything I had, hoping to redeem my cowardice by returning with a militia of mice to aid the members of my order.</i>\"   voice catches and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "looks away, obviously struggling to form words.\n\n");
+		outputText("When you open your mouth to speak " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " raises a hand, asking for a moment with a single furry finger.\n\n");
+		outputText("\"<i>I was too late.  The demons had struck there first, then moved on to my monastery once they were finished.  I spent hours searching the streets; every basement, every alley, every attic, every place I could think of where somebody might have hidden.  Nothing but ruined buildings, smears of assorted tainted bodily fluids, and the occasional corpse - some demons, many more mice.</i>\"\n\n");
+		if (player.cor < 35)
+		{
+			outputText("That's terrible... you can only imagine what you'd feel like if you returned to Ignam and saw it destroyed... your family, your friends... You put a hand on the monk's shoulder, intent on comforting " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " for the moment.\n\n");
+		}
+		else if (player.cor >= 35 && player.cor <= 75)
+		{
+			outputText("Tough luck... thankfully your village still stands and you doubt any demons would dare attack on your watch...  You feel like you should do something for the monk though, so you put a hand on  shoulder, comforting " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " for the moment.\n\n");
+		}
+		else
+		{
+			outputText("Mice... must've been a village of wimps if a few demons could take them out... The monk is obviously distressed... maybe you should comfort " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " for the moment, if only to make " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " stop.  You put a hand on  silent shoulder...\n\n");
+		}
+		outputText("\"<i>Thank you [name].  I was born there and seeing that...</i>\"  The monk falls silent again.\n\n");
+		if (player.cor < 35)
+		{
+			outputText("You slide an arm around " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "’s shoulders in an attempt to reassure the monk.  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "manages a smile in response as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "looks up at you.  A single tear manages to slide down  muzzle as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "says, \"<i>Thank you, my friend.</i>\"\n\n");
+		}
+		else if (player.cor >= 35 && player.cor <= 75)
+		{
+			outputText("You try to further console the distressed monk by moving your hand to  back and giving " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " a few friendly taps.  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " visibly pulls " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + "self together. \"Thank you, I’m alright now,\" he tells you as he looks up and gives you a weak smile.\n\n");
+		}
+		else
+		{
+			outputText("Seeing an opportunity, you wrap your arms around the monk as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "silently tries to reign in  emotions.  Holding " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " close you can feel the mouse morph’s lean muscles as you rub  back ‘accidentally’ going too low and feeling the base of  tail and the top of " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " tight little pert ass.  As you ‘hug’ the mouse you make sure " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "doesn’t notice your true intentions and when you release " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "actually thanks you.\n\n");
+			dynStats("lus+", 10);
+		}
+		outputText("After you’ve comforted the monk you ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " what " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "did next.\n\n");
+		outputText("When " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "answers you  shoulders are squared and  voice has regained some of its former volume, \"<i>I did what anyone looking at the shattered remains of their life would.  I buried them.  For the next few hours I took the time to lay each and every villager to rest before praying over them all.  Then I went back to my monastery, praying with all my heart that they had managed to hold out, at least long enough to escape rather than to be captured and twisted into perverse shells of their former selves.  Yet the monastery was another graveyard.  I found many bodies there.  Some were of the order but there were also countless imps and more than a few demons.  The place was defiled with semen and milk reeking of corruption.</i>\"\n\n");
+		outputText("You see anger in the monk’s eyes as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "clenches  fists, \"<i>They had utterly defiled the monastery and there was nothing I could do about it but honor its memory.  I labored for what felt like days; burying the fallen; seeking out survivors; gathering what few items of my faith had escaped demonic desecration.</i>\"  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "touches the large beads around  neck meaningfully.\n\n");
+		outputText("\"<i>Then, I burned the monastery to the ground and set fire to all the fields...  Since that day, I have eked out a meager existence in the wilderness; I study the texts I can, train my body as best I can, and seek to fortify my soul against demonic blandishments.  Though I have technically progressed far along my path, with no master and only a pale echo of a fraction of my order’s texts at my disposal, I may never be a true master in my own right.</i>\"\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "gives you an appraising look before looking away, \"<i>Until I met you, [name], my only purpose had been to find the demons who destroyed my order and make them pay for the lives they took.  That is why I was in the forest, I was in the middle of a harsh training regimen to increase my power and skill so that I may seek out those evil brutes who took everything I loved away from me... but vengeance is not the way of the Celestial Lotus.  The Celestial doesn’t train bullies or assassins.  Finding you and aiding in your quest to protect your village from these demonic creatures of perversion gave me new purpose and would make my departed brothers and sisters proud.  I can’t honestly say I’ve given up on having my vengeance but... I will aid you in your quest first if for nothing more than to honor our friendship and honor the memory of the order and its teachings.</i>\n\n");
+		outputText("Looking renewed and at peace despite the emotional storm you know must be raging within  tiny frame " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " returns to what " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "was doing after thanking you for giving " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " new purpose.\n\n");
+		doNext(talkMenu);
+		advanceMinutes(5);
 	}
-	else if (player.cor >= 35 && player.cor <= 75)
-	{
-		outputText("Tough luck... thankfully your village still stands and you doubt any demons would dare attack on your watch...  You feel like you should do something for the monk though, so you put a hand on his shoulder, comforting him for the moment.\n\n");
-	}
-	else
-	{
-		outputText("Mice... must've been a village of wimps if a few demons could take them out... The monk is obviously distressed... maybe you should comfort him for the moment, if only to make him stop.  You put a hand on his silent shoulder...\n\n");
-	}
-	outputText("\"<i>Thank you [name].  I was born there and seeing that...</i>\"  The monk falls silent again.\n\n");
-	if (player.cor < 35)
-	{
-		outputText("You slide an arm around Jojo’s shoulders in an attempt to reassure the monk.  He manages a smile in response as he looks up at you.  A single tear manages to slide down his muzzle as he says, \"<i>Thank you, my friend.</i>\"\n\n");
-	}
-	else if (player.cor >= 35 && player.cor <= 75)
-	{
-		outputText("You try to further console the distressed monk by moving your hand to his back and giving him a few friendly taps.  Jojo visibly pulls himself together. \"Thank you, I’m alright now,\" he tells you as he looks up and gives you a weak smile.\n\n");
-	}
-	else
-	{
-		outputText("Seeing an opportunity, you wrap your arms around the monk as he silently tries to reign in his emotions.  Holding him close you can feel the mouse morph’s lean muscles as you rub his back ‘accidentally’ going too low and feeling the base of his tail and the top of his tight little pert ass.  As you ‘hug’ the mouse you make sure he doesn’t notice your true intentions and when you release him he actually thanks you.\n\n");
-		dynStats("lus+", 10);
-	}
-	outputText("After you’ve comforted the monk you ask him what he did next.\n\n");
-	outputText("When he answers you his shoulders are squared and his voice has regained some of its former volume, \"<i>I did what anyone looking at the shattered remains of their life would.  I buried them.  For the next few hours I took the time to lay each and every villager to rest before praying over them all.  Then I went back to my monastery, praying with all my heart that they had managed to hold out, at least long enough to escape rather than to be captured and twisted into perverse shells of their former selves.  Yet the monastery was another graveyard.  I found many bodies there.  Some were of the order but there were also countless imps and more than a few demons.  The place was defiled with semen and milk reeking of corruption.</i>\"\n\n");
-	outputText("You see anger in the monk’s eyes as he clenches his fists, \"<i>They had utterly defiled the monastery and there was nothing I could do about it but honor its memory.  I labored for what felt like days; burying the fallen; seeking out survivors; gathering what few items of my faith had escaped demonic desecration.</i>\"  He touches the large beads around his neck meaningfully.\n\n");
-	outputText("\"<i>Then, I burned the monastery to the ground and set fire to all the fields...  Since that day, I have eked out a meager existence in the wilderness; I study the texts I can, train my body as best I can, and seek to fortify my soul against demonic blandishments.  Though I have technically progressed far along my path, with no master and only a pale echo of a fraction of my order’s texts at my disposal, I may never be a true master in my own right.</i>\"\n\n");
-	outputText("He gives you an appraising look before looking away, \"<i>Until I met you, [name], my only purpose had been to find the demons who destroyed my order and make them pay for the lives they took.  That is why I was in the forest, I was in the middle of a harsh training regimen to increase my power and skill so that I may seek out those evil brutes who took everything I loved away from me... but vengeance is not the way of the Celestial Lotus.  The Celestial doesn’t train bullies or assassins.  Finding you and aiding in your quest to protect your village from these demonic creatures of perversion gave me new purpose and would make my departed brothers and sisters proud.  I can’t honestly say I’ve given up on having my vengeance but... I will aid you in your quest first if for nothing more than to honor our friendship and honor the memory of the order and its teachings.</i>\n\n");
-	outputText("Looking renewed and at peace despite the emotional storm you know must be raging within his tiny frame Jojo returns to what he was doing after thanking you for giving him new purpose.\n\n");
-	doNext(talkMenu);
-	advanceMinutes(5);
-}
 
 //Yourself
 //Origin
-public function jojoTalkYourOrigin():void // Prob tack on some interaction count or something to unlock this
-{
-	clearOutput();
-	jojoSprite();
-	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("As you start up a conversation with Jojo, the two of you speak at length about nothing really important or noteworthy, just small talk.  That is until the monk brings up the subject of your background.  You tell him about Ingnam and your family there, and the tradition of sending a champion through the portal.  When he asks why anyone would choose to come here, you tell him how legends say that in years a champion wasn’t sent through the portal, terrible things happened to the village.\n\n");
-	outputText("\"<i>That portal?</i>\" Jojo asks, pointing to the very portal you stumbled through. You nod and he asks, \"<i>So... what were you like in Ingnam?</i>\"\n\n");
-	if (player.hasPerk(PerkLib.HistoryAlchemist)) {
-		outputText("You tell Jojo that you were the assistant to Riku, an alchemist residing in your village.  He asks questions about your time with the alchemist and how your family felt about you taking up alchemy.  You tell him that you were just about to go into advanced studies when it was announced that you were the next champion and all you really learned was how to increase the potency of certain types of items.\n\n");
+	public function jojoTalkYourOrigin():void // Prob tack on some interaction count or something to unlock this
+	{
+		clearOutput();
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+		}
+		flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
+		outputText("As you start up a conversation with " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + ", the two of you speak at length about nothing really important or noteworthy, just small talk.  That is until the monk brings up the subject of your background.  You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " about Ingnam and your family there, and the tradition of sending a champion through the portal.  When " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "asks why anyone would choose to come here, you tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " how legends say that in years a champion wasn’t sent through the portal, terrible things happened to the village.\n\n");
+		outputText("\"<i>That portal?</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " asks, pointing to the very portal you stumbled through. You nod and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "asks, \"<i>So... what were you like in Ingnam?</i>\"\n\n");
+		if (player.hasPerk(PerkLib.HistoryAlchemist)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " that you were the assistant to Riku, an alchemist residing in your village.  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "asks questions about your time with the alchemist and how your family felt about you taking up alchemy.  You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " that you were just about to go into advanced studies when it was announced that you were the next champion and all you really learned was how to increase the potency of certain types of items.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryCultivator)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent your time training to become a soul cultivator.  Hearing this little monk get slight more interested and asked you to say more about this cultivator and his chosen path, on which you gladly reply telling all you remembered.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryFighter)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how, growing up, you got into fights a lot.  You name names and tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " why and how each of those little brats had got what was coming to them. You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " how you had planned to join the village guard, but that became a pipe dream when it was announced that you were the next champion.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryFortune)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you're lucky and you've made quite a bit of money.  When the monk asks how, you shrug and tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " it's just plain luck.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryHealer)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent a lot of your time at the side of Dende, the village healer. You talk about why you wanted to spend time with the older man as he looked after the sick and infirm and the skills you learned there. You let " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " know how you had just decided to train to become an official healer when you were announced to be the next champion.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryReligious)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent most of your time in the temple. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "seems to really like hearing about the differences in religious practices between the Celestial Lotus and your village. You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " about the various clergy of your hometown and how Sister Esther took time to teach you about meditation.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryScholar)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about your insatiable thirst for knowledge and how you spent a lot of time in school. You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " the story about how you ‘convinced’ Mr. ");
+			if (EngineCore.silly()) outputText("Savin");
+			else outputText("Sellet");
+			outputText(" to let you read some of the rare books in his collection, skipping over how much begging and pleading was actually involved.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryScout)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent your time training with any bow you could find.  You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " how you had planned to join the village hunters squad, but that became a pipe dream when it was announced that you were the next champion.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistorySlacker)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent your time basically relaxing with your fiends.  You gloss over how big of a lazy bum you were with stories of the times you generally made a nuisance of yourself.  You don’t tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " that you’re pretty sure you were chosen as the next champion in order to be gotten rid of.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistorySlut)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent time... making friends.  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " looks at you weirdly and when you tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " you had a lot of friends....\n\n");
+			outputText("\"<i>That’s nice I guess [name] but didn’t you have aspirations beyond being, erm... popular?</i>\" he questions.\n\n");
+			outputText("You laugh and tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " that you were just really good and making friends, instead of the truth about how much of a slut you actually were.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistorySmith)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent your time training to become a blacksmith.  Not knowing much about smithing " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "asks questions about the things you learned and you answer them to the best of your ability.  To finish you describe the process of fitting armor in great detail and how you were going to start learning advanced techniques but were announced to be the next champion.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryTactician)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent your time learning many different war tactics from a retired commander that lived in your village. Especially on making anyone under your following put more than 100% of their effort.\n\n" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " seems disinterested in the many violent tactics you have learned. Eventually, he changes the subject.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryWhore)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent a lot of your time... making money.  When the naive little monk asks how, you just smile as you fondly remember the older whore, Poison, showing you the ropes and teaching the tricks of the trade.  Regardless of how it made people think of you, it was certainly good money.  In an attempt to hide some of the messier details of your past from the monk, you explain how you accepted... odd jobs for people, important work that not many others in the village would be willing to accept.  He seems confused but shrugs it off.\n\n");
+		}
+		else if (player.hasPerk(PerkLib.HistoryFeral)) {
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how you spent a lot of your time in the wild. You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " that before arriving in Mareth, you were living your life among a pack of wild wolves.  \n\n");  // I am not a writer, feel free to amend.
+		}
+		else {
+			outputText("You're not sure where to start. You have been doing countless activities before arriving in Mareth that it'd be virtually impossible to list all of them. It's almost impossible to choose where to start or what to even begin talking about. It comes to the point where you're not sure if there's anything you HAVEN'T done.\n\n");
+		}
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " smiles now that " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "has gotten to know you a little better. After a little bit more small talk, the two of you decide the conversation is over and part ways.\n\n");
+		doNext(talkMenu);
+		advanceMinutes(5);
 	}
-	else if (player.hasPerk(PerkLib.HistoryCultivator)) {
-		outputText("You tell Jojo about how you spent your time training to become a soul cultivator.  Hearing this little monk get slight more interested and asked you to say more about this cultivator and his chosen path, on which you gladly reply telling all you remembered.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryFighter)) {
-		outputText("You tell Jojo about how, growing up, you got into fights a lot.  You name names and tell him why and how each of those little brats had got what was coming to them. You tell him how you had planned to join the village guard, but that became a pipe dream when it was announced that you were the next champion.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryFortune)) {
-		outputText("You tell Jojo about how you're lucky and you've made quite a bit of money.  When the monk asks how, you shrug and tell him it's just plain luck.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryHealer)) {
-		outputText("You tell Jojo about how you spent a lot of your time at the side of Dende, the village healer. You talk about why you wanted to spend time with the older man as he looked after the sick and infirm and the skills you learned there. You let him know how you had just decided to train to become an official healer when you were announced to be the next champion.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryReligious)) {
-		outputText("You tell Jojo about how you spent most of your time in the temple. He seems to really like hearing about the differences in religious practices between the Celestial Lotus and your village. You tell him about the various clergy of your hometown and how Sister Esther took time to teach you about meditation.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryScholar)) {
-		outputText("You tell Jojo about your insatiable thirst for knowledge and how you spent a lot of time in school. You tell him the story about how you ‘convinced’ Mr. ");
-		if (EngineCore.silly()) outputText("Savin");
-		else outputText("Sellet");
-		outputText(" to let you read some of the rare books in his collection, skipping over how much begging and pleading was actually involved.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryScout)) {
-		outputText("You tell Jojo about how you spent your time training with any bow you could find.  You tell him how you had planned to join the village hunters squad, but that became a pipe dream when it was announced that you were the next champion.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistorySlacker)) {
-		outputText("You tell Jojo about how you spent your time basically relaxing with your fiends.  You gloss over how big of a lazy bum you were with stories of the times you generally made a nuisance of yourself.  You don’t tell him that you’re pretty sure you were chosen as the next champion in order to be gotten rid of.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistorySlut)) {
-		outputText("You tell Jojo about how you spent time... making friends.  Jojo looks at you weirdly and when you tell him you had a lot of friends....\n\n");
-		outputText("\"<i>That’s nice I guess [name] but didn’t you have aspirations beyond being, erm... popular?</i>\" he questions.\n\n");
-		outputText("You laugh and tell him that you were just really good and making friends, instead of the truth about how much of a slut you actually were.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistorySmith)) {
-		outputText("You tell Jojo about how you spent your time training to become a blacksmith.  Not knowing much about smithing he asks questions about the things you learned and you answer them to the best of your ability.  To finish you describe the process of fitting armor in great detail and how you were going to start learning advanced techniques but were announced to be the next champion.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryTactician)) {
-		outputText("You tell Jojo about how you spent your time learning many different war tactics from a retired commander that lived in your village. Especially on making anyone under your following put more than 100% of their effort.\n\nJojo seems disinterested in the many violent tactics you have learned. Eventually, he changes the subject.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryWhore)) {
-		outputText("You tell Jojo about how you spent a lot of your time... making money.  When the naive little monk asks how, you just smile as you fondly remember the older whore, Poison, showing you the ropes and teaching the tricks of the trade.  Regardless of how it made people think of you, it was certainly good money.  In an attempt to hide some of the messier details of your past from the monk, you explain how you accepted... odd jobs for people, important work that not many others in the village would be willing to accept.  He seems confused but shrugs it off.\n\n");
-	}
-	else if (player.hasPerk(PerkLib.HistoryFeral)) {
-		outputText("You tell Jojo about how you spent a lot of your time in the wild. You tell him that before arriving in Mareth, you were living your life among a pack of wild wolves.  \n\n");  // I am not a writer, feel free to amend.
-	}
-	else {
-		outputText("You're not sure where to start. You have been doing countless activities before arriving in Mareth that it'd be virtually impossible to list all of them. It's almost impossible to choose where to start or what to even begin talking about. It comes to the point where you're not sure if there's anything you HAVEN'T done.\n\n");
-	}
-	outputText("Jojo smiles now that he has gotten to know you a little better. After a little bit more small talk, the two of you decide the conversation is over and part ways.\n\n");
-	doNext(talkMenu);
-	advanceMinutes(5);
-}
 
 //Dungeon Convo: Factory
 //Requirements: Completed Demon Factory -- flags[kFLAGS.FACTORY_SHUTDOWN] > 0
-public function jojoTalkFactory():void
-{
-	clearOutput();
-	jojoSprite();
-	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("You tell Jojo about your having successfully found and stopped the demonic factory.  You tell him how you found out the factory was there and how you defeated the demons inside. He seems impressed.\n\n");
-	if (flags[kFLAGS.FACTORY_SHUTDOWN] == 2)
+	public function jojoTalkFactory():void
 	{
-		outputText("His ears perk at the news as you continue, telling him that you destroyed the factory controls, which permanently shut down the factory - but released an enormous quantity of corrupted fluids into the environment.\n\n");
-		outputText("Jojo cocks his head to the side as he considers his words carefully before speaking, \"<i>I guess it seems like the right move.  Permanently disabling the factory would not only deal a heavy blow to the demons, but also give the rest of us time to reclaim the forest... but I don’t know.  If the release of fluids was as much as you say it was then there’s a chance that it’ll do more harm than good.  I’ve seen what corruption does to this world and that much corrupted fluid flooding out all at once could really hurt our cause. I’m not saying it was the wrong thing to do, or lessening your accomplishment, but you have to be careful.  The demons aren’t just powerful, they’re deceptive.</i>\"\n\n");
-		outputText("You listen to the monk’s council and despite his concerns he seems genuinely happy to hear you’ve struck a blow against the demonic regime.\n\n");
+		clearOutput();
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+		if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+		}
+		flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
+		outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about your having successfully found and stopped the demonic factory.  You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " how you found out the factory was there and how you defeated the demons inside. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "seems impressed.\n\n");
+		if (flags[kFLAGS.FACTORY_SHUTDOWN] == 2)
+		{
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " ears perk at the news as you continue, telling " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " that you destroyed the factory controls, which permanently shut down the factory - but released an enormous quantity of corrupted fluids into the environment.\n\n");
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " cocks " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " head to the side as he considers " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " words carefully before speaking, \"<i>I guess it seems like the right move.  Permanently disabling the factory would not only deal a heavy blow to the demons, but also give the rest of us time to reclaim the forest... but I don’t know.  If the release of fluids was as much as you say it was then there’s a chance that it’ll do more harm than good.  I’ve seen what corruption does to this world and that much corrupted fluid flooding out all at once could really hurt our cause. I’m not saying it was the wrong thing to do, or lessening your accomplishment, but you have to be careful.  The demons aren’t just powerful, they’re deceptive.</i>\"\n\n");
+			outputText("You listen to the monk’s council and despite " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " concerns " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "seems genuinely happy to hear you’ve struck a blow against the demonic regime.\n\n");
+		}
+		else
+		{
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " ears perk at the news as you continue, telling " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " that you shut down the factory and destroyed the controls, for the sake of the surrounding environment.\n\n");
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "’s chest swells with pride as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "looks at you with new eyes before saying, \"<i>Wow [name], I don’t know what to say.  I know it uprooted your life and took you away from the ones you love but I sincerely believe that the day you came through that portal was a good day for all of Mareth.  I am proud of you and humbled by the fact that I can call you my friend.</i>\"  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "rises and gives you a hug of fierce devotion and friendly affection before pulling away and saying, \"<i>We’ll have to watch the factory though... the demons can’t be allowed to reopen that evil place.</i>\"\n\n");
+		}
+		outputText("Once the two of you are done discussing the demonic factory " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " excuses " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + "self to think on what you’ve told " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + ".\n\n");
+		doNext(talkMenu);
+		advanceMinutes(5);
 	}
-	else
-	{
-		outputText("His ears perk at the news as you continue, telling him that you shut down the factory and destroyed the controls, for the sake of the surrounding environment.\n\n");
-		outputText("Jojo’s chest swells with pride as he looks at you with new eyes before saying, \"<i>Wow [name], I don’t know what to say.  I know it uprooted your life and took you away from the ones you love but I sincerely believe that the day you came through that portal was a good day for all of Mareth.  I am proud of you and humbled by the fact that I can call you my friend.</i>\"  He rises and gives you a hug of fierce devotion and friendly affection before pulling away and saying, \"<i>We’ll have to watch the factory though... the demons can’t be allowed to reopen that evil place.</i>\"\n\n");
-	}
-	outputText("Once the two of you are done discussing the demonic factory Jojo excuses himself to think on what you’ve told him.\n\n");
-	doNext(talkMenu);
-	advanceMinutes(5);
-}
 
 //Dungeon Convo: Sand Cave
 //Requirements: Completed Sand Witch Dungeon
 public function jojoTalkSandCave():void
 {
 	clearOutput();
-	jojoSprite();
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+	}
 	flags[kFLAGS.TIMES_TALKED_WITH_JOJO]++;
-	outputText("You tell Jojo about your discovery of a cave that served as a base for the sand witches of the desert. You tell him about the whole ordeal, and he listens with wide eyes and jaw agape. When you tell him about meeting the Sand Mother Jojo gasps.\n\n");
+	outputText("You tell" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "about your discovery of a cave that served as a base for the sand witches of the desert. You tell" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + "about the whole ordeal, and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " listens with wide eyes and jaw agape. When you tell him about meeting the Sand Mother " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " gasps.\n\n");
 	outputText("\"<i>Wait... so you mean to tell me that these sand witches a-are... allies of Marae?  But they’re s-so... sexual.</i>\"  He seems genuinely confused, but you tell him that sex is part of nature after all, and that there is nothing wrong or shameful about it.  He agrees with you, but decries the way the sand witches use their power.\n\n");
 	//if PC raped Sand Mother
 	if (flags[kFLAGS.SAND_WITCHES_COWED] == 1)
 	{
-		outputText("You describe your battle with the Sand Mother in an animated blow-by-blow fashion, and when you get to the end where you raped the Sand Mother you look at Jojo and... lie.  You completely gloss over the fact that you sexually assaulted the Sand Mother, because despite his interest, he is a little naive and offended by the world of sexual conquest.  He appraises your actions, ignorant of what actually occurred.\n\n");
+		outputText("You describe your battle with the Sand Mother in an animated blow-by-blow fashion, and when you get to the end where you raped the Sand Mother you look at" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "and... lie.  You completely gloss over the fact that you sexually assaulted the Sand Mother, because despite " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " interest, " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " is a little naive and offended by the world of sexual conquest.  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " appraises your actions, ignorant of what actually occurred.\n\n");
 	}
 	//if PC spoke to Sand Mother after Fighting her
 	// FRIENDLY is the overall victory flag (theres a separate flag used to indicate you dun wanna be attacked by sandbitches in the desert anymore)
 	else if (flags[kFLAGS.SAND_WITCHES_FRIENDLY] == 1 && flags[kFLAGS.SAND_MOTHER_DEFEATED] == 1)
 	{
-		 outputText("You describe your battle with the Sand Mother in an animated blow by blow. When you get to the end you tell him about how reasonable the Sand Mother actually was after you beat her.\n\n");
-		 outputText("Jojo’s head tils to the side as he says, \"<i>Maybe the whole thing didn’t need to come to an altercation in the first place, a little diplomacy on both sides....</i>\"  He gives you a pointed look, \"<i>Might have gone a long way.</i>\"\n\n");
+		 outputText("You describe your battle with the Sand Mother in an animated blow by blow. When you get to the end you tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " about how reasonable the Sand Mother actually was after you beat her.\n\n");
+		 outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "’s head tils to the side as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " says, \"<i>Maybe the whole thing didn’t need to come to an altercation in the first place, a little diplomacy on both sides....</i>\"  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " gives you a pointed look, \"<i>Might have gone a long way.</i>\"\n\n");
 	}
 	//if PC just spoke to the Sand Mother
 	else if (flags[kFLAGS.SAND_WITCHES_FRIENDLY] == 1 && flags[kFLAGS.SAND_MOTHER_DEFEATED] == 0)
 	{
-		outputText("You tell Jojo about how the Sand Mother spoke with you once you had battled your way to her.  You tell him she was reasonable and how the whole thing was, in the end, a simple misunderstanding.\n\n");
-		outputText("He marvels at the way you handled the situation, \"<i>Many would have expected her trying to talk to them to be a trap [name] and hurried to attack her but not you... that is... wow [name], you are truly a great individual.</i>\"\n\n");
+		outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how the Sand Mother spoke with you once you had battled your way to her.  You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " she was reasonable and how the whole thing was, in the end, a simple misunderstanding.\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " marvels at the way you handled the situation, \"<i>Many would have expected her trying to talk to them to be a trap [name] and hurried to attack her but not you... that is... wow [name], you are truly a great individual.</i>\"\n\n");
 	}
 	//[if {PC met bath slut}
 	if (flags[kFLAGS.MET_MILK_SLAVE] == 1)
 	{
-		outputText("You tell Jojo about the poor mind addled thing you found sitting in a tub of milk acting as a slave to the sand witch coven.\n\n");
-		outputText("He shudders like a child being told a scary story and asks, \"<i>What did you do?</i>\"\n\n");
+		outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about the poor mind addled thing you found sitting in a tub of milk acting as a slave to the sand witch coven.\n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " shudders like a child being told a scary story and asks, \"<i>What did you do?</i>\"\n\n");
 		//[if {PC hasn’t spoken to Sand Mother about Bath Slut yet}
 		// Can't differentiate this
 		// All I have is HAS_MET and HAS_RECRUITED effectively
 		if (flags[kFLAGS.MILK_NAME] is Number)
 		{
-			outputText("You tell Jojo about how the Sand Mother told you the bath girl was unfit to be free and how they care for her because she can’t care for herself.\n\n");
-			outputText("Jojo reacts by putting his chin in his hands and thinking, \"<i>Well... I guess that’s the human thing to do, especially since she doesn’t seem to be corrupted.  Maybe these sand witch covens aren’t all bad, still hard to believe that they’re on our side though....</i>\"  He looks up and shrugs, \"<i>Any act of charity though is a good thing.  I do hope the poor girl will be alright.</i>\"\n\n");
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about how the Sand Mother told you the bath girl was unfit to be free and how they care for her because she can’t care for herself.\n\n");
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " reacts by putting " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " chin in his hands and thinking, \"<i>Well... I guess that’s the human thing to do, especially since she doesn’t seem to be corrupted.  Maybe these sand witch covens aren’t all bad, still hard to believe that they’re on our side though....</i>\"  " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " looks up and shrugs, \"<i>Any act of charity though is a good thing.  I do hope the poor girl will be alright.</i>\"\n\n");
 		}
 		// [if {PC has bath slut in camp}
 		else if (flags[kFLAGS.MILK_NAME] is String)
 		{
-			outputText("As the question leaves his lips you give Jojo a confused look and, with a glance, direct his gaze toward " + flags[kFLAGS.MILK_NAME] + ".\n\n");
-			outputText("He slaps his own forehead and says, \"<i>Oh... yeah... right.</i>\" Obviously embarrassed by not putting two and two together. He smiles good naturedly though, \"<i>I don’t know I guess I just assumed you found some poor mind addled soul and decided to save her.</i>\" Jojo says as he looks over at " + flags[kFLAGS.MILK_NAME] + ".\n\n");
+			outputText("As the question leaves his lips you give Jojo a confused look and, with a glance, direct " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " gaze toward " + flags[kFLAGS.MILK_NAME] + ".\n\n");
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " slaps " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " own forehead and says, \"<i>Oh... yeah... right.</i>\" Obviously embarrassed by not putting two and two together. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " smiles good naturedly though, \"<i>I don’t know I guess I just assumed you found some poor mind addled soul and decided to save her.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " says as " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " looks over at " + flags[kFLAGS.MILK_NAME] + ".\n\n");
 			//[if (bathSlutStage1 - unaltered)
 			if (flags[kFLAGS.MILK_SIZE] == 0)
 			{
-				outputText("\"<i>She’ll fare much better in our care than in the coven’s,</i>\" he states with conviction.\n\n");
+				outputText("\"<i>She’ll fare much better in our care than in the coven’s,</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " states with conviction.\n\n");
 			}
 			//[if (bathSlutStage2 - HHH)
 			else if (flags[kFLAGS.MILK_SIZE] == 1)
 			{
-				outputText("\"<i>She’s already much better than she was when she got here,</i>\" he says with a grin.\n\n");
+				outputText("\"<i>She’s already much better than she was when she got here,</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " says with a grin.\n\n");
 			}
 			//[if (bathSlutStage3 - DD)
 			else
 			{
-				outputText("\"<i>The coven wouldn’t have done what you’ve done for her.  You’ve given her a much, much better life and even aided in fixing her condition, you truly are a champion, [name],</i>\" he says, giving you a fond smile and a pat on the back.\n\n");
+				outputText("\"<i>The coven wouldn’t have done what you’ve done for her.  You’ve given her a much, much better life and even aided in fixing her condition, you truly are a champion, [name],</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " says, giving you a fond smile and a pat on the back.\n\n");
 			}
 		}
 	}
@@ -2551,25 +2716,25 @@ public function jojoTalkSandCave():void
 	//[if {PC met Cum Witch}
 	if (flags[kFLAGS.CUM_WITCH_DEFEATED] == 1 || flags[kFLAGS.BEEN_BLESSED_BY_CUM_WITCH] == 1)
 	{
-		outputText("You tell Jojo about the cum witch, the herm witch responsible for inseminating the witches there, acting as a father to the others.  When you do he scratches his ear, \"<i>Like I said, I don’t get why sex is so overly important to these creatures but whatever, continue.</i>\"\n\n");
+		outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " about the cum witch, the herm witch responsible for inseminating the witches there, acting as a father to the others.  When you do " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " scratches " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " ear, \"<i>Like I said, I don’t get why sex is so overly important to these creatures but whatever, continue.</i>\"\n\n");
 		//[if {PC allowed Cum Witches to increase their numbers}
 		if (flags[kFLAGS.MORE_CUM_WITCHES] == 1)
 		{
-			outputText("You tell him how you tried to remedy the current cum witch’s situation by asking the Sand Mother to make more cum witches.\n\n");
-			outputText("He whistles low, \"<i>That’s a bold move [name].  It seems like they would want that though, it’d allow them to, er, you know... more often, and make more sand witches in the long run wouldn’t it?</i>\" As the question sound rhetorical you plow on ahead.\n\n");
+			outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " how you tried to remedy the current cum witch’s situation by asking the Sand Mother to make more cum witches.\n\n");
+			outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " whistles low, \"<i>That’s a bold move [name].  It seems like they would want that though, it’d allow them to, er, you know... more often, and make more sand witches in the long run wouldn’t it?</i>\" As the question sound rhetorical you plow on ahead.\n\n");
 		}
 		//[if {PC allowed Cum Witches to rome}
 		else if (flags[kFLAGS.CUM_WITCHES_FIGHTABLE] == 1)
 		{
-			outputText("You describe to him how you convinced the Sand Mother to allow her cum witches to rome the desert along with the sand witches and he looks at you with astonishment, \"<i>You are a generous spirit [name] and this Sand Mother doesn’t seem entirely unreasonable.</i>\"\n\n");
+			outputText("You describe to " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " how you convinced the Sand Mother to allow her cum witches to roam the desert along with the sand witches and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " looks at you with astonishment, \"<i>You are a generous spirit [name]... and this Sand Mother doesn’t seem entirely unreasonable.</i>\"\n\n");
 		}
 		//[if {PC did nothing to help Cum Witch}
 		else
 		{
-			outputText("\"You tell Jojo that you’re actually done. He says, \"<i>Oh... well that’s weird.</i>\" and after an awkward silence, the two of you burst out laughing.\n\n");
+			outputText("\"You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " that you’re actually done. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " says, \"<i>Oh... well that’s weird.</i>\" and after an awkward silence, the two of you burst out laughing.\n\n");
 		}
 	}
-	outputText("Having concluded the conversation the two of you stand and Jojo gives you an appreciative pat on the shoulder, seeming more fond of you.\n\n");
+	outputText("Having concluded the conversation the two of you stand and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " gives you an appreciative pat on the shoulder, seeming more fond of you.\n\n");
 	doNext(talkMenu);
 	advanceMinutes(5);
 }
@@ -2579,7 +2744,9 @@ public function jojoTalkSandCave():void
 public function apparantlyJojoDOESlift():void
 {
 	clearOutput();
-	jojoSprite();
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] == 4 || flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {jojoSprite(); }
+	if (flags[kFLAGS.JOJO_BIMBO_STATE] == 5) {spriteSelect(SpriteDb.s_joy);
+	}
 	//{First Session only}
 	if (flags[kFLAGS.UNLOCKED_JOJO_TRAINING] == 0)
 	{
@@ -2841,7 +3008,7 @@ public function confrontChastity():void {
 	doNext(pureJojoSexMenu);
 }
 
-private function pureJojoSexMenu():void {
+public function pureJojoSexMenu():void {
 	var capacity:int = 40;
 	if (flags[kFLAGS.JOJO_ANAL_XP] < 10) capacity += (flags[kFLAGS.JOJO_ANAL_XP] * 3);
 	else capacity += 30; //Caps at 70.
@@ -2873,6 +3040,9 @@ private function pureJojoSexMenu():void {
 	addButton(2, "Vaginal Catch", getVagFuckedByMouse).hint("Have Jojo penetrate you vaginally.")
 		.disableIf(!player.hasVagina(), "Req. a vagina.");
 	addButton(3, "Blow Him", suckJojosCock).hint("Suck Jojo's cock and get a taste of mouse cum!");
+	if (JojoRapeRoleplay) {
+		addButton(4, "RapeRP", JojoRapeRoleplayMenu).hint("RP with Jojo.");
+	}
 	addButton(14, "Never mind", jojoCampMenu);
 }
 
@@ -2925,7 +3095,7 @@ private function anallyFuckTheMouseButtSlut():void {
 	else {
 		outputText("\n\nJojo gets on all fours in a hurry, sticking his firm ass in the air for you to see as he spreads his cheeks apart. The little slut's so eager for you.");
 		//Check anal tightness
-		outputText("\n\nAnd you're eager, too: your " + player.multiCockDescriptLight() + "is already hard. You gently caress Jojo’s toned, quivering butt-cheeks and get a good glance at his anus. You decide to test it out again. You warn Jojo that you’ll be inserting your hand in first. Jojo says, “Hurry up.” You smile at his response. You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, testing out the looseness.");
+		outputText("\n\nAnd you're eager, too: your " + player.multiCockDescriptLight() + "is already hard. You gently caress Jojo’s toned, quivering butt-cheeks and get a good glance at his anus. You decide to test it out again. You warn Jojo that you’ll be inserting your hand in first. Jojo says, \"<i>Hurry up.</i>\" You smile at his response. You slick your fingers up with some saliva, and then gently start to probe Jojo’s pucker, testing out the looseness.");
 		//Anal fingering and stretching
 		outputText("\n\nThe second your digits invade Jojo’s bowels, his cock starts leaking precum. Jojo’s face kept flickering between pain and arousal. Jojo must really be sensitive. ");
 		outputText("Hmm... his ass seems more stretched out compared to the second time; you should be able to insert without worry. ");
@@ -3021,6 +3191,8 @@ public function giveBirthToPureJojoBabies():void {
 			outputText("As you lie resting from your exertions, you notice some of your kids from Jojo and Amily arrive and take away your newborns. They come by to say hi and catch up. As it got late, they had to say goodbye and leave. You watch them leave with a tiny bit worry gnawing inside. Your kids are so young, will they be ok? Jojo seems to sense our feeling and reassures you by squeezing your hand. You look up at him and slowly nod. They'll be fine; afterall, they're your kids.\n\n");
 		}
 		flags[kFLAGS.JOJO_LITTERS_AMILY_REACTION_COUNTER]++;
+		RuinedTownRebuilt.JojoyLitters = true;
+		RuinedTownRebuilt.MousetownPopulation += 6;
 	}
 	else outputText("\"<i>Look at them all. You... I never thought I would be able to have kids when my village was destroyed, but you made it happen. Thank you,</i>\" Jojo tells you sincerely. You ask him how they were going to raise them. Jojo frowned thoughtfully and says, \"<i>Hmm, you’re right...we can’t raise them here... I know of a place we can send them. It’s safe from corruption and it should do till we find better arrangements.</i>\" As sad as you were about sending your kids away, you agree with Jojo; it was for the best. You're too exhausted to keep your eyes open for long, but he promises watch them and even as you fall asleep, he’s gathering up your children and taking them away.\n\n");
 	if (player.hasMutation(IMutationsLib.GoblinOvariesIM)) flags[kFLAGS.JOJO_LITTERS] += 2;
@@ -3068,13 +3240,471 @@ public function afterDebimboTalk():void {
     outputText("\n\nYou tell Jojo that you know. He whips his head up, eyes locking with yours. \"<i>W-wait, you know?!</i>\" You laugh, telling the shy monk that Joy was very honest with what she wanted. This makes Jojo squirm uncomfortably. \"<i>So... You know that I... </i>\" You join the monk on his log, putting an arm around him. \"<i>You know that I... care deeply for you.</i>\"");
     outputText("\n\nYou put a finger on Jojo’s lips. You tell Jojo that you know he loves you. And if he remembers his time as Joy, he knows that feeling is mutual. At this, Jojo’s eyes brighten, and he almost tears up. \"<i>Y-you mean that?</i>\" You nod again, and Jojo leans in, resting his muzzle against your [chest].");
     outputText("\n\n\"<i>Thank you.</i>\" He says simply. \"<i>I... Will need to meditate more... I have no idea what the future brings... </i>\" He chuckles, standing back up. \"<i>But now... At least I have a little more Joy in my life.</i>\" Shocked, you ask him if he just made a joke, and he waggles his eyebrows, smiling deeply. \"<i>Maybe I did... or Maybe not.</i>\"");
-    if (flags[kFLAGS.JOY_TWINS_BIRTHED] > 0)
+    if (flags[kFLAGS.JOY_TWINS_BIRTHED] > 0 || flags[kFLAGS.JOJO_LITTERS] > 0)
         outputText("\n\nAt this, your mousey children poke their heads out from nearby, and Jojo opens his arms wide. They swarm him, and he scoops up a half-dozen, rubbing the tops of their heads with his cheek. Many of them seem confused, but they don’t care.");
     outputText("\n\n\"<i>I’ll be in my usual spot at camp.</i>\" Jojo says, looking back at you. \"<i>Visit me often, won’t you?</i>\"");
     flags[kFLAGS.TALKED_TO_JOJO_ABOUT_JOY] = 1;
+	flags[kFLAGS.JOJO_BIMBO_STATE] = 4;
     flags[kFLAGS.DISABLED_JOJO_RAPE] = 1;
 	monk = JOJO_SEXED; //probably should lock the sex before... but better to change bimbo acquisition first.
     doNext(playerMenu);
 }
+
+	//------------------Jojo post Debimbo Stuff---------------------
+	public function joJoyCampMenu():void {
+		clearOutput();
+		var jojoDefense:String = "N.Watch:";
+		switch (rand(3)) {
+			case 0:
+				if (BelisaFollower.BelisaInCamp) {
+					outputText("You see your Drider lover, Belisa, standing next to Joy. The two seem to be discussing something in earnest, while Belisa's working on patching one of Joy's robes.\n\n");
+					outputText("I know where you're coming from, even if I don't understand everything.\" Belisa says warmly. \"I personally wouldn't go to such extremes, Marae above, I understand your reluctance to tell them at all.\" She chuckles. \"But it seems to have worked for you. You're happier than I've ever seen you before.\" \n\n");
+					outputText("Joy seems a little bashful at that. \"Well...It was an accident the first time. It wasn't...Planned.\" \n\n");
+					outputText("\"Well, nobody sane would drink that...Beverage...Willingly, if they knew what it was.\" Belisa chides. \"Just consider yourself lucky that someone like [Name] was there to get it removed. \n\n");
+					outputText("\"Oh, I consider myself *very* lucky\" Joy teases. Belisa gently slaps the monk on the shoulder. \n\n");
+					outputText("\"That's what I get for being nice to you!\" Belisa fires back, but you can tell it's just friendly teasing. You step closer, and the two turn their heads, Belisa waving at you happily.\n\n");
+					outputText("\"Hello!\" Belisa says happily. \"We were just discussing-\" Joy lunges, cheeks bright red, to put her hands over the Drider's mouth, but Belisa laughs, ducking. \"Never mind!\" Joy 'chases' Belisa away, but you can tell both ladies are laughing, Joy, a bit embarassed, Belisa, amused to no end.  \n\n");
+					outputText("\"Joy comes back, breathing slightly heavily, her cheeks red. \"Hello, [Name], what can I do for you?\" \n\n");
+				} else if (!(BelisaFollower.BelisaInCamp)) {
+							outputText("You walk toward the boulder where Joy usually sits, and see her cross-legged with her eyes closed.  At first, she seems to be deep in meditation, but when you approach, her mouth curls into a smile; she gets up and opens her eyes, regarding you with a warm smile.  \"<i>Hello there, [name], is there anything I can help you with?</i>\"\n\n");
+					}
+				if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) {
+					outputText("(Joy is currently watching for enemies at night.)\n\n");
+					jojoDefense += "On";
+				} else jojoDefense += "Off";
+				menu();
+				addButton(0, "Appearance", joJoyAppearance).hint("Examine Joy's appearance.");
+				addButton(1, "Talk", talkMenu).hint("Chat with Joy.");
+				if (flags[kFLAGS.UNLOCKED_JOJO_TRAINING] == 1) addButton(2, "Train", joJoyTraining).hint("Join her in a training session.");
+				addButton(3, "Meditate", jojoFollowerMeditate);
+				addButton(4, jojoDefense, jojoDefenseToggle).hint((player.hasStatusEffect(StatusEffects.JojoNightWatch) ? "Request her to stop guarding the camp." : "Request her to guard the camp at night."));
+				if (player.hasStatusEffect(StatusEffects.Infested)) addButton(5, "Purge", wormRemoval).hint("Request her to purge the worms from your body.");
+				addButton(8, "Sex", joJoySexMenu).hint("Have some sexy time with your mousey monk.");
+				addButton(14, "Leave", camp.campFollowers);
+				break;
+			case 1:
+				if (flags[kFLAGS.LUNA_AFFECTION] == 100) {
+					outputText(" To your surprise, you see your maid. Luna's on a table, lying on her stomach, eyes closed in bliss. Joy's standing beside her, hands softly caressing Luna's slender neck. As she kneads Luna's muscles, you maid seems content, for once, to just relax.\n\n");
+					outputText("\<i>She was complaining about muscle pain.\"</i> Joy explains. <i>\"And one of the things I learned at the monastary was how to relax muscles. Luna's been very helpful lately, so I figured she deserved some time for herself. Poor girl never relaxes.\"</i>  \n\n");
+					outputText("Joy takes her hands away, and you can hear Luna's breathing slow. Within moments, she's sound asleep, and Joy carries a pillow in, gently placing it under her head and leaving your maid to rest. \n\n");
+					outputText("<i>\"She'll only be out for an hour, knowing her.\"</i> Joy says, bemused. <i>\"She's obsessed with you, you know. Works herself silly because of it\".</i> You tell Joy that you know, and she gives you a stern glance.  <i>\"As long as you're not taking advantage of her love.\"</i> You reassure Joy that you'd never, and she smiles.  \n\n");
+					outputText("<i>\"Anyways, what brings you to me today? Need a little Joy?\"</i> She winks, and you groan internally. \n\n");
+				} else if (flags[kFLAGS.LUNA_AFFECTION] != 100) {
+							outputText("You walk up to the boulder where Joy usually sits and find her a few paces behind it. She is standing and practicing her form, gracefully moving from one pose to the next. Occasionally, her prodigous breasts get in the way, but she seems to have adapted to her new form well. As you approach her, you see her ears visibly perk up. She turns her head towards you without breaking her stance, breathing evenly as she balances on her toes. \"<i>Hello [name], is there anything I can assist you with?</i>\"\n\n");
+				}
+				if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) {
+					outputText("(Joy is currently watching for enemies at night.)\n\n");
+					jojoDefense += "On";
+				} else jojoDefense += "Off";
+				menu();
+				addButton(0, "Appearance", joJoyAppearance).hint("Examine Joy's appearance.");
+				addButton(1, "Talk", talkMenu).hint("Chat with Joy.");
+				if (flags[kFLAGS.UNLOCKED_JOJO_TRAINING] == 1) addButton(2, "Train", joJoyTraining).hint("Join her in a training session.");
+				addButton(3, "Meditate", jojoFollowerMeditate);
+				addButton(4, jojoDefense, jojoDefenseToggle).hint((player.hasStatusEffect(StatusEffects.JojoNightWatch) ? "Request her to stop guarding the camp." : "Request her to guard the camp at night."));
+				if (player.hasStatusEffect(StatusEffects.Infested)) addButton(5, "Purge", wormRemoval).hint("Request her to purge the worms from your body.");
+				addButton(8, "Sex", joJoySexMenu).hint("Have some sexy time with your mousey monk.");
+				addButton(14, "Leave", camp.campFollowers);
+				break;
+			case 2:
+				if (flags[kFLAGS.NADIA_FOLLOWER] == 5) {
+					outputText("You find Joy and Nadia sitting side by side, meditating. Nadia's horn is glowing, and the grass around her seems to be growing faster. Joy opens her eyes, and claps her hands once. Nadia opens hers, looking around her in surprise.\n\n");
+					outputText("<i>\"Well done!\"</i> Joy exclaims. <i>\"Channeling your intentions through your horn might be basic to a born unicorn, but you've learned it quite quickly.\"</i> \n\n");
+					outputText("Nadia seems a little embarassed by the praise, but she gives Joy a thumbs-up. <i>\"I'm just hoping I can focus it on my herbs. If I can do that, growing them will be much easier.\"</i> \n\n");
+					outputText("<i>\"Well, you're on your way to accomplishing that. You just need some more focus, and meditation will help there.\"</i> Nadia thanks Joy for the help, and heads back to her part of camp. Joy stands, stretching her neck, before seeing you. <i>\"Oh, is there something you need?\"</i> She asks happily. <i>\"Your unicorn friend over there is delightful!\"</i> \n\n");
+				} else if (flags[kFLAGS.NADIA_FOLLOWER] != 5) {
+							outputText("You find Joy sitting cross-legged on a flat rock, her staff leaning against her shoulder. She appears deep in thought, chewing idly on a fingernail. As you approach, she flinches, seemingly taken by surprise. She looks to you and chuckles a little, putting one hand on her hip. \"<i>Greetings, [name].  Is there something I can do for you?</i>\"\n\n");
+					}
+				if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) {
+					outputText("(Joy is currently watching for enemies at night.)\n\n");
+					jojoDefense += "On";
+				} else jojoDefense += "Off";
+				menu();
+				addButton(0, "Appearance", joJoyAppearance).hint("Examine Joy's appearance.");
+				addButton(1, "Talk", talkMenu).hint("Chat with Joy.");
+				if (flags[kFLAGS.UNLOCKED_JOJO_TRAINING] == 1) addButton(2, "Train", joJoyTraining).hint("Join her in a training session.");
+				addButton(3, "Meditate", jojoFollowerMeditate);
+				addButton(4, jojoDefense, jojoDefenseToggle).hint((player.hasStatusEffect(StatusEffects.JojoNightWatch) ? "Request her to stop guarding the camp." : "Request her to guard the camp at night."));
+				if (player.hasStatusEffect(StatusEffects.Infested)) addButton(5, "Purge", wormRemoval).hint("Request her to purge the worms from your body.");
+				addButton(8, "Sex", joJoySexMenu).hint("Have some sexy time with your mousey monk.");
+				addButton(14, "Leave", camp.campFollowers);
+				break;
+		}
+	}
+			public function joJoyAppearance():void {
+				clearOutput();
+				outputText(images.showImage("joy-appearance"));
+				outputText("Joy shakes her head as you look her up and down, putting a hand on her hip and leaning on her staff. Her face is curvy and feminine, with thin lips and long eyelashes. Her eyes are a deep blue, equal parts wise and patient. ");
+				outputText("\n\nShe's wearing monk's robes, with a thin black bikini underneath holding her - " + Appearance.breastCup(flags[kFLAGS.JOY_BREAST_SIZE]) + "s breasts in place. With every movement, you can see the soft orbs moving, but they seem to be firmly held in place. She wears her prayer beads as a belt, with athletic-looking black shorts underneath her robe. She notices you staring, and Joy giggles a little, giving you a slow twirl. As she turns, your gaze drifts lower. You see a nice handful of ass, with supportive hips that give her a very sexy hourglass figure. She's wearing knee-length leggings that shows off every muscle in her slender legs, and she walks barefoot on her mousy footpaws.");
+				outputText("\n\nHer weapon of choice is an unremarkable wooden staff, which she practices with fairly regularly. You also notice her occasionally rest it between her breasts, or between her luscious cheeks, when not using it. She notices your gaze, and pulls it up slowly, trying to be sexy with it.");
+				if (joyScene.joyHasCock() && joyScene.joySexCounter() > 0) outputText("\n\nFrom previous experience you can estimate she has a " + joyScene.joyCockLength() + " inches long and " + joyScene.joyCockGirth() + " inches thick dick. It looks surprisingly human, right underneath that, she has a pair of gonads that are about " + joyScene.joyBallSize() + " " + (joyScene.joyBallSize() == 1 ? "inch" : "inches") + " in diameter each.");
+				outputText("\n\nBetween her legs sits a " + joyScene.joyPussyDescript() + ". Beads of lubricant occasionally form on her pink nether lips.");
+				outputText("\n\nBetween her squeezable jiggly asscheeks she has " + joyScene.joyAssDescript() + ", right where it belongs.");
+				if (RuinedTownRebuilt.Intown) {
+					doNext(SceneLib.ruinedTown.enterVillage);
+				}
+				else { doNext(joJoyCampMenu); }
+			}
+
+			public function joJoyTraining():void {
+				clearOutput();
+				if (!player.hasPerk(PerkLib.ControlledBreath) && !player.hasPerk(PerkLib.CleansingPalm) && !player.hasPerk(PerkLib.Enlightened)) {
+					outputText("Joy gives you a bright cheerful smile, \"<i>Alright [name]... let’s begin.</i>\"\n\n");
+					outputText("Joy’s teaching style periodically switches between lecture and sparring.  When she explains a concept or a strike, she guides you through it, stopping you occasionally to correct a flaw in your stance, before asking you to try it on her. She is patient but firm.  She doesn’t punish you when you make a mistake, instead, corrects you and asks you to try again.  She doesn’t allow you to give up, and her teaching style, coupled with the pleasant appearance of your teacher, stops you from feeling frustrated.\n\n");
+					outputText("The entire session is intense, and each brief lecture or demonstration serves as a quick break to stop your body from giving out, and help you build endurance.\n\n");
+					outputText("By the end of the training session you are covered in sweat, your lungs heaving for breath.\n\n");
+					outputText("As you bow to Joy, she bows back and says, \"<i>Go get some rest [name], you’ve earned it.</i>\"\n\n");
+					if (player.canTrain('str', player.trainStatCap("str",80))) {
+						dynStats("str", 2); //Str boost to 80
+						player.trainStat("str", 1, player.trainStatCap("str",80));
+					}
+					if (player.canTrain('int', player.trainStatCap("int",80))){
+						dynStats("int", 2); //Int boost to 80
+						player.trainStat("int", 1, player.trainStatCap("int",80));
+					}
+					if (player.canTrain('wis', player.trainStatCap("wis",100))){
+						dynStats("wis", 6); //Wisdom boost to 100
+						player.trainStat("wis", 3, player.trainStatCap("wis",100));
+					}
+					fatigue(150);
+					if (flags[kFLAGS.TIMES_TRAINED_WITH_JOJO] == 5)
+					{
+						trace("ADDING FIRST PERK");
+						outputText("\"<i>Breathing is key.</i>\"\n\n");
+						outputText("Joy’s constantly repeated words resonate within you as you realize you’ve learned to control your breathing. It takes you less time to rest than normal and you feel as though you are bursting with energy because of it.  Your [fullChest]");
+						if (player.biggestTitSize() == 0) outputText(" rises and falls");
+						else outputText(" rise and fall");
+						outputText(" smoothly even in the heat of battle.  From now on you know you’ll recover more quickly.\n\n");
+						outputText("<b>(Perk Gained: Controlled Breath -</b> Increases rate of fatigue/mana/soulforce regeneration by 20%<b>)</b>");
+						player.createPerk(PerkLib.ControlledBreath, 0, 0, 0, 0);
+					}
+					if (RuinedTownRebuilt.Intown) {
+						doNext(SceneLib.ruinedTown.enterVillage);
+					}
+					else { doNext(joJoyCampMenu); }
+				}
+				//{after the PC has gained the controlled breath perk}
+				else if (player.hasPerk(PerkLib.ControlledBreath) && !player.hasPerk(PerkLib.CleansingPalm) && !player.hasPerk		(PerkLib.Enlightened))
+				{
+					outputText("Joy gives you a big toothy grin, \"<i>Alright [name]... let’s begin.</i>\"\n\n");
+					outputText("Joy switches up the way she is instructing you.  Largely due to your increased endurance, the two of you spend more time moving through forms together and practicing strikes and maneuvers.  When it comes time for a brief lecture, she breaks out one of the few scrolls she has from her order and tells you what she knows about the contents.\n\n");
+					outputText("Before too long, the two of you are up again and practicing forms and mock strikes, even sparring briefly from time to time.  By the end of the intense training session you are covered in sweat... but so is Joy, and neither of you are out of breath. As you bow to Joy she returns the gesture, her ears twitching. \"<i>Go get some rest [name], you’ve earned it.</i>\"\n\n");
+					fatigue(150);
+					if (player.canTrain('str', player.trainStatCap("str",80))) {
+						dynStats("str", 2); //Str boost to 80
+						player.trainStat("str", 1, player.trainStatCap("str",80));
+					}
+					if (player.canTrain('int', player.trainStatCap("int",80))){
+						dynStats("int", 2); //Int boost to 80
+						player.trainStat("int", 1, player.trainStatCap("int",80));
+					}
+					if (player.canTrain('wis', player.trainStatCap("wis",100))){
+						dynStats("wis", 6); //Wisdom boost to 100
+						player.trainStat("wis", 3, player.trainStatCap("wis",100));
+					}
+					if (flags[kFLAGS.TIMES_TRAINED_WITH_JOJO] == 10)
+					{
+						trace("ADDING SECOND PERK");
+						outputText("The repeated movements are slowly starting to sink in, your muscles becoming accustomed to Joy’s training.\n\n");
+						outputText("By the end of the training session with the mouse, you think that you may have picked up something that might help against the denizens of  her world. You tell Joy, and her eyes brighten. \"Well, let's see it!\" You plant your feet, cupping your hands together. A small ball of energy forms, passing between your hands, and as you bring your hands forward, the ball of light blue energy fires off. Joy claps in appreciation, then runs through the technique with you a few more times.\n\n");
+						outputText("<b>(Ability Gained: Cleansing Palm -</b> A ranged fighting technique of Jojo’s order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.<b>)</b>");
+						player.createPerk(PerkLib.CleansingPalm, 0, 0, 0, 0);
+					}
+					if (RuinedTownRebuilt.Intown) {
+						doNext(SceneLib.ruinedTown.enterVillage);
+					}
+					else { doNext(joJoyCampMenu); }
+				}
+				//{after the PC has gained the Cleansing Palm attack}
+				else if (player.hasPerk(PerkLib.ControlledBreath) && player.hasPerk(PerkLib.CleansingPalm) && !player.hasPerk(PerkLib.Enlightened))
+				{
+					outputText("Joy gives you a big smile brimming with pride, \"<i>Alright [Name]... let’s begin.</i>\"\n\n");
+					outputText("Largely due to your increased endurance and improved technique the two of you spend more time sparring and dancing through the forms Joy knows.  When it comes time for a brief lecture, Joy pants as she sits with you, taking a minute to regain her breath.  Joy’s lectures, instead of dealing with how to strike and defend oneself, deal with the nature of the soul.  You learn much about individuality, willpower and determination and after the lecture the two of you meditate on what you’ve learned for a few silent moments.\n\n");
+					outputText("Then the two of you are back up, sweeping gracefully through forms and striking invisible enemies with fierce blows.  By the end of the intense training session both you and Joy are tired, having trained to both of your limits.\n\n");
+					outputText("As the two of you give each other decidedly shaky bows, Joy staggers, and you instinctively step in, catching your exhausted mentor. She leans on you for a few seconds, before shaking herself and standing back up. \"<i>Great effort [name], you are... wow... I need a rest. I’ve earned it.</i>\" The two of you share a laugh and end your training.\n\n");
+					if (player.canTrain('str', player.trainStatCap("str",80))) {
+						dynStats("str", 2); //Str boost to 80
+						player.trainStat("str", 1, player.trainStatCap("str",80));
+					}
+					if (player.canTrain('int', player.trainStatCap("int",80))){
+						dynStats("int", 2); //Int boost to 80
+						player.trainStat("int", 1, player.trainStatCap("int",80));
+					}
+					if (player.canTrain('wis', player.trainStatCap("wis",100))){
+						dynStats("wis", 6); //Wisdom boost to 100
+						player.trainStat("wis", 3, player.trainStatCap("wis",100));
+					}
+					fatigue(150);
+					if (flags[kFLAGS.TIMES_TRAINED_WITH_JOJO] >= 15 && player.inte >= 70)
+					{
+						trace("ADDING THIRD PERK");
+						//{text shows after generic 16th technique training session}
+						outputText("As you finish training you decide to meditate alone; returning to your " + camp.bedDesc() + ", you close your eyes and begin to breathe.  Then the world around you begins to sing.\n\n");
+						outputText("The camp is alive with the sounds of voices on the wind, of the ominous sizzling of the great scar between worlds that is the portal that brought you here.  You feel open to the universe as if it were a lady in a dress sitting next to you, that you could easily reach out and touch.  You feel liberated and free despite the fact that you are not moving a muscle.  You are ready for anything but expecting nothing.  You are neither thinking nor dreaming, you simply are.\n\n");
+						outputText("<b>(Perk Gained: Enlightened -</b> White magic threshold reduced. Meditation restores health. Grants the ability to meditate alone.<b>)</b>");
+						player.createPerk(PerkLib.Enlightened, 0, 0, 0, 0);
+					}
+					if (RuinedTownRebuilt.Intown) {
+						doNext(SceneLib.ruinedTown.enterVillage);
+					}
+					else { doNext(joJoyCampMenu); }
+				}
+				//{after PC has gained the Enlightened Perk}
+				else
+				{
+					outputText("You ask Joy if she’d be willing to train you more in the ways of the Lotus. She chuckles. \"Really? You know just as much as me, [name]\". You tell her that practice is key, and she nods, as if considering your words, although you know you don't need to twist her arm to get Joy to spend time with you. She leads you back to the forest. As you follow, you notice her hips swaying more than usual. You reach a small glade with a creek running through it, and Joy stops.  \n\n");
+					var choice0:Number = rand(2);
+					switch (choice0) {
+						case 0:
+							outputText("\"<i>We’re here.</i>\" Joy says simply, taking a wide-legged stance. \"<i>The creek here is both fresh to drink, and creates enough ambient sound for relaxing meditation.</i>\" She has a serious look on her face. \"<i>Let’s begin.</i>\"  \n\n");
+							outputText("You spend two hours with Joy, going through the forms of the lotus. Occasionally, she’ll stop, showing a form in more detail, or firing a cleansing palm into a nearby tree.  \n\n");
+							outputText("After you’ve both worked up a sweat, she holds up a hand. \"<i>I think that’s enough for now</i>\", she gasps, planting her ass on the grass. \"<i>We should head back to camp.</i>\" \n\n");
+							doNext(playerMenu);
+							break;
+						case 1:
+							outputText("\"<i>One moment</i>\", she says simply, walking over to the water. She leans way over, her too-small robe hiking up, giving you a clear view of her bubble-butt and juicy snatch as she drinks. She seems to be taking longer than necessary, and occasionally, you notice her sneaking a peak back at you. \n\n");
+							outputText(" \n\n");
+							menu();
+							addButton (1, "Wait", joJoyWaitforTraining);
+							addButton (2, "SlapAss", joJoySlapDat);
+							addButton (3, "HotDog", joJoyHotDog);
+							addButton (4, "Finger", joJoyFingering);
+							if (RuinedTownRebuilt.Intown) {
+								doNext(SceneLib.ruinedTown.enterVillage);
+							}
+							else { doNext(joJoyCampMenu); }
+					}
+
+				}
+			}
+			public function joJoyWaitforTraining():void {
+				clearOutput();
+				outputText("You wait politely for Joy to finish, and she finishes her drink. She’s clearly let some of the water drip onto her breasts, and she looks mildly disappointed. \n\n");
+				outputText("\"<i>Sorry, [Name], I was a little…Thirsty.</i>\" She plants her feet, taking a martial artist’s stance. \"<i>Alright, so the first form…</i>\" Joy walks you through the forms of the Lotus, occasionally stopping to ‘correct’ your posture, or telling you to hold your form so she can study it. For an hour, you go through the forms, until Joy, breathing heavily, stops for a moment. \n\n");
+				outputText("\"<i>Sorry, [Name]. I…Am having a bit of trouble focusing right now. If you would excuse me for a moment…?</i>\" \n\n");
+				menu();
+				addButton (1, "Wait", joJoyJillsOff);
+				addButton (2, "Advance", joJoyGetSome);
+			}
+			public function joJoyJillsOff():void {
+				clearOutput();
+				outputText("You tell Joy to take what time she needs, and that you’ll be here when she gets back. She sighs slightly, heading off into the woods.  \n\n");
+				outputText("You decide to meditate while Joy attends to herself, but you can hear an occasional grunt, and a moist schluck from where Joy had gone. Is she…? \n\n");
+				outputText("Your suspicions are confirmed when you hear a faint, girlish cry, cut off suddenly. A few moments later, Joy strides back, a slight blush in her cheeks. You decide to ignore the very obvious fact that Joy had jilled herself off in the woods, and return to the forms \n\n");
+				outputText("After another hour, you and Joy return to camp, and head your separate ways. As you leave her, Joy sighs, leaning in, and kisses you on the cheek. \"<i>I should start charging for lessons</i>\", she jokes, before heading back to her rock. \n\n");
+				if (player.canTrain('str', player.trainStatCap("str",80))) {
+					dynStats("str", 2); //Str boost to 80
+					player.trainStat("str", 2, player.trainStatCap("str",80));
+				}
+				if (player.canTrain('int', player.trainStatCap("int",80))){
+					dynStats("int", 2); //Int boost to 80
+					player.trainStat("int", 2, player.trainStatCap("int",80));
+				}
+				if (player.canTrain('wis', player.trainStatCap("wis",100))){
+					dynStats("wis", 6); //Wisdom boost to 100
+					player.trainStat("wis", 4, player.trainStatCap("wis",100));
+				}
+				if (RuinedTownRebuilt.Intown) {
+					doNext(SceneLib.ruinedTown.enterVillage);
+				}
+				else { doNext(joJoyCampMenu); }
+			}
+			public function joJoyGetSome():void {
+				clearOutput();
+				outputText("You give Joy a knowing grin, making her blush. Walking towards Joy, you tell her that you’ve been in Mareth long enough to know when someone’s horny. Teasingly, you tell Joy that if she wanted some, she just had to ask.  her makes your mousey lover blush even more.  \n\n");
+				outputText("\"<i>I know that…But you asked me to train you, and here I am, acting like…some sort of demon!</i>\"  \n\n");
+				outputText("You reassure Joy, telling her that she’s not acting like a demon. After all, she’s just been dropping hints…a real demon would have jumped on you already to sate their needs.  \n\n");
+				outputText("Joy bites her lip, looking down at your groin. \"<i>I-I suppose so.</i>\" Her knees wobble a bit, and she puts one hand in front of her womanhood. \"<i>Would you please…Help me with that?</i>\"  \n\n");
+				outputText("You ask if she wants to make love to you, and Joy, a little annoyed now, steps in, as close as she can. \"<i>No, I want you to fuck me.</i>\" \n\n");
+				outputText(" \n\n");
+				menu();
+				addButton (1, "SexTime", joJoySexMenu);
+			}
+			public function joJoySlapDat():void {
+				clearOutput();
+				outputText("You sneakily make your way behind Joy, and before your mousey lover can react, you bring one hand back, slapping her ass with a sound that echoes through the forest. Almost as loud as the startled \"<i>Eep!</i>\" that comes out of Joy’s mouth, as she straightens up, water from her furry snout splashing onto her front. Her arms are rigid, at her side, and as she straightens up, you step in, wrapping your free arm around her waist.  \n\n");
+				outputText("Joy turns her head, catching sight of you, and she stammers a little, face beet-red. \"<i>Wh-what was that for?</i>\" She asks, and you chuckle a little. You tell Joy that she was putting that ass of hers out a little too far for it to be a coincidence. Rubbing her asscheek, you ask Joy if that was her plan. To lure you out here and seduce you.  \n\n");
+				outputText("Maybe.</i>\" Joy says slyly. \"<i>You don’t seem to be able to focus on anything else.</i>\" You tell Joy that you’d never have expected her to be  her forward, especially considering how you met \n\n");
+				outputText("\"<i>Meeting you changed me, [Name]. I would have thought that was obvious.</i>\" Joy says, giving you a smouldering look. \"<i>I love you, you know.</i>\" \n\n");
+				menu();
+				addButton (1, "Next",joJoySexMenu);
+			}
+			public function joJoyHotDog():void {
+				clearOutput();
+				outputText("You know that Joy’s just asking for it at  her point, and you see no point in denying her. Slowly making your way towards Joy, you (if clothes) reach into your (clothing), pulling it down and revealing your [cock]. (If naked) take your own rapidly hardening [cock] in one hand.  \n\n");
+				outputText("As you get closer to Joy, you can see that she’s already dripping wet, raring to go. You put one hand on the small of Joy’s back, gently pushing her upper body down as you run your [cock] into the crack of Joy’s bubble-butt. She gasps, looking back, and gives you a slightly shy smile, reaching her arms back towards you.  \n\n");
+				outputText("\"<i>Well…You seem to have your mind set on something other than training.</i>\" Joy giggles, moving her hips slightly.  her allows her bubble butt to run up and down your shaft, sending a warm shock through you. \"<i>And you already know I want you.</i>\" You take Joy’s outstretched hands, pulling her in towards you. Your thighs hit Joy’s cheeks, and her tail swings happily, wrapping around your hips. \n\n");
+				outputText("\"<i>Well…What now, love?</i>\" Joy asks whimsically. \"<i>It’s up to you.</i>\" \n\n");
+
+				menu();
+				addButton (1, "Next",joJoySexMenu);
+			}
+			public function joJoyFingering():void {
+				clearOutput();
+				outputText("At  her point, it’s obvious that the formerly chaste monk isn’t interested in martial arts right now. As you stealthily approach Joy’s backside, you get a mischievous idea. You lick one of your fingers, and as you close in, you wrap one of your arms around Joy’s waist, flicking her clit before you sink a finger into her sopping wet quim. \n\n");
+				outputText("Joy gasps, leaning back into you, but you cover her mouth gently with your other hand, shushing your mousey lover as you nibble the side of her neck. You add a finger, slowly, gently teasing her with one hand, fingers dipping in and out of her folds. With each movement, you feel Joy gasp, hands grasping at you as her breathing gets heavy. After a few minutes of gentle foreplay, your own lust building, you remove your hand from Joy’s mouth, turning her around and stopping her lips again with your own. \n\n");
+				outputText("Joy, eyes half-lidded, practically purrs as you pull back. \"<i>Mmm…</i>\" She looks down at your groin, your mixed saliva on her snout. \"<i>Now that you’ve got me all warmed up, now what?</i>\"\n\n");
+				menu();
+				addButton (1, "Next", joJoySexMenu);
+			}
+			public function joJoySexMenu():void {
+				clearOutput();
+				outputText("How do you want to sex your mousey companion? \n\n");
+				menu();
+				addButton (1, "Sex", joyScene.joySexMenu);
+				if (JojoTalkedBimbo) {
+					addButton(2, "BimboRP", joJoyBimboMenu); //only if you've talked with her about Roleplaying
+				}
+				addButton (3, "Nvm", camp.returnToCamp);
+			}
+			public function joJoyBimboMenu():void {
+				menu();
+				outputText("\n");
+				addButton(0, "Vaginal Fuck", joyScene.penetrateJoysPussy).hint("Penetrate Joy vaginally with your cock.")
+						.disableIf(player.cockThatFits(joyScene.joyVagCapacity()) < 0, "Req. a cock fitting "+joyScene.joyVagCapacity()+" area!");
+				addButton(1, "Anal Fuck", joyScene.fuckJoyInTheAss).hint("Take Joy from behind and make sure she gets it good!")
+						.disableIf(player.cockThatFits(joyScene.joyAnalCapacity()) < 0, "Req. a cock fitting "+joyScene.joyAnalCapacity()+" area!");
+				addButton(1, "Anal Fuck", joyScene.fuckJoyInTheAss).hint("Take Joy from behind and make sure she gets it good!")
+						.disableIf(player.cockThatFits(joyScene.joyAnalCapacity()) < 0, "Req. a cock fitting "+joyScene.joyAnalCapacity()+" area!");
+				addButton(4, "Frottage", joyScene.frotWithJoy).hint("Do some cock play with Joy.")
+						.disableIf(!player.hasCock(), "Req. a cock!")
+						.disableIf(!joyScene.joyHasCock(), "She doesn't have a cock for that...");
+				addButton(5, "Get Blown", joyScene.haveJoySuckYouOff).hint("Have Joy suck your off and give her a taste of your cum.")
+						.disableIf(!player.hasCock(), "Req. a cock!");
+				addButton(6, "Get Licked", joyScene.haveJoyLickYourGinas).hint("Have Joy lick your pussy.")
+						.disableIf(!player.hasVagina(), "Req. a vagina!");
+				addButton(7, "Get Penetrated", joyScene.haveJoyStuffYourPussy).hint("Have Joy penetrate you vaginally with her cock.")
+						.disableIf(!player.hasVagina(), "Req. a vagina!")
+						.disableIf(!joyScene.joyHasCock(), "She doesn't have a cock for that...");
+				addButton(2, "Lick Joy", joyScene.lickJoysGina).hint("Get a taste of Joy's pussy but you're sure she has a lot of pussy juice in store for you!");
+				addButton(3, "Blow Joy", joyScene.suckJoysCock).hint("Suck Joy's cock and get some taste of her cum!")
+						.disableIf(!joyScene.joyHasCock(), "She doesn't have a cock for that...");
+				addButton(8, "Get Anal", joyScene.haveJoyStuffYourButthole).hint("Have Joy take you from behind and put her cock to a good use.")
+						.disableIf(!joyScene.joyHasCock(), "She doesn't have a cock for that...");
+				addButton(14, "Back", joJoySexMenu);
+			}
+
+	public function JoJoyBimboTalk():void {
+		clearOutput();
+		outputText("You decide to ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " what " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "she": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " thinks about " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " time as a Bimbo.  \n\n");
+		outputText("\"<i>Honestly, I remember a decent chunk of it.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "He":"") + " responds neutrally. \"<i>Mainly, the…well… ‘fun times’.</i>\" You give " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " a smirk, and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " blushes. \"<i>...Well, I really enjoyed sharing that with you…circumstances aside. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " shudders slightly. \"<i>I did not appreciate being so dumb, however. I am very happy to be rid of that, at least.  \n\n");
+		outputText("You ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " whether or not " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "’d be willing to revisit that time…maybe a bit of roleplay? \n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "His":"") + "’s eyes widen, and " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " blushes, nodding once. \"<i>Only with you, though…It’s embarrassing.</i>\"  \n\n");
+		outputText("You give your mousey lover a hug, telling him that it was pretty sexy. \n" + "\"<i>...Well, if you enjoyed it, like, I’m sure I could sort of, put it on for you.\n \n\n");
+		outputText("Wait…Did Jojo just admit to enjoying bimbo sex? Maybe there’s a way to keep that side of…Her? Him? Them? \n\n");
+		JojoTalkedBimbo = true;
+		outputText(" \n\n");
+		menu();
+		addButton(14, "Back", talkMenu);
+	}
+	public function JoJoyTalkDemons():void {
+		clearOutput();
+		outputText("\"<i>I…Understand them now, more than I did before.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " crosses " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " legs, sitting on " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " rock, tail whipping back and forth. \"<i>I still hate them, make no mistake, but…Being with you…And after imbibing that…beverage…?</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " shivers. \"<i>It’s easy, so very easy, to give in to the pleasure. Having never experienced it before, I suppose I didn’t know what I was missing.</i>\"  \n\n");
+		outputText("" + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " gives you a pleased smile. \"<i>I have you to thank for that. For breaking me from my shell, so to speak.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " closes " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " eyes, inhaling deeply. \"<i>If anything, I feel sorry for them, those who have lost themselves.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " shudders, and you sit down beside " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + ", putting a supportive hand on " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "his":"") + " shoulder.  \n\n");
+		outputText("\"<i>If you had been more nefarious…Or had been corrupted…</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " hugs " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + "self. \"<i>I don’t think I would have been able to stop. Without my mind functioning…I wanted you to ravish me, do things unspeakable…Because I know that’s expected in the world we now live in…Because I didn’t want anyone else to corrupt you.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " laughs, mirthlessly. \"<i>I didn’t care what else happened. I would have followed you into depravity without a second thought, so long as you were there with me. And it goes against everything I’ve stood for...And those feelings...Haven't entirely gone away.</i>\"  \n\n");
+		outputText("Clearly this has been bothering your de-bimboed mouse lover. \n\n");
+		menu();
+		addButton(1, "Comfort", JoJoyTalkDemonsComfort);
+		addButton(2, "Ew", JoJoyTalkDemonsWeird);
+	}
+	public function JoJoyTalkDemonsComfort():void {
+		clearOutput();
+		outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " that even when " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " was a bimbo, " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " did their best to try and help. The \"<i>Training</i>\" was odd, but that Bimbo Joy was still " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + " on the inside, just…not as smart. You tell your mousey lover that " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " needs to have more faith in " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "himself": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "herself":"") + ".\n\n");
+		outputText("\"<i>But…I still have some of those feelings, [name]!</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " cries. \"<i>Even though it’s…just you I want…Some of the things I want to do…They’re not…</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " blushes. \"<i>Not…exactly pure.</i>\"  \n\n");
+		outputText("You tell " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " that there’s no need to be shy about it. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " blushes, and looks down. \"<i>Well…We met in the forest.</i>\" " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " fidgets nervously, and you gently encourage " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "her": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "him":"") + ". \n" +
+				"\"<i>I’ve been…wondering…what would have happened…If you had been a little more forceful…</i>\" \n" +
+				"You’re slightly taken aback by this. The (formerly) Chaste monk? Thinking about such things? You ask if " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + "’d be interested in trying that out in the forest sometime. " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " nods, and you bring your hands to " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + "’s furry cheeks. You tell your mousey monk that you’d be okay with accommodating such desires. \n \n\n");
+		outputText("(Jojo rape scenes have been unlocked under his sex menu. \n\n");
+		JojoRapeRoleplay = true;
+		menu();
+		addButton(1, "Back", talkMenu);
+	}
+	public function JoJoyTalkDemonsWeird():void {
+		clearOutput();
+		outputText("You tell your mousey lover that considering everything they've been through, this shouldn't really be a worry for them. It's not like they were thinking about getting raped by you, or something like that.\n\n");
+		outputText("\"<i>O-of c-course not! That would be weird. SUPER weird. You'd never do anything like that to me, and I-I certainly wouldn't w-want that.</i>\"\n\n");
+		outputText("You agree...But you get the distinct feeling that your mousey sexpal was telling you they'd be into it. \n\n");
+		menu();
+		addButton(1, "Back", talkMenu);
+	}
+	public function JoJoyGender():void {
+		clearOutput();
+		outputText("You ask " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "Joy": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "Jojo":"") + " what " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "She": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "he":"") + " thinks of their time as a " + (flags[kFLAGS.JOJO_BIMBO_STATE] !=4? "man": flags[kFLAGS.JOJO_BIMBO_STATE] ==4? "woman":"") + ". \n\n");
+		if (flags[kFLAGS.JOJO_BIMBO_STATE]==4) {
+			outputText("Jojo looks away from you for a second, before exhaling through his nose. \n" +
+					"\"<i>Honestly, I…kind of like looking back on it.</i>\" He blushes, but doesn’t seem too nervous. \"<i>If I could go back without losing myself…I think I’d enjoy it.</i>\" He chuckles. \"<i>Honestly, I was never really that attached to…You know…</i>\" He motions between his legs. \n\n");
+			outputText("\"<i>And…We have mouselets together. I mean…Some real good came out of that.</i>\"  \n\n");
+			outputText("You mention that there are safe ways to turn him back. The effects of Bimbo Liqueur on his body might have been potent, but there are other ways to transform himself." + (!player.isPureHuman()? " You note that you would know, since you’ve clearly done some of that yourself.":""));
+			outputText("\"<i>In that case…I have a question for you.</i>\" Jojo looks you dead in the eyes. \"<i>Would you…Prefer me to go back to being Joy?</i>\" He waves his hands in front of him. \"<i>Not the bimbo part! I can’t go back to that!</i>\" He blushes. \"<i>B-but I enjoyed being Joy…since I finally could be with you…for real. I felt confident…and you turned me back, so…no harm done, right?</i>\"\n\n");
+			outputText(" \n\n");
+			menu();
+			addButton(1, "GoJoy", GetJoyBack);
+			addButton(2, "StayJojo", JojoGoodBoi);
+		}
+		if (flags[kFLAGS.JOJO_BIMBO_STATE]==5) {
+			outputText("\"<i>Being a man comes with advantages and disadvantages. It is a bit easier to practise my forms, when I don’t have…</i>\" Joy looks down at her bountiful bosom, smiling slightly. \"<i>My breasts this large.</i>\" She smiles at you. \"<i>But at the same time…This form…opened my eyes to new experiences and…Joys.</i>\" She chuckles at that. \"<i>I wouldn’t reduce my size if I’m staying as a woman, but I don’t have any strong feelings one way or the other…So what would you think, if I went back to being Jojo?</i>\"   \n\n");
+			menu();
+			addButton(1, "JojoMojo", GoJojo);
+			addButton(2, "MoreJoy", IWantTehMouseTittehs);
+		}
+	}
+	public function GetJoyBack():void {
+		clearOutput();
+		outputText("You tell Jojo that you very much enjoyed it when he was female. Even though you enjoy spending time with your mousey monk, you liked the look of Joy better. \n" +
+				"Jojo gives you a small smile, and stretches. \"<i>Then I’ll see you in a bit.</i>\" Jojo dashes off towards the desert. You’re assuming he’s heading to Tel’adre.  \n\n");
+		outputText("Two hours later, you're sitting down at the fireplace, relaxing. Your [ears] perk up, and you hear slight footsteps headed your way. You stand, turning around as Joy runs at you, a big ol’ grin on her face, her bouncy breasts returned to their bimboed glory.  \n\n");
+		outputText("You step in, scooping her up by her hips, using Joy’s own momentum to spin her around. Her eyes widen, and she scrabbles, grabbing your shoulders before you put her down.  \n\n");
+		outputText("You jokingly tell Joy that you didn’t expect that reaction, apologising if you startled her. Joy blinks, looking you dead in the eyes, and tilts her head.  \n\n");
+		outputText("\"<i>Uh…Whee?</i>\" She folds her arms, raising one eyebrow. \"<i>Just because I’m Joy again doesn’t mean I returned to that…mental state, [name].</i>\" You apologise again, and Joy gives you a sly little smile, wrapping her tail around your [leg]. \"<i>Well, if you’re sorry, there’s a way to make it up to me.</i>\" Well, at least some parts of the old Joy remain. \n\n");
+		outputText("Joy seems more confident then Jojo ever was, and she's clearly in the mood for some fun. What do you do with the newly reawakened Joy? \n\n");
+		flags[kFLAGS.JOJO_BIMBO_STATE]=5;
+		menu();
+		addButton(0, "Sex", joJoySexMenu);
+		addButton(1, "Sex", joJoySexMenu);
+		addButton(2, "Fuck", joJoySexMenu);
+		addButton(3, "Pound", joJoySexMenu);
+		addButton(4, "Pork", joJoySexMenu);
+		addButton(5, "Nookie", joJoySexMenu);
+		addButton(6, "Shag", joJoySexMenu);
+		addButton(7, "Screw", joJoySexMenu);
+		addButton(8, "Score", joJoySexMenu);
+		addButton(8, "Get it On", joJoySexMenu);
+	}
+	public function JojoGoodBoi():void {
+		clearOutput();
+		outputText("You tell Jojo that you like him the way he is. He gives you a wry smile, putting a hand on your cheek. \"<i>That’s very sweet. Thank you.</i>\" He stands back up, stretching his legs. \"<i>Anything else you wanted from me?</i>\" \n\n");
+		menu();
+		addButton(1, "Back", talkMenu);
+	}
+	public function GoJojo():void {
+		clearOutput();
+		outputText("You say that you’d prefer to have Jojo back for now. Joy nods, giving you a bow. \"<i>I will be back soon</i>\". \n\n");
+		outputText("Deciding that it would be disrespectful to Jojo for you to leave camp while they're away, you stay around camp, contemplating your life. You'd never have thought you'd be with a gender-fluid mouse when you were back home. Hell, even the three words sound almost amusing when strung together... \n\n");
+		outputText("A tap on your shoulder shocks you out of your thoughts, and Jojo snickers, sitting down in front of you. \n\n");
+		outputText("\"<i>What were you thinking about, [Name]?</i>\" Jojo asks. You give your mousey friend a grin, saying that you were contemplating the absurdity of life. How you’d never have thought of anything like this, even in a fever dream.\n\n");
+		outputText("\"<i>Ah. I suppose outside of Mareth, talking mice with no care for their sexual presentation are rather rare?</i>\" You laugh at that, and Jojo joins you. \"<i>I understand. Frankly, if someone had told me that I’d be willing to ignore my vows, shacking up with a [race] from another world who’d come from a portal, working together to fend off sex-obsessed, soulless maniacs…And somehow enjoying every moment of it, I’d probably have wondered what drugs they’d put into their system.</i>\" \n\n");
+		outputText("You and Jojo make more small talk, but eventually you feel the need to keep moving. You give Jojo a hug, which he returns tightly, before excusing yourself. \n\n");
+		flags[kFLAGS.JOJO_BIMBO_STATE]=4;
+		menu();
+		addButton(1, "Back", talkMenu);
+	}
+	public function IWantTehMouseTittehs():void {
+		clearOutput();
+		outputText("You take Joy’s hand, telling her that you love her just the way she is. If being Joy makes her happy, then you’re happy for her. Joy’s face lights up, and she exhales through her nose, nodding slightly. \"<i>I was hoping you’d say that.</i>\" Joy leans in, giving you a chaste kiss on your nose. \"<i>Is there anything else you wanted, [name]?</i>\" \n\n");
+		menu();
+		addButton(1, "Back", talkMenu);
+	}
+
+	public function JojoRapeRoleplayMenu():void {
+		clearOutput();
+		outputText("You lean over, whispering into Jojo's ear. You ask him, in as predatory a voice you can, if he wants to go for a walk in the woods. He seems confused, but gets the message when you grasp his tail with one hand, telling him that he asked you for something...And you intend on providing. \n\n");
+
+		menu();
+		addButton(0, "Roleplay1st", jojosFirstRape);
+		addButton(1, "Roleplay2nd", jojosSecondRape);
+		addButton(2, "Roleplay3rd", jojosThirdRape);
+		addButton(3, "Roleplay4th", jojosFourthRape);
+		addButton(14, "Back", talkMenu);
+	}
 }
 }

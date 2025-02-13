@@ -233,7 +233,7 @@ import classes.internals.*;
 			lustVuln += 0.15;
 			bonusWrath += 500;
 			bonusSoulforce += 1000;
-			outputText("Staggering back, Oculicorn wastes no time and above his head starts to manifest sort of halo. It have wings on the sides and in the middle of it forms something reasambling eyeball. After halo formation a wave of light wash over it changing him. His horn grows longer, his monoeye pupil split into three seperate ones and his teeth grow longer and sharper. ");
+			outputText("Staggering back, Oculicorn wastes no time and above his head starts to manifest sort of halo. It have wings on the sides and in the middle of it forms something reassembling eyeball. After halo formation a wave of light wash over it changing him. His horn grows longer, his monoeye pupil split into three separate ones and his teeth grow longer and sharper. ");
 			outputText("Eyestalks behind his back shows grew additional eyeballs located along the length of the stalks. Bottom half not change much aside gorwing fur all over it. After the wave reach his feet he starts to levitate.");
 			outputText("\n\n\"<i>Behold my true form foul creature!!!</i>\" he speaks with barely hidden content and reassume combat pose.");
 			createStatusEffect(StatusEffects.TrueFormAngel, 0, 0, 0, 0);
@@ -255,10 +255,10 @@ import classes.internals.*;
 		{
 			var str:String = "";
 			if (hasStatusEffect(StatusEffects.TrueFormAngel)) {
-				str += "You are fighting an Arch-Oculicorn. This powerful creature looks humanoid with hooves, horse tail and fur covering his whole bottom half. Monoeye on his head posses now three pupils, sharp teeth and long single horn adorn his forehead ocassionaly glowing with mild white light. ";
-				str += "Above his head hoover halo with wings on it sides and something akin to single eye at the front. Six stalks expending from his back each with three eyeballs placed along the stalk length with fouth at the end. While he does have legs he moves by levitating around instead.";
+				str += "You are fighting an Arch-Oculicorn. This powerful creature looks humanoid with hooves, horse tail and fur covering his whole bottom half. Monoeye on his head posses now three pupils, sharp teeth and long single horn adorn his forehead occasionally glowing with mild white light. ";
+				str += "Above his head hoover halo with wings on it sides and something akin to single eye at the front. Six stalks expending from his back each with three eyeballs placed along the stalk length with fourth at the end. While he does have legs he moves by levitating around instead.";
 			}
-			else str += "You are fighting an Oculicorn. This powerful creature look like a human save for the hooves, horse tail, the mono all encompassing eye in his head and six eye mounted stalks expending from his back. Medium long single horn adorn his forehead ocassionaly glowing with mild white light.";
+			else str += "You are fighting an Oculicorn. This powerful creature look like a human save for the hooves, horse tail, the mono all encompassing eye in his head and six eye mounted stalks expending from his back. Medium long single horn adorn his forehead occasionally glowing with mild white light.";
 			if (hasStatusEffect(StatusEffects.TranscendentSoulField))
 			{
 				str += "\n\n<i>From time to time you can notice faint glimmers of orange protective field surrounding him.";

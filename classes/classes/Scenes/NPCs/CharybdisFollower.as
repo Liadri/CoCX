@@ -115,7 +115,7 @@ public class CharybdisFollower extends NPCAwareContent implements SaveableState
 	
 	public function charyFirstEncounter():void {
 		clearOutput();
-		outputText("As you walk along the beach, you hear a lone male voice, drifting in and out on the breeze. <i>\"Somewhere...Beyond the Sea…\"</i> As you get closer, you can make out some...Instruments? You remember back in Ingnam, some people played the lute, or that one guy who played the trumpet. You pad your way along the sand, peeking around a rocky cliff…\n\n");
+		outputText("As you walk along the beach, you hear a lone male voice, drifting in and out on the breeze. <i>\"Somewhere...Beyond the Sea…\"</i> As you get closer, you can make out some...instruments? You remember back in Ingnam, some people played the lute, or that one guy who played the trumpet. You pad your way along the sand, peeking around a rocky cliff…\n\n");
 		outputText("A lone man sits on the beach, facing away from you. Oddly, two instruments sit in some contraption, keeping them at the sides of his neck. A tentacle wraps around each instrument, holding them and pressing valves in an impressive display of multitasking. You realize that he has gills, and is using them to play. Two more flick at the wooden box he’s sitting on, making noises not unlike a drum. Suddenly, the music stops, and he spins around on his box. His arms are covered with Brass armor, lined with sharp spines, and he stands on two tentacles, his other six pulling various knives from his drum-box.\n\n"); 
 		outputText("<i>\"Who are you?\"</i> He asks, his purple eyes narrowing. <i>\"Not many people come around here anymore. ‘Cept them demon folk.\"</i> Unlike his singing, his speaking voice is deep, almost husky. He spits on the sand, scowling. <i>\"Well? Speak up.\"</i>\n\n");
 		flags[kFLAGS.CHARYBDIS_FOLLOWER] = 1;
@@ -194,7 +194,7 @@ public class CharybdisFollower extends NPCAwareContent implements SaveableState
 		if (CharySpar) {
 			CharySpar = false;
 			outputText("You kneel, your [legs] shaking with exhaustion. You black out, and when you come to, your body itches. You sit up, but your head pounds. <i>\"Black Algae;\"</i> he explains apologetically. <i>\"Sticks to your injuries, and staunches the bleeding.\"</i> He offers you an unarmored hand, and helps you to your feet. <i>\"Sorry about that. I…\"</i> He waves his hand. <i>\"You were out for a while.\"</i>\n\n");
-			HPChange(Math.round(player.maxHP() * 0.5), false);
+			HPChange(Math.round(player.maxHP() * 0.5), false, false);
 			cleanupAfterCombat();
 		}
 		else {

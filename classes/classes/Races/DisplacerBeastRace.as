@@ -53,8 +53,10 @@ public class DisplacerBeastRace extends Race {
 				.hasPerk(PerkLib.Flexibility, +1)
 				.customRequirement("","more displacer features than other magical feline",
 						CatRace.isDisplacerSubrace,0,-1000
-				);
+				)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
+		addBloodline(PerkLib.FelinesDescendant, PerkLib.BloodlineFeline);
 		addMutation(IMutationsLib.CatLikeNimblenessIM);
 		addMutation(IMutationsLib.DisplacerMetabolismIM);
 		

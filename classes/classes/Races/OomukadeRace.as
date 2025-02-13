@@ -50,7 +50,8 @@ public class OomukadeRace extends Race {
 				.rearType(RearBody.CENTIPEDE, +2)
 				.earType(Ears.ELFIN, +1)
 				.skinBasePattern(Skin.PATTERN_VENOMOUS_MARKINGS, +2)
-				.cockOrVaginaOfType(CockTypesEnum.OOMUKADE, VaginaClass.VENOM_DRIPPING, +2);
+				.cockOrVaginaOfType(CockTypesEnum.OOMUKADE, VaginaClass.VENOM_DRIPPING, +2)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.CentipedesDescendant, PerkLib.BloodlineCentipede);
 		addMutation(IMutationsLib.TrachealSystemIM);

@@ -52,7 +52,8 @@ public class OrcRace extends Race {
 				.tone(AT_LEAST(120), +1)
 				.thickness(AT_MOST(60), +1)
 				.thickness(AT_MOST(20), +1)
-				.hasPerk(PerkLib.Ferocity, +1);
+				.hasPerk(PerkLib.Ferocity, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.OrcsDescendant, PerkLib.BloodlineOrc);
 		addMutation(IMutationsLib.OrcAdrenalGlandsIM);

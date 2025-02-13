@@ -1099,7 +1099,7 @@ package classes.Scenes {
 				var enoughSF: Boolean = player.soulforce >= cost;
 				var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 
-				if (unlocked && !partsInUse && (enoughSF || enoughMana)) addButton(currentButton++, buttonStr, doMetamorph, title, genMem, index).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
+				if (unlocked && !partsInUse && (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless)))) addButton(currentButton++, buttonStr, doMetamorph, title, genMem, index).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
 				else if (unlocked && partsInUse) addButtonDisabled(currentButton++, buttonStr, (!genMem.hint? "You already have this, the metamorphosis would have no effect!":genMem.hint));
 				else if (unlocked && !partsInUse && !enoughSF && !enoughMana) addButtonDisabled(currentButton++, buttonStr, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
 				else if (!unlocked)	addButtonDisabled(currentButton++, buttonStr, "You haven't unlocked this metamorphosis yet!" + (genMem.lockedInfo ? "\n\n" + genMem.lockedInfo : ""));
@@ -1169,13 +1169,19 @@ package classes.Scenes {
 			for each (var genMem: * in pageMems) {
 				const buttonStr: String = genMem.title || "";
 				const unlocked: Boolean = GeneticMemoryStorage[genMem.id];
-				const enoughSF: Boolean = player.soulforce >= genMem.cost;
+				//const enoughSF: Boolean = player.soulforce >= genMem.cost;
+				const cost:Number=(genMem.cost is Function? genMem.cost() : genMem.cost);
+				var enoughSF: Boolean = player.soulforce >= cost;
+				var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 
 				if (!genMem.transformationCoverage) {
 					const partsInUse: Boolean = genMem.transformation().isPresent();
-					if (unlocked && !partsInUse && enoughSF) addButton(currentButton, buttonStr, doMetamorph, title, genMem).hint("Cost: " + genMem.cost + " SF" + (genMem.info ? "\n\n" + genMem.info : ""));
-					else if (unlocked && partsInUse) addButtonDisabled(currentButton, buttonStr, "You already have this, the metamorphosis would have no effect!");
-					else if (unlocked && !partsInUse && !enoughSF) addButtonDisabled(currentButton, buttonStr, "Cost: " + genMem.cost + " SF (You don't have enough Soulforce for this metamorphosis!)");
+					//if (unlocked && !partsInUse && enoughSF) addButton(currentButton, buttonStr, doMetamorph, title, genMem).hint("Cost: " + genMem.cost + " SF" + (genMem.info ? "\n\n" + genMem.info : ""));
+					//else if (unlocked && partsInUse) addButtonDisabled(currentButton, buttonStr, "You already have this, the metamorphosis would have no effect!");
+					//else if (unlocked && !partsInUse && !enoughSF) addButtonDisabled(currentButton, buttonStr, "Cost: " + genMem.cost + " SF (You don't have enough Soulforce for this metamorphosis!)");
+					if (unlocked && !partsInUse && (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless)))) addButton(currentButton++, buttonStr, doMetamorph, title, genMem).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
+					else if (unlocked && partsInUse) addButtonDisabled(currentButton++, buttonStr, (!genMem.hint? "You already have this, the metamorphosis would have no effect!":genMem.hint));
+					else if (unlocked && !partsInUse && !enoughSF && !enoughMana) addButtonDisabled(currentButton++, buttonStr, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
 					else if (!unlocked) addButtonDisabled(currentButton, buttonStr, "You haven't unlocked this metamorphosis yet!" + (genMem.lockedInfo ? "\n\n" + genMem.lockedInfo : ""));
 					currentButton++;
 				} else {
@@ -1225,12 +1231,15 @@ package classes.Scenes {
 			for each (var coverage: Object in coverages) {
 				if (InCollection(coverage.value, genMem.availableCoverages)) {
 					const cost: int = genMem.cost * (coverages.indexOf(coverage) + 1);
-					const enoughSF: Boolean = player.soulforce >= cost;
+					//const enoughSF: Boolean = player.soulforce >= cost;
+					var enoughSF: Boolean = player.soulforce >= cost;
+					var enoughMana: Boolean = player.mana / player.maxMana() >= 0.1;
 					const inEffect: Boolean = genMem.transformationCoverage(coverage.value).isPresent();
 
-					if (enoughSF && !inEffect) addButton(currentButton, coverage.name, doMetamorphSkin, genMem, coverage.value, cost).hint("Cost: " + cost + " SF");
+					if (enoughSF || (enoughMana && player.hasPerk(PerkLib.Soulless))) addButton(currentButton, coverage.name, doMetamorphSkin, genMem, coverage.value, cost).hint("Cost: " + cost + " SF" + (genMem.info ? "\n\n" + genMem.info : "") + " OR " + (player.maxMana()/10) + " mana (for True Demons)");
 					else if (inEffect) addButtonDisabled(currentButton, coverage.name, "You already have this much coverage, the metamorphosis would have no effect!");
-					else addButtonDisabled(currentButton, coverage.name, "Cost: " + cost + " SF (You don't have enough Soulforce for this coverage!)");
+					else if (!enoughSF && !enoughMana) addButtonDisabled(currentButton, coverage.name, "Cost: " + cost + " SF (You don't have enough Soulforce for this metamorphosis!)"+ " OR " + (player.maxMana()/10) + " mana");
+					//else addButtonDisabled(currentButton, coverage.name, "Cost: " + cost + " SF (You don't have enough Soulforce for this coverage!)");
 					currentButton++;
 				}
 			}
@@ -1292,7 +1301,7 @@ package classes.Scenes {
 		private function metamorphHeight1U():void {
 			clearOutput();
 			player.soulforce -= 300;
-			outputText("\n\nWhoa wait did you just gain some height!? You indeed notice you've grown by an inch.");
+			outputText("\n\nWhoa, wait, did you just gain some height!? You indeed notice you've grown by an inch.");
 			player.tallness += 1;
 			if (player.basetallness >= 132) player.tallness = 132;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1300,7 +1309,7 @@ package classes.Scenes {
 		private function metamorphHeight2U():void {
 			clearOutput();
 			player.soulforce -= 700;
-			outputText("\n\nWhoa wait did you just gain some height!? You indeed notice you've grown by two inches.");
+			outputText("\n\nWhoa, wait, did you just gain some height!? You indeed notice you've grown by two inches.");
 			player.tallness += 2;
 			if (player.basetallness >= 132) player.tallness = 132;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1308,7 +1317,7 @@ package classes.Scenes {
 		private function metamorphHeight1D():void {
 			clearOutput();
 			player.soulforce -= 100;
-			outputText("\n\nWhoa wait did you just lost some height!? You indeed notice you've shrunk by an inch.");
+			outputText("\n\nWhoa, wait, did you just lost some height!? You indeed notice you've shrunk by an inch.");
 			player.tallness -= 1;
 			if (player.basetallness < 42) player.tallness = 42;
 			doNext(accessPageEx1MetamorphMenu);
@@ -1316,7 +1325,7 @@ package classes.Scenes {
 		private function metamorphHeight2D():void {
 			clearOutput();
 			player.soulforce -= 300;
-			outputText("\n\nWhoa wait did you just lost some height!? You indeed notice you've shrunk by two inches.");
+			outputText("\n\nWhoa, wait, did you just lost some height!? You indeed notice you've shrunk by two inches.");
 			player.tallness -= 2;
 			if (player.basetallness < 42) player.tallness = 42;
 			doNext(accessPageEx1MetamorphMenu);

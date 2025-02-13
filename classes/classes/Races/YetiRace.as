@@ -2,6 +2,7 @@ package classes.Races {
 import classes.BodyData;
 import classes.BodyParts.*;
 import classes.IMutations.IMutationsLib;
+import classes.PerkLib;
 import classes.Race;
 
 public class YetiRace extends Race {
@@ -55,7 +56,8 @@ public class YetiRace extends Race {
 				.customRequirement("butt", "thicc butt",
 						function (body:BodyData):Boolean {
 							return body.player.butt.type >= 10;
-						}, +1);
+						}, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.YetiFatIM);
 		

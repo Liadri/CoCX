@@ -72,7 +72,8 @@ public class WolfRace extends Race {
 	public override function setup():void {
 		
 		addScores()
-				.faceType(ANY(Face.WOLF, Face.ANIMAL_TOOTHS), +1)
+				.faceType(Face.ANIMAL_TOOTHS, +1)
+				.faceType(Face.WOLF, +2)
 				.eyeType(Eyes.FENRIR, +3)
 				.eyeType(NOT(Eyes.FERAL),0, -11)
 				.eyeColor("glacial blue", +2)
@@ -86,8 +87,10 @@ public class WolfRace extends Race {
 				.wingType(Wings.NONE, +1)
 				.rearType(RearBody.FENRIR_ICE_SPIKES, +6)
 				.hasPerk(PerkLib.FreezingBreath, +3)
-				.hasCockOfType(CockTypesEnum.WOLF, +1);
+				.hasCockOfType(CockTypesEnum.WOLF, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
+		addBloodline(PerkLib.CaninesDescendant, PerkLib.BloodlineCanine);
 		addMutation(IMutationsLib.AlphaHowlIM);
 		
 		buildTier(8, "wolf")

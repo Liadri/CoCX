@@ -62,7 +62,8 @@ public class FemaleMindbreakerRace extends Race{
 				.skinColor1("light purple", +1)
 				.skinBaseAdj("slippery", +1)
 				.hasPerk(PerkLib.Insanity, +1)
-				.givePerkV1(PerkLib.MindbreakerBrain1toX);
+				.givePerkV1(PerkLib.MindbreakerBrain1toX)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.MightyLowerHalfIM, +3);
 		

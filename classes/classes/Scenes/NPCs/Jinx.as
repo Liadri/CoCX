@@ -123,7 +123,7 @@ use namespace CoC;
 			this.a = "the ";
 			this.short = "ayotech maniac";
 			this.imageName = "ayotech maniac";
-			this.long = "You're currently fighting gremlin ayotech maniac. For some weird reason she wears alot more belts than you would expect.";//change Jinx to Minx???
+			this.long = "You're currently fighting a gremlin ayotech maniac. For some weird reason, she wears a lot more belts than you would expect.";//change Jinx to Minx???
 			this.plural = false;
 			createBreastRow(Appearance.breastCupInverse("A"));
 			this.createVagina(false, VaginaClass.WETNESS_DRY, VaginaClass.LOOSENESS_TIGHT);
@@ -139,7 +139,7 @@ use namespace CoC;
 			this.hairLength = 20;
 			initStrTouSpeInte(50, 50, 40, 40);
 			initWisLibSensCor(40, 20, 10, 50);
-			this.weaponName = "ayotech gaunlets";
+			this.weaponName = "ayotech gauntlets";
 			this.weaponVerb = "smash";
 			this.weaponAttack = 16;
 			if (EngineCore.silly()) this.weaponRangeName = "Pow-Pow";

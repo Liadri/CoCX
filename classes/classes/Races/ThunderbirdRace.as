@@ -50,7 +50,8 @@ public class ThunderbirdRace extends Race {
 				.skinBasePattern(Skin.PATTERN_LIGHTNING_SHAPED_TATTOO, +1)
 				.hairType(Hair.STORM, +1, -1000)
 				.hairColor1(ANY(ThunderbirdHairColors), +1)
-				.hasPerk(PerkLib.HarpyWomb, +2);
+				.hasPerk(PerkLib.HarpyWomb, +2)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.HeartOfTheStormIM);
 		addMutation(IMutationsLib.HarpyHollowBonesIM);

@@ -1422,7 +1422,7 @@ private function getFuckedInYerTwatYaCunt():void {
 
 	outputText("\n\nYou stare at her a few moments, then laugh once - the awkward wobbles in your belly stifle any more.  A fate like that would serve her right for getting so carried away.  Loppe blows you a raspberry and then hugs you close, basking in your warmth while riding out her afterglow.");
 
-	outputText("\n\nSidling up to you lover as best you can, you snuggle into her soft embrace.  A little rest can't hurt, right?  You take a look at the room around you, observing the copious smears of fluid all over the bedding and the floor - she's lucky her cock was buried in your cunt, or you're certain the walls and ceilings would be drenched in the stuff as well.  Wondering how lucky you yourself are to be so thoroughly worn out, you close your eyes and sink into oblivion.");
+	outputText("\n\nSidling up to your lover as best you can, you snuggle into her soft embrace.  A little rest can't hurt, right?  You take a look at the room around you, observing the copious smears of fluid all over the bedding and the floor - she's lucky her cock was buried in your cunt, or you're certain the walls and ceilings would be drenched in the stuff as well.  Wondering how lucky you yourself are to be so thoroughly worn out, you close your eyes and sink into oblivion.");
 
 	outputText("\n\n<b>Two hours later...</b>");
 	outputText("\n\nWhen you awaken, you feel much better.  You automatically right yourself, and find to your surprise that it's as effortless an action as always - your absurdly distended gut is gone.  In fact, you've been tucked carefully into clean, dry linen, and the floor is bare.  The stench of sex that should be suffocating you is entirely absent; you could hardly believe there was sex in here at all, never mind the unmasked fuckfest you just had.");
@@ -1814,7 +1814,7 @@ private function loppeSqueezedickWhateverThatIs():void {
 	else outputText("beside");
 	outputText(" the bed and pat the sheets with one hand; Loppe seats herself obediently next to you.  She doesn't bother hiding her excitement, letting her equine endowment bob as she settles herself; she sits beside you as instructed and rests her hands on her lap.  \"<i>Ok, I'm very ready for whatever you got planned,</i>\" Loppe giggles as her cock throbs; a small dollop of precum slowly pools inside her flare.");
 
-	outputText("\n\nYou grin back and slide your hands across hers, worming your way between her fingers in search of access to her base.  Loppe accomodates you, moving her hands to either side to brace herself.  Your own stroke the round, full orbs of her sack as you look forward to seeing what holding an orgasm or two in will do to them.  You cup them in the palm of your hand, awkwardly rolling them around with your fingers, reaching underneath to gently play with Loppe's clit.");
+	outputText("\n\nYou grin back and slide your hands across hers, worming your way between her fingers in search of access to her base.  Loppe accommodates you, moving her hands to either side to brace herself.  Your own stroke the round, full orbs of her sack as you look forward to seeing what holding an orgasm or two in will do to them.  You cup them in the palm of your hand, awkwardly rolling them around with your fingers, reaching underneath to gently play with Loppe's clit.");
 
 	outputText("\n\n\"<i>Oh!  I like where this is going,</i>\" she giggles, spreading her legs and supporting herself on her elbows to allow you full access to her assets.  \"<i>Knock yourself out, sugar.</i>\"");
 

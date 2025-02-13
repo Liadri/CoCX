@@ -53,7 +53,8 @@ public class AntRace extends Race {
 				.wingType(ANY(Wings.ANT_SMALL, Wings.BEE_SMALL, Wings.BEE_LARGE), +1)
 				.wingType(Wings.ANT_LARGE, +2)
                 .hasPerk(PerkLib.AntyDexterity, +1)
-				.hasPerk(PerkLib.AntOvipositor, +1);
+				.hasPerk(PerkLib.AntOvipositor, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 
         addMutation(IMutationsLib.TrachealSystemIM);
 				

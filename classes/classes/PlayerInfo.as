@@ -51,10 +51,10 @@ public class PlayerInfo extends BaseContent {
 		addButton(8, "Children", displayStatsChildren);
 		addButton(9, "Mastery", displayStatsmastery);
 		if (currentButton >= 4 && currentButton <= 9) {
-			button(currentButton).disable("You are currently at this stats page.");
+			button(currentButton).disable("You are currently on this stats page.");
 		}
 		if (currentButton == 4 || (currentButton >= 10 && currentButton <= 14)) {
-			button(4).disable("You are currently at this stats page.");
+			button(4).disable("You are currently on this stats page.");
 			if (currentButton == 4) {
 				//Should show all abilities by default
 				currentButton = 10;
@@ -146,7 +146,7 @@ public class PlayerInfo extends BaseContent {
 		if (player.hasStatusEffect(StatusEffects.Feeder)) {
 			bodyStats += "<b>Hours Since Last Time Breastfed Someone:</b>  " + player.statusEffectv2(StatusEffects.Feeder);
 			if (player.statusEffectv2(StatusEffects.Feeder) >= 72)
-				bodyStats += " (Too long! Sensitivity Increasing!)";
+				bodyStats += " (Too long! Sensitivity increasing!)";
 			bodyStats += "\n";
 		}
 		bodyStats += "<b>Pregnancy Speed Multiplier:</b> ";
@@ -210,6 +210,7 @@ public class PlayerInfo extends BaseContent {
 			if (player.isAnyRaceCached(Races.WEREWOLF, Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM)) miscStats += "<b>Female Werewolfs:</b> " + LunaFollower.WerewolfPackMember + "\n";
 			if (player.isRaceCached(Races.CERBERUS) && player.hasMutation(IMutationsLib.AlphaHowlIM) && player.hasMutation(IMutationsLib.HellhoundFireBallsIM)) miscStats += "<b>Hellhounds:</b> " + LunaFollower.HellhoundPackMember + "\n";
 			if (player.hasPerk(PerkLib.MummyLord)) miscStats += "<b>Mummies:</b> " + player.perkv1(PerkLib.MummyLord) + " / " + player.mummyControlLimit() + "\n";
+			if (player.hasPerk(PerkLib.UndeadLord)) miscStats += "<b>Zombies:</b> " + player.perkv1(PerkLib.UndeadLord) + " / " + player.zombieControlLimit() + "\n";
 		}
 
 		if (player.hasKeyItem("Radiant shard") >= 0) miscStats += "<b>Radiant Shards:</b> " + player.keyItemvX("Radiant shard", 1) + "\n";
@@ -238,19 +239,19 @@ public class PlayerInfo extends BaseContent {
 		miscStats += "<b>Prestige Jobs:</b> " + player.currentPrestigeJobs() + " / " + player.maxPrestigeJobs() + "\n";
 
 		if (player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter1)) {
-			miscStats += "<b>Imps Hunt Quests completed:</b> " + player.statusEffectv1(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
+			miscStats += "<b>Imp Hunt Quests completed:</b> " + player.statusEffectv1(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
 			miscStats += "<b>Demons Hunt Quests completed:</b> " + player.statusEffectv2(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
-			miscStats += "<b>Minotaurs Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
+			miscStats += "<b>Minotaur Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
 		}
 		if (player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter2)) {
 			miscStats += "<b>Feral Tentacle Beasts Hunt Quests completed:</b> " + player.statusEffectv1(StatusEffects.AdventureGuildQuestsCounter2) + "\n";
-			miscStats += "<b>Feral Imps Hunt Quests completed:</b> " + player.statusEffectv2(StatusEffects.AdventureGuildQuestsCounter2) + "\n";
-			//miscStats += "<b>Imps Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter2) + "\n";
+			miscStats += "<b>Feral Imp Hunt Quests completed:</b> " + player.statusEffectv2(StatusEffects.AdventureGuildQuestsCounter2) + "\n";
+			//miscStats += "<b>Imp Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter2) + "\n";
 		}
 		if (player.hasStatusEffect(StatusEffects.AdventureGuildQuestsCounter4)) {
 			miscStats += "<b>Black Chitin Gathering Quests completed:</b> " + player.statusEffectv1(StatusEffects.AdventureGuildQuestsCounter4) + "\n";
 			miscStats += "<b>Green Gel Gathering Quests completed:</b> " + player.statusEffectv2(StatusEffects.AdventureGuildQuestsCounter4) + "\n";
-			//miscStats += "<b>Imps Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
+			//miscStats += "<b>Imp Hunt Quests completed:</b> " + player.statusEffectv3(StatusEffects.AdventureGuildQuestsCounter1) + "\n";
 		}
 
 		if (flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] > 0) {
@@ -299,7 +300,7 @@ public class PlayerInfo extends BaseContent {
 		miscStats += "<b>Ebon Labyrinth:</b> Explored up to " + flags[kFLAGS.EBON_LABYRINTH_RECORD] + " room\n";
 		miscStats += "<b>Exp needed to lvl up:</b> ";
 		if (player.level < CoC.instance.levelCap || player.negativeLevel > 0) miscStats += "" + player.requiredXP() + "\n";
-		else miscStats += "N/A (You already at max lvl)\n";
+		else miscStats += "N/A (You are already at max lvl)\n";
 		miscStats += "<b>Ascension points (currently possessed):</b> " + player.ascensionPerkPoints + "\n";
 		miscStats += "<b>Ascension points (possible to gain during next ascension):</b> " + camp.possibleToGainAscensionPoints() + "\n";
 		miscStats += "<i>Ascension points - Dungeons Edition:</i> " + camp.possibleToGainAscensionPointsDungeons() + " / 22\n";
@@ -367,7 +368,7 @@ public class PlayerInfo extends BaseContent {
 			statEffects += "Blessing of Divine Agency - Taoth: " + player.buff('TaothBlessing').getRemainingTicks() + " days remaining (Your speed is empowered by ~10% under the guidance of Taoth)\n";
 
 		if (player.statStore.hasBuff("FenrirBlessing"))
-			statEffects += "Blessing of Divine Agency - Fenrir: " + player.buff('FenrirBlessing').getRemainingTicks() + " days remaining (Your strenght & toughness is empowered by ~10% under the guidance of Fenrir)\n";
+			statEffects += "Blessing of Divine Agency - Fenrir: " + player.buff('FenrirBlessing').getRemainingTicks() + " days remaining (Your strength & toughness is empowered by ~10% under the guidance of Fenrir)\n";
 
 		if (player.statusEffectv1(StatusEffects.Luststick) > 0)
 			statEffects += "Luststick - " + Math.round(player.statusEffectv1(StatusEffects.Luststick)) + " hours remaining\n";
@@ -412,7 +413,7 @@ public class PlayerInfo extends BaseContent {
 			statEffects += "Dysfunction - " + player.statusEffectv1(StatusEffects.Dysfunction) + " hours remaining. (Disables masturbation)\n";
 
 		if (player.statusEffectv1(StatusEffects.HinezumiCoat) > 0)
-			statEffects += "Hinezumi Coat: Unarmed attacks minor deal fire damage and discharge lust (1 point per attack) when you are aroused above 50%.\n";
+			statEffects += "Hinezumi Coat: Unarmed attacks deal minor fire damage and discharge lust (1 point per attack) when you are aroused above 50%.\n";
 
 		if (player.statusEffectv1(StatusEffects.Airweed) > 0)
 			statEffects += "Airweed: Water breathing for " + Math.round(player.statusEffectv1(StatusEffects.Airweed)) + " hours.\n";
@@ -568,7 +569,7 @@ public class PlayerInfo extends BaseContent {
 		if (maxMeleeAttacksOff >= 8) combatStats += "<b>Accuracy (8th melee attack):</b> " + ((mAccOH / 2) - (mAccPen * 7)) + "%\n";
 		if (maxMeleeAttacksOff >= 9) combatStats += "<b>Accuracy (9th melee attack):</b> " + ((mAccOH / 2) - (mAccPen * 8)) + "%\n";
 		if (maxMeleeAttacksOff >= 10) combatStats += "<b>Accuracy (10th melee attack):</b> " + ((mAccOH / 2) - (mAccPen * 9)) + "%\n";
-		combatStats += "<i>(All accuracy values above includes bonus to accuracy from Mastery for currently equipped type of melee weapon)\n(They not include the penalty for using dual weapons, that is "+combat.meleeDualWieldAccuracyPenalty()+"% (addictive) to each attack)</i>\n";
+		combatStats += "<i>(All accuracy values above include bonuses to accuracy from Mastery for currently equipped type of melee weapon)\n(They do not include the penalty for using dual weapons, that is "+combat.meleeDualWieldAccuracyPenalty()+"% (addictive) to each attack)</i>\n";
 		combatStats += "\n";
 		combatStats += "<b>Range Physical Attacks Multiplier:</b> " + Math.round(100 * combat.rangePhysicalForce()) + "%\n";
 		combatStats += "<b>Firearms Attacks Multiplier:</b> " + Math.round(100 * combat.firearmsForce()) + "%\n";
@@ -603,13 +604,13 @@ public class PlayerInfo extends BaseContent {
 		var maxCrossBowAttacks:int = combat.maxCrossbowAttacks();
 		if (maxCrossBowAttacks >= 2) combatStats += "<b>Crossbow Accuracy (2nd range attack):</b> " + ((bAcc / 2) - bAccPen) + "%\n";
 		if (maxCrossBowAttacks >= 3) combatStats += "<b>Crossbow Accuracy (3rd range attack):</b> " + ((bAcc / 2) - (bAccPen * 2)) + "%\n";
-		combatStats += "<i>(All accuracy values above includes bonus to accuracy from Archery Mastery)</i>\n";
+		combatStats += "<i>(All accuracy values above include bonuses to accuracy from Archery Mastery)</i>\n";
 		combatStats += "<b>Throwing Weapon Accuracy (1st range attack):</b> " + (combat.throwingAccuracy() / 2) + "%\n";
 		
 		var maxThrowAttacks:int = combat.maxThrowingAttacks();
 		if (maxThrowAttacks >= 2) combatStats += "<b>Throwing Weapon Accuracy (2nd range attack):</b> " + ((combat.throwingAccuracy() / 2) - 15) + "%\n";
 		if (maxThrowAttacks >= 3) combatStats += "<b>Throwing Weapon Accuracy (3rd range attack):</b> " + ((combat.throwingAccuracy() / 2) - 30) + "%\n";
-		combatStats += "<i>(All accuracy values above includes bonus to accuracy from Throwing Weapons Mastery)</i>\n";
+		combatStats += "<i>(All accuracy values above include bonuses to accuracy from Throwing Weapons Mastery)</i>\n";
 		combatStats += "<b>Firearms Accuracy (1st range attack):</b> " + (fAcc / 2) + "%\n";
 		
 		var maxFirearmAttacks:int = combat.maxFirearmsAttacks();
@@ -620,7 +621,7 @@ public class PlayerInfo extends BaseContent {
 			combatStats += "<b>Firearms Accuracy (5th range attack):</b> " + ((fAcc / 2) - (fAccPen * 4)) + "%\n";
 			combatStats += "<b>Firearms Accuracy (6th range attack):</b> " + ((fAcc / 2) - (fAccPen * 5)) + "%\n";
 		}
-		combatStats += "<i>(All accuracy values above includes bonus to accuracy from Firearms Mastery)\n(They not include the penalty for using dual firearms, that is "+combat.firearmsDualWieldAccuracyPenalty()+"% (addictive) to each shoot)</i>\n";
+		combatStats += "<i>(All accuracy values above include bonuses to accuracy from Firearms Mastery)\n(They not include the penalty for using dual firearms, that is "+combat.firearmsDualWieldAccuracyPenalty()+"% (addictive) to each shoot)</i>\n";
 		combatStats += "\n";
 		if (player.hasPerk(PerkLib.FlyingSwordPath)) {
 			combatStats += "<b>Cost of flying on Flying Sword (Soulforce / per turn): </b> " + combat.flyingSwordUseCost() + "\n";
@@ -663,15 +664,15 @@ public class PlayerInfo extends BaseContent {
 		combatStats += "<b>Mana Regeneration:</b> " + Math.round(combat.manaregeneration2() * combat.manaRecoveryMultiplier()) + " / turn, " + Math.round(combat.manaregeneration2() * combat.manaRecoveryMultiplier() * 0.1) + " / 5 minutes\n";
 		combatStats += "<b>Soulforce Regeneration:</b> " + Math.round(combat.soulforceregeneration2() * combat.soulforceRecoveryMultiplier()) + " / turn, " + Math.round(combat.soulforceregeneration2() * combat.soulforceRecoveryMultiplier() * 0.1) + " / 5 minutes\n";
 		combatStats += "\n";
-		combatStats += "<b>Minimum HP (reaching it mean HP based defeat):</b> " + player.minHP() + "\n";
-		combatStats += "<b>Maximum Safe Wrath I (treshold after which spells are unaccesable):</b> " + player.maxSafeWrathSpellcasting() + "\n";
-		combatStats += "<b>Maximum Safe Wrath II (treshold after which magic soulskills are unaccesable):</b> " + player.maxSafeWrathMagicalAbilities() + "\n";
-		combatStats += "<b>Over HP (HP amount that can be reached beyond default 100% of Health bar):</b> " + (player.maxOverHP() - player.maxHP()) + "\n";
-		combatStats += "<b>Over Lust (Lust amount that can be reached beyond default 100% of Lust bar):</b> " + (player.maxOverLust() - player.maxLust()) + "\n";
-		combatStats += "<b>Over Fatigue (Fatigue amount that can be reached beyond default 100% of Fatigue bar):</b> " + (player.maxOverFatigue() - player.maxFatigue()) + "\n";
-		combatStats += "<b>Over Wrath (Wrath amount that can be reached beyond default 100% of Wrath bar):</b> " + (player.maxOverWrath() - player.maxWrath()) + "\n";
-		combatStats += "<b>Over Mana (Mana amount that can be reached beyond default 100% of Mana bar):</b> " + (player.maxOverMana() - player.maxMana()) + "\n";
-		combatStats += "<b>Over Soulforce (Soulforce amount that can be reached beyond default 100% of Soulforce bar):</b> " + (player.maxOverSoulforce() - player.maxSoulforce()) + "\n";
+		combatStats += "<b>Minimum HP (reaching it means HP based defeat):</b> " + player.minHP() + "\n";
+		combatStats += "<b>Maximum Safe Wrath I (threshold after which spells are unaccesable):</b> " + player.maxSafeWrathSpellcasting() + "\n";
+		combatStats += "<b>Maximum Safe Wrath II (threshold after which magic soulskills are unaccesable):</b> " + player.maxSafeWrathMagicalAbilities() + "\n";
+		combatStats += "<b>Over HP (HP amount that can be reached beyond the default 100% of Health bar):</b> " + (player.maxOverHP() - player.maxHP()) + "\n";
+		combatStats += "<b>Over Lust (Lust amount that can be reached beyond the default 100% of Lust bar):</b> " + (player.maxOverLust() - player.maxLust()) + "\n";
+		combatStats += "<b>Over Fatigue (Fatigue amount that can be reached beyond the default 100% of Fatigue bar):</b> " + (player.maxOverFatigue() - player.maxFatigue()) + "\n";
+		combatStats += "<b>Over Wrath (Wrath amount that can be reached beyond the default 100% of Wrath bar):</b> " + (player.maxOverWrath() - player.maxWrath()) + "\n";
+		combatStats += "<b>Over Mana (Mana amount that can be reached beyond the default 100% of Mana bar):</b> " + (player.maxOverMana() - player.maxMana()) + "\n";
+		combatStats += "<b>Over Soulforce (Soulforce amount that can be reached beyond the default 100% of Soulforce bar):</b> " + (player.maxOverSoulforce() - player.maxSoulforce()) + "\n";
 		combatStats += "\n";
 		combatStats += "<b>Base evasion:</b> " + player.getEvasionChance() + " %\n";
 		combatStats += "<b>Base block chance:</b> " + combat.combatBlock2() + " %\n";
@@ -949,9 +950,6 @@ public class PlayerInfo extends BaseContent {
 			else interpersonStats += getNPCLevel("Ted", 15, 1, 2, 6, flags[kFLAGS.TED_LVL_UP]);
 		}
 
-		if (flags[kFLAGS.TIFA_FOLLOWER] > 5)
-			interpersonStats += "<b>Tifa Affection:</b> " + Math.round(flags[kFLAGS.TIFA_AFFECTION]) + "%\n";
-
 		if (SceneLib.valeria.valeriaFluidsEnabled()) {
             interpersonStats += "<b>Valeria's Fluid:</b> " + flags[kFLAGS.VALERIA_FLUIDS] + "%\n"
 		}
@@ -1029,6 +1027,13 @@ public class PlayerInfo extends BaseContent {
 			outputText("\n<b><u>Evangeline Stats</u></b>\n" + evangelineStats);
 		// End Evangeline Stats
 
+		var tifaStats:String = "";
+		if (flags[kFLAGS.TIFA_FOLLOWER] > 5)
+			tifaStats += "<b>Tifa Affection:</b> " + Math.round(flags[kFLAGS.TIFA_AFFECTION]) + "%\n";
+		if (SceneLib.tifaHive.HiveComplete)
+			tifaStats += "<b>Tifa's hive population':</b> " + SceneLib.tifaHive.BeesHatched + "\n";
+		if (tifaStats != "")
+			outputText("\n<b><u>Tifa Stats</u></b>\n" + tifaStats);
 		// Begin RyuBi Stats
 		var ryubiStats:String = "";
 		if (ryubiStats != "")
@@ -1711,7 +1716,7 @@ public class PlayerInfo extends BaseContent {
 		}
 		if (player.level >= CoC.instance.levelCap) return;
 		player.level += 1; 
-		HPChange(player.maxHP(), false);
+		HPChange(player.maxHP(), false, false);
 		//if (player.level % 2 == 0) player.ascensionPerkPoints++;
 		//przerobić aby z asc perk co ?6/3/1? lvl dostawać another perk point?
 		var gainedPerks:Number = 1;
@@ -2196,15 +2201,20 @@ public class PlayerInfo extends BaseContent {
 			player.itemSlot9.unlocked = true;
 		}
 		if (perk.ptype == PerkLib.TankI || perk.ptype == PerkLib.TankII || perk.ptype == PerkLib.TankIII || perk.ptype == PerkLib.TankIV || perk.ptype == PerkLib.TankV || perk.ptype == PerkLib.TankVI) {
-			HPChange(player.tou, false);
+			HPChange(player.tou, false, false);
 			statScreenRefresh();
 		}
 		if (perk.ptype == PerkLib.GoliathI || perk.ptype == PerkLib.GoliathII || perk.ptype == PerkLib.GoliathIII || perk.ptype == PerkLib.GoliathIV || perk.ptype == PerkLib.GoliathV || perk.ptype == PerkLib.GoliathVI) {
-			HPChange(player.str, false);
+			HPChange(player.str, false, false);
 			statScreenRefresh();
 		}
 		if (perk.ptype == PerkLib.CheetahI || perk.ptype == PerkLib.CheetahII || perk.ptype == PerkLib.CheetahIII || perk.ptype == PerkLib.CheetahIV || perk.ptype == PerkLib.CheetahV || perk.ptype == PerkLib.CheetahVI) {
-			HPChange(player.spe, false);
+			HPChange(player.spe, false, false);
+			statScreenRefresh();
+		}
+		if (perk.ptype == PerkLib.SeducerResilience) {
+			HPChange(player.lib, false, false);
+			HPChange(player.sens, false, false);
 			statScreenRefresh();
 		}
 		if (perk.ptype == PerkLib.RacialParagon) {
@@ -2227,7 +2237,7 @@ public class PlayerInfo extends BaseContent {
 	
 	public function superPerkBuyMenu(page:int = 1):void {
 		clearOutput();
-		outputText("If you meet requirements and have enough points you can pick one or more super perks.\n\n");
+		outputText("If you meet the requirements and have enough points you can pick one or more super perks.\n\n");
 		outputText("<b>Unused super perk points:</b> "+player.superPerkPoints+"\n");
 		outputText("<b>Unused perk points:</b> "+player.perkPoints+"\n\n");
 		hideMenus();
@@ -2236,11 +2246,11 @@ public class PlayerInfo extends BaseContent {
 		if (page == 1) {
 			if (player.superPerkPoints > 0) {
 				if (player.hasPerk(PerkLib.SPSurvivalTrainingX)) addButtonDisabled(0, "SP:ST(R1)", "You already have this super perk.");
-				else addButton(0, "SP:ST(R1)", perkSurvivalTrainingRank1).hint("Choose the 'Survival Training (Rank: 1)' super perk. You have trained to better survive this realm hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +10%)");
+				else addButton(0, "SP:ST(R1)", perkSurvivalTrainingRank1).hint("Choose the 'Survival Training (Rank: 1)' super perk. You have trained to better survive this realm's hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +10%)");
 				if (player.level >= 30) {
 					if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 2) addButtonDisabled(1, "SP:ST(R2)", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 1) addButton(1, "SP:ST(R2)", perkSurvivalTrainingRank2).hint("Choose the 'Survival Training (Rank: 2)' super perk. You have trained to better survive this realm hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +20%)");
+						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 1) addButton(1, "SP:ST(R2)", perkSurvivalTrainingRank2).hint("Choose the 'Survival Training (Rank: 2)' super perk. You have trained to better survive this realm's hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +20%)");
 						else addButtonDisabled(1, "SP:ST(R2)", "You need to first have 'Survival Training (Rank: 1)' super perk.");
 					}
 				}
@@ -2248,7 +2258,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 60) {
 					if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 3) addButtonDisabled(2, "SP:ST(R3)", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 2) addButton(2, "SP:ST(R3)", perkSurvivalTrainingRank3).hint("Choose the 'Survival Training (Rank: 3)' super perk. You have trained to better survive this realm hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +30%)");
+						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 2) addButton(2, "SP:ST(R3)", perkSurvivalTrainingRank3).hint("Choose the 'Survival Training (Rank: 3)' super perk. You have trained to better survive this realm's hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +30%)");
 						else addButtonDisabled(2, "SP:ST(R3)", "You need to first have 'Survival Training (Rank: 2)' super perk.");
 					}
 				}
@@ -2256,7 +2266,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 90) {
 					if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 4) addButtonDisabled(3, "SP:ST(R4)", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 3) addButton(3, "SP:ST(R4)", perkSurvivalTrainingRank4).hint("Choose the 'Survival Training (Rank: 4)' super perk. You have trained to better survive this realm hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +40%)");
+						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 3) addButton(3, "SP:ST(R4)", perkSurvivalTrainingRank4).hint("Choose the 'Survival Training (Rank: 4)' super perk. You have trained to better survive this realm's hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +40%)");
 						else addButtonDisabled(3, "SP:ST(R4)", "You need to first have 'Survival Training (Rank: 3)' super perk.");
 					}
 				}
@@ -2264,7 +2274,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 120) {
 					if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 5) addButtonDisabled(4, "SP:ST(R5)", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 4) addButton(4, "SP:ST(R5)", perkSurvivalTrainingRank5).hint("Choose the 'Survival Training (Rank: 5)' super perk. You have trained to better survive this realm hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +50%)");
+						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 4) addButton(4, "SP:ST(R5)", perkSurvivalTrainingRank5).hint("Choose the 'Survival Training (Rank: 5)' super perk. You have trained to better survive this realm's hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +50%)");
 						else addButtonDisabled(4, "SP:ST(R5)", "You need to first have 'Survival Training (Rank: 4)' super perk.");
 					}
 				}
@@ -2272,7 +2282,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 150) {
 					if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 6) addButtonDisabled(5, "SP:ST(R6)", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 5) addButton(5, "SP:ST(R6)", perkSurvivalTrainingRank6).hint("Choose the 'Survival Training (Rank: 6)' super perk. You have trained to better survive this realm hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +60%)");
+						if (player.hasPerk(PerkLib.SPSurvivalTrainingX) && player.perkv1(PerkLib.SPSurvivalTrainingX) >= 5) addButton(5, "SP:ST(R6)", perkSurvivalTrainingRank6).hint("Choose the 'Survival Training (Rank: 6)' super perk. You have trained to better survive this realm's hostile environment. (+1% to MaxOver HP, MaxOver Lust and Diehard each 3 lvl's up to +60%)");
 						else addButtonDisabled(5, "SP:ST(R6)", "You need to first have 'Survival Training (Rank: 5)' super perk.");
 					}
 				}
@@ -2305,7 +2315,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 10) {
 					if (player.hasPerk(PerkLib.HiddenJobBloodDemon)) addButtonDisabled(0, "HJ:BD", "You already have this super perk.");
 					else {
-						if (player.freeHiddenJobsSlots() > 0) addButton(0, "HJ:BD", perkHiddenJobBloodDemon).hint("Choose the 'Hidden Job: Blood Demon' super perk. You've trained in arts of blood demons. Beings that reached mastery of using their own or others blood to great effect. (+10% of OverMax HP, -5% blood spells/soulskills cost, +10% blood spells/soulskills power, can learn Blood Spells form Red Manuscripts)");
+						if (player.freeHiddenJobsSlots() > 0) addButton(0, "HJ:BD", perkHiddenJobBloodDemon).hint("Choose the 'Hidden Job: Blood Demon' super perk. You've trained in the arts of blood demons, beings that reached mastery of using their own or others blood to great effect. (+10% to OverMax HP, -5% blood spells/soulskills cost, +10% blood spells/soulskills power, you can now learn Blood Spells form Red Manuscripts)");
 						else addButtonDisabled(0, "HJ:BD", "You do not have a free slot for this hidden job.");
 					}
 				}
@@ -2313,7 +2323,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 20) {
 					if (player.hasPerk(PerkLib.WayOfTheBlood)) addButtonDisabled(1, "WOTB", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.HiddenJobBloodDemon)) addButton(1, "WOTB", perkWayOfTheBlood).hint("Choose the 'Way of the Blood' super perk. Blood speels and soulskills gain additional effects that would get better as you progress in this job. (+10% of OverMax HP, -5% blood spells/soulskills cost, +15% blood spells/soulskills power, can learn Blood Soulskills form Crimson Jades)");
+						if (player.hasPerk(PerkLib.HiddenJobBloodDemon)) addButton(1, "WOTB", perkWayOfTheBlood).hint("Choose the 'Way of the Blood' super perk. Blood speels and soulskills gain additional effects that would get better as you progress in this job. (+10% to OverMax HP, -5% blood spells/soulskills cost, +15% blood spells/soulskills power, can learn Blood Soulskills form Crimson Jades)");
 						else addButtonDisabled(1, "WOTB", "You need to first have the 'Hidden Job: Blood Demon' super perk.");
 					}
 				}
@@ -2321,7 +2331,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 30) {
 					if (player.hasPerk(PerkLib.BloodDemonToughness)) addButtonDisabled(2, "BDT", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.WayOfTheBlood)) addButton(2, "BDT", perkBloodDemonToughness).hint("Choose the 'Blood Demon Toughness' super perk. When below 0 HP it would negate any negative effect of other perks that would cause negative HP regen. (+10% of OverMax HP/Base TOU Cap, -5% blood spells/soulskills cost, +20% blood spells/soulskills power, +0,5% HP regen)");
+						if (player.hasPerk(PerkLib.WayOfTheBlood)) addButton(2, "BDT", perkBloodDemonToughness).hint("Choose the 'Blood Demon Toughness' super perk. When below 0 HP it would negate any negative effect of other perks that would cause negative HP regen. (+10% to OverMax HP/Base TOU Cap, -5% blood spells/soulskills cost, +20% blood spells/soulskills power, +0,5% HP regen)");
 						else addButtonDisabled(2, "BDT", "You need to first have the 'Way of the Blood' super perk.");
 					}
 				}
@@ -2329,7 +2339,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 40) {
 					if (player.hasPerk(PerkLib.MyBloodForBloodPuppies)) addButtonDisabled(3, "MBFBP", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.BloodDemonToughness)) addButton(3, "MBFBP", perkMyBloodForBloodPuppies).hint("Choose the 'My Blood for Blood Puppies' super perk. During fight small part of your blood from into blood puppies that can attack on your behalf with blood magic/soulskills. When you grow in mastery of blood they would grow stronger with you. (+10% of OverMax HP, -5% blood spells/soulskills cost, +25% blood spells/soulskills power)");
+						if (player.hasPerk(PerkLib.BloodDemonToughness)) addButton(3, "MBFBP", perkMyBloodForBloodPuppies).hint("Choose the 'My Blood for Blood Puppies' super perk. During fight small part of your blood from into blood puppies that can attack on your behalf with blood magic/soulskills. When you grow in mastery of blood they would grow stronger with you. (+10% to OverMax HP, -5% blood spells/soulskills cost, +25% blood spells/soulskills power)");
 						else addButtonDisabled(3, "MBFBP", "You need to first have the 'Blood Demon Toughness' super perk.");
 					}
 				}
@@ -2337,7 +2347,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 50) {
 					if (player.hasPerk(PerkLib.YourPainMyPower)) addButtonDisabled(4, "YPMP", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.MyBloodForBloodPuppies)) addButton(4, "YPMP", perkYourPainMyPower).hint("Choose the 'Your Pain My Power' super perk. You can absorb all of blood spilled and wrath generated by enemy under Bleed effects into yourself. Casting spells using HP make them no longer limited by too high wrath. (+10% of OverMax HP, -5% blood spells/soulskills cost, +30% blood spells/soulskills power)");
+						if (player.hasPerk(PerkLib.MyBloodForBloodPuppies)) addButton(4, "YPMP", perkYourPainMyPower).hint("Choose the 'Your Pain My Power' super perk. You can absorb all of blood spilled and wrath generated by enemy under Bleed effects into yourself. Casting spells using HP make them no longer limited by too high wrath. (+10% to OverMax HP, -5% blood spells/soulskills cost, +30% blood spells/soulskills power)");
 						else addButtonDisabled(4, "YPMP", "You need to first have the 'My Blood for Blood Puppies' super perk.");
 					}
 				}
@@ -2345,7 +2355,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 60) {
 					if (player.hasPerk(PerkLib.BloodDemonIntelligence)) addButtonDisabled(5, "BDI", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.YourPainMyPower)) addButton(5, "BDI", perkBloodDemonIntelligence).hint("Choose the 'Blood Demon Intelligence' super perk. Blood Spells duration/shielding effects are increased 2x. (+10% of OverMax HP/Base INT Cap, -5% blood spells/soulskills cost, +35% blood spells/soulskills power, +0,5% HP regen)");
+						if (player.hasPerk(PerkLib.YourPainMyPower)) addButton(5, "BDI", perkBloodDemonIntelligence).hint("Choose the 'Blood Demon Intelligence' super perk. Blood Spell durations/shielding effects are increased 2x. (+10% to OverMax HP/Base INT Cap, -5% blood spells/soulskills cost, +35% blood spells/soulskills power, +0,5% HP regen)");
 						else addButtonDisabled(5, "BDI", "You need to first have the 'Your Pain My Power' super perk.");
 					}
 				}
@@ -2374,7 +2384,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 10) {
 					if (player.hasPerk(PerkLib.HiddenJobAsura)) addButtonDisabled(0, "HJ:A", "You already have this super perk.");
 					else {
-						if (player.freeHiddenJobsSlots() > 0) addButton(0, "HJ:A", perkHiddenJobAsura).hint("Choose the 'Hidden Job: Asura' super perk. You've trained in way of asuras. Beings that reached mastery of unleashing wrath to great effect. (+10% of OverMax Wrath, access to Asura Form: 3x more melee attacks per turn, +40%/30%/20% of core str/spe/tou stat value)");
+						if (player.freeHiddenJobsSlots() > 0) addButton(0, "HJ:A", perkHiddenJobAsura).hint("Choose the 'Hidden Job: Asura' super perk. You have trained in the Way of the Asuras, mastering the art of unleashing wrath to devastating effect. Grants access to the Asura Form, allowing you do deal 3x more damage (this bonus increases 1x with additional semi-transparent arms). Additionally, while in your asura form, gain a +40%/30%/20% bonus to core Strength, Speed, and Toughness values. (+10% to OverMax Wrath)");
 						else addButtonDisabled(0, "HJ:A", "You do not have a free slot for this hidden job.");
 					}
 				}
@@ -2382,7 +2392,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 20) {
 					if (player.hasPerk(PerkLib.AbsoluteStrength)) addButtonDisabled(1, "AS", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.HiddenJobAsura)) addButton(1, "AS", perkAbsoluteStrength).hint("Choose the 'Absolute Strength' super perk. Increase strength based on current amount of wrath. Also wrath outside of combat will not decay and even with correct perks can slowly rise. (+10% of OverMax Wrath, % based multi bonus to str stat equal to 50% of wrath (updated once a day))");
+						if (player.hasPerk(PerkLib.HiddenJobAsura)) addButton(1, "AS", perkAbsoluteStrength).hint("Choose the 'Absolute Strength' super perk. Increases Strength based on your current amount of Wrath (+1% str multiplier per 2% of Wrath, up to +50% str multiplier at max wrath). Wrath will no longer decay outside of combat and, with the correct perks, can instead slowly increase. (+10% to OverMax Wrath)");
 						else addButtonDisabled(1, "AS", "You need to first have the 'Hidden Job: Asura' super perk.");
 					}
 				}
@@ -2390,7 +2400,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 30) {
 					if (player.hasPerk(PerkLib.AsuraStrength)) addButtonDisabled(2, "ASTR", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.AbsoluteStrength)) addButton(2, "ASTR", perkAsuraStrength).hint("Choose the 'Asura Strength' super perk. Asura Form increase to physical might rise to 120%/60%/40% of core str/tou/spe and generate one additional pair of semi-transparent arms. (+10% of OverMax Wrath/Base STR Cap, +0,5% Wrath generated)");
+						if (player.hasPerk(PerkLib.AbsoluteStrength)) addButton(2, "ASTR", perkAsuraStrength).hint("Choose the 'Asura Strength' super perk. Asura Form increases physical power to 120%/60%/40% of core Strength, Toughness, and Speed, and generates one additional pair of semi-transparent arms. (+10% to OverMax Wrath/Base STR Cap, +0,5% Wrath generated)");
 						else addButtonDisabled(2, "ASTR", "You need to first have the 'Absolute Strength' super perk.");
 					}
 				}
@@ -2398,7 +2408,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 40) {
 					if (player.hasPerk(PerkLib.ICastAsuraFist)) addButtonDisabled(3, "ICAF", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.AsuraStrength)) addButton(3, "ICAF", perkICastAsuraFist).hint("Choose the 'I Cast (Asura) Fist' super perk. Safe treshold for magic/m.specials is magic/m.specials is calculated based on overmax wrath not max wrath, +100% of base max wrath. (+10% of OverMax Wrath)");
+						if (player.hasPerk(PerkLib.AsuraStrength)) addButton(3, "ICAF", perkICastAsuraFist).hint("Choose the 'I Cast (Asura) Fist' super perk. The safe threshold for magic and magical specials is now calculated based on OverMax Wrath, not Max Wrath. Gain +100% more base Max Wrath. (+10% to OverMax Wrath)");
 						else addButtonDisabled(3, "ICAF", "You need to first have the 'Asura Strength' super perk.");
 					}
 				}
@@ -2406,7 +2416,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 50) {
 					if (player.hasPerk(PerkLib.LikeAnAsuraBoss)) addButtonDisabled(4, "LAB", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.ICastAsuraFist)) addButton(4, "LAB", perkLikeAnAsuraBoss).hint("Choose the 'Like A-sura Boss' super perk. Adds to toggle starting in Asura Form at combat start, increase to physical might rise to 180%/90%/60% of core str/tou/spe and generate two additional pairs of semi-transparent arms. (+10% of OverMax Wrath)");
+						if (player.hasPerk(PerkLib.ICastAsuraFist)) addButton(4, "LAB", perkLikeAnAsuraBoss).hint("Choose the 'Like A-sura Boss' super perk. Adds a toggle to start in Asura Form at the beginning of combat. While in asura form, increase physical power to 180%/90%/60% of core Strength, Toughness, and Speed, and generate two additional pairs of semi-transparent arms. (+10% to OverMax Wrath)");
 						else addButtonDisabled(4, "LAB", "You need to first have the 'I Cast (Asura) Fist' super perk.");
 					}
 				}
@@ -2414,7 +2424,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 60) {
 					if (player.hasPerk(PerkLib.AsuraToughness)) addButtonDisabled(5, "AT", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.LikeAnAsuraBoss)) addButton(5, "AT", perkAsuraToughness).hint("Choose the 'Asura Toughness' super perk. If you can use Warrior's Rage if would have increased boost and even could activate it with Asura Form for no additonal cost. (+10% of OverMax Wrath/Base TOU Cap, +0,5% Wrath generated)");
+						if (player.hasPerk(PerkLib.LikeAnAsuraBoss)) addButton(5, "AT", perkAsuraToughness).hint("Choose the 'Asura Toughness' super perk. If you can use Warrior's Rage, its boost will be increased, and it can even be activated with Asura Form at no additional cost. Gain a +10% boost to OverMax Wrath and Base Toughness Caps, along with a +0.5% increase to Wrath regeneration.)");
 						else addButtonDisabled(5, "AT", "You need to first have the 'Like A-sura Boss' super perk.");
 					}
 				}
@@ -2422,7 +2432,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 70) {
 					if (player.hasPerk(PerkLib.ItsZerkingTime)) addButtonDisabled(6, "IZT", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.AsuraToughness)) addButton(6, "IZT", perkItsZerkingTime).hint("Choose the 'It's Zerking Time!!!' super perk. If you can use Berzerker or Lustzerker they would be activated with Asura Form for no additional cost (with Prestige Job: Berserker will be activated G2). Asura Form increase to physical might raise to 240%/120%/80% of core str/tou/spe and generate five pairs of semi-transparent arms. (+10% of OverMax Wrath)");
+						if (player.hasPerk(PerkLib.AsuraToughness)) addButton(6, "IZT", perkItsZerkingTime).hint("Choose the 'It's Zerking Time!!!' super perk. If you can use Berzerker or Lustzerker, they will activate with Asura Form at no additional cost (with the Prestige Job: Berserker, it will activate at G2). Asura Form increases physical power to 240%/120%/80% of core Strength, Toughness, and Speed, respectively, and generates five pairs of semi-transparent arms. (+10% to OverMax Wrath)");
 						else addButtonDisabled(6, "IZT", "You need to first have the 'Asura Toughness' super perk.");
 					}
 				}
@@ -2453,7 +2463,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 10) {
 					if (player.hasPerk(PerkLib.PrestigeJobGreySage)) addButtonDisabled(0, "HJ:GS", "You already have this super perk.");
 					else {
-						if (player.freeHiddenJobsSlots() > 0) addButton(0, "HJ:GS", perkHiddenJobGreySage).hint("Choose the 'Hidden Job: Grey Sage' super perk. You've trained in Way of Grey Sage. There is no spell you can't learn. (+10% to OverMax Mana)");
+						if (player.freeHiddenJobsSlots() > 0) addButton(0, "HJ:GS", perkHiddenJobGreySage).hint("Choose the 'Hidden Job: Grey Sage' super perk. You have mastered the Way of the Grey Sage, allowing you to learn any spell without limitations. (+10% to OverMax Mana)");
 						else addButtonDisabled(0, "HJ:GS", "You do not have a free slot for this hidden job.");
 					}
 				}
@@ -2461,7 +2471,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 20) {
 					if (player.hasPerk(PerkLib.Equilibrium)) addButtonDisabled(1, "Eq", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.PrestigeJobGreySage)) addButton(1, "Eq", perkEquilibrium).hint("Choose the 'Equilibrium' super perk. You can cast now any spell you learned even if you missing additional materials or not meet requirements. Slight increase cap on stored bones for necromancers. (+10% of OverMax Mana)");
+						if (player.hasPerk(PerkLib.PrestigeJobGreySage)) addButton(1, "Eq", perkEquilibrium).hint("Choose the 'Equilibrium' super perk. You can now cast any spell you've learned, even if you're missing additional materials or don’t meet the requirements. Slightly increases the cap on stored bones for necromancers. (+10% to OverMax Mana)");
 						else addButtonDisabled(1, "Eq", "You need to first have the 'Hidden Job: Grey Sage' super perk.");
 					}
 				}
@@ -2469,7 +2479,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 30) {
 					if (player.hasPerk(PerkLib.GreySageIntelligence)) addButtonDisabled(2, "GSI", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.Equilibrium)) addButton(2, "GSI", perkGreySageIntelligence).hint("Choose the 'Grey Sage Intelligence' super perk. When using Mana Shield during Defend command it would fully absorb attacks no matter how strong. (+10% of OverMax Mana/Base INT Cap, +0,5% Mana regen)");
+						if (player.hasPerk(PerkLib.Equilibrium)) addButton(2, "GSI", perkGreySageIntelligence).hint("Choose the 'Grey Sage Intelligence' super perk. When using Mana Shield with the Defend action, it fully absorbs all attacks, no matter their damage. Additionally grants you a +10% boost to OverMax Mana and Base Intelligence Cap, and a +0.5% increase to Mana regeneration.");
 						else addButtonDisabled(2, "GSI", "You need to first have the 'Equilibrium' super perk.");
 					}
 				}
@@ -2477,7 +2487,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 40) {
 					if (player.hasPerk(PerkLib.HyperCasting)) addButtonDisabled(3, "HC", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.GreySageIntelligence)) addButton(3, "HC", perkHyperCasting).hint("Choose the 'Hyper Casting' super perk. Decrease CD for spells: -1 for tier 1, -2 for tier 2 and -4 for tier 3. Reduce spells costs by 20% (that affect bones used by necro spells too). Allow to always autocast buff spells. (+10% of OverMax Mana)");
+						if (player.hasPerk(PerkLib.GreySageIntelligence)) addButton(3, "HC", perkHyperCasting).hint("Choose the 'Hyper Casting' super perk. Reduces cooldown for spells: -1 for tier 1, -2 for tier 2, and -4 for tier 3. Reduces spell costs by 20%, including bones used in necromancy spells. Allows you to automatically cast buff spells. (+10% to OverMax Mana)");
 						else addButtonDisabled(3, "HC", "You need to first have the 'Grey Sage Intelligence' super perk.");
 					}
 				}
@@ -2485,7 +2495,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 50) {
 					if (player.hasPerk(PerkLib.WellOfMana)) addButtonDisabled(4, "WoM", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.HyperCasting)) addButton(4, "WoM", perkWellOfMana).hint("Choose the 'Well of Mana' super perk. Mana recovery increased by (0,1% * core int value) of max mana. When using Wait or Defend move mana recovery doubled. (+10% of OverMax Mana)");
+						if (player.hasPerk(PerkLib.HyperCasting)) addButton(4, "WoM", perkWellOfMana).hint("Choose the 'Well of Mana' super perk. Mana recovery is increased by (0.1% * core Intelligence value) of max mana. When using the Wait or Defend action, mana recovery is doubled. (+10% boost to OverMax Mana)");
 						else addButtonDisabled(4, "WoM", "You need to first have the 'Hyper Casting' super perk.");
 					}
 				}
@@ -2493,7 +2503,7 @@ public class PlayerInfo extends BaseContent {
 				if (player.level >= 60) {
 					if (player.hasPerk(PerkLib.GreySageWisdom)) addButtonDisabled(5, "GSW", "You already have this super perk.");
 					else {
-						if (player.hasPerk(PerkLib.WellOfMana)) addButton(5, "GSW", perkGreySageWisdom).hint("Choose the 'Grey Sage Wisdom' super perk. Increase damage reduction against spells by 20%. (+10% of OverMax Mana/Base WIS Cap, +0,5% Mana regen)");
+						if (player.hasPerk(PerkLib.WellOfMana)) addButton(5, "GSW", perkGreySageWisdom).hint("Choose the 'Grey Sage Wisdom' super perk. Increase damage reduction against spells by 20%. (+10% to OverMax Mana/Base WIS Cap, +0,5% Mana regen)");
 						else addButtonDisabled(5, "GSW", "You need to first have the 'Well of Mana' super perk.");
 					}
 				}
@@ -2520,17 +2530,17 @@ public class PlayerInfo extends BaseContent {
 		if (page == 5) {
 			if (player.hasPerk(PerkLib.HiddenJobSwordImmortal)) addButtonDisabled(0, "HJ:SI", "You already have this perk.");
 			else {
-				if (player.freeHiddenJobsSlots() > 0 && player.hasPerk(PerkLib.SoulApprentice) && player.hasPerk(PerkLib.KillingIntent)) addButton(0, "HJ:SI", perkHiddenJobSwordImmortal).hint("Choose the 'Hidden Job: Sword Immortal' super perk. You began your journey as beginner Sword Immortal. (+5% of OverMax Wrath / Fatigue / Soulforce)");
-				else addButtonDisabled(0, "HJ:SI", "You do not have a free slot for this hidden job. Or not meet other requirements (Soul Apprentice / Killing Intent perks).");
+				if (player.freeHiddenJobsSlots() > 0 && player.hasPerk(PerkLib.SoulApprentice) && player.hasPerk(PerkLib.KillingIntent)) addButton(0, "HJ:SI", perkHiddenJobSwordImmortal).hint("Choose the 'Hidden Job: Sword Immortal' super perk. You have begun your journey as a novice Sword Immortal, granting a +5% boost to OverMax Wrath, Fatigue, and Soulforce.");
+				else addButtonDisabled(0, "HJ:SI", "You either don't have a free slot for this hidden job or do not meet the other requirements (Soul Apprentice and Killing Intent perks).");
 			}
 			if (player.hasPerk(PerkLib.SwordIntentAura)) addButtonDisabled(1, "SIA", "You already have this perk.");
 			else {
-				if (player.hasPerk(PerkLib.SoulPersonage) && player.hasPerk(PerkLib.HiddenJobSwordImmortal)) addButton(1, "SIA", perkSwordIntentAura).hint("Choose the 'Sword Intent (Aura)' super perk. Your Killing Intent can become focused into Sword Intent aura enveloping your weapons as long they are sword-type (+5% of core spe, +10% dmg). Would apply bonuses from the job to flying swords too. (+5% of OverMax Wrath / Fatigue / Soulforce)");
+				if (player.hasPerk(PerkLib.SoulPersonage) && player.hasPerk(PerkLib.HiddenJobSwordImmortal)) addButton(1, "SIA", perkSwordIntentAura).hint("Choose the 'Sword Intent (Aura)' super perk. Your Killing Intent can be focused into a Sword Intent aura, enveloping your weapons as long as they are sword-type, granting +5% of core Speed and +10% damage. This effect also applies to flying swords. Gain a +5% boost to OverMax Wrath, Fatigue, and Soulforce.");
 				else addButtonDisabled(1, "SIA", "You need to first have the 'Hidden Job: Sword Immortal' super perk and Soul Personage perk.");
 			}
 			if (player.hasPerk(PerkLib.SwordImmortalFirstForm)) addButtonDisabled(2, "SIFF", "You already have this perk.");
 			else {
-				if (player.hasPerk(PerkLib.SoulWarrior) && player.hasPerk(PerkLib.SwordIntentAura)) addButton(2, "SIFF", perkSwordImmortalFirstForm).hint("Choose the 'Sword Immortal: First Form' super perk. You reached First Form stage. Increase sword intent aura effects (+15% of core spe, +15% dmg) and gives small boost at the combat start (+100 wrath/sf, -100 fatigue) (+5% of OverMax Wrath / Base STR Cap / Fatigue / Base SPE Cap / Soulforce / Base WIS Cap)");
+				if (player.hasPerk(PerkLib.SoulWarrior) && player.hasPerk(PerkLib.SwordIntentAura)) addButton(2, "SIFF", perkSwordImmortalFirstForm).hint("Choose the 'Sword Immortal: First Form' super perk. You've reached the First Form stage. Increase sword intent aura effects (+15% of core Speed, +15% damage) and provides a small boost at the start of combat (+100 Wrath/Soulforce, -100 Fatigue). Gain a +5% bonus to OverMax Wrath, Base Strength, Fatigue, Base Speed, Soulforce, and Base Wisdom Caps.");
 				else addButtonDisabled(2, "SIFF", "You need to first have the 'Sword Intent (Aura)' super perk and Soul Warrior perk.");
 			}
 			addButton(12, "Previous", superPerkBuyMenu, page - 1);
@@ -2554,17 +2564,17 @@ public class PlayerInfo extends BaseContent {
 					if (player.hasPerk(PerkLib.DeityJobMunchkin)) addButtonDisabled(0, "DJ:M", "You already have this perk.");
 					else {
 						if (player.str >= 150 && player.tou >= 150 && player.spe >= 150 && player.inte >= 150 && player.wis >= 150 && player.lib >= 150 && player.sens >= 100 && player.currentBasicJobs() >= 11 && player.currentAdvancedJobs() >= 6 && player.currentPrestigeJobs() >= 2 && player.currentHiddenJobs() >= 1) {
-							addButton(0, "DJ:M", perkDeityJobMunchkin).hint("Choose the 'Deity Job: Munchkin' super munchkin perk. You're Munchkin, an ultimate being that possess a god-like body and powers. (+20% max HP/Lust/Wrath, +10% max SF/Mana/Fatigue, increase limit of negative HP equal to all stats (aside of corruption) added up)");
+							addButton(0, "DJ:M", perkDeityJobMunchkin).hint("Choose the 'Deity Job: Munchkin' super munchkin perk. You're a Munchkin, an ultimate being that possess a god-like body and powers. (+20% max HP/Lust/Wrath, +10% max SF/Mana/Fatigue, set the maximum negative HP limit to the sum of all stats added up (excluding corruption)");
 						}
-						else addButtonDisabled(0, "DJ:M", "You do not have one/all of them yet: 150+ in str/tou/spe/inte/wis/lib, 100+ in sens, 11 basic jobs, 6 advanced jobs, 2 prestige jobs, 1 hidden job.");
+						else addButtonDisabled(0, "DJ:M", "You do not meet the requirements: 150+ in str/tou/spe/inte/wis/lib, 100+ in sensitivity, 11 basic jobs, 6 advanced jobs, 2 prestige jobs, and 1 hidden job.");
 					}
 				}
 				else addButtonDisabled(0, "DJ:M", "You need to reach level 90 first.");
 				if (player.level >= 105) {
 					if (player.hasPerk(PerkLib.MunchkinAtGym)) addButtonDisabled(1, "M(at)G", "You already have this perk.");
 					else {
-						if (player.hasPerk(PerkLib.DeityJobMunchkin)) addButton(1, "M(at)G", perkMunchkinAtGym).hint("Choose the 'Munchkin @Gym' super munchkin perk. (+25% to Str/Tou/Spe/Inte/Wis/Lib multi, +100 to Sens, increase by 5% caps for mutagen, alchemic, knowledge multi)");
-						else addButtonDisabled(1, "M(at)G", "You do not have yet 'Deity Job: Munchkin' super munchkin perk.");
+						if (player.hasPerk(PerkLib.DeityJobMunchkin)) addButton(1, "M(at)G", perkMunchkinAtGym).hint("Choose the 'Munchkin @Gym' super munchkin perk. (+25% to Str/Tou/Spe/Inte/Wis/Lib multi, +100 to sensitivity, increase the caps for mutagen, alchemic, and knowledge multipliers by 5%)");
+						else addButtonDisabled(1, "M(at)G", "You do not yet have the 'Deity Job: Munchkin' super munchkin perk.");
 					}
 				}
 				else addButtonDisabled(1, "M(at)G", "You need to reach level 105 first.");
@@ -2572,7 +2582,7 @@ public class PlayerInfo extends BaseContent {
 					if (player.hasPerk(PerkLib.MunchkinAtWork)) addButtonDisabled(2, "M(at)W", "You already have this perk.");
 					else {
 						if (player.hasPerk(PerkLib.MunchkinAtGym)) addButton(2, "M(at)W", perkMunchkinAtWork).hint("Choose the 'Munchkin @Work' super munchkin perk. (+10% to OverMax HP / Lust / Wrath / Mana / Soulforce / Fatigue, +2 prestige job slots, +1 hidden job slot)");
-						else addButtonDisabled(2, "M(at)W", "You do not have yet 'Munchkin @Gym' super munchkin perk.");
+						else addButtonDisabled(2, "M(at)W", "You do not yet have the 'Munchkin @Gym' super munchkin perk.");
 					}
 				}
 				else addButtonDisabled(2, "M(at)W", "You need to reach level 120 first.");
@@ -2580,7 +2590,7 @@ public class PlayerInfo extends BaseContent {
 					if (player.hasPerk(PerkLib.MunchkinAtBioLab)) addButtonDisabled(3, "M(at)BL", "You already have this perk.");
 					else {
 						if (player.hasPerk(PerkLib.MunchkinAtWork)) addButton(3, "M(at)BL", perkMunchkinAtBiolab).hint("Choose the 'Munchkin @Biolab' super munchkin perk. (Increase core/train caps for stats by 10. +1 to internal mutations slots capacity (+2 for adaptation slots))");
-						else addButtonDisabled(3, "M(at)BL", "You do not have yet 'Munchkin @Work' super munchkin perk.");
+						else addButtonDisabled(3, "M(at)BL", "You do not yet have the 'Munchkin @Work' super munchkin perk.");
 					}
 				}
 				else addButtonDisabled(3, "M(at)BL", "You need to reach level 135 first.");
@@ -2618,222 +2628,222 @@ public class PlayerInfo extends BaseContent {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.SPSurvivalTrainingX,1,0,0,0);
 		clearOutput();
-		outputText("You gained 'Survival Training (Rank: 1)' super perk.");
+		outputText("You gained the 'Survival Training (Rank: 1)' super perk.");
 		doNext(superPerkBuyMenu, 1);
 	}
 	private function perkSurvivalTrainingRank2():void {
 		player.superPerkPoints--;
 		player.addPerkValue(PerkLib.SPSurvivalTrainingX,1,1);
 		clearOutput();
-		outputText("Your 'Survival Training (Rank: 1)' super perk become 'Survival Training (Rank: 2)'.");
+		outputText("Your 'Survival Training (Rank: 1)' super perk has become 'Survival Training (Rank: 2)'.");
 		doNext(superPerkBuyMenu, 1);
 	}
 	private function perkSurvivalTrainingRank3():void {
 		player.superPerkPoints--;
 		player.addPerkValue(PerkLib.SPSurvivalTrainingX,1,1);
 		clearOutput();
-		outputText("Your 'Survival Training (Rank: 2)' super perk become 'Survival Training (Rank: 3)'.");
+		outputText("Your 'Survival Training (Rank: 2)' super perk has become 'Survival Training (Rank: 3)'.");
 		doNext(superPerkBuyMenu, 1);
 	}
 	private function perkSurvivalTrainingRank4():void {
 		player.superPerkPoints--;
 		player.addPerkValue(PerkLib.SPSurvivalTrainingX,1,1);
 		clearOutput();
-		outputText("Your 'Survival Training (Rank: 3)' super perk become 'Survival Training (Rank: 4)'.");
+		outputText("Your 'Survival Training (Rank: 3)' super perk has become 'Survival Training (Rank: 4)'.");
 		doNext(superPerkBuyMenu, 1);
 	}
 	private function perkSurvivalTrainingRank5():void {
 		player.superPerkPoints--;
 		player.addPerkValue(PerkLib.SPSurvivalTrainingX,1,1);
 		clearOutput();
-		outputText("Your 'Survival Training (Rank: 4)' super perk become 'Survival Training (Rank: 5)'.");
+		outputText("Your 'Survival Training (Rank: 4)' super perk has become 'Survival Training (Rank: 5)'.");
 		doNext(superPerkBuyMenu, 1);
 	}
 	private function perkSurvivalTrainingRank6():void {
 		player.superPerkPoints--;
 		player.addPerkValue(PerkLib.SPSurvivalTrainingX,1,1);
 		clearOutput();
-		outputText("Your 'Survival Training (Rank: 5)' super perk become 'Survival Training (Rank: 6)'.");
+		outputText("Your 'Survival Training (Rank: 5)' super perk has become 'Survival Training (Rank: 6)'.");
 		doNext(superPerkBuyMenu, 1);
 	}
 	private function perkHiddenJobBloodDemon():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.HiddenJobBloodDemon,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Hidden Job: Blood Demon' super perk.");
+		outputText("You gained the 'Hidden Job: Blood Demon' super perk.");
 		doNext(superPerkBuyMenu, 2);
 	}
 	private function perkWayOfTheBlood():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.WayOfTheBlood,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Way of the Blood' super perk.");
+		outputText("You gained the 'Way of the Blood' super perk.");
 		doNext(superPerkBuyMenu, 2);
 	}
 	private function perkBloodDemonToughness():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.BloodDemonToughness,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Blood Demon Toughness' super perk.");
+		outputText("You gained the 'Blood Demon Toughness' super perk.");
 		doNext(superPerkBuyMenu, 2);
 	}
 	private function perkMyBloodForBloodPuppies():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.MyBloodForBloodPuppies,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'My Blood for Blood Puppies' super perk.");
+		outputText("You gained the 'My Blood for Blood Puppies' super perk.");
 		doNext(superPerkBuyMenu, 2);
 	}
 	private function perkYourPainMyPower():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.YourPainMyPower,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Your Pain My Power' super perk.");
+		outputText("You gained the 'Your Pain My Power' super perk.");
 		doNext(superPerkBuyMenu, 2);
 	}
 	private function perkBloodDemonIntelligence():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.BloodDemonIntelligence,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Blood Demon Intelligence' super perk.");
+		outputText("You gained the 'Blood Demon Intelligence' super perk.");
 		doNext(superPerkBuyMenu, 2);
 	}
 	private function perkHiddenJobAsura():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.HiddenJobAsura,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Hidden Job: Asura' super perk.");
+		outputText("You gained the 'Hidden Job: Asura' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkAbsoluteStrength():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.AbsoluteStrength,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Absolute Strength' super perk.");
+		outputText("You gained the 'Absolute Strength' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkAsuraStrength():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.AsuraStrength,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Asura Strength' super perk.");
+		outputText("You gained the 'Asura Strength' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkICastAsuraFist():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.ICastAsuraFist,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'I Cast (Asura) Fist' super perk.");
+		outputText("You gained the 'I Cast (Asura) Fist' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkLikeAnAsuraBoss():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.LikeAnAsuraBoss,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Like A-sura Boss' super perk.");
+		outputText("You gained the 'Like A-sura Boss' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkAsuraToughness():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.AsuraToughness,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Asura Toughness' super perk.");
+		outputText("You gained the 'Asura Toughness' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkItsZerkingTime():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.ItsZerkingTime,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'It's Zerking Time!!!' super perk.");
+		outputText("You gained the 'It's Zerking Time!!!' super perk.");
 		doNext(superPerkBuyMenu, 3);
 	}
 	private function perkHiddenJobGreySage():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.PrestigeJobGreySage,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Hidden Job: Grey Sage' super perk.");
+		outputText("You gained the 'Hidden Job: Grey Sage' super perk.");
 		doNext(superPerkBuyMenu, 4);
 	}
 	private function perkEquilibrium():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.Equilibrium,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Equilibrium' super perk.");
+		outputText("You gained the 'Equilibrium' super perk.");
 		doNext(superPerkBuyMenu, 4);
 	}
 	private function perkGreySageIntelligence():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.GreySageIntelligence,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Grey Sage Intelligence' super perk.");
+		outputText("You gained the 'Grey Sage Intelligence' super perk.");
 		doNext(superPerkBuyMenu, 4);
 	}
 	private function perkHyperCasting():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.HyperCasting,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Hyper Casting' super perk.");
+		outputText("You gained the 'Hyper Casting' super perk.");
 		doNext(superPerkBuyMenu, 4);
 	}
 	private function perkWellOfMana():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.WellOfMana,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Well of Mana' super perk.");
+		outputText("You gained the 'Well of Mana' super perk.");
 		doNext(superPerkBuyMenu, 4);
 	}
 	private function perkGreySageWisdom():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.GreySageWisdom,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Grey Sage Wisdom' super perk.");
+		outputText("You gained the 'Grey Sage Wisdom' super perk.");
 		doNext(superPerkBuyMenu, 4);
 	}
 	private function perkHiddenJobSwordImmortal():void {
 		player.createPerk(PerkLib.HiddenJobSwordImmortal,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Hidden Job: Sword Immortal' super perk.");
+		outputText("You gained the 'Hidden Job: Sword Immortal' super perk.");
 		doNext(superPerkBuyMenu, 5);
 	}
 	private function perkSwordIntentAura():void {
 		player.createPerk(PerkLib.SwordIntentAura,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Sword Intent (Aura)' super perk.");
+		outputText("You gained the 'Sword Intent (Aura)' super perk.");
 		doNext(superPerkBuyMenu, 5);
 	}
 	private function perkSwordImmortalFirstForm():void {
 		player.createPerk(PerkLib.SwordImmortalFirstForm,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Sword Immortal: First Form' super perk.");
+		outputText("You gained the 'Sword Immortal: First Form' super perk.");
 		doNext(superPerkBuyMenu, 5);
 	}
 	private function perkDeityJobMunchkin():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.DeityJobMunchkin,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Deity Job: Munchkin' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
+		outputText("You gained the 'Deity Job: Munchkin' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
 		doNext(superPerkBuyMenu, 6);
 	}
 	private function perkMunchkinAtGym():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.MunchkinAtGym,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Munchkin @ Gym' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
+		outputText("You gained the 'Munchkin @ Gym' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
 		doNext(superPerkBuyMenu, 6);
 	}
 	private function perkMunchkinAtWork():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.MunchkinAtWork,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Munchkin @ Work' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
+		outputText("You gained the 'Munchkin @ Work' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
 		doNext(superPerkBuyMenu, 6);
 	}
 	private function perkMunchkinAtBiolab():void {
 		player.superPerkPoints--;
 		player.createPerk(PerkLib.MunchkinAtBioLab,0,0,0,0);
 		clearOutput();
-		outputText("You gained 'Munchkin @ Biolab' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
+		outputText("You gained the 'Munchkin @ Biolab' super munchkin perk. (Because it's too cool to merely be a super perk, right?)");
 		doNext(superPerkBuyMenu, 6);
 	}
 }
-}
+}

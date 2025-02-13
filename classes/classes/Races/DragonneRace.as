@@ -69,7 +69,8 @@ public class DragonneRace extends Race{
 				.customRequirement("",'vagina and C+ tits or 16\"+ long cock',
 						function (body:BodyData):Boolean {
 							return body.hasVagina && body.biggestTitSize >= 3 || body.biggestCockSize > 16
-						}, +1);
+						}, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(8)
 				.height(GREATER_THAN(96), +1)
 				.hasPerk(PerkLib.Flexibility, +1)

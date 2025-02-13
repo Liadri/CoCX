@@ -11,6 +11,7 @@ import classes.Scenes.Areas.Forest.ErlKingScene;
 import classes.Scenes.Areas.Forest.KitsuneScene;
 import classes.Scenes.Areas.GlacialRift.YuWinterGearShop;
 import classes.Scenes.Areas.Ocean.ScyllaScene;
+import classes.Scenes.Areas.Plains.ZombieMummyScenes;
 import classes.Scenes.Camp.*;
 import classes.Scenes.Combat.Combat;
 import classes.Scenes.Dungeons.AnzuPalace.AnzuScene;
@@ -27,6 +28,7 @@ import classes.Scenes.Places.HeXinDao.AdventurerGuild;
 import classes.Scenes.Places.HeXinDao.JourneyToTheEast;
 import classes.Scenes.Places.TelAdre.Loppe;
 import classes.Scenes.Quests.UrtaQuest;
+import classes.Scenes.Places.RuinedTownRebuilt;
 
 public class SceneLib {
     public static var camp:Camp = new Camp(/*campInitialize*/);
@@ -305,6 +307,8 @@ public class SceneLib {
 
     public static var ruinedTown:RuinedTownRebuilt = new RuinedTownRebuilt();
 
+    public static var domsdomain:DomsDomain = new DomsDomain();
+
     public static var demonicLair:DemonLair = new DemonLair();
 
     public static var dungeons:DungeonEngine = new DungeonEngine();
@@ -356,5 +360,9 @@ public class SceneLib {
     public static var holidays:Holidays = new Holidays();
 
     public static var werewolfFemaleScene:WerewolfFemaleScene = new WerewolfFemaleScene();
+
+    public static var zombiesmummies:ZombieMummyScenes = new ZombieMummyScenes();
+
+    public static var tifaHive:TifaHive = new TifaHive();
 }
 }

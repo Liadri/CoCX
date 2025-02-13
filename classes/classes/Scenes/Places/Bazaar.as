@@ -58,7 +58,7 @@ public function enterTheBazaar():void {
 	explorer.stopExploring();
 	if (model.time.hours == 19 || model.time.hours == 20) {
 		flags[kFLAGS.COUNTDOWN_TO_NIGHT_RAPE]++;
-		if (flags[kFLAGS.COUNTDOWN_TO_NIGHT_RAPE] % 4 == 0 && (player.gender == 1 || (player.gender == 3 && player.mf("m", "f") == "m")) || flags[kFLAGS.LOW_STANDARDS_FOR_ALL]) {
+		if (flags[kFLAGS.COUNTDOWN_TO_NIGHT_RAPE] % 16 == 0 && (player.gender == 1 || (player.gender == 3 && player.mf("m", "f") == "m")) || flags[kFLAGS.LOW_STANDARDS_FOR_ALL]) {
 			nightBazaarButtfuck();
 			return;
 		}
@@ -141,7 +141,7 @@ private function eventLiquidDiamond():void {
 	outputText("\"<i>It could be yours! For only 7000 gems.</i>\"\n\n");
 	outputText("7000 gems? That’s 2000 more than he originally offered!\n\n");
 	outputText("\"<i>It’s very obvious this is something you want, and you react uniquely to it, so it’s 7000 gems or nothing.</i>\"\n\n");
-	outputText("Well, it seems like you have a choice to make here; you could either pay him the required amount or tell him you don’t have that many gems on you. However he doesn’t look particularly strong, and you could easily overpower him and flee the scene with the bottle, but you feel like this may come to bite you back later.\n\n");
+	outputText("Well, it seems like you have a choice to make here; you could either pay him the required amount or tell him you don’t have that many gems on you. However, he doesn’t look particularly strong, and you could easily overpower him and flee the scene with the bottle, but you feel like this may come to bite you back later.\n\n");
 	menu();
 	addButtonIfTrue(1, "Pay", eventLiquidDiamondPay, "You need 7,000 gems!", player.gems >= 7000);
 	addButton(2, "Don’t Pay", eventLiquidDiamondDontPay);
@@ -545,7 +545,7 @@ private function overHearDemonsAboutSyrena():void {
 		outputText("A baritone response rings out, \"<i>You're shitting me!  Syrena's off her fucking rocker if she thinks Lethice will let her turn another of our researchers into a gibbering slut.  We've got enough of those.</i>\"\n\n");
 		outputText("\"<i>Well, what do you expect?  She's more shark than demon... I'm amazed she gets anything done at all, with as much time as she spends fucking me.  Don't get me wrong, that double-thick dick makes my cunny fuckin' drool, ya know?  But, at the same time, if I could just get some more information on her research, I could have her job.  Then she'd be serving MY desires... yum,</i>\" trails off the sultry, seductive tone.\n\n");
 		outputText("The male laughs and says, \"<i>You belong underneath a fat dick, bitch.  Look at you, you've got strings of lube trailing on the ground behind you.  You're too busy slutting it up to accomplish anything.  I'm thinking I had better head back to the lab, though.  I don't want to wind up looking like one of the escaped factory rejects - gotta keep this perfect bod, ya know?</i>\"\n\n");
-		outputText("You get a good look at the two when the crowd parts, and wow, that incubus is right.  He's a curly-haired, chiseled Adonis of a man, with a bulge as over-the-top of the rest of him straining at his fashionable pants.  The demon fiddles with his collar, popping it up, and he turns to leave.  The other commiserating devil is a busty succubus in a lab coat... nothing else.  She's even wetter than her companion's words would indicate, painting a thick trail of slippery girl-slime in her wake as she moves.  The succubus' nipples are like two hard bullets, soaking two glorious wet patches into her coat as she argues back.\n\n");
+		outputText("You get a good look at the two when the crowd parts, and wow, that incubus is right.  He's a curly-haired, chiseled Adonis of a man, with a bulge as over-the-top as the rest of him straining at his fashionable pants.  The demon fiddles with his collar, popping it up, and he turns to leave.  The other commiserating devil is a busty succubus in a lab coat... nothing else.  She's even wetter than her companion's words would indicate, painting a thick trail of slippery girl-slime in her wake as she moves.  The succubus' nipples are like two hard bullets, soaking two glorious wet patches into her coat as she argues back.\n\n");
 		outputText("\"<i>S-shut up.  That cunt tested some of her prototype compounds on me, remember?  That stuff turned my pussy into an insatiable furnace.  If I can get some free time... I'll... I'll... oh screw it, let's go rent a room and fuck a few times before we go back.  I'll want to be thinking clearly when I face her.  Syrena won't get to gloat about me jumping on her fat... juicy... mmm... cock... this time!</i>\"  The succubus takes the incubus' hand and drags him away in a hurry.\n\n");
 		outputText("Well, that explains a lot.  The demons seem to have an active research department, though the one called Syrena does not seem to please her underlings very much.  Then again, you doubt any demonic servants are pleased with their bosses.  You can't wait to put a stop to their labors, but for now, there's nothing to do but use the bazaar or go home.\n\n");
 	}
@@ -952,7 +952,7 @@ private function eggsInButt(dickVagAss:int):void {
 	outputText(", and with his free hand he leans forward, tweaking a [nipple] softly.");
 
 	outputText("\n\nUnder his skilled hand, you're soon bucking and twitching, your candy-coated body aching for release.  \"<i>Let's... just... get all of this... naughty... tension... out,</i>\" he pants, emphasizing each word even though his voice barely rises above a whisper.  With one final twist of his fingers, you're sent over the edge.  Your body arches, lifting Joey up into the air with a gleeful shout, while ");
-	if(dickVagAss == 0) outputText("[eachCock] pulses and spasms, loosing rope after rope of white jizz through the air, splattering against the wall and floor messily");
+	if(dickVagAss == 0) outputText("[eachCock] pulses and spasms, letting loose rope after rope of white jizz through the air, splattering against the wall and floor messily");
 	else if(dickVagAss == 1) outputText("your pussy tightens around his fingers, suddenly releasing a flood of femcum that splatters messily against the table");
 	else outputText("your asshole twitches and spasms, unable to do much more than grant you a vague half-orgasm");
 	outputText(".  Your entire body tingles as you slowly descend back to the table, practically melting into it as if you were nothing more than the bunny-spunk covering your skin.");

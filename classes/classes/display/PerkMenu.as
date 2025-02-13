@@ -4,6 +4,7 @@
 package classes.display {
 import classes.BaseContent;
 import classes.BodyParts.Face;
+import classes.BodyParts.LowerBody;
 import classes.BodyParts.Tail;
 import classes.CoC;
 import classes.GlobalFlags.kFLAGS;
@@ -91,7 +92,7 @@ public class PerkMenu extends BaseContent {
 			addButton(6, "Range Opt",rangedOptions);
 		}
 		if (player.hasPerk(PerkLib.Venomancy) || player.hasPerk(PerkLib.DarkRitual) || player.hasPerk(PerkLib.HiddenJobBloodDemon)||
-			(player.hasPerk(PerkLib.Autocast) ||  player.hasPerk(PerkLib.FortressOfIntellect))) {
+			(player.hasPerk(PerkLib.Autocast) ||  player.hasPerk(PerkLib.FortressOfIntellect)) || player.isRaceCached(Races.LICH)) {
 			outputText("\n<b>You can choose and adjust various effects related to your magic.</b>");
 			addButton(7, "Magic Opt",magicOption);
 		}
@@ -140,6 +141,10 @@ public class PerkMenu extends BaseContent {
 			if (player.hasPerk(PerkLib.HiddenJobBloodDemon)) outputText("<b>You can adjust your Blood Demon hidden job settings.</b>\n");
 			addButton(3, "Bloody Opt",darkRitualOption);
 		}
+		if (player.isRaceCached(Races.LICH)) {
+			outputText("<b>You can adjust your Soul burn.</b>\n");
+			addButton(4, "Soul burn Opt",soulburnOption);
+		}
 		addButton(14, "Back", displayPerks);
 	}
 
@@ -147,9 +152,11 @@ public class PerkMenu extends BaseContent {
 		clearOutput();
 		menu();
 		var autoFlyingFlag:int = flags[kFLAGS.AUTO_FLIGHT];
+		var autoGallopingFlag:int = flags[kFLAGS.AUTO_GALLOP];
         var setflag:Function = curry(setFlag,MiscOption);
 		var toggleFlagMisc:Function = curry(toggleFlag,MiscOption);
 		var autoFlyingType:Function = curry(setflag,kFLAGS.AUTO_FLIGHT);
+		var toggleGallopingType:Function = curry(setflag,kFLAGS.AUTO_GALLOP);
         if (player.hasPerk(PerkLib.LiftOff)) {
 			outputText("You can choose to start flying or not at the start of each combat.\n");
 			outputText("Start: <b>");
@@ -162,10 +169,10 @@ public class PerkMenu extends BaseContent {
 			}
 			outputText("</b>");
 			if (autoFlyingFlag != 0) addButton(0, "On Ground", autoFlyingType,0);
-			if (player.canFly() && autoFlyingFlag != 1) addButton(1, "By Wings", autoFlyingType,1);
-			if (player.hasPerk(PerkLib.FlyingSwordPath) && autoFlyingFlag != 2) addButton(2, "By FlyingSw", autoFlyingType,2);
-			if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor) && autoFlyingFlag != 3) addButton(3, "By SF", autoFlyingType,3);
-			if (player.statStore.hasBuff("FoxflamePelt") && player.tailCount >= 9 && autoFlyingFlag != 4) addButton(4, "By FFP", autoFlyingType,4);
+			if (player.canFly() && autoFlyingFlag != 1 && autoGallopingFlag == 0) addButton(1, "By Wings", autoFlyingType,1);
+			if (player.hasPerk(PerkLib.FlyingSwordPath) && autoFlyingFlag != 2 && autoGallopingFlag == 0) addButton(2, "By FlyingSw", autoFlyingType,2);
+			if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor) && autoFlyingFlag != 3 && autoGallopingFlag == 0) addButton(3, "By SF", autoFlyingType,3);
+			if (player.statStore.hasBuff("FoxflamePelt") && player.tailCount >= 9 && autoFlyingFlag != 4 && autoGallopingFlag == 0) addButton(4, "By FFP", autoFlyingType,4);
 		}
 		if (player.hasCombatAura()) {
 			outputText("\n\nYou can suppress your auras. This way, they won't damage/arouse enemies.");
@@ -185,19 +192,31 @@ public class PerkMenu extends BaseContent {
 					flags[kFLAGS.CORRUPTION_TOLERANCE_MODE] == 1 ? "Disabled (0)" : "CHEAT (100)") + "</b>");
 			addButton(7, "CorTolerance", toggleCorruptionTolerance);
 		}
+		if (player.hasPerk(PerkLib.SuddenRun) && player.lowerBody == LowerBody.HOOFED) {
+			outputText("You can choose to start galloping or not at the start of each combat.\n");
+			outputText("\nStart: <b>" + (flags[kFLAGS.AUTO_GALLOP] == 0 ? "Standing still" : "Galloping") + "</b>");
+			if (autoFlyingFlag == 0) addButton(9, "Gallop", curry(toggleFlagMisc, kFLAGS.AUTO_GALLOP));
+		}
+		// your pain, my power wrath generation
+		if (player.hasPerk(PerkLib.YourPainMyPower)) {
+			outputText("\n\nYou can choose whether wrath is generated while healing from blood: " + (
+				flags[kFLAGS.YPMP_WRATH_GEN] == 0 ? "Enabled" : "Disabled"
+			));
+			addButton(10, "YPMP Wrath", curry(toggleFlagMisc, kFLAGS.YPMP_WRATH_GEN));
+		}
 		// tease healing
 		if (player.hasPerk(PerkLib.FueledByDesire) || player.armor == armors.ELFDRES) {
 			outputText("\n\nCombat Tease can cause lust reduction: " + (
 					flags[kFLAGS.COMBAT_TEASE_HEALING] == 0 ? "Enabled" : "Disabled"
 			));
-			addButton(10, "C. Tease Heal", curry(toggleFlagMisc, kFLAGS.COMBAT_TEASE_HEALING));
+			addButton(11, "C. Tease Heal", curry(toggleFlagMisc, kFLAGS.COMBAT_TEASE_HEALING));
 		}
-		// your pain, my power wrath generation
-		if (player.hasPerk(PerkLib.YourPainMyPower)) {
-			outputText("\n\nYou choose whether wrath is generated while healing from blood: " + (
-				flags[kFLAGS.YPMP_WRATH_GEN] == 0 ? "Enabled" : "Disabled"
+		// magica charm
+		if (player.hasPerk(PerkLib.MagicalCharm)) {
+			outputText("\n\nTease gain an intelligence scaling so long as you keep spending mana: " + (
+				flags[kFLAGS.COMBAT_MAGICAL_CHARM] == 0 ? "Enabled" : "Disabled"
 			));
-			addButton(11, "YPMP Wrath", curry(toggleFlagMisc, kFLAGS.YPMP_WRATH_GEN));
+			addButton(12, "Magical Charm", curry(toggleFlagMisc, kFLAGS.COMBAT_MAGICAL_CHARM));
 		}
 		addButton(14, "Back", displayPerks);
 	}
@@ -224,9 +243,9 @@ public class PerkMenu extends BaseContent {
 			outputText("\n<b>You can adjust your Will-o'-the-wisp behaviour during combat.</b>");
 			bd.add("Will-o'-the-wisp", wotwBehaviourOptions);
 		}
-		if (player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) {
-			outputText("\n<b>You can adjust the behaviour of your mummies during combat.</b>");
-			bd.add("Mummies", mummyBehaviourOptions);
+		if ((player.hasPerk(PerkLib.MummyLord) && player.perkv1(PerkLib.MummyLord) > 0) || (player.hasPerk(PerkLib.UndeadLord) && player.perkv1(PerkLib.UndeadLord) > 0)) {
+			outputText("\n<b>You can adjust the behaviour of your mummies/zombies during combat.</b>");
+			bd.add("Mummies/Zombies", mummyBehaviourOptions);
 		}
 
 
@@ -265,10 +284,10 @@ public class PerkMenu extends BaseContent {
 		}
 		//build the buttondatalist
 		if (player.hasPerk(PerkLib.JobBeastWarrior) || player.isRace(Races.JIANGSHI)) {
-			outputText("\n\nYou can choose between fighting feral or normaly with your fists. (Req. to have natural attacks or a gaunlet type weapon with claws to enable feral mode)");
+			outputText("\n\nYou can choose between fighting feral or normally with your fists. (Requires natural attacks or a gauntlet-type weapon with claws to enable feral mode)");
 			outputText("\nFighting Style: <b>" + (flags[kFLAGS.FERAL_COMBAT_MODE] ? "Feral" : "Normal") + "</b>");
 			bd.add("Normal/Feral", curry(toggleFlagMelee, kFLAGS.FERAL_COMBAT_MODE))
-				.disableIf(!player.hasAllRizzForFeral(), "You need to be unarmed and possess a natural weapon OR to have equipped gaunlets with any type of artifical claws OR have any other natural weapons like tail/wings/sharp teeth.");
+				.disableIf(!player.hasAllRizzForFeral(), "You need to be unarmed and possess a natural weapon OR to have equipped gauntlets with any type of artificial claws OR have any other natural weapons like tail/wings/sharp teeth.");
 		}
 		if ((player.hasPerk(PerkLib.Berzerker) || player.hasPerk(PerkLib.Lustzerker)) && player.perkv1(IMutationsLib.SalamanderAdrenalGlandsIM) >= 3) {
 			outputText("\n\nYou can choose between starting fight with berserker, lustzerker, both or none.");
@@ -300,7 +319,7 @@ public class PerkMenu extends BaseContent {
 			bd.add("AsuraForm", curry(toggleFlagMelee, kFLAGS.ASURA_FORM_COMBAT_MODE));
 		}
 		if (player.hasPerk(PerkLib.Poisoning)) {
-			outputText("\n\nIf you can naturaly produce venom, you can add its effects to your weapon. (Works only with small weapons; requires to have a poisonous bodypart)");
+			outputText("\n\nIf you can naturally produce venom, you can add its effects to your weapon. (Works only with small weapons; requires to have a poisonous bodypart)");
 			outputText("\nVenom effect added: <b>" + (flags[kFLAGS.ENVENOMED_MELEE_ATTACK] ? "Yes" : "No") + "</b>");
 			bd.add("Venom", curry(toggleFlagMelee, kFLAGS.ENVENOMED_MELEE_ATTACK))
 				.disableIf(!canVenomAttacks(), "You need a source of poison for this.");
@@ -440,7 +459,7 @@ public class PerkMenu extends BaseContent {
 				.disableIf(!player.hasStatusEffect(StatusEffects.KnowsArouse), "You don't know the required spell.");
 		}
 		if (player.hasPerk(PerkLib.EnvenomedBolt)) {
-			outputText("\n\nIf you can naturaly produce venom, you can add its effects to the projectiles. (Works only with bows and crosbows)"
+			outputText("\n\nIf you can naturally produce venom, you can add its effects to the projectiles. (Works only with bows and crosbows)"
 				+ "\nVenom effect added: <b>" + (flags[kFLAGS.ENVENOMED_BOLTS] ? "Yes" : "No") + "</b>");
 			bd.add("Venom", curry(toggleFlagRanged, kFLAGS.ENVENOMED_BOLTS))
 				.disableIf(!canVenomAttacks(), "You need a source of poison for this.");
@@ -499,13 +518,13 @@ public class PerkMenu extends BaseContent {
 		var attackingEpicElementalType:Function = curry(setflag,kFLAGS.ATTACKING_EPIC_ELEMENTAL_TYPE);
 		clearOutput();
 		menu();
-		outputText("You can choose how your summoned elementals will behave during each fight.\n\n");
+		outputText("You can choose how your Summoned Elementals' will behave during combat.\n\n");
 		outputText("\n<b>Elementals behavious:</b>\n");
-		if (elementalConjuerSummons == 4) outputText("Elemental will attack enemy on it own alongside PC + Attacking instead of PC each time melee attack command is chosen");
-        if (elementalConjuerSummons == 3) outputText("Elemental will attack enemy on it own alongside PC.");
-		if (elementalConjuerSummons == 2) outputText("Attacking instead of PC each time melee attack command is chosen.");
+		if (elementalConjuerSummons == 4) outputText("The elemental will attack the enemy on its own alongside the player + Attacking instead of the player each time a melee attack command is chosen");
+        if (elementalConjuerSummons == 3) outputText("The elemental will attack the enemy on its own alongside the player.");
+		if (elementalConjuerSummons == 2) outputText("Attacking instead of the player each time a melee attack command is chosen.");
 		if (elementalConjuerSummons < 2) outputText("Not participating");
-		outputText("\n\n<b>Elemental, which would attack in case option to them helping in attacks is enabled:</b>\n");
+		outputText("\n\n<b>Elemental, which would attack in case the option for them helping in attacks is enabled:</b>\n");
         switch(attackingElementalTypeFlag){
 			case 1: outputText("Air"); break;
             case 2: outputText("Earth"); break;
@@ -521,7 +540,7 @@ public class PerkMenu extends BaseContent {
             case 12: outputText("Purity"); break;
             case 13: outputText("Corruption"); break;
 		}
-		outputText("\n\n<b>Epic Elemental, which would attack in case option to them helping in attacks is enabled:</b>\n");
+		outputText("\n\n<b>Epic Elemental, which would attack in case the option for them helping in attacks is enabled:</b>\n");
         switch(attackingEpicElementalTypeFlag){
 			case 31: outputText("Air"); break;
             case 32: outputText("Earth"); break;
@@ -570,9 +589,9 @@ public class PerkMenu extends BaseContent {
 			}
 		}
 		else {
-			addButtonDisabled(11, "MeleeAtk", "Req. to have summoned at least 1 elemental.");
-			addButtonDisabled(12, "Helping", "Req. to have summoned at least 1 elemental.");
-			addButtonDisabled(13, "Melee+Help", "Req. to have summoned at least 1 elemental.");
+			addButtonDisabled(11, "MeleeAtk", "Requires having summoned at least 1 elemental.");
+			addButtonDisabled(12, "Helping", "Requires having summoned at least 1 elemental.");
+			addButtonDisabled(13, "Melee+Help", "Requires having summoned at least 1 elemental.");
 		}
 		if (page == 1) {
 					addButton(14, "Back", minionOptions);
@@ -655,7 +674,7 @@ public class PerkMenu extends BaseContent {
 			}
 		}
 		outputText("<b>Permanent golems attack pattern behavious:</b>\n");
-		if (flags[kFLAGS.GOLEMANCER_PERM_GOLEMS] == 1) outputText("Attacking at the begining of each turn (owner would need to just choose how many of them will be sent).");
+		if (flags[kFLAGS.GOLEMANCER_PERM_GOLEMS] == 1) outputText("Attacking at the beginning of each turn (owner would need to just choose how many of them will be sent).");
 		if (flags[kFLAGS.GOLEMANCER_PERM_GOLEMS] < 1) outputText("Waiting for the owner to give an attack command each turn.");
 		if (player.hasStatusEffect(StatusEffects.GolemUpgrades1)) {
 			if (player.statusEffectv3(StatusEffects.GolemUpgrades1) > 0) {
@@ -674,7 +693,7 @@ public class PerkMenu extends BaseContent {
 		if (flags[kFLAGS.GOLEMANCER_PERM_GOLEMS] != 1) addButton(11, "G. Attacking", golemsAttacking, true).hint("Golems will attack at the beginning of the turn.");
 		if (player.hasPerk(PerkLib.FirstAttackSkeletons) && (player.perkv2(PerkLib.PrestigeJobNecromancer) > 0 || player.perkv1(PerkLib.GreaterHarvest) > 0 || player.perkv2(PerkLib.GreaterHarvest) > 0)) {
 			outputText("\n\n<b>Skeletons attack pattern behavious:</b>\n");
-			if (flags[kFLAGS.NECROMANCER_SKELETONS] == 1) outputText("Attacking at the begining of each turn.");
+			if (flags[kFLAGS.NECROMANCER_SKELETONS] == 1) outputText("Attacking at the beginning of each turn.");
 			if (flags[kFLAGS.NECROMANCER_SKELETONS] < 1) outputText("Waiting for the owner to give an attack command each turn.");
 			if (flags[kFLAGS.NECROMANCER_SKELETONS] == 1) addButton(12, "S. Waiting", skeletonsAttacking,false).hint("Skeletons will not attack at the beginning of the turn.");
 			if (flags[kFLAGS.NECROMANCER_SKELETONS] != 1) addButton(13, "S. Attacking", skeletonsAttacking, true).hint("Skeletons will attack at the beginning of the turn.");
@@ -734,6 +753,32 @@ public class PerkMenu extends BaseContent {
 		addButton(11, "Helping", setflag, 1)
 			.disableIf(flags[kFLAGS.BLOOD_PUPPY_SUMMONS] != 0);
 		addButton(14, "Back", minionOptions);
+	}
+
+	public function soulburnOption():void {
+		clearOutput();
+		menu();
+		outputText("Set if you will be using soulforce to empower your magic or not.\n\n");
+		if (!player.hasStatusEffect(StatusEffects.SoulBurn)) {
+			outputText("<b>You are not currently burning your soulforce.</b>");
+			addButton(10, "On", soulburnOptionOn);
+		}
+		if (player.hasStatusEffect(StatusEffects.SoulBurn)) {
+			outputText("<b>You are currently burning your soulforce.</b>");
+			addButton(11, "Off", soulburnOptionOff);
+		}
+		outputText("\n\n");
+		if (SceneLib.combat.inCombat) addButton(14, "Back", combat.combatMenu, false);
+		else addButton(14, "Back", displayPerks);
+		function soulburnOptionOn():void {
+			player.createStatusEffect(StatusEffects.SoulBurn,0,0,0,0);
+			soulburnOption();
+		}
+		function soulburnOptionOff():void {
+			player.removeStatusEffect(StatusEffects.SoulBurn);
+			soulburnOption();
+		}
+		addButton(14, "Back", magicOption);
 	}
 
 	public function darkRitualOption():void {
@@ -805,7 +850,7 @@ public class PerkMenu extends BaseContent {
 		clearOutput();
 		menu();
 		if (player.hasPerk(PerkLib.Venomancy)) {
-			outputText("Set weither you will be using venom to empower your magic or not.\n\n");
+			outputText("Set if you will be using venom to empower your magic or not.\n\n");
 			if (!player.hasStatusEffect(StatusEffects.Venomancy)) {
 				outputText("Venomancy is currently: <b>Inactive</b>.");
 				addButton(10, "On", venomancyOptionOn);
@@ -835,8 +880,8 @@ public class PerkMenu extends BaseContent {
 		outputText("You can choose how your will-o'-the-wisp will behave during each fight.\n\n");
 		outputText("\n<b>Will-o'-the-wisp behaviour:</b>\n");
 		if (flags[kFLAGS.WILL_O_THE_WISP] == 2) outputText("Commanding other pets or minions (other minions will get boost to dmg).");
-		if (flags[kFLAGS.WILL_O_THE_WISP] == 1) outputText("Attacking at the begining of each turn. (Need to confirm attack order each turn)");
-		if (flags[kFLAGS.WILL_O_THE_WISP] == 0) outputText("Attacking at the begining of each turn. (No need to confirm attack order each turn)");
+		if (flags[kFLAGS.WILL_O_THE_WISP] == 1) outputText("Attacking at the beginning of each turn. (Need to confirm attack order each turn)");
+		if (flags[kFLAGS.WILL_O_THE_WISP] == 0) outputText("Attacking at the beginning of each turn. (No need to confirm attack order each turn)");
 		if (flags[kFLAGS.WILL_O_THE_WISP] != 0) addButton(10, "Attacking(A)", WOTWAttacking, 0).hint("Would attack without need to confirm attack order.");
 		if (flags[kFLAGS.WILL_O_THE_WISP] != 1) addButton(11, "Attacking(M)", WOTWAttacking, 1).hint("Would attack after confirming attack order.");
 		if (flags[kFLAGS.WILL_O_THE_WISP] != 2) addButton(12, "Commanding", WOTWAttacking, 2);
@@ -855,7 +900,7 @@ public class PerkMenu extends BaseContent {
 		outputText("\n<b>Flying Sword behaviour:</b>\n");
 		if (flags[kFLAGS.FLYING_SWORD] == 0) outputText("Your flying sword will not attack");
 		if (flags[kFLAGS.FLYING_SWORD] == 1) {
-			outputText("Your flying sword will attack at the begining of each turn.");
+			outputText("Your flying sword will attack at the beginning of each turn.");
 			if ((player.hasStatusEffect(StatusEffects.Flying) && player.statusEffectv2(StatusEffects.Flying) == 1) || flags[kFLAGS.AUTO_FLIGHT] == 2) {
 				outputText("\n<b>Since you are using your flying sword to fly, ");
 				var flyingSwordCount:int = player.weaponFlyingSwords.count;
@@ -877,10 +922,10 @@ public class PerkMenu extends BaseContent {
 	public function mummyBehaviourOptions():void {
 		clearOutput();
 		menu();
-		outputText("You can choose how your mummies will behave during each fight.\n\n");
-		outputText("\n<b>Mummy behaviour:</b>\n");
-		if (flags[kFLAGS.MUMMY_ATTACK] == 0) outputText("Your mummies will not attack.");
-		if (flags[kFLAGS.MUMMY_ATTACK] == 1) outputText("Your mummies will attack at the begining of each turn.");
+		outputText("You can choose how your mummies/zombies will behave during each fight.\n\n");
+		outputText("\n<b>Mummy/Zombie behaviour:</b>\n");
+		if (flags[kFLAGS.MUMMY_ATTACK] == 0) outputText("Your mummies/zombies will not attack.");
+		if (flags[kFLAGS.MUMMY_ATTACK] == 1) outputText("Your mummies/zombies will attack at the beginning of each turn.");
 		addButton(10, "Disable", toggleFlag, mummyBehaviourOptions, kFLAGS.MUMMY_ATTACK)
 			.disableIf(flags[kFLAGS.MUMMY_ATTACK] == 0);
 		addButton(11, "Enable", toggleFlag, mummyBehaviourOptions, kFLAGS.MUMMY_ATTACK)
@@ -961,9 +1006,13 @@ public class PerkMenu extends BaseContent {
 			clearOutput();
 			//Dragon Mutations
 			displayHeader("Dragon Mutations");
-			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
-			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 2) outputText("\nThere is another extra bonus mutation slot given due to NG++");
-			mutationsDatabaseVerify([IMutationsLib.DraconicBonesIM, IMutationsLib.DraconicHeartIM, IMutationsLib.DraconicLungIM]);
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 2) outputText("\nThere is another extra bonus mutation slot given due to NG++");
+			mutationsDatabaseVerify([
+				IMutationsLib.DrakeBloodIM,
+				IMutationsLib.DrakeBonesIM,
+				IMutationsLib.DrakeHeartIM,
+				IMutationsLib.DrakeLungsIM]);
 			mutationsDatabase(1, false);
 		}
 
@@ -971,7 +1020,7 @@ public class PerkMenu extends BaseContent {
 			clearOutput();
 			//Kitsune Mutations
 			displayHeader("Kitsune Mutations");
-			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
+			//if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 1) outputText("\nThere is an extra bonus mutation slot given due to NG+");
 			mutationsDatabaseVerify([IMutationsLib.KitsuneThyroidGlandIM, IMutationsLib.KitsuneParathyroidGlandsIM]);
 			mutationsDatabase(1, false);
 		}

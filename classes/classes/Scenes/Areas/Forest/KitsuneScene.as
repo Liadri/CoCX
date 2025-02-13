@@ -1090,7 +1090,7 @@ public class KitsuneScene extends BaseContent
 				}
 				//Lust victory
 				else {
-					outputText("The kitsune falls to the ground, one hand buried in her robes as she plays with herself shamelessly, too turned on to continue fighting." + ((monster.hairColor == "red" && flags[kFLAGS.REDHEAD_IS_FUTA] == 0) ? "  The moment her rounded rump impacts the dirt, a swirling flame crackles to life between her legs, engulfing her exposed cock.  When it dies away, all that remains of her throbbing member is a pert cherry-colored bud between her dripping lips." : "") + "\n\n" + ((player.lust >= 33) ? "<b>As you watch her lewd display, you realize your own lusts have not been sated yet. What will you do to her?</b>" : ""));
+					outputText("The kitsune falls to the ground, one hand buried in her robes as she plays with herself shamelessly, too turned on to continue fighting." + ((monster.hairColor == "red" && flags[kFLAGS.REDHEAD_IS_FUTA] == 0) ? "  The moment her rounded rump impacts the dirt, a swirling flame crackles to life between her legs, engulfing her exposed cock.  When it dies away, all that remains of her throbbing member is a pert cherry-colored bud between her dripping lips." : "") + "\n\n" + ((player.lust >= 33) ? "As you watch her lewd display, you realize your own lusts have not been sated yet. What will you do to her?" : ""));
 				}
 			}
 			if (flags[kFLAGS.SPARRABLE_NPCS_TRAINING] == 2) {
@@ -2214,7 +2214,7 @@ public class KitsuneScene extends BaseContent
 			menu();
 			addButton(0, "Read Books", readKitsuneBooks);
 			if (flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) addButton(1, "Meditate", meditateLikeAKitsuneEhQuestionMark);
-			if ((player.hasItem(useables.GLDSTAT) || flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) && flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] < 1) addButton(2, "Statue", stealAStatue);
+			if (player.hasItem(useables.GLDSTAT) || flags[kFLAGS.TOOK_KITSUNE_STATUE] == 0) addButton(2, "Statue", stealAStatue);
 			if (player.hasPerk(PerkLib.StarSphereMastery) && player.perkv1(PerkLib.StarSphereMastery) < SphereMastery && player.gems >= 1000) addButton(3, "Offering", offeringToTaoth);
             if (flags[kFLAGS.KITSUNE_SHRINE_UNLOCKED] > 0 && flags[kFLAGS.AYANE_FOLLOWER] < 2) addButton(5, "Ayane", SceneLib.ayaneFollower.ayaneShop);
             if (flags[kFLAGS.AYANE_FOLLOWER] == 1) {
@@ -2415,7 +2415,7 @@ public class KitsuneScene extends BaseContent
 			Ayane9tailsPCMMfix();
 			outputText("\n\nAyane packs her belongings in a weird bag that seems to never be fuller or emptier and starts to follow you around.");
 			outputText("\n\n(<b>Ayane has been added to the Followers menu!</b>)\n\n");
-			outputText("\n\n<b>As if remembering something Ayane pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+			outputText("\n\n<b>As if remembering something Ayane pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 			if (player.hasKeyItem("Radiant shard") >= 0){
 				player.addKeyValue("Radiant shard",1,+1);
 			}
@@ -2444,7 +2444,7 @@ public class KitsuneScene extends BaseContent
 			outputText("\n\nYou laugh and reply that her sphere will be perfectly safe in your hands, so long as she serves you with unwavering loyalty that is.");
 			outputText("\n\n\"<i>You...you're a monster! Why would you go so far to...? Gah, I don’t want to know. Just let me pack up my things [master]...</i>\"");
 			outputText("\n\nShe looks at you, and gives you a hateful glares, but there’s little the fox can do as long as you hold the very source of her power within the palm of your hand. You both head back to camp, Ayane maintaining a submissive attitude.");
-			outputText("\n\n<b>Aquired Ayane Star Sphere.</b>");
+			outputText("\n\n<b>Acquired Ayane Star Sphere.</b>");
 			outputText("\n\n(<b>Ayane has been added to the Followers menu!</b>)\n\n");
 			player.createKeyItem("Ayane Star Sphere", 0, 0, 0, 0);
 			//dynStats("cor", 10); - dodawać czy nie to?

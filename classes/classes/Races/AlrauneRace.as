@@ -59,7 +59,8 @@ public class AlrauneRace extends Race {
 							return body.player.isAlraune();
 						}, +5)
 				.hasCockOfType(CockTypesEnum.STAMEN, +1)
-				.vaginaType(VaginaClass.ALRAUNE,1);
+				.vaginaType(VaginaClass.ALRAUNE,1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 
 		addMutation(IMutationsLib.FloralOvariesIM);
 

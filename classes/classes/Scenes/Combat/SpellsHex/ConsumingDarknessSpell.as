@@ -46,6 +46,7 @@ public class ConsumingDarknessSpell extends AbstractHexSpell {
 		var calcC:int = 12;
 		calcC += spellGenericCooldown();
 		if (player.hasPerk(PerkLib.Necromancy)) calcC -= 1;
+		if (player.hasPerk(PerkLib.DeathlyPower)) calcC -= 1;
 		return calcC;
 	}
 	

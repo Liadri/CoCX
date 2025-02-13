@@ -35,7 +35,7 @@ public function firstmeetingCeani():void
 	outputText("You're too busy gawking at the huge harpoon still impaled in the tuna to answer to surprisingly gentle orca morph.\n\n");
 	outputText("\"<i>Oh that? Its nothing you know. Bet you could learn to do it to with some training if you wanted to.</i>\"\n\n");
 	outputText("Really, could she teach you how to use ranged weapon?\n\n");
-	outputText("\"<i>Yea sure, but, I will need a compensation for it because if I’m training you I’m not hunting and I need plenty of food to eat.</i>\"\n\n");
+	outputText("\"<i>Yea sure, but, I will need compensation for it because if I’m training you, I’m not hunting, and I need plenty of food to eat.</i>\"\n\n");
 	outputText("Her sharp toothed smile tells you she must indeed eat her fair share of fish daily. You consider her offer for a moment as she leaves adding.\n\n");
 	outputText("\"<i>If you want some lessons I will be at the beach, seek me out with at least 50 gems.</i>\"\n\n");
 	outputText("You head back to camp considering this golden opportunity.\n\n");
@@ -144,18 +144,18 @@ public function beachInteractionsAfterArcheryTraining():void
 	}
 	else {
 		outputText("You find Ceani lazily resting on the beach and head out to say hello.\n\n");
-		outputText("\"<i>Hey it’s you [name] nice to see you. I was wondering how you were. How is your demon hunting going?</i>\"\n\n");
-		outputText("You tell her your latest accomplishment as she smiles widely. However her belly rumble and she sighs, lifting up and heading to the water.\n\n");
-		outputText("\"<i>I would like to spend more time with you [name] however I’m hungry and need to go catch some fish. I will see you around.</i>\"\n\n");
-		outputText("<b>Perhaps bringing her some food so she doesn’t have to hunt it could buy you some time with her?</b>\n\n");
+		outputText("\"<i>Hey it’s you, [name]! Nice to see you. I was wondering how you were. How is your demon hunting going?</i>\"\n\n");
+		outputText("You tell her your latest accomplishment as she smiles widely. However, her belly rumbles and she sighs, lifting up and heading to the water.\n\n");
+		outputText("\"<i>I would like to spend more time with you, [name]. However, I’m hungry and need to go catch some fish. I will see you around.</i>\"\n\n");
+		outputText("<b>Perhaps bringing her some food, so she doesn’t have to hunt it, could buy you some time with her?</b>\n\n");
 		endEncounter();
 	}
 }
 
 private function ceaniHungry(ocean:Boolean):void {
-	outputText("You tell her your latest accomplishment as she smiles widely. However her belly rumbles. You realise she must be getting hungry and pull a fish out of your bags. Ceani eyes sparkles as she sees the fish.\n\n");
+	outputText("You tell her your latest accomplishment as she smiles widely. However, her belly rumbles. You realise she must be getting hungry and pull a fish out of your bags. Ceani eyes sparkles as she sees the fish.\n\n");
 	outputText("\"<i>Fresh from the lake?! Really?! For me?!</i>\"\n\n");
-	outputText("Ceani pick up the fish from your hands and sniffs it before taking a bite and starting to cry.\n\n");
+	outputText("Ceani picks up the fish from your hands and sniffs it before taking a bite and starting to cry.\n\n");
 	outputText("\"<i>I just can’t swim in the lake with all those crazed shark girls but the fish there are so tasty! Thank you so much!</i>\"\n\n");
 	if (player.hasItem(consumables.FISHFIL) && player.hasItem(consumables.FREFISH)) {
 		if (rand(2) == 0) player.destroyItems(consumables.FISHFIL, 1);
@@ -181,7 +181,7 @@ public function oceanInteractionsAfterArcheryTraining():void
 	outputText("\"<i>Hey it’s you [name] nice to see you. I was wondering how you were. How is your demon hunting going?</i>\"\n\n");
 	if (player.hasItem(consumables.FISHFIL) || player.hasItem(consumables.FREFISH)) ceaniHungry(true);
 	else {
-		outputText("You tell her your latest accomplishment as she smiles widely. However her belly rumble and she sighs as she prepares to leave to go back on her hunt.\n\n");
+		outputText("You tell her your latest accomplishment as she smiles widely. However, her belly rumble and she sighs as she prepares to leave to go back on her hunt.\n\n");
 		outputText("\"<i>I would like to spend more time with you [name] however I’m hungry and need to go catch some fish. I will see you around.</i>\"\n\n");
 		outputText("<b>Perhaps bringing her some food so she doesn’t have to hunt it could buy you some time with her?</b>\n\n");
 		endEncounter();
@@ -365,7 +365,7 @@ public function beachInteractionsDateUnderwater2():void
 	outputText("Why didn’t she ask you sooner? You begin to slowly remove her pink bikini exposing her generous white breast. All in all if she wasn’t this huge her JJ cup would look like a fairly normal E");
 	if (!player.armor.isNothing) outputText(". You were too busy pondering these details to notice as Ceani slowly removed your [armor]");
 	if (!player.lowerGarment.isNothing) outputText(" and undergarment");
-	outputText(". Ceani surprise you by grabbing your shoulder and kissing you. Is it just you or the water around you both is starting to get even warmer. The two of you play with each other tongue for a moment. You aren’t so surprised to find a sea salt taste on Ceani’s saliva, as both of you have been pretty much talking underwater for this long.\n\n");
+	outputText(". Ceani surprises you by grabbing your shoulder and kissing you. Is it just you, or the water around you both is starting to get even warmer? The two of you play with each other tongue for a moment. You aren’t so surprised to find a sea salt taste on Ceani’s saliva, as both of you have been pretty much talking underwater for this long.\n\n");
 	if (player.gender == 3) { //additional check
 		outputText("Now that you think of it, you could take her as a man or a woman, so which way do you prefer?\n\n");
 		menu();
@@ -387,8 +387,8 @@ public function underwaterDateMaleVer():void
 		outputText("Ceani makes a wide delighted smile as she watches your beast of a dick grow up to full mast, licking her lip in obvious anticipation.\n\n");
 		outputText("\"<i>This kind of treasure is rare under the sea. Even males orca don’t exactly always have the biggest one’s even for their sizes. So when I find one of these I reaaally have to try it out!</i>\"\n\n");
 	}
-	outputText("Her other hands runs under your balls, cupping and playing with them for a moment before she swims under you, still gripping your [cock], and start to suckle on your [balls] one after the other. Ceani takes a look at your cock give it a playful lick and begin to suck on your lenght, her agile tongue playing with your tip. You moan as she sucks you for a fair minute then swim back up, wrapping her two legs around your waist as she slowly grinds her pussy against you dick sliding the glan between her vaginal lips. ");
-	outputText("She isn’t exactly the best at sex due to the sheer size of her cunt but she makes for it with raw skills, making sure to vice grip around your length so you can feel the entirety of her vagina. You moan as your glan/flare is teased by her cunt lips never truly going in but never breaking contact either. She plays with your tip for a fair minute before giggling.\n\n");
+	outputText("Her other hand runs under your balls, cupping and playing with them for a moment before she swims under you, still gripping your [cock], and starts to suckle on your [balls] one after the other. Ceani takes a look at your cock, gives it a playful lick, and begins to suck on your length, her agile tongue playing with your tip. You moan as she sucks you for a fair minute then swims back up, wrapping her two legs around your waist as she slowly grinds her pussy against your dick, sliding the glans between her vaginal lips. ");
+	outputText("She isn’t exactly the best at sex due to the sheer size of her cunt but she makes for it with raw skills, making sure to vice grip around your length so you can feel the entirety of her vagina. You moan as your [cockhead] is teased by her cunt lips never truly going in but never breaking contact either. She plays with your tip for a fair minute before giggling.\n\n");
 	outputText("\"<i>You want it in, don’t you? Mmmmmm. Don’t worry, I am done playing.</i>\"\n\n");
 	outputText("She finally lower herself down on your prick, sighing in delight as your dick fills her. Her insides feels like a wet glove, it's so lubricated you almost instantly get your full length in. However comes the question of how you will fuck her. Ceani doesn’t seem to see any issue there, as she gets her tail in position.\n\n");
 	outputText("\"<i>Don’t worry about moving, just let your big girl do the job for you.</i>\"\n\n");
@@ -421,7 +421,7 @@ public function underwaterDateFemaleVer():void
 	outputText("\"<i>Ahhhn say... how about we try a wheel?</i>\"\n\n");
 	outputText("You think she's joking when, but  you realise she's not the moment she grabs you into a somewhat interesting pose. This is essentially a sixtynine but the interesting part about it is the fact you both drift around in the gentle current, eating each other pussy out. As her tail makes you two pretty much swim in circles. Thankfully due to your fish like senses ");
 	if (player.necklace == necklaces.MCPNECK) outputText("or perhaps because of the necklace ");
-	outputText("you don’t get dizzy from having your world constantly turned upside down. The feeling of the waterflow on your sensitive skin and Ceani devious tongue soon send you over the edge making you cum. However since neither of you can actually taste each other cum, neither of you know when to exactly stop. The only warning you have are each other moans and you have trouble accurately interpreting wich one is the orgasm. ");
+	outputText("you don’t get dizzy from having your world constantly turned upside down. The feeling of the waterflow on your sensitive skin and Ceani devious tongue soon send you over the edge making you cum. However, since neither of you can actually taste each other cum, neither of you know when to exactly stop. The only warning you have are each other moans and you have trouble accurately interpreting wich one is the orgasm. ");
 	outputText("As such you both end up eating each other beyond your respective limits and cuming several time in a row. It's barely if you can feel your legs anymore as you force yourself to keep licking your partner. Eventually you both tire out and sink down to the ocean floor to rest.\n\n");
 	outputText("\"<i>Hey [name].... just how many time did you cum exactly... I think I did 39 times...</i>\"\n\n");
 	outputText("You barely remember, perhaps you came 40 or 38 times, but whether or not you came more or less than Ceani doesn't matter right now. Your cunny is still horribly sensitive and it will take few moment before you recover from this. You slowly drift off to sleep in Ceani’s arms.\n\n");
@@ -477,7 +477,7 @@ public function beachInteractionsDateOnTheBeach2():void
 		outputText("You ask her to elaborate.\n\n");
 		outputText("\"<i>Look must I spell it out for you? I'd like us to fuck.</i>\"\n\n");
 	}
-	outputText("Oh, so that explains her behavior all along. Well there's no way you will miss on a chance to have a nice time with her, right? You begin to caress her smooth, white underbelly with your hand making Ceani coo. You slowly slide your hands all the way up to her massive breast circling her nipples and drawing her contour. You wonder if whales morph can produce milk like other mammals and begin to suckle on her tit to make sure. ");
+	outputText("Oh, so that explains her behavior all along. Well, there's no way you will miss on a chance to have a nice time with her, right? You begin to caress her smooth, white underbelly with your hand making Ceani coo. You slowly slide your hands all the way up to her massive breast circling her nipples and drawing her contour. You wonder if whales morph can produce milk like other mammals and begin to suckle on her tit to make sure. ");
 	outputText("Ceani hands pulls you closer as she moans at your attentions. After a few seconds of suckling you indeed find milk although she clearly won’t produce like a cow. You unplug your mouth from her now erect nipple as you head to her face for a gentle kiss. Ceani smile in rapture as the two of you begin a long duel of tongues.\n\n");
 	outputText("Ceani can’t wait any longer and ");
 	if (!player.lowerGarment.isNothing) outputText(", as her tail finish getting rid of your lower clothing, ");
@@ -502,8 +502,8 @@ public function beachDateMaleVer():void {
 	}
 	outputText("Ceani, holding off her formidable strength, gently pushes you on your back and gets in position, her tail swishing left and right as she takes your [cock] in her mouth wrapping her large tongue around it. For someone equipped with dagger like teeth, you're surprised she can give a blowjob this well. You moan in pleasure as she slowly brings your [cock] to its full length, coating it entirely with her salty saliva. Soon Ceani is done lubing your ship mast as she slowly ");
 	outputText("pull her mouth off your still dripping cock, a thin strand of saliva still covering your glan. She giggles as she begins to pull away to change position.\n\n");
-	outputText("\"<i>Hmmm your manhood seems nice and ready but look at my pussy, I think It’s more than just the water. Care to have a look?</i>\"\n\n");
-	outputText("She lay on her back so you can have a full view of her drooling snatch and white erect nipples. You approach her cunt and take a whiff of her smell. Mmmmm looks like a female in heat and she’s all the more ready for you to breed. You get in position above her, slowly inserting yourself in her drooling snatch.");
+	outputText("\"<i>Hmmm your manhood seems nice and ready, but look at my pussy. I think It’s more than just the water. Care to have a look?</i>\"\n\n");
+	outputText("She lay on her back so you can have a full view of her drooling snatch and white erect nipples. You approach her cunt and take a whiff of her smell. Looks like a female in heat, and she’s all the more ready for you to breed. You get in position above her, slowly inserting yourself in her drooling snatch.");
 	if (player.cocks[x].cockLength >= 22) {
 		outputText("Ceani eyes grows wide as your [cock] fills her to the brim, moaning from your insertion alone as her cunt begins to grip your [cock] like a vice.\n\n");
 		outputText("\"<i>Ahhhh It's so freaking big! Fuck me! Please fuck my brain’s out!</i>\"");
@@ -581,7 +581,7 @@ public function come2campCeani():void
 		outputText("(<b>Ceani has been added to the Lovers menu!</b>)\n\n");
 		if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 		else player.createKeyItem("Radiant shard", 1,0,0,0);
-		outputText("\n\n<b>Before fully settling in your camp as if remembering something Ceani pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+		outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Ceani pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 		flags[kFLAGS.CEANI_FOLLOWER] = 1;
 		flags[kFLAGS.CEANI_LVL_UP] = 0;
 		endEncounter();
@@ -657,7 +657,7 @@ public function sparringWithCeaniLost():void
 	outputText("You kneel down in defeat. Wow, she's way tougher than she looks.\n\n");
 	outputText("\"<i>Oh my gosh! Wow, I’m so sorry! Are you hurt [name]! Gah, I knew I should have held back!!!</i>\"\n\n");
 	outputText("It’s all ok what's the most hurt right now is your pride. It'll heal with time. Ceani still takes it upon herself to carry you back all the way to her sleeping bag in order to bandage any wounds you may have. Oh well, she might be a fierce warrior but she sure is a caring girlfriend.\n\n");
-	HPChange(player.maxHP() * 0.5, false);
+	HPChange(player.maxHP() * 0.5, false, false);
 	cleanupAfterCombat();
 }
 

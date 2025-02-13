@@ -3,6 +3,7 @@ import classes.BodyData;
 import classes.BodyParts.*;
 import classes.CoC;
 import classes.CockTypesEnum;
+import classes.PerkLib;
 import classes.GeneticMemories.RaceMem;
 import classes.IMutations.IMutationsLib;
 //import classes.PerkLib;
@@ -66,7 +67,8 @@ public class ArigeanRace extends Race {
 						function (body:BodyData):Boolean {
 							return body.player.femininity >= 60
 						}, +1)
-				.corruption(AT_LEAST(10), +1);
+				.corruption(AT_LEAST(10), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.ArigeanAssociationCortexIM);
 		

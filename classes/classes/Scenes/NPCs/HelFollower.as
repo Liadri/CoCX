@@ -388,7 +388,7 @@ private function bootHelOutForBimboSophie():void {
 	
 	outputText("\n\n<i>\"Yeah.  Now get the fuck out.\"</i>");
 	
-	outputText("\n\n<i>\"I... well fine!  Fuck you anyway, [name].  Fuck you!\"</i>");
+	outputText("\n\n<i>\"I... Well, fine!  Fuck you anyway, [name].  Fuck you!\"</i>");
 	
 	outputText("\n\nHel grabs her shit and leaves.  She scowls over her shoulder as she disappears over the horizon.");
 	
@@ -651,7 +651,7 @@ private function talkToHel():void {
 	else if(flags[kFLAGS.FOLLOWER_HEL_TALKS] == 1) {
 		outputText("Sitting Hel down, you ask if she's got any stories she'd like to share.  After all, she's been adventuring for years - surely she's got some fun tales to tell.");
 		
-		outputText("\n\n\"<i>Me? Good stories?  Psssh, naw,</i>\" she laughs, grabbing a glass from her home-made still and filling it up.  \"<i>Well, there's always that one time...  Okay, context: way back when, three, maybe four years ago.  I was still with some of the old tribe - we hadn't quite gotten ourselves wiped out yet, but we were already hurting pretty bad, you follow?  So we're sending out little scouting parties: raiders, really, going to steal what we can't forage ourselves from the gnolls.  Fuck gnolls, by the way.  Just throwin' that out there.  Anyway, so I get slotted for a party: me, Anika, who made me look like a busty giantess - and I'm on the short side for a salamander bitch - though she was amazing with a bow; and this big fucking bruiser, Dane.  Oh, shit, Dane was awesome.  He'd literally rip people in half.  Saw him do it two, three times.  Big scary motherfucker, but the nicest guy otherwise.</i>\"");
+		outputText("\n\n\"<i>Me? Good stories?  Psssh, naw,</i>\" she laughs, grabbing a glass from her homemade still and filling it up.  \"<i>Well, there's always that one time...  Okay, context: way back when, three, maybe four years ago.  I was still with some of the old tribe - we hadn't quite gotten ourselves wiped out yet, but we were already hurting pretty bad, you follow?  So we're sending out little scouting parties: raiders, really, going to steal what we can't forage ourselves from the gnolls.  Fuck gnolls, by the way.  Just throwin' that out there.  Anyway, so I get slotted for a party: me, Anika, who made me look like a busty giantess - and I'm on the short side for a salamander bitch - though she was amazing with a bow; and this big fucking bruiser, Dane.  Oh, shit, Dane was awesome.  He'd literally rip people in half.  Saw him do it two, three times.  Big scary motherfucker, but the nicest guy otherwise.</i>\"");
 		
 		outputText("\n\n\"<i>Anyway.  Three of us, supposed to go out and get food.  Hard to fucking do at the best of times, but winter's setting in and all the gnoll tribes, rabbit-folk, and the damn centaurs are all picking everything they can find.  The plains are a fucking barren wasteland by now, and we've barely got enough stored away to last HALF the season.  Three of us go out hunting, but there's fucking nothing out there.  Well shit, right?  The fuck do we do now? Well, Anika, who's on point with her longbow, spots a gnoll camp.  Big fucking thing, tents surrounded by a wooden wall. Permanent type deal, like a little town.  Maybe a hundred assholes in there, we figure. Whoopsie fucking daisy.  But how're we supposed to know, right?  Who'da thunk there's really more like a thousand of the fucks packed in real tight in there.</i>\"");
 		
@@ -850,7 +850,7 @@ private function talkToHel():void {
 private function shutUpHelTalks():void {
 	clearOutput();
 	outputText("Quickly you interject before Helia can continue with the story; you've heard quite enough.  <i>\"Whaaaat?  We were just getting to the good part...\"</i>  Hel whines, rolling her eyes.  <i>\"Hey, you're the one who asked!\"</i>");
-	outputText("\n\nYes... yes you did.  And you're regretting every moment of it.  Crossing her arms, the salamander folds her arms and huffs, <i>\"Oh you big baby!  Can't handle the thought of a thousand cocks eagerly thrusting... Oh, never mind.\"</i>");
+	outputText("\n\nYes.. yes, you did.  And you're regretting every moment of it.  Crossing her arms, the salamander folds her arms and huffs, <i>\"Oh you big baby!  Can't handle the thought of a thousand cocks eagerly thrusting... Oh, never mind.\"</i>");
 	
 	//{If PC has cock: 
 	if(player.hasCock()) {

@@ -272,7 +272,7 @@ public class EvalCompiler {
 		} else if ((m = eat(/^['"]/))) {
 			var delim:String = m[0];
 			var s:String = '';
-			var rex:RegExp = delim == '"' ? /^[^"\\]+/ : /^[^'\\]+/;
+			var rex:RegExp = delim == '"' ?  new RegExp('^[^"\\]+') : new RegExp("^[^'\\]+");
 			while(true) {
 				if (eatStr('\\')) {
 					var c:String = eatN(1);

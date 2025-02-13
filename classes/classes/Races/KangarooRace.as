@@ -44,7 +44,8 @@ public class KangarooRace extends Race {
 				.legType(LowerBody.KANGAROO, +1)
 				.faceType(Face.KANGAROO,1)
 				.skinCoatType(Skin.FUR, +1)
-				.hasCockOfType(CockTypesEnum.KANGAROO, +1);
+				.hasCockOfType(CockTypesEnum.KANGAROO, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.MightyLegsIM);
 		

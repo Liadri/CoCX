@@ -10,7 +10,7 @@ public class EAspectEtherSkill extends AbstractMagicSpecial {
     public function EAspectEtherSkill() {
         super (
             "Elemental Aspect: Ether",
-            "Attack with a stronger version of a ether-attributed basic elemental attack. Deals increased damage if the enemy is weak to Fire, Ice, Lightning or Darkness.",
+            "Attack with a stronger version of an ether-attributed basic elemental attack. Deals increased damage if the enemy is weak to Fire, Ice, Lightning or Darkness.",
             TARGET_ENEMY,
             TIMING_INSTANT,
             [TAG_DAMAGING, TAG_MAGICAL, TAG_TIER2],

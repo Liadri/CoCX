@@ -52,7 +52,8 @@ public class RatatoskrRace extends Race{
 				.hairColor1(ANY(RatatoskrHairColors), +1)
 				.skinCoatType(Skin.FUR, +1)
 				.furColor1(ANY(RatatoskrHairColors), +1)
-				.height(LESS_THAN(48), +1);
+				.height(LESS_THAN(48), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.RatatoskrsDescendant, PerkLib.BloodlineRatatoskr);
 		addMutation(IMutationsLib.RatatoskrSmartsIM);

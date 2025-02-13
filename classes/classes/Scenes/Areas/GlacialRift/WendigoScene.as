@@ -64,7 +64,7 @@ package classes.Scenes.Areas.GlacialRift
 			outputText("You fall on the ground defeated, and the wendigo howls victoriously, which only helps in preventing you from escaping. The thing begins to speak in a very psychotic manner.\n\n");
 			outputText("\"<i>Hungry… so HUNGRY! Give me... GIVE ME!</i>\"\n\n");
 			outputText("Just how hungry is she... is she about to devour you alive?! Your question is swiftly answered as she strips and tosses your equipment to the side zeroing right up onto your crotch.\n\n");
-			if (player.hasCock() && (!player.hasVagina() || !sceneHunter.uniHerms) || (rand(2) == 0)) {
+			if (player.hasCock() && (!player.hasVagina() || !sceneHunter.uniHerms || (rand(2) == 0))) {
 				outputText("Before you can say a word, she already has her ass up to your face, presenting you with her inhuman looking pussy as her mouth hungrily wraps around your [cock] taking in the entire length."+(player.biggestCockLength() >= 30) ? " Just how the hell can she take all of this in? This is definitely not natural!":""+" Your member is easily forced into full erection ");
 				outputText("as her devilish tongue skillfully coaxes you toward the inevitable ejaculation. You try and shove her off you, but she turns out to be extremely strong for her frame, easily pinning you down with her arms. Your cock feels as if it is alive with pleasure, and inevitably you cum into the ravenous girl's mouth. A fraction of a second later you watch in a stupor as a literal fountain of juice shoots out of her pussy right into your face. ");
 				outputText("Did the crazy bitch cum just from sucking you off? You thought this nightmare was finally over but to your horror it has only just started as the thing resumes tormenting your prick, is she insatiable? Your question is answered a while later as you pass out sometime before she stops.\n\n");
@@ -89,7 +89,7 @@ package classes.Scenes.Areas.GlacialRift
 		public function winAgainstWendigo():void {
 			clearOutput();
 			outputText("The wendigo falls to the ground too weak to keep on floating.\n\n");
-			outputText("You approach the monster intent on making it regret attacking you but suddenly the blizzard increases in intensity again. You close your eyes for a mere second but when you open them again the wendigo is gone. Well of all things you didn't expect getting your victory stolen away from you by the weather.\n\n");
+			outputText("You approach the monster intent on making it regret attacking you but suddenly the blizzard increases in intensity again. You close your eyes for a mere second but when you open them again the wendigo is gone. Well, of all things you didn't expect getting your victory stolen away from you by the weather.\n\n");
 			outputText("Unable to find the monster anymore, you decide to head back to camp still feeling the unsettling sensation of two hungry eyes fixating you from the depths of the blizzard until the magic of the realm spirits you away.\n\n");
 			cleanupAfterCombat();
 		}
@@ -139,8 +139,7 @@ package classes.Scenes.Areas.GlacialRift
 			player.createPerk(PerkLib.UnnaturalStrength, 0, 0, 0, 0);
 			player.createPerk(PerkLib.EndlessHunger, 0, 0, 0, 0);
 			player.createPerk(PerkLib.WendigoCurse, 0, 0, 0, 0);
-			if (player.hasPerk(PerkLib.RacialParagon))
-				flags[kFLAGS.APEX_SELECTED_RACE] = Races.WENDIGO;
+			player.updateRacialParagon(Races.WENDIGO);
 			player.hunger = 80;
 			endEncounter();
 		}

@@ -67,7 +67,8 @@ public class VouivreRace extends Race {
 									|| CouatlRace.isCouatlLike(body)
 									|| HydraRace.isHydraLike(body)
 									|| ApophisRace.isApophisLike(body));
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(11)
 				.hasPerk(PerkLib.DragonFireBreath,+1);
 		

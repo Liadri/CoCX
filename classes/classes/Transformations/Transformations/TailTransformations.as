@@ -982,7 +982,7 @@ public class TailTransformations extends MutationsHelper {
 
 				TransformationUtils.removeLowerBodyIfIncompatible(player, doOutput);
 
-				if (player.tailType == Tail.NONE) desc += "A pressure builds in your backside. You feel under your clothes and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers and bursts out the back of your clothes, it grows most of the way to the ground before suddenly curving back up, turning easily twice as big as you are. A thick coat of light and [fur color] striped fur covers it entirely from the base to the tip. Well it's going to be hard to hide this huge thing, especially since it curls and puffs up just <b>like a squirrel tail.</b>";
+				if (player.tailType == Tail.NONE) desc += "A pressure builds in your backside. You feel under your clothes and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers and bursts out the back of your clothes, it grows most of the way to the ground before suddenly curving back up, turning easily twice as big as you are. A thick coat of light and [fur color] striped fur covers it entirely from the base to the tip. Well, it's going to be hard to hide this huge thing, especially since it curls and puffs up just <b>like a squirrel tail.</b>";
 				else desc += "Something weird happens with your tail as it begins to change into something else. Within seconds the shape and coverage becomes closer to what you would expect of a squirrel tail. <b>You now have a squirrel tail!</b>";
 
 				player.tailVenom = 0;
@@ -1221,7 +1221,7 @@ public class TailTransformations extends MutationsHelper {
 					TransformationUtils.removeLowerBodyIfIncompatible(player, doOutput);
 
 					if (player.tailType !== Tail.FOX) {
-						transformations.TailNone.applyEffect();
+						TransformationUtils.applyTFIfNotPresent(transformations.TailNone, doOutput);
 
 						desc += "You feel a strange sensation on your backside. When you touch the area, you discover a strange nodule growing there that seems to be getting larger by the second. With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it had a mind of its own. <b>You now have a fox's tail!</b>";
 
@@ -1334,8 +1334,7 @@ public class TailTransformations extends MutationsHelper {
 					TransformationUtils.removeLowerBodyIfIncompatible(player, doOutput);
 
 					if (player.tailType !== Tail.KITSHOO) {
-						transformations.TailNone.applyEffect();
-
+						TransformationUtils.applyTFIfNotPresent(transformations.TailNone, doOutput);
 						desc += "You feel a strange sensation on your backside. When you touch the area, you discover a strange nodule growing there that seems to be getting larger by the second. With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, sending hot embers around. <b>You now have a cinder fox's tail!</b>";
 
 						player.tailVenom = 0;

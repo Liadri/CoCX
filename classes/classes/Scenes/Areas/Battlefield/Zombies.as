@@ -17,14 +17,15 @@ import classes.internals.*;
 		private var hopping:Number = 0;
 		
 		private function ZombiesHop():void {
-			outputText("The zombies tries to get closer by hopping toward you.");
+			outputText("The zombies try to get closer by hopping toward you.");
 			hopping += 1;
 		}
 		
 		public function ZombiesUndyingFlurry():void {
-			outputText("The zombies flails wildly attempting to strike you with their pale purple claw like nails. ");
+			outputText("The zombies flail wildly, attempting to strike you with their pale, purple claw-like nails.");
 			var zuf:Number = 25;
 			while (zuf-->0) ZombiesUndyingFlurryH();
+			outputText("You hastily back away from your opponents after the attack, not eager to take more of this beating so soon.");
 		}
 		private function ZombiesUndyingFlurryH():void {
 			if (player.getEvasionRoll()) outputText("<b>Miss</b> ");
@@ -40,7 +41,7 @@ import classes.internals.*;
 		}
 		
 		public function ZombiesDrainingKiss():void {
-			outputText("One of the zombies shambles towards you. You shove it back, but as you do, another hops in from the side, grabbing at you! ");
+			outputText("One of the zombies shambles towards you. You shove it back, but as you do, another hops in from the side, grabbing at you!");
 			if (player.hasPerk(PerkLib.TitanicSize)) {
 				outputText("They try to grab you, but they can barely reach your knees. You easily shrug them off, slapping one in the face for good measure.");
 				hopping = 0;
@@ -55,7 +56,11 @@ import classes.internals.*;
 					EngineCore.changeFatigue(Math.round(player.maxFatigue()*0.2));
 					EngineCore.ManaChange(-Math.round(player.maxMana()*0.2));
 					EngineCore.SoulforceChange( -Math.round(player.maxSoulforce() * 0.2));
-					addHP(Math.round(maxHP() * 0.5));
+					var curseTou:Number = player.tou * 0.1;
+					if (curseTou < 1) curseTou = 1;
+					else curseTou = Math.round(curseTou);
+					player.addCurse("tou", curseTou, 2);
+					addHP(Math.round(maxHP() * 0.25));
 					hopping = 0;
 				}
 			}
@@ -65,7 +70,7 @@ import classes.internals.*;
 		{
 			if (hopping < 2) ZombiesHop();
 			else {
-				if (rand(2) == 0) ZombiesUndyingFlurryH();
+				if (rand(2) == 0) ZombiesUndyingFlurry();
 				else ZombiesDrainingKiss();
 			}
 		}
@@ -85,7 +90,7 @@ import classes.internals.*;
 			this.a = "the ";
 			this.short = "zombies";
 			this.imageName = "zombies";
-			this.long = "Those pale naked women and men slowly hops toward you with unwavering determination, their greedy hands hanging in front of them as they tries to grab you. Their mouths sports a set of fiendish canines more at home on a monster then a human and regularly lets out a dim-witted moan. Those zombies, for lacking of a better word, are starved for sex and intends to rape you to satisfy their craving for life.";
+			this.long = "Those pale naked women and men slowly hop toward you with unwavering determination, their greedy hands hanging in front of them as they try to grab you. Their mouths sport a set of fiendish canines, more at home on a monster than a human, and regularly let out a dim-witted moan. Those zombies, for lack of a better word, are starved for sex and intend to rape you to satisfy their craving for life.";
 			this.plural = true;
 			this.pronoun1 = "they";
 			this.pronoun2 = "them";
@@ -120,7 +125,6 @@ import classes.internals.*;
 			this.drop = NO_DROP;
 			this.createPerk(PerkLib.EnemyGroupType, 0, 0, 0, 0);
 			this.createPerk(PerkLib.EnemyUndeadType, 0, 0, 0, 0);
-			createStatusEffect(StatusEffects.LowtierMagicImmunity, 0, 0, 0, 0);
 			checkMonster();
 		}
 		

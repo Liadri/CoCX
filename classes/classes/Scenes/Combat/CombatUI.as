@@ -173,7 +173,7 @@ public class CombatUI extends BaseCombatContent {
 				if (combat.isEnemyInvisible) btnRanged.disable("You cannot use shoot an opponent you cannot see or target.").icon("GenericWeapon_Bow");
 				break;
 			default:
-				btnRanged.showDisabled("Shoot", "You cannot use ranged combat without a ranged weapon equiped").icon("A_Ranged");
+				btnRanged.showDisabled("Shoot", "You cannot use ranged combat without a ranged weapon equipped").icon("A_Ranged");
 				if (combat.isEnemyInvisible) btnRanged.disable("You cannot use shoot an opponent you cannot see or target.");
 		}
 		if (player.isFlying() && (!Wings.Types[player.wings.type].canFly && Arms.Types[player.arms.type].canFly)){btnRanged.disable("It would be rather difficult to aim while flapping your arms."); }
@@ -340,7 +340,7 @@ public class CombatUI extends BaseCombatContent {
 			addButton(4, "Release", SceneLib.desert.nagaScene.nagaLeggoMyEggo);
 		} else if (monster.hasStatusEffect(StatusEffects.CancerGrab)) {
 			menu();
-			addButton(0, "Guillotine", combat.Guillotine).hint("Crush your foe with your pincer and attempt to break it appart! \n\nFatigue Cost: " + physicalCost(20) + "");
+			addButton(0, "Guillotine", combat.Guillotine).hint("Crush your foe with your pincer and attempt to break it apart! \n\nFatigue Cost: " + physicalCost(20) + "");
 			vampireBiteDuringGrapple(3);
 			addButton(4, "Release", combat.CrabLeggoMyEggo);
 		}
@@ -349,9 +349,9 @@ public class CombatUI extends BaseCombatContent {
 			menu();
 			addButton(0, "Squeeze", combat.ScyllaSqueeze);
 			if (monster.plural) {
-				button(0).hint("Squeeze your foes with your tentacles attempting to break them appart! \n\nFatigue Cost: " + physicalCost(50) + "");
+				button(0).hint("Squeeze your foes with your tentacles attempting to break them apart! \n\nFatigue Cost: " + physicalCost(50) + "");
 			} else {
-				button(0).hint("Squeeze your foe with your tentacle attempting to break it appart! \n\nFatigue Cost: " + physicalCost(20) + "");
+				button(0).hint("Squeeze your foe with your tentacle attempting to break it apart! \n\nFatigue Cost: " + physicalCost(20) + "");
 			}
 			addButton(1, "Tease", combat.ScyllaTease).hint("Use a free limb to caress and pleasure your grappled foe. \n\nFatigue Cost: " + physicalCost(20) + "");
 			vampireBiteDuringGrapple(3);
@@ -413,7 +413,7 @@ public class CombatUI extends BaseCombatContent {
 				}
 			}
 			addButton(2, "Dig out", combat.DigOut).hint("Dig back out out of the ground.");
-			addButton(14, "Escape", combat.runAway).hint("Escape away from the battle throught underground tunneling.");
+			addButton(14, "Escape", combat.runAway).hint("Escape away from the battle through underground tunneling.");
 		//Singing
 		} else if (player.hasStatusEffect(StatusEffects.Sing)) {
 			menu();
@@ -492,6 +492,12 @@ public class CombatUI extends BaseCombatContent {
 		} else if (monster.hasStatusEffect(StatusEffects.GrabBear)) {
 			menu();
 			addButton(0, "Hug", combat.bearHug).hint("Crush your opponent with a bear hug. \n\nFatigue Cost: " + physicalCost(30) + "");
+			vampireBiteDuringGrapple(3);
+			addButton(4, "Release", combat.BearLeggoMyEggo);
+		} else if (monster.hasStatusEffect(StatusEffects.MummyBandage)) {
+			menu();
+			addButton(0, "Constrict", combat.mummyConstrict).hint("Constrict your opponent with your wrapping. \n\nFatigue Cost: " + physicalCost(30) + "");
+			if (monster.lustVuln != 0 && !monster.plural && player.hasPerk(PerkLib.Straddle)) addButton(1, "Straddle", combat.Straddle).hint("Change position and initiate a straddling stance");
 			vampireBiteDuringGrapple(3);
 			addButton(4, "Release", combat.BearLeggoMyEggo);
 		}
@@ -703,7 +709,7 @@ public class CombatUI extends BaseCombatContent {
 	}
 
 	public function isEpicElementalTurn():Boolean {
-		return player.hasPerk(PerkLib.FirstAttackElementalsSu) && player.statusEffectv2(StatusEffects.SummonedElementals) > 0 && (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4) && !flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] && !doWeDisableThisOne(1);
+		return player.hasPerk(PerkLib.FirstAttackElementalsSu) && player.statusEffectv2(StatusEffects.SummonedElementals) > 0 && (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4) && flags[kFLAGS.IN_COMBAT_PLAYER_EPIC_ELEMENTAL_ATTACKED] != 1 && !doWeDisableThisOne(1);
 	}
 
 	public function doEpicElementalTurn():void {
@@ -731,7 +737,7 @@ public class CombatUI extends BaseCombatContent {
 	}
 
 	public function isElementalTurn():Boolean {
-		return player.hasPerk(PerkLib.FirstAttackElementals) && (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4) && !flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] && !doWeDisableThisOne(2);
+		return player.hasPerk(PerkLib.FirstAttackElementals) && player.statusEffectv1(StatusEffects.SummonedElementals) > 0 && (flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 3 || flags[kFLAGS.ELEMENTAL_CONJUER_SUMMONS] == 4) && flags[kFLAGS.IN_COMBAT_PLAYER_ELEMENTAL_ATTACKED] != 1 && !doWeDisableThisOne(2);
 	}
 
 	public function doElementalTurn():void {

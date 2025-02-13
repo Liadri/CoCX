@@ -538,7 +538,7 @@ public function updateBenoitInventory():void {
 
 private function buyAlarmClock():void {
 	clearOutput();
-	outputText("You wander [benoit name]'s shop for a good while as you're searching for something interesting until you spot something interesting.");
+	outputText("You wander [benoit name]'s shop for a good while, searching through the clutter, until you finally spot something interesting.");
 	outputText("\n\nIt's a mechanical clock.  It has a flip display and there are buttons on top of the clock for the purpose of setting time and alarm.  You wind up the clock and the display flips, indicating that the clock works.  Whoever constructed this clock must have been a genius, you would have even guessed a goblin constructed it before the corruption.  You pick up the clock and show it to [benoit name].");
 	outputText("\n\n\"<i>It works?  I have no need for zis.  500 gems,</i>\" [benoit Ey] says.");
 	outputText("\n\nDo you buy the clock?");
@@ -552,7 +552,7 @@ private function buyAlarmClockConfirmation():void {
 		return;
 	}
 	outputText("\"<i>Here you go.  I have no need for zis,</i>\" [benoit name] says.");
-	outputText("\n\n<b>You can now set alarm. Go to your cabin to set the alarm. (And change the time when you'll wake up.)</b>");
+	outputText("\n\n<b>You can now set alarms. Go to your cabin to set the alarm. (And change the time when you'll wake up.)</b>");
 	player.gems -= 500;
 	statScreenRefresh();
 	flags[kFLAGS.BENOIT_CLOCK_BOUGHT]++;
@@ -1351,7 +1351,7 @@ public function femoitInitialTalk():void
 	}
 	else
 	{
-		outputText("\n\nYou rack your brain but can't think of anything that could help [benoit name], so end up simply sympathising with [benoit em].  \"<i>Do not beat yourself up over it,</i>\" says the basilisk, with a smile.  \"<i>It is a foolish dream.  And anyway, I told you: we are a race of bastards.  We are ze last guys who deserve someone sinking after us.</i>\"");
+		outputText("\n\nYou rack your brain but can't think of anything that could help [benoit name], so end up simply sympathizing with [benoit em].  \"<i>Do not beat yourself up over it,</i>\" says the basilisk, with a smile.  \"<i>It is a foolish dream.  And anyway, I told you: we are a race of bastards.  We are ze last guys who deserve someone sinking after us.</i>\"");
 	}
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1366,7 +1366,7 @@ public function benoitFeminise():void
 	if (!player.hasItem(consumables.P_S_MLK, 2) || !player.hasItem(consumables.L_PNKEG) || !player.hasItem(consumables.OVIELIX) || !player.hasItem(consumables.REPTLUM))
 	{
 		outputText("You don't have the necessary ingredients to attempt this yet.");
-		outputText("\n\n<b>(Requires 2x Purified Succubus Milk, 1x Large Pink Egg, 1x Ovi Elixir, 1x Reptilium.)</b>");
+		outputText("\n\n<b>(Requires 2x Purified Succubus Milk, 1x Large Pink Egg, 1x Ovi Elixir, 1x Reptilum.)</b>");
         CoC.instance.flushOutputTextToGUI();
     }
 	else
@@ -1423,7 +1423,7 @@ public function femoitFirstTimeNo():void
 	clearOutput();
 	outputText("You let her down as kindly as you can.");
 	outputText("\n\n\"<i>No, you are right,</i>\" she says in a casual tone, although the color is still very high in her scales. \"<i>It would be way too weird zat, wouldn’t it? I will find someone though, never fear.  As I said before...</i>\" Benoite points two fingers at her blind eyes and then at the stall entrance.  There’s a distinct gleam in those cloudy grey depths you think would scare the hell out of most things with a penis. \"<i>I ‘ave a purpose now.</i>\"");
-	outputText("\n\nCatching a subtle tone of dissapointment in Benoite's voice, you bid her a quick farewell and head back to camp, deciding to give her some time to recover.");
+	outputText("\n\nCatching a subtle tone of disappointment in Benoite's voice, you bid her a quick farewell and head back to camp, deciding to give her some time to recover.");
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1534,7 +1534,7 @@ public function femoitSexIntro():void
 
 		outputText("\n\nYou cup her buttocks, squeezing the delightfully full, feminine globes, and promise her that she'll forget all about the weight of her eggs soon enough.");
 
-		outputText("\n\n\"<i>Promises, promises,</i>\" is the cheeky retort you get, which prompts you to playfully slap her right asscheek with your hand.  Your [cock] is already begining to swell with arousal, and you tantalizingly brush it against the outer lips of Benoite's pussy, sliding it back and forth and occasionally bumping its tip into her swollen belly.  Soon, it's hard as a rock, and slick with both pre-cum and Benoite's feminine equivalent.  The genderbent reptilian moans and growls in the back of her throat, arching her magnificent ass towards you to make it easier for you to tantalise her, your hands instinctively moving to grope and squeeze her luscious cheeks.");
+		outputText("\n\n\"<i>Promises, promises,</i>\" is the cheeky retort you get, which prompts you to playfully slap her right asscheek with your hand.  Your [cock] is already beginning to swell with arousal, and you tantalizingly brush it against the outer lips of Benoite's pussy, sliding it back and forth and occasionally bumping its tip into her swollen belly.  Soon, it's hard as a rock, and slick with both pre-cum and Benoite's feminine equivalent.  The genderbent reptilian moans and growls in the back of her throat, arching her magnificent ass towards you to make it easier for you to tantalise her, your hands instinctively moving to grope and squeeze her luscious cheeks.");
 
 		outputText("\n\n\"<i>Enough with ze teasing, put ze damn thing in already!</i>\" she barks at you.  She lifts one hand off of the ground and begins to rub and squeeze her chest in frustrated pleasure.");
 
@@ -1714,7 +1714,7 @@ public function femoitSexIntro():void
 		if (!player.hasItem(consumables.P_DRAFT, 2) || !player.hasItem(consumables.PSDELIT) || !player.hasItem(consumables.REPTLUM))
 		{
 			outputText("You don't have the necessary ingredients to attempt this yet.");
-			outputText("\n\n<b>(Requires 2x Purified Incubi Draft, 1x Purified Succubi's Delight, 1x Reptilium.)</b>");
+			outputText("\n\n<b>(Requires 2x Purified Incubi Draft, 1x Purified Succubi's Delight, 1x Reptilum.)</b>");
             CoC.instance.flushOutputTextToGUI();
         }
 		else

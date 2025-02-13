@@ -51,7 +51,8 @@ public class YukiOnnaRace extends Race {
 				.wingType(Wings.LEVITATION, +3)
 				.femininity(100, +1)
 				.noCock(+1)
-				.hasVagina(+1);
+				.hasVagina(+1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.YukiOnnasDescendant, PerkLib.BloodlineYukiOnna);
 		addMutation(IMutationsLib.FrozenHeartIM);

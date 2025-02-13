@@ -155,7 +155,7 @@ package classes.Scenes.NPCs
 		}
 		
 		public function usingMagicBoltsBarrageSpell():void {
-			outputText("Nadia narrow her eyes, focusing her mind with deadly intent. Mana pours down her shoulders, past her hands and into her staff, which she spins, pointing the tip at you. Blue energy coats the staff, and she fires a barrage of mana bolts at you! ");
+			outputText("Nadia narrows her eyes, focusing her mind with deadly intent. Mana pours down her shoulders, past her hands and into her staff, which she spins, pointing the tip at you. Blue energy coats the staff, and she fires a barrage of mana bolts at you! ");
 			mana -= 100;
 			var damage:Number = inteligencescalingbonus() * SpellMod() * 1.2;
 			if (damage < 10) damage = 10;

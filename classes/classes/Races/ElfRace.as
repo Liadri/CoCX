@@ -66,7 +66,8 @@ public class ElfRace extends Race {
 				.customRequirement("","not a wood elf",
 						function (body:BodyData):Boolean {
 							return !body.player.hasPerk(PerkLib.BlessingOfTheAncestorTree)
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.ElfsDescendant, PerkLib.BloodlineElf);
 		addMutation(IMutationsLib.ElvishPeripheralNervSysIM);

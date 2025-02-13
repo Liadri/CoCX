@@ -556,7 +556,7 @@ public function wonOverNadiaSpare():void {
 	if (flags[kFLAGS.NADIA_LVL_UP] == 8 && flags[kFLAGS.NADIA_FOLLOWER] < 3) {
 		outputText("You tell the girl you will let her go. You have no business with her. The horse morph however doesn't leave right away.\n\n");
 		outputText("\"<i>Thank you. I may have been too hasty to judge you and I think it’s high time we truly get acquainted. I just wanted you to know that my name's Nadia.</i>\"\n\n");
-		outputText("Well Nadia, that’s one name you don't plan to forget. still, she'd better be off on her way now. She nods and runs off disappearing in the forest.\n\n");
+		outputText("Well Nadia, that’s one name you don't plan to forget. Still, she'd better be off on her way now. She nods and runs off disappearing in the forest.\n\n");
 	}
 	else {
 		outputText("You tell the girl you will let her go. You have no business with her.\n\n");
@@ -619,7 +619,7 @@ public function breakingInYourMare():void {
 	}
 	outputText("Nadia, in a fit of excitement, suddenly climbs onto her knees and hands before turning around and presenting her rear for you to fuck, moving her tail out of the way of her virgin sex and her equally virgin arsehole, her whole body trembling in excitement.\n\n");
 	outputText("\"<i>Thank you!</i>\" Nadia says, her voice full of happiness, as she shakes her behind temptingly. \"<i>I’ll be a good mare to you, but please fuck me!! I really can’t take it anymore, I just need your cock in me now!!</i>\" her voice desperate.\n\n");
-	outputText("You place your hand on your new equine’s behind, her body quivering at your touch, as you slide across it, feeling the soft cheek under your fingers. Nadia moans loudly as you begin to fondle her arse, letting your fingers sink into yielding flesh, her body trembling butt is squeezed and molded by your hands.\n\n");
+	outputText("You place your hand on your new equine’s behind, her body quivering at your touch, as you slide across it, feeling the soft cheek under your fingers. Nadia moans loudly as you begin to fondle her ass, letting your fingers sink into yielding flesh, her body trembling butt is squeezed and molded by your hands.\n\n");
 	outputText("\"<i>Please stop teasing me, and just fuck me!!</i>\" Nadia moans.\n\n");
 	outputText("You tease, noting that she was supposed to be a good mare from now on. You give her ass another hard squeeze, earning a loud moan from Nadia. She should know a good mare would wait until her stallion is ready.\n\n");
 	outputText("She shivers at your words, as if your orders somehow gave her pleasure, before nodding her head and waiting for you to eventually fuck her senseless. You move one of your hands off her butt, slipping it down between her legs, moving it across her pussy which is totally soaked while her juices are running down her leg and dripping onto the ground.\n\n");
@@ -722,7 +722,7 @@ public function breakingInYourMare2():void {
 	outputText("(<b>Nadia has been added to the Lovers menu!</b>)\n\n");
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Nadia pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Nadia pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	flags[kFLAGS.NADIA_FOLLOWER] = 6;
 	explorer.stopExploring();
 	doNext(playerMenu);
@@ -860,7 +860,7 @@ public function HealingScene():void {
 	outputText("The sparks of magic intensify, becoming almost painful. You grimace, but she hushes you, soft touch on your body countering the pain. Soon enough, it's all over. Nadia lets go, stepping back. All your wounds and injuries have closed up, as if they never existed. You're healed, but now you feel rather aroused.\n\n");
 	dynStats("lus", 33, "scale", false);
 	if (player.hasStatusEffect(StatusEffects.CombatWounds)) player.removeStatusEffect(StatusEffects.CombatWounds);
-	HPChange(player.maxOverHP(), true);
+	HPChange(player.maxOverHP(), true, false);
 	EngineCore.changeFatigue( -(Math.round(player.maxFatigue() * 0.5)));
 	doNext(mainCampMenu);
 	advanceMinutes(45);
@@ -969,7 +969,7 @@ public function SexMenuAnal():void {
 		outputText("You suck on one of your fingers, getting it nice and wet, before bringing it down and pushing it into her rear, making her let out a little happy moan as your finger surprisingly, or maybe not, easily slips in.\n\n");
 		outputText("\"<i>Your fingers are in my butt!</i>\" Nadia moans, looking over her shoulder at you.\n\n");
 		outputText("\"<i>Not yet,</i>\" you reply, before suddenly shoving another finger into her, making her gasp in surprise, \"<i>Now they are!</i>\"\n\n");
-		outputText("Nadia moans loudly as your two fingers stretch open, rub, and thrust into her hot ass, loosing her up further. Although the finger fucking seems already too much for the alicorn, whose front arms have already folded. Her face falls to the ground, leaving her inviting ass stuck up into the air.\n\n");
+		outputText("Nadia moans loudly as your two fingers stretch open, rub, and thrust into her hot ass, loosening her up further. Although the finger fucking seems already too much for the alicorn, whose front arms have already folded. Her face falls to the ground, leaving her inviting ass stuck up into the air.\n\n");
 		outputText("Seeing this, you bring your spare hand down on her thick asscheek, smacking it hard, making her moan and straighten up in surprise.\n\n");
 		outputText("\"<i>Hey don’t go enjoying too much,</i>\" you say, your fingers stick playing with her hot hole.\n\n");
 		outputText("\"<i>Sorry, but your fingers feel so good!</i>\" she moans, moving a hand down to her pussy, but you slap it away.\n\n");
@@ -1092,39 +1092,34 @@ private function BelisaNadiaTalk():void {
 	endEncounter();
 }
 	public function NadiaPregAnnouncement():void {
-		clearOutput();
 		outputText("Your mare is waiting for you back at camp, with a smile on her face, nearly jumping from joy. Her eyes gleam as she sees you, and she nearly skips over, her J-cup breasts bouncing with each step. She breaks into a run, and you brace yourself as Nadia tackles you, Smothering you in her massive mammaries. \n\n");
 		outputText("\"<i>Oh, my stallion, you wonderful, wonderful lover!</i>\" She gives you a big smack on the lips. You look at her, confused, then the penny drops. You bring a hand to her belly, and she nods, her horn glowing, and her eyes flashing with excitement. \n\n");
-		outputText("\"<i>I’m pregnant</i>\", she says simply, cheeks red, and a huge grin on her face. \"<i>You’re going to be a father, [name].</i>\" She puts a hand on her stomach.  \n\n");
+		outputText("\"<i>I’m pregnant</i>\", she says simply, cheeks red, and a huge grin on her face. \"<i>You’re going to be a father, [Name].</i>\" She puts a hand on her stomach.  \n\n");
 		outputText("You congratulate Nadia, knowing that this has been what she wanted for a long time. She cuddles you for a minute or so, before letting you go. You excuse yourself, going about your day…but you can feel Nadia’s eyes on your back as you go about your work around camp.  \n\n");
 		outputText(" \n\n");
 		doNext(playerMenu);
 	}
 
 	public function NadiaPreg1():void {
-		clearOutput();
 		outputText("Nadia’s stomach is noticeably larger than before, but barely. She pats her stomach occasionally, a huge, dopey smile on her face. You notice that she keeps a small bag of oats on her hip. She sees you looking, and gives you a smile.  \n\n");
 		outputText(" \n\n");
 		doNext(playerMenu);
 	}
 
 	public function NadiaPreg2():void {
-		clearOutput();
 		outputText("Nadia’s belly hasn’t grown much more, but she’s moving slower than before. Occasionally, you can see her wince, and she seems to rub her pregnant belly more than usual.\n\n");
 		doNext(playerMenu);
 	}
 
 	public function NadiaPreg3():void {
-		clearOutput();
 		outputText("Nadia’s stomach is distended, and it’s clear to anyone with eyes that she’s heavily pregnant. You notice her stomach jerk, getting a startled cry from Nadia. Rushing over, you ask her if she’s alright, and your unicorn lover sighs. \"<i>I’ll be fine…But your kid is kicking hard, my stallion.</i>\" She guides your hand to her belly, and you can feel a sudden impact. Nadia groans, and you gently rub her stomach, trying to ease her pain a little. Before long, the kicks subside, and she leans into you.  \n\n");
 		outputText("\"<i>Thank you for that.</i>\" She whispers, all but falling asleep on you. You help her over to her bed, and she sighs, lying down.  \n\n");
 		doNext(playerMenu);
 	}
 
 	public function NadiaGivesBirth():void {
-		clearOutput();
 		outputText("You hear a choking cry from Nadia’s part of camp, and you rush over, seeing your unicorn lover, doubled over, with a small pool of clear fluid at her hooved feet.  \n\n");
-		outputText("\"<i>O-oh, [name]!</i>\" Nadia cries, reaching a hand out to you. You run over, catching her before she loses her balance entirely. \"<i>T-the baby’s coming!</i>\"  \n\n");
+		outputText("\"<i>O-oh, [Name]!</i>\" Nadia cries, reaching a hand out to you. You run over, catching her before she loses her balance entirely. \"<i>T-the baby’s coming!</i>\"  \n\n");
 		outputText("You tell her that you kind of guessed that, and she grits her teeth, grunting as a contraction hits. \"<i>Sm-smartass.</i>\" She grunts, and points to her bedroll. \"<i>Lay me down there, please.</i>\"  \n\n");
 		outputText("You half-drag, half-carry Nadia over to her bedroll, and as she groans, you grab a towel, gently spreading your unicorn lover’s legs. Nadia covers herself with her tail, but you gently take it, pushing it out of your way. \n\n");
 		outputText("\"<i>S-sorry…Force of habit.</i>\" Nadia grunts. You shake your head slightly, telling her not to worry. Just focus on the birth. She whinneys as a contraction hits, and you position yourself between Nadia’s legs, ready to receive your newborn foal.  \n\n");

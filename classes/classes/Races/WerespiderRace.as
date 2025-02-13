@@ -49,7 +49,8 @@ public class WerespiderRace extends Race {
 				.tailType(Tail.SPIDER_ADBOMEN, +1)
 				.noWings(+4)
 				.hasPerk(PerkLib.AraneathropyDormant, +1)
-				.hasPerk(PerkLib.Araneathropy, +2, -11);
+				.hasPerk(PerkLib.Araneathropy, +2, -11)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		//addMutation(IMutationsLib.AnanasaBirthrightIM);
 		addMutation(IMutationsLib.HollowFangsIM);

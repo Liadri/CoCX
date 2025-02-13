@@ -177,7 +177,7 @@ public class MinotaurBlood extends Consumable {
 						temp3++;
 					}
 					if (temp2 == 2) outputText("\nYou feel so much lighter after the change.");
-					if (temp2 == 3) outputText("\nWithout the extra weight you feel particularly limber.");
+					if (temp2 == 3) outputText("\nWithout the extra weight, you feel more agile.");
 					if (temp2 >= 4) outputText("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.");
 					if (temp2 > 0) changes++;
 				}
@@ -287,13 +287,13 @@ public class MinotaurBlood extends Consumable {
 							dynStats("lus", 20, "scale", false);
 						}
 						else {
-							outputText("\n\nYour small horns get a bit bigger, stopping as medium sized nubs.");
+							outputText("\n\nYour small horns get a bit bigger, stopping as medium-sized nubs.");
 							player.horns.count += 3;
 						}
 						changes++;
 					}
 					//Males horns get 'uge.
-					else {
+					else if (player.horns.count < 40) {
 						temp = 1 + rand(3);
 						player.horns.count += temp;
 						if (temp == 0) changes--;
@@ -311,6 +311,7 @@ public class MinotaurBlood extends Consumable {
 							player.hoursSinceCum += 200;
 							dynStats("lus", 20, "scale", false);
 						}
+						if (player.horns.count > 40) player.horns.count = 40;
 						changes++;
 					}
 				}
@@ -379,7 +380,7 @@ public class MinotaurBlood extends Consumable {
 				outputText("Your balls feel as if they've grown heavier with the weight of more sperm.\n");
 				player.hoursSinceCum += 200;
 			}
-			EngineCore.HPChange(50*player.postConsumptionMlt(), true);
+			EngineCore.HPChange(50*player.postConsumptionMlt(), true, false);
 			dynStats("lus", Math.round(50*player.postConsumptionMlt()), "scale", false);
 		}
 		player.refillHunger(25);

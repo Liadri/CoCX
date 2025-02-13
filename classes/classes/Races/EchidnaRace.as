@@ -1,6 +1,7 @@
 package classes.Races {
 import classes.BodyParts.*;
 import classes.CockTypesEnum;
+import classes.PerkLib;
 import classes.Race;
 
 public class EchidnaRace extends Race {
@@ -46,7 +47,8 @@ public class EchidnaRace extends Race {
 				.tongueType(Tongue.ECHIDNA, +1)
 				.legType(LowerBody.ECHIDNA, +1)
 				.skinCoatType(Skin.FUR,+1)
-				.hasCockOfType(CockTypesEnum.ECHIDNA, +1);
+				.hasCockOfType(CockTypesEnum.ECHIDNA, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(4, "echidna")
 				.namesMaleFemaleMorphTaur("echidna-boy",

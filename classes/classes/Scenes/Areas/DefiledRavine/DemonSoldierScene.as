@@ -16,7 +16,7 @@ public class DemonSoldierScene extends BaseContent {
         clearOutput();
         monster = new DemonSoldier();
         if (flags[kFLAGS.DEMON_SOLDIERS_ENCOUNTERED] < 1) {
-            outputText("As you pick your way through the terrain a shadow passes overhead, looking up you spot a large flying shape silhouetted against the sun. At first you think it might be some sort of bird, but as the shape swoops closer you see that the wings are more like those of a bat, with a long, spaded tail trailing out behind. Uh-oh...");
+            outputText("As you pick your way through the terrain a shadow passes overhead, looking up you spot a large flying shape silhouetted against the sun. At first you think it might be some sort of bird, but as the shape swoops closer you see that the wings are more like those of a bat, with a long, spaded tail trailing out behind- uh-oh...");
             outputText("\n\nThe Demon lands in front of you with an almost liquid grace. [monster He] folds [monster his] wings behind [monster his] back, and [monster his] tail whips back and forth as a truly malevolent grin splits the infernal creature's face.");
             if (!player.isAnyRaceCached(Races.DEMON, Races.IMP)) outputText("<i>\"Well well, it looks like I've found some sport to liven up a dull patrol!\"</i>");
             else outputText("\"<i>Hmm... you may look like one of us, but I can smell your soul from here; I shall enjoy fucking it out of you!\"</i>");
@@ -262,7 +262,7 @@ public class DemonSoldierScene extends BaseContent {
             }
         }
         outputText("\n\nThe tempo of the hellish beast's pistoning becomes more erratic, and spits and spurts of demonic pre-cum spray out around the creature's infernal cock.");
-        outputText("\n\n\"<i>Aaahhhnnn... yeeesss, cum for me... unf... CUM FOR ME, FUCKSLUT!! AAAAHHHHH!!!!</i>\" The Demon shrieks, [monster his] tongue lolling from [monster his] mouth as [monster his] orgasm comes thundering up. The " + (player.hasCock() || player.hasVagina() ? "constant manhandling of your genitalia reaches fever pitch, as [themonster]'s skilful manipulation combined with the " : "") + "vigorous power fucking you're taking has you very close to cumming, yourself.");
+        outputText("\n\n\"<i>Aaahhhnnn... yeeesss, cum for me... unf... CUM FOR ME, FUCKSLUT!! AAAAHHHHH!!!!</i>\" The Demon shrieks, [monster his] tongue lolling from [monster his] mouth as [monster his] orgasm comes thundering up. The " + (player.hasCock() || player.hasVagina() ? "constant manhandling of your genitalia reaches fever pitch, as [themonster]'s skillful manipulation combined with the " : "") + "vigorous power fucking you're taking has you very close to cumming, yourself.");
         outputText("\n\nYou feel the Demon's infernal prick twitching and spasming within you, finally gushing a torrent of hellish sperm inside your ");
         if (player.hasVagina()) { //Pussy or Ass?
             outputText(player.isPregnant() ? "womb. The Demon leans close to your ear and murmurs; <i>\"That's it, let me soak the mewling spawn growing inside you with my demon spunk! If only I could get you double-pregnant!\"</i>" : "womb. The Demon leans close to your ear and murmurs; <i>\"Yes, take my corrupt seed into your belly. Grow fat with my spawn, brood-cow! It's all you pitiful mortals are good for!\"</i>");

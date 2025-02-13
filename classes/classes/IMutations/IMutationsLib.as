@@ -21,7 +21,7 @@ import classes.IMutationPerkType;
  * First, .withBuffs is not used here, instead, buffs are created in a pBuffs function within the mutation file itself, and must return an object.
  *
  * Requirements, as seen below compared to PerkLib/MutationsLib, are also not handled below, and are instead dynamically created, via pReqs function, also stored within the mutations file itself.
- * These can be checked seperately, or when sent to createDynamicPerks, will handle it as well.
+ * These can be checked separately, or when sent to createDynamicPerks, will handle it as well.
  *
  * Mutations are themselves handling their iterations via v1 checks.
  * V2 is used for the Mutations to track any special conditions for upgrading, as in cases such as HellHoundFireBalls.
@@ -52,6 +52,7 @@ public class IMutationsLib
 		public static const AnubiHeartIM:IMutationPerkType = new AnubiHeartMutation();
 		public static const ArachnidBookLungIM:IMutationPerkType = new ArachnidBookLungMutation();
 		public static const ArigeanAssociationCortexIM:IMutationPerkType = new ArigeanAssociationCortexMutation();
+		public static const BlackBloodIM:BlackBloodMutation = new BlackBloodMutation();
 		public static const BlackHeartIM:IMutationPerkType = new BlackHeartMutation();
 		public static const BlazingHeartIM:IMutationPerkType = new BlazingHeartMutation();
 		public static const CatLikeNimblenessIM:IMutationPerkType = new CatLikeNimblenessMutation();
@@ -121,8 +122,10 @@ public class IMutationsLib
 		public static const SharkOlfactorySystemIM:IMutationPerkType = new SharkOlfactorySystemMutation();
 		public static const SlimeFluidIM:IMutationPerkType = new SlimeFluidMutation();
 		public static const SlimeMetabolismIM:IMutationPerkType = new SlimeMetabolismMutation();
+		public static const StillHeartIM:StillHeartMutation = new StillHeartMutation();
 		public static const TrachealSystemIM:IMutationPerkType = new TrachealSystemMutation();
 		public static const TwinHeartIM:IMutationPerkType = new TwinHeartMutation();
+		public static const UndeadMetabolismIM:UndeadMetabolismMutation = new UndeadMetabolismMutation();
 		public static const VampiricBloodstreamIM:IMutationPerkType = new VampiricBloodstreamMutation();
 		public static const VenomGlandsIM:IMutationPerkType = new VenomGlandsMutation();
 		public static const WhaleFatIM:IMutationPerkType = new WhaleFatMutation();

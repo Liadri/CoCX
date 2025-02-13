@@ -180,7 +180,7 @@ public class Achievements extends BaseContent
 
 			titleAchievementSection("Fashion"); //24 achievements
 			addAchievement("Wannabe Wizard", kACHIEVEMENTS.FASHION_WANNABE_WIZARD, "Equip wizard robes and magic staff.");
-			addAchievement("Cosplayer (Begginer)", kACHIEVEMENTS.FASHION_COSPLAYER, "Wear 10 different clothings/armors.");
+			addAchievement("Cosplayer (Beginner)", kACHIEVEMENTS.FASHION_COSPLAYER, "Wear 10 different clothings/armors.");
 			addAchievement("Cosplayer (Amateour)", kACHIEVEMENTS.FASHION_COSPLAYER_1, "Wear 30 different clothings/armors.");
 			addAchievement("Cosplayer (Recognizable)", kACHIEVEMENTS.FASHION_COSPLAYER_2, "Wear 60 different clothings/armors.");
 			addAchievement("Cosplayer (Seasonal)", kACHIEVEMENTS.FASHION_COSPLAYER_3, "Wear 100 different clothings/armors.");
@@ -267,7 +267,7 @@ public class Achievements extends BaseContent
 			addAchievement("Will You Be My Valentine?", kACHIEVEMENTS.HOLIDAY_VALENTINE, "Visit the Wet Bitch during Valentine's day. (Valentine)", "", true);
 			addAchievement("Year of the Goat", kACHIEVEMENTS.HOLIDAY_YEAR_OF_THE_GOAT, "Visit the He'Xin'Dao during Lunar New Year. (Winter)", "", true);
 
-			titleAchievementSection("Survival/Realistic Mode"); //15 achievements
+			titleAchievementSection("Survival/Realistic Mode"); //17 achievements
 			addAchievement("Tastes Like Chicken", kACHIEVEMENTS.REALISTIC_TASTES_LIKE_CHICKEN, "Refill your hunger for the first time.");
 			addAchievement("Champion Needs Food Badly (1)", kACHIEVEMENTS.REALISTIC_CHAMPION_NEEDS_FOOD, "Instantly refill your hunger from 0 to 100 in one go.");
 			addAchievement("Champion Needs Food Badly (2)", kACHIEVEMENTS.REALISTIC_CHAMPION_NEEDS_FOOD_2, "Instantly refill your hunger from 0 to 250 in one go.");
@@ -283,7 +283,7 @@ public class Achievements extends BaseContent
 			//addAchievement(" Glutton", kACHIEVEMENTS., "Eat while hunger is above 2490.", "", true);obecnie max to 3378
 			//addAchievement(" Glutton", kACHIEVEMENTS., "Eat while hunger is above 4990.", "", true);
 			addAchievement("Fasting", kACHIEVEMENTS.REALISTIC_FASTING, "Keep hunger below 25 for a week but don't let it reach 0.");
-			addAchievement("Lent", kACHIEVEMENTS.REALISTIC_LENT, "Keep hunger below 25 for fourty days but don't let it reach 0.", "Keep hunger below 25 for fourty days but don't let it reach 0. Now you're ready for Easter.", true);
+			addAchievement("Lent", kACHIEVEMENTS.REALISTIC_LENT, "Keep hunger below 25 for forty days but don't let it reach 0.", "Keep hunger below 25 for forty days but don't let it reach 0. Now you're ready for Easter.", true);
 			addAchievement("One more dish please", kACHIEVEMENTS.REALISTIC_ONE_MORE_DISH_PLEASE, "Increase your maximum hunger above 100.");
 			addAchievement("You not gonna eat those ribs?", kACHIEVEMENTS.REALISTIC_YOU_NOT_GONNA_EAT_THOSE_RIBS, "Increase your maximum hunger above 250.");
 			addAchievement("Dinner for Four", kACHIEVEMENTS.REALISTIC_DINNER_FOR_FOUR, "Increase your maximum hunger above 500.");
@@ -299,19 +299,28 @@ public class Achievements extends BaseContent
 			//eat 50 pts over max hunger without gaining weight
 			//eat 75 pts over max hunger without gaining weight (perki muszą dać zwiekszenie limitu przejedzenia sie bez przyrostu wagi ^^)
 
-			titleAchievementSection("Epic"); //16 achievements
+			titleAchievementSection("Epic"); //29 achievements
 			addAchievement("xXx2: The Next Level", kACHIEVEMENTS.EPIC_XXX2_THE_NEXT_LEVEL, "Start NG+ (or higher) game.", "", true);
 			addAchievement("xXx: The Return of Mareth Champion", kACHIEVEMENTS.EPIC_XXX_THE_RETURN_OF_MARETH_CHAMPION, "Start NG++ (or higher) game.", "", true);
 			addAchievement("xXx 4", kACHIEVEMENTS.EPIC_XXX_4, "Start NG+++ (or higher) game.", "", true);
 			addAchievement("xXx 5: Mareth's Judgment_Day", kACHIEVEMENTS.EPIC_XXX5_MARETHS_JUDGMENT_DAY, "Start NG 4+ (or higher) game.", "", true);
 			addAchievement("xXx 6: Rise of the Demons", kACHIEVEMENTS.EPIC_XXX6_RISE_OF_THE_DEMONS, "Start NG 5+ (or higher) game.", "", true);
 			addAchievement("xXx 7: Salvation", kACHIEVEMENTS.EPIC_XXX7_SALVATION, "Start NG 6+ (or higher) game.", "", true);
-			//addAchievement("xXx 8: Genisys", kACHIEVEMENTS.EPIC_XXX8_GENISYS, "Start NG 7+ (or higher) game.", "", true);
-			//addAchievement("xXx 9: Dark Fate", kACHIEVEMENTS.EPIC_XXX9_DARK_FATE, "Start NG 8+ (or higher) game.", "", true);
+			addAchievement("xXx 8: Genisys", kACHIEVEMENTS.EPIC_XXX8_GENISYS, "Start NG 7+ (or higher) game.", "", true);
+			addAchievement("xXx 9: Dark Fate", kACHIEVEMENTS.EPIC_XXX9_DARK_FATE, "Start NG 8+ (or higher) game.", "", true);
+			addAchievement("xXx 10: The Phantom Demon Menace", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 9+ (or higher) game.", "", true);
+			addAchievement("xXx 11: Attack of the Imps", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 10+ (or higher) game.", "", true);
+			addAchievement("xXx 12: Revenge of the Lethice", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 11+ (or higher) game.", "", true);
+			addAchievement("xXx 13: A New Hope", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 12+ (or higher) game.", "", true);
+			addAchievement("xXx 14: The Demon Empire Strikes Back", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 13+ (or higher) game.", "", true);
+			addAchievement("xXx 15: Return of the Champion", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, "Start NG 14+ (or higher) game.", "", true);
 			addAchievement("Guardian of Notre-Dame", kACHIEVEMENTS.EPIC_GUARDIAN_OF_NOTRE_DAME, "Become Gargoyle.", "", true);
 			addAchievement("The Devil Wears Prada", kACHIEVEMENTS.EPIC_THE_DEVIL_WEARS_PRADA, "Became Devil.", "", true);
 			addAchievement("Thriller", kACHIEVEMENTS.EPIC_THRILLER, "Became Jiangshi.", "", true);
 			addAchievement("Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, "Became Yuki Onna.", "", true);
+			addAchievement("Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, "Became Mummy.", "", true);
+			addAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, "Became Lich.", "", true);
+			addAchievement("Goblin Degraduation", kACHIEVEMENTS.EPIC_GOBLIN_DEGRADUATION, "Using GOBX.", "", true);
 			//odblokowanie pierwszego animal ancestory starting bonus at chara creation
 			addAchievement("My own Demon Weapon", kACHIEVEMENTS.EPIC_MY_OWN_DEMON_WEAPON, "Find an evolving weapon.", "", true);
 			//znalezienie ewolującą zbroje
@@ -334,13 +343,15 @@ public class Achievements extends BaseContent
 			addAchievement("Achievements - Going Deeper (3rd layer)", kACHIEVEMENTS.EPIC_ACHIEVEMENTS_GOING_DEEPER_3L, "Unlocking 300 achievements.", "", true);
 			addAchievement("Achievements Limbo", kACHIEVEMENTS.EPIC_ACHIEVEMENTS_LIMBO, "Unlocking 600 achievements.", "", true);
 
-			titleAchievementSection("Shadow Slave"); //5 achievements
+			titleAchievementSection("Shadow Slave"); //6 achievements
 			addAchievement("Shadow Initiate", kACHIEVEMENTS.SHADOW_INITIATE, "Unlock first shadow achievement.", "", true);
 			addAchievement("Shadow Squire", kACHIEVEMENTS.SHADOW_SQUIRE, "Unlock 10 shadow achievements.", "", true);
 			addAchievement("Shadow Knight", kACHIEVEMENTS.SHADOW_KNIGHT, "Unlock 25 shadow achievements.", "", true);
 			addAchievement("Shadow Paladin", kACHIEVEMENTS.SHADOW_PALADIN, "Unlock 45 shadow achievements.", "", true);
 			addAchievement("Shadow General", kACHIEVEMENTS.SHADOW_GENERAL, "Unlock 70 shadow achievements.", "", true);
-			//addAchievement("Shadow ", kACHIEVEMENTS., "Unlock 100 shadow achievements.", "", true); 
+			addAchievement("Shadow Lieutenant General", kACHIEVEMENTS.SHADOW_LIEUTENANT_GENERAL, "Unlock 100 shadow achievements.", "", true);
+			//addAchievement("Shadow Major General", kACHIEVEMENTS.SHADOW_MAJOR_GENERAL, "Unlock 140 shadow achievements.", "", true); 
+			//addAchievement("Shadow ", kACHIEVEMENTS.SHADOW_, "Unlock 200 shadow achievements.", "", true);
 
 			titleAchievementSection("General");
 			addAchievement("Portal Defender", kACHIEVEMENTS.GENERAL_PORTAL_DEFENDER, "Defeat 20 demons and sleep 10 times.");
@@ -360,9 +371,9 @@ public class Achievements extends BaseContent
 			addAchievement("Killing the bull by the horns", kACHIEVEMENTS.GENERAL_KILLING_THE_BULL_BY_THE_HORNS, "Kill 10 minotaurs during your time in Mareth.");
 			addAchievement("Killing the bull by the horns 2: Kill Harder", kACHIEVEMENTS.GENERAL_KILLING_THE_BULL_BY_THE_HORNS_2_KILL_HARDER, "Kill 50 minotaurs during your time in Mareth.");
 			addAchievement("Killing the bull by the horns 3: I'm back", kACHIEVEMENTS.GENERAL_KILLING_THE_BULL_BY_THE_HORNS_3_IM_BACK, "Kill 250 minotaurs during your time in Mareth.");
-			addAchievement("Vigilante", kACHIEVEMENTS.GENERAL_VIGILANTE, "Kill 10 thiefs during your time in Ignam.");
-			addAchievement("Vigilante 2: Kill Harder", kACHIEVEMENTS.GENERAL_VIGILANTE_2_KILL_HARDER, "Kill 50 thiefs during your time in Ignam.");
-			addAchievement("Vigilante 3: I'm back", kACHIEVEMENTS.GENERAL_VIGILANTE_3_IM_BACK, "Kill 250 thiefs during your time in Ignam.");
+			addAchievement("Vigilante", kACHIEVEMENTS.GENERAL_VIGILANTE, "Kill 10 thieves during your time in Ignam.");
+			addAchievement("Vigilante 2: Kill Harder", kACHIEVEMENTS.GENERAL_VIGILANTE_2_KILL_HARDER, "Kill 50 thieves during your time in Ignam.");
+			addAchievement("Vigilante 3: I'm back", kACHIEVEMENTS.GENERAL_VIGILANTE_3_IM_BACK, "Kill 250 thieves during your time in Ignam.");
 			addAchievement("Body Count: Monty Python and the Holy Grail", kACHIEVEMENTS.GENERAL_BODY_COUNT_MPATHG, "Kill 47 enemies.");
 			addAchievement("Body Count: Deadpool", kACHIEVEMENTS.GENERAL_BODY_COUNT_DEADPOOL, "Kill 80 enemies.");
 			addAchievement("Body Count: Robocop", kACHIEVEMENTS.GENERAL_BODY_COUNT_ROBOCOP, "Kill 144 enemies.");
@@ -411,7 +422,7 @@ public class Achievements extends BaseContent
 			addAchievement("All Your People are Belong to Me (2)", kACHIEVEMENTS.GENERAL_ALL_UR_PPLZ_R_BLNG_2_ME_2, "Obtain in total thirty eight followers, lovers, and slaves. (Excluding mutual exclusivity)");//Obtain every follower, lover, and slave.
 			addAchievement("Scholar (1)", kACHIEVEMENTS.GENERAL_SCHOLAR, "Fill out twenty codex entries available in the game.");
 			addAchievement("Scholar (2)", kACHIEVEMENTS.GENERAL_SCHOLAR_2, "Fill out thirty codex entries available in the game.");
-			addAchievement("Scholar (3)", kACHIEVEMENTS.GENERAL_SCHOLAR_3, "Fill out fourty codex entries available in the game.");//Fill out all codex entries available in the game.
+			addAchievement("Scholar (3)", kACHIEVEMENTS.GENERAL_SCHOLAR_3, "Fill out forty codex entries available in the game.");//Fill out all codex entries available in the game.
 			addAchievement("Freeloader", kACHIEVEMENTS.GENERAL_FREELOADER, "Visit the Kitsune's mansion 3 times.");
 			addAchievement("Schizophrenic", kACHIEVEMENTS.GENERAL_SCHIZO, "Go between pure and corrupt 4 times. (Threshold of 20 and 80 corruption)");
 			addAchievement("Clean Slate", kACHIEVEMENTS.GENERAL_CLEAN_SLATE, "Go from 100 corruption to zero for the first time.");

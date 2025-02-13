@@ -93,7 +93,8 @@ public class BeeRace extends Race {
 				.skinCoatPattern(Skin.PATTERN_BEE_STRIPES, +1)
 				.hasPerk(PerkLib.BeeOvipositor, +1)
 				.cockOrVaginaOfType(CockTypesEnum.BEE, VaginaClass.BEE,1)
-				.hasPerk(PerkLib.TransformationImmunityBeeHandmaiden, +2);
+				.hasPerk(PerkLib.TransformationImmunityBeeHandmaiden, +2)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addConditionedScores(
 				function(body:BodyData):Boolean {
 					return body.player.hasPerk(PerkLib.TransformationImmunityBeeHandmaiden);

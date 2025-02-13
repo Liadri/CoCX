@@ -123,11 +123,11 @@ public class StatUtils {
 					text += (value >= 0 ? '+' : '') + Utils.floor(value, 1);
 				}
 				if (buff.rate != Buff.RATE_PERMANENT) {
-					text += ' ('+Utils.numberOfThings(buff.tick, {
-						([Buff.RATE_ROUNDS]):'round',
-						([Buff.RATE_HOURS]):'hour',
-						([Buff.RATE_DAYS]):'day'
-					}[buff.rate])+')'
+					var rates:Array = [];
+					rates[Buff.RATE_ROUNDS] = 'round';
+					rates[Buff.RATE_HOURS] = 'hour';
+					rates[Buff.RATE_DAYS] = 'day';
+					text += ' ('+Utils.numberOfThings(buff.tick, rates[buff.rate])+')'
 				}
 				text += '\n';
 				text += "[/font]";
@@ -279,7 +279,9 @@ public class StatUtils {
 		['maxsf_mult', "Max Soulforce"],
 		
 		['spellpower', "Spellpower"],
+		['spellpowerwhite', "Spellpower(White)"],
 		['spellcost', "Spell Cost"],
+		['spellcostwhite', "Spell Cost(White)"],
 		['soulskillcost', "Soulskill Cost"],
 		['psoulskillpower', "Physical Soulskill Power"],
 		['msoulskillpower', "Magical Soulskill Power"],

@@ -5,10 +5,10 @@
 package classes.Scenes.NPCs
 {
 import classes.*;
-import classes.BodyParts.Tail;
-import classes.BodyParts.Tongue;
+import classes.BodyParts.*;
 import classes.GlobalFlags.kACHIEVEMENTS;
 import classes.GlobalFlags.kFLAGS;
+import classes.IMutations.IMutationsLib;
 import classes.Items.Consumable;
 import classes.Scenes.Holidays;
 import classes.display.SpriteDb;
@@ -615,7 +615,7 @@ public function alvinaThirdEncounterTakeHer():void
 		spriteSelect(SpriteDb.s_archmage_alvina_shadowmantle2Concealed_16bit);
 		clearOutput();
 		outputText("No, because the heart is what drives people forward with dreams and ideals. How can one have ideals to strive for if they cannot feel in the first place? Hope and yearning for better are feelings too. If you fight to solve an injustice it's because your heart told you so otherwise you would be no different from a mindless golem serving a master who tells you what he wants you to do.\n\n");
-		outputText("Alvina stays quiet after your answer but tentatively grabs your left arms gently snuggling up toward you. However she never fully touches you, breaking away as she realizes what she's doing. \n\n");
+		outputText("Alvina stays quiet after your answer but tentatively grabs your left arms gently snuggling up toward you. However, she never fully touches you, breaking away as she realizes what she's doing. \n\n");
 		outputText("\"<i>It is late, I have to get going. [name] you better live up to those ideals of yours because… because I will not forgive you if you don't not after such a big moving speech!</i>\"\n\n");
 		outputText("She jumps down slowing her fall with a spell before heading down the street. Before she goes though, you spot the glimpse of pain in her expression. Did something you said wounded her? Guess you should head back to camp yourself.\n\n");
 		FirstDateSuccess = true;
@@ -731,7 +731,7 @@ public function alvinaThirdEncounterTakeHer():void
 		outputText("\"<i>I… I am one with myself and the world, I've seen the depths of wants but also acquired the understanding to use it with control and restraint. This feeling [name], it's like staring at the world first the first time, a dimension beneath the dimensions where all rules of creation converge. It's like I stand as a grain of sand in the middle of everything so small but capable of altering the fabrics of reality so long as it keep flowing harmoniously with the natural order. Is this godhood? No it is not… gods are limited in what they can do… their wants are restrained by their own petty desires and lack of imagination. To see what I see right now [name]. I have to concentrate not to lose myself into the sea of possible past futures and alternatives. It is as you first said, Mareth is damaged… wounded but not beyond repair. The gods can't fix this, heck if no one does anything the wound will only get worse. But I can… I and my descendents can fix this wound caused by the corruption. </i>\"\n\n");
 		outputText("\"<i>Removing the demon's will not fix Mareth; the corruption has run too deep; it's literally in the mind of the denizens now. Even if we remove the plant and kill all the demon's new demons could easily arise from the remaining corrupted roots. All it takes is for a particularly lusty mortal to go on a lust craze and spontaneously lose their soul and we will be back to square one. As for you [name], you may think you are but a human, but within you rests a spark capable of rewriting history as we see it.</i>\"\n\n");
 		outputText("\"<i>The power to beat impossible odds and change yourself infinitely, to rewrite your own mistakes into success to the desired outcome and change the future… only… are you even aware of your own power? Maybe you use it subconsciously to begin with. You are an anomaly [name], one of the few beings capable of changing their own fates and that of others at will. I see now what I must do, and it starts by pledging my body and souls to you so as to ensure that you may accomplish everything you set your goals upon. Undo past mistakes and put Mareth onto the right track. You embody everything I've worked so hard to see.</i>\"\n\n");
-		outputText("She kneels in front of you, her golden eyes staring directly into yours, you see her unshakable determination firsthand. However you didn't wan't Alvina to be your servant, what you did was out of love for her.\n\n");
+		outputText("She kneels in front of you, her golden eyes staring directly into yours, you see her unshakable determination firsthand. However, you didn't wan't Alvina to be your servant, what you did was out of love for her.\n\n");
 		outputText("\"<i>I am unworthy of your praise [name], this form I have now is but the fruit of your own labor to unshackle me from my mistakes and free me from my torment. I just know it… I have seen all the alternatives and where they inevitably lead. If anything, it's possible you have threaded them all already, you just don't remember it.</i>\"\n\n");
 		outputText("Still you would prefer she stood up and walked alongside you as a partner, a lover and not as a servant. \n\n");
 		outputText("\"<i>This path leads to a happy ending… I am not sure whether I deserve it but if this is what you choose, who am I to deny you fatebreaker? Fine then, I Alvina, first of my new species which I shall call Azazel, pledge myself to you.</i>\" \n\n");
@@ -825,6 +825,7 @@ public function alvinaMainCampMenu():void
 		}
 		if (player.statusEffectv1(StatusEffects.AlvinaTraining2) == 4) addButtonDisabled(11, "Advanced Study", "You have already completed Advanced Study.");
 	}
+	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] > 3 && player.isPureHuman() && player.statusEffectv1(StatusEffects.AlvinaTraining2) == 2 && player.hasItem(useables.AMETIST, 1) && player.hasItem(consumables.L_DRAFT, 5) && player.hasItem(useables.SOULGEM, 5) && (player.hasKeyItem("Marae's Lethicite") >= 0 && player.keyItemvX("Marae's Lethicite", 1) > 0 || player.hasKeyItem("Stone Statue Lethicite") >= 0)) addButton(12, "Try a custom ritual", alvinaCampTryACustomRitual);
 	if (flags[kFLAGS.ALVINA_FOLLOWER] >= 20) addButton(14, "Back", camp.campLoversMenu);
 	else addButton(14, "Back", camp.campFollowers);
 }
@@ -874,7 +875,6 @@ public function alvinaFreaksDevilPurification():void
 	outputText("On these world Alvina aura flares with a pillar of raw magic power as she transforms into a whole new form easily over 10 ft tall, her wings unfolding as the magic from her aura spreads to the ground beneath her and catch fire setting the whole area ablaze. Amidst this vision of hell Alvina stands proudly, her scythe having split into two sickles of which she holds one in each hand."+(player.basetallness < 9*12 ? " She practically towers above you.":"")+"[pg]");
 	outputText("\"<i>Fixing me, hah! You're the one who needs to be fixed. Trust me you will thank me for it later.</i>\"[pg]");
 	outputText("She's your teacher and lover as well as the most powerful opponent you've ever faced, but for your sake and hers, you have to stop her. There's no holding back now.[pg]");
-
 	FightForAlvina = true;
 	startCombat(new Alvina());
 }
@@ -891,7 +891,7 @@ public function alvinaMainCampMenuDiary():void
 		outputText("It has been five years since I began my research but I am this close to uncovering the secret of true immortality and power. Lust and desire seems to draw the soul temporarily closer to the heart before stressing it into producing a massive amount of energy. I need to find a way to reproduce this reaction infinitely and, to this end, ");
 		outputText("more live test subjects will be needed. It doesn't matter anymore how many die in the process, I’m about to realise my greatest dream!\n\n");
 		outputText("Day 170 year 91\n\n");
-		outputText("After two years of experimentation, I have finally created an immortal. However the \"demon\" as I call it lacks a moral compass and is obsessed with sex. It is a curious creature. It does not hunger, thirst or even seem to age. It also seems to naturally have an affinity for magic. The stone produced out of the subject seems to be a source of immense powers and so I took it with me in order to research it. ");
+		outputText("After two years of experimentation, I have finally created an immortal. However, the \"demon\" as I call it lacks a moral compass and is obsessed with sex. It is a curious creature. It does not hunger, thirst or even seem to age. It also seems to naturally have an affinity for magic. The stone produced out of the subject seems to be a source of immense powers and so I took it with me in order to research it. ");
 		outputText("However it seems the test subject’s condition is highly contagious and might destroy the entire kingdom if allowed to roam, and as I have already lost two apprentices to him, it clearly cannot be contained without resorting to force. For this reason I caged the fiend and my now transformed apprentices in order to study the condition further. Truth be told, I am genuinely intrigued by this development.\n\n");
 		outputText("Day 171 year 91\n\n");
 		outputText("Just as I suspected, this experiment is a failure. While powerful, the creature I now call demon cannot draw on the power of a soul to bolster his black magic as he lacks one entirely. Black magic when used at its maximum output begins to melt the soul out of the body as it tries to escape its container. ");
@@ -940,7 +940,7 @@ public function alvinaMainCampMenuDiary():void
 		outputText("While Alvina is busy out of view you open her diary and keep on reading.\n\n");
 		outputText("<i>Day 10 Year 7\n\n");
 		outputText("I am an orphan. Father and mother died of illness 5 years ago. Despite the money I brought home for them to be cured, nothing worked and the doctor said no amount of money would matter now. Once in a while I visit mom's grave with a bouquet of Fafnir tears, she loved those flowers so much. I have nothing left but my now 8-year-old sister still at the orphanage we were sent to and this strange power ever-growing inside of me. This year I left the orphanage because I decided to attend magic studies. ");
-		outputText("Fact is I was selected amongst many to become a wizard due to my high intelligence, though no one suspected I still heard the voice of Mephi from time to time in my mind. However the school where I study is so boring and way too strict. The teachers are stubborn and close minded… Restricted area they say? ");
+		outputText("Fact is I was selected amongst many to become a wizard due to my high intelligence, though no one suspected I still heard the voice of Mephi from time to time in my mind. However, the school where I study is so boring and way too strict. The teachers are stubborn and close minded… Restricted area they say? ");
 		outputText("There's no such thing as a restricted area in the library for me… What if a ritual to revive papa and mama was in there? Sooner or later I will find these secret books.\n\n");
 		outputText("Day 35 Year 7\n\n");
 		outputText("I finally deciphered a ritual in the books and just in time too! The teacher had it confiscated but not before I managed to transcribe a copy. I finally found how to summon that creature I met five years ago. This is very creepy magic but I’m willing to pay any price to have my parents back; and if that Mephi thing can help I will seek him out. ");
@@ -1448,7 +1448,7 @@ public function alvinaCampAdvancedStudy():void
 		else player.addKeyValue("Marae's Lethicite", 1, -1);
 		outputText("You show up with all the required items and the demoness smiles.\n\n");
 		outputText("\"<i>Good, I wasn’t expecting you to collect those items so quickly. Once again you’ve exceeded my expectations.</i>\"\n\n");
-		outputText("She arranges the soul gemes on the ground to form a magic circle, cutting herself with a dagger to draw the lines using her own blood she then hands you over the knife.\n\n");
+		outputText("She arranges the soul gems on the ground to form a magic circle, cutting herself with a dagger to draw the lines using her own blood she then hands you over the knife.\n\n");
 		outputText("\"<i>To properly remove the soul without it turning to Lethicite we will need to extract some of your flesh as a temporary vessel. I trust you have the resolve...</i>\"\n\n");
 		outputText("You don’t need her repeating herself and cut straight into your side, wincing as you cut a fairly sized chunk, healing the wound afterward. Alvina takes the freshly cut morsel of skin and chant the spell, the organic matter sinking in the gem of the necklace where it won’t risk decaying. When all preparations are done, she has you silently rehearse the line repeatedly so you don't mess up.\n\n");
 		outputText("\"<i>Wouldn’t want to accidentally lose your soul because of a failed ritual right, [name]? Repeat after me…</i>\"\n\n");
@@ -1535,6 +1535,60 @@ public function alvinaCampAdvancedStudy():void
 			advanceMinutes(5);
 		}
 	}
+}
+public function alvinaCampTryACustomRitual():void {
+	spriteSelect(SpriteDb.s_archmage_alvina_shadowmantle2_16bit);
+	clearOutput();
+	player.destroyItems(useables.AMETIST, 1);
+	player.destroyItems(consumables.L_DRAFT, 5);
+	player.destroyItems(useables.SOULGEM, 5);
+	if (player.hasKeyItem("Stone Statue Lethicite") >= 0) player.removeKeyItem("Stone Statue Lethicite");
+	else player.addKeyValue("Marae's Lethicite", 1, -1);
+	outputText("You show up with all the required items. Alvina looks at you confused at first as to why you are looking human again but sensing that your corruption is still high dismiss the issue. Whatever your vessel looks like is your business at this point.\n\n");
+	outputText("\"<i>Good, I wasn’t expecting you to collect those items so quickly. Once again you’ve exceeded my expectations.</i>\"\n\n");
+	outputText("She arranges the soulstones on the ground to form a magic circle, cutting herself with a dagger to draw the lines using her own blood she then hands you over the knife.\n\n");
+	outputText("\"<i>To properly remove the soul without it turning to Lethicite we will need to extract some of your flesh as a temporary vessel. I trust you have the resolve…</i>\"\n\n");
+	outputText("You don’t need her repeating herself and cut straight into your side, wincing as you cut a fairly sized chunk, healing the wound afterward. Alvina takes the freshly cut morsel of skin and chants the spell, the organic matter sinking in the gem of the necklace where it won’t risk decaying. When all preparations are done, she has you silently rehearse the line repeatedly so you don't mess up.\n\n");
+	outputText("\"<i>Wouldn’t want to accidentally lose your soul because of a failed ritual right, [name]? Repeat after me…</i>\"\n\n");
+	outputText("You repeat it a few times, then finally, ready for the real one. As instructed, you stand in the middle of the circle, holding the items next to your heart and start incanting after drinking the five lust draft in one go. This said to Alvina's surprise, you slightly alter the formula adding a new line to subtly change the meaning… taking inspiration from the zombification ritual performed on you before you attempt to alter the fabric of your very soul. If your experiment goes right you will allow for your anima to move freely between your body and the phylactery at all times achieving the best of both worlds!\n\n");
+	outputText("\"<i>Ahgn akoshor fisfis arci gorshaness firnklir gorash nok arokis duo ars nur anima…</i>\"\n\n");
+	outputText("You hold yourself back from cumming several times; knowing full well that if you do, your soul is forfeit. A ghostly thread starts to form between your chest and the necklace, as the thread stabilizes, you see something being extracted bit by bit from you in the form of white mist, which is swiftly absorbed by the chunk of flesh in the amulet. You continue incanting until the white mist has been entirely absorbed, all the while your skin begins to lose color becoming pallid blue just like the undead you used to be before something goes wrong along the ritual and you trip on your words, as you do you feel your life force slipping out of your body as your heart stops beating and you grow increasingly tired. Alvina notices the issue quickly and tries various healing spells to keep your silly self alive but it’s as if healing magic has no effect on you. ");
+	outputText("Your life teeters at the edge of oblivion and you barely manage to keep it as you finish the incantation with a whisper barely able to hear Alvina's panicked voice in the background. You look around tired… your body feels cold and lifeless… you could use some sleep right now but force yourself awake slowly regaining your composure before circulating your mana around and assisting your motion with a simple levitation spell. You’re too tired to walk and why should you, now that your magic output is unrestrained you can channel what would normally be lethal output of mana through your body without suffering any of the consequences a living being would have to handle. THIS is what a true immortal body should be like.\n\n");
+	outputText("Alvina eyes you up in confusion then anger as she yells at you for your carelessness.\n\n");
+	outputText("\"<i>You Idiot! What the hell did you do to the ritual? You succeeded at your endeavor and altered your soul to the point it was altered forever, fucking congratulations, but look at the shit your body turned into; now you're eternally stuck between life and death with no coming back, no amount of magical mending can repair this! This better not turn out to slowly destroy what's left of your already corrupted brain cells. This said every other part of the ritual seems to work correctly aside from your main body turning to a gray skinned husk that seems hilariously "+player.mf("handsome","gorgeous")+" like theres remains of corrupted mana in it. Was it your intention to turn yourself into some kind of spellcasting zombie all along?! Well so long as you're able to handle your stupid craving for soulforce you should work just as fine as a devil would, might even come up with a special package of unique abilities too, though seriously what were you even thinking?! This could have ended with you imploding on the spot or far worse!</i>\"\n\n");
+	outputText("You take the time to analyze your body. Alvina did just highlight a glaring problem, how the fuck are you going to sustain yourself if most form of healing magic fails you now! Heck come to think of it this new form of yours is no different from the zombie you were before, you’re literally starving for soul force and will need to suck it out of your foe if only to regain a semblance of vitality and hold your wits together! Well it's not like it will be any different from your previous zombie like life you just need to fuck the soul and soulforce out of victims and add it to your own. This is a no brainer, if you can’t heal yourself then you will just have to steal vitality from others. Your body will regenerate endlessly so long as you have enough stolen vitality to sustain it.\n\n");
+	outputText("You take your leave from Alvina for now though she let you know she wants you to report any further change in your body... for researching purposes of course.\n\n");
+	player.addStatusValue(StatusEffects.AlvinaTraining2, 1, 1);
+	player.skinColor = randomChoice("ghostly pale", "light blue", "snow white", "ghostly white");
+	CoC.instance.transformations.SkinPlain.applyEffect(false);
+	CoC.instance.transformations.SkinPatternNone.applyEffect(false);
+	player.skinAdj = "flawless";
+	CoC.instance.transformations.FaceDemon.applyEffect(false);
+	player.eyes.type = Eyes.LICH;
+	CoC.instance.transformations.EyesChangeColor(["light blue"]).applyEffect(false);
+	CoC.instance.transformations.EarsHuman.applyEffect(false);
+	CoC.instance.transformations.HairHuman.applyEffect(false);
+	player.hairColor = randomChoice("silver white", "silver", "snow white", "ghostly white");
+	CoC.instance.transformations.TongueDemonic.applyEffect(false);
+	CoC.instance.transformations.HornsNone.applyEffect(false);
+	CoC.instance.transformations.AntennaeNone.applyEffect(false);
+	player.arms.type = Arms.LICH;
+	player.lowerBody = LowerBody.LICH;
+	player.wings.type = Wings.LEVITATION;
+	player.createPerk(PerkLib.Phylactery, 0, 0, 0, 0);
+	player.createPerk(PerkLib.UndeadLord, 1, 0, 0, 0);
+	player.createPerk(PerkLib.Undeath, 1, 0, 0, 0);
+	player.createPerk(PerkLib.DeathlyPower, 0, 0, 0, 0);
+	player.createPerk(PerkLib.Immortality, 0, 0, 0, 0);
+	player.createPerk(PerkLib.TransformationImmunity2, 10, 0, 0, 0);
+	if (player.cor < 100) player.cor = 100;
+	IMutationsLib.BlackBloodIM.trueMutation = true;
+	IMutationsLib.StillHeartIM.trueMutation = true;
+	player.removeAllRacialMutation();
+	player.updateRacialAndPerkBuffs();
+	awardAchievement("Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD);
+	CoC.instance.mainViewManager.updateCharviewIfNeeded();
+	doNext(camp.returnToCampUseSixHours);
 }
 
 private function alvinaProposal():void {
@@ -1863,7 +1917,7 @@ public function postMarriageSleep():void {
 		else if (player.cocks[x].cockLength < 10) remarkSmallCock();
 		else remarkAverageCock();
 
-		outputText("Blushing in excitement she gently guides you into her lap spreading her hooved legs appart to offer you access to her innermost precious place, her hands open so to catch and hold yours. Somehow this passionate, innocent pose of hers arouse you more than all the trice damned demons of Mareth have, whereas their seduction is perverted and crude Alvina pure genuine and nurtured love for you makes her every gesture radiate with a cute and heartwarming factor unique to hers. "+
+		outputText("Blushing in excitement, she gently guides you into her lap, spreading her hooved legs apart to offer you access to her innermost precious place, her hands open to catch and hold yours. Somehow this passionate, innocent pose of hers arouses you more than all the trice-damned demons of Mareth have; whereas their seduction is perverted and crude, Alvina's pure, genuine, and nurtured love for you makes her every gesture radiate with a cute and heartwarming factor unique to her. "+
 				"This isn't just about raw sex, this is about a conversation between you and her and sensual carresses and kisses are the word of love you two exchange. You place your hands into the palm of her open paws and align your "+player.cockDescript(x)+" with the entryway to Alvina sacred garden trusting past the gate for a taste of her heaven. You are not disappointed, since Alvina was formerly a succubus; her vagina is capable of amazing feats of motion control; she uses it to massage your cock slowly, letting you savor the pleasure for as long as possible. " +
 				"All the while you two seek each other's mouth moving together to reach new pleasurable heights. As a demon Alvina only knew to take and never give in return her transformation actually led her to rediscover the pleasure of giving and receiving freely and through each pleasant ministration she dots your penis she gets to feel some of the pleasure back. You mean in genuine untarnished happiness as you passionately slide your penis down her canal seeking out all her sweet spots. You can't help but think your penis feels at home into her hole " +
 				"and feel a little apologetic about all the other hole you've tried out before hers.\n\n");//cant check for penile virginity
@@ -1892,7 +1946,7 @@ public function postMarriageSleep():void {
 		outputText("\"<i>Well I heard it's all the rage out there, so I grew one for you. I hope you like it. Pardon me but I'm all hot now and can hardly contain myself anymore!</i>\"\n\n");
 		outputText("Truth be told you have been waiting for this the whole time and you gingerly open your legs up as Alvina lays down on your [chest], her breasts pressing against yours");
 		if (player.biggestTitSize() > 2) outputText(" with just the right amount of quake to make you moan");
-		outputText(". You feel the crown of her cock seeking out your passage before slowly inserting itself inches after inches inside. Alvina made it just right. It's the perfect size to fill you up entirely without hurting you. Well you would have expected no less from your kinky magician lover. As if reading your thought Alvina offers you a corner smile before commenting.\n\n");
+		outputText(". You feel the crown of her cock seeking out your passage before slowly inserting itself inches after inches inside. Alvina made it just right. It's the perfect size to fill you up entirely without hurting you. Well, you would have expected no less from your kinky magician lover. As if reading your thought Alvina offers you a corner smile before commenting.\n\n");
 		outputText("\"<i>I'm glad you like it but I'm just getting started you know?</i>\"\n\n");
 		outputText("As she says this she begins trusting, you don't know if that's demon instinctual knowledge, but god is she good at this. She seems to instinctively know exactly in which direction to thrust to maximize your pleasure, and from the look of it she's also getting off from it, though with such a good fucking you will be cumming far ahead of her. You wrap your legs and clench the ground beneath you as you achieve orgasm, begging your lover to keep going, you just want to go again and again.\n\n");
 		outputText("\"<i>Well that's a good thing [name] seeing as I haven't reached my peak yet.</i>\" She kisses you before promising softly. \"<i>Don't you worry I will keep stuffing you until you can't go on.</i>\"\n\n");

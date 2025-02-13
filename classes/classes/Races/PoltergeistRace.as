@@ -76,7 +76,8 @@ public class PoltergeistRace extends Race{
 				.hasPerk(PerkLib.Incorporeality, +1)
 				.hasPerk(PerkLib.Ghostslinger, +1)
 				.hasPerk(PerkLib.PhantomShooting, +1)
-				.hasPerk(PerkLib.Telekinesis, +1);
+				.hasPerk(PerkLib.Telekinesis, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(6, "phantom")
 				.buffs({

@@ -109,12 +109,20 @@ use namespace CoC;
 				},
 				call: SceneLib.plains.kirinScene.kirinElectraEncounter
 			}, {
-				name: "werewolf huntress",
+				name: "werewolf huntress",//move to inner plains later on
 				label : "Werewolf Huntress",
 				kind : 'monster',
 				day : false,
 				call  : SceneLib.werewolfFemaleScene.introWerewolfHuntress,
 				chance: 0.50
+			},{
+				name: "zombie",//move to inner plains later on
+				label : "Zombie",
+				kind : 'monster',
+				day   : false,
+				chance: 0.7,
+				call: SceneLib.zombiesmummies.encounterZombieInner,
+				when: SceneLib.zombiesmummies.canEncounterZombie
 			}, {
 				name: "sidonie",
 				label : "Sidonie",
@@ -247,6 +255,14 @@ use namespace CoC;
 				night : false,
 				chance: 0.7,
 				call  : gnollScene.gnollEncounter
+			},{
+				name: "zombie",
+				label : "Zombie",
+				kind : 'monster',
+				day   : false,
+				chance: 0.7,
+				call: SceneLib.zombiesmummies.encounterZombieOuter,
+				when: SceneLib.zombiesmummies.canEncounterZombie
 			}, {
 				name: "bunny",
 				label : "Bunny",

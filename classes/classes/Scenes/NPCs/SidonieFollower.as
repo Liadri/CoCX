@@ -50,7 +50,7 @@ public class SidonieFollower extends NPCAwareContent
 			outputText("The last gnoll falls to the ground, defeated, while you take your time recovering you breathe after the fast-paced battle. As you do so, you manage to see that the horse-morph woman has beaten the two remaining attackers, and that she’s angrily shouting at one of them.\n\n");
 			outputText("You approach her, but when she manages to see you, the equine readies to another fight. You wave your hands non-threateningly, after which she noticeably relaxes. Both of you stand in the grass in awkward silence for a moment, until the horse-woman breaks the ice and extends her hand to you.\n\n");
 			outputText("\"<i>Name’s Sidonie, friend. What’s yours?</i>\"\n\n");
-			outputText("With that, you shake hands and present yourself. You gaze at her. Light brown fur covers hers body, turning to white on her belly. Her hair is a golden shade of blonde, and her azure eyes compliment her equine face pretty well. A fresh and somewhat loose cotton attire girds her body.\n\n");
+			outputText("With that, you shake hands and present yourself. You gaze at her. Light brown fur covers her body, turning to white on her belly. Her hair is a golden shade of blonde, and her azure eyes compliment her equine face pretty well. A fresh and somewhat loose cotton attire girds her body.\n\n");
 			outputText("\"<i>Well, [name], you have my thanks for that. I don’t think that I could fend off that bunch of hyena assholes alone. I’ve managed to hold my own against three, four at best and...Aaah!</i>\"\n\n");
 			outputText("Your conversation is suddenly interrupted by the horse-morph's sudden yelp. As you try to look what happened, you manage to see a pink liquid flowing from a dart, a dart that is stabbed on the horse-girl furred leg. Holding the other side, a bruised gnoll grins wickedly.\n\n");
 			outputText("Sidonie angrily turns back, and with a loud ‘thud’ she knocks the air out of the hyena warrior’s lungs, rendering her unconscious..\n\n");
@@ -118,7 +118,7 @@ public class SidonieFollower extends NPCAwareContent
 			outputText("(<b>Sidonie has been added to the Followers menu!</b>)\n\n");
 			if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 			else player.createKeyItem("Radiant shard", 1,0,0,0);
-			outputText("\n\n<b>Before fully settling in your camp as if remembering something Sidonie pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+			outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Sidonie pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 			flags[kFLAGS.SIDONIE_FOLLOWER] = 1;
 			explorer.stopExploring();
 			doNext(camp.returnToCampUseFourHours);
@@ -452,7 +452,7 @@ public class SidonieFollower extends NPCAwareContent
 			if (player.hairLength > 0) outputText("tousles your hair");
 			else outputText("caresses your head with the other");
 			outputText(". She is slow at the start, slowly pushing her horsecock inch by inch into your throat and leaving you enough time to relax your mouth. Inch by inch, her meat slowly but surely starts filling your throat, task only eased by her copious pre leakage that makes for makeshift lube.\n\n");
-			outputText("A bit accustomed to Sidonie’s slow pace, you’re taken a bit by surprise when she forces her length down your gullet, which is forced to open wide to accomodate the impossibly thick horsecock. Twenty inches of meat ram you throat, and you soon a bit lightheaded by the sudden lack of air. Luckily, your gag reflex doesn’t fail, and you manage to push it down your throat without blacking out, doing your best to breathe through your ");
+			outputText("A bit accustomed to Sidonie’s slow pace, you’re taken a bit by surprise when she forces her length down your gullet, which is forced to open wide to accommodate the impossibly thick horsecock. Twenty inches of meat ram you throat, and you soon a bit lightheaded by the sudden lack of air. Luckily, your gag reflex doesn’t fail, and you manage to push it down your throat without blacking out, doing your best to breathe through your ");
 			if (player.hasBeak()) outputText("beak");
 			else outputText("nose");
 			outputText(".You’re given a bit of reprieve as the horse-morph slides most of her dick out, her flared tip being the last bit that locks you mouth to her dong. The horse-girl takes a hold of your head, as if telling you what is to come, and then, she rams her cock inside again. Feeling your throat, you can feel the outline of the bulge made for her thick horsecock through your [skin], and make out some of the pulsing veins of the throbbing member. \n\n");
@@ -471,7 +471,7 @@ public class SidonieFollower extends NPCAwareContent
 			if (player.gender == 3) outputText("cock erupts in a hot, cummy mess, while you pussy wets itself with girlcum.");
 			outputText(" Not much later, the horse-girl’s body tenses, as she seems to be reaching her peak.\n\n");
 			outputText("\"<i>Huff, here it comes, [name]</i>\" the equine girl announces with a lusty moan. \"<i>Drink it all!</i>\"\n\n");
-			outputText("With that, she slams her horsecock down your throat one last time, which soon erupts in a cascade of thick, hot cum. Sidonie releases load after load of her seed down your gullet, bathing your taste buds in its salty flavour. Under the flood of spooge that it’s receiving, your belly quickly inflates, until you look so rotund that anyone would mistake your cum-filled paunch with a nine-months pregnancy. Once that you cannot hold more of her seed on your belly, you let go of Sidonie’s cock, letting her semen spray your face and chest.\n\n");
+			outputText("With that, she slams her horsecock down your throat one last time, which soon erupts in a cascade of thick, hot cum. Sidonie releases load after load of her seed down your gullet, bathing your taste buds in its salty flavor. Under the flood of spooge that it’s receiving, your belly quickly inflates, until you look so rotund that anyone would mistake your cum-filled paunch with a nine-months pregnancy. Once that you cannot hold more of her seed on your belly, you let go of Sidonie’s cock, letting her semen spray your face and chest.\n\n");
 			outputText("Tired from your sexual high, you let Sidonie take you on her arms and drop to her side on the couch, playfully licking her seed from your body with her equine tongue, until your " + player.skinFurScales() + " is clean.\n\n");
 			outputText("\"<i>Seems like you enjoyed it too, sweetheart</i>\" she remarks, seeing the ");
 			if (player.hasCock()) outputText("seed");
@@ -607,7 +607,7 @@ public class SidonieFollower extends NPCAwareContent
 
 	public function PCKnockedUpSidonieAnnouncement1():void {
 		clearOutput();
-		outputText("As you come back to camp, you see your camp carpenter, sitting next to your [Bedroll/Cabin] with a frown on her face. As she sees you, Sidonie stands, walking over to you. As she gets close, she pulls up her shirt, pointing down at her abs. \n\n");
+		outputText("As you come back to camp, you see your camp carpenter, sitting next to your [cabin] with a frown on her face. As she sees you, Sidonie stands, walking over to you. As she gets close, she pulls up her shirt, pointing down at her abs. \n\n");
 		outputText("“This is why I don’t usually catch, [Name]. You look down, and to your surprise, Sidonie’s belly is beginning to swell slightly. It’s barely noticeable unless directly pointed out, but Sidonie seems to be annoyed. \n\n");
 		outputText("“Well? What do you have to say for yourself?” Sidonie puts one hand on her hip, waiting for a response.  \n\n");
 		outputText(" \n\n");
@@ -620,7 +620,7 @@ public class SidonieFollower extends NPCAwareContent
 	}
 	public function PCKnockedUpSidonieAnnouncement2():void {
 		clearOutput();
-		outputText("You get into camp, to see your camp woodworker sitting by your (cabin/bedroll), a bowl of oats in her hand. You head over, sitting beside her, and she winces, patting her stomach.  \n\n");
+		outputText("You get into camp, to see your camp woodworker sitting by your ([Cabin]), a bowl of oats in her hand. You head over, sitting beside her, and she winces, patting her stomach.  \n\n");
 		outputText("“H-hey…” She seems a little embarrassed, but you wrap an arm around her shoulder. “Y-yeah, it’s what you think. I’m having another kid, and it’s yours.” She leans in. “Just…Hold me for a sec, would you?” You hold her for a few minutes, before she sighs, going back to her work and cracking her knuckles. “Thanks.” You see Sidonie swing her axe into one of the logs…Way harder than she needed to. Clearly Sidonie isn’t the happiest about being a mother again. \n\n");
 		doNext(playerMenu);
 	}

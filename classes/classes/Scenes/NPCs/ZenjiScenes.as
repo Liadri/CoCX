@@ -158,7 +158,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function part1TrollEncounterFightPCDefeated():void {
 			clearOutput();
 			zenjiPerspectiveOnPlayer(-4);
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				outputText("The troll looks down on you, bruised and beaten. \"<i>Ahaha, dat was fun, but it looks like someone couldn’t handle me. I’ll be gettin ma payment now if ya don't mind.</i>\"\n\n");
 				outputText("You see him rifling through your gem pouch as you black out.\n\n");
 			}
@@ -215,7 +215,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function part1TrollEncounterFightTOTHEDEATHPCDefeated():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				outputText("You fall to the ground, bruised and beaten, wounds too severe for you to walk off right now.\n\n");
 				if (player.cor < 90 + player.corruptionTolerance) {
 					outputText("\"<i>Qué lástima,</i>\" he growls, \"<i>Not even worth my time.</i>\"\n\n");
@@ -663,7 +663,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function part2TrollEncounterRepeatFightPCDefeated():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				if (flags[kFLAGS.ZENJI_PERSPECTIVE_ON_PLAYER] < 30) outputText("\"<i>[name]... Are you okay..? Would it help if I went easier? You don’ have ta fight me if you aren’t ready… Please, get some rest.</i>\"\n\n");
 				else outputText("\"<i>Das all ya got?</i>\" Zenji shakes his head, \"<i>Ya gotta try harder dan dat next time. Ya be safe out dere now.</i>\"\n\n");
 				zenjiPerspectiveOnPlayer(-4);
@@ -997,7 +997,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 		public function followerZenjiSparPCDefeated():void {
 			spriteSelect(SpriteDb.s_zenji);
 			clearOutput();
-			if (player.HP <= player.minHP()) {
+			if (Math.round(player.HP) <= Math.round(player.minHP())) {
 				outputText("You hold up your hand and tell him that you can't fight him anymore.\n\n");
 				outputText("\"<i>Ya did good, but I know ya can do betta next time. Here, I know a trick ta help ya recova.</i>\" Zenji examines you for any wounds he may have caused and holds his hand over you, you feel a little better after he's done. \"<i>Give it a moment, you may want ta see if ya can do anything about it personally, 'cause I don’t usually use my tricks to help othas.</i>\"\n\n");
 			}
@@ -2496,7 +2496,7 @@ public class ZenjiScenes extends NPCAwareContent implements SaveableState
 			clearOutput();
 			outputText("You decide that you don't want to work yourself before getting a good night's sleep with your lover. You tell Zenji that you just want to feel his embrace for now and relax in his arms.\n\n");
 			outputText("Zenji gives you a toothy smile as he moves the covers over, sliding into bed as you join him. You press up against his toned frame, his powerful body encompassing you as he wraps his fuzzy arms over you, ardently pulling you close into the warmth of his fur.");
-			if (player.tailType != Tail.NONE) outputText(" You feel his tail coil around you, you reflexively bring your [tail] to tangle with his, the two of you locking tails with each other.");
+			if (player.tailType != Tail.NONE) outputText(" You feel his tail coil around you, you instinctively bring your [tail] to tangle with his, the two of you locking tails with each other.");
 			else outputText(" You can feel his tail fondly stroke your body with tender caresses.");
 			if (player.tailType == Tail.FOX) outputText(" You hate to admit it, but Zenji’s tail just might almost kind of rival yours in terms of how soft and cuddly it is.");
 			outputText("\n\nHis erection is pressed up against you, but he doesn't press the matter further, seemingly content on sniffing you from time to time. The world becomes hazy and your consciousness drifts as you fall asleep in Zenji's soft embrace.\n\n");

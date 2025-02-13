@@ -351,7 +351,7 @@ public class PatchouliScene extends NPCAwareContent {
 		outputText("\"<i>Oh but that's where you're wrong [name], I never was sane to begin with. Everyone from my homeland is mad one way or another and if I may be honest I’m one of the craziest. Now I’m not only crazy, I’m literally crazy for you so lets go mad together!</i>\"\n\n");
 		if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 		else player.createKeyItem("Radiant shard", 1,0,0,0);
-		outputText("<b>As if remembering something she pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>\n\n");
+		outputText("<b>As if remembering something she pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>\n\n");
 		flags[kFLAGS.PATCHOULI_FOLLOWER]      = BIMBO;
 		flags[kFLAGS.PATCHOULI_GIRL_OR_MORPH] = 0;
 		flags[kFLAGS.PATCHOULI_CUP_SIZE]      = 5;
@@ -382,7 +382,7 @@ public class PatchouliScene extends NPCAwareContent {
 			} else {
 				outputText("look like your typical cat morph");
 			}
-			outputText(". However the color of her fur is clearly unnatural. Striped black on a background of purple, Patchoulie’s fur clearly does not belong on any normal cat. Her hair which used to be of the same messed up color as her fur are now divided between strands of platinum " + flags[kFLAGS.PATCHOULI_HAIR_COLOR] + " and purple, like someone whose head would feature on a deck of cards. ");
+			outputText(". However, the color of her fur is clearly unnatural. Striped black on a background of purple, Patchoulie’s fur clearly does not belong on any normal cat. Her hair which used to be of the same messed up color as her fur are now divided between strands of platinum " + flags[kFLAGS.PATCHOULI_HAIR_COLOR] + " and purple, like someone whose head would feature on a deck of cards. ");
 			outputText("Her fur is hardly the only thing ‘unnatural’ about her as she almosts smile constantly, not just once in a while, with the most unsettlingly lewd grin she can muster. Patchoulie’s latest joy of late is to make you as emotionally uncomfortable and guilty as she can before sex. She’s currently laid back on a tree branch, her green cat eyes observing you with interest, her tail twitching every now and then with the infinite patience of someone up to no good.\n\n");
 			outputText("\"<i>Nya, having a good view [name]? Feel free to admire me all you like, I reaaaaally love being looked at. Especially when it's by you. Oh, you are such an irredeemable pervert.</i>\"\n\n");
 			outputText("Gosh the worst is she’s bloody right. You indeed have been having short glances at her " + Appearance.breastCup(flags[kFLAGS.PATCHOULI_CUP_SIZE]) + " breasts and constantly dripping pussy");
@@ -497,7 +497,7 @@ public class PatchouliScene extends NPCAwareContent {
 		} else {
 			outputText("girl");
 		}
-		outputText("’s throat full of jizz, the cheshire purring as she drinks every drop of it. However your partner is hardly sated.\n\n");
+		outputText("’s throat full of jizz, the cheshire purring as she drinks every drop of it. However, your partner is hardly sated.\n\n");
 		outputText("\"<i>Nyaaaaa~ It’s my turn to feel good mate. So go ahead and punish my hole... hard.</i>\"\n\n");
 		outputText("Wait what? You barely get the chance to catch your breath before the cat slut takes hold of your cock again, this time guiding it straight to her vagina. She purrs softly as your [cock] slides in and then you're already gone for a new round. The cheshire cat ");
 		if (flags[kFLAGS.PATCHOULI_GIRL_OR_MORPH] == 0) {
@@ -563,7 +563,7 @@ public class PatchouliScene extends NPCAwareContent {
 		} else {
 			outputText("boy");
 		}
-		outputText(". However I don’t mind it, It's exactly how I want my mate to be, completely perverted.</i>\"\n\n");
+		outputText(". However, I don’t mind it, It's exactly how I want my mate to be, completely perverted.</i>\"\n\n");
 		outputText("Well considering the cum still dripping from her cunt you guess the word mate applies as no matter how you sex her, she manages to get your dick in the right spot anyway.\n\n");
 		player.sexReward("no", "Dick");
 		endEncounter();

@@ -68,7 +68,7 @@ import classes.PerkClass;
 
         public function MutationTemplate() {
             // replace SLOT_NONE with other SLOT_XXXX constant
-            super(mName + " IM", mName, SLOT_NONE, 3, true);
+            super(mName + " IM", mName, SLOT_NONE, 3);
         }
 
     }

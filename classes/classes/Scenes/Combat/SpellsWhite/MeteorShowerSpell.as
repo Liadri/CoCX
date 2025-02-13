@@ -61,7 +61,7 @@ public class MeteorShowerSpell extends AbstractWhiteSpell{
 	
 	public function calcDamage(target:Monster, randomize:Boolean=true, casting:Boolean = true):Number {
 		var baseDamage:Number = scalingBonusIntelligence(randomize)*2;
-		if (player.weaponRangeName == "Artemis") baseDamage *= 1.5;
+		daaamageaddons(baseDamage);
 		return adjustSpellDamage(
 				baseDamage,
 				DamageType.FIRE,

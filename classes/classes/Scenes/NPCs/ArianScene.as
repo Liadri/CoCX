@@ -132,10 +132,10 @@ Corruption Path (Arian's body is drastically altered, but [Arian eir] personalit
 	}
 		public function ArianScene()
 		{
-		pregnancy = new PregnancyStore(PregnancyStore.INCUBATION_ARIAN, 0, 0, 0);
-		pregnancy.addPregnancyEventSet(PregnancyStore.PREGNANCY_PLAYER, 140, 90, 50);
-		EventParser.timeAwareClassAdd(this);
-		Saves.registerSaveableState(this);
+			pregnancy = new PregnancyStore(kFLAGS.ARIAN_PREGNANCY_TYPE, kFLAGS.ARIAN_PREGNANCY_INCUBATION, 0, 0);
+			pregnancy.addPregnancyEventSet(PregnancyStore.PREGNANCY_PLAYER, 140, 90, 50);
+			EventParser.timeAwareClassAdd(this);
+			Saves.registerSaveableState(this);
 		}
 		private function ArianPregChance():void {
 			//Get out if already pregged.
@@ -144,7 +144,7 @@ Corruption Path (Arian's body is drastically altered, but [Arian eir] personalit
 			//1% chance per 100mLs of cum, max 15%
 			var score:Number = Math.min(player.cumQ()/100,5);
 			score += player.virilityQ() * 200;
-			outputText("Electra checking virility score " + score);
+			outputText("Arian checking virility score " + score);
 			if((player.cumQ() > (score >= rand(100)) || player.hasPerk(PerkLib.PilgrimsBounty))) {
 				preg = true;
 			}
@@ -159,14 +159,13 @@ Corruption Path (Arian's body is drastically altered, but [Arian eir] personalit
 		//Implementation of TimeAwareInterface
 		public function timeChange():Boolean
 		{
-
 			if (flags[kFLAGS.ARIAN_EGG_COUNTER] > 0) flags[kFLAGS.ARIAN_EGG_COUNTER]++;
 			if (model.time.hours > 23) {
 				if (arianScene.arianFollower() && flags[kFLAGS.ARIAN_VAGINA] > 0) flags[kFLAGS.ARIAN_EGG_EVENT]++;
 				flags[kFLAGS.ARIAN_LESSONS] = 0;
 				flags[kFLAGS.ARIAN_TREATMENT] = 0;
-				pregnancy.pregnancyAdvance();
 			}
+			pregnancy.pregnancyAdvance();
 			return false;
 		}
 
@@ -183,11 +182,11 @@ Corruption Path (Arian's body is drastically altered, but [Arian eir] personalit
 						ArianCarriesChampBabies3();
 						return true;
 				}
-				return false;
 			}
 			if (pregnancy.isPregnant && pregnancy.incubation == 0) {
 				ArianEggLaying();
 				pregnancy.knockUpForce(); //Clear Pregnancy
+				return true;
 			}
 			return false;
 		}
@@ -668,7 +667,7 @@ public function visitAriansHouse(back:Boolean = false):void {
 				outputText("\n\nArian opens the door, smiling brightly at you.  \"<i>Hello [name]!  Come in!</i>\"  [arian Ey] says, stepping back and holding the door for you.  You step in and Arian closes the door behind you and embraces you in a friendly hug.  You return [arian eir] hug with one of your own.");
 				outputText("\n\nBreaking the hug Arian leads you to [arian eir] table");
 				if(!player.isTaur()) outputText(" and offers you the chair nearby");
-				outputText(",  taking a" + player.isTaur ? "nother" : "" + " chair for [arian em]self.  \"<i>I love when you come visit, [name].  So, what are we going to do today?</i>\" [arian ey] asks, expectantly.");
+				outputText(",  taking a" + (player.isTaur() ? "nother" : "" + " chair for [arian em]self.  \"<i>I love when you come visit, [name].  So, what are we going to do today?</i>\" [arian ey] asks, expectantly."));
 			}
 			//(Display Options)
 			arianHomeMenu();
@@ -1216,7 +1215,7 @@ private function arianScalesTalk():void {
 		outputText("\"<i>Even when I recovered from my condition, I still saw it as something normal. Actually, I’m not even sure if their color was something related to my sickness, or their natural hue. Now, since I’m fully recovered, I’m not opposed to a color change, to celebrate my recovering, but...</i>\"\n\n");
 		outputText("But?\n\n");
 		outputText("\"<i>Most Marethians change the color of their bodies with dyes, but those dyes only work for hair and similar features, like fur or feathers. Scales have a surface that rejects most mixtures and won’t allow them to get changed, so how would you manage to get my scales dyed?</i>\"\n\n");
-		outputText("Luckily for [arian em], you answer, you had thought over the same problem earlier, so you spoke with the camp’s alchemist, and, using some Reptilium, and a few special dyes that you chose especially for Arian, you managed to make some dyes that’ll give [arian em] a totally new look, if [arian ey]’s ok using them, of course.");
+		outputText("Luckily for [arian em], you answer, you had thought over the same problem earlier, so you spoke with the camp’s alchemist, and, using some Reptilum, and a few special dyes that you chose especially for Arian, you managed to make some dyes that’ll give [arian em] a totally new look, if [arian ey]’s ok using them, of course.");
 	}
 	else {
 		outputText("You ask Arian if [arian ey]’d like to change the color of [arian eir] scales.\n\n");
@@ -1552,7 +1551,7 @@ private function takeYerLizardHomePartII():void {
 	flags[kFLAGS.ARIAN_SCALES] = 0.5;
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Arian pulls a shining shard from [arian eir] inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Arian pulls a shining shard from [arian eir] inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -2626,7 +2625,7 @@ private function doublePenetrateArian():void {
 
 		outputText("\n\n\"<i>I'm really sorry...</i>\"");
 
-		outputText("\n\nYou tell [arian em] that [arian ey] doesn't need to apologise, but you do need to know; are you going to be a father now?  Is [arian ey] really pregnant as a result of the sex you just had with [arian em]?");
+		outputText("\n\nYou tell [arian em] that [arian ey] doesn't need to apologize, but you do need to know; are you going to be a father now?  Is [arian ey] really pregnant as a result of the sex you just had with [arian em]?");
 
 		outputText("\n\nArian shakes [arian eir] head.  \"<i>Not really.  I didn't have a clutch of eggs for you to fertilize, so the answer is no,</i>\" [arian ey] says, with a slight tinge of disappointment.");
 
@@ -2829,6 +2828,7 @@ private function giveArianAnItem():void {
 //Remove this option once Arian's health hits 100.
 private function arianVitalityTincture():void {
 	clearOutput();
+	arianHealth(4);
 	outputText("Fishing around amongst your pockets, you withdraw a vial of that strange potion Giacomo peddles and offer it to the sickly lizan, explaining it will bolster [arian eir] constitution and fill [arian em] with permanent vitality.");
 
 	outputText("\n\nArian smiles gratefully at you.  \"<i>Thanks for doing this for me, [name].</i>\"");
@@ -2844,7 +2844,7 @@ private function arianVitalityTincture():void {
 	outputText("\n\nYou apologize, but, hey, medicine just tends to taste nasty anyway.  Still, it's doing [arian em] the world of good, now isn't it?");
 
 	outputText("\n\n\"<i>I guess I do feel better.  Thank you [name].</i>\" Arian smiles at you, already looking a bit better.");
-    if (arianHealth(10) == 100)
+    if (arianHealth() == 100)
         outputText(" \"<i>In fact... I don't think I need those potions anymore. I'll probably keep a couple of them just in case, but since I don't use my magic too often these days, I'm completely fine.</i>\"");
 
 	outputText("\n\nYou smile and stroke the lizan gently on [arian eir] head, telling [arian em] that [arian ey]'s welcome.  Now, you think it's time [arian ey] laid [arian em]self back down and got some rest; give the medicine time to work.  You promise you'll try and come back to see [arian em] later, but right now, [arian ey] needs to get some more rest.  Arian nods and settles [arian em]self on [arian eir] bed.");
@@ -3196,7 +3196,7 @@ private function giveArianLactaid():void {
 	}
 	else { //Lizard milk! Recover some HP and fatigue.
 		fatigue(-15);
-		HPChange(player.maxHP() * .2, false);
+		HPChange(player.maxHP() * .2, false, false);
 		outputText("\n\nAfter some time, Arian begins panting, sweating as [arian eir] body temperature goes up.  \"<i>I feel... hot.</i>\"  In an attempt to lower [arian eir] body temperature, Arian discards [arian eir] robes and lays down on [arian eir] bed, fanning [arian emself] with [arian eir] clawed hands.");
 
 		outputText("\n\nYou approach [arian em] cautiously, asking if [arian ey]'s okay.");
@@ -3420,7 +3420,7 @@ private function useReductoOnAriansAsshole():void {
 private function giveArianReptilum():void {
 	clearOutput();
 	player.consumeItem(consumables.REPTLUM);
-	outputText("Fingering the vial of reptilium, you smirk to yourself.  Quickly wiping it off your face, you instruct Arian to close [arian eir] eyes and open [arian eir] mouth, as you have a special surprise for [arian em].");
+	outputText("Fingering the vial of Reptilum, you smirk to yourself.  Quickly wiping it off your face, you instruct Arian to close [arian eir] eyes and open [arian eir] mouth, as you have a special surprise for [arian em].");
 
 	outputText("\n\nArian, quickly complies.  \"<i>Okay, but can you at least tell me what is this about?</i>\"  [arian ey] asks in curiosity.");
 
@@ -3432,9 +3432,9 @@ private function giveArianReptilum():void {
 
 	outputText("\n\n\"<i>Aww, come on, you can trust me.  I promise not to peek!</i>\"");
 
-	outputText("\n\nYou tell [arian em] it's more fun this way, popping the bottle of Reptilium open as you do so and following your words up by tipping it into the lizan's carelessly open mouth.");
+	outputText("\n\nYou tell [arian em] it's more fun this way, popping the bottle of Reptilum open as you do so and following your words up by tipping it into the lizan's carelessly open mouth.");
 
-	outputText("\n\n\"<i>I sweagrlpff-</i>\" the lizan's protests are cut short by the stream of cool reptilum being poured down [arian eir] throat.  [arian Ey] chokes a bit, but quickly adapts, drinking eagerly.  When you finish tipping the bottle and remove it from [arian eir] lips, Arian coughs a bit and licks [arian eir] lips.  \"<i>Hmm... that tasted good, what was it?</i>\"");
+	outputText("\n\n\"<i>I sweagrlpff-</i>\" the lizan's protests are cut short by the stream of cool Reptilum being poured down [arian eir] throat.  [arian Ey] chokes a bit, but quickly adapts, drinking eagerly.  When you finish tipping the bottle and remove it from [arian eir] lips, Arian coughs a bit and licks [arian eir] lips.  \"<i>Hmm... that tasted good, what was it?</i>\"");
 
 	outputText("\n\nYou tell [arian em] [arian ey]'ll just have to wait to find out, taking off [arian eir] blindfold and smiling wryly at [arian em].  \"<i>Umm... ok...</i>\"");
 	//(if ArianFirstRept == 1)
@@ -3534,7 +3534,7 @@ private function giveArianReptilum():void {
 
 		outputText("\n\nYou smile and nod your head; does [arian ey] like them?");
 
-		outputText("\n\n\"<i>Like them?  I love them!  You have no idea how much I longed to... to... to actually have two dicks like most of my people.  Thank you so much for this wonderful suprise [name]!</i>\"  [arian Ey] grins happily at you.");
+		outputText("\n\n\"<i>Like them?  I love them!  You have no idea how much I longed to... to... to actually have two dicks like most of my people.  Thank you so much for this wonderful surprise [name]!</i>\"  [arian Ey] grins happily at you.");
 		flags[kFLAGS.ARIAN_DOUBLE_COCK] = 1;
 	}
 	else {
@@ -4389,11 +4389,11 @@ private function arianAppearance():void {
 	if (flags[kFLAGS.ARIAN_BREASTS] > 0 && flags[kFLAGS.ARIAN_VAGINA] == 1) outputText("soft, feminine");
 	if (flags[kFLAGS.ARIAN_BREASTS] == 0 && flags[kFLAGS.ARIAN_COCK_SIZE] > 0) outputText("masculine");
 	outputText(" figure.\n\n");
-	outputText("Arian’s head is reptilian in shape, with a long snout. The teeth in [arian eir] mouth, tough sharp as those of a lizan, look much less menacing and predatory as the others that you’ve seen. ");
+	outputText("Arian’s head is reptilian in shape, with a long snout. The teeth in [arian eir] mouth, though sharp as those of a lizan, look much less menacing and predatory as the others that you’ve seen. ");
 	outputText("Like [arian eir] body, the lizan’s head is covered ");
 	if (flags[kFLAGS.ARIAN_SCALES] <= 1) outputText("entirely in white scales, probably a harmless remnant of [arian em] time of sickness");
 	if (flags[kFLAGS.ARIAN_SCALES] == 2) outputText("in bright turquoise scales, turning a lighter shade of the same color upon reaching to [arian eir] neck, while [arian eir] inner neck has creamy-gold colored scales");
-	if (flags[kFLAGS.ARIAN_SCALES] == 3) outputText("in lovely pink scales, turning a into a pinkish-white upon reaching to [arian eir] neck. Purplish-pink accents surround [arian eir] eyes and upper head");
+	if (flags[kFLAGS.ARIAN_SCALES] == 3) outputText("in lovely pink scales, turning into a pinkish-white upon reaching to [arian eir] neck. Purplish-pink accents surround [arian eir] eyes and upper head");
 	if (flags[kFLAGS.ARIAN_SCALES] == 4) outputText("in scales, the ones on [arian eir] head a soft, almost pinkish ruby-red, softly turning to orange-golden at [arian eir] neck. [arian Eir] inner neck has a creamy-golden coloration");
 	outputText(". [arian Eir] ears are small holes at the sides of [arian eir] head, utterly concealed from view given its small size. Coming from Arian’s snout, a long, forked tongue slips out from time to time.\n\n");
 	outputText("Situated upon [arian eir] chest are two ");
@@ -4440,12 +4440,11 @@ private function arianAppearance():void {
 //Arian Pregnancy Scenes
 
 public function ArianPregChampCarries1():void {
-		clearOutput();
-		outputText("As you get back to camp, you see your lizard-wizard lover, Arian, standing by your (tent/cabin). You ask what brings [arian em] over, and he tilts his head.  \n\n");
-		outputText("\"<i>I apologise for the intrusion…But something’s felt…a little off about you, ever since we…</i>\" He blushes, and you almost roll your eyes. Since you had sex last.  \n\n");
+		outputText("As you get back to camp, you see your lizard-wizard lover, Arian, standing by your [cabin]. You ask what brings [arian em] over, and [arian ey] tilts [arian eir] head.  \n\n");
+		outputText("\"<i>I apologize for the intrusion…But something’s felt…a little off about you, ever since we…</i>\" He blushes, and you almost roll your eyes. Since you had sex last.  \n\n");
 		outputText("\"<i>Yes.</i>\" Arian steps forward. \"<i>I-if you wouldn’t mind, I want to…examine you.</i>\"  \n\n");
 		outputText("Giving your bashful lover a wink, you ask [arian em] if [arian ey] didn’t get a thorough enough examination last time.  \n\n");
-		outputText("\"<i>Not like that, [name].</i>\" [arian ey] scratches his neck, tail twining around one of his legs. \"<i>I mean your mana’s flowing a little differently, in a way consistent with…</i>\" [arian ey] blushes. \"<i>Consistent with lizan pregnancy.</i>\"  \n\n");
+		outputText("\"<i>Not like that, [player].</i>\" [arian ey] scratches his neck, tail twining around one of his legs. \"<i>I mean your mana’s flowing a little differently, in a way consistent with…</i>\" [arian ey] blushes. \"<i>Consistent with lizan pregnancy.</i>\"  \n\n");
 		outputText("A little surprised, you ask if [arian ey] can really tell so soon. [arian ey] nods. \"<i>Yes, but I need…contact to be sure.</i>\"  \n\n");
         outputText("You decide to humour Arian, especially if [arian ey] can see so early. You bare your stomach, and he steps gingerly in, placing a scaly hand on you. Arian closes [arian em] eyes, and you can feel a little tingle as a pulse of mana flows through you.  \n\n");
 		outputText("Arian opens [arian em] eyes, and you can see a single tear well up in his left eye. You ask him what’s wrong, and he wraps [arian em] arms around you, squeezing shockingly tight for someone of [arian em] health. \n\n");
@@ -4463,13 +4462,13 @@ public function ArianPregChampCarries1():void {
 doNext(playerMenu);
 }
 public function ArianPregChampCarries2():void {
-		clearOutput();
+	spriteSelect(SpriteDb.s_arian);
 		outputText("You can feel a slight pressure in your stomach as you move around. Your belly feels slightly stiff. You put a hand on your stomach, and with a little experimental touching, you can pinpoint a small, hard section. Those…must be the eggs. You have a sudden urge to go see Arian. You shake yourself, getting back to your day.  \n\n"); 
 		outputText(" \n\n");
 doNext(playerMenu);
 }
 public function ArianPregChampCarries3():void {
-		clearOutput();
+	spriteSelect(SpriteDb.s_arian);
 		outputText("The eggs have grown to an uncomfortable size, and your stomach is bulging. Anyone with eyes can tell you’re pregnant, and you can feel the eggs shifting when you move quickly.  \n\n"); 
 		outputText("Arian walks out, catching you as you’re sitting by the fire. \"<i>Are you alright?</i>\" He asks, concerned. He sits beside you, offering you his hand. You take it, giving him a little smile. You tell Arian that you’re fine…You just needed to sit for a second.  \n\n");
         outputText("He leans in, wrapping his tail gently around your waist. \"<i>Mind if I join you?</i>\" You just nod, and he beams. \"<i>I don’t know if…This helps at all…But you look really good right now.</i>\" He blushes, and you give the lizan mage a raised eyebrow.  \n\n"); 
@@ -4486,20 +4485,20 @@ doNext(playerMenu);
 }
 
 public function ArianCarriesChampBabies1():void {
-		clearOutput();
+	spriteSelect(SpriteDb.s_arian);
 		outputText("Arian approaches you, a slightly sheepish expression on her face. \"<i>Would you come with me, please?</i>\" You nod, and follow Arian into her tent. She sits down, motioning for you to join her. You see no reason to stay standing, and as Arian hands you a cup of tea, she looks down at the table, blushing slightly.  \n\n"); 
 		outputText("\"<i>...So…I don’t know how much you know about Lizan anatomy…</i>\" She begins, tapping one foot. \"<i>But the last time we…Made love, it was a day where my eggs were…Available.</i>\" You blink, before clarifying. So Arian is…Pregnant? \n\n");
 		outputText("\"<i>Well…Yes.</i>\" She blushes, looking down and away. \"<i>Look…I’m concerned, that’s all. I wasn’t in the best shape before I met you, and even now, I’m not exactly a physical specimen.</i>\"  \n\n");
 		outputText("Teasingly, you tell Arian that you take exception to that. She’s beautiful, and how dare she degrade herself like that.  \n\n");
-		outputText("\"<i>You know what I mean by that, [name]</i>\", she says, a little annoyed. You hold out your hands to your Lizan lover, and she takes them. You notice that Arian’s hands are shaking.  \n\n");
+		outputText("\"<i>You know what I mean by that, [Name]</i>\", she says, a little annoyed. You hold out your hands to your Lizan lover, and she takes them. You notice that Arian’s hands are shaking.  \n\n");
 		outputText("You ask her if it has more to do with the fact that she was born male, and Arian sighs, nodding slowly. \"<i>I know the alchemist who made the potion quite well, and that she wouldn’t have given me a dud…but I still worry.</i>\" You give Arian a reassuring smile and tell her that, worse comes to worst, you try again. You bring a hand to Arian’s cheek, telling her that no matter what, she’s still going to be here, and so will you.  \n\n");
         outputText("\"<i>Th-thank you.</i>\" Arian blushes at the attention, leaning in and resting her head against yours. \"<i>I’ll be fine now, if you need to go…Just promise to come back to me.</i>\" You promise, and she smiles, her hands no longer shaking. She lets go, and puts a hand to her stomach. \"<i>Well…I suppose I can’t really do much magic for the next few days.</i>\"  \n\n");
-		outputText("She lets go of your hands and stands, grabs a book from the back. \"<i>But thankfully, I did prepare myself for…This.</i>\" She sits down. \"<i>That’s all I needed to say, [name]. Thank you for being there for me.</i>\" \n\n");
+		outputText("She lets go of your hands and stands, grabs a book from the back. \"<i>But thankfully, I did prepare myself for…This.</i>\" She sits down. \"<i>That’s all I needed to say, [Name]. Thank you for being there for me.</i>\" \n\n");
 		outputText("You give your Lizan lover a kiss on the forehead, excusing yourself.  \n\n");
 doNext(playerMenu);
 }
 public function ArianCarriesChampBabies2():void {
-		clearOutput();
+	spriteSelect(SpriteDb.s_arian);
 		outputText("As you get back into camp, you see Arian, holding her stomach and groaning slightly. Her stomach’s grown, but you wouldn’t immediately jump to ‘pregnant’ if you didn’t already know. You quickly make your way to her, and as she sees you, she smiles weakly.  \n\n"); 
 		outputText("\"<i>Hello…</i>\" She says, waving her free hand. \"<i>How are you?</i>\" You take her hand, saying that you’re fine…But you’re more worried about her.  \n\n");
 		outputText("\"<i>Oh, this?</i>\" Arian shakes her head. \"<i>J-just had a little discomfort, that’s all.</i>\" Her eyes brighten, and she gives you a pouty frown. \"<i>But, since you’re here…</i>\" You groan internally, and Arian continues. \"<i>Could you just…give me a belly rub?</i>\"  \n\n");
@@ -4517,14 +4516,14 @@ doNext(arianSexMenu);
 }
 
 public function ArianCarriesChampBabies3():void {
-		clearOutput();
+		spriteSelect(SpriteDb.s_arian);
 		outputText("You see Arian, looking at her egg-filled belly with a small frown on her face. You ask what’s wrong, and she shakes her head. \"<i>I feel so…heavy. So bloated. I don’t do much physical activity, but this…Is so inconvenient. I just want them out of me.</i>\"  \n\n"); 
 		outputText("\"<i>No offence, but I really hope so.</i>\" You give Arian an encouraging smile, before heading back to what you were doing.  \n\n");
 doNext(playerMenu);
 }
 
 public function ArianPCLaysEggs():void {
-		clearOutput();
+	spriteSelect(SpriteDb.s_arian);
 		outputText("You feel your stomach lurch, your womb suddenly feeling twice as heavy as before. A thick, throbbing feeling starts in your [pussy], spreading through your pelvis. You double over, the strange feeling overwhelming.  \n\n"); 
 		outputText("\"<i>[name]!</i>\" You hear Arian’s voice, but he sounds like he’s so far…away…You feel dizzy, and Arian catches you as you begin to fall over. \"<i>-Ne secon-</i>\"... \"<i>-get my chair!</i>\" Suddenly, you see a bright light on your midsection, and you snap back to yourself. You’re being held up by Arian, who’s got a hand on your gravid belly, healing spell already working. \"<i>Can you make it to my tent?</i>\"  \n\n");
 		outputText("You nod, and Arian helps you hobble into his tent. Inside, you see an odd chair, with a hole in the middle, and a padded basket underneath.  \n\n");
@@ -4543,13 +4542,13 @@ doNext(playerMenu);
 }
 
 public function ArianEggLaying():void {
-		clearOutput();
+		spriteSelect(SpriteDb.s_arian);
 		outputText("You hear a cry from Arian’s tent. Rushing over, you see her doubled over, just outside her tent. Seeing you, Arian blushes bright red, waving you over.  \n\n"); 
 		outputText("\"<i>J-just help me into my tent, please.</i>\" She says, with gritted teeth. \"<i>I’ll be fine once I’m inside.</i>\" You follow her instructions, helping her into her tent. You notice that an odd-looking chair sits along the back, and Arian points to it. \"<i>Over there.</i>\" As you get closer, you notice that there’s a hole in the middle of the chair, with a padded basket underneath. \"<i>Laying is annoying</i>\", she says simply, through gritted teeth. \"<i>But I got that from Tel’Adre. Very handy.</i>\" You help her over to the chair, and she strips out of her robe and undergarments, giving them to you. You place them to one side, and Arian groans, sitting down, positioning her drooling cunt over the egg-hole.  \n\n");
 		outputText("Arian clutches her stomach with one hand, and you take her other hand, holding it tight. Arian gives you a worried smile, and you reassure her, putting a hand on Arian’s belly.  \n\n");
 		outputText("She gasps, trembling, closing her eyes as the tip of a pure-white egg crowns. Arian gasps, and it sinks slightly back in. You encourage your Lizan lover to push, and with a girly wail, Arian pushes the egg out. She’s gasping, pussy gaping, but you know she isn’t done yet. Taking Arian’s hand, you keep her steady. She looks at you, fear and pain in her eyes, but you act calm, your voice anchoring Arian.  \n\n");
         //calculate between 2-4 eggs
-		outputText("She pushes (2-4) eggs out, before finally collapsing back into her chair. For a few minutes, she passes out, and you decide to move her to her bed.  \n\n");
+		outputText("She pushes " + (rand(3)+2) + " eggs out, before finally collapsing back into her chair. For a few minutes, she passes out, and you decide to move her to her bed.  \n\n");
 		outputText("Arian wakes back up as you’re tucking her in, and she sits bolt upright. \"<i>The eggs! Where are they?!</i>\" She demands, and you gently, but firmly, lay Arian back down, telling her that you’re bringing them over. But Arian needs to rest and recover.  \n\n");
         outputText("As you bring the eggs over, Arian visibly relaxes, and as you place the basket at the foot of Arian’s bed, she smiles, motioning for you to join her.  \n\n");
         outputText("You sit beside Arian, and she nuzzles your hand. \"<i>Thank you for being here with me.</i>\" She sighs. \"<i>I’m pretty sure kid me would be properly horrified right now.</i>\" She says, chuckling. \n\n");
@@ -4561,8 +4560,8 @@ doNext(playerMenu);
 }
 
 public function ArianHatching():void {
-		clearOutput();
-		outputText("You hear an excited yell from Arian’s tent, and s/he pokes his/her head out, motioning wildly. \"<i>[name]! Come quick!</i>\" You rush over to Arian, and s/he pulls you into his/her tent.  \n\n"); 
+		spriteSelect(SpriteDb.s_arian);
+		outputText("You hear an excited yell from Arian’s tent, and s/he pokes his/her head out, motioning wildly. \"<i>[name]! Come quick!</i>\" You rush over to Arian, and s/he pulls you into his/her tent.  \n\n");
 		outputText("You stand beside Arian, not knowing what to do, and s/he points at the incubation basket, where you hear a slight cracking sound. \"<i>They’re hatching!</i>\" Arian says, rather unnecessarily, grabbing your hand, hopping up and down with excitement.  \n\n");
 		outputText("Cracks form on the largest egg, and a piece comes flying off as a white-scaled little head pokes out, closing its eyes against the light. The little lizan makes a high-pitched chirping noise, and you see a clawed hand breach the shell, sending little pieces out. Arian steps forward, slowly, as the little one stretches out their spine, chirping as they break the egg wide open. Arian extends his/her hand, and they look up, sheer wonder in their slitted eyes as Arian picks them up, cradling them in his/her arms.  \n\n");
 		outputText("A much louder crack comes from the smallest egg, and as it tips over onto its side, you see a more slender nose poke out, catching a glimpse of yellow eye before they turn around. To your shock, their tail pokes out of the hole in the egg.  \n\n");

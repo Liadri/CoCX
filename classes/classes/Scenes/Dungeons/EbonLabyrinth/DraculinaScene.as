@@ -40,7 +40,7 @@ public class DraculinaScene extends BaseContent {
 	public function encounterYes():void {
 		clearOutput();
         //spriteSelect(SpriteDb.s_Atlach_16bit);
-		if (player.racialScore(Races.DRACULA) >= 22) {
+		if (player.racialTier(Races.DRACULA) >= 1) {
 			outputText("As you explore the labyrinth, you find yourself in a familiar room. Nonchalantly, you push open the large, unassuming stone door to enter the vampire's lair. If you were another person, this would certainly be your demise, being but another snack for the entity that dwells here, but in your case, you are a different type of deal entirely. You enter the dwelling without hesitation, ears perking up to your surroundings as you locate your kind easily, spotting her resting by a large stalactite.\n\n");
 			outputText("You fly to her in silence, surprising her with a sudden embrace as she is unable to track a heartbeat, something you lack entirely.\n\n");
 			outputText("She recoils, trying to shake you off, \"<i>What the hell, who are you, weirdo?! And where did you come from?!</i>\"\n\n");
@@ -196,13 +196,13 @@ public class DraculinaScene extends BaseContent {
 		IMutationsLib.BlackHeartIM.trueMutation = true;
         IMutationsLib.VampiricBloodstreamIM.trueMutation = true;
         IMutationsLib.HollowFangsIM.trueMutation = true;
-        if (player.hasPerk(PerkLib.RacialParagon)) flags[kFLAGS.APEX_SELECTED_RACE] = Races.DRACULA;
+        player.updateRacialParagon(Races.DRACULA);
         player.removeAllRacialMutation();
         outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
         player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
 		player.createPerk(PerkLib.Undeath, 0, 0, 0, 0);
 		player.createPerk(PerkLib.SoulDrinker, 0, 0, 0, 0);
-        player.createPerk(PerkLib.TransformationImmunity2,8,0,0,0);
+        player.createPerk(PerkLib.TransformationImmunity2, 9, 0, 0, 0);
 		outputText("\n<b>Gained Perk: Transformation Immunity</b>\n\n");
 		player.npcsThatLeaveSoullessPC();
 		if (combat.inCombat) cleanupAfterCombatTFEvent();

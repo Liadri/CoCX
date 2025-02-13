@@ -28,12 +28,22 @@ public class HumanDigestiveTractMutation extends IMutationPerkType
 				perChg1 += 3;
 				perChg2 += 20;
 			}
+            if (pTier >= 4) {
+				perChg1 += 4;
+				perChg2 += 25;
+			}
             pTier = (pTier == -1)? currentTier(this, player): pTier;
             if (pTier >= 1){
-                descS += "Your digestive tract improved allowing to better nourishment from all the ingested substances (+"+perChg1+"0%). Increase limit when PC gain weight from eating too much by "+perChg2+"";
+                descS += "Your digestive tract has improved, allowing better nourishment from all ingested substances (+"+perChg1+"0%). Increases the weight gain limit when overeating by "+perChg2+"";
+            }
+            if (pTier >= 4){
+                descS += "+10% of max hunger("+Math.round(player.maxHunger()*0.1)+")";
             }
             if (pTier >= 3){
-                descS += ". Can slowly remove harmful substances (-1% of lust per turn)";
+                descS += ". Can slowly remove harmful substances (-"+(pTier-2)+"% of lust per turn)";
+            }
+            if (pTier >= 4){
+                descS += " and provide minor resistance to poisonous food (+"+(pTier-2)+"0% poison resistance)";
             }
             if (descS != "")descS += ".";
             return descS;
@@ -72,7 +82,7 @@ public class HumanDigestiveTractMutation extends IMutationPerkType
 
         public function HumanDigestiveTractMutation() 
 		{
-			super(mName + " IM", mName, SLOT_MOUTH, 3);
+			super(mName + " IM", mName, SLOT_MOUTH, 4);
 		}
 		
 	}

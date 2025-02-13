@@ -44,7 +44,7 @@ public class TrollScenes extends BaseContent
 			outputText("You slowly move down his manhood as he fills up your vagina. So warm, so inviting, it’s almost addicting. Once you’ve reached the base of his shaft he bucks into you. The sudden intrusion causes you to yelp slightly. He continues bucking against you as you ride his length, bobbing up and down his shaft as he holds onto you. You press your hands on his manly pecs for support as you ride him. The scent of his musk starts to get to you and you begin to feel dizzy.\n\n");
 			player.cuntChange(18,true,true,false);
 			outputText("He grunts aggressively as you feel pressure building up, you’re so close now, you need more. You bounce up against him even more, but he stays at the same pace. You cry out as your orgasm hits, coating his manhood in girlcum"+(player.hasCock() ? " as you shoot ropes of cum on his chest":"")+".\n\n");
-			outputText("You realise that you still have a little time before he cums, do you want to let him finish inside you?\n\n");
+			outputText("You realize that you still have a little time before he cums, do you want to let him finish inside you?\n\n");
 			menu();
 			addButton(1, "Inside", encounterAdultMaleTrollLostFemaleRapeInside);
 			addButton(3, "Outside", encounterAdultMaleTrollLostFemaleRapeOutside);

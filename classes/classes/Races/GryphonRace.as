@@ -54,7 +54,8 @@ public class GryphonRace extends Race{
 				.legType(NOT(LowerBody.AVIAN), 0, -5)
 				.wingType(Wings.FEATHERED_AVIAN, +2)
 				.skinCoatType(Skin.FEATHER, +1)
-				.hasCockOfType(CockTypesEnum.GRYPHON, +1);
+				.hasCockOfType(CockTypesEnum.GRYPHON, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.HarpyHollowBonesIM);
 		

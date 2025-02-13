@@ -55,7 +55,8 @@ public class MelkieRace extends Race {
 				.femininity(GREATER_THAN(80), +1)
 				.hasVagina(+1)
 				.biggestTitSize(GREATER_THAN(3), +1)
-				.height(AT_LEAST(73), +1);
+				.height(AT_LEAST(73), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addMutation(IMutationsLib.MelkieLungIM);
 		addBloodline(PerkLib.MelkiesDescendant, PerkLib.BloodlineMelkie);

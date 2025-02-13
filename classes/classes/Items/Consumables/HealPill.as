@@ -24,9 +24,9 @@ import classes.PerkLib;
 			outputText("You pop the small pill into your mouth and swallow. ");
 			
 			if (player.HP < player.maxOverHP()) {
-				if (player.hasPerk(PerkLib.GoblinoidBlood) && player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 3) EngineCore.HPChange(Math.round((50 + player.tou) * 2 * player.postConsumptionMlt()), true);
-				else if ((player.hasPerk(PerkLib.GoblinoidBlood) && player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 2) || player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 3) EngineCore.HPChange(Math.round((50 + player.tou) * 1.5 * player.postConsumptionMlt()), true);
-				else EngineCore.HPChange((50 + player.tou)*player.postConsumptionMlt(), true);
+				if (player.hasPerk(PerkLib.GoblinoidBlood) && player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 3) EngineCore.HPChange(Math.round((50 + player.tou) * 2 * player.postConsumptionMlt()), true, false);
+				else if ((player.hasPerk(PerkLib.GoblinoidBlood) && player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 2) || player.perkv1(IMutationsLib.NaturalPunchingBagIM) >= 3) EngineCore.HPChange(Math.round((50 + player.tou) * 1.5 * player.postConsumptionMlt()), true, false);
+				else EngineCore.HPChange((50 + player.tou)*player.postConsumptionMlt(), true, false);
 				outputText("Some of your wounds are healed. ");
 			}
 			else

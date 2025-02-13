@@ -485,7 +485,7 @@ import classes.room;
 		{
 			clearOutput();
 			outputText("You head down the stairs into the hall proper to inspect the ramble hoard of eggs the basilisks collected. They’re mostly unfertilised harpy ovum, but you quickly pick out a number of differently coloured transformative eggs stolen from Gods know who.");
-			if (flags[kFLAGS.D3_DEMONIC_SCYTHE] == 0) outputText(" When searching you even finds something that looks like scythe. Where does it come frome among all those eggs?");
+			if (flags[kFLAGS.D3_DEMONIC_SCYTHE] == 0) outputText(" When searching you even finds something that looks like scythe. Where does it come from among all those eggs?");
 			menu();
 			
 			var flagNum:int = flags[kFLAGS.D3_EGGS_AVAILABLE];
@@ -670,14 +670,14 @@ import classes.room;
 		private function northwestcourtyardRoomFunc():Boolean
 		{
 			outputText("<b><u>Northwest Courtyard</u></b>\n");
-			outputText("The courtyard comes to an abrupt end here, hemmed in by a impressively high stone wall to the north, high enough to shame the walls in the other cardinal directions. The path is also bounded in by stonework to the west, forcing it to curve to the east and south around a bush that has been tastelessly shaped to resemble a turgid prick. The demons even went so far as to trim ivory flowers into a contiguous path along one side, very much looking like a stream of arboreal spunk.");
+			outputText("The courtyard comes to an abrupt end here, hemmed in by an impressively high stone wall to the north, high enough to shame the walls in the other cardinal directions. The path is also bounded in by stonework to the west, forcing it to curve to the east and south around a bush that has been tastelessly shaped to resemble a turgid prick. The demons even went so far as to trim ivory flowers into a contiguous path along one side, very much looking like a stream of arboreal spunk.");
 			return false;
 		}
 		
 		private function northcourtyardRoomFunc():Boolean
 		{
 			outputText("<b><u>North Courtyard</u></b>\n");
-			outputText("You stand before what can only be the entrance to Lethice’s throne room. It is unlabelled, but the immense door is unlike any you’ve seen in this world or the last. Constructed from some kind of pink-tinged metal and polished to a mirror sheen, this portal has had a lifetime of care poured into it. What’s more, intricate locking mechanisms overlap the edges of it, each one culminating in an intricately worked seal. Fortunately, each of the seals has been left opened. Security must not be much of a concern for the demon queen at this point in time. ");
+			outputText("You stand before what can only be the entrance to Lethice’s throne room. It is unlabeled, but the immense door is unlike any you’ve seen in this world or the last. Constructed from some kind of pink-tinged metal and polished to a mirror sheen, this portal has had a lifetime of care poured into it. What’s more, intricate locking mechanisms overlap the edges of it, each one culminating in an intricately worked seal. Fortunately, each of the seals has been left opened. Security must not be much of a concern for the demon queen at this point in time. ");
 			if (flags[kFLAGS.D3_GARDENER_DEFEATED] > 0 && flags[kFLAGS.D3_CENTAUR_DEFEATED] > 0 && flags[kFLAGS.D3_STATUE_DEFEATED] > 0)
 			{
 				outputText("The seal appears to be broken. You could move north and attempt to defeat Lethice for once and for all. Or you can move east and west through the courtyard, if you like.");

@@ -217,7 +217,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				if (player.farmingLevel >= 5) addButton(7, "Herb Bag (LowG)", pitchLHerbsBag).hint("Herbs Bag (Low Grade)");
 				else addButtonDisabled(7, "Herb Bag (LowG)", "Herbs Bag (Low Grade) Req. lvl 5 in Farming.");
 			}
-			if (Garden.PotionsBagSlot01Cap == 0) addButton(8, "Pot Bag (LowG)", pitchPotionsBag).hint("Potions Bag (Lowest Grade)");
+			if (Garden.PotionsBagSlot01Cap == 0) addButton(8, "Pot Bag (LowG)", pitchPotionsBag).hint("Potion Bag (Lowest Grade)");
 			if (player.hasKeyItem("Tarnished Ore Bag (Lowest grade)") >= 0) addButton(10, "Ore Bag (LowG)", pitchOreBag).hint("Ore Bag (Lowest Grade)");
 			if (Holidays.nieveHoliday()) {
 				if (flags[kFLAGS.CHRISTMAS_TREE_LEVEL] == 0) addButton(11, "Mysterious Seed", pitchMysteriousSeed);
@@ -660,9 +660,9 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 				doNext(miscMenu);
 			}
 			else {
-				outputText("\n\nYou decided to buy the bag. <b>You acquired Potions Bag (Lowest grade).</b>");
+				outputText("\n\nYou decided to buy the bag. <b>You acquired Potion Bag (Lowest grade).</b>");
 				player.gems -= 300;
-				player.createKeyItem("Potions Bag (Lowest grade)", 0, 0, 0, 0);
+				player.createKeyItem("Potion Bag (Lowest grade)", 0, 0, 0, 0);
 				Garden.PotionsBagSlot01Cap = 5;
 				Garden.PotionsBagSlot02Cap = 5;
 				Garden.PotionsBagSlot03Cap = 5;
@@ -1286,7 +1286,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 
 			function dickF():void {
 				sceneHunter.selectPureCor(["Succumb", pureF, "Let her have her way with you"],
-													["Agressive", corF, "Fuck the succubus like a slut she is"], 66);
+													["Aggressive", corF, "Fuck the succubus like the slut she is"], 66);
 				//=======================================
 				function pureF():void {
 					outputText("\nAgainst your better judgment, you've again partaken of the cerulean elixir and fallen asleep. You are quickly awakened by a thick nipple being thrust into your mouth and torrents of breast milk gushing down your throat as the succubus returns to have her way with you. Looking up, your eyes meet hers as a hungry manipulative grin stretches across her blue face. Unable to control your lust, your prick jumps to attention, which prompts the demoness to ");
@@ -1343,33 +1343,7 @@ public class Giacomo extends BaseContent implements TimeAwareInterface {
 					outputText("Without further acknowledgement, you take up your on your demonic wings to find your first \"meal\". The Succubus left behind simply giggles as she sees another of her kind take up the night in search for more meals and pleasure.");
 					outputText("At first you scour the land looking for a plaything to suck the fluids out of but to your disappointment discover that it’s all imp or goblin in the region. Thirsty for sex you sate yourself on the closest greenskin but it's about the cheapest meal you can get. Even as you retrieve and eat the skank pathetic soul you yearn for more. It dawns on you that the portal to your homeworld still exists and that inevitably new champions will be thrown in, pure humans you can enslave and use for your own gains. You could always hook up with an incubus but what could ever replace the sweet taste of a harem trained for your own needs and tastes?"+(flags[kFLAGS.LETHICE_DEFEATED] <= 0?" Heck that bitch demon queen hoards all the Lethicite in the realm to herself. You could probably claim it as your own by taking her down.":"")+"\n\n");
 					outputText("With new resolve you resume your unholy quest to take this world by storm and make it your playground!\n\n");
-					if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-					else {
-						if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-						else {
-							if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-							else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
-						}
-					}
-					player.legCount = 2;
-					player.skin.setBaseOnly({type:Skin.PLAIN, color1:"blue", pattern: Skin.PATTERN_DEMONIC_PLEASURE_RUNE});
-					transformations.TailDemonic.applyEffect(false);
-					transformations.HairHuman.applyEffect(false);
-					transformations.FaceDemon.applyEffect(false);
-					transformations.EyesDemon.applyEffect(false);
-					transformations.ArmsDemon.applyEffect(false);
-					transformations.TongueDemonic.applyEffect(false);
-					transformations.EarsElfin.applyEffect(false);
-					transformations.HornsDemonic.applyEffect(false);
-					transformations.AntennaeNone.applyEffect(false);
-					transformations.GillsNone.applyEffect(false);
-					transformations.WingsDemonicLarge.applyEffect(false);
-					transformations.RearBodyNone.applyEffect(false);
-					if (player.hasCock()) transformations.CockDemon().applyEffect(false);
-					if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
-					outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
-					player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
-					player.npcsThatLeaveSoullessPC();
+					consumables.DEMONME.demonizePlayer();
 					sharedEnd();
 				}
 				else {

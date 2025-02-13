@@ -69,7 +69,7 @@ import classes.Scenes.NPCs.Galia;
 			clearOutput();
 			outputText("She hovers over you defiantly, \"<i>To the winners goes the spoils.</i>\"\n\n");
 			outputText("Before you're offered a chance to recover, Galia begins another round of beating, albeit slightly less violent than before.");
-			HPChange(player.maxHP() * 0.1, false);
+			HPChange(player.maxHP() * 0.1, false, false);
 			cleanupAfterCombat();
 		}
 		public function GaliaLostSparring():void {

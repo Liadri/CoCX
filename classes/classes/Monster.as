@@ -301,6 +301,16 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (this is TrainingDummy) temp += ((this.spe*2000) * (1 + newGamePlusMod()));
 				else temp += ((this.spe*4) * (1 + newGamePlusMod()));
 			}
+			if (hasPerk(PerkLib.SeducerResilience)) {
+				if (this is TrainingDummy) {
+					temp += ((this.lib*6000) * (1 + newGamePlusMod()));
+					temp += ((this.sens*6000) * (1 + newGamePlusMod()));
+				}
+				else {
+					temp += ((this.lib*12) * (1 + newGamePlusMod()));
+					temp += ((this.sens*12) * (1 + newGamePlusMod()));
+				}
+			}
 			if (hasPerk(PerkLib.JobGuardian)) temp += 120;
 			if (hasPerk(PerkLib.FleshBodyApprenticeStage)) {
 				if (hasPerk(PerkLib.SoulApprentice)) temp += (400 * (1 + newGamePlusMod()));
@@ -357,6 +367,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.RefinedBodyI)) maxHP_mult1 += (0.05 * (1 + newGamePlusMod()));
 			if (hasPerk(PerkLib.LimitBreakerBody1stStage)) maxHP_mult1 += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerBody2ndStage)) maxHP_mult1 += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerBody3rdStage)) maxHP_mult1 += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) maxHP_mult1 += 0.2;
 			if (statusEffectv2(StatusEffects.SaiyanNumber1a) > 0) maxHP_mult1 += statusEffectv2(StatusEffects.SaiyanNumber1a);
 			if (statusEffectv2(StatusEffects.SaiyanNumber2a) > 0) maxHP_mult1 += statusEffectv2(StatusEffects.SaiyanNumber2a);
@@ -545,6 +556,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.DemonicDesireI)) multimax += (0.05 * (1 + newGamePlusMod()));
 			if (hasPerk(PerkLib.LimitBreakerHeart1stStage)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerHeart2ndStage)) multimax += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerHeart3rdStage)) multimax += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) multimax += 0.2;
 			if (statusEffectv3(StatusEffects.SaiyanNumber1a) > 0) multimax += statusEffectv3(StatusEffects.SaiyanNumber1a);
 			if (statusEffectv3(StatusEffects.SaiyanNumber2a) > 0) multimax += statusEffectv3(StatusEffects.SaiyanNumber2a);
@@ -622,6 +634,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			var multimax:Number = 1;
 			if (hasPerk(PerkLib.LimitBreakerHeart1stStage)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerHeart2ndStage)) multimax += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerHeart3rdStage)) multimax += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) multimax += 0.1;
 			temp *= multimax;
 			temp *= stats_multi_based_on_misc();
@@ -713,6 +726,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) multimax += 0.1;
 			if (hasPerk(PerkLib.LimitBreakerSoul1stStage)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerSoul2ndStage)) multimax += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerSoul3rdStage)) multimax += 0.15;
 			temp *= multimax;
 			temp *= stats_multi_based_on_misc();
 			temp = Math.round(temp);
@@ -799,6 +813,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.PrimalFuryI)) multimax += (0.05 * (1 + newGamePlusMod()));
 			if (hasPerk(PerkLib.LimitBreakerBody1stStage)) multimax += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerBody2ndStage)) multimax += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerBody3rdStage)) multimax += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) multimax += 0.2;
 			if (hasPerk(PerkLib.ICastAsuraFist)) multimax += 0.5;
 			if (statusEffectv4(StatusEffects.SaiyanNumber1a) > 0) multimax += statusEffectv4(StatusEffects.SaiyanNumber1a);
@@ -888,6 +903,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.ManaAffinityI)) tempmulti += (0.03 * (1 + newGamePlusMod()));
 			if (hasPerk(PerkLib.LimitBreakerSoul1stStage)) tempmulti += 0.05;
 			if (hasPerk(PerkLib.LimitBreakerSoul2ndStage)) tempmulti += 0.1;
+			if (hasPerk(PerkLib.LimitBreakerSoul3rdStage)) tempmulti += 0.15;
 			if (hasPerk(PerkLib.DeityJobMunchkin)) tempmulti += 0.1;
 			temp *= tempmulti;
 			temp *= stats_multi_based_on_misc();
@@ -914,14 +930,20 @@ import classes.Scenes.Combat.CombatAbilities;
 			if (hasPerk(PerkLib.EnemyEliteType)) temp += 1;
 			if (hasPerk(PerkLib.EnemyChampionType)) temp += 2;
 			if (hasPerk(PerkLib.EnemyBossType)) temp += 3;
-			if (this.level >= 25) temp *= 2;
-			if (this.level >= 50) temp *= 3;
-			if (this.level >= 75) temp *= 4;
-			if (this.level >= 100) temp *= 5;
-			if (this.level >= 125) temp *= 6;
-			if (this.level >= 150) temp *= 7;
-			if (this.level >= 175) temp *= 8;
-			if (this.level >= 200) temp *= 9;
+			if (this.level >= 25 && this.level < 50) temp *= 2;
+			if (this.level >= 50 && this.level < 75) temp *= 3;
+			if (this.level >= 75 && this.level < 100) temp *= 4;
+			if (this.level >= 100 && this.level < 125) temp *= 5;
+			if (this.level >= 125 && this.level < 150) temp *= 6;
+			if (this.level >= 150 && this.level < 175) temp *= 7;
+			if (this.level >= 175 && this.level < 200) temp *= 8;
+			if (this.level >= 200 && this.level < 225) temp *= 9;
+			if (this.level >= 225 && this.level < 250) temp *= 10;
+			if (this.level >= 250 && this.level < 275) temp *= 11;
+			if (this.level >= 275 && this.level < 300) temp *= 12;
+			if (this.level >= 300 && this.level < 325) temp *= 13;
+			if (this.level >= 325 && this.level < 350) temp *= 14;
+			if (this.level >= 350) temp *= 15;
 			if (hasPerk(PerkLib.EnemyForBeginnersType)) {
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 1) temp *= 1.5;
 				if (flags[kFLAGS.SECONDARY_STATS_SCALING] == 2) temp *= 2;
@@ -1164,7 +1186,15 @@ import classes.Scenes.Combat.CombatAbilities;
 				damage *= 2;
 			}
 			if ((hasPerk(PerkLib.JobWarrior) || hasPerk(PerkLib.JobBeastWarrior) || hasPerk(PerkLib.EnemyFeralType)) && wrath >= 50) {
-				if (this.level >= 36 && wrath >= 600 && rand(2) == 0) {
+				if (this.level >= 48 && wrath >= 800 && rand(2) == 0) {
+					wrath -= 800;
+					damage *= 10;
+				}
+				else if (this.level >= 42 && wrath >= 700 && rand(2) == 0) {
+					wrath -= 700;
+					damage *= 9;
+				}
+				else if (this.level >= 36 && wrath >= 600 && rand(2) == 0) {
 					wrath -= 600;
 					damage *= 8;
 				}
@@ -3177,7 +3207,7 @@ import classes.Scenes.Combat.CombatAbilities;
 			}
 			game.inCombat = false;
             game.player.clearStatuses(false);
-			if (!player.hasCock() && !player.hasStatusEffect(StatusEffects.MeetXuviel) && player.necklace != necklaces.SILCNEC) {
+			if (!player.hasCock() && !player.hasStatusEffect(StatusEffects.MeetXuviel) && player.necklace != necklaces.SILCNEC && !flags[kFLAGS.IN_INGNAM] && !player.hasStatusEffect(StatusEffects.SoulArena) && !inDungeon) {
 				outputText("\n\nYou'll probably wake up in six hours or so. Strangely, you discover a necklace you don’t recall putting on before around your neck. It is a simple chain with a silver cross.");
 				player.createStatusEffect(StatusEffects.MeetXuviel, 0, 0, 0, 0);
 				SceneLib.explorationEngine.stopExploring();
@@ -3413,15 +3443,15 @@ import classes.Scenes.Combat.CombatAbilities;
 		public function dropLoot():ItemType
 		{
 			//Chance of armor if at level 1 pierce fetish
-			if (!CoC.instance.plotFight && !this.noFetishDrop && flags[kFLAGS.PC_FETISH] == 1 && !hasPerk(PerkLib.NoItemsGained) && rand(10) == 0 && !player.hasItem(armors.SEDUCTA, 1) && !SceneLib.ceraphFollowerScene.ceraphIsFollower() && !player.hasStatusEffect(StatusEffects.CeraphOff)) {
+			if (!CoC.instance.plotFight && !this.noFetishDrop && flags[kFLAGS.PC_FETISH] == 1 && !hasPerk(PerkLib.NoItemsGained) && rand(10) == 0 && !player.hasItem(armors.SEDUCTA, 1) && !SceneLib.ceraphFollowerScene.ceraphIsFollower() && !player.hasStatusEffect(StatusEffects.CeraphOff) && !hasPerk(PerkLib.EnemyConstructType) && !hasPerk(PerkLib.EnemyTrueAngel)) {
 				return armors.SEDUCTA;
 			}
 			if (!game.plotFight && rand(50) == 0 && !hasPerk(PerkLib.NoItemsGained) && hasPerk(PerkLib.EnemyTrueDemon)) return headjewelries.GHORNAM;
-			if (!game.plotFight && rand(200) == 0 && !hasPerk(PerkLib.NoItemsGained) && player.level >= 7) return consumables.BROBREW;
-			if (!game.plotFight && rand(200) == 0 && !hasPerk(PerkLib.NoItemsGained) && player.level >= 7) return consumables.BIMBOLQ;
-			if (!game.plotFight && rand(1000) == 0 && !hasPerk(PerkLib.NoItemsGained) && player.level >= 7) return consumables.RAINDYE;
+			if (!game.plotFight && rand(200) == 0 && !hasPerk(PerkLib.NoItemsGained) && !hasPerk(PerkLib.EnemyConstructType) && !hasPerk(PerkLib.EnemyTrueAngel) && player.level >= 7) return consumables.BROBREW;
+			if (!game.plotFight && rand(200) == 0 && !hasPerk(PerkLib.NoItemsGained) && !hasPerk(PerkLib.EnemyConstructType) && !hasPerk(PerkLib.EnemyTrueAngel) && player.level >= 7) return consumables.BIMBOLQ;
+			if (!game.plotFight && rand(1000) == 0 && !hasPerk(PerkLib.NoItemsGained) && !hasPerk(PerkLib.EnemyConstructType) && !hasPerk(PerkLib.EnemyTrueAngel) && player.level >= 7) return consumables.RAINDYE;
 			//Chance of eggs if Easter!
-			if (!game.plotFight && rand(6) == 0 && !hasPerk(PerkLib.NoItemsGained) && SceneLib.holidays.isEaster()) {
+			if (!game.plotFight && rand(6) == 0 && !hasPerk(PerkLib.NoItemsGained) && SceneLib.holidays.isEaster() && !hasPerk(PerkLib.EnemyConstructType) && !hasPerk(PerkLib.EnemyTrueAngel)) {
 				return randomChoice(
 						consumables.BROWNEG,
 						consumables.L_BRNEG,
@@ -3541,7 +3571,13 @@ import classes.Scenes.Combat.CombatAbilities;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 3) temp3 += 0.3;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 4) temp3 += 0.4;
 				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 5) temp3 += 0.5;
-				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 6) temp3 += 0.6;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 6) temp3 += 0.6;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 7) temp3 += 0.7;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 8) temp3 += 0.8;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 9) temp3 += 0.9;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 10) temp3 += 1;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 11) temp3 += 1.1;
+				if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] >= 12) temp3 += 1.2;
 				if (temp3 > 0) healingPercent *= temp3;
 				if (hasPerk(PerkLib.EnemyTrueDemon)) healingPercent *= 2;
 				temp2 = Math.round(maxHP() * healingPercent / 100);
@@ -3758,6 +3794,14 @@ import classes.Scenes.Combat.CombatAbilities;
 					handleStunEnd(StatusEffects.HypnosisNaga);
 				}
 				else outputText("<b>[Themonster] is lost in your gaze unable to act.</b>\n\n");
+			}
+			if (hasStatusEffect(StatusEffects.Polarize)) {
+				addStatusValue(StatusEffects.Polarize, 1, -1);
+				if(statusEffectv1(StatusEffects.Polarize) <= 0) {
+					outputText("<b>" + capitalA + short + (plural ? " are" : " is") + " no longer polarized!</b>\n\n");
+					removeStatusEffect(StatusEffects.Polarize);
+				}
+				else outputText("<b>" + capitalA + short + (plural ? " are" : " is") + " currently polarized!</b>\n\n");
 			}
 			if(hasStatusEffect(StatusEffects.Earthshield)) {
 				outputText("<b>[Themonster] is protected by a shield of rocks!</b>\n\n");
@@ -3988,7 +4032,7 @@ import classes.Scenes.Combat.CombatAbilities;
 					if (hasPerk(PerkLib.EnemyLargeGroupType)) bloodfield *= 5;
 					bloodfield = SceneLib.combat.fixPercentDamage(bloodfield);
 					bloodfield = SceneLib.combat.doDamage(bloodfield);
-					EngineCore.HPChange(bloodfield, false);
+					EngineCore.HPChange(bloodfield, false, false);
 				}
 			}
 			if (hasStatusEffect(StatusEffects.BloodRequiem)) {

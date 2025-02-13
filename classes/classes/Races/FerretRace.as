@@ -45,7 +45,8 @@ public class FerretRace extends Race {
 				.eyeColor("golden", +1)
 				.tailType(Tail.FERRET, +1)
 				.legType(LowerBody.FERRET, +1)
-				.skinCoatType(Skin.FUR, +2);
+				.skinCoatType(Skin.FUR, +2)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(6, "ferret-morph")
 				.namesMaleFemaleMorph("ferret-boy", "ferret-girl", "ferret-morph")

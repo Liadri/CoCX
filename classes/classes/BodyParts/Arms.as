@@ -363,7 +363,7 @@ public class Arms extends SaveableBodyPart {
 	public static const FROSTWYRM:int = 45;
 	EnumValue.add(Types, FROSTWYRM, "FROSTWYRM", {
 		name:"frostwyrm",
-		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five fingered clawed hands. Your claws are strong enough to rip and tear through next to anything.",
+		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five-fingered clawed hands. Your claws are strong enough to rip and tear through next to anything.",
 		claw: true,
 		scales: true
 	});
@@ -420,7 +420,7 @@ public class Arms extends SaveableBodyPart {
 	public static const WENDIGO:int = 53;
 	EnumValue.add(Types, WENDIGO, "WENDIGO", {
 		name:"wendigo",
-		appearanceDesc: "Your arms and hands are practically human, save for the sharp white claws you have in place of normal nails.",
+		appearanceDesc: "Your arms and hands are practically human, save for the sharp white, claws you have in place of normal nails.",
 		claw: true
 	});
 
@@ -449,7 +449,7 @@ public class Arms extends SaveableBodyPart {
 	public static const JABBERWOCKY:int = 57;
 	EnumValue.add(Types, JABBERWOCKY, "JABBERWOCKY", {
 		name:"jabberwocky",
-		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five fingered clawed hands. Your claws are strong enough to rip and tear through next to anything though you tend to use your arms as a mean to keep your partners pinned down so they don't move during sex.",
+		appearanceDesc: "Your forearms are covered by scales which themselves are covered by fur, ending in five-fingered clawed hands. Your claws are strong enough to rip and tear through next to anything though you tend to use your arms as a mean to keep your partners pinned down so they don't move during sex.",
 		claw: true,
 		scales: true
 	});
@@ -558,13 +558,25 @@ public class Arms extends SaveableBodyPart {
 		claw: true,
 		fur: true
 	});
+	
+	public static const LICH:int = 72;
+	EnumValue.add(Types, LICH, "LICH", {
+		name:"lich",
+		appearanceDesc: "Your arms are human in shape and appearance but the nails of your hand glow with unholy powers. Your very touch drains the life out of the living."
+	});
 
-    public static const HUMANCHAINED:int = 72;
-    EnumValue.add(Types, HUMANCHAINED, "HUMAN", {
-        name:"human chained",
-        appearanceDesc: "You have a pair of normal human arms and though they dont have any unusual traits thick magical silver chains coils around your arms protecting them from arms. You know those chains to be fully part of your body and can use them to fight if necessary."
-    });
-
+	public static const MUMMY:int = 73;
+	EnumValue.add(Types, MUMMY, "MUMMY", {
+		name:"mummy",
+		appearanceDesc: "Your arms are human in shape and appearance but the skin is extremely sensitive to the touch. As such they are covered from the elbows to the tip of your fingers with bandages."
+	});
+  
+  public static const HUMANCHAINED:int = 74;
+  EnumValue.add(Types, HUMANCHAINED, "HUMAN", {
+    name:"human chained",
+    appearanceDesc: "You have a pair of normal human arms and though they dont have any unusual traits thick magical silver chains coils around your arms protecting them from arms. You know those chains to be fully part of your body and can use them to fight if necessary."
+  });
+   
 	public static function canFly(id: int): Boolean {
 		return Types[id].canFly || false;
 	}

@@ -61,7 +61,7 @@ public function thirdWonFightWithKindra():void {
 	outputText("(<b>Kindra has been added to the Followers menu!</b>)\n\n");
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Kindra pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Kindra pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	flags[kFLAGS.KINDRA_AFFECTION]++;
 	flags[kFLAGS.KINDRA_FOLLOWER] = 1;
 	cleanupAfterCombat();
@@ -113,7 +113,7 @@ public function meet2Kindra():void {
 public function kindraAppearance():void
 {
 	clearOutput();
-	outputText("Kindra is a sheep morph or so you believe. Her white hair flow on the back of her head like a mace. Her cyan pupils have something ominous about them through you cannot guess what. Her long sheep ears are alert to sound and she uses them alot when hunting. She doesn't wear any clothing letting her natural sheep wool grow wherever it is necessary to cover her privates. ");
+	outputText("Kindra is a sheep morph, or so you believe. Her white hair flows on the back of her head like a mace. Her cyan pupils have something ominous about them, though you cannot guess what. Her long sheep ears are alert to sound, and she uses them a lot when hunting. She doesn't wear any clothing, letting her natural sheep wool grow wherever it is necessary to cover her privates. ");
 	outputText("While it doesn't cover her body, she carries around a strange and ominous mask on her head in the shape of some beast.\n\n");
 	outputText("Her arms look about human albeit for the wool but her legs are shaped like those of a sheep ending in a pair of small hooves. Her lunar white skin is covered in strange tattoo design that seems to glow at time. From her well shaped ass grow a small sheep tail.\n\n");
 	outputText("Surprisingly for a sheep morph her breast almost reach C cup.\n\n");
@@ -136,7 +136,7 @@ public function trainingArcheryWithKindra():void {
 			if (player.isArtifactBow()) {
 				outputText("You ready your magical bow and shoot putting both your dexterity and will at the task and pushing them to the limit. Your arrows all impale one another the last striking the target with such impossible power the target fissure by the center in a cross shape and falls ground in rubble.\n\n");
 				outputText("Kindra applaud you.\n\n");
-				outputText("\"<i>Well wow I didn’t expect you to not only manage this feat but also actually destroy the target in the process pup. I can hereby and without doubt call you one of the Mareth's best archers! Your training is complete.</i>\"\n\n");
+				outputText("\"<i>Well wow I didn’t expect you to not only manage this feat but also actually destroy the target in the process pup. I can hereby and without doubt call you one of Mareth's best archers! Your training is complete.</i>\"\n\n");
 				outputText("\"<b>Learned Sidewinder ability!</b>\"\n\n");
 				if (!player.hasStatusEffect(StatusEffects.KnowsSidewinder)) player.createStatusEffect(StatusEffects.KnowsSidewinder, 0, 0, 0, 0);
 				bowSkill(10);

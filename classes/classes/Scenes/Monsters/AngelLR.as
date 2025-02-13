@@ -21,7 +21,7 @@ public class AngelLR extends AbstractAngel
 		private function angelReactsToLustiness():void {
 			outputText("Angel with it lil helpers stops their actions clearly overflowing with lust.");
 			outputText("\n\n\"<i>Tricky one opponent. Fighting like a demon.</i>\"");
-			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporaly avert your gaze. When you look again at spot it was you could only see a bit of powder.");
+			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporarily avert your gaze. When you look again at spot it was you could only see a bit of powder.");
 			gems = 0;
 			XP = 0;
 			HP = minHP() - 1;
@@ -31,7 +31,7 @@ public class AngelLR extends AbstractAngel
 			clearOutput();
 			outputText(this.short + " with it lil helpers stops their actions defeated.");
 			outputText("\n\n\"<i>Tricky one opponent. Need assistance.</i>\"");
-			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporaly avert your gaze. When you look again at spot it was you could see other angel with it helpers all ready to next round of the fight while the defeated one is recovering at the arena side.");
+			outputText("\n\nThe angel starts then to shine with pure white light so intense you must temporarily avert your gaze. When you look again at spot it was you could see other angel with it helpers all ready to next round of the fight while the defeated one is recovering at the arena side.");
 			touStat.core.value *= 0.25;
 			speStat.core.value *= 0.5;
 			wisStat.core.value *= 0.125;
@@ -190,11 +190,11 @@ public class AngelLR extends AbstractAngel
 			var str:String = "You're currently fighting"+(player.hasStatusEffect(StatusEffects.SoulArena)?" "+this.short+" a":"")+" low-rank angel"+(player.hasStatusEffect(StatusEffects.RiverDungeonA)?" of mist":"")+". It's looks like example of perfect human with large pair of wings and around it hoover pair of winged eyeballs with small mouth full of jagged teeth and one eyes having two";
 			if (hasStatusEffect(StatusEffects.TrueFormAngel)) str += " purple irises each. Around each of their bodies are two circles each with pair of eyes looking the same as the main eye and above angel head hoover halo.";
 			else str += " irises each, one red and the other blue. Angel eyes also mirrors this with right one been red and left blue one.";
-			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) str += " All three of them have their bodies covered in nearly not visible purple lines that glows ocassionaly.";
+			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) str += " All three of them have their bodies covered in nearly not visible purple lines that glows occasionally.";
 			if (hasStatusEffect(StatusEffects.TranscendentSoulField))
 			{
 				str += "\n\n<i>From time to time you can notice faint glimmers of ";
-				if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) str += "puple";
+				if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) str += "purple";
 				else str += "orange";
 				str += " protective field surrounding it.";
 				if (hasStatusEffect(StatusEffects.TrueFormAngel)) str += " After your attacks it take octagonal shapes for a brief moment.";

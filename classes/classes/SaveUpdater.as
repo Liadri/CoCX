@@ -405,6 +405,12 @@ public class SaveUpdater extends NPCAwareContent {
 			["xXx 7: Salvation", kACHIEVEMENTS.EPIC_XXX7_SALVATION, player.newGamePlusMod() >= 6],
 			["xXx 8: Genisys", kACHIEVEMENTS.EPIC_XXX8_GENISYS, player.newGamePlusMod() >= 7],
 			["xXx 9: Dark Fate", kACHIEVEMENTS.EPIC_XXX9_DARK_FATE, player.newGamePlusMod() >= 8],
+			["xXx 10: The Phantom Demon Menace", kACHIEVEMENTS.EPIC_XXX10_THE_PHANTOM_DEMON_MENACE, player.newGamePlusMod() >= 9],
+			["xXx 11: Attack of the Imps", kACHIEVEMENTS.EPIC_XXX11_ATTACK_OF_THE_IMPS, player.newGamePlusMod() >= 10],
+			["xXx 12: Revenge of the Lethice", kACHIEVEMENTS.EPIC_XXX12_REVENGE_OF_THE_LETHICE, player.newGamePlusMod() >= 11],
+			["xXx 13: A New Hope", kACHIEVEMENTS.EPIC_XXX13_A_NEW_HOPE, player.newGamePlusMod() >= 12],
+			["xXx 14: The Demon Empire Strikes Back", kACHIEVEMENTS.EPIC_XXX14_THE_DEMON_EMPIRE_STRIKES_BACK, player.newGamePlusMod() >= 13],
+			["xXx 15: Return of the Champion", kACHIEVEMENTS.EPIC_XXX15_RETURN_OF_THE_CHAMPION, player.newGamePlusMod() >= 14],
 			["My own Demon Weapon", kACHIEVEMENTS.EPIC_MY_OWN_DEMON_WEAPON, flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] > 0 || flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] > 0],
 			["Me Evolve", kACHIEVEMENTS.EPIC_ME_EVOLVE, EvolvingItems >= 1],
 			["Us Evolve", kACHIEVEMENTS.EPIC_US_EVOLVE, EvolvingItems >= 2],
@@ -419,6 +425,8 @@ public class SaveUpdater extends NPCAwareContent {
 			["The Devil Wears Prada", kACHIEVEMENTS.EPIC_THE_DEVIL_WEARS_PRADA, player.hasPerk(PerkLib.Phylactery)],
 			["Thriller", kACHIEVEMENTS.EPIC_THRILLER, player.isRace(Races.JIANGSHI)],
 			["Let It Go", kACHIEVEMENTS.EPIC_LET_IT_GO, player.isRace(Races.YUKIONNA)],
+			["Buried beneath the sand", kACHIEVEMENTS.EPIC_BURIED_BENEATH_THE_SAND, player.isRace(Races.MUMMY)],
+			["Vecna would be proud", kACHIEVEMENTS.EPIC_VECNA_WOULD_BE_PROUD, player.isRace(Races.LICH)],
 		];
 
 		for each (var ach:Array in achievementList)
@@ -433,6 +441,7 @@ public class SaveUpdater extends NPCAwareContent {
 		if (achStat.achievementsShadowEarned >= 25) awardAchievement("Shadow Knight", kACHIEVEMENTS.SHADOW_KNIGHT);
 		if (achStat.achievementsShadowEarned >= 45) awardAchievement("Shadow Paladin", kACHIEVEMENTS.SHADOW_PALADIN);
 		if (achStat.achievementsShadowEarned >= 70) awardAchievement("Shadow General", kACHIEVEMENTS.SHADOW_GENERAL);
+		if (achStat.achievementsShadowEarned >= 100) awardAchievement("Shadow Lieutenant General", kACHIEVEMENTS.SHADOW_LIEUTENANT_GENERAL);
 		//Epic
 		if (achStat.achievementsTotalCurrentlyUnlocked >= 10) awardAchievement("Achievementception", kACHIEVEMENTS.EPIC_ACHIEVEMENTCEPTION);
 		if (achStat.achievementsTotalCurrentlyUnlocked >= 30) awardAchievement("Achievement within Achievement", kACHIEVEMENTS.EPIC_ACHIEVEMENT_WITHIN_ACHIEVEMENT);
@@ -987,10 +996,10 @@ public class SaveUpdater extends NPCAwareContent {
 			}
 			if (player.level > 6) player.perkPoints += 7;
 			else player.perkPoints += player.level + 1;
-			if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNLETS] > 0) {
-				if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNLETS] == 1) player.createStatusEffect(StatusEffects.SoulArenaGaunlets1, 2, 0, 0, 0);
-				else player.createStatusEffect(StatusEffects.SoulArenaGaunlets1, 2, 2, 0, 0);
-				flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNLETS] = 0;
+			if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNTLETS] > 0) {
+				if (flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNTLETS] == 1) player.createStatusEffect(StatusEffects.SoulArenaGauntlets1, 2, 0, 0, 0);
+				else player.createStatusEffect(StatusEffects.SoulArenaGauntlets1, 2, 2, 0, 0);
+				flags[kFLAGS.SOUL_ARENA_FINISHED_GAUNTLETS] = 0;
 			}
 			refundPerk(PerkLib.SenseCorruption);
 			refundPerk(PerkLib.SenseWrath);
@@ -1850,7 +1859,7 @@ public class SaveUpdater extends NPCAwareContent {
 				//Reclaimed flag cleanup. Just leaving it here until the next save update.
 				flags[kFLAGS.HELSPAWN_HADSEX] = 0;
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.013;
-				outputText("<b>SceneHunter - new feature, 'Mock Fights', allowing to replay win/lose rape scenes with camp NPCs. Also, Loss Select wasn't properly saving its value outside of the save - fixed now.</b>")
+				outputText("<b>SceneHunter - new feature, 'Mock Fights', allowing you to replay win/lose rape scenes with camp NPCs. Also, Loss Select wasn't properly saving its value outside of the save - fixed now.</b>")
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.014) {
 				// Reorder SPP (Old slot unlock order: 56-69, 0-55, 70-97; new is 0-97)
@@ -1875,7 +1884,7 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.014;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.015) {
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00390] = 0; //Cleaning some temporal Hel flags
+				flags[kFLAGS.ZOMBIE_MUMMY_GENDER] = 0; //Cleaning some temporal Hel flags
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00392] = 0;
 				if (player.hasPerk(PerkLib.HclassHeavenTribulationSurvivor)) player.removePerk(PerkLib.HclassHeavenTribulationSurvivor);
 				if (player.hasPerk(PerkLib.GclassHeavenTribulationSurvivor)) player.removePerk(PerkLib.GclassHeavenTribulationSurvivor);
@@ -2094,7 +2103,7 @@ public class SaveUpdater extends NPCAwareContent {
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.031) {
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00477] = 0;
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_01043] = 0;
+				flags[kFLAGS.ARIAN_PREGNANCY_TYPE] = 0;
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_02600] = 0;
 				if (HelSpawnScene.incestEnabled() && flags[kFLAGS.HAD_FIRST_HELSPAWN_TALK]) { //printed only for "our" people in debug version
 					flags[kFLAGS.HELSPAWN_INCEST] = 1;
@@ -2130,7 +2139,7 @@ public class SaveUpdater extends NPCAwareContent {
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.033) {
 				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_02358] = 0; //reclaiming soulforce flag
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00773] = 1; //reclaiming essy flag
+				flags[kFLAGS.ARIAN_PREGNANCY_INCUBATION] = 1; //reclaiming essy flag
 				flags[kFLAGS.SCENEHUNTER_SHORT_PREG] = 1; //reclaiming no gore flag (wasn't used)
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.033;
 			}
@@ -2404,9 +2413,9 @@ public class SaveUpdater extends NPCAwareContent {
 				SceneLib.exploration.counters.beach               = flags[kFLAGS.TAMED_08_NAME];
 				SceneLib.exploration.counters.ocean               = flags[kFLAGS.TAMED_10_NAME];
 				SceneLib.exploration.counters.caves               = flags[kFLAGS.ATTACKS_ACCURACY_OFF];
-				SceneLib.exploration.counters.tundra              = flags[kFLAGS.DISCOVERED_TUNDRA];
+				SceneLib.exploration.counters.tundra              = flags[kFLAGS.IN_COMBAT_PLAYER_GOBLIN_GADGET_USED];
 				SceneLib.exploration.counters.glacialRiftOuter    = flags[kFLAGS.TAMED_06_NAME];
-				SceneLib.exploration.counters.ashlands            = flags[kFLAGS.DISCOVERED_ASHLANDS];
+				SceneLib.exploration.counters.ashlands            = flags[kFLAGS.COMBAT_MAGICAL_CHARM];
 				SceneLib.exploration.counters.volcanicCragOuter   = flags[kFLAGS.TAMED_07_NAME];
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.058;
 			}
@@ -2560,7 +2569,7 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.18;
 			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.19) {
-				outputText("\n\nPerks are no longer needed for ranged multi attacks");
+				outputText("\n\nPerks are no longer needed for ranged multi-attacks");
 				refundPerk(PerkLib.Multishot);
 				refundPerk(PerkLib.WildQuiver);
 				refundPerk(PerkLib.Manyshot);
@@ -2738,10 +2747,13 @@ public class SaveUpdater extends NPCAwareContent {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.58;
 				outputText("\n\nEmber was bit too... corrupt to our liking so we adjusted her corruption to new standards ^^");
 				if (flags[kFLAGS.TOOK_EMBER_EGG] > 0) flags[kFLAGS.EMBER_COR] -= 50;
-			}/*
+			}
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.59) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.59;
-			}
+				player.superPerkPoints += 1;
+				player.perkPoints += 2;
+				player.statPoints += 15;
+			}/*
 			if (flags[kFLAGS.MOD_SAVE_VERSION] < 36.60) {
 				flags[kFLAGS.MOD_SAVE_VERSION] = 36.60;
 			}

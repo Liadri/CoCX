@@ -32,7 +32,7 @@ public class HellHound extends Monster
 				player.takeFireDamage(temp, true);
 				player.takeLustDamage(20+(player.effectiveSensitivity()/10), true);
 				statScreenRefresh();
-				if(player.HP <= player.minHP()) {
+				if(Math.round(player.HP) <= Math.round(player.minHP())) {
 					doNext(SceneLib.combat.endHpLoss);
 					return;
 				}
@@ -65,7 +65,7 @@ public class HellHound extends Monster
 		override public function defeated(hpVictory:Boolean):void
 		{
 			if (player.hasStatusEffect(StatusEffects.RiverDungeonA)) SceneLib.combat.cleanupAfterCombatImpl();
-			else if (player.hasStatusEffect(StatusEffects.SoulArenaGaunlet)) SceneLib.hexindao.gaunletchallange2fight3();
+			else if (player.hasStatusEffect(StatusEffects.SoulArenaGauntlet)) SceneLib.hexindao.gauntletchallange2fight3();
 			else SceneLib.mountain.hellHoundScene.hellHoundPostFightOptions(hpVictory);
 		}
 

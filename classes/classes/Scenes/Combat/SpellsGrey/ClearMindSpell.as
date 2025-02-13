@@ -34,7 +34,7 @@ public class ClearMindSpell extends AbstractGreySpell {
 			if (display) {
 				outputText("As you incant the spell, you draw a small knife and cut your hand as the incantation ends, the jolt of pain clearing your mind and snapping you out of some of your lust.");
 			}
-			HPChange(-(player.maxHP() * 0.01), false);
+			HPChange(-(player.maxHP() * 0.01), false, false);
 			if (player.hasStatusEffect(StatusEffects.IsabellaStunned)) player.removeStatusEffect(StatusEffects.IsabellaStunned);
 			if (player.hasStatusEffect(StatusEffects.Stunned)) player.removeStatusEffect(StatusEffects.Stunned);
 			if (player.hasStatusEffect(StatusEffects.Whispered)) player.removeStatusEffect(StatusEffects.Whispered);

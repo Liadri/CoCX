@@ -46,7 +46,8 @@ public class CentipedeRace extends Race {
 				.armType(Arms.HUMAN, +1)
 				.antennaeType(Antennae.CENTIPEDE, +1)
 				.rearType(RearBody.CENTIPEDE, +1)
-				.earType(Ears.ELFIN, +1);
+				.earType(Ears.ELFIN, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		buildTier(8, "centipede")
 				.namesMaleFemale("centipede-man", "centipede-girl")

@@ -82,7 +82,7 @@ public class AbstractSoulSkill extends CombatAbility {
 		else leech *= 0.1;
 		leech = Math.round(leech);
 		if (leech > Math.round(player.maxHP() * leechCap)) leech = Math.round(player.maxHP() * leechCap);
-		HPChange(leech, false);
+		HPChange(leech, false, false);
 	}
 
 	protected function monsterDodgeSkill(skillName:String, display:Boolean = true, hitModifier:int = 0):Boolean {

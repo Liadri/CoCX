@@ -459,7 +459,7 @@ private function loseToMinoMobVeryPregnant():void {
 	else outputText("That baby isn't even the right species.  You probably get knocked up by every male you meet, but you always come back to suck off your sons.");
 	outputText("  How does that make you feel, whore?</i>\" asks the mouth-filling dick's owner.\n\n");
 
-	outputText("You hum, \"<i>good,</i>\" though it comes out as more of a, \"<i>mpppphhhhhh.</i>\"  Your drug-addled vision is all bubbles and synaesthetic rainbows at this point.  He chuckles malevolently when another minotaur resumes slapping your ass.  The minotaur in the driver's seat grabs your ");
+	outputText("You hum, \"<i>good,</i>\" though it comes out as more of a, \"<i>mpppphhhhhh.</i>\"  Your drug-addled vision is all bubbles and synesthetic rainbows at this point.  He chuckles malevolently when another minotaur resumes slapping your ass.  The minotaur in the driver's seat grabs your ");
 	if(player.horns.count > 0) outputText("horns");
 	else outputText("hair");
 	outputText(" and pulls you back, your tongue dragging over the underside of his shaft.  Then, with an abrupt shift, he plunges back in.  Once he bottoms out, he once more reverses direction - never stopping, never slowing.  He face-fucks you hard and fast while your ass is repeatedly smacked.");

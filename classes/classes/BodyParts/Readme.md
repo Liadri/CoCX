@@ -4,7 +4,7 @@
 Preface
 -------
 
-The `BodyParts` classes are container classes to keep multiple related propertys of complex body parts in a single class, so coders have a slightly easier job to handle them.<br>
+The `BodyParts` classes are container classes to keep multiple related properties of complex body parts in a single class, so coders have a slightly easier job to handle them.<br>
 For example many TFs reset the players skin by setting all of their values to their default value one by one. Or it could happen, that you forget to update the skinAdj when (re)setting the players Skin. This is now possible with one method call, like
 ```as3
 // Restore everything to its default
@@ -18,7 +18,7 @@ General methods
 ---------------
 
 ### restore()
-restores the bodypart to the default (human or nonexistant)
+restores the bodypart to the default (human or nonexistent)
 
 Example:
 ```as3
@@ -26,7 +26,7 @@ player.neck.restore();
 ```
 
 ### setProps(p:Object)
-sets multiple props at once. Skipped propertys are left untouched.
+sets multiple props at once. Skipped properties are left untouched.
 
 Example:
 ```as3
@@ -147,7 +147,7 @@ This is mainly a wrapper around
 ```as3
 player.underBody.skin.setProps(player.skin);
 ```
-The param `p:Object = null` can optionally be used to override certain skin propertys after copying them (See in the examples below)
+The param `p:Object = null` can optionally be used to override certain skin properties after copying them (See in the examples below)
 
 #### Examples
 ##### From lizard scales TF:
@@ -163,7 +163,7 @@ player.underBody.copySkin({ // copy the main skin props to the underBody skin ..
 });
 ```
 
-You can always set the propertys to be overridden manually after copying the skin-propertys:
+You can always set the properties to be overridden manually after copying the skin-properties:
 ```as3
 player.skin.setProps({
 	type: SKIN_TYPE_LIZARD_SCALES,

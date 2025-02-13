@@ -17,14 +17,14 @@ package classes.Items.Necklaces
 		
 		public function SilverCrossNecklace() 
 		{
-			super("SilCNec", "SilverCrossNecklace", "Silver cross necklace", "a Silver cross necklace", 0, 0, 400, "A small chain with a silver cross or X attached. At first glance, it seems to be a very ordinary accessory. \n\nType: Jewelry (Necklace) \nBase value: 800 \nSpecial: +50% to tease and magical damage.","Necklace");
+			super("SilCNec", "SilverCrossNecklace", "Silver cross necklace", "a Silver cross necklace", 0, 0, 400, "A small chain with a silver cross or X-shaped pendant attached. At first glance, it seems to be a very ordinary accessory. \n\nType: Jewelry (Necklace) \nBase value: 800 \nSpecial: +50% to tease and magical damage.","Necklace");
 		}
 		
 		override public function canUnequip(doOutput:Boolean):Boolean {
 			if (!CoC.instance.player.hasPerk(PerkLib.Soulless)) {
 				if (doOutput) {
 					outputText("<b>You realize, to your horror, that the chain of the necklace somehow shrunk to the point where you can no longer get the item off your neck. ");
-					outputText(""+(CoC.instance.player.hasStatusEffect(StatusEffects.MeetXuviel) && CoC.instance.player.statusEffectv1(StatusEffects.MeetXuviel) > 0?"Obviously, Xuviel wouldn’t want his target to escape his clutches so easily.":"Just what is going on!?")+" You need to find a way to remove this necklace!</b>");
+					outputText(""+(CoC.instance.player.hasStatusEffect(StatusEffects.MeetXuviel) && CoC.instance.player.statusEffectv1(StatusEffects.MeetXuviel) > 0?"Obviously, Xuviel wouldn’t want his target to escape his clutches so easily.":"Just what is going on!?")+" You need to find a way to remove this necklace! </b>");
 				}
 				return false;
 			}
@@ -41,7 +41,7 @@ package classes.Items.Necklaces
 		}
 		
 		override public function unequipText(slot:int):void{
-			outputText("You "+(CoC.instance.player.hasStatusEffect(StatusEffects.MeetXuviel)?"untie master Xuviel’s necklace with nostalgic fondness":"untie necklace")+". You could keep it on but right now you want to try a different accessory. It comes off with no difficulty obviously, putting it back should also be child’s play.");
+			outputText("You "+(CoC.instance.player.hasStatusEffect(StatusEffects.MeetXuviel)?"untie master Xuviel’s necklace with nostalgic fondness":"untie the necklace")+". You could keep it on but right now you want to try a different accessory. It comes off easily, and putting it back should be just as simple.");
 		}
 		
 	}

@@ -80,13 +80,13 @@ public class MagicSpecials extends BaseCombatContent {
 			assumeCrinosShape007();
 		}
 		if (flags[kFLAGS.ASURA_FORM_COMBAT_MODE] == 1 && flags[kFLAGS.CRINOS_SHAPE_COMBAT_MODE] == 0 && player.wrath >= combat.asuraformCost() && !player.hasPerk(PerkLib.ElementalBody)) {
-			outputText("As you starts to unleash your inner wrath two additional faces emerge from head"+(player.faceType == Face.CERBERUS?"s":"")+" on sides and " + (player.hasFourArms() ? "":"two ") + "additional pair" + (player.hasFourArms() ? "":"s") + " of arms grows under your " + (player.hasFourArms() ? "second":"first") + " pair" + (player.hasFourArms() ? "s":"") + " of arms. ");
+			outputText("As you start to unleash your inner wrath, two additional faces emerge from you"+(player.faceType == Face.CERBERUS?"s":"")+" and " + (player.hasFourArms() ? "":"two ") + "additional pair" + (player.hasFourArms() ? "":"s") + " of arms grows under your " + (player.hasFourArms() ? "second":"first") + " pair" + (player.hasFourArms() ? "s":"") + " of arms. ");
 			if (player.hasPerk(PerkLib.AsuraStrength)) {
-				outputText("Additionaly from your back emerge ");
-				outputText("pair");
+				outputText("Additionally, from your back emerge ");
+				outputText("a pair");
 				outputText(" of semi-transparent arms. ");
 			}
-			outputText("Finishing assuming Asura form you're ready to destroy anyone that would dare to stand in your way!\n\n");
+			outputText("Finished assuming your Asura form, you're ready to destroy anyone that would dare to stand in your way!\n\n");
 			combat.assumeAsuraForm007();
 		}
 		if (flags[kFLAGS.ASURA_FORM_COMBAT_MODE] == 1 && flags[kFLAGS.CRINOS_SHAPE_COMBAT_MODE] == 1) {
@@ -377,7 +377,7 @@ public class MagicSpecials extends BaseCombatContent {
 					bd.disable("You cannot use a gaze attack against an opponent you cannot see or target.");
 				}
 				if (player.perkv1(IMutationsLib.GorgonEyesIM) >= 4) {
-					bd = buttons.add("E. Petrify", curry(petrify, true)).hint("Use your enhanced gaze to temporally turn your enemy into a stone and even halt it recovery temporaly. \n");
+					bd = buttons.add("E. Petrify", curry(petrify, true)).hint("Use your enhanced gaze to temporally turn your enemy into a stone and even halt its recovery temporarily. \n");
 					bd.requireFatigue(spellCost(1000), true);
 					if (isEnemyInvisible && player.hasStatusEffect(StatusEffects.MonsterDig)) {
 						bd.disable("You cannot use a gaze attack against an opponent you cannot see or target.");
@@ -428,6 +428,14 @@ public class MagicSpecials extends BaseCombatContent {
 					} else if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
 				}
 			}
+			if (player.isRaceCached(Races.LICH)) {
+				bd = buttons.add("Paralyzing touch", paralyzingTouch).hint("You can paralyze a living foe with a single touch by temporarily sucking the soul force out of their limbs. This ability does not work against undead and foes who lack soulforce to begin with. Deal darkness damage and stun for two rounds.\n");
+				if (monster.hasPerk(PerkLib.EnemyUndeadType) || monster.hasPerk(PerkLib.Soulless)) {
+					bd.disable("You cannot use this skill against an undead or soulless opponent.\n\n");
+				} /*else if (player.hasStatusEffect(StatusEffects.CooldownHydraAcidBreath)) {
+					bd.disable("You need more time before you can use Hydra acid breath again.\n\n");
+				} */else if (isEnemyInvisible) bd.disable("You cannot use offensive skills against an opponent you cannot see or target.");
+			}// \n\nWould go into cooldown after use for: " + (player.hasPerk(PerkLib.NaturalInstincts) ? "7" : "8") + " rounds 
 		}
 		if (player.hasPerk(PerkLib.DarkCharm)) {
 			// Fascinate
@@ -833,7 +841,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.perkv1(IMutationsLib.SharkOlfactorySystemIM) >= 1 || player.isAnyRaceCached(Races.SHARK, Races.ABYSSAL_SHARK)) {
 			bd = buttons.add("Blood Frenzy", bloodFrenzy);
 			if (monster.monsterIsBleeding()) {
-				bd.hint("Lose yourself to a blood fueled trance increasing your speed, libido and weakening your inteligence. The trance last for as long as the opponent is bleeding and cannot be disangaged willingly.\n");
+				bd.hint("Lose yourself to a blood fueled trance increasing your speed, libido and weakening your intelligence. The trance last for as long as the opponent is bleeding and cannot be disangaged willingly.\n");
 			}
 			else bd.disable("You can't go into a blood frenzy if your opponent is not bleeding.");
 			if (player.statStore.hasBuff("Blood Frenzy")) {
@@ -1363,7 +1371,7 @@ public class MagicSpecials extends BaseCombatContent {
 		else {
 			fatigue(50, USEFATG_MAGIC_NOBM);
 			clearOutput();
-			outputText("You start singing a enrapturing song.");
+			outputText("You start singing an enrapturing song.");
 			var lustDmg:Number = monster.lustVuln * 0.5 * (player.inte / 5 * (player.teaseLevel * 0.2) + rand(monster.lib - monster.inte * 2 + monster.cor) / 5);
 			lustDmg += IntligenceModifier * 0.25;
 			lustDmg *= LustyLusty; 
@@ -1383,7 +1391,7 @@ public class MagicSpecials extends BaseCombatContent {
 	public function ElectricDischarge():void {
 		flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
 		clearOutput();
-		outputText("You begin to gather energy within your electrocytes your bodily lights turning bright white as you enter overcharge. Suddenly you deliver the amassed current your energy running throught the air like a bright bolt of white death and roaring thunder.");
+		outputText("You begin to gather energy within your electrocytes your bodily lights turning bright white as you enter overcharge. Suddenly you deliver the amassed current your energy running through the air like a bright bolt of white death and roaring thunder.");
 		if (monster.hasStatusEffect(StatusEffects.DragonWaterBreath)){
 			outputText("Electrified Water is blasted all around your wet target as lightning and fluid turn into a booming explosion the force of wich plaster [monster him] to the ground dazed the violence of the impact!");
 			monster.removeStatusEffect(StatusEffects.DragonWaterBreath);
@@ -1745,7 +1753,7 @@ public class MagicSpecials extends BaseCombatContent {
 				outputText("You use your flexibility to barely fold your body out of the way!");
 			}
 			else if(applyBlizzard && player.hasStatusEffect(StatusEffects.Blizzard)) {
-				outputText("  <b>Surrounding you blizzard at the cost of loosing some of it remaining power massively dissipated most of the " + attack + " energy, causing it to hit with far less force!</b>");
+				outputText("  <b>Surrounding you blizzard at the cost of losing some of it remaining power massively dissipated most of the " + attack + " energy, causing it to hit with far less force!</b>");
 				player.addStatusValue(StatusEffects.Blizzard,1,-1);
 				damage = Math.round(0.2 * damage);
 				damage = player.takeFireDamage(damage);
@@ -1987,7 +1995,7 @@ public class MagicSpecials extends BaseCombatContent {
 		outputText("  ");
 		damage = Math.round(damage * combat.iceDamageBoostedByDao());
 		doIceDamage(damage, true, true);
-		HPChange(damage,false);
+		HPChange(damage,false,false);
 		outputText("\n\n");
 		if (player.hasPerk(PerkLib.EromancyMaster)) combat.teaseXP(1 + combat.bonusExpAfterSuccesfullTease());
 		doNext(playerMenu);
@@ -3225,7 +3233,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function berzerkG2():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion savage fury reaching Grade 2."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention savage fury reaching Grade 2."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain());
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Berzerking, 1, -2);
 		player.addStatusValue(StatusEffects.Berzerking, 2, 1);
@@ -3233,7 +3241,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function berzerkG2and3():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion savage fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention savage fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain() * 2);
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Berzerking, 1, -4);
 		player.addStatusValue(StatusEffects.Berzerking, 2, 2);
@@ -3241,7 +3249,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function berzerkG3():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion savage fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention savage fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain());
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Berzerking, 1, -2);
 		player.addStatusValue(StatusEffects.Berzerking, 2, 1);
@@ -3249,7 +3257,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function berzerkG3and4():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion savage fury reaching Grade 4."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention savage fury reaching Grade 4."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain() * 2);
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Berzerking, 1, -4);
 		player.addStatusValue(StatusEffects.Berzerking, 2, 2);
@@ -3257,7 +3265,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function berzerkG4():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion savage fury reaching Grade 4. +1 large/massive weapon atk. - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention savage fury reaching Grade 4. +1 large/massive weapon atk. - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain());
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Berzerking, 1, -2);
 		player.addStatusValue(StatusEffects.Berzerking, 2, 1);
@@ -3316,7 +3324,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function lustzerkG2():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion lusty fury reaching Grade 2."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention lusty fury reaching Grade 2."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain());
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Lustzerking, 1, -2);
 		player.addStatusValue(StatusEffects.Lustzerking, 2, 1);
@@ -3324,7 +3332,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function lustzerkG2and3():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion lusty fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention lusty fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain() * 2);
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Lustzerking, 1, -4);
 		player.addStatusValue(StatusEffects.Lustzerking, 2, 2);
@@ -3332,7 +3340,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function lustzerkG3():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion lusty fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention lusty fury reaching Grade 3."+(player.hasPerk(PerkLib.Anger)?" +1 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain());
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Lustzerking, 1, -2);
 		player.addStatusValue(StatusEffects.Lustzerking, 2, 1);
@@ -3340,7 +3348,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function lustzerkG3and4():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion lusty fury reaching Grade 4."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention lusty fury reaching Grade 4."+(player.hasPerk(PerkLib.Anger)?" +2 large/massive weapon atk.":"")+" - "+berzerkerandlustzerkerHPdrain()*200+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain() * 2);
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Lustzerking, 1, -4);
 		player.addStatusValue(StatusEffects.Lustzerking, 2, 2);
@@ -3348,7 +3356,7 @@ public class MagicSpecials extends BaseCombatContent {
 	}
 	public function lustzerkG4():void {
 		clearOutput();
-		outputText("Placeholder text that only meantion lusty fury reaching Grade 4. +1 large/massive weapon atk. - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
+		outputText("Placeholder text that only mention lusty fury reaching Grade 4. +1 large/massive weapon atk. - "+berzerkerandlustzerkerHPdrain()*100+"% max over HP.\n\n");
 		player.HP -= Math.round(player.maxOverHP() * berzerkerandlustzerkerHPdrain());
 		if (!player.hasPerk(PerkLib.EndlessRage) && player.statStore.hasBuff("AsuraForm") && player.hasPerk(PerkLib.ItsZerkingTime)) player.addStatusValue(StatusEffects.Lustzerking, 1, -2);
 		player.addStatusValue(StatusEffects.Lustzerking, 2, 1);
@@ -4160,8 +4168,8 @@ public class MagicSpecials extends BaseCombatContent {
 		fatigue(petrifycost, USEFATG_MAGIC_NOBM);
 		if(monster.plural) {
 			outputText("With a moment of concentration you activating petrifying properties of your gaze");
-			if (player.hairType == Hair.GORGON) outputText(" and awaken normaly dormant snake hair that starts to hiss");
-			outputText(" and then casual glance at enemies. Due to many of them your petrifying power spread on too many targets to be much effective. Still few of them petrified for a short moment and rest scared or suprised by such turn of events also refrain from attacking you for a moment.\n\n");
+			if (player.hairType == Hair.GORGON) outputText(" and awaken normally dormant snake hair that starts to hiss");
+			outputText(" and then casual glance at enemies. Due to many of them your petrifying power spread on too many targets to be much effective. Still few of them petrified for a short moment and rest scared or surprised by such turn of events also refrain from attacking you for a moment.\n\n");
 			if (!monster.hasStatusEffect(StatusEffects.Stunned)) {
 				if (enhanced) {
 					petrifyduration += 1;
@@ -4183,7 +4191,7 @@ public class MagicSpecials extends BaseCombatContent {
 		}
 		else {
 			outputText("With a moment of concentration you activating petrifying properties of your gaze");
-			if (player.hairType == Hair.GORGON) outputText(" and awaken normaly dormant snake hair that starts to hiss");
+			if (player.hairType == Hair.GORGON) outputText(" and awaken normally dormant snake hair that starts to hiss");
 			outputText(" and then casual glance at enemy. Caught off guard [themonster] petrify.\n\n");
 			if (!monster.hasStatusEffect(StatusEffects.Stunned)) {
 				petrifyduration += 1;
@@ -4256,7 +4264,7 @@ public class MagicSpecials extends BaseCombatContent {
 			doMagicDamage(damage, true, true);
 			if (crit) outputText(" <b>*Critical Hit!*</b>");
 			outputText(" damage!\n\n");
-			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true);
+			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true, false);
 			checkAchievementDamage(damage);
 			combat.heroBaneProc(damage);
 			statScreenRefresh();
@@ -4328,7 +4336,7 @@ public class MagicSpecials extends BaseCombatContent {
 			if (crit) outputText(" <b>*Critical Hit!*</b>");
 			outputText(" damage!\n\n");
 			damage *= 5;
-			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true);
+			if (player.armor == armors.P_REGAL) HPChange(Math.round(damage*0.15), true, false);
 			checkAchievementDamage(damage);
 			combat.heroBaneProc(damage);
 			statScreenRefresh();
@@ -4406,11 +4414,11 @@ public class MagicSpecials extends BaseCombatContent {
 		var enemyHPlost:Number = 0.3;
 		if (player.armor == armors.P_REGAL) enemyHPlost *= 1.5;
 		if (player.hasStatusEffect(StatusEffects.DarkRitual)) {
-			HPChange(-Math.round(player.maxHP() * 0.7), true);
+			HPChange(-Math.round(player.maxHP() * 0.7), true, false);
 			monster.HP -= Math.round(monster.maxHP() * (enemyHPlost * 3));
 		}
 		else {
-			HPChange(-Math.round(player.maxHP() * 0.6), true);
+			HPChange(-Math.round(player.maxHP() * 0.6), true, false);
 			monster.HP -= Math.round(monster.maxHP() * enemyHPlost);
 		}
 		enemyAI();
@@ -4431,6 +4439,42 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.perkv1(IMutationsLib.ArigeanAssociationCortexIM) >= 4) aMSC -= 0.1;
 		if (aMSC < 0.1) aMSC = 0.1;
 		return aMSC;
+	}
+
+	public function paralyzingTouch():void {
+		clearOutput();
+		flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
+		doNext(combatMenu);
+		//useMana((40*arigeanMagicSpecialsCost()), Combat.USEMANA_MAGIC);
+		combat.darkRitualCheckDamage();
+		clearOutput();
+		//if (player.hasPerk(PerkLib.NaturalInstincts)) player.createStatusEffect(StatusEffects.CooldownManaShot,2,0,0,0);
+		//else player.createStatusEffect(StatusEffects.CooldownManaShot, 3, 0, 0, 0);
+		outputText("You suddenly lunge forward and drain the soul force from your opponent's limbs inducing paralysis. ");
+		var damage:Number = scalingBonusIntelligence() * 2;
+		damage *= spellMod();
+		//Determine if critical hit!
+		var crit:Boolean = false;
+		var critChance:int = 5;
+		critChance += combatMagicalCritical();
+		if (monster.isImmuneToCrits() && !player.hasPerk(PerkLib.EnableCriticals)) critChance = 0;
+		if (rand(100) < critChance) {
+			crit = true;
+			damage *= 1.75;
+		}
+		//High damage to goes.
+		damage *= magicAbilitiesGoBrrr();
+		if (player.hasPerk(PerkLib.LionHeart)) damage *= 2;
+		damage = calcEclypseMod(Math.round(damage * combat.darknessDamageBoostedByDao()), true);
+		damage = Math.round(damage);
+		doDarknessDamage(damage, true, true);
+		if (crit) outputText(" <b>*Critical Hit!*</b>");
+		if (!monster.hasStatusEffect(StatusEffects.Stunned)) monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+		checkAchievementDamage(damage);
+		combat.heroBaneProc(damage);
+		statScreenRefresh();
+		if (monster.HP <= monster.minHP()) doNext(endHpVictory);
+		else enemyAI();
 	}
 
 	public function hydraAcidBreath():void {
@@ -5554,7 +5598,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.GreaterGiftOfLust)) lusttransfered2 += 0.15;
 		lusttransfered += Math.round(player.lust * lusttransfered2);
 		player.lust -= lusttransfered;
-		outputText("Your eyes glaze over and you feel your mind suddenly becoming more clear after you transfered some blurs of every sexual perversion you could possibly think of to your enemy");
+		outputText("Your eyes glaze over and you feel your mind suddenly becoming more clear after you transferred some blurs of every sexual perversion you could possibly think of to your enemy");
 		if(!monster.plural) outputText(".");
 		else outputText("s.");
 		if(monster.lustVuln == 0) {
@@ -5732,7 +5776,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.hasPerk(PerkLib.MindbreakerBrain1toX)) numberOfImage += player.perkv1(PerkLib.MindbreakerBrain1toX);
 		if (player.hasStatusEffect(StatusEffects.MirrorImage)){
 			numberOfImage = numberOfImage-player.statusEffectv1(StatusEffects.MirrorImage);
-			outputText("You weave back the spell, resplenishing "+ numberOfImage +" additionnal replicas of yourself to the remaining ones.\n\n");
+			outputText("You weave back the spell, resplenishing "+ numberOfImage +" additional replicas of yourself to the remaining ones.\n\n");
 			player.addStatusValue(StatusEffects.MirrorImage, 1,numberOfImage);
 		}
 		else{
@@ -5934,7 +5978,7 @@ public class MagicSpecials extends BaseCombatContent {
 		outputText("You convert some of your stolen blood back to health.");
 		if (player.hasStatusEffect(StatusEffects.VampThirstStacksHPMana)) player.addStatusValue(StatusEffects.VampThirstStacksHPMana,1,1);
 		else player.createStatusEffect(StatusEffects.VampThirstStacksHPMana,1,0,0,0);
-		HPChange(Math.round(player.maxHP()*0.05*stack), false);
+		HPChange(Math.round(player.maxHP()*0.05*stack), false, false);
 		combat.combatMenu(false);
 	}
 	public function VampireThirstStacksToMana(stack:Number = 1):void {
@@ -6339,7 +6383,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) >= 30) stoneskinduration += 3;
 		if (player.statusEffectv2(StatusEffects.SummonedElementalsEarth) >= 31) stoneskinduration += 3;
 		player.createStatusEffect(StatusEffects.StoneSkin, stoneskinbonus, stoneskinduration, 0, 0);
-		outputText("Your elemental lifts stone and dirt from the ground, encasing you in a earthen shell stronger than any armor.\n\n");
+		outputText("Your elemental lifts stone and dirt from the ground, encasing you in an earthen shell stronger than any armor.\n\n");
 		enemyAI();
 	}
 
@@ -6446,7 +6490,7 @@ public class MagicSpecials extends BaseCombatContent {
 		temp += scalingBonusWisdom() * multiWis;
 		temp = Math.round(temp);
 		outputText("Your elemental encases your body within a bubble of curative spring water, slowly closing your wounds. The bubbles pop leaving you wet, but on the way to full recovery. <b>([font-heal]+" + temp + "[/font])</b>");
-		HPChange(temp,false);
+		HPChange(temp,false,false);
 		outputText("\n\n");
 		enemyAI();
 	}
@@ -6599,7 +6643,7 @@ public class MagicSpecials extends BaseCombatContent {
 		temp += scalingBonusWisdom() * multiWis;
 		temp = Math.round(temp);
 		outputText("Your elemental temporarily covers your skin with bark, shielding you against strikes. This is the bark of medicinal plants and as such you recover from your injuries. <b>([font-heal]+" + temp + "[/font])</b>");
-		HPChange(temp,false);
+		HPChange(temp,false,false);
 		outputText("\n\n");
 		enemyAI();
 	}
@@ -7065,7 +7109,7 @@ public class MagicSpecials extends BaseCombatContent {
 			}
 		}
 		if (type == 3) {
-			outputText("You gather energy in your mouth before spitting a pyroclastic mather at your opponent, searing their flesh and setting [themonster] on fire. ");
+			outputText("You gather energy in your mouth before spitting a pyroclastic matter at your opponent, searing their flesh and setting [themonster] on fire. ");
 			damage = calcInfernoMod(damage, true);
 			if (player.armor == armors.SFLAREQ) damage *= 3;
 			damage = Math.round(damage * combat.fireDamageBoostedByDao());
@@ -7117,7 +7161,7 @@ public class MagicSpecials extends BaseCombatContent {
 		if (type == 3) outputText("You channel warmth into your wounds soothing the pain and repairing the damages you sustained.");
 		if (type == 4) outputText("You relax and concentrate on your liquid form closing breaches and repairing any damage you sustained.");
 		outputText(" <b>([font-heal]+" + temp + "[/font])</b>");
-		HPChange(temp,false);
+		HPChange(temp,false,false);
 		outputText("\n\n");
 		enemyAI();
 	}
@@ -7203,4 +7247,4 @@ public class MagicSpecials extends BaseCombatContent {
 		enemyAI();
 	}
 }
-}
+}

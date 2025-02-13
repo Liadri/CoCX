@@ -165,7 +165,7 @@ use namespace CoC;
 			clearOutput();
 			outputText("You take a sip of the rich creamy coffee and suddenly feel refreshed. As you replace the coffeepot, the busty coffee-maker comes to life, grabbing her thick dusky nipples and squeezing out a trickle of scaldingly hot liquid. You can see her eyes roll up into her head from what you assume to be pleasure as she automatically refills the missing coffee, mouth open with ecstasy.  Her movements gradually slow as she quivers almost imperceptibly. A contented smile graces her features as immobility overtakes her, freezing her back in place.  You wonder if 'Mrs. Coffee' was created, or a victim of this place's dark master.");
 			dynStats("lus", 1, "scale", false);
-			HPChange(35, false);
+			HPChange(35, false, false);
 			player.refillHunger(10);
 			doNext(roomBreakRoom);
 		}
@@ -866,7 +866,7 @@ use namespace CoC;
 					if (player.hasCock()) player.sexReward("Default", "Dick");
 					player.sexReward("cum", "Anal");
 					if (player.isGargoyle() && player.hasPerk(PerkLib.GargoyleCorrupted)) player.refillGargoyleHunger(30);
-					if (player.isRace(Races.JIANGSHI, 1, false) && player.hasPerk(PerkLib.EnergyDependent)) player.EnergyDependentRestore();
+					if ((player.isRace(Races.JIANGSHI, 1, false) || player.isRace(Races.MUMMY, 1, false)) && player.hasPerk(PerkLib.EnergyDependent)) player.EnergyDependentRestore();
 					if (mechanic) {
 						if (flags[kFLAGS.D3_GARDENER_DEFEATED] > 0 && flags[kFLAGS.D3_CENTAUR_DEFEATED] > 0 && flags[kFLAGS.D3_STATUE_DEFEATED] > 0) outputText("\n\n\"<i>You're lucky I've decided to let you go since you've overthrown Lethice,</i>\" the incubus grumbles.");
 						dynStats("cor", 25);
@@ -1029,7 +1029,7 @@ use namespace CoC;
 			spriteSelect(SpriteDb.s_factory_omnibus);
 			clearOutput();
 			outputText("The demon pouts at you. <i>Fiiiiine. All I've got on me is some processed lethicite. You'll need my help to absorb it.</i> The demoness reaches into her incredible skimpy chest band and pulls out a vial she had somehow managed to conceal there.\n\nShe unscrews the top, and then holds it before her and blows across it. A cloud of sparkling purplish black powder burst from the vial, flying right at you!");
-			outputText("\n\nYou stumble back in surprise, as the demoness makes a quick arcane gesture. The cloud glows, and then flies at your face, flowing into your mouth and nose before you can react.\n\n Your vision flashes purple, and a burning heat seems to spread through both your body and soul.\n\nThe heat in your body quickly turns into arousal, but the heat in your soul mostly dissapears - though what remains makes it feel like your soul is aroused! You realize that <b>your sex drive is increasing your soulforce, and you feel more demonic!</b>\n(Perk Gained - Demonic Lethicite - Soulforce increased and you are permanently slightly demonic!)");
+			outputText("\n\nYou stumble back in surprise, as the demoness makes a quick arcane gesture. The cloud glows, and then flies at your face, flowing into your mouth and nose before you can react.\n\n Your vision flashes purple, and a burning heat seems to spread through both your body and soul.\n\nThe heat in your body quickly turns into arousal, but the heat in your soul mostly disappears - though what remains makes it feel like your soul is aroused! You realize that <b>your sex drive is increasing your soulforce, and you feel more demonic!</b>\n(Perk Gained - Demonic Lethicite - Soulforce increased and you are permanently slightly demonic!)");
 			dynStats("lus",player.maxLust);
 			player.createPerk(PerkLib.DemonicLethicite,0,0,0,0);
 			postOmnibusBoon();
@@ -1376,7 +1376,7 @@ use namespace CoC;
 			//Tits – regular
 			if(player.biggestLactation() < 1) outputText("Your " + nippleDescript(0)  + "s begin prodding painfully against your [armor], every touch serving to make them harder and more erect.  ");
 			//Tits – lactating
-			if(player.biggestLactation() >= 1 && player.biggestLactation() < 3) outputText("Your " + nippleDescript(0) + "s get painfully hard as you feel milk begin backing up inside your [allbreasts].   The succubus glances down mischieviously as her hands begin to grope you through your [armor], squeezing out a few drops of milk.  ");
+			if(player.biggestLactation() >= 1 && player.biggestLactation() < 3) outputText("Your " + nippleDescript(0) + "s get painfully hard as you feel milk begin backing up inside your [allbreasts].   The succubus glances down mischievously as her hands begin to grope you through your [armor], squeezing out a few drops of milk.  ");
 			//Tits – megalactating
 			if(player.biggestLactation() >= 3) outputText("Your " + nippleDescript(0) + "s get painfully hard as milk begins drooling down your over-productive chest, making your [armor] slide across your leaky milk-spouts in an agonizingly pleasurable way.  ");
 			//Cock – single
@@ -1642,39 +1642,7 @@ use namespace CoC;
 
 		private function goDemonSharedEnd():void {
 			clearOutput();
-			player.skin.setBaseOnly({type:Skin.PLAIN, color1:"blue", pattern: Skin.PATTERN_DEMONIC_PLEASURE_RUNE});
-			if (!InCollection(player.skinColor1, DemonRace.DemonSkinColors) && !InCollection(player.skinColor2, DemonRace.DemonSkin2Colors)) {
-				var choice1:String = randomChoice(DemonRace.DemonSkinColors);
-                var choice2:String = randomChoice(DemonRace.DemonSkin2Colors);
-                player.skinColor1 = choice1;
-                player.skinColor2 = choice2;
-			}
-			if (player.hasCock()) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-			else {
-				if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_CLAWS;
-				else {
-					if (rand(2) == 0) player.lowerBody = LowerBody.DEMONIC_HIGH_HEELS;
-					else player.lowerBody = LowerBody.DEMONIC_GRACEFUL_FEET;
-				}
-			}
-			player.legCount = 2;
-			transformations.TailDemonic.applyEffect(false);
-			transformations.HairHuman.applyEffect(false);
-			transformations.FaceDemon.applyEffect(false);
-			transformations.EyesDemon.applyEffect(false);
-			transformations.ArmsDemon.applyEffect(false);
-			transformations.TongueDemonic.applyEffect(false);
-			transformations.EarsElfin.applyEffect(false);
-			transformations.HornsDemonic.applyEffect(false);
-			transformations.AntennaeNone.applyEffect(false);
-			transformations.GillsNone.applyEffect(false);
-			transformations.WingsDemonicLarge.applyEffect(false);
-			transformations.RearBodyNone.applyEffect(false);
-			if (player.hasCock()) transformations.CockDemon().applyEffect(false);
-			if (player.hasVagina()) transformations.VaginaDemonic().applyEffect(false);
-			outputText("\n<b>Gained Perk: Soulless!</b> "+PerkLib.Soulless.desc());
-			player.createPerk(PerkLib.Soulless, 0, 0, 0, 0);
-			player.npcsThatLeaveSoullessPC();
+			consumables.DEMONME.demonizePlayer();
 			if (player.level < 25) inventory.takeItem(consumables.LETHITE, playerMenu);
 			else if (player.level < 50) inventory.takeItem(consumables.LETH1TE, playerMenu);
 			else if (player.level < 75) inventory.takeItem(consumables.LETH2TE, playerMenu);
@@ -1810,7 +1778,7 @@ use namespace CoC;
 				}
 			}
 			if (!player.hasKeyItem("Cock Milker: Anal Attachment") && player.hasKeyItem("Cock Milker - Installed At Whitney's Farm")) {
-				outputText("You see a box in the bottom of the cupboard you didnt notice before and go to open it up. Inside you find a strange device that looks like it may be part of a Cock Milker.\n\nDo you take the Cock Milker: Anal Attachment?\n\n");
+				outputText("You see a box in the bottom of the cupboard you didn't notice before and go to open it up. Inside you find a strange device that looks like it may be part of a Cock Milker.\n\nDo you take the Cock Milker: Anal Attachment?\n\n");
 				addButton(1, "Anal Attachment", takeAnalAttachment);
 			}
 			outputText("The only exit is back to the south.");

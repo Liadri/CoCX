@@ -52,7 +52,8 @@ public class GlacialTrollRace extends Race {
 				.customRequirement("",'Feminity less than 56',
 						function (body:BodyData):Boolean {
 							return body.player.femininity <= 55
-						}, +1);
+						}, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.TrollsDescendant, PerkLib.BloodlineTroll);
 		

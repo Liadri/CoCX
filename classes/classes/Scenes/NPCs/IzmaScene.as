@@ -857,7 +857,7 @@ private function acceptIzmaAsYourBitch():void {
 		player.addKeyValue("Radiant shard",1,+1);
 	}
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Izma pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Izma pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	endEncounter();
 }
 
@@ -1305,7 +1305,7 @@ private function submitToLakeIzma():void {
 		outputText("\n\nPulling her fingers free, Izma quickly flips your nude body over, leaving you on your back and staring up at her.  Izma's hands are resting on her hips and she seems to be puffing her large chest out proudly. Her foot-long cock is fully erect, hot beads of pre-cum occasionally dripping onto the sands.  She takes the time to examine your own cock, grinning with her fangs bared.  \"<i>Let's see what you've got, weakling.</i>\"\n\n");
 		var x:Number = player.biggestCockIndex();
 		//(1-10 inch penis)
-		if(player.cocks[x].cockLength <= 10) outputText("Izma manages to supress a snort of laughter at the sight of your cock.  \"<i>Um... wow?  It's simply... heh, huge...</i>\"");
+		if(player.cocks[x].cockLength <= 10) outputText("Izma manages to suppress a snort of laughter at the sight of your cock.  \"<i>Um... wow?  It's simply... heh, huge...</i>\"");
 		//(10-19 inches)
 		else if(player.cocks[x].cockLength <= 19) outputText("\"<i>Not bad, I'm actually impressed,</i>\" Izma says, nodding slightly in approval.");
 		//(20+ inches)
@@ -1464,7 +1464,7 @@ private function sendToFishery():void
 {
 	clearOutput();
 	izmaSprite();
-	outputText("Information Noona here: So you bossy today and asked Izma to work at fishery.... very clever.");
+	outputText("Seems like you're feeling bossy today, getting Izma to work at the fishery... very clever.");
 	if (flags[kFLAGS.FOLLOWER_AT_FISHERY_1] == "") flags[kFLAGS.FOLLOWER_AT_FISHERY_1] = "Izma";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_2] == "") flags[kFLAGS.FOLLOWER_AT_FISHERY_2] = "Izma";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_3] == "") flags[kFLAGS.FOLLOWER_AT_FISHERY_3] = "Izma";
@@ -1475,7 +1475,7 @@ private function backFromFishery():void
 {
 	clearOutput();
 	izmaSprite();
-	outputText("Information Noone reminds your sub tigershark no longer work at fishery.");
+	outputText("Your sub tigershark no longer works at the fishery.");
 	if (flags[kFLAGS.FOLLOWER_AT_FISHERY_1] == "Izma") flags[kFLAGS.FOLLOWER_AT_FISHERY_1] = "";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_2] == "Izma") flags[kFLAGS.FOLLOWER_AT_FISHERY_2] = "";
 	else if (flags[kFLAGS.FOLLOWER_AT_FISHERY_3] == "Izma") flags[kFLAGS.FOLLOWER_AT_FISHERY_3] = "";
@@ -2757,9 +2757,11 @@ private function fuckIzmasPussyDominate():void {
 		outputText("Will you tend to her dick?");
 		//[Goo job]    [Leave it, leads to [Spanking scene])
 		simpleChoices("Goo Job", gooJob, "Leave It", radarIzmaSpanking, "", null, "", null, "", null);
-	} else sceneHunter.print("Check failed: Goo body!");
-	outputText("\n\n");
-	radarIzmaGasm();
+	} else {
+		sceneHunter.print("Check failed: Goo body!");
+		outputText("\n\n");
+		radarIzmaGasm();
+	}
 }
 
 //[Goo Job]
@@ -2910,7 +2912,7 @@ private function radarFucksIzmasAss():void {
 	if (y < 0) sceneHunter.print("You could use another one!");
 	outputText("Your eyes are unavoidably drawn to her well toned ass; the potential feel of her tight asshole against your " + cockDescript(x) + " is one you cannot pass up now.  Placing an authoritative hand on your beta's shoulder, you physically command her to get down on the ground... something the tigershark does all too willingly, flopping down to the ground on her stomach and waving her tail in your face; almost as if to taunt you and jokingly convey that \"<i>you can't have this.</i>\"  Her intent on what she wants you to do clear, you forcefully reach out and grab that smugly shaking tail of hers and pull hard, dragging her prone body along the ground to the base of your feet as you yank her crescent shaped appendage to your face.  Izma groans briefly from the friction burn and then giggles at the rough treatment.  Oh... she needs a good fucking in that asshole of hers, you think to yourself, and grin as you lower your body down to her rump.  Flush with desire, Izma glances over her shoulder and stares intently, eagerly awaiting the moment that your " + cockDescript(x) + " lights her body up like the night sky.");
 
-	outputText("\n\nNot one to keep a lover waiting, you take your " + cockDescript(x) + " and edge it along the smooth crevice of her ass checks, taking the time to enjoy the hypersensitive feeling of your soft cock head against her rough skin before pressing your prick against her little asshole.  With a surprised look over her shoulder, your ample Beta sports a fiendish grin at where you intent to sex her.  \"<i>Ohhhh... back door?  You pervert...</i>\" she teases.  You shoot an annoyed look back, physically reminding her that she isn't deciding how she's getting fucked here.  Giggling softly, Izma responds in a sultry manner, \"<i>I'm not complaining.</i>\"  Well, we'll just see about that, you muse to yourself as you painfully breeze past her boiling hot anus with your " + cockDescript(x) + ", provoking a ear screeching howl.  Condescendingly, you inquire to your wailing lover if there is a certain... \"problem\" she's having; her pained flash of teeth and grunting seems to provide an clear answer for you.  Slapping her rump mockingly, you comment on how perhaps Izma spoke too soon.  The concussive force of her buttocks against your [hips] seems to disprove your take on this situation.  With an earnest laugh, you toy with Izma and comment on how the \"little girl\" still has some fight in her, eager and hungry for a good anal fuck.");
+	outputText("\n\nNot one to keep a lover waiting, you take your " + cockDescript(x) + " and edge it along the smooth crevice of her ass checks, taking the time to enjoy the hypersensitive feeling of your soft cock head against her rough skin before pressing your prick against her little asshole.  With a surprised look over her shoulder, your ample Beta sports a fiendish grin at where you intent to sex her.  \"<i>Ohhhh... back door?  You pervert...</i>\" she teases.  You shoot an annoyed look back, physically reminding her that she isn't deciding how she's getting fucked here.  Giggling softly, Izma responds in a sultry manner, \"<i>I'm not complaining.</i>\"  Well, we'll just see about that, you muse to yourself as you painfully breeze past her boiling hot anus with your " + cockDescript(x) + ", provoking an ear screeching howl.  Condescendingly, you inquire to your wailing lover if there is a certain... \"problem\" she's having; her pained flash of teeth and grunting seems to provide an clear answer for you.  Slapping her rump mockingly, you comment on how perhaps Izma spoke too soon.  The concussive force of her buttocks against your [hips] seems to disprove your take on this situation.  With an earnest laugh, you toy with Izma and comment on how the \"little girl\" still has some fight in her, eager and hungry for a good anal fuck.");
 
 	outputText("\n\nOn that note, the domination of Izma's tight, humid ass begins; starting off shallow, you thrust violently against your submissive lover, ceasing your " + cockDescript(x) + "'s unbearably hot descent into her sphincter to briefly pull out, only to savagely force your way back into her and surpass your previous self-imposed threshold.  Recoiling with every gyration, the hermaphroditic shark tries to brace herself for a bottoming out that never materializes, only stopping her reactionary movements forward when she deciphers your pattern.  Throwing her for a loop, you decide to push past the threshold you've been gradually increasing, slowly retreating out of her tight fitting anus");
 	if(y >= 0) outputText(" as you gently place your other dick against her labia");

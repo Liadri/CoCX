@@ -1052,7 +1052,7 @@ private function helChatMenu():void {
 	if (!flags[kFLAGS.HEL_TALKED_ABOUT_HER]) addButton(0, "About Her", askHelAboutHer);
 	if (!minoTalkBerserk) addButton(1, "Berserking?", berserkMode);
 	if (!flags[kFLAGS.HEL_FUCKBUDDY] && !minoTalkAttack) addButton(2, "YouAttackMe", askHelAboutAttackingYou);
-	addButton(2, "SecondTime", askMommaHelForSecondsAfterDinner);
+	else addButton(2, "SecondTime", askMommaHelForSecondsAfterDinner);
 	addButton(3, "MinosAreBad", telHelToGetOffTheMInoCock); //disables this talk forever
 	if (flags[kFLAGS.HEL_TALKED_ABOUT_HER]) addButton(4, "Leave", leaveHelAfterMinoThreeSomeChat);
 	else addButton(4, "Bug Out", bugOutAfterHelMinoThreesome);
@@ -1804,7 +1804,7 @@ private function pussyOutOfHelSexAmbush():void {
 	outputText("You push Hel off of you and tell her that you just aren't interested in fucking right now.");
 	outputText("\n\n\"<i>What,</i>\" she says, completely deadpan.  \"<i>WHAT!?</i>\"");
 	outputText("\n\n\"<i>No sex for you,</i>\" you answer.");
-	outputText("\n\n\"<i>I.  But.  What.  You said.  We.  But.... WELL FUCK YOU ANYWAY.</i>\"");
+	outputText("\n\n\"<i>I.  But.  What.  You said.  We.  But.... WELL, FUCK YOU ANYWAY.</i>\"");
 	outputText("\n\nYou shrug and head back to camp as Hel, half-mad with lust, starts masturbating, glaring at your back as you leave.");
 	endEncounter();
 	helFollower.helAffection(-20);

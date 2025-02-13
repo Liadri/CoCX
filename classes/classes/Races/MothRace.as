@@ -53,7 +53,8 @@ public class MothRace extends Race {
                 .noHorns(+1)
                 .skinCoatType(Skin.CHITIN, +1)
 				.chitinColor1(ANY(MothChitinColors), +1)
-                .hasCockOfType(CockTypesEnum.INSECT, +1);
+                .hasCockOfType(CockTypesEnum.INSECT, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
                 //.hasPerk(PerkLib.AntyDexterity, +1)
 		
         addMutation(IMutationsLib.TrachealSystemIM);

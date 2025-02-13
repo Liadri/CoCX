@@ -15,8 +15,14 @@ package classes.Scenes.Places.Ingnam
 			clearOutput();
 			outputText("You wander the village of Ingnam until you feel something pressing against your shoulder and you look around to see the thief. \"<i>Your money or your life,</i>\" he demands.");
 			menu();
-			addButton(0, "Fight", startCombatImmediate, new Thief);
-			addButton(1, "Give Gems", giveGems);
+			addButton(1, "Fight", encounterThief2);
+			addButton(3, "Give Gems", giveGems);
+		}
+		private function encounterThief2():void {
+			flags[kFLAGS.INGNAM_ENEMIES] = 0;
+			if ((player.level > 1 || model.time.hours >= 21) && rand(4) > 0) flags[kFLAGS.INGNAM_ENEMIES]++;
+			if ((player.level > 5 || model.time.hours >= 21) && rand(4) > 0) flags[kFLAGS.INGNAM_ENEMIES]++;
+			startCombatImmediate(new Thief());
 		}
 
 		private function giveGems():void {

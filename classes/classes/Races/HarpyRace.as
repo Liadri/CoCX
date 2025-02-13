@@ -54,7 +54,8 @@ public class HarpyRace extends Race {
 									|| PhoenixRace.isPhoenixLike(body)
 									|| body.tailType == Tail.THUNDERBIRD
 							);
-						}, 0, -1000);
+						}, 0, -1000)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(3)
 				.hasVagina(+1)
 				.skinCoverage(Skin.COVERAGE_NONE, +1)

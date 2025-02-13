@@ -58,7 +58,8 @@ public class KitshooRace extends Race {
 				.legType(LowerBody.SALAMANDER, +1)
 				.skinCoatType(NOT(Skin.CHITIN), 0, -2)
 				.skinBaseType(NOT(Skin.GOO), 0, -3)
-				.hasPerk(PerkLib.Lustzerker, +1);
+				.hasPerk(PerkLib.Lustzerker, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		addScoresAfter(5)
 				.skinBaseType(Skin.PLAIN, +1, -1)
 				.skinBasePattern(Skin.PATTERN_MAGICAL_TATTOO, +1, -1)

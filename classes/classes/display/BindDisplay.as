@@ -6,7 +6,7 @@ import coc.view.CoCButton;
 import flash.text.TextField;
 
 /**
-	 * Defines a composite display object of all the seperate components required to display a
+	 * Defines a composite display object of all the separate components required to display a
 	 * single BoundControlMethod, its associated primary and secondary bindings with the buttons
 	 * used to bind methods to new keys.
 	 * @author Gedan
@@ -19,10 +19,10 @@ import flash.text.TextField;
 		private var _button2:CoCButton;
 		
 		/**
-		 * Create a new composite object, initilizing the label to be used for display, as well as the two
+		 * Create a new composite object, initializing the label to be used for display, as well as the two
 		 * buttons used for user interface.
 		 *
-		 * @param	maxWidth	Defines the maximum available width that the control can consume for positining math
+		 * @param	maxWidth	Defines the maximum available width that the control can consume for positioning math
 		 */
 		public function BindDisplay(maxWidth:int)
 		{

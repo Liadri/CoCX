@@ -135,7 +135,7 @@ public function plantGrowsToLevel2():void {
 	outputText("\n\nYour skin flushes as you react to the view.");
 	if(player.gender == 0) outputText("  Sucks to be it!  You don't waste time with stupid shit.");
 	outputText("  Is this really Marae's gift?");
-	if(player.gender > 0) outputText("  Well, you could make use of this build up arousal on someone... just being around it seems to slowly turn you on.");
+	if(player.gender > 0) outputText("  Well, you could make use of this built-up arousal on someone... just being around it seems to slowly turn you on.");
 	outputText("  Of course, destroying it would be the safest option.");
 	dynStats("lus", 33, "scale", false);
 	if(silly()) outputText("\n\n<b>What do?</b>");
@@ -240,10 +240,10 @@ public function treePhaseFourGo():void {
 	if(flags[kFLAGS.TIMES_FUCKED_FLOWER] + flags[kFLAGS.TIMES_RIDDEN_FLOWER] > 0) outputText("Did you enjoy watering me?");
 	else outputText("Did you enjoy watching me grow?");
 	outputText("</i>\"");
-	outputText("\n\nYou shake your head dumbly.  This girl could very well be like corrupt goddess's sister, a demon-twin born of lust and simmering desires if not fact you do saved Marae.  So why this one looks so... corrupted?");
+	outputText("\n\nYou shake your head, stunned. This girl could very well be like the corrupt goddess’s sister—a demon-twin born of lust and simmering desires—if not for the fact that you saved Marae. So why does this one look so... corrupted?");
 	if(flags[kFLAGS.TIMES_FUCKED_FLOWER] + flags[kFLAGS.TIMES_RIDDEN_FLOWER] > 0) outputText("  \"<i>It was so much easier to grow with this nutrients");
 	else outputText("  \"<i>You should have watered me.  It was so much harder to grow without proper nutrients");
-	outputText(",</i>\" the dryad explains while lifting an arm to brush an errant curl from her view.  Her other arm studiously remains clapped across her glossy, almond-colored nipples, but you still manage a quick glance.  She giggles, her melons jiggling with her breathing as she promises, \"<i>Mother Marae created me to be your gift.  Your personal attendant.  My name is Hollicynthea, but you can call me Holli.  She also gave me most of her corruption at the moment of my seed creation so I'm looking and acting much alike some kind of corrupted creature.  She said it was unavoidable outcome of what she have done.  I hope you could live with this, right?</i>\"");
+	outputText(",</i>\" the dryad explains, lifting an arm to brush an errant curl from her view.  Her other arm studiously remains clapped across her glossy, almond-colored nipples, but you still manage a quick glance.  She giggles, her melons jiggling with her breathing as she promises, \"<i>Mother Marae created me to be your gift.  Your personal attendant.  My name is Hollicynthea, but you can call me Holli.  She also gave me most of her corruption at the moment of my seed creation so I'm looking and acting much alike some kind of corrupted creature.  She said it was unavoidable outcome of what she have done.  I hope you could live with this, right?</i>\"");
 	outputText("\n\nYou snap your eyes back up to her oddly-colored gaze just in time for her to drop the other arm away.  Of course, when you try to glance back down, she has her hands over her nipples again.");
 	outputText("\n\n\"<i>I can't leave my tree, not for a few years, so you'll have to keep me nice and... warm,</i>\" she coos.  Below, you realize the familiar flower remains, though it looks almost dainty compared to its former glory.  It's now nestled between the woman's thighs, just above where her body merges back into the wood-grain, and the petals are folded closed into a modest bud.");
 	outputText("\n\nHolli offers, \"<i>If you ask nicely, I'll even help to guard you while you rest.  Lesser creatures are so easily snared and toyed with.</i>\"");

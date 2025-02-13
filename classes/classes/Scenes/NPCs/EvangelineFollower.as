@@ -118,7 +118,7 @@ public function winEvangelineImpFight():void
 	outputText("As she talks you realize something, did she mention her hiding place is near here? Isn’t that dangerous? Someone you don’t know practically admitted that she is living very close to the portal that you said you would defend. What if she is a demon? Wishing to make things clear you wait till she’s finished talking and ask her directly where she lives. First she seems to be surprised, then becomes confused, and then after that a slight hint of fear before finally answering.\n\n");
 	outputText("\"<i>It’s just moment away from your...</i>\" she casts a glance over your shoulder \"<i>...camp. Suprising that anyone wish to stay here as i heard it's a cursed piece of land that anyone even demons avoids, but for someone like me it gives a good cover and scares off potential scavengers. Still I've been reconsidering moving myself somewhere else, maybe to that desert city or to a different place, as those lil assholes been recently more active around this area. But...moving all my stuff would take a lot of time. ");
 	outputText("Especially all my alchemical equipment that those little red devils didn’t find or smash.</i>\"\n\nAlchemical equipment? Looking at her you wouldn’t have guessed she was an alchemist. You ask her about this and she seems to brighten up and starts talking happily about various experiments she made in the past for no discernible reason. And just when you start to ponder about how to interrupt her she suddenly ceases talking, but only for a short moment.\n\n");
-	outputText("\"<i>I know you don’t know me and likely don’t trust me, but could you let me live near your camp? Since you're here it may be bit safer to stay here unless you also belive in that cursed land rumors. I could help you in case you somehow...transform too much or in some way you don't want to, return to your previous form, or grant you new ones, stronger and more fitted to survive here,</i>\" for a moment you seem to see a gleam in her eye, \"<i>so what do you think? By the way my name’s Evangeline.</i>\"");
+	outputText("\"<i>I know you don’t know me and likely don’t trust me, but could you let me live near your camp? Since you're here it may be bit safer to stay here, unless you also believe in that cursed land rumors. I could help you in case you somehow...transform too much or in some way you don't want to, return to your previous form, or grant you new ones, stronger and more fitted to survive here,</i>\" for a moment you seem to see a gleam in her eye, \"<i>so what do you think? By the way, my name’s Evangeline.</i>\"");
 	cleanupAfterCombat();
 	menu();
 	addButton(0, "Move In", Tak);
@@ -140,7 +140,7 @@ public function Tak():void
 	EvangelineFollowerStage = 1;
 	if (player.hasKeyItem("Radiant shard") >= 0) player.addKeyValue("Radiant shard",1,+1);
 	else player.createKeyItem("Radiant shard", 1,0,0,0);
-	outputText("\n\n<b>Before fully settling in your camp as if remembering something Evangeline pulls a shining shard from her inventory and hand it over to you as a gift. You acquired a Radiant shard!</b>");
+	outputText("\n\n<b>Before fully settling in your camp, as if remembering something, Evangeline pulls a shining shard from her inventory and hands it over to you as a gift. You acquired a Radiant shard!</b>");
 	flags[kFLAGS.EVANGELINE_LVL_UP] = 0;
 	flags[kFLAGS.EVANGELINE_SPELLS_CASTED] = 0;
 	//if (player.hasStatusEffect(StatusEffects.EzekielCurse)) player.removeStatusEffect(StatusEffects.EzekielCurse);
@@ -194,11 +194,11 @@ public function meetEvangeline():void {
 	outputText("\"<i>Hi [name]! Anything I can help you with?</i>\"");
 	// [Appearan] [ Talk   ] [   Sex  ] [ Spar   ] [GiveGems]
 	// [Alchemy ] [Ingreds ] [        ] [I.Mutati] [Experime]
-	// [Arigean ] [Wendigo ] [Jiangshi] [Soul Gem] [ Back   ]
+	// [Arigean ] [Wendigo ] [TF Cures] [Soul Gem] [ Back   ]
 	menu();
 	addButton(0, "Appearance", evangelineAppearance).hint("Examine Evangeline's detailed appearance.");
 	addButton(1, "Talk", evangelineTalkMenu).hint("Ask Evangeline about something.");
-	if (EvangelineAffectionMeter >= 50) addButton(2, "Sex", evangelineSexMenu).hint("Have some sex with the demonic chimera girl.");//godess
+	if (EvangelineAffectionMeter >= 50) addButton(2, "Sex", evangelineSexMenu).hint("Have some sex with the demonic chimera girl.");//goddess
 	if (EvangelineAffectionMeter >= 5) {
 		addButton(3, "Spar", evangelineSparMenu).hint("Get into a quick battle with Evangeline!")
 			.disableIf(flags[kFLAGS.CAMP_UPGRADES_SPARING_RING] < 2, "You need a good sparring ring for that.");
@@ -225,12 +225,8 @@ public function meetEvangeline():void {
 		else addButton(11, "Wendigo", curingWendigo);
 	}
 	else addButtonDisabled(11, "???", "Req. to be cursed by Wendigo.");
-	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2 || flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3) {
-		if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2) addButton(12, "Jiangshi", curingJiangshi);
-		else if (player.hasItem(consumables.VITAL_T, 5) && player.hasItem(consumables.PPHILTR, 5)) addButton(12, "Jiangshi", curingJiangshi);
-		else addButtonDisabled(12, "Jiangshi", "Req. five vitality tinctures and five purity philters to fix your 'issue'.");
-	}
-	else addButtonDisabled(12, "???", "Req. to be Jiangshi.");
+	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2 || flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3 || player.isRaceCached(Races.MUMMY)) addButton(12, "J/M", curingSemiPermTFs);
+	else addButtonDisabled(12, "???", "Req. to be Jiangshi/Mummy.");
 	if (player.hasKeyItem("Soul Gem Research") >= 0) {
 		if (player.statusEffectv1(StatusEffects.SoulGemCrafting) == 0)  addButton(13, "Soul Gem", receivingCraftedSoulGem).hint("Pick up crafted Soul Gem.");
 		if (!player.hasStatusEffect(StatusEffects.SoulGemCrafting)) addButton(13, "Soul Gem", craftingSoulGem).hint("Ask Evangeline for crafting Soul Gem.");
@@ -245,18 +241,18 @@ private function evangelineAppearance():void {
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("eight feet");
 	else outputText("seven and a half feet");
 	outputText(" tall.\n\n");
-	outputText("Oddly despite living in Mareth she looks like a human aside from her eyes that have uncanny pupils, which after narrowing looks like two cat slits that forms an X shape over her golden eyes. Her ");
+	outputText("Oddly, despite living in Mareth she looks like a human aside from her eyes that have uncanny pupils, which after narrowing looks like two cat slits that forms an X shape over her golden eyes. Her ");
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("crimson platinum ");
 	else outputText("red ");
-	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("hair are ass-length along with breats that could easily fill a F-cup bra, expansive ass and fertile hips.\n\n");
-	else if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("hair are ass-length along with breats that could easily fill a E-cup bra, jiggly ass and curvy hips is quite a change that resulted from her drinking bimbo liquer personaly modified by her.\n\n");
+	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 10) outputText("hair are ass-length along with breasts that could easily fill a F-cup bra, expansive ass and fertile hips.\n\n");
+	else if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 5) outputText("hair are ass-length along with breasts that could easily fill a E-cup bra, jiggly ass and curvy hips is quite a change that resulted from her drinking bimbo liqueur personally modified by her.\n\n");
 	else outputText("hair short along with breasts not bigger than A cup, almost non-existent butt and boyish hips cause her to look quite tomboyish.\n\n");
 	//outputText(".\n\n");
 	outputText("She's wearing ");
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 8) outputText("a skimpy chain bikini that barely qualifies as armor. The chain is made from links much finer and lighter than normal, so fine that it feels almost silken under fingertips. A simple seal in the g-string-like undergarment states, \"Virgins only.\"");
 	else if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 3) outputText("a suit of steel 'armor' which have two round disks that barely cover her nipples, a tight chainmail bikini, and circular butt-plates.");
 	else outputText("a simple peasant’s robe that’s torn and frayed in a few places.");
-	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 3) outputText("\n\nBetween collarbones there is a medium sized purple crystal sticking out of her skin that sometimes gently glows.");
+	if (flags[kFLAGS.EVANGELINE_LVL_UP] >= 3) outputText("\n\nBetween collarbones there is a medium-sized purple crystal sticking out of her skin that sometimes gently glows.");
 	doNext(meetEvangeline);
 }
 
@@ -284,7 +280,7 @@ private function TalkYourEyes():void {
 	if (EvangelineTalks >= 1) outputText("\"<i>So you once again want talk about it? Let it be,</i>\"");
 	else outputText("\"<i>I was kinda expecting that you would ask about them eventually,</i>\"");
 	outputText(" she laughs, her gaze casting toward the ground for a moment. \"<i>Most people ask me the same question sooner or later. To tell you the truth I believe I inherited them from my father, since he had the same eyes too.</i>\" There is a clear sadness in her eyes as she says this.\n\n");
-	outputText("\"<i>They are not giving me any benefit I know about, beside making me look like a freak. Well at least all the humans I met before told me this. And some even felt constantly uneasy around me thinking I'm some kind of abomination. Well at least until...</i>\" suddenly she stops and when you question the reason she giving you a gaze saying 'I don't wanna talk about it'. Well looks like they are just a rare trait. But she mentioned something about her father. Changing subject you ask about him.\n\n");
+	outputText("\"<i>They are not giving me any benefit I know about, beside making me look like a freak. Well, at least all the humans I met before told me this. And some even felt constantly uneasy around me thinking I'm some kind of abomination. Well, at least until...</i>\" suddenly she stops and when you question the reason she giving you a gaze saying 'I don't wanna talk about it'. Well, looks like they are just a rare trait. But she mentioned something about her father. Changing subject you ask about him.\n\n");
 	outputText("\"<i>My father...</i>\" she pauses for a moment before shaking her head. \"<i>No I do not want to talk about him now either. Sorry can you leave me alone for a while?</i>\"");
 	evangelineAffection(1);
 	if (EvangelineTalks == 0) EvangelineTalks = 1;
@@ -392,7 +388,7 @@ private function evangelineSparMenu():void {
 		outputText("You suggest a sparring session.  Evangeline asks, \"<i>How should we fight?  Would you rather we spar light or fight like the creatures of this world?</i>\"");
 		outputText("\n\n(Do you spar 'light' with no consequences for losing, or would you rather spar 'hard' (with full consequences for loss/win)?)");
 	}
-	else outputText("You suggest a sparring session.  Evangeline after a moment of hesistation nod in agreement.");
+	else outputText("You suggest a sparring session.  Evangeline after a moment of hesitation nod in agreement.");
 	menu();
 	addButton(0, "Light", LightSpar);
 	if (EvangelineAffectionMeter >= 50) addButton(1, "Hard", HardSpar);
@@ -418,7 +414,7 @@ private function HardSpar():void {
 
 private function evangelineAlchemyMenu(page:int = 1):void {
 	clearOutput();
-	outputText("\"<i>So you do want another transformational item made by me?</i>\" She asked after hearing what potion you want to purpose to her this time, at which you simply nod. Without wasting time she walks, with you closely behind, toward a entrance to a small cave right outside the camp's border, in which she keep her equipment.\n\n\"<i>So what you want this time for me to make?</i>\" Stopping at the edge of the entrance to lab Evangeline glance in your direction.");
+	outputText("\"<i>So you do want another transformational item made by me?</i>\" She asked after hearing what potion you want to purpose to her this time, at which you simply nod. Without wasting time she walks, with you closely behind, toward an entrance to a small cave right outside the camp's border, in which she keep her equipment.\n\n\"<i>So what you want this time for me to make?</i>\" Stopping at the edge of the entrance to lab Evangeline glance in your direction.");
 	menu();
 	if (page == 1) {
 		// [Gorgon  ] [Vouivre ] [Couatl  ] [Nocello ] [Unicorn ]
@@ -427,16 +423,16 @@ private function evangelineAlchemyMenu(page:int = 1):void {
 		addButton(0, "Gorgon Oil", MakingGorgonPotion).hint("Ask her to brew a special potion that could aid in becoming a gorgon. \n\nCost: 10 Gems \nNeeds 1 Snake Oil and 1 Reptilum.");
 		addButton(1, "Vouivre Oil", MakingVouivrePotion).hint("Ask her to brew a special potion that could aid in becoming a vouivre. \n\nCost: 15 Gems \nNeeds 1 Snake Oil and 1 Drake Heart.");
 		addButton(2, "Couatl Oil", MakingCouatlPotion).hint("Ask her to brew a special potion that could aid in becoming a couatl. \n\nCost: 10 Gems \nNeeds 1 Snake Oil and 1 Golden Seed.");
-		addButton(3, "Nocello Liq", MakingNocelloLiqueur).hint("Ask her to brew a special potion that could aid in becoming a phoenix. \n\nCost: 10 Gems \nNeeds 1 Golden Seed and 1 Salamander Firewater.");//Hybryd race TF
+		addButton(3, "Nocello Liq", MakingNocelloLiqueur).hint("Ask her to brew a special potion that could aid in becoming a phoenix. \n\nCost: 10 Gems \nNeeds 1 Golden Seed and 1 Salamander Firewater.");//Hybrid race TF
 		addButton(4, "Unicornum", MakingUnicornumPotion).hint("Ask her to brew a special potion that could aid in becoming a unicorn. \n\nCost: 20 Gems \nNeeds 1 Equinum and 4 Low-grade Soulforce Recovery Pills.");//1st stage Soul evolution race TF
-		addButton(5, "RubyCrystal", MakingRubyCrystal).hint("Ask her to brew a special potion that could aid in becoming a kitsumori. \n\nCost: 10 Gems \nNeeds 1 Fox Jewel and 1 Salamander Firewater.");//Hybryd race TF
+		addButton(5, "RubyCrystal", MakingRubyCrystal).hint("Ask her to brew a special potion that could aid in becoming a kitsumori. \n\nCost: 10 Gems \nNeeds 1 Fox Jewel and 1 Salamander Firewater.");//Hybrid race TF
 		//6
-		//addButton(7, "", ).hint(".");siren TF//Hybryd race TF
+		//addButton(7, "", ).hint(".");siren TF//Hybrid race TF
 		//8
 		addButton(9, "Alicornum", MakingAlicornumPotion).hint("Ask her to brew a special potion that could aid in becoming an alicorn. \n\nCost: 50 Gems \nNeeds 1 Unicornum and 20 Low-grade Soulforce Recovery Pills/2 bottles of Low-grade Soulforce Recovery Pills.");//2nd stage Soul evolution race TF
 		addButton(10, "Grey Ink", MakingGreyInkPotion).hint("Grey Ink for Herm Scylla form. \n\nCost: 10 Gems \nNeeds 1 vial of Black Ink and 1 sealed bottle of behemoth cum.");
 		addButton(11, "White Ink", MakingWhiteInkPotion).hint("White Ink for Male Scylla form. \n\nCost: 20 Gems \nNeeds 1 vial of Black Ink and 2 sealed bottles of behemoth cum.");
-		addButton(12, "InferWine", MakingInfernalWinePotion).hint("Ask her to brew a special potion that could aid in becoming a infernal goat/devil. \n\nCost: 480 Gems \nNeeds 1 Satyr Wine, 1 Succubi milk and 1 Incubi draft.");
+		addButton(12, "InferWine", MakingInfernalWinePotion).hint("Ask her to brew a special potion that could aid in becoming an infernal goat/devil. \n\nCost: 480 Gems \nNeeds 1 Satyr Wine, 1 Succubi milk and 1 Incubi draft.");
 		addButton(13, "-2-", evangelineAlchemyMenu, page + 1);
 		addButton(14, "Back", meetEvangeline);
 	}
@@ -445,7 +441,7 @@ private function evangelineAlchemyMenu(page:int = 1):void {
 		// [Leviathn] [        ] [        ] [        ] [        ]
 		// [GreyAInk] [WhiteAIn] [        ] [  -1-   ] [ Back   ]
 		addButton(0, "Centaurinum", MakingCentaurPotion).hint("Ask her to brew a special potion that could aid in becoming a centaur. \n\nCost: 10 Gems \nNeeds 1 Equinum and 1 Minotaur Blood.");
-		addButton(1, "Storm Seed", MakingStormSeed).hint("Ask her to brew a special potion that could aid in becoming a thunderbird. \n\nCost: 10 Gems \nNeeds 1 Magically-enhanced Golden Seed and 1 Voltage topaz.");//Hybryd race TF
+		addButton(1, "Storm Seed", MakingStormSeed).hint("Ask her to brew a special potion that could aid in becoming a thunderbird. \n\nCost: 10 Gems \nNeeds 1 Magically-enhanced Golden Seed and 1 Voltage topaz.");//Hybrid race TF
 		addButton(2, "Enigmanium", MakingEnigmaniumPotion).hint("Ask her to brew a special potion that could aid in becoming a sphinx. \n\nCost: 30 Gems \nNeeds 1 Centarium, 1 Golden Seed and 1 Whisker Fruit.");
 		//3
 		//4
@@ -940,7 +936,7 @@ private function JustDoIt():void {
 	}
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] == 6) {
 		flags[kFLAGS.EVANGELINE_LVL_UP]++;
-		flags[kFLAGS.EVANGELINE_WENT_OUT_FOR_THE_ITEMS] = 4;//12 lub 18 lub 24 z powodu wypicia zmodyf bimbo liquer bo musi kupic itemy na modyf jego też
+		flags[kFLAGS.EVANGELINE_WENT_OUT_FOR_THE_ITEMS] = 4;//12 lub 18 lub 24 z powodu wypicia zmodyf bimbo liqueur bo musi kupic itemy na modyf jego też
 		EvangelineGemsPurse -= 1250;
 	}*/
 	if (flags[kFLAGS.EVANGELINE_LVL_UP] == 5) {
@@ -992,7 +988,7 @@ private function curingArigean1():void {
 		outputText("\"<i>WHAT IN MARAE IS THAT!</i>\" She yelps while making sure there's more than enough distance from your new hitchhikers and herself.\n\n");
 		outputText("\"<i>Those popped up overnight, I don’t have any control over them.</i>\"\n\n");
 		outputText("She wearily takes a few curious steps forward with her eyes never leaving your new ‘friends’.\n\n");
-		outputText("\"<i>It seems you have some sort of parasite attached to you. However due to it not being on you for too long it should be relatively easy to remove.</i>\" She grabs a paper and quill and starts writing a list down on it.\n\n");
+		outputText("\"<i>It seems you have some sort of parasite attached to you. However, due to it not being on you for too long it should be relatively easy to remove.</i>\" She grabs a paper and quill and starts writing a list down on it.\n\n");
 	}
 	else {
 		outputText("\"<i>What’s this black spot right here?</i>\" you feel her press into a spot on your spine just above your [butt], earning a hiss from the soreness it causes. She grabs the instrument giving it a look before a frown appears on her face.\n\n");
@@ -1140,6 +1136,19 @@ private function curingWendigo():void {
 	}
 }
 
+private function curingSemiPermTFs():void {
+	menu();
+	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2 || flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3) {
+		if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 2) addButton(1, "Jiangshi", curingJiangshi);
+		else if (player.hasItem(consumables.VITAL_T, 5) && player.hasItem(consumables.PPHILTR, 5)) addButton(1, "Jiangshi", curingJiangshi);
+		else addButtonDisabled(1, "Jiangshi", "Req. five vitality tinctures and five purity philters to fix your 'issue'.");
+	}
+	else addButtonDisabled(1, "???", "Req. to be Jiangshi.");
+	if (player.isRaceCached(Races.MUMMY)) addButton(2, "Mummy", curingJiangshi);
+	else addButtonDisabled(2, "???", "Req. to be Mummy.");
+	addButton(14, "Back", meetEvangeline);
+}
+
 private function curingJiangshi():void {
 	clearOutput();
 	if (flags[kFLAGS.CURSE_OF_THE_JIANGSHI] == 3) {
@@ -1190,6 +1199,11 @@ private function curingJiangshi():void {
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll3)) player.removeStatusEffect(StatusEffects.AlterBindScroll3);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll4)) player.removeStatusEffect(StatusEffects.AlterBindScroll4);
 			if (player.hasStatusEffect(StatusEffects.AlterBindScroll5)) player.removeStatusEffect(StatusEffects.AlterBindScroll5);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll6)) player.removeStatusEffect(StatusEffects.AlterBindScroll6);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll7)) player.removeStatusEffect(StatusEffects.AlterBindScroll7);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll8)) player.removeStatusEffect(StatusEffects.AlterBindScroll8);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll9)) player.removeStatusEffect(StatusEffects.AlterBindScroll9);
+			if (player.hasStatusEffect(StatusEffects.AlterBindScroll10)) player.removeStatusEffect(StatusEffects.AlterBindScroll10);
 		}
 		if (player.hasPerk(PerkLib.ImprovedCursedTag)) {
 			player.removePerk(PerkLib.ImprovedCursedTag);
@@ -1220,6 +1234,68 @@ private function curingJiangshi():void {
 		outputText("You explain your situation to her somewhat.\n\n");
 		outputText("\"<i>Look, I will need five vitality tinctures and five purity philters to fix this up, how you get the two is up to you.</i>\"\n\n");
 		flags[kFLAGS.CURSE_OF_THE_JIANGSHI]++;
+		doNext(camp.campFollowers);
+		advanceMinutes(15);
+	}
+}
+private function curingMummy():void {
+	clearOutput();
+	if (player.hasItem(consumables.VITAL_T, 5) && player.hasItem(consumables.PPHILTR, 5)) {
+		player.destroyItems(consumables.VITAL_T, 5);
+		player.destroyItems(consumables.PPHILTR, 5);
+		outputText("Evangeline nods as you bring her the ingredients, getting to work. As soon as the potion is finished she pours it over your bandages, causing them to smoke and crumble. The first thing you do as the nasty things peels off is head back to to the desert and look for your gear. Thankfully it doesn't take you long to find it in a chest not too far from the spot where the jackal messed you up. Gosh, it feels good to be alive, like REALLY alive.\n\n");
+		if (player.weapon.isNothing && flags[kFLAGS.AETHER_DEXTER_TWIN_AT_CAMP] < 1 && flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] != 0) {
+			player.setWeapon(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID]) as Weapon);
+			flags[kFLAGS.PLAYER_DISARMED_WEAPON_ID] = 0;
+		}
+		if (player.weaponRange.isNothing && flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] != 0) {
+			player.setWeaponRange(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID]) as WeaponRange);
+			flags[kFLAGS.PLAYER_DISARMED_WEAPON_R_ID] = 0;
+		}
+		if (player.shield.isNothing && flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID] != 0) {
+			if (flags[kFLAGS.AETHER_SINISTER_TWIN_AT_CAMP] < 1) player.setShield(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID]) as Shield);
+			flags[kFLAGS.PLAYER_DISARMED_SHIELD_ID] = 0;
+		}
+		if (player.armor.isNothing && flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID] != 0) {
+			player.setArmor(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID]) as Armor);
+			flags[kFLAGS.PLAYER_DISARMED_ARMOR_ID] = 0;
+		}
+		if (player.lowerGarment.isNothing && flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID] != 0) {
+			player.setUnderBottom(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID]) as Undergarment);
+			flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_BOTTOM_ID] = 0;
+		}
+		if (player.upperGarment.isNothing && flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID] != 0) {
+			player.setUnderTop(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID]) as Undergarment);
+			flags[kFLAGS.PLAYER_DISARMED_UNDERWEAR_UPPER_ID] = 0;
+		}
+		if (player.headJewelry == HeadJewelryLib.NOTHING && flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID] != 0) {
+			player.setHeadJewelry(ItemType.lookupItem(flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID]) as HeadJewelry);
+			flags[kFLAGS.PLAYER_DISARMED_HEAD_ACCESORY_ID] = 0;
+		}
+		flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
+		CoC.instance.transformations.FaceHuman.applyEffect(false);
+		player.eyes.type = Eyes.HUMAN;
+		player.horns.type = Horns.NONE;
+		player.horns.count = 0;
+		player.arms.type = Arms.HUMAN;
+		player.lowerBody = LowerBody.HUMAN;
+		player.removePerk(PerkLib.HaltedVitals);
+		player.removePerk(PerkLib.SuperStrength);
+		player.removePerk(PerkLib.Rigidity);
+		player.removePerk(PerkLib.LifeLeech);
+		player.removePerk(PerkLib.Undeath);
+		player.removePerk(PerkLib.EnergyDependent);
+		player.statStore.removeBuffs("Energy Vampire");
+		outputText("Done with this place you head back to camp.\n\n");
+		outputText("<b>(Lost Perks: Halted vitals, Super strength, Rigidity, Life leech, Undeath, Energy dependent)</b>\n\n");//"+(player.hasPerk(PerkLib.CursedTag)?", Cursed Tag":"")+"
+		player.updateRacialAndPerkBuffs();
+		doNext(camp.returnToCampUseTwoHours);
+	}
+	else {
+		outputText("Evangeline barely turns to look at you before jumping in surprise.\n\n");
+		outputText("\"<i>Oh god, what has happened to you [name]! There clearly is an obvious issue with your vitality.</i>\"\n\n");
+		outputText("You explain your situation to her somewhat.\n\n");
+		outputText("\"<i>Look, I will need five vitality tinctures and five purity philters to fix this up, how you get the two is up to you.</i>\"\n\n");
 		doNext(camp.campFollowers);
 		advanceMinutes(15);
 	}
@@ -1573,7 +1649,7 @@ private function InternalMutations():void {
 	else if (EvangelinePeepTalkOnInternalMutations == 1) {
 		outputText("Your confused look annoys Evangeline to no end.\n\n");
 		outputText("\"<i>Gosh how did human civilization even become a serious thing out of Mareth when it's made out of people like you. As I just said It's possible to further improve yourself through internal mutations however doing so will cause your body to endure an ever increasing amount of stress due to degeneration. While there are ways to fully become one's race to do so will make you cease to be human. ");
-		outputText("For you chimerism is the safest route even if it forces you to constantly seek out the assistance of a skilled medic or daily healing magic treatment. And don't you just try poping those mutations naturaly by eating a hundred of ingrediants the only thing you will get is fat. You need a specialised transformative or straith out primal magic to transform your insides and I can only craft the first. Was this simple enough for you?</i>\"");
+		outputText("For you chimerism is the safest route even if it forces you to constantly seek out the assistance of a skilled medic or daily healing magic treatment. And don't you just try poping those mutations naturaly by eating a hundred of ingredients the only thing you will get is fat. You need a specialised transformative or straight out primal magic to transform your insides and I can only craft the first. Was this simple enough for you?</i>\"");
 		menu();
 		addButton(1, "No", IMutationsYN, false);
 		addButton(3, "Yes", IMutationsYN);

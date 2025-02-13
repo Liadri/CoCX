@@ -62,7 +62,8 @@ public class MinotaurRace extends Race {
 				.height(AT_LEAST(81), +1)
 				.corruption(AT_LEAST(20), +1)
 				.noVagina(0, -8)
-				.hasCockOfType(CockTypesEnum.HORSE, +1);
+				.hasCockOfType(CockTypesEnum.HORSE, +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.MinotaursDescendant, PerkLib.BloodlineMinotaur);
 		addMutation(IMutationsLib.MinotaurTesticlesIM);

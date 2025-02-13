@@ -288,7 +288,7 @@ public function valeriaGetFucked():void {
 		outputText("and looms over you.  \"<i>That was fun, partner,</i>\" she says, leaning down to give you a wet peck on the cheek. \"<i>Let's do that again soon, all right?</i>\"");
 		player.sexReward("cum");
 		dynStats("sen", -1);
-		HPChange(25 + (player.newGamePlusMod() * 15), false);
+		HPChange(25 + (player.newGamePlusMod() * 15), false, false);
 		doNext(camp.returnToCampUseOneHour);
 	}
 }
@@ -320,7 +320,7 @@ public function gooFlation(clearText:Boolean = true):void {
 		outputText("and looms over you.  \"<i>That was fun, partner,</i>\" she says, leaning down to give you a wet peck on the cheek. \"<i>Let's do that again soon, alright?</i>\"");
 		player.sexReward("cum");
 		dynStats("sen", 1);
-		HPChange(25 + (player.newGamePlusMod() * 15),false);
+		HPChange(25 + (player.newGamePlusMod() * 15),false,false);
 		doNext(camp.returnToCampUseOneHour);
 	}
 }
@@ -346,7 +346,7 @@ public function penetrateValeria():void {
 	outputText("\n\nYou run your hand along her curves as she digests her meal, but eventually you know you need to get on with your duties.  You roll Valeria off of you and start to redress.");
 	player.sexReward("vaginalFluids", "Dick");
 	dynStats("sen", 1);
-	HPChange(25 + (player.newGamePlusMod() * 15), false);
+	HPChange(25 + (player.newGamePlusMod() * 15), false, false);
 	feedValeria(Math.sqrt(player.cumQ()) + 5);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -413,7 +413,7 @@ public function valeriaSexDominated(offCamp:Boolean = false):void {
 		sharedEnd();
 	}
 	function sharedEnd():void {
-		HPChange(25 + (player.newGamePlusMod() * 15), false);
+		HPChange(25 + (player.newGamePlusMod() * 15), false, false);
 		feedValeria(Math.sqrt(player.cumQ()) + 5 + (player.averageVaginalWetness() * 5));
 		player.sexReward("vaginalFluids");
 		dynStats("sen", 1);

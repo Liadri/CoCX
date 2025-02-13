@@ -65,7 +65,8 @@ public class KirinRace extends Race {
 				.armType(Arms.LIZARD,+1)
 				.earType(Ears.KIRIN,+1)
 				.eyeType(Eyes.DRACONIC,+1)
-				.faceType(ANY(Face.HUMAN, Face.HORSE), +1);
+				.faceType(ANY(Face.HUMAN, Face.HORSE), +1)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 
 		addMutation(IMutationsLib.HeartOfTheStormIM);
 		addMutation(IMutationsLib.RaijuCathodeIM);

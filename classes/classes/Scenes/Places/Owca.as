@@ -443,7 +443,7 @@ public function rapeZeVapula():void {
 		if(player.cockTotal() > 1) outputText(" and her love-tunnel");
 		outputText(".");
 		//[if massive cum production]
-		if(player.cumQ() > 1000) outputText("  Some of it spurts by little jets outside of her, even as she instinctively contracts her muscles to keep as much spooge as possible and her belly accomodates by bloating out absurdly.");
+		if(player.cumQ() > 1000) outputText("  Some of it spurts by little jets outside of her, even as she instinctively contracts her muscles to keep as much spooge as possible and her belly accommodates by bloating out absurdly.");
 		outputText("  Needless to say, watching this rough ");
 		if(player.cockTotal() == 1) outputText("anal");
 		else outputText("double-penetration");
@@ -924,7 +924,7 @@ public function loseToOwca():void {
 	if(player.weaponName != "fists") outputText("your [weapon] is taken away and ");
 	outputText("you are being uncomfortably transported to a destination you can guess easily.  Too dazed to resist or even worry about it; you are promptly brought to the dreaded pit, where the villagers tie you up and rudely shackle you.  Then, before you even realize how desperate your situation is, they're all gone.  Your numerous bruises and fatigue get the better of you and you quickly fall asleep.");
 	//redirect to dusk transition text, restore hp/fat consonant with sleeping until nightfall
-	HPChange(50,false);
+	HPChange(50,false,false);
 	fatigue(-30);
 	//after nightly scene, next encounter is Post-Mob Encounter
 	doNext(loseOrSubmitToVapula);

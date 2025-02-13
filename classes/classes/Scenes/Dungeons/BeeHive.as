@@ -10,6 +10,7 @@ import classes.GlobalFlags.kFLAGS;
 import classes.CoC;
 import classes.EngineCore;
 import classes.Races;
+import classes.Scenes.API.MerchantMenu;
 import classes.Scenes.Dungeons.BeeHive.BeeGuards;
 import classes.Scenes.Dungeons.BeeHive.CorruptBeeQueen;
 import classes.Scenes.Dungeons.BeeHive.DemonicBee;
@@ -96,25 +97,21 @@ import classes.Scenes.Dungeons.BeeHive.TheCorruptedHandmaidens;
 		
 		private function room2HoneyMerchant():void {
 			clearOutput();
-			outputText("You approach a counter where a bee girl stocks bottles of purified honey.\n\n");
+			outputText("You approach a counter where a bee girl stocks various bottles of honey.\n\n");
 			outputText("\"<i>Oh itzzz you! Welcome back to the Hive. Are you here to purchazzze honey? It's only 10 gems and it can help cure afflictions and recover from woundzzz, the best medicine really.</i>\"\n\n");
 			menu();
-			addButton(0, "Buy Honey", room2HoneyMerchantBuyHoney);
+			addButton(0, "Buy Honey", room2HoneyMerchantBuyMenu);
 			addButton(4, "Leave", room2Center);
 		}
-		public function room2HoneyMerchantBuyHoney():void {
+		private function room2HoneyMerchantBuyMenu():void {
 			clearOutput();
-			if (player.gems < 10) {
-				outputText("\n<b>You don't have enough gems...</b>");
-				doNext(room2HoneyMerchant);
-			}
-			else room2HoneyMerchantTransact();
-		}
-
-		public function room2HoneyMerchantTransact():void {
-			player.gems -= 10
-			statScreenRefresh();
-			inventory.takeItem(consumables.PURHONY, room2HoneyMerchant);
+			menu();
+			var merchantMenu:MerchantMenu = new MerchantMenu();
+			merchantMenu.playerCanSell = false;
+			merchantMenu.addItem(consumables.BEEHONY, 3);
+			merchantMenu.addItem(consumables.PURHONY, 10);
+			merchantMenu.addItem(consumables.SPHONEY, 15);
+			merchantMenu.show(room2HoneyMerchant);
 		}
 		
 		private function room3():void {
@@ -240,16 +237,16 @@ import classes.Scenes.Dungeons.BeeHive.TheCorruptedHandmaidens;
 			inDungeon = false;
 			flags[kFLAGS.TIFA_FOLLOWER] = 6;
 			flags[kFLAGS.TIFA_AFFECTION] = 1;
-			outputText("As you put an end to the life of the fallen bee queen, the princesses and the remaining guards fill the room, looking at the scene with grief. Bridgess talks first.\n\n");
-			outputText("\"<i>Mother izzz dead, thizzz izzz a terrible day for all of uzzz. However azzz the eldezzzt it izzz my rezzzponsability to take up to the tazzzk of queen in her zzztead.</i>\"\n\n");
-			outputText("She walks up to you and does a formal gesture.\n\n");
-			outputText("\"<i>You have our thankzzz for zzzaving our hive from corruption and azzz zzzuch I will give you permizzzion to have free pazzzage into the Hive and trade with my honeybrewerzzz for our zzzpecializzzed goodzzz. For now, pleazzze leave, I need zzzome time to mourn my motherzzz death.</i>\"\n\n");
+			outputText("As you put an end to the life of the fallen bee queen, the princesses and the remaining guards fill the room, looking at the scene with grief. Bridgess speaks first.\n\n");
+			outputText("\"<i>Mother izzz dead, thizzz izzz a terrible day for all of uzzz. However, azzz the eldezzzt, it izzz my rezzzponsibility to take up the tazzzk of queen in her zzztead.</i>\"\n\n");
+			outputText("She walks up to you and makes a formal gesture.\n\n");
+			outputText("\"<i>You have our thankzzz for zzzaving our hive from corruption and azzz zzzuch, I will give you permizzzion to have free pazzzage into the Hive and trade with my honeybrewerzzz for our zzzpecializzzed goodzzz. For now, pleazzze leave. I need zzzome time to mourn my motherzzz death.</i>\"\n\n");
 			outputText("You are escorted out of the Hive but just as you are about to go back to camp, Tifa grabs your arm.\n\n");
-			outputText("\"<i>I’m zzzorry that you had to do thizzz but again thizzz wazzz for the bezzzt. Zzzay what izzz your name?</i>\"\n\n");
-			outputText("You tell her that you are [name] champion of Ingnam.\n\n");
-			outputText("\"<i>[name] if you would allow me I would leave my hive to go with you and explore the world. I have never been comfortable there anyway and azzz the lazzzt in line for zzzucccezzzion I am unlikely to become queen after Bridgezzz.</i>\"\n\n");
+			outputText("\"<i>I’m zzzorry that you had to do thizzz, but again, thizzz wazzz for the bezzzt. Zzzay what izzz your name?</i>\"\n\n");
+			outputText("You tell her that you are [name], champion of Ingnam.\n\n");
+			outputText("\"<i>[name] if you would allow me, I would leave my hive to go with you and explore the world. I have never been comfortable there anyway and azzz the lazzzt in line for zzzucccezzzion, I am unlikely to become queen after Bridgezzz.</i>\"\n\n");
 			outputText("Well, you aren’t against her coming to your camp as long as she does not go too far away.\n\n");
-			outputText("\"<i>Thankzzz I promizzze you will not regret it and the pozzzibility to live next to the champion of Ingnam will likely guarantee my safety. Zzzome of my little zzzisterzzz will follow me there too, I’m zzztill a princezzz after all</i>\"\n\n");
+			outputText("\"<i>Thankzzz! I promizzze you will not regret it, and the pozzzibility to live next to the champion of Ingnam will likely guarantee my safety. Zzzome of my little zzzisterzzz will follow me there too, I’m zzztill a princezzz after all</i>\"\n\n");
 			outputText("<b>Tifa was added to follower tab.</b>\n\n");
 			cleanupAfterCombat(camp.returnToCampUseOneHour);
 		}

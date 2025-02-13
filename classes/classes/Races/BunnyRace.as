@@ -56,12 +56,13 @@ public class BunnyRace extends Race {
 						}, 0, -10)
 				.customRequirement("","No equine vagina",
 						function (body:BodyData): Boolean {
-							return !body.player.vaginaType() != VaginaClass.EQUINE
+							return body.player.vaginaType() != VaginaClass.EQUINE
 						}, 0, -10)
 				.customRequirement("","No easter bunny balls",
 						function (body:BodyData): Boolean {
 							return !body.player.hasPerk(PerkLib.EasterBunnyBalls)
-						}, 0, -10);
+						}, 0, -10)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
 		addBloodline(PerkLib.BunnysDescendant, PerkLib.BloodlineBunny);
 		addMutation(IMutationsLib.MightyLegsIM);

@@ -7,6 +7,8 @@ package classes.Scenes.NPCs
 import classes.*;
 import classes.BodyParts.*;
 import classes.GlobalFlags.kFLAGS;
+import classes.Scenes.SceneLib;
+ 
 
 public class TifaFollower extends NPCAwareContent
 	{
@@ -19,13 +21,22 @@ public function tifaAffection(changes:Number = 0):Number {
 
 public function tifaMainMenu():void {
 	clearOutput();
-	outputText("You walk over and wave to Tifa who is as her usual, busy collecting flowers.\n\n");
-	outputText("\"<i>Hey [name] how are you doing? Izzz something on your mind?</i>\"\n\n");
+	if(SceneLib.tifaHive.HiveComplete) {
+		outputText("The royal chamber is as busy as can be. Queen Tifa is laid back into her bed her massive bloated abdomen being relentlessly fucked by the many drones within the room. Occasionally an handmaiden will report for duty from the field making the queue to receive her next load of eggs. ");
+		if(player.perkv1(PerkLib.BeeOvipositor) > 0){
+			outputText("Come to think of it, why are you still hanging in here, don’t you have eggs to lay? You should get on it asap, even if Tifa won’t mind you neglecting your duty to do your champion job you are still a handmaiden yourself.");
+		} else {
+			outputText("With your abdomen fully discharged you are overdue for a new egg load. Work never ends.")
+		}
+	} else {
+		outputText("You walk over and wave to Tifa who is as her usual, busy collecting flowers.\n\n");
+		outputText("\"<i>Hey [name] how are you doing? Izzz something on your mind?</i>\"\n\n");
+	}
 	menu();
 	addButton(0, "Appearance", tifaMainMenuAppearance);
 	addButton(1, "Talk", tifaMainMenuTalk);
 	addButton(3, "Sex", tifaMainMenuSex);
-	addButton(4, "Back", camp.campFollowers);
+	addButton(4, "Back", SceneLib.tifaHive.HiveComplete ? SceneLib.tifaHive.enterTheHive : (flags[kFLAGS.TIFA_FOLLOWER] > 9) ? camp.campLoversMenu : camp.campFollowers);
 }
 
 public function tifaMainMenuAppearance():void {
@@ -70,8 +81,8 @@ public function tifaMainMenuTalkReturn():void {
 public function tifaMainMenuTalkHer():void {
 	clearOutput();
 	outputText("So can she talk about herself, starting with why her sister said she was rebellious?\n\n");
-	outputText("\"<i>Thatzzz becauzzze I refuzzze to become a queen. I want to zzzee the world outside of a hive and a constantly pregnant abdomen won’t allow zzzuch a thing. You could zzzay I dezzzerted my functionzzz in the hive. Once I have zzzeen enough I will take my place azzz a queen and form a hive.</i>\"\n\n");
-	outputText("So wait she was scorned by the other bees for actually refusing to become a queen?\n\n");
+	outputText("\"<i>Thatzzz becauzzze I refuzzze to become a queen. I want to zzzee the world outside the hive, and a constantly pregnant abdomen won’t allow zzzuch a thing. You could zzzay I dezzzerted my functionzzz in the hive. Once I’ve zzzeen enough, I’ll take my place azzz a queen and form a hive.</i>\"\n\n");
+	outputText("So wait, she was scorned by the other bees for actually refusing to become a queen?\n\n");
 	outputText("\"<i>You could zzzay it’zzz like that, yezzz.</i>\"\n\n");
 	if (flags[kFLAGS.TIFA_FOLLOWER] == 6) flags[kFLAGS.TIFA_FOLLOWER]++;
 	tifaAffection(10);
@@ -80,7 +91,7 @@ public function tifaMainMenuTalkHer():void {
 public function tifaMainMenuTalkBeeLife():void {
 	clearOutput();
 	outputText("What is the life of a bee actually, is everyone always in agreement with the queen? What of the lesser bees? Are they actually able to make their own choices?\n\n");
-	outputText("\"<i>Thatzzz a zzztrange quezzztion [name] I can only guezzz you mean to want to know how beezzz live and how the cazzzte zzzystem workzzz. Well truth izzz everyone in a hive izzz zzzort of linked telepathically to the queen. Do not think of thizzz azzz zzzome form of dictature, the beezzz work becauzzze they want to pleazzze her and becauzzze nothing makezzz them feel more accomplished than ");
+	outputText("\"<i>Thatzzz a zzztrange quezzztion [name] I can only guezzz you mean to want to know how beezzz live and how the cazzzte zzzystem workzzz. Well, truth izzz everyone in a hive izzz zzzort of linked telepathically to the queen. Do not think of thizzz azzz zzzome form of dictature, the beezzz work becauzzze they want to pleazzze her and becauzzze nothing makezzz them feel more accomplished than ");
 	outputText("making their queen proud and happy. Every child lookzzz up to hizzz or her parent and zzzince everyone izzz born from the queen everyone obeyzzz her unquezzztionably. Uzzz princezzz are different. We are bound to one day rule our own hive and for thizzz reazzzon our mind izzzn’t linked to that of the queen. We make our own choicezzz and decizzzion without anyone telling uzzz otherwizzze. ");
 	outputText("Zzztill azzz free willed azzz a queen might be, her huge pregnant body doezzz not allow much mobility thuzzz a bee queen never leavezzz itzzz throne room. Lezzzer beezzz have free will like anyone elzzze however their unwavering devotion to their mother the queen izzz enough of a motivation. Even if offered to zzztop working for a few dayzzz mozzzt beezzz would feel horribly guilty for zzzlacking.</i>\"\n\n");
 	if (flags[kFLAGS.TIFA_FOLLOWER] == 7) flags[kFLAGS.TIFA_FOLLOWER]++;
@@ -92,7 +103,7 @@ public function tifaMainMenuTalkRelations():void {
 	outputText("What's the standing of relations between bees and the other races."+(player.isRace(Races.PHOENIX, 1, false) ? " You overheard that the sand witches and harpies had very close relationships with the hives.":"")+"\n\n");
 	outputText("\"<i>While the hivezzz are open to any alliance that may involve willing incubatorzzz for our eggzzz, outsiderzzz aren’t allowed in the hivezzz proper and are limited to parley with the queen’zzz emizzzary, often a handmaiden. Thizzz helpzzz keep threats to the hive outzzzide, however azzz you might have notizzzed thizzz izzz not a failproof zzzolution and ");
 	outputText("zzzometimezzz a corrupted bee hazzz to be put down for the good of everyone.</i>\"\n\nWhat does it take for outsiders to gain entry then?\n\n");
-	outputText("\"<i>Outsiderzzz don’t gain entry. They never do. However zzzome bee morphzzz who aren’t affiliated to a hive are zzzometimezzz allowed the gift of bonding. As you may know pure bee honey hazzz powerful tranzzzformative capabilitiezzz and can fully transform even a native marethian into a bee morph. For mozzzt thizzz izzz azzz far azzz it goezzz azzz even thizzz tranzzzformativezzz cannot fully grant you our anatomy. ");
+	outputText("\"<i>Outsiderzzz don’t gain entry. They never do. However, zzzome bee morphzzz who aren’t affiliated to a hive are zzzometimezzz allowed the gift of bonding. As you may know pure bee honey hazzz powerful tranzzzformative capabilitiezzz and can fully transform even a native marethian into a bee morph. For mozzzt thizzz izzz azzz far azzz it goezzz azzz even thizzz tranzzzformativezzz cannot fully grant you our anatomy. ");
 	outputText("However the queen’s royal honey izzz even more potent than the regular unrefined honey azzz it can turn a bee morph into a full fledged bee drone or handmaiden and a child of the queen in blood. Thizzz change alzzzo allowzzz the queen to establish a mental link to the hive with the petitioner. Do underzzztand however that once in the hive you are in it for life both in body and zzzoul. ");
 	outputText("Even the mozzzt unruly petitioner will inevitably fall in line due to the mental conditioning impozzzed by the hive mind. Thizzz izzz not brainwashing but the rezzzult izzz about the zzzame. Again mozzzt petitionerzzz are either egging enthuzzziast or malezzz who became zzzo addicted to their bee dickzzz they zzzimply dezzzided to fully embrace the lifezzztyle of a drone.</i>\"\n\n");
 	outputText("Well this is nice to know.\n\n");
@@ -125,7 +136,7 @@ public function tifaMainMenuTalkBecomeHerHandmaidenYes():void {
 	outputText("You are a bit surprised to find that the honey’s scent doesn’t seem to be affecting you anymore. At least not as strongly as before. Now, however, is the time for you to take on your role as Tifa’s lover and so you ask what happens next.\n\n");
 	outputText("\"<i>Now that you are part of my brood I will fill you with my eggzzz so that you can find proper incubatorzzz for them to gezzztate.</i>\"\n\n");
 	outputText("Whoa! To your surprise, her abdomen has indeed grown to double its original size while you were changing and so she explains.\n\n");
-	outputText("\"<i>I already had ahem... fertilizzzerzzz I took from back home for when the time would be right. However to truly become a queen I will need to empty my abdomen at leazzzt once. Afterward, my abdomen will only keep expanding up to the sizzze of my mother’zzz so long azzz I keep nourishing it, do not worry about the nourishment, I already zzzent an emizzzary to my zzzizzzter to obtain zzzpare dronezzz.</i>\"\n\n");
+	outputText("\"<i>I already had ahem... fertilizzzerzzz I took from back home for when the time would be right. However, to truly become a queen I will need to empty my abdomen at leazzzt once. Afterward, my abdomen will only keep expanding up to the sizzze of my mother’zzz so long azzz I keep nourishing it, do not worry about the nourishment, I already zzzent an emizzzary to my zzzizzzter to obtain zzzpare dronezzz.</i>\"\n\n");
 	outputText("Tifa lets her ovipositor, which is actually way bigger than that of the handmaiden, out and you get the message. As soon as you lay on top of her belly Tifa promptly takes it upon herself to jam the thing inside your honeypot. You shriek in pleasure from the sudden intruder filling your body. Your legs quickly fail you, thankfully, you're already sitting on Tifa so you don't fall off. You don’t pay much attention though, you’re too busy seeing white from the intense penetration going on between your legs.\n\n");
 	outputText("Tifa’s ovipositor soon starts to unload huge amounts of bee eggs deep into your womb, filling you up. You cum at once, this is what you were meant to do. This is what you want to spend your whole life doing. It feels so damn good to be filled up by her, and her satisfaction at the sentiment within your mind only makes it better thanks to the expending hive mind link that you now share with her.\n\n");
 	outputText("Another orgasm passes through your body, and you look behind you to see your abdomen filling up with Tifa’s eggs. In fact, when you feel that it is still growing, your body is pushed over the edge in another orgasm.\n\n");
@@ -134,7 +145,7 @@ public function tifaMainMenuTalkBecomeHerHandmaidenYes():void {
 	outputText("You do too and you know what you must do next. It's time to head out and find someone to carry these eggs, your abdomen is just this full.\n\n");
 	player.antennae.type = Antennae.BEE;
 	player.eyes.type = Eyes.BLACK_EYES_SAND_TRAP;
-	player.ears.type = Ears.HUMAN;
+	player.ears.type = Ears.INSECT;
 	player.faceType = Face.HUMAN;
 	player.tailType = Tail.BEE_ABDOMEN;
 	player.arms.type = Arms.BEE;
@@ -197,7 +208,7 @@ public function tifaMainMenuSexRepeatAfterMe():void {
 	outputText("You gasp as her honey covered lower fingers quickly slip inside your [pussy] and start to wriggle around. You try to focus on matching her stimulations. While you can hear her gasp in enjoyment from your ministrations, you can barely keep your mind straight, let alone match her expert movements. Tifa however, goes one step further sending one hand to your chest to cup your [breasts]. ");
 	outputText("You follow the movement, putting your hand to her own set as she gently starts tweaking your nipples. You both moan in delight as your nipples go hard from the delicious ministrations, your pussy only feeling even better. Keeping your brain from becoming mush becomes especially difficult when she brings her thumb and index finger to your little pleasure-buzzer.\n\n");
 	outputText("Still, you manage to hold on against the sensations and continue to run your fingers through her honey coated lower lips and left breast while hers play with yours. It is actually a pretty fun bonding experience, and you feel closer to Tifa at the end when both of you cum over each others fingers together.\n\n");
-	outputText("\"<i>I hope you liked it [name]</i>\"\n\n");
+	outputText("\"<i>I hope you liked it, [name]</i>\"\n\n");
 	outputText("You sure did and would look forward to doing it again in the future.\n\n");
 	player.sexReward("vaginalFluids", "Vaginal");
 	tifaAffection(10);

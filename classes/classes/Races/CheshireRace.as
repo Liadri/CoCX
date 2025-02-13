@@ -57,8 +57,10 @@ public class CheshireRace extends Race{
 				.hasPerk(PerkLib.Insanity, +1)
 				.customRequirement("","more cheshire features than other magical feline",
 						CatRace.isCheshireSubrace,0,-1000
-				);
+				)
+				.hasPerk(PerkLib.GOBXChemical, -1000);
 		
+		addBloodline(PerkLib.FelinesDescendant, PerkLib.BloodlineFeline);
 		addMutation(IMutationsLib.CatLikeNimblenessIM);
 		addMutation(IMutationsLib.EyeOfTheTigerIM);
 		

@@ -16,6 +16,7 @@ public class AlchemySkill extends SkillXpStat {
 		var factor2:Number = 5;
 		var factor3:Number = level + 1;
 		if (player.hasPerk(PerkLib.UtilitySkillsApprentice)) factor1 -= 1;
+		if (player.hasPerk(PerkLib.UtilitySkillsProfessional)) factor1 -= 2;
 		//-2;//4th
 		//-3;//6th
 		if (player.hasMutation(IMutationsLib.HumanVersatilityIM) && player.perkv1(IMutationsLib.HumanVersatilityIM) >= 2 && player.racialScore(Races.HUMAN) > 17) factor2 -= 1;
@@ -23,6 +24,7 @@ public class AlchemySkill extends SkillXpStat {
 		//if (hasPerk(PerkLib.SuperSensual)) factor2 -= 1;
 		if (player.hasPerk(PerkLib.UtilitySkillsBeginner)) factor3 -= 1;
 		if (player.hasPerk(PerkLib.UtilitySkillsSkilled)) factor3 -= 2;
+		if (player.hasPerk(PerkLib.UtilitySkillsArtisan)) factor3 -= 2;
 		//-3;//5th
 		return base + factor1 * factor2 * factor3;
 	}
